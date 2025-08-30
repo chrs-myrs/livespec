@@ -77,7 +77,7 @@ The system now includes comprehensive workflow orchestration with stakeholder re
 - Change logs separate from main specs
 
 ## Current Version
-Version 1.0.0 - Initial release of LiveSpec framework
+Version 0.2.0 - Beta release of LiveSpec framework
 
 ## Key Technical Decisions
 - **Minimal CLAUDE.md**: <50 lines beats 450+ lines for AI performance

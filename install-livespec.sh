@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-FRAMEWORK_VERSION="1.0.0"
+FRAMEWORK_VERSION="0.2.0"
 FRAMEWORK_NAME="LiveSpec - Living Specification Framework"
 CLAUDE_DIR=".claude"
 COMMANDS_DIR="$CLAUDE_DIR/commands/livespec"
@@ -121,7 +121,7 @@ install_prompts() {
 This directory contains the LiveSpec - Living Specification Framework prompts.
 
 ## Version
-Current version: 1.0.0
+Current version: 0.2.0
 
 ## Usage
 Use these prompts with Claude Code:
@@ -202,7 +202,7 @@ CURRENT_VERSION=$(grep -o '"version"[[:space:]]*:[[:space:]]*"[^"]*"' .claude/li
 echo -e "Current version: ${YELLOW}v$CURRENT_VERSION${NC}"
 
 # In a real implementation, this would check a remote source
-LATEST_VERSION="1.0.0"
+LATEST_VERSION="0.2.0"
 
 if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     echo -e "${GREEN}✓ Framework is up to date${NC}"
@@ -245,7 +245,7 @@ create_project_claude_md() {
 [Describe your project here]
 
 ## LiveSpec Framework
-This project uses the LiveSpec - Living Specification Framework v1.0.0.
+This project uses the LiveSpec - Living Specification Framework v0.2.0 (Beta).
 
 ### Quick Commands
 - Start workflow: `claude-code "Use .claude/commands/livespec/0-orchestrate-workflow.md"`

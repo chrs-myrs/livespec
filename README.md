@@ -139,7 +139,7 @@ Intelligent guidance through the entire process:
 
 ## Version
 
-Current Version: **1.0.0**
+Current Version: **0.2.0** (Beta)
 
 ## Contributing
 

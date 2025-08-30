@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-FRAMEWORK_VERSION="1.0.0"
+FRAMEWORK_VERSION="0.2.0"
 SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_PROJECT="$1"
 

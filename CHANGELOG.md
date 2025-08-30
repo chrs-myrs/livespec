@@ -5,11 +5,11 @@ All notable changes to LiveSpec will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2024-01-30
+## [0.2.0] - 2024-01-30
 
-### Initial Release
+### Beta Release
 
-LiveSpec is a living documentation framework that maintains synchronized specifications throughout the software lifecycle. This initial release provides a complete system for bidirectional specification management.
+LiveSpec is a living documentation framework that maintains synchronized specifications throughout the software lifecycle. This beta release provides a working system for bidirectional specification management, ready for early adopters and testing.
 
 ### Core Features
 
@@ -109,4 +109,4 @@ git clone https://github.com/chrs-myrs/livespec.git
 
 ---
 
-**LiveSpec v1.0.0** - Specifications that live with your code.
+**LiveSpec v0.2.0 (Beta)** - Specifications that live with your code.
