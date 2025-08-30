@@ -235,6 +235,80 @@ project/
 - **Specifications**: numbered prefix for order
 - **Change logs**: document-name-changelog.md
 
+## UX Integration Architecture
+
+### UX-First Design Flow
+
+The system now supports user experience design as a first-class concern:
+
+```
+User Research → UX Requirements → System Purpose → Technical Strategy
+     ↓               ↓                 ↓                ↓
+  Personas      User Journeys    Success Metrics   UX Strategy
+     ↓               ↓                 ↓                ↓
+Information   Interaction Design  Observable     UI Specifications
+Architecture                      Behaviors
+```
+
+### UX Documentation Layers
+
+1. **Discovery Layer** (Stage 0)
+   - User personas
+   - User journey maps
+   - Information architecture
+   - Success metrics
+
+2. **Strategy Layer** (Stage 2)
+   - Interaction paradigms
+   - Progressive disclosure strategy
+   - Cognitive load management
+   - Accessibility approach
+
+3. **Design Layer** (Stage 3)
+   - Markdown-based UI mockups
+   - Interaction flows
+   - State transitions
+   - Error handling patterns
+
+4. **Implementation Layer** (Stage 5)
+   - Design tokens
+   - Component specifications
+   - Responsive breakpoints
+   - Usability test protocols
+
+### Progressive Disclosure Implementation
+
+The system implements progressive disclosure at multiple levels:
+
+```
+Level 0: Pre-engagement (Value proposition)
+    ↓
+Level 1: Executive Summary (Quick actions)
+    ↓
+Level 2: Grouped Details (Categorized info)
+    ↓
+Level 3: Full Details (Power user features)
+```
+
+### Markdown-Based UI Documentation
+
+All UI/UX documentation is maintained in markdown format:
+
+```markdown
+# ASCII Art Mockups
+┌─────────────────────────────────┐
+│  Header with primary action     │
+├─────────────────────────────────┤
+│  Content area with              │
+│  progressive disclosure          │
+└─────────────────────────────────┘
+
+# Interaction Tables
+| User Action | System Response | Feedback |
+|-------------|-----------------|----------|
+| Click Save  | Validate data   | Spinner  |
+```
+
 ## Extension Points
 
 ### Adding New Modes

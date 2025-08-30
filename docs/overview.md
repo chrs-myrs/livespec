@@ -14,6 +14,8 @@ This system is built on several key principles:
 - **Automatic processing**: Tools discover what needs doing
 - **Evidence-based**: All claims backed by code
 - **Focused documents**: Keep specifications concise and clear
+- **UX-first approach**: User success drives technical decisions
+- **Progressive disclosure**: Information revealed as needed
 
 ## The Problem We Solve
 
@@ -175,6 +177,14 @@ The system emphasizes TDD throughout:
 - Implementation plans include test-first approach
 - Validation ensures test coverage before implementation
 - Master plans coordinate testing across components
+
+### User Experience Integration
+The system now includes comprehensive UX support:
+- User personas and journey mapping
+- Progressive disclosure as default pattern
+- Markdown-based UI mockups and flows
+- Observable behaviors for all components
+- Usability testing protocols
 
 ## How It Works
 

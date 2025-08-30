@@ -19,6 +19,23 @@ Welcome to the Bidirectional Specifications System! This guide will help you get
 
 ## Quick Start
 
+### I have a project using an older version of this framework
+
+```bash
+# 1. Navigate to your project root
+cd /path/to/your/project
+
+# 2. Run the migration tool
+claude-code "Use prompts/migrate-to-latest.md"
+
+# This will:
+# - Detect your current version
+# - Create a backup
+# - Migrate to latest structure
+# - Identify gaps
+# - Provide next steps
+```
+
 ### I have an existing codebase with no documentation
 
 ```bash
@@ -39,41 +56,41 @@ claude-code "Use the prompt at prompts/extract-specs-from-code.md to document th
 cd my-project
 
 # 2. Set up the bidirectional specs system
-claude-code "Use prompts/0.1-setup-project.md"
+claude-code "Use prompts/0a-setup-project.md"
 
 # 3. If you have requirements documents, add them
 cp ~/my-requirements/*.md reqs/hlr/
 
 # 4. Define your system purpose
-claude-code "Use the prompt at prompts/1.1-write-purpose.md for my new inventory system"
+claude-code "Use the prompt at prompts/1a-write-purpose.md for my new inventory system"
 ```
 
 ### I have existing requirements documents
 
 ```bash
 # 1. Set up the project
-claude-code "Use prompts/0.1-setup-project.md"
+claude-code "Use prompts/0a-setup-project.md"
 
 # 2. Place requirements in hlr folder
 cp my-requirements.docx reqs/hlr/
 cp user-stories.md reqs/hlr/
 
 # 3. Run purpose extraction
-claude-code "Use prompts/1.1-write-purpose.md - it will read from hlr/"
+claude-code "Use prompts/1a-write-purpose.md - it will read from hlr/"
 ```
 
 ### I need to update existing documentation
 
 ```bash
 # After making code changes
-claude-code "Use the prompt at prompts/6.1-update-specs.md to sync documentation"
+claude-code "Use the prompt at prompts/6a-update-specs.md to sync documentation"
 ```
 
 ### I want to check if my docs match my code
 
 ```bash
 # Run alignment check
-claude-code "Use the prompt at prompts/6.2-check-alignment.md"
+claude-code "Use the prompt at prompts/6b-check-alignment.md"
 ```
 
 ### I want to update my progress report
@@ -184,85 +201,145 @@ Do you have existing code?
 
 ## Using the Prompts
 
+### Workflow Orchestration
+
+The system now includes intelligent workflow orchestration that guides you through the entire process:
+
+```bash
+# Start here to understand current state and next steps
+claude-code "Use prompts/0-orchestrate-workflow.md"
+```
+
+This will:
+- Analyze your project's current state
+- Identify what's complete, in progress, or blocked
+- Tell you exactly what to do next
+- Handle both automated steps and human review points
+
+### Stakeholder Review Process
+
+The system includes built-in stakeholder review gates at key points:
+
+1. **After UX Discovery** - Review personas, journeys, and information architecture
+2. **After Purpose Definition** - Validate business alignment and success metrics
+3. **After Strategy** - Approve technical and UX approaches
+4. **After Design** - Review architecture and interaction designs
+5. **Before Implementation** - Final go/no-go decision
+
+Review workflow:
+```bash
+# 1. Prepare review package when stage is complete
+claude-code "Use prompts/0d-prepare-stakeholder-review.md for [stage]"
+
+# 2. Stakeholders review offline using provided templates
+
+# 3. Process returned feedback
+claude-code "Use prompts/0e-process-stakeholder-feedback.md for [stage]"
+
+# 4. Continue workflow after review
+claude-code "Use prompts/0f-continue-workflow.md"
+```
+
 ### Stage-Based Workflow
 
-The system now follows numbered stages with integrated progress tracking:
+The system follows numbered stages with integrated progress tracking:
 
 #### Stage 0: Project Setup
 ```bash
-# 0.1 - Initialize project
-claude-code "Use prompts/0.1-setup-project.md"
+# 0a - Initialize project
+claude-code "Use prompts/0a-setup-project.md"
 
-# 0.2 - Assess complexity
-claude-code "Use prompts/0.2-assess-complexity.md"
+# 0b - Assess complexity
+claude-code "Use prompts/0b-assess-complexity.md"
+
+# 0c - Discover UX requirements (for user-facing systems)
+claude-code "Use prompts/0c-discover-ux-requirements.md"
 ```
 
 #### Stage 1: Discovery & Purpose
 ```bash
-# 1.1 - Write purpose (reads from reqs/hlr/)
-claude-code "Use prompts/1.1-write-purpose.md for our new expense tracking system"
+# 1a - Write purpose (reads from reqs/hlr/)
+claude-code "Use prompts/1a-write-purpose.md for our new expense tracking system"
 
-# 1.2 - Run purpose-level spikes if needed
-claude-code "Use prompts/1.2-run-purpose-spike.md to explore market viability"
+# 1b - Define user success criteria (for user-facing systems)
+claude-code "Use prompts/1b-define-user-success.md to transform purpose into user outcomes"
+
+# 1c - Run purpose-level spikes if needed
+claude-code "Use prompts/1c-run-purpose-spike.md to explore market viability"
 ```
 
 #### Stage 2: Strategy
 ```bash
-# 2.1 - Document technical strategies
-claude-code "Use prompts/2.1-write-strategy.md to document our technical decisions"
+# 2a - Document technical strategies
+claude-code "Use prompts/2a-write-strategy.md to document our technical decisions"
 
-# 2.2 - Run strategy spikes if needed
-claude-code "Use prompts/2.2-run-strategy-spike.md to test technology choices"
+# 2b - Document UX strategy (for user-facing systems)
+claude-code "Use prompts/2b-write-ux-strategy.md to define interaction paradigms"
+
+# 2c - Run strategy spikes if needed
+claude-code "Use prompts/2c-run-strategy-spike.md to test technology choices"
 ```
 
 #### Stage 3: Design
 ```bash
-# 3.1 - Create system design
-claude-code "Use prompts/3.1-write-design.md to create architecture diagrams"
+# 3a - Create system design
+claude-code "Use prompts/3a-write-design.md to create architecture diagrams"
 
-# 3.2 - Run design spikes if needed
-claude-code "Use prompts/3.2-run-design-spike.md to test integration approach"
+# 3b - Design interactions (for user-facing systems)
+claude-code "Use prompts/3b-design-interactions.md to create UI mockups in markdown"
 
-# 3.3 - Validate design before proceeding
-claude-code "Use prompts/3.3-design-checkpoint.md"
+# 3c - Run design spikes if needed
+claude-code "Use prompts/3c-run-design-spike.md to test integration approach"
+
+# 3d - Validate design before proceeding
+claude-code "Use prompts/3d-design-checkpoint.md"
 ```
 
 #### Stage 4: Components
 ```bash
-# 4.1 - Write component specifications
-claude-code "Use prompts/4.1-write-components.md to specify component capabilities"
+# 4a - Write component specifications
+claude-code "Use prompts/4a-write-components.md to specify component capabilities"
 
-# 4.2 - Validate components are ready for implementation planning
-claude-code "Use prompts/4.2-validate-components.md"
+# 4b - Define user-facing behaviors (for user-facing components)
+claude-code "Use prompts/4b-define-behaviors.md to specify observable behaviors"
+
+# 4c - Validate components are ready for implementation planning
+claude-code "Use prompts/4c-validate-components.md"
 # Note: This validates Stages 1-4 only, NOT implementation specs
 ```
 
 #### Stage 5: Implementation
 ```bash
-# 5.1 - Write implementation specs (master plan first!)
-claude-code "Use prompts/5.1-write-implementation.md for detailed technical specs"
+# 5a - Write implementation specs (master plan first!)
+claude-code "Use prompts/5a-write-implementation.md for detailed technical specs"
 
-# 5.2 - Validate implementation specs before coding
-claude-code "Use prompts/5.2-validate-implementation.md"
+# 5b - Create UI specifications (for user interfaces)
+claude-code "Use prompts/5b-create-ui-specs.md to detail UI components"
+
+# 5c - Validate implementation specs before coding
+claude-code "Use prompts/5c-validate-implementation.md"
 # Note: This validates Stage 5 specs are ready for coding
 
-# 5.3 - Implement from specifications
-claude-code "Use prompts/5.3-implement-from-specs.md"
+# 5d - Implement from specifications
+claude-code "Use prompts/5d-implement-from-specs.md"
 
-# 5.4 - Validate implementation matches specs
-claude-code "Use prompts/5.4-implementation-checkpoint.md"
+# 5e - Validate implementation matches specs
+claude-code "Use prompts/5e-implementation-checkpoint.md"
+
+# 5f - Run usability tests (for user interfaces)
+claude-code "Use prompts/5f-run-usability-tests.md to validate UX"
 ```
 
 #### Stage 6: Maintenance
 ```bash
-# 6.1 - Update specs after code changes
-claude-code "Use prompts/6.1-update-specs.md"
+# 6a - Update specs after code changes
+claude-code "Use prompts/6a-update-specs.md"
 
 # 6.2 - Check alignment
-claude-code "Use prompts/6.2-check-alignment.md"
+claude-code "Use prompts/6b-check-alignment.md"
 
 # 6.3 - Capture learnings
-claude-code "Use prompts/6.3-capture-learnings.md"
+claude-code "Use prompts/6c-capture-learnings.md"
 ```
 ### Utility Prompts
 
@@ -357,33 +434,93 @@ claude-code "Use prompts/setup-project-claude-md.md"
 **After setup**:
 1. Review the generated CLAUDE.md with your team
 2. Set up recommended git hooks and CI/CD integration
-3. Begin with `1-write-purpose.md` to define your system
+3. Begin with `1a-write-purpose.md` to define your system
 4. Follow the established TDD and specification workflows
 
 ## Common Workflows
+
+### Workflow 0: Using the Orchestrator (Recommended)
+
+For any project, start with the orchestrator to guide you:
+
+```bash
+# Initial run - analyzes state and provides next steps
+claude-code "Use prompts/0-orchestrate-workflow.md"
+
+# After completing suggested work
+claude-code "Use prompts/0-orchestrate-workflow.md"
+
+# The orchestrator will:
+# - Track your progress
+# - Tell you when reviews are needed
+# - Guide you through the entire process
+# - Handle special cases and blockers
+```
+
+Example orchestrator flow:
+```
+1. Run orchestrator → "Start with 0a-setup-project.md"
+2. Complete setup → Run orchestrator → "Continue with 0c-discover-ux-requirements.md"
+3. Complete UX → Run orchestrator → "Prepare for stakeholder review"
+4. After review → Run orchestrator → "Process feedback then continue to purpose"
+... and so on through all stages
+```
 
 ### Workflow 1: Starting with High-Level Requirements
 
 ```bash
 # Step 1: Set up project and add requirements
-claude-code "Use prompts/0.1-setup-project.md"
+claude-code "Use prompts/0a-setup-project.md"
 cp ~/requirements/*.md reqs/hlr/
 
 # Step 2: Assess complexity
-claude-code "Use prompts/0.2-assess-complexity.md"
+claude-code "Use prompts/0b-assess-complexity.md"
 
 # Step 3: Transform HLR to purpose
-claude-code "Use prompts/1.1-write-purpose.md"
+claude-code "Use prompts/1a-write-purpose.md"
 # The prompt will read from reqs/hlr/ automatically
 
 # Step 4: Continue through stages...
 ```
 
-### Workflow 2: Documenting a Legacy System
+### Workflow 2: UX-First Development
+
+```bash
+# Step 1: Set up project
+claude-code "Use prompts/0a-setup-project.md"
+
+# Step 2: Discover UX requirements
+claude-code "Use prompts/0c-discover-ux-requirements.md"
+# Creates personas, journeys, information architecture
+
+# Step 3: Define system purpose based on user needs
+claude-code "Use prompts/1a-write-purpose.md"
+
+# Step 4: Transform to user success metrics
+claude-code "Use prompts/1b-define-user-success.md"
+
+# Step 5: Create UX strategy
+claude-code "Use prompts/2b-write-ux-strategy.md"
+
+# Step 6: Design interactions
+claude-code "Use prompts/3b-design-interactions.md"
+
+# Step 7: Define observable behaviors
+claude-code "Use prompts/4b-define-behaviors.md"
+
+# Step 8: Create UI specifications
+claude-code "Use prompts/5b-create-ui-specs.md"
+
+# Step 9: Implement and test
+claude-code "Use prompts/5d-implement-from-specs.md"
+claude-code "Use prompts/5f-run-usability-tests.md"
+```
+
+### Workflow 3: Documenting a Legacy System
 
 ```bash
 # Step 1: Set up and extract
-claude-code "Use prompts/0.1-setup-project.md"
+claude-code "Use prompts/0a-setup-project.md"
 claude-code "Use prompts/extract-specs-from-code.md"
 
 # Step 2: Update progress to current state
@@ -396,29 +533,29 @@ claude-code "Use prompts/update-progress-report.md"
 # Regular alignment checks and updates
 ```
 
-### Workflow 3: New Feature Development
+### Workflow 4: New Feature Development
 
 ```bash
 # Step 1: Check current progress
 cat reqs/progress-report.md
 
 # Step 2: Update relevant stage documents
-claude-code "Update purpose for new feature using prompts/1.1-write-purpose.md"
+claude-code "Update purpose for new feature using prompts/1a-write-purpose.md"
 
 # Step 3: Run any needed spikes
-claude-code "Use prompts/3.2-run-design-spike.md for integration testing"
+claude-code "Use prompts/3c-run-design-spike.md for integration testing"
 
 # Step 4: Update progress report
 claude-code "Use prompts/update-progress-report.md"
 
 # Step 4: Specify the new component
-claude-code "Create specs for reporting service using prompts/4-write-components.md"
+claude-code "Create specs for reporting service using prompts/4a-write-components.md"
 
 # Step 5: Detail the implementation
-claude-code "Create implementation spec using prompts/5.1-write-implementation.md"
+claude-code "Create implementation spec using prompts/5a-write-implementation.md"
 ```
 
-### Workflow 3: Pre-Release Documentation Check
+### Workflow 5: Pre-Release Documentation Check
 
 ```bash
 # Step 1: Run alignment check
@@ -434,17 +571,17 @@ claude-code "Use prompts/update-specs-with-code.md to fix misalignments"
 claude-code "Re-run prompts/align-specs-to-code.md to verify fixes"
 ```
 
-### Workflow 4: Implementing a New System (IMPORTANT)
+### Workflow 6: Implementing a New System (IMPORTANT)
 
 ```bash
 # Step 1: Create all specifications first
-claude-code "Use prompts/1-write-purpose.md for our inventory system"
-claude-code "Use prompts/2-write-strategy.md to document technical approach"
-claude-code "Use prompts/3-write-design.md to design the architecture"
-claude-code "Use prompts/4-write-components.md to specify all components"
+claude-code "Use prompts/1a-write-purpose.md for our inventory system"
+claude-code "Use prompts/2a-write-strategy.md to document technical approach"
+claude-code "Use prompts/3a-write-design.md to design the architecture"
+claude-code "Use prompts/4a-write-components.md to specify all components"
 
 # Step 2: Create implementation specifications WITH MASTER PLAN
-claude-code "Use prompts/5.1-write-implementation.md to create technical specs"
+claude-code "Use prompts/5a-write-implementation.md to create technical specs"
 # This creates:
 # - reqs/5-implementation/00-master-implementation-plan.md (CRITICAL!)
 # - Individual component implementation specs
@@ -457,7 +594,7 @@ claude-code "Use prompts/5.1-write-implementation.md to create technical specs"
 # - Check critical path
 
 # Step 4: VALIDATE everything is ready (CRITICAL!)
-claude-code "Use prompts/pre-implementation-validation.md"
+claude-code "Use prompts/4c-validate-components.md"
 # This validates:
 # - All specs are complete and aligned
 # - No missing documents or sections  
@@ -467,7 +604,7 @@ claude-code "Use prompts/pre-implementation-validation.md"
 # MUST show PASS before proceeding!
 
 # Step 5: Execute implementation following the plan
-claude-code "Use prompts/5.3-implement-from-specs.md to build the system"
+claude-code "Use prompts/5d-implement-from-specs.md to build the system"
 # This will:
 # - Use TDD approach (tests first!)
 # - Follow the master plan's build order
@@ -477,24 +614,24 @@ claude-code "Use prompts/5.3-implement-from-specs.md to build the system"
 
 # Advanced execution options:
 # Resume where you left off:
-claude-code "Use prompts/5.3-implement-from-specs.md" --arguments "resume"
+claude-code "Use prompts/5d-implement-from-specs.md" --arguments "resume"
 
 # Execute specific phase:
-claude-code "Use prompts/5.3-implement-from-specs.md" --arguments "phase2"
+claude-code "Use prompts/5d-implement-from-specs.md" --arguments "phase2"
 
 # Run unsupervised (no confirmations):
-claude-code "Use prompts/5.3-implement-from-specs.md" --arguments "unsupervised"
+claude-code "Use prompts/5d-implement-from-specs.md" --arguments "unsupervised"
 
 # Implement specific component:
-claude-code "Use prompts/5.3-implement-from-specs.md" --arguments "component:auth-service"
+claude-code "Use prompts/5d-implement-from-specs.md" --arguments "component:auth-service"
 
 # Dry run to see what would be done:
-claude-code "Use prompts/5.3-implement-from-specs.md" --arguments "dry-run"
+claude-code "Use prompts/5d-implement-from-specs.md" --arguments "dry-run"
 ```
 
 **Why the Master Plan Matters**: Without it, components get built in isolation and integration becomes a nightmare. The master plan ensures everything fits together!
 
-### Workflow 5: Auto-Build for Rapid Prototyping (⚠️ PROTOTYPE ONLY)
+### Workflow 7: Auto-Build for Rapid Prototyping (⚠️ PROTOTYPE ONLY)
 
 For rapid prototyping or proof-of-concepts where assumptions are acceptable:
 
@@ -540,38 +677,46 @@ claude-code "Use prompts/auto-build.md" --arguments "verbose"
    - Don't try to write docs from memory
    - Let the code tell its story first
 
-2. **Keep specifications at the right level**
+2. **Consider UX early for user-facing systems**
+   - Start with user journeys and personas
+   - Define user success before technical specs
+   - Use progressive disclosure by default
+   - Document in markdown, not external tools
+
+3. **Keep specifications at the right level**
    - Business value in Purpose
+   - User outcomes in Success Metrics
    - Technical choices in Strategy
+   - UX patterns in Interaction Design
    - Implementation details in Implementation
 
-3. **Always create a master implementation plan**
+4. **Always create a master implementation plan**
    - Use prompt 5 to generate it automatically
    - Review dependencies before implementing
    - Follow the build order it defines
    - Track progress systematically
 
-4. **Always validate before implementing**
+5. **Always validate before implementing**
    - Run pre-implementation validation
    - Fix any issues found
    - Don't skip this step!
    - Re-validate after fixes
 
-5. **Follow Test-Driven Development**
+6. **Follow Test-Driven Development**
    - Write tests BEFORE code
    - Red-Green-Refactor cycle
    - Let tests drive design
    - 100% coverage for critical paths
 
-6. **Update docs with code changes**
+7. **Update docs with code changes**
    - Make it part of your PR process
    - Small, incremental updates are easier
 
-7. **Run regular alignment checks**
+8. **Run regular alignment checks**
    - Quarterly for stable systems
    - Monthly for rapidly evolving systems
 
-8. **Mark uncertainties honestly**
+9. **Mark uncertainties honestly**
    - Use "Inferred:" when guessing
    - Document what you don't know
 
@@ -644,6 +789,22 @@ claude-code "Use prompts/auto-build.md" --arguments "verbose"
 - Add executive summaries to design docs
 - Create separate stakeholder views
 
+### "I'm using an older version and things don't match the docs"
+
+**Solution**:
+- Run the migration tool: `claude-code "Use prompts/migrate-to-latest.md"`
+- Check version indicators in your structure
+- Review the migration gap analysis
+- Follow recommended gap-filling actions
+
+**Common version indicators**:
+- Old: Prompts named `1-write-purpose.md`
+- New: Prompts named `1a-write-purpose.md`
+- Old: No `reqs/0-ux/` directory
+- New: Has UX discovery support
+- Old: Basic progress tracking
+- New: Enhanced progress with review tracking
+
 ### "Implementation stopped after one component"
 
 **Cause**: 
@@ -652,9 +813,9 @@ claude-code "Use prompts/auto-build.md" --arguments "verbose"
 - Lost track of the big picture
 
 **Solution**:
-- Always use `5.1-write-implementation.md` first to create master plan
+- Always use `5a-write-implementation.md` first to create master plan
 - Check `reqs/5-implementation/00-master-implementation-plan.md` exists
-- Use `5.3-implement-from-specs.md` which follows the plan
+- Use `5d-implement-from-specs.md` which follows the plan
 - Master plan tracks progress across ALL components
 
 **Prevention**:
@@ -737,6 +898,30 @@ The system design level shows how services interact.
 
 Early test planning ensures testable design and prevents untestable code.
 
+### Q: How do I migrate from an older version of the framework?
+
+**A**: Use the migration tool:
+
+```bash
+claude-code "Use prompts/migrate-to-latest.md"
+```
+
+The migration tool will:
+1. Detect your current version automatically
+2. Create a complete backup before changes
+3. Generate a detailed migration plan
+4. Execute the migration preserving all content
+5. Identify gaps that need filling
+6. Provide specific next actions
+
+Common migrations include:
+- Renaming prompts to number-letter system (1-write-purpose.md → 1a-write-purpose.md)
+- Adding UX discovery support
+- Implementing review workflows
+- Enhancing progress tracking
+
+The tool handles all of this automatically while preserving your existing work.
+
 ### Q: What if validation fails?
 
 **A**: A failed validation is good! It prevents bigger problems:
@@ -760,7 +945,7 @@ Early test planning ensures testable design and prevents untestable code.
 ### Common Starting Points
 
 - **Have code, need docs?** Start with `extract-specs-from-code.md`
-- **Starting fresh?** Begin with `1-write-purpose.md`
+- **Starting fresh?** Begin with `1a-write-purpose.md`
 - **Docs out of date?** Run `align-specs-to-code.md`
 - **Just made changes?** Use `update-specs-with-code.md`
 
