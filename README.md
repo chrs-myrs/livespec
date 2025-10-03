@@ -1,162 +1,258 @@
-# LiveSpec
+# LiveSpec v2
 
-**Specifications that live with your code** ✨
+**Specifications that live with your code**
 
-A living documentation framework that maintains synchronized specifications throughout the software lifecycle, working equally well for new projects and existing codebases.
-
-## Quick Start
-
-### I have a new project idea
-```bash
-# Set up your project with LiveSpec
-claude-code "Use prompts/setup-project-claude-md.md"
-
-# Start by defining your system's purpose
-claude-code "Use prompts/1a-write-purpose.md for my new inventory system"
-
-# Continue through the specification levels
-claude-code "Use prompts/2a-write-strategy.md"
-claude-code "Use prompts/3a-write-design.md"
-# ... and so on
-```
-
-### I have existing code without documentation
-```bash
-# Extract documentation from your codebase
-claude-code "Use prompts/extract-specs-from-code.md to document this codebase"
-```
-
-### I need to check if my docs match my code
-```bash
-# Run alignment check
-claude-code "Use prompts/align-specs-to-code.md"
-```
-
-### I want a quick prototype (⚠️ PROTOTYPE ONLY)
-```bash
-# Auto-build from whatever exists
-claude-code "Use prompts/auto-build.md"
-```
+A folder structure and methodology for keeping specifications and code synchronized throughout the development lifecycle. Works with any AI coding agent.
 
 ## What is LiveSpec?
 
-Traditional documentation flows one way: Ideas → Requirements → Code → Outdated Docs 😢
+LiveSpec is three things:
 
-LiveSpec works **bidirectionally**:
-- **Forward**: Ideas → Living Specs → Code
-- **Backward**: Code → Extracted Specs → Understanding
-- **Continuous**: Code ↔ Specs (always in sync)
+1. **A folder structure** - Separates workspace (HOW you build) from product (WHAT you build)
+2. **MSL specification format** - Minimal Specification Language keeps specs small and maintainable
+3. **Five-phase methodology** - DEFINE → DESIGN → BUILD → VERIFY → EVOLVE
 
-## Key Features
+**Not a framework. Not a tool. Just information architecture.**
 
-- 🔄 **Bidirectional Flow** - Create specs from ideas OR extract from code
-- 📋 **Living Documentation** - Specs that evolve with your code
-- 🎯 **Multiple Workflows** - New projects, updates, validation, reverse engineering  
-- 🧪 **Test-Driven Development** - Built-in TDD support and validation
-- 🚀 **Rapid Prototyping** - Auto-build mode for quick experiments
-- 👥 **Stakeholder Reviews** - Integrated review and approval workflow
-- 🎨 **UX-First Support** - User personas, journeys, and interaction design
+## Quick Start
 
-## Documentation
+### New Project (5 minutes)
 
-- [System Overview](docs/overview.md) - Concepts and architecture
-- [User Guide](docs/user-guide.md) - Detailed usage instructions
-- [Architecture](docs/architecture.md) - Technical design of the system
-- [Deployment Guide](docs/deployment-guide.md) - Installation and setup
+```bash
+# Clone LiveSpec
+git clone https://github.com/chrs-myrs/livespec.git
+cd your-project
+
+# Copy methodology to .livespec/ folder
+cp -r livespec/prompts .livespec
+
+# Create specs structure
+mkdir -p specs/workspace specs/behaviors specs/contracts
+
+# Start Phase 0
+claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+```
+
+### Existing Project
+
+```bash
+# Copy methodology
+cp -r livespec/prompts .livespec
+
+# Create structure
+mkdir -p specs/workspace specs/behaviors specs/contracts
+
+# Extract specifications from code
+claude-code "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
+```
+
+### Using Context7
+
+```bash
+# Just create structure
+mkdir -p specs/workspace specs/behaviors specs/contracts
+
+# Tell your AI agent:
+# "Use @context7/chrs-myrs/livespec methodology"
+# AI reads prompts remotely, helps create your specs
+```
+
+[Full quickstart guide →](docs/quickstart.md)
 
 ## Project Structure
 
 ```
 your-project/
-├── src/               # Your code
-├── reqs/              # Your specifications
-│   ├── 0-ux/         # UX documentation
-│   ├── 1-purpose/    # WHY system exists
-│   ├── 2-strategy/   # Technical decisions
-│   ├── 3-design/     # Architecture
-│   ├── 4-components/ # What components do
-│   ├── 5-implementation/ # How they work
-│   └── reviews/      # Stakeholder reviews
-└── prompts/          # LiveSpec tools
+├── PURPOSE.md              # Why this project exists
+│
+├── specs/
+│   ├── workspace/          # How you build
+│   │   ├── constitution.spec.md # Development principles
+│   │   ├── patterns.spec.md     # Code patterns
+│   │   └── workflows.spec.md    # Development workflows
+│   ├── behaviors/          # What system does
+│   ├── contracts/          # API/data contracts
+│   └── constraints.spec.md # Hard boundaries
+│
+├── .livespec/              # LiveSpec methodology (copied from prompts/)
+│   ├── 0-define/           # Problem definition
+│   ├── 1-design/           # Solution design
+│   ├── 2-build/            # Implementation
+│   ├── 3-verify/           # Validation
+│   ├── 4-evolve/           # Synchronisation
+│   └── templates/          # Workspace templates
+│
+└── [your code]             # Your implementation
 ```
 
-## Installation
+## MSL Format
 
-### Quick Install
+All specifications follow Minimal Specification Language (MSL):
 
-```bash
-# Clone LiveSpec
-git clone https://github.com/chrs-myrs/livespec.git
-cd livespec
+```markdown
+# User Authentication
 
-# Deploy to your project
-./deploy-livespec.sh /path/to/your/project
+**Criticality**: CRITICAL
+**Failure Mode**: System unsecured without authentication
+
+## Specification
+System authenticates users via email and password before allowing access to protected resources.
+
+## Validation
+- Valid credentials allow login
+- Invalid credentials rejected
+- Sessions persist after authentication
+- Protected resources require authentication
 ```
 
-### Start Using LiveSpec
+**That's it.** Four sections. Minimal. Testable.
 
-```bash
-cd /path/to/your/project
+[MSL Guide →](docs/msl-guide.md)
 
-# Start the workflow orchestrator
-./livespec-start.sh
+## The Five Phases
 
-# Or use directly with Claude
-claude-code "Use .claude/commands/livespec/0-orchestrate-workflow.md"
-```
+### Phase 0: DEFINE
+Establish problem space and development approach
+- Define problem statement
+- Identify constraints
+- Setup workspace specifications
 
-## Requirements
+### Phase 1: DESIGN
+Design solution architecture
+- Define architecture
+- Specify behaviors
+- Create contracts
 
-- Claude Code CLI installed
-- Access to your project codebase
-- Basic understanding of your system's purpose
+### Phase 2: BUILD
+Implement the solution
+- Build to specifications
+- Create tests
+- Validate implementation
 
-## Core Concepts
+### Phase 3: VERIFY
+Validate solution meets requirements
+- Run validation
+- Acceptance review
+- Document results
 
-### Living Documentation
-Documentation that evolves with your code, not a one-time artifact. Changes in code trigger documentation updates, and documentation changes inform code modifications.
+### Phase 4: EVOLVE
+Keep specs and code synchronized (continuous)
+- Detect drift
+- Extract new specs
+- Update existing specs
 
-### Bidirectional Flow
-Information flows both ways:
-- **Forward**: Ideas shape specifications which guide implementation
-- **Backward**: Code reality updates specifications which clarify purpose
+[Methodology Guide →](docs/methodology.md)
 
-### Staged Workflow
-Progress through clear stages:
-1. **Discovery & Purpose** - Why build this?
-2. **Strategy** - How will we approach it?
-3. **Design** - What's the architecture?
-4. **Components** - What are the building blocks?
-5. **Implementation** - How does it work?
-6. **Maintenance** - Keep specs synchronized
+## Key Features
 
-### Workflow Orchestration
-Intelligent guidance through the entire process:
-- Analyzes current state
-- Identifies next steps
-- Manages review gates
-- Tracks progress
+- ✅ **AI Agent Agnostic** - Works with Claude, Copilot, Cursor, any agent
+- ✅ **Bidirectional Flow** - Specs → Code AND Code → Specs
+- ✅ **Living Documentation** - Specifications evolve with code
+- ✅ **Minimal Specifications** - MSL format reduces specs by 70%
+- ✅ **No Lock-in** - Just markdown files and folders
+- ✅ **Manual-Friendly** - Can use without AI agents
+- ✅ **Any Language** - Pure information architecture
+
+## Why LiveSpec?
+
+**The Problem:**
+- Specifications and code inevitably drift apart
+- Documentation becomes outdated
+- AI agents lack context about project intent
+
+**The Solution:**
+- Clear separation of workspace (HOW) and product (WHAT) specs
+- Minimal specifications that stay maintainable
+- Continuous synchronization through EVOLVE phase
+- Structure that makes AI agents more effective
+
+## Works With
+
+- **Claude Code** - Direct prompt execution
+- **Cursor** - Use Composer with prompts
+- **GitHub Copilot** - Use prompts as context
+- **Any AI Agent** - Copy/paste prompts
+
+[See examples →](docs/quickstart.md#using-with-different-ai-agents)
+
+## Documentation
+
+- **[Quickstart](docs/quickstart.md)** - Get started in 5 minutes
+- **[MSL Guide](docs/msl-guide.md)** - Learn minimal specification format
+- **[Methodology](docs/methodology.md)** - Understand the philosophy
 
 ## Version
 
-Current Version: **0.2.0** (Beta)
+**Current Version: 2.0.0**
+
+LiveSpec v2 is a complete rebuild focused on simplicity and effectiveness:
+- Simplified from 7+ stages to 5 phases
+- Flattened specs/ structure
+- Focused on information architecture, not tooling
+- Adopted strict MSL minimalism
+
+[v1 archived →](.archive/v1-2025-01/)
+
+## Requirements
+
+- Any AI coding agent (optional but recommended)
+- Git (for version control)
+- Text editor
+
+**That's it. No installation. No dependencies.**
+
+## Repository Structure
+
+```
+livespec/
+├── PURPOSE.md              # Why LiveSpec exists
+├── README.md               # This file
+│
+├── prompts/                # METHODOLOGY (copy this to .livespec/)
+│   ├── 0-define/
+│   ├── 1-design/
+│   ├── 2-build/
+│   ├── 3-verify/
+│   ├── 4-evolve/
+│   └── templates/          # Workspace templates
+│
+├── specs/                  # DOGFOODING (LiveSpec's own specs)
+│   ├── workspace/          # How we build LiveSpec
+│   ├── prompts/            # Meta-specs about our prompts
+│   └── constraints.spec.md
+│
+├── .livespec/              # Symlink to prompts/ (we dogfood our own methodology)
+├── tests/                  # Validation suite
+└── docs/                   # User documentation
+```
+
+**For Users:** Copy `prompts/` to `.livespec/` in your project
+
+**For Contributors:**
+- Read `specs/workspace/` to understand how WE build LiveSpec
+- Check `specs/prompts/` for what each prompt does
+- We use `.livespec/` (symlinked to `prompts/`) for our own development
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions welcome! We dogfood our own methodology:
+- Read [specs/workspace/](specs/workspace/) to understand how WE build LiveSpec
+- Check [specs/prompts/](specs/prompts/) for what each prompt does
+- Use `.livespec/` prompts when working on LiveSpec itself
+- Submit PRs following workspace patterns
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) for details.
+MIT License - see [LICENSE](LICENSE)
 
 ## Support
 
-- **Documentation**: See the [User Guide](docs/user-guide.md)
+- **Documentation**: See [docs/](docs/)
 - **Issues**: [GitHub Issues](https://github.com/chrs-myrs/livespec/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/chrs-myrs/livespec/discussions)
 
 ---
 
-**LiveSpec** - Because your specifications should live and breathe with your code, not gather dust in a drawer.
+**LiveSpec v2** - Information architecture for AI-first development.
 
-Built with ❤️ for developers who believe documentation should be a living part of their codebase.
+Simple. Minimal. Effective.

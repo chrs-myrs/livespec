@@ -1,0 +1,16 @@
+# LiveSpec Development Constitution
+
+**Criticality**: CRITICAL
+**Failure Mode**: Without governance principles, LiveSpec development becomes inconsistent and violates its own philosophy
+
+## Specification
+
+LiveSpec development follows five core principles: MSL Minimalism (specs justify existence), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Specs Before Implementation (behavior specs precede prompts), and Living Documentation (specs evolve continuously).
+
+## Validation
+
+- All specs pass MSL test (CRITICAL or IMPORTANT only)
+- Repository uses LiveSpec methodology (specs/ and prompts/ exist)
+- LiveSpec usable with file operations and AI prompts only
+- Every prompt has corresponding behavior spec
+- Spec drift detected and resolved through Phase 4

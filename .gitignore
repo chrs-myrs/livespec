@@ -1,0 +1,22 @@
+# Research and temporary files
+research/
+plan/
+.tmp/
+.scratch/
+
+# Generated content
+generated/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

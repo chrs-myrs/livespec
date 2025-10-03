@@ -1,0 +1,21 @@
+# [PROJECT_NAME] Development Workflows
+
+**Criticality**: IMPORTANT
+**Failure Mode**: Without clear workflows, contributors don't know how to work on the project properly
+
+## Specification
+
+[Describe development workflows for this project. Examples:
+- Feature development workflow (spec → implement → test → review)
+- Bug fix workflow (reproduce → diagnose → fix → verify)
+- Spec update workflow (detect drift → update spec → validate sync)
+- Release workflow (version → test → package → deploy)
+- Review and approval process]
+
+## Validation
+
+- [Evidence workflow is followed (git history, PR patterns)]
+- [Completed work adheres to workflow steps]
+- [No steps skipped in critical workflows]
+- [Workflow produces expected artifacts]
+- [Team members follow documented process]

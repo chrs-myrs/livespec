@@ -1,0 +1,24 @@
+---
+specifies: prompts/1-design/1b-define-behaviors.md
+---
+
+# Prompt Behavior: Define Behaviors
+
+**Criticality**: CRITICAL
+**Failure Mode**: Implementation lacks observable behavior specifications
+
+## Specification
+
+Prompt guides AI agent to create behavior specifications for all major system capabilities, focusing on observable outcomes not implementation.
+
+## Prompt Outputs
+
+- `specs/behaviors/*.spec.md` - One spec per major behavior/feature
+
+## Validation
+
+- Multiple behavior specs created in specs/behaviors/
+- Each follows MSL format
+- Behaviors are observable and testable
+- No implementation details included
+- Behaviors cover all aspects of problem statement
