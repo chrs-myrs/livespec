@@ -1,0 +1,167 @@
+# LiveSpec - Living Specification Framework
+
+LiveSpec is a folder structure and methodology for keeping specifications synchronized with code throughout the development lifecycle. Using a five-phase approach (DEFINE → DESIGN → BUILD → VERIFY → EVOLVE), it enables bidirectional sync between specs and implementation, preventing documentation drift while providing AI agents with structured context. Built on MSL (Minimal Specification Language), LiveSpec works with any AI coding agent and any programming language.
+
+## Core Methodology (Read in Order)
+
+1. [Phase 0: DEFINE](prompts/0-define/) - Problem definition and workspace setup
+   - 0a-setup-workspace.md - Create workspace specifications
+   - 0b-define-problem.md - Document project purpose
+   - 0c-identify-constraints.md - Hard boundaries
+
+2. [Phase 1: DESIGN](prompts/1-design/) - Solution architecture
+   - 1a-design-architecture.md - System structure
+   - 1b-define-behaviors.md - Observable behaviors
+   - 1c-create-contracts.md - API/data contracts
+
+3. [Phase 2: BUILD](prompts/2-build/) - Implementation
+   - 2a-implement-from-specs.md - Build to specifications
+   - 2b-create-tests.md - Validate specifications
+
+4. [Phase 3: VERIFY](prompts/3-verify/) - Validation
+   - 3a-run-validation.md - Comprehensive validation
+   - 3b-acceptance-review.md - Stakeholder approval
+
+5. [Phase 4: EVOLVE](prompts/4-evolve/) - Continuous synchronization
+   - 4a-detect-drift.md - Find spec/code misalignment
+   - 4b-extract-specs.md - Document new behaviors
+   - 4c-sync-complete.md - Confirm synchronization
+
+## Project Structure
+
+LiveSpec separates workspace (HOW you build) from product (WHAT you build):
+
+```
+your-project/
+├── PURPOSE.md              # Why this project exists
+├── .livespec/              # Methodology prompts (copy from prompts/)
+│   ├── 0-define/
+│   ├── 1-design/
+│   ├── 2-build/
+│   ├── 3-verify/
+│   ├── 4-evolve/
+│   └── templates/
+└── specs/
+    ├── workspace/          # How you build
+    │   ├── constitution.spec.md
+    │   ├── patterns.spec.md
+    │   └── workflows.spec.md
+    ├── behaviors/          # What system does
+    ├── contracts/          # API/data contracts
+    └── constraints.spec.md # Hard boundaries
+```
+
+## Quick Start
+
+### New Project
+```bash
+# Clone LiveSpec
+git clone https://github.com/chrs-myrs/livespec.git
+
+# Copy methodology
+cp -r livespec/prompts your-project/.livespec
+
+# Create structure
+mkdir -p your-project/specs/{workspace,behaviors,contracts}
+
+# Start Phase 0
+claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+```
+
+### Existing Project
+```bash
+# Copy methodology
+cp -r livespec/prompts .livespec
+
+# Extract specs from code
+claude-code "Use .livespec/4-evolve/4b-extract-specs.md"
+```
+
+## MSL Format Example
+
+All LiveSpec specifications use MSL (Minimal Specification Language):
+
+```markdown
+# User Authentication
+
+**Criticality**: CRITICAL
+**Failure Mode**: System unsecured without authentication
+
+## Specification
+System authenticates users via email and password before allowing access.
+
+## Validation
+- Valid credentials allow login
+- Invalid credentials rejected
+- Sessions persist after authentication
+- Protected resources require authentication
+```
+
+Four sections. Minimal. Testable.
+
+## Key Features
+
+- **Bidirectional Flow**: Specs → Code AND Code → Specs
+- **AI Agent Agnostic**: Works with Claude, Copilot, Cursor, any agent
+- **Phase 4 Drift Detection**: Continuous synchronization prevents staleness
+- **MSL Minimalism**: 70% smaller specifications stay maintainable
+- **Workspace Separation**: HOW vs WHAT keeps concerns separated
+- **No Lock-in**: Just markdown files and folders
+
+## Documentation
+
+Complete guides in [docs/](docs/):
+- [Quickstart](docs/quickstart.md) - Get started in 5 minutes
+- [Methodology](docs/methodology.md) - Philosophy and approach
+- [MSL Guide](docs/msl-guide.md) - Specification format reference
+
+## Workspace Specifications
+
+See [specs/workspace/](specs/workspace/) for how LiveSpec itself is built:
+- [constitution.spec.md](specs/workspace/constitution.spec.md) - Development principles
+- [patterns.spec.md](specs/workspace/patterns.spec.md) - Code and spec patterns
+- [workflows.spec.md](specs/workspace/workflows.spec.md) - Development workflows
+
+## Prompt Specifications
+
+See [specs/prompts/](specs/prompts/) for what each prompt accomplishes:
+- Each prompt has corresponding .spec.md defining expected behavior
+- Specifications use bidirectional YAML frontmatter linking
+- All prompts validated against their specifications
+
+## Topics
+
+Topics: livespec, living-specifications, spec-sync, ai-development, msl, minimal-specification-language, drift-detection, bidirectional-sync, specifications, requirements, documentation, ai-coding, software-architecture, development-methodology, phase-based-development, workspace-specs
+
+## Using with AI Agents
+
+### Claude Code
+```bash
+claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+```
+
+### Cursor
+Open `.livespec/0-define/0a-setup-workspace.md` and use Composer
+
+### GitHub Copilot
+Add `.livespec/0-define/0a-setup-workspace.md` as context
+
+### Any Agent
+Copy/paste prompts - they're plain markdown
+
+### Context7
+```bash
+# AI agent fetches methodology remotely
+"Use @context7/chrs-myrs/livespec methodology to set up this project"
+```
+
+## Version and Repository
+
+Version: 2.0.0 (Beta)
+Updated: 2025-10-03
+Repository: https://github.com/chrs-myrs/livespec
+License: MIT
+
+---
+
+*LiveSpec v2 - Information architecture for AI-first development. Simple. Minimal. Effective.*

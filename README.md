@@ -177,6 +177,11 @@ Keep specs and code synchronized (continuous)
 
 ## Documentation
 
+### For AI Agents
+- **[llms.txt](llms.txt)** - Context7-compatible overview (cache this!)
+- **[AGENTS.md](AGENTS.md)** - Quick reference for AI assistants
+
+### For Humans
 - **[Quickstart](docs/quickstart.md)** - Get started in 5 minutes
 - **[MSL Guide](docs/msl-guide.md)** - Learn minimal specification format
 - **[Methodology](docs/methodology.md)** - Understand the philosophy
