@@ -73,6 +73,15 @@ else
     FAILURES=$((FAILURES + 1))
 fi
 
+# Validation: Agent-specific config exists (CLAUDE.md for Claude Code)
+echo -n "  ✓ Agent configuration accessible... "
+if [ -f "CLAUDE.md" ] || [ -L "CLAUDE.md" ] || [ -f "AGENTS.md" ]; then
+    echo "PASS"
+else
+    echo "FAIL - Missing agent config (CLAUDE.md or AGENTS.md)"
+    FAILURES=$((FAILURES + 1))
+fi
+
 if [ $FAILURES -gt 0 ]; then
     echo "FAILED: $FAILURES test(s) failed"
     exit 1

@@ -1,8 +1,9 @@
 ---
+spec: specs/workspace/agents.spec.md
 generated: 2025-10-05T11:10:07Z
 generator: livespec/generate-project-config
 version: 2.0.0
-note: Generated from PURPOSE.md and specs/workspace/ - to update, regenerate this file
+note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
 # LiveSpec Agent Configuration

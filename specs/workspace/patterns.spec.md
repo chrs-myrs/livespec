@@ -73,3 +73,6 @@ Specifications declare dependencies via YAML frontmatter:
 - specs/strategy/ contains only product-specific technical decisions
 - Specifications declare dependencies via YAML frontmatter
 - Strategy files stay minimal (single file <100 lines, split files <50 lines each)
+- AGENTS.md references specs/workspace/agents.spec.md in frontmatter
+- Agent integration behaviors defined in specs/workspace/livespec.spec.md
+- Regeneration prompt exists at prompts/4-evolve/4d-regenerate-agents.md

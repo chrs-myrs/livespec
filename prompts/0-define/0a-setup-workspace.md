@@ -67,12 +67,30 @@ All specifications must follow MSL format (see `specs/prompts/msl-format.spec.md
 [How to verify]
 ```
 
+## Agent Configuration
+
+After workspace specs are created, generate agent configuration file:
+
+```bash
+# Generate AGENTS.md from workspace specs + PURPOSE.md
+# (Use prompts/4-evolve/4d-regenerate-agents.md)
+
+# Create agent-specific symlink for your AI assistant
+ln -s AGENTS.md CLAUDE.md      # For Claude Code
+ln -s AGENTS.md COPILOT.md     # For GitHub Copilot
+ln -s AGENTS.md CURSOR.md      # For Cursor IDE
+```
+
+This enables your AI agent to cache methodology context and guide you proactively.
+
 ## Exit Criteria
 
 - [ ] Folder structure matches LiveSpec standard
 - [ ] specs/workspace/ contains constitution, patterns, workflows
 - [ ] All workspace specs follow MSL format
 - [ ] Workspace defines HOW to build, not WHAT to build
+- [ ] AGENTS.md generated from workspace specs
+- [ ] Agent-specific symlink created (CLAUDE.md, COPILOT.md, etc.)
 
 ## Next Step
 
