@@ -49,7 +49,7 @@ This is LiveSpec's core architectural decision.
 
 **Example:**
 ```markdown
-# specs/workspace/patterns.md
+# specs/workspace/patterns.spec.md
 
 ## Test Naming
 
@@ -541,7 +541,7 @@ Use React with TypeScript, Redux for state, styled-components for styling.
 
 **Better:**
 ```markdown
-# specs/workspace/patterns.md
+# specs/workspace/patterns.spec.md
 
 ## Frontend Stack
 

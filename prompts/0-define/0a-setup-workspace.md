@@ -53,7 +53,7 @@ Define development workflows:
 
 ## Format
 
-All specifications must follow MSL format (see `specs/behaviors/msl-format.md`):
+All specifications must follow MSL format (see `specs/prompts/msl-format.spec.md`):
 
 ```markdown
 # [Name]

@@ -62,7 +62,7 @@ def reset_password(email: str):
 
 Create spec in appropriate folder:
 
-`specs/behaviors/password-reset.md`:
+`specs/behaviors/password-reset.spec.md`:
 ```markdown
 # Password Reset
 

@@ -56,7 +56,7 @@ For each changed area, use semantic understanding (not text diff):
 
 ### 3. Classify Changes
 
-Use the 70-80-10 pattern from `specs/behaviors/drift-detection.md`:
+Use the 70-80-10 pattern from `specs/prompts/drift-detection.spec.md`:
 
 #### Auto-Accept (70-80%)
 Changes that DON'T affect specs:
@@ -108,7 +108,7 @@ Document findings in `drift-report.md`:
 
 2. **Modified behavior: CSV export includes timestamps**
    - **Code**: Added timestamp column to CSV export
-   - **Spec**: specs/behaviors/data-export.md doesn't mention timestamps
+   - **Spec**: specs/behaviors/data-export.spec.md doesn't mention timestamps
    - **Action**: Update spec to include timestamp behavior
 
 ### Requiring Manual Resolution

@@ -24,8 +24,8 @@ Review drift report from 4a:
 ✅ All accepted (no spec changes needed)
 
 ### Requiring Review
-✅ Password reset: Spec extracted (specs/behaviors/password-reset.md)
-✅ CSV timestamps: Spec updated (specs/behaviors/data-export.md)
+✅ Password reset: Spec extracted (specs/behaviors/password-reset.spec.md)
+✅ CSV timestamps: Spec updated (specs/behaviors/data-export.spec.md)
 
 ### Manual Resolution
 ✅ API pagination: Versioned to v2, spec updated
@@ -68,8 +68,8 @@ Document the evolution in `evolution-log.md`:
 - Versioned API to v2 with pagination
 
 ### Specifications Updated
-- Created: specs/behaviors/password-reset.md
-- Updated: specs/behaviors/data-export.md
+- Created: specs/behaviors/password-reset.spec.md
+- Updated: specs/behaviors/data-export.spec.md
 - Versioned: specs/contracts/api/v2/users-api.yaml
 
 ### Rationale
@@ -110,7 +110,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 If patterns or workflows changed, update workspace specs:
 
 ```markdown
-# specs/workspace/patterns.md
+# specs/workspace/patterns.spec.md
 
 ## New Pattern: API Versioning
 

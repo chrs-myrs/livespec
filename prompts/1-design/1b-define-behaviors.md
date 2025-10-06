@@ -24,7 +24,7 @@ Behaviors are **observable outcomes** that:
 
 For each major feature or capability, create a spec file:
 
-`specs/behaviors/[behavior-name].md`:
+`specs/behaviors/[behavior-name].spec.md`:
 
 ```markdown
 # [Behavior Name]
@@ -60,10 +60,10 @@ Group related behaviors by feature or component:
 
 ```
 specs/behaviors/
-├── authentication.md       # Auth behaviors
-├── data-export.md          # Export behaviors
-├── dashboard-updates.md    # UI behaviors
-└── api-responses.md        # API behaviors
+├── authentication.spec.md       # Auth behaviors
+├── data-export.spec.md          # Export behaviors
+├── dashboard-updates.spec.md    # UI behaviors
+└── api-responses.spec.md        # API behaviors
 ```
 
 ## Guidelines

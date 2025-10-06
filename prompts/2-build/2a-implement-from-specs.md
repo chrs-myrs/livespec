@@ -33,9 +33,9 @@ Implement in this order:
 ### 3. Follow Workspace Patterns
 
 Respect all workspace specifications:
-- Code patterns from `specs/workspace/patterns.md`
-- Development workflows from `specs/workspace/workflows.md`
-- Quality standards from `specs/workspace/constitution.md`
+- Code patterns from `specs/workspace/patterns.spec.md`
+- Development workflows from `specs/workspace/workflows.spec.md`
+- Quality standards from `specs/workspace/constitution.spec.md`
 
 ### 4. Implement Behaviors, Not Implementation
 
