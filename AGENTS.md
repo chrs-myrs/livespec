@@ -226,7 +226,7 @@ your-project/
 - No custom tooling required
 
 ### 3. Workspace vs Product
-**From specs/architecture.spec.md:**
+**From specs/strategy/architecture.spec.md:**
 - specs/workspace/ = HOW you build (process)
 - specs/behaviors/ = WHAT system does (product)
 - Clear separation prevents confusion
@@ -273,13 +273,13 @@ PURPOSE.md (Why - Vision)
   ↓ defines
 specs/requirements.spec.md (What - High-Level Requirements)
   ↓ constrains
-specs/constraints.spec.md → specs/architecture.spec.md
+specs/constraints.spec.md → specs/strategy/architecture.spec.md
   ↓ boundaries                      ↓ approach shapes
                                  specs/prompts/*.spec.md
                                    ↓ implements
                                  prompts/*.md
 
-specs/architecture.spec.md
+specs/strategy/architecture.spec.md
   ↓ defines approach
 specs/behaviors/*.spec.md (What - Detailed)
   ↓ requires

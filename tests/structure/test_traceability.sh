@@ -74,15 +74,15 @@ fi
 echo "  Checking key spec dependencies..."
 
 # Check architecture.spec.md derives from PURPOSE.md and requirements.spec.md
-if [ -f "specs/architecture.spec.md" ]; then
-    if grep -A 10 "^---" specs/architecture.spec.md | grep -q "PURPOSE.md"; then
+if [ -f "specs/strategy/architecture.spec.md" ]; then
+    if grep -A 10 "^---" specs/strategy/architecture.spec.md | grep -q "PURPOSE.md"; then
         echo "    ✓ architecture.spec.md derives from PURPOSE.md"
     else
         echo "    ❌ architecture.spec.md should derive from PURPOSE.md"
         FAILURES=$((FAILURES + 1))
     fi
 
-    if grep -A 10 "^---" specs/architecture.spec.md | grep -q "requirements.spec.md"; then
+    if grep -A 10 "^---" specs/strategy/architecture.spec.md | grep -q "requirements.spec.md"; then
         echo "    ✓ architecture.spec.md derives from requirements.spec.md"
     else
         echo "    ⚠️  architecture.spec.md should derive from requirements.spec.md"
@@ -153,10 +153,10 @@ else
     echo "    ⚠️  specs/constraints.spec.md recommended"
 fi
 
-if [ -f "specs/architecture.spec.md" ]; then
-    echo "    ✓ specs/architecture.spec.md exists"
+if [ -f "specs/strategy/architecture.spec.md" ]; then
+    echo "    ✓ specs/strategy/architecture.spec.md exists"
 else
-    echo "    ⚠️  specs/architecture.spec.md recommended"
+    echo "    ⚠️  specs/strategy/architecture.spec.md recommended"
 fi
 
 if [ $FAILURES -gt 0 ]; then

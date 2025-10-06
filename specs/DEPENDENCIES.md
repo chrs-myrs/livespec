@@ -17,7 +17,7 @@ PURPOSE.md (Why we exist)
   │     ↓ constrains solution
   │     ├─→ specs/constraints.spec.md (Critical boundaries)
   │     │     ↓ limits options
-  │     │     └─→ specs/architecture.spec.md (How we solve it)
+  │     │     └─→ specs/strategy/architecture.spec.md (How we solve it)
   │     │           ↓ defines approach
   │     │           ├─→ specs/prompts/*.spec.md (What each prompt does)
   │     │           │     ↓ implements methodology
@@ -28,7 +28,7 @@ PURPOSE.md (Why we exist)
   │     │                 ├─→ specs/contracts/*.{yaml,json} (Interfaces)
   │     │                 └─→ src/, lib/, etc. (Code implementation)
   │     │
-  │     └─→ specs/architecture.spec.md (derives from problem)
+  │     └─→ specs/strategy/architecture.spec.md (derives from problem)
   │
   └─→ specs/constraints.spec.md (derives from purpose)
 
@@ -65,7 +65,7 @@ Orthogonal (applies to all):
 
 ### 2. Approach (How We Solve It)
 
-**specs/architecture.spec.md**
+**specs/strategy/architecture.spec.md**
 - **Type**: Design decisions / Policy (MSL spec)
 - **Purpose**: High-level approach and structure
 - **Derives from**: PURPOSE.md, requirements.spec.md
@@ -197,7 +197,7 @@ grep -r "constrained_by.*constraints" specs/
 - What needs redesign?
 - Is code compliant?
 
-### When specs/architecture.spec.md Changes
+### When specs/strategy/architecture.spec.md Changes
 
 **Affected specs:**
 ```bash
@@ -262,7 +262,7 @@ Every spec must be supported by its children:
 
 ```bash
 # For each parent spec
-PARENT="specs/architecture.spec.md"
+PARENT="specs/strategy/architecture.spec.md"
 
 # Find all children
 grep -r "derives_from.*$(basename $PARENT)" specs/
@@ -352,7 +352,7 @@ workspace/workflows.spec.md     ├─→ Designing architecture.spec.md
 
 ```bash
 # What does this spec depend on?
-grep -A 10 "^---" specs/architecture.spec.md | grep "derives_from\|constrained_by"
+grep -A 10 "^---" specs/strategy/architecture.spec.md | grep "derives_from\|constrained_by"
 
 # What depends on this spec?
 grep -r "derives_from.*architecture.spec.md" specs/
@@ -402,14 +402,14 @@ done
 ```yaml
 PURPOSE.md → (defines) → specs/requirements.spec.md
 PURPOSE.md → (defines) → specs/constraints.spec.md
-specs/requirements.spec.md → (constrains) → specs/architecture.spec.md
-specs/constraints.spec.md → (limits) → specs/architecture.spec.md
+specs/requirements.spec.md → (constrains) → specs/strategy/architecture.spec.md
+specs/constraints.spec.md → (limits) → specs/strategy/architecture.spec.md
 ```
 
 ### Approach
 
 ```yaml
-specs/architecture.spec.md:
+specs/strategy/architecture.spec.md:
   derives_from: [PURPOSE.md, specs/requirements.spec.md]
   constrained_by: [specs/constraints.spec.md]
   enables: [specs/prompts/*, specs/behaviors/*]
@@ -419,11 +419,11 @@ specs/architecture.spec.md:
 
 ```yaml
 specs/prompts/*.spec.md:
-  derives_from: [specs/architecture.spec.md]
+  derives_from: [specs/strategy/architecture.spec.md]
   implements: [prompts/*.md]
 
 specs/behaviors/* (when created):
-  derives_from: [specs/architecture.spec.md]
+  derives_from: [specs/strategy/architecture.spec.md]
   satisfies: [specs/requirements.spec.md]
   constrained_by: [specs/constraints.spec.md]
 ```

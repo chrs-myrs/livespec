@@ -40,9 +40,13 @@ Meta-specifications defining WHAT each prompt accomplishes:
 - Prompt specs (0a-4c) - What each prompt does, expected outputs
 - Core behavior specs (folder-structure, msl-format, five-phases, drift-detection)
 
+### specs/strategy/
+Technical approach and architectural decisions:
+- architecture.spec.md - This file (structural design)
+
 ### specs/
 Root-level product specifications:
-- architecture.spec.md - This file (structural design)
+- requirements.spec.md - High-level requirements
 - constraints.spec.md - Hard boundaries
 
 ### .livespec/

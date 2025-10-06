@@ -2,6 +2,8 @@
 derives_from:
   - PURPOSE.md
   - specs/requirements.spec.md
+supports:
+  - specs/strategy/architecture.spec.md
 ---
 
 # LiveSpec Constraints

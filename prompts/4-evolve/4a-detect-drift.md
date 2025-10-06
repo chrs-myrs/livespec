@@ -100,7 +100,7 @@ grep -r "derives_from.*$(basename $CHANGED_SPEC)" specs/
 Verify the change still aligns with parent specs:
 
 ```markdown
-Changed: specs/architecture.spec.md
+Changed: specs/strategy/architecture.spec.md
 
 Upward validation:
   ✓ Still satisfies PURPOSE.md goal
@@ -115,7 +115,7 @@ Action: Review problem.md alignment
 Identify child specs that may need updates:
 
 ```markdown
-Changed: specs/architecture.spec.md
+Changed: specs/strategy/architecture.spec.md
 
 Downward propagation:
   - specs/prompts/0a-setup-workspace.spec.md (derives from architecture)
@@ -130,7 +130,7 @@ Action: Review each child spec for alignment
 Check if workspace specs need updates:
 
 ```markdown
-Changed: specs/architecture.spec.md (now uses 6 phases instead of 5)
+Changed: specs/strategy/architecture.spec.md (now uses 6 phases instead of 5)
 
 Horizontal impacts:
   - specs/workspace/workflows.spec.md (may reference 5-phase model)

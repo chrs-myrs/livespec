@@ -49,6 +49,21 @@ else
     FAILURES=$((FAILURES + 1))
 fi
 
+# Validation: specs/strategy/ contains technical approach
+echo -n "  ✓ strategy/ contains technical approach... "
+if [ -d "specs/strategy" ]; then
+    # Check that at least architecture.spec.md exists
+    if [ -f "specs/strategy/architecture.spec.md" ]; then
+        echo "PASS"
+    else
+        echo "FAIL - Missing strategy/architecture.spec.md"
+        FAILURES=$((FAILURES + 1))
+    fi
+else
+    echo "FAIL - strategy/ doesn't exist"
+    FAILURES=$((FAILURES + 1))
+fi
+
 # Validation: Structure has .livespec symlink
 echo -n "  ✓ .livespec symlink exists... "
 if [ -L ".livespec" ]; then
