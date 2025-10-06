@@ -84,11 +84,37 @@ note: Generated from PURPOSE.md and specs/workspace/ - to update, regenerate thi
 ## Folder Structure Pattern
 [From patterns.spec.md - workspace vs strategy distinction]
 
+## Folder Organization Decision Tests
+[Critical for proper spec placement]
+
+**workspace/ test:** "Could I copy this spec to ANY project?"
+- YES → workspace/ (portable process)
+- NO → Check strategy/ or behaviors/
+
+**strategy/ test:** "Does this apply across the whole product?"
+- YES → strategy/ (cross-cutting technical decision)
+- NO → Check behaviors/
+
+**behaviors/ test:** "Is this an observable outcome users/system must exhibit?"
+- YES → behaviors/ (what system does)
+- NO → Re-examine classification
+
+**Common Mistakes:**
+- ❌ "API returns JSON" → NOT workspace (product-specific) → strategy/
+- ❌ "Use 4-space indentation" → NOT strategy (not critical) → workspace/ (if it matters)
+- ❌ "System authenticates users" → NOT strategy (observable) → behaviors/
+
+**Correct Examples:**
+- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (applies to any project)
+- ✅ "API responses must be JSON" → strategy/architecture.spec.md (product-wide decision)
+- ✅ "System authenticates users via OAuth" → behaviors/authentication.spec.md (observable outcome)
+
 ## Essential Templates
 ### Workspace Constitution
 ### Behavior Specification
 ### API Contract
-[Templates from patterns.spec.md]
+### Extracted Specification (Low Confidence)
+[Templates from patterns.spec.md - include confidence markers example]
 
 ## Core Principles
 [From constitution.spec.md - numbered list with explanations]

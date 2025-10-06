@@ -63,6 +63,42 @@ Specifications declare dependencies via YAML frontmatter:
 - `supports` - What this spec enables
 - `applies_to` - Scope (for workspace specs)
 
+### Confidence Markers for Extracted Specifications
+
+When extracting specs from code (Phase 4b), mark low-confidence extractions:
+
+**Frontmatter metadata:**
+- `extracted_from` - Source files (traceability)
+- `extracted_date` - ISO timestamp (when extracted)
+- `confidence` - LOW | MEDIUM (omit if HIGH)
+- `requires_validation` - Boolean flag for review queue
+- `extraction_reason` - Why low confidence (helps validation)
+
+**Validation markers:**
+- `[?]` - Criterion needs validation
+- `[✓]` - Criterion validated
+- `⚠️` - Entire spec flagged for review
+
+**Lifecycle states:**
+- EXTRACTED - Generated from code, needs validation
+- REVIEWED - Human examined, corrections made
+- VALIDATED - Promoted to standard spec (markers removed)
+
+**Example frontmatter:**
+```yaml
+---
+extracted_from:
+  - src/auth/oauth.py
+  - src/auth/session.py
+extracted_date: 2025-10-06
+confidence: LOW
+requires_validation: true
+extraction_reason: "Inferred from implementation, no tests found"
+---
+```
+
+**Promotion:** When validated, remove extraction metadata, add standard frontmatter (derives_from, satisfies, etc.)
+
 ## Validation
 
 - All .spec.md files pass MSL format validation
@@ -76,3 +112,5 @@ Specifications declare dependencies via YAML frontmatter:
 - AGENTS.md references specs/workspace/agents.spec.md in frontmatter
 - Agent integration behaviors defined in specs/workspace/livespec.spec.md
 - Regeneration prompt exists at prompts/4-evolve/4d-regenerate-agents.md
+- Extracted specs use confidence markers when appropriate (LOW/MEDIUM confidence)
+- Extracted specs promoted to VALIDATED status after human review

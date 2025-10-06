@@ -31,10 +31,20 @@ AI agents must proactively guide users through LiveSpec methodology using cached
 - Explain why a phase is needed when suggesting it
 
 **3. MSL Enforcement**
-- Guide users to minimal specifications (challenge over-specification)
+- Challenge specifications that include implementation details
+- Ask "Is this WHAT or HOW?" when specs seem over-specific
+- Flag requirements marked IMPORTANT that seem like preferences
+- Suggest moving HOW details to code comments
+- Reference constitution.spec.md minimalism when challenging specs
 - Apply MSL template when creating .spec.md files
 - Verify four sections: Criticality, Failure Mode, Specification, Validation
 - Check frontmatter dependencies declared
+
+**Examples of HOW vs WHAT:**
+- ❌ "Button must be 120px wide with #007bff color" (HOW)
+- ✅ "Submit button must be clearly visible" (WHAT)
+- ❌ "Use React hooks for state management" (HOW)
+- ✅ "Component state persists across re-renders" (WHAT)
 
 **4. Prompt Awareness**
 - Know which prompts exist without fetching
@@ -46,17 +56,30 @@ AI agents must proactively guide users through LiveSpec methodology using cached
 - Update behavior specs alongside code changes
 - Maintain frontmatter traceability when specs change
 
-**6. Workspace Adherence**
+**6. Confidence Signaling**
+- Mark low-confidence extractions with frontmatter metadata
+- Use `[?]` markers in validation criteria for uncertain items
+- Provide reasoning for low confidence assessments
+- Never silently generate low-confidence specs without markers
+- Suggest what evidence would increase confidence
+- Include review checklists for uncertain extractions
+
+**Confidence scoring:**
+- HIGH (>85%): No markers needed, proceed with spec
+- MEDIUM (60-85%): Add frontmatter, some `[?]` markers, request confirmation
+- LOW (<60%): Add frontmatter, many `[?]` markers, ⚠️ flag, require validation
+
+**7. Workspace Adherence**
 - Follow constitution.spec.md principles (trust implementers, MSL minimalism)
 - Apply patterns.spec.md conventions (naming, folder structure)
 - Execute workflows.spec.md processes (spec before code, validate changes)
 
-**7. Decision Support**
+**8. Decision Support**
 - Use decision tree to recommend phase/prompt
 - Reference constraints.spec.md when evaluating approaches
 - Check requirements.spec.md satisfaction when completing features
 
-**8. No CLI Required**
+**9. No CLI Required**
 - Never require user to install LiveSpec tooling
 - Never require slash commands or special syntax
 - Work through natural conversation referencing cached methodology
@@ -65,7 +88,10 @@ AI agents must proactively guide users through LiveSpec methodology using cached
 
 - Agent suggests appropriate phase without user prompting
 - Agent creates MSL-compliant specs without template reminder
+- Agent challenges over-specification with "Is this WHAT or HOW?" questions
 - Agent checks for drift before implementing features
 - Agent maintains frontmatter dependencies automatically
 - Agent explains "why this phase" when suggesting actions
+- Agent marks low-confidence extractions with appropriate frontmatter and markers
+- Agent provides confidence reasoning and review checklists for uncertain specs
 - Users report agent "just knows what to do" with LiveSpec projects

@@ -123,6 +123,86 @@ def test_reset_token_is_unique():
 
 These tests become validation bullets in the spec.
 
+### 6. Assess Confidence
+
+For each extracted spec, assess extraction confidence:
+
+**HIGH Confidence (no markers needed):**
+- Behavior covered by comprehensive tests
+- Clear, unambiguous implementation
+- Documentation or comments confirm intent
+- No competing interpretations
+- Contract/API spec exists
+
+**MEDIUM Confidence (add frontmatter, some `[?]` markers):**
+- Some tests exist but incomplete
+- Implementation clear but edge cases ambiguous
+- Minor uncertainties about requirements
+- Inferred criticality
+
+**LOW Confidence (add frontmatter, many `[?]` markers, `⚠️` flag):**
+- No tests found for behavior
+- Inferred from implementation only
+- Significant ambiguities or multiple interpretations
+- Unclear if behavior is intended or accidental
+- Criticality unknown
+
+**For LOW/MEDIUM confidence specs:**
+
+Add extraction metadata to frontmatter:
+```yaml
+---
+extracted_from:
+  - path/to/implementation.py
+  - path/to/related-code.py
+extracted_date: 2025-10-06
+confidence: LOW
+requires_validation: true
+extraction_reason: "Inferred from implementation, no tests found for edge cases"
+---
+```
+
+Add `⚠️` prefix to specification section:
+```markdown
+## Specification
+
+⚠️ **EXTRACTION NOTES**: Inferred from implementation. No tests found. Criticality estimated based on error handling patterns.
+
+System appears to send password reset email...
+```
+
+Mark uncertain validation criteria with `[?]`:
+```markdown
+## Validation
+
+**Status**: EXTRACTED - Requires human review
+
+- [✓] User can request reset via email (test exists)
+- [?] Reset email received within 2 minutes (timeout constant found: 120s)
+- [?] Token is unique and time-limited (implementation present but no tests)
+- [?] Old password invalidated after reset (unclear from code)
+
+**Review checklist:**
+- [ ] Confirm 2-minute timeout is requirement (vs implementation detail)
+- [ ] Verify token uniqueness mechanism
+- [ ] Add test coverage for password invalidation
+- [ ] Validate criticality assessment
+```
+
+**What increases confidence:**
+- Comprehensive test coverage
+- Clear documentation/comments
+- Well-defined contracts (OpenAPI, schemas)
+- Domain expert consultation
+- Consistent patterns with known requirements
+
+**What decreases confidence:**
+- No tests
+- Ambiguous implementation
+- Multiple ways to interpret code
+- Magic numbers/constants without context
+- Legacy/undocumented code
+
 ## Extraction Guidelines
 
 **Keep MSL minimal:**
@@ -183,7 +263,11 @@ For extracting specs from existing code:
 - [ ] All specs follow MSL format
 - [ ] Specs validated against implementation
 - [ ] Tests cover all validation criteria
+- [ ] Confidence assessed for each extracted spec
+- [ ] LOW/MEDIUM confidence specs marked with extraction frontmatter
+- [ ] Review checklists provided for uncertain extractions
 
 ## Next Step
 
-Once specifications are extracted, proceed to `4c-update-docs.md`
+- **HIGH confidence specs**: Proceed to `4c-sync-complete.md`
+- **LOW/MEDIUM confidence specs**: Proceed to `4e-validate-extractions.md` for human validation

@@ -165,6 +165,32 @@ your-project/
     └── constraints.spec.md # Hard boundaries
 ```
 
+## Folder Organization Decision Tests
+
+**Critical for proper spec placement:**
+
+**workspace/ test:** "Could I copy this spec to ANY project?"
+- YES → workspace/ (portable process)
+- NO → Check strategy/ or behaviors/
+
+**strategy/ test:** "Does this apply across the whole product?"
+- YES → strategy/ (cross-cutting technical decision)
+- NO → Check behaviors/
+
+**behaviors/ test:** "Is this an observable outcome users/system must exhibit?"
+- YES → behaviors/ (what system does)
+- NO → Re-examine classification
+
+**Common Mistakes:**
+- ❌ "API returns JSON" → NOT workspace (product-specific) → strategy/
+- ❌ "Use 4-space indentation" → NOT strategy (not critical) → workspace/ (if it matters)
+- ❌ "System authenticates users" → NOT strategy (observable) → behaviors/
+
+**Correct Examples:**
+- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (applies to any project)
+- ✅ "API responses must be JSON" → strategy/architecture.spec.md (product-wide decision)
+- ✅ "System authenticates users via OAuth" → behaviors/authentication.spec.md (observable outcome)
+
 ## Essential Templates
 
 ### Workspace Constitution
@@ -210,6 +236,51 @@ your-project/
 - [Valid requests succeed]
 - [Invalid requests fail appropriately]
 ```
+
+### Extracted Specification (Low Confidence)
+```markdown
+---
+extracted_from:
+  - src/cache/redis.py
+  - src/cache/invalidation.py
+extracted_date: 2025-10-06
+confidence: LOW
+requires_validation: true
+extraction_reason: "Inferred from implementation, no tests found for invalidation behavior"
+---
+
+# Cache Invalidation
+
+**Criticality**: IMPORTANT (estimated)
+**Failure Mode**: Stale data served to users (inferred)
+
+## Specification
+
+⚠️ **EXTRACTION NOTES**: TTL constant found in code. No tests for invalidation behavior. Actual requirement unclear.
+
+System appears to invalidate Redis cache entries after 1 hour TTL.
+
+## Validation
+
+**Status**: EXTRACTED - Requires validation
+
+- [?] Cache TTL is 1 hour (constant found: CACHE_TTL = 3600)
+- [?] Cache invalidates on entity updates (invalidation code present)
+- [?] Cache misses fetch from database (fallback logic exists)
+
+**Review checklist:**
+- [ ] Confirm 1-hour TTL is requirement (vs implementation detail)
+- [ ] Verify invalidation triggers
+- [ ] Add test coverage for cache behavior
+```
+
+**Use this template when:**
+- Extracting specs from code (Phase 4b)
+- Confidence is LOW or MEDIUM
+- No tests exist for the behavior
+- Multiple interpretations possible
+
+**Promote to standard spec when validated:** Remove extraction metadata, add standard frontmatter (derives_from, satisfies).
 
 ## Core Principles
 
@@ -404,6 +475,8 @@ Cache this document, but fetch full prompts when you need:
 | Detect drift | `.livespec/4-evolve/4a-detect-drift.md` | Periodic sync check |
 | Extract specs | `.livespec/4-evolve/4b-extract-specs.md` | Existing codebase |
 | Sync complete | `.livespec/4-evolve/4c-sync-complete.md` | Confirm alignment |
+| Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
+| Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
 
 ## Workspace Specs Guide AI
 
