@@ -6,7 +6,7 @@ spec: specs/prompts/4a-detect-drift.spec.md
 
 **Phase**: EVOLVE
 **Purpose**: Detect when code and specifications have diverged
-**Context**: See `specs/prompts/drift-detection.spec.md` for methodology
+**Context**: See `specs/behaviors/drift-detection.spec.md` for methodology
 
 ## Task
 
@@ -56,7 +56,7 @@ For each changed area, use semantic understanding (not text diff):
 
 ### 3. Classify Changes
 
-Use the 70-80-10 pattern from `specs/prompts/drift-detection.spec.md`:
+Use the 70-80-10 pattern from `specs/behaviors/drift-detection.spec.md`:
 
 #### Auto-Accept (70-80%)
 Changes that DON'T affect specs:

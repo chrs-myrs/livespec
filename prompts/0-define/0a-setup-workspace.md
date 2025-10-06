@@ -6,7 +6,7 @@ spec: specs/prompts/0a-setup-workspace.spec.md
 
 **Phase**: DEFINE
 **Purpose**: Create LiveSpec folder structure and workspace specifications
-**Context**: See `specs/prompts/folder-structure.spec.md` for structure requirements
+**Context**: See `specs/behaviors/folder-structure.spec.md` for structure requirements
 
 ## Task
 
@@ -53,7 +53,7 @@ Define development workflows:
 
 ## Format
 
-All specifications must follow MSL format (see `specs/prompts/msl-format.spec.md`):
+All specifications must follow MSL format (see `specs/behaviors/msl-format.spec.md`):
 
 ```markdown
 # [Name]

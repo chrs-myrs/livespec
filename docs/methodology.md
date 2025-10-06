@@ -420,9 +420,9 @@ LiveSpec itself demonstrates good scoping:
 **Why separate?** Each prompt is independently testable, different failure modes.
 
 **Core Behavior Specs:**
-- `specs/prompts/msl-format.spec.md` - MSL format rules
-- `specs/prompts/folder-structure.spec.md` - Folder organization
-- `specs/prompts/five-phases.spec.md` - Phase progression
+- `specs/behaviors/msl-format.spec.md` - MSL format rules
+- `specs/behaviors/folder-structure.spec.md` - Folder organization
+- `specs/behaviors/five-phases.spec.md` - Phase progression
 
 **Why separate?** Different aspects of methodology, tested differently.
 

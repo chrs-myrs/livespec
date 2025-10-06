@@ -304,7 +304,7 @@ System appears to invalidate Redis cache entries after 1 hour TTL.
 - Clear separation prevents confusion
 
 ### 4. Phase 4 is Continuous
-**From specs/prompts/five-phases.spec.md:**
+**From specs/behaviors/five-phases.spec.md:**
 - Drift detection prevents staleness
 - Extract new behaviors as they emerge
 - Update specs alongside code

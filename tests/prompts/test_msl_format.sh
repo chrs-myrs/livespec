@@ -1,6 +1,6 @@
 #!/bin/bash
 # Test: MSL Format Behavior
-# Spec: specs/prompts/msl-format.spec.md
+# Spec: specs/behaviors/msl-format.spec.md
 
 set -e
 FAILURES=0

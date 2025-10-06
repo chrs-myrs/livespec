@@ -40,7 +40,7 @@ Provide structured context enabling effective AI assistance.
 **Satisfied by:**
 - AGENTS.md (cached reference for AI agents)
 - llms.txt (Context7 integration)
-- specs/prompts/msl-format.spec.md (consistent format)
+- specs/behaviors/msl-format.spec.md (consistent format)
 - specs/workspace/ (process guidance)
 
 **Validated by:**
@@ -65,7 +65,7 @@ Work equally well for new projects and existing codebases.
 Specifications stay current without significant overhead.
 
 **Satisfied by:**
-- specs/prompts/msl-format.spec.md (minimalism)
+- specs/behaviors/msl-format.spec.md (minimalism)
 - specs/workspace/constitution.spec.md (trust implementers)
 - prompts/4-evolve/ (continuous sync, not big-bang updates)
 
@@ -79,7 +79,7 @@ Developers maintain specs because they reduce cognitive load.
 
 **Satisfied by:**
 - specs/workspace/constitution.spec.md (minimal burden)
-- specs/prompts/folder-structure.spec.md (clear organization)
+- specs/behaviors/folder-structure.spec.md (clear organization)
 - All prompts/ (guided AI assistance)
 
 **Validated by:**

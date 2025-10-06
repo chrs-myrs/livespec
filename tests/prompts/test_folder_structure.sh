@@ -1,6 +1,6 @@
 #!/bin/bash
 # Test: Folder Structure Behavior
-# Spec: specs/prompts/folder-structure.spec.md
+# Spec: specs/behaviors/folder-structure.spec.md
 
 set -e
 FAILURES=0
