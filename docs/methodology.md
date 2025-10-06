@@ -324,6 +324,161 @@ API limits requests per user with 429 response when exceeded.
 
 **Result**: Spec is more flexible, equally complete.
 
+## Spec Granularity
+
+### When to Create a Specification
+
+Create one specification per:
+
+- **Independently testable behavior** - Can be validated without other specs
+- **Single failure mode** - One clear way the system breaks without it
+- **Deployment boundary** - Feature that can be released independently
+- **External contract** - Interface with another system or component
+
+**Example:**
+```
+✅ specs/behaviors/user-login.spec.md
+✅ specs/behaviors/password-reset.spec.md
+✅ specs/contracts/payment-api.spec.md
+```
+
+Not:
+```
+❌ specs/behaviors/authentication.spec.md (too broad - covers multiple features)
+❌ specs/behaviors/login-button-styling.spec.md (too granular - implementation detail)
+```
+
+### When to Split Specifications
+
+Split a specification when:
+
+1. **Length exceeds ~200 lines** - Becoming hard to maintain
+2. **Multiple distinct failure modes** - "System breaks without A AND without B"
+3. **Different update frequencies** - Part changes often, part is stable
+4. **Mixed criticality levels** - Some parts CRITICAL, others IMPORTANT
+5. **Separate testing needed** - Different validation approaches required
+
+**Example: Before Split**
+```markdown
+# User Management (300 lines, 5 failure modes)
+
+**Criticality**: CRITICAL + IMPORTANT mixed
+**Failure Mode**: Multiple distinct failures
+
+## Specification
+Covers authentication, profile management, permissions, and password policies...
+```
+
+**After Split:**
+```markdown
+# specs/behaviors/user-authentication.spec.md (CRITICAL)
+# specs/behaviors/user-profiles.spec.md (IMPORTANT)
+# specs/behaviors/user-permissions.spec.md (CRITICAL)
+# specs/behaviors/password-policy.spec.md (IMPORTANT)
+```
+
+### When to Merge Specifications
+
+Merge specifications when:
+
+1. **Always change together** - Can't update one without the other
+2. **Share single failure mode** - Same thing breaks without both
+3. **Total size < 100 lines** - Small enough to maintain as one
+4. **Single validation suite** - Tested together
+5. **Same criticality level** - Both CRITICAL or both IMPORTANT
+
+**Example: Before Merge**
+```markdown
+# specs/behaviors/login-form.spec.md (45 lines)
+# specs/behaviors/login-validation.spec.md (35 lines)
+# specs/behaviors/login-session.spec.md (40 lines)
+```
+
+All three always change together, tested together, same criticality.
+
+**After Merge:**
+```markdown
+# specs/behaviors/user-authentication.spec.md (120 lines)
+Covers form, validation, and session in one cohesive spec.
+```
+
+### Scoping Examples from LiveSpec
+
+LiveSpec itself demonstrates good scoping:
+
+**Workspace Specs (Process):**
+- `specs/workspace/constitution.spec.md` - Development principles
+- `specs/workspace/patterns.spec.md` - Code and spec patterns
+- `specs/workspace/workflows.spec.md` - Development workflows
+
+**Why separate?** Different concerns, different update frequencies.
+
+**Prompt Specs (Product):**
+- `specs/prompts/0a-setup-workspace.spec.md` - One prompt's behavior
+- `specs/prompts/0b-define-problem.spec.md` - Another prompt's behavior
+
+**Why separate?** Each prompt is independently testable, different failure modes.
+
+**Core Behavior Specs:**
+- `specs/prompts/msl-format.spec.md` - MSL format rules
+- `specs/prompts/folder-structure.spec.md` - Folder organization
+- `specs/prompts/five-phases.spec.md` - Phase progression
+
+**Why separate?** Different aspects of methodology, tested differently.
+
+### The Goldilocks Principle
+
+**Too Granular:**
+```
+❌ specs/behaviors/login-button-color.spec.md
+❌ specs/behaviors/password-field-placeholder.spec.md
+❌ specs/behaviors/login-error-animation.spec.md
+```
+
+**Too Broad:**
+```
+❌ specs/behaviors/entire-application.spec.md
+❌ specs/behaviors/all-user-features.spec.md
+❌ specs/behaviors/frontend.spec.md
+```
+
+**Just Right:**
+```
+✅ specs/behaviors/user-authentication.spec.md
+✅ specs/behaviors/user-profile-management.spec.md
+✅ specs/behaviors/user-permissions.spec.md
+```
+
+### Decision Process
+
+When creating or reviewing a spec, ask:
+
+1. **Single purpose?** - Does it specify ONE behavior or feature?
+2. **Clear boundaries?** - Can you define what's in and out of scope?
+3. **Independently testable?** - Can you validate without other specs?
+4. **Right size?** - Between 30-200 lines typically
+5. **Appropriate criticality?** - All content matches the criticality level
+
+If answers are unclear, spec scope is probably wrong.
+
+### Refactoring Specs
+
+Like code, specifications benefit from refactoring:
+
+**Signs spec needs splitting:**
+- "This spec AND that spec" in failure mode
+- File getting hard to navigate (>250 lines)
+- Different parts updated by different people
+- Validation section has 15+ bullets
+
+**Signs specs need merging:**
+- Always updated together in git history
+- Total combined size <100 lines
+- Same validation approach
+- Duplicated content between them
+
+Run periodic "spec audits" during Phase 4 (EVOLVE) to identify refactoring opportunities.
+
 ## Anti-Patterns
 
 ### ❌ Over-Specification

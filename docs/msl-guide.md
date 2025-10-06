@@ -278,6 +278,175 @@ Is this a preference or nice-to-have?
   NO → Reconsider if truly IMPORTANT
 ```
 
+### Concrete Examples Across Domains
+
+Here are real-world examples to help you classify criticality correctly:
+
+#### Web Application
+
+**CRITICAL:**
+- User authentication (system unsecured without it)
+- Data persistence (data loss without it)
+- Payment processing (core function fails)
+- Password validation (security breach possible)
+- HTTPS encryption (credentials exposed)
+
+**IMPORTANT:**
+- Response caching (performance degrades significantly)
+- Search functionality (major UX degradation)
+- Input validation error messages (user experience suffers)
+- Mobile responsive layout (system unusable on mobile)
+- Loading indicators (users confused about system state)
+
+**DELETE (Not minimal):**
+- ❌ Dark mode toggle (user preference)
+- ❌ Animated transitions (aesthetic preference)
+- ❌ Multiple theme options (nice-to-have)
+- ❌ Social media sharing buttons (optional feature)
+- ❌ "Powered by" footer (branding preference)
+
+#### REST API
+
+**CRITICAL:**
+- Request authentication (API unsecured)
+- Rate limiting (API abuse possible)
+- Data validation (data corruption possible)
+- Error responses (clients cannot handle failures)
+- CORS configuration (browser clients blocked)
+
+**IMPORTANT:**
+- API versioning (breaking changes impact users)
+- Request logging (debugging becomes difficult)
+- Response pagination (performance degrades with large datasets)
+- Idempotency for POST/PUT (duplicate operations possible)
+- Response time < 200ms (user experience suffers)
+
+**DELETE (Not minimal):**
+- ❌ GraphQL support in addition to REST (preference)
+- ❌ Webhooks for all events (nice-to-have)
+- ❌ Batch operations endpoint (convenience feature)
+- ❌ Response compression (optimization detail)
+- ❌ JSON vs XML format options (implementation choice)
+
+#### Data Model
+
+**CRITICAL:**
+- Primary keys (data integrity fails)
+- Foreign key constraints (orphaned records possible)
+- NOT NULL on critical fields (invalid data possible)
+- Unique constraints on identifiers (duplicate records possible)
+- Transaction support (data corruption possible)
+
+**IMPORTANT:**
+- Indexes on query fields (performance degrades)
+- Cascade delete rules (manual cleanup required)
+- Timestamp fields (audit trail missing)
+- Data type validation (quality degrades)
+- Default values (inconsistent data)
+
+**DELETE (Not minimal):**
+- ❌ Specific database engine (PostgreSQL vs MySQL - implementation)
+- ❌ Table naming convention (style preference)
+- ❌ Field naming (camelCase vs snake_case - implementation)
+- ❌ Materialized views (optimization detail)
+- ❌ Partitioning strategy (performance optimization)
+
+#### Mobile App
+
+**CRITICAL:**
+- Offline mode for core features (app unusable without network)
+- Data synchronization (data loss possible)
+- Touch target sizing ≥ 44px (app unusable on mobile)
+- Authentication (app unsecured)
+- Crash reporting (cannot diagnose failures)
+
+**IMPORTANT:**
+- Swipe gestures for navigation (UX degrades significantly)
+- Pull-to-refresh (poor UX without it)
+- Loading states (users confused)
+- Network error handling (user experience suffers)
+- App launch time < 2s (UX degrades)
+
+**DELETE (Not minimal):**
+- ❌ Custom app icon themes (preference)
+- ❌ Haptic feedback (nice-to-have)
+- ❌ 3D touch support (platform-specific feature)
+- ❌ Widget support (optional feature)
+- ❌ Siri shortcuts (convenience feature)
+
+#### Infrastructure/DevOps
+
+**CRITICAL:**
+- Automated backups (data loss possible)
+- Deployment rollback capability (cannot recover from bad deploys)
+- Health check endpoints (cannot detect failures)
+- SSL/TLS certificates (security breach possible)
+- Database connection pooling (app fails under load)
+
+**IMPORTANT:**
+- Monitoring and alerting (cannot detect issues proactively)
+- Log aggregation (debugging becomes difficult)
+- Auto-scaling (performance degrades under load)
+- Blue-green deployment (downtime during deploys)
+- Container resource limits (resource contention possible)
+
+**DELETE (Not minimal):**
+- ❌ Specific CI/CD tool (Jenkins vs GitLab - implementation)
+- ❌ Infrastructure as code format (Terraform vs Ansible - choice)
+- ❌ Container orchestration (Kubernetes vs Docker Swarm - implementation)
+- ❌ Log retention 90 days vs 30 days (policy detail)
+- ❌ Monitoring dashboard aesthetics (preference)
+
+#### Business Logic
+
+**CRITICAL:**
+- Inventory deduction on purchase (overselling possible)
+- Tax calculation (incorrect billing)
+- Refund processing (financial loss possible)
+- Discount code validation (revenue loss possible)
+- Order confirmation emails (users unaware of purchase)
+
+**IMPORTANT:**
+- Abandoned cart recovery (revenue impact)
+- Product recommendation engine (conversion rate degrades)
+- Shipping cost calculation accuracy (customer experience suffers)
+- Stock level warnings (inventory management difficult)
+- Multiple payment method support (limits customer base)
+
+**DELETE (Not minimal):**
+- ❌ Wishlist functionality (nice-to-have feature)
+- ❌ Gift wrapping option (optional add-on)
+- ❌ Product comparison tool (convenience feature)
+- ❌ Recently viewed items (preference)
+- ❌ Social proof badges (marketing enhancement)
+
+### Pattern Recognition
+
+After reviewing these examples, notice the patterns:
+
+**CRITICAL = System literally fails**
+- Security breach possible
+- Data loss or corruption
+- Core functionality unavailable
+- Legal/compliance violation
+- Financial loss
+
+**IMPORTANT = Quality significantly degrades**
+- Performance problems
+- Major UX issues
+- Debugging impossible
+- Business metrics impacted
+- Accessibility barriers
+
+**DELETE = Preference or optimization**
+- "Would be nice"
+- "Looks better"
+- "More convenient"
+- "Follows best practice" (without specific failure mode)
+- Technology choices (unless constrained)
+
+When in doubt, ask: **"What specifically breaks if we omit this?"** If the answer is vague or starts with "it would be better if...", delete it.
+
 ## Red Flags
 
 Watch for these phrases that indicate non-MSL:
