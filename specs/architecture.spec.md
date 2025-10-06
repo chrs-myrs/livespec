@@ -1,7 +1,7 @@
 ---
 derives_from:
   - PURPOSE.md
-  - specs/problem.spec.md
+  - specs/requirements.spec.md
 constrained_by:
   - specs/constraints.spec.md
 ---

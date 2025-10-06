@@ -13,7 +13,7 @@ LiveSpec specifications form a dependency graph, not a hierarchy:
 ```
 PURPOSE.md (Why we exist)
   ↓ defines scope
-  ├─→ specs/problem.spec.md (What problem)
+  ├─→ specs/requirements.spec.md (What we must achieve - HLR)
   │     ↓ constrains solution
   │     ├─→ specs/constraints.spec.md (Critical boundaries)
   │     │     ↓ limits options
@@ -49,17 +49,17 @@ Orthogonal (applies to all):
 - **Derives from**: Nothing (root)
 - **Constrains**: All other specs
 
-**specs/problem.spec.md**
-- **Type**: Problem statement (MSL spec)
-- **Purpose**: What specific problem we solve
+**specs/requirements.spec.md**
+- **Type**: High-Level Requirements (MSL spec)
+- **Purpose**: What LiveSpec must achieve (strategic objectives)
 - **Derives from**: PURPOSE.md
 - **Constrains**: Solution space
-- **Changeability**: Rare (fundamental problem)
+- **Changeability**: Rare (fundamental requirements)
 
 **specs/constraints.spec.md**
 - **Type**: Critical boundaries (MSL spec)
 - **Purpose**: Non-negotiable limits
-- **Derives from**: PURPOSE.md, problem.spec.md
+- **Derives from**: PURPOSE.md, requirements.spec.md
 - **Constrains**: All implementations
 - **Changeability**: Rare (core principles)
 
@@ -68,7 +68,7 @@ Orthogonal (applies to all):
 **specs/architecture.spec.md**
 - **Type**: Design decisions / Policy (MSL spec)
 - **Purpose**: High-level approach and structure
-- **Derives from**: PURPOSE.md, problem.spec.md
+- **Derives from**: PURPOSE.md, requirements.spec.md
 - **Constrained by**: constraints.spec.md
 - **Enables**: All implementation specs
 - **Changeability**: Occasional (design evolution)
@@ -86,7 +86,7 @@ Orthogonal (applies to all):
 - **Type**: Observable outcomes (MSL specs)
 - **Purpose**: What system must do
 - **Derives from**: architecture.spec.md
-- **Satisfies**: problem.spec.md
+- **Satisfies**: requirements.spec.md
 - **Constrained by**: constraints.spec.md
 - **Changeability**: Frequent (features evolve)
 
@@ -154,7 +154,7 @@ grep -r "derives_from.*PURPOSE" specs/
 ```
 
 **Cascade:**
-1. Revalidate problem.spec.md → still solving right problem?
+1. Revalidate requirements.spec.md → still achieving right objectives?
 2. Revalidate constraints.spec.md → boundaries still appropriate?
 3. Review architecture.spec.md → approach still achieves purpose?
 
@@ -163,21 +163,21 @@ grep -r "derives_from.*PURPOSE" specs/
 - Do constraints conflict with new direction?
 - Is architecture still aligned?
 
-### When specs/problem.spec.md Changes
+### When specs/requirements.spec.md Changes
 
 **Affected specs:**
 ```bash
-grep -r "derives_from.*problem.spec.md\|satisfies.*problem.spec.md" specs/
+grep -r "derives_from.*requirements.spec.md\|satisfies.*requirements.spec.md" specs/
 ```
 
 **Cascade:**
-1. Check constraints.spec.md → still derive from same problem?
-2. Check architecture.spec.md → approach still solves this problem?
-3. Check all behaviors/ → still satisfy the problem?
+1. Check constraints.spec.md → still derive from same requirements?
+2. Check architecture.spec.md → approach still satisfies requirements?
+3. Check all behaviors/ → still satisfy the requirements?
 
 **Detection:**
-- Does architecture solve the new problem?
-- Do behaviors map to new problem statement?
+- Does architecture satisfy the new requirements?
+- Do behaviors map to new requirements?
 - Are constraints still relevant?
 
 ### When specs/constraints.spec.md Changes
@@ -224,7 +224,7 @@ grep -r "derives_from.*architecture" specs/
 ```
 
 **Cascade:**
-1. Trace upward → still satisfies problem.spec.md?
+1. Trace upward → still satisfies requirements.spec.md?
 2. Trace upward → still derives from architecture.spec.md?
 3. Trace upward → still respects constraints.spec.md?
 4. Check code → implementation matches new behavior?
@@ -303,18 +303,18 @@ done
 ```
 PURPOSE.md
   ↓
-problem.spec.md (what)
+requirements.spec.md (what - HLR)
   ↓
 architecture.spec.md (how)
   ↓
-behaviors/*.spec.md (implementation)
+behaviors/*.spec.md (what - detailed)
   ↓
 code (actual)
 ```
 
 **Validation:**
-- Bottom-up: Does code satisfy behaviors which derive from architecture which solves problem which fulfills purpose?
-- Top-down: Does purpose guide problem which shapes architecture which defines behaviors which code implements?
+- Bottom-up: Does code satisfy behaviors which derive from architecture which satisfies requirements which fulfills purpose?
+- Top-down: Does purpose guide requirements which shapes architecture which defines behaviors which code implements?
 
 ### Pattern: Constraints Flow Downward
 
@@ -400,9 +400,9 @@ done
 ### Foundation
 
 ```yaml
-PURPOSE.md → (defines) → specs/problem.spec.md
+PURPOSE.md → (defines) → specs/requirements.spec.md
 PURPOSE.md → (defines) → specs/constraints.spec.md
-specs/problem.spec.md → (constrains) → specs/architecture.spec.md
+specs/requirements.spec.md → (constrains) → specs/architecture.spec.md
 specs/constraints.spec.md → (limits) → specs/architecture.spec.md
 ```
 
@@ -410,7 +410,7 @@ specs/constraints.spec.md → (limits) → specs/architecture.spec.md
 
 ```yaml
 specs/architecture.spec.md:
-  derives_from: [PURPOSE.md, specs/problem.spec.md]
+  derives_from: [PURPOSE.md, specs/requirements.spec.md]
   constrained_by: [specs/constraints.spec.md]
   enables: [specs/prompts/*, specs/behaviors/*]
 ```
@@ -424,7 +424,7 @@ specs/prompts/*.spec.md:
 
 specs/behaviors/* (when created):
   derives_from: [specs/architecture.spec.md]
-  satisfies: [specs/problem.spec.md]
+  satisfies: [specs/requirements.spec.md]
   constrained_by: [specs/constraints.spec.md]
 ```
 

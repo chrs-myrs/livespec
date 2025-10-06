@@ -263,21 +263,27 @@ All behaviors are observable and verifiable. Every specification includes concre
 ## Specification Dependencies
 
 LiveSpec specs form a **dependency graph**, not a hierarchy:
-- **Vertical**: PURPOSE → problem → design → implementation → code
+- **Vertical**: PURPOSE → requirements (HLR) → design → implementation → code
 - **Horizontal**: Workspace (process) applies across all levels
 
 ### Dependency Structure
 
 ```
-PURPOSE.md
+PURPOSE.md (Why - Vision)
   ↓ defines
-specs/problem.spec.md
+specs/requirements.spec.md (What - High-Level Requirements)
   ↓ constrains
 specs/constraints.spec.md → specs/architecture.spec.md
-  ↓ defines approach                ↓ approach shapes
-specs/prompts/*.spec.md          specs/behaviors/*.spec.md
-  ↓ implements                       ↓ requires
-prompts/*.md                       code
+  ↓ boundaries                      ↓ approach shapes
+                                 specs/prompts/*.spec.md
+                                   ↓ implements
+                                 prompts/*.md
+
+specs/architecture.spec.md
+  ↓ defines approach
+specs/behaviors/*.spec.md (What - Detailed)
+  ↓ requires
+code (Implementation)
 ```
 
 **Orthogonal (applies everywhere):**
@@ -325,9 +331,9 @@ grep -r "derives_from.*changed-spec" specs/
 **Common impacts:**
 | Changed | Check Upward | Check Downward |
 |---------|--------------|----------------|
-| PURPOSE.md | None (root) | problem.spec.md, constraints.spec.md |
-| problem.spec.md | PURPOSE.md | architecture.spec.md, behaviors/ |
-| architecture.spec.md | problem.spec.md, constraints.spec.md | prompts/, behaviors/ |
+| PURPOSE.md | None (root) | requirements.spec.md, constraints.spec.md |
+| requirements.spec.md | PURPOSE.md | architecture.spec.md, behaviors/ |
+| architecture.spec.md | requirements.spec.md, constraints.spec.md | prompts/, behaviors/ |
 | behaviors/*.spec.md | architecture.spec.md | Code |
 
 See `specs/DEPENDENCIES.md` for complete traceability reference.

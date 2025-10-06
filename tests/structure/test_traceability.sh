@@ -73,7 +73,7 @@ fi
 # Validation: Key specs have expected dependencies
 echo "  Checking key spec dependencies..."
 
-# Check architecture.spec.md derives from PURPOSE.md and problem.md
+# Check architecture.spec.md derives from PURPOSE.md and requirements.spec.md
 if [ -f "specs/architecture.spec.md" ]; then
     if grep -A 10 "^---" specs/architecture.spec.md | grep -q "PURPOSE.md"; then
         echo "    ✓ architecture.spec.md derives from PURPOSE.md"
@@ -82,10 +82,10 @@ if [ -f "specs/architecture.spec.md" ]; then
         FAILURES=$((FAILURES + 1))
     fi
 
-    if grep -A 10 "^---" specs/architecture.spec.md | grep -q "problem.md"; then
-        echo "    ✓ architecture.spec.md derives from problem.md"
+    if grep -A 10 "^---" specs/architecture.spec.md | grep -q "requirements.spec.md"; then
+        echo "    ✓ architecture.spec.md derives from requirements.spec.md"
     else
-        echo "    ⚠️  architecture.spec.md should derive from problem.md"
+        echo "    ⚠️  architecture.spec.md should derive from requirements.spec.md"
     fi
 fi
 
@@ -99,12 +99,12 @@ if [ -f "specs/constraints.spec.md" ]; then
     fi
 fi
 
-# Check problem.spec.md derives from PURPOSE.md
-if [ -f "specs/problem.spec.md" ]; then
-    if grep -A 10 "^---" specs/problem.spec.md | grep -q "PURPOSE.md"; then
-        echo "    ✓ problem.spec.md derives from PURPOSE.md"
+# Check requirements.spec.md derives from PURPOSE.md
+if [ -f "specs/requirements.spec.md" ]; then
+    if grep -A 10 "^---" specs/requirements.spec.md | grep -q "PURPOSE.md"; then
+        echo "    ✓ requirements.spec.md derives from PURPOSE.md"
     else
-        echo "    ❌ problem.spec.md should derive from PURPOSE.md"
+        echo "    ❌ requirements.spec.md should derive from PURPOSE.md"
         FAILURES=$((FAILURES + 1))
     fi
 fi
@@ -140,10 +140,10 @@ else
     FAILURES=$((FAILURES + 1))
 fi
 
-if [ -f "specs/problem.spec.md" ]; then
-    echo "    ✓ specs/problem.spec.md exists"
+if [ -f "specs/requirements.spec.md" ]; then
+    echo "    ✓ specs/requirements.spec.md exists"
 else
-    echo "    ❌ specs/problem.spec.md missing (should define core problem)"
+    echo "    ❌ specs/requirements.spec.md missing (should define high-level requirements)"
     FAILURES=$((FAILURES + 1))
 fi
 

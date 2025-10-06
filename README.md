@@ -14,6 +14,51 @@ LiveSpec is three things:
 
 **Not a framework. Not a tool. Just information architecture.**
 
+## Architecture
+
+```mermaid
+graph TD
+    %% Main Vertical Flow
+    PURPOSE[PURPOSE.md<br/>Why this exists]
+    REQUIREMENTS[requirements.spec.md<br/>What we must achieve]
+    CONSTRAINTS[constraints.spec.md<br/>Hard boundaries]
+    ARCH[architecture.spec.md<br/>How we solve it]
+    SPECS[behaviors/ + contracts/<br/>What system does]
+    CODE[Your Code<br/>Implementation]
+
+    %% Validation
+    TESTS[tests/<br/>Validation]
+
+    %% Workspace (separate)
+    WORKSPACE[workspace/<br/>Development process]
+
+    %% Main Flow
+    PURPOSE --> REQUIREMENTS
+    REQUIREMENTS --> CONSTRAINTS
+    REQUIREMENTS --> ARCH
+    CONSTRAINTS --> ARCH
+    ARCH --> SPECS
+    SPECS --> CODE
+
+    %% Validation
+    TESTS <-.validates.-> SPECS
+    TESTS <-.validates.-> CODE
+
+    style PURPOSE fill:#e1f5ff
+    style REQUIREMENTS fill:#e1f5ff
+    style CONSTRAINTS fill:#e1f5ff
+    style ARCH fill:#fff4e1
+    style SPECS fill:#e8f5e9
+    style CODE fill:#e8f5e9
+    style TESTS fill:#fce4ec
+    style WORKSPACE fill:#f5f5f5
+```
+
+**Legend:**
+- 🔵 Foundation (Why & What) → 🟡 Design (How) → 🟢 Implementation (Build)
+- 🔴 Tests validate specs and code
+- ⚪ Workspace defines how you work (applies to all)
+
 ## Quick Start
 
 ### New Project (5 minutes)
