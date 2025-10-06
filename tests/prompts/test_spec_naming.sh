@@ -39,8 +39,8 @@ fi
 # Validation: All actual spec files have .spec.md extension
 echo "  Checking actual spec files have .spec.md extension..."
 
-# Find any .md files in specs/ that aren't .spec.md (excluding README.md and similar)
-NON_SPEC_MD=$(find specs/ -type f -name "*.md" ! -name "*.spec.md" ! -name "README.md" ! -name "NOTES.md" || true)
+# Find any .md files in specs/ that aren't .spec.md (excluding README.md, DEPENDENCIES.md, and similar)
+NON_SPEC_MD=$(find specs/ -type f -name "*.md" ! -name "*.spec.md" ! -name "README.md" ! -name "NOTES.md" ! -name "DEPENDENCIES.md" || true)
 
 if [ -n "$NON_SPEC_MD" ]; then
     echo "    ❌ Found .md files without .spec.md extension in specs/:"

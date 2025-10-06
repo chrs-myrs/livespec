@@ -260,6 +260,78 @@ Pure information architecture. Specs are readable markdown, folder structure is 
 ### Testable Behaviors
 All behaviors are observable and verifiable. Every specification includes concrete validation criteria.
 
+## Specification Dependencies
+
+LiveSpec specs form a **dependency graph**, not a hierarchy:
+- **Vertical**: PURPOSE → problem → design → implementation → code
+- **Horizontal**: Workspace (process) applies across all levels
+
+### Dependency Structure
+
+```
+PURPOSE.md
+  ↓ defines
+specs/problem.spec.md
+  ↓ constrains
+specs/constraints.spec.md → specs/architecture.spec.md
+  ↓ defines approach                ↓ approach shapes
+specs/prompts/*.spec.md          specs/behaviors/*.spec.md
+  ↓ implements                       ↓ requires
+prompts/*.md                       code
+```
+
+**Orthogonal (applies everywhere):**
+- `specs/workspace/` - Process governing all development
+
+### Frontmatter Convention
+
+Specs declare dependencies via YAML frontmatter:
+
+```yaml
+---
+derives_from:
+  - PURPOSE.md
+  - specs/problem.spec.md
+constrained_by:
+  - specs/constraints.spec.md
+satisfies:
+  - specs/problem.spec.md
+---
+```
+
+**Fields:**
+- `derives_from` - Parent specs this is based on
+- `constrained_by` - Boundaries this must respect
+- `satisfies` - Requirements this fulfills
+- `supports` - What this spec enables
+- `applies_to` - Scope (for workspace specs)
+
+### Impact Detection
+
+When specs change, trace dependencies:
+
+**Upward (validate):** Does change still align with parents?
+```bash
+# Check frontmatter
+grep "derives_from\|constrained_by" specs/changed-spec.spec.md
+```
+
+**Downward (propagate):** What derives from this?
+```bash
+# Find children
+grep -r "derives_from.*changed-spec" specs/
+```
+
+**Common impacts:**
+| Changed | Check Upward | Check Downward |
+|---------|--------------|----------------|
+| PURPOSE.md | None (root) | problem.spec.md, constraints.spec.md |
+| problem.spec.md | PURPOSE.md | architecture.spec.md, behaviors/ |
+| architecture.spec.md | problem.spec.md, constraints.spec.md | prompts/, behaviors/ |
+| behaviors/*.spec.md | architecture.spec.md | Code |
+
+See `specs/DEPENDENCIES.md` for complete traceability reference.
+
 ## Common Anti-Patterns
 
 ❌ **Skipping Phase 0**
@@ -313,7 +385,7 @@ Cache this document, but fetch full prompts when you need:
 | Need | Fetch | When |
 |------|-------|------|
 | Setup workspace | `.livespec/0-define/0a-setup-workspace.md` | New project |
-| Define problem | `.livespec/0-define/0b-define-problem.md` | Problem unclear |
+| Define problem | `.livespec/0-define/0b-define-problem.spec.md` | Problem unclear |
 | Identify constraints | `.livespec/0-define/0c-identify-constraints.md` | Need boundaries |
 | Design architecture | `.livespec/1-design/1a-design-architecture.md` | Before implementation |
 | Define behaviors | `.livespec/1-design/1b-define-behaviors.md` | Specify features |

@@ -82,6 +82,91 @@ Changes requiring human decision:
 - 🔴 Ambiguous intent
 - 🔴 Multi-spec impacts
 
+### 4. Trace Impact
+
+When specifications change, trace dependencies to detect cascading effects:
+
+**Check Frontmatter Dependencies:**
+```bash
+# What does this spec derive from?
+grep -A 5 "^---" specs/changed-spec.spec.md | grep "derives_from\|constrained_by\|satisfies"
+
+# What derives from this spec?
+grep -r "derives_from.*$(basename $CHANGED_SPEC)" specs/
+```
+
+**Upward Trace (Validation):**
+
+Verify the change still aligns with parent specs:
+
+```markdown
+Changed: specs/architecture.spec.md
+
+Upward validation:
+  ✓ Still satisfies PURPOSE.md goal
+  ✓ Still respects specs/constraints.spec.md
+  ⚠️ May not fully solve specs/problem.md anymore
+
+Action: Review problem.md alignment
+```
+
+**Downward Trace (Propagation):**
+
+Identify child specs that may need updates:
+
+```markdown
+Changed: specs/architecture.spec.md
+
+Downward propagation:
+  - specs/prompts/0a-setup-workspace.spec.md (derives from architecture)
+  - specs/prompts/1a-design-architecture.spec.md (derives from architecture)
+  - All prompts/*/  (implementation may need updates)
+
+Action: Review each child spec for alignment
+```
+
+**Horizontal Trace (Process):**
+
+Check if workspace specs need updates:
+
+```markdown
+Changed: specs/architecture.spec.md (now uses 6 phases instead of 5)
+
+Horizontal impacts:
+  - specs/workspace/workflows.spec.md (may reference 5-phase model)
+  - specs/workspace/patterns.spec.md (folder structure may change)
+
+Action: Update workspace specs to reflect new structure
+```
+
+**Common Impact Patterns:**
+
+| Changed Spec | Upward Check | Downward Check |
+|--------------|--------------|----------------|
+| **PURPOSE.md** | None (root) | problem.md, constraints.spec.md, architecture.spec.md |
+| **problem.md** | PURPOSE.md | architecture.spec.md, all behaviors/ |
+| **constraints.spec.md** | PURPOSE.md, problem.md | architecture.spec.md, all behaviors/ |
+| **architecture.spec.md** | PURPOSE.md, problem.md, constraints.spec.md | All prompts/, all behaviors/ |
+| **behaviors/*.spec.md** | architecture.spec.md, problem.md | Code implementation |
+
+**Detection Questions:**
+
+1. **Does this change violate a constraint?**
+   - Check all specs in `constrained_by` frontmatter
+   - Validate against constraint validation criteria
+
+2. **Does this change break parent alignment?**
+   - Check all specs in `derives_from` frontmatter
+   - Verify derivation still makes sense
+
+3. **Do child specs need updates?**
+   - Find all specs that derive from changed spec
+   - Review each for continued alignment
+
+4. **Is code now misaligned?**
+   - If behavior spec changed, check implementation
+   - If architecture changed, check structure
+
 ## Create Drift Report
 
 Document findings in `drift-report.md`:

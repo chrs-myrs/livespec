@@ -13,7 +13,7 @@ PASSED_TESTS=0
 FAILED_TESTS=0
 
 # Run all test scripts
-for test_file in tests/prompts/*.sh; do
+for test_file in tests/prompts/*.sh tests/structure/*.sh; do
     if [ -f "$test_file" ] && [ -x "$test_file" ]; then
         TOTAL_TESTS=$((TOTAL_TESTS + 1))
         echo ""

@@ -1,3 +1,9 @@
+---
+derives_from:
+  - PURPOSE.md
+  - specs/problem.spec.md
+---
+
 # LiveSpec Constraints
 
 **Criticality**: CRITICAL
