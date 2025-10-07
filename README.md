@@ -61,6 +61,37 @@ graph TD
 - 🔴 Tests validate specs and code
 - ⚪ Workspace defines how you work (applies to all)
 
+## Self-Documenting Framework
+
+LiveSpec achieves complete circularity - every deliverable is defined by a spec, every spec is defined by the framework:
+
+```mermaid
+graph TD
+    MSL[MSL Standard<br/>External specification language]
+    BASE[base.spec.md<br/>LiveSpec extensions]
+    META[Framework<br/>7 metaspecs + 3 conventions]
+    SPECS[Project Specs<br/>30 specifications]
+    DELIVER[Deliverables<br/>Prompts, docs, framework, templates]
+
+    MSL -->|extends| BASE
+    BASE -->|constrains| META
+    META -->|constrain| SPECS
+    SPECS -->|define| DELIVER
+    DELIVER -.dogfoods.-> META
+
+    style MSL fill:#e1f5ff
+    style BASE fill:#fff4e1
+    style META fill:#fff4e1
+    style SPECS fill:#e8f5e9
+    style DELIVER fill:#fce4ec
+```
+
+**Complete chain verified:**
+- [MSL](https://github.com/chrs-myrs/msl-specification) (external) → base.spec.md → metaspecs → project specs → deliverables
+- Every spec has `constrained_by:` pointing to a metaspec
+- Every deliverable has a spec in `specs/` describing it
+- LiveSpec dogfoods itself: the framework is specified using the framework
+
 ## Quick Start
 
 ### New Project (5 minutes)

@@ -10,9 +10,12 @@ satisfies:
 # Documentation Requirements
 
 ## Requirements
-- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear architecture visualization, MSL integration, and demonstration of LiveSpec applied to non-coding project (itself).
+- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear architecture visualization, MSL integration, circularity demonstration, and example of LiveSpec applied to non-coding project (itself).
   - README.md starts with mermaid architecture diagram showing spec relationships
   - Architecture diagram includes legend explaining color-coded flow
+  - README includes circularity diagram (MSL → base → metaspecs → specs → deliverables)
+  - Circularity diagram demonstrates complete self-documentation (every deliverable has spec, every spec constrained by metaspec)
+  - Circularity diagram shows dogfooding loop (deliverables define the framework)
   - README links to MSL specification (github.com/chrs-myrs/msl-specification)
   - README demonstrates LiveSpec is example of methodology applied to non-coding project
   - README provides 5-minute quick start for both new and existing projects
