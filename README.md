@@ -14,6 +14,8 @@ LiveSpec is three things:
 
 **Not a framework. Not a tool. Just information architecture.**
 
+**This repository is a live example:** LiveSpec applied to a non-coding project (itself). See `specs/` for how we specify documentation, prompts, and methodology without writing code.
+
 ## Architecture
 
 ```mermaid
