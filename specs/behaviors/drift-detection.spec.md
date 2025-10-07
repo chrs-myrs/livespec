@@ -1,11 +1,18 @@
+---
+criticality: CRITICAL
+failure_mode: Without drift detection, specifications become outdated and useless
+---
+
 # Drift Detection Behavior
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without drift detection, specifications become outdated and useless
-
-## Specification
-
-LiveSpec detects when code and specifications diverge semantically, classifies changes into resolution categories, and guides updates through AI-assisted workflows.
+## Requirements
+- [!] LiveSpec detects when code and specifications diverge semantically, classifies changes into resolution categories, and guides updates through AI-assisted workflows.
+  - Semantic analysis tools (SemanticDiff, oasdiff) recommended in prompts
+  - Three-way merge thinking applied (base, code, spec)
+  - Contract testing validates API drift
+  - Test changes signal requirement changes
+  - AI agents classify changes accurately >80% of the time
+  - Human review focuses only on ambiguous cases
 
 ## Detection Approach
 
@@ -35,12 +42,3 @@ Drift detection uses semantic analysis (not text diff) to identify:
 - Ambiguous intent
 - Critical system changes
 - Multi-spec impacts
-
-## Validation
-
-- Semantic analysis tools (SemanticDiff, oasdiff) recommended in prompts
-- Three-way merge thinking applied (base, code, spec)
-- Contract testing validates API drift
-- Test changes signal requirement changes
-- AI agents classify changes accurately >80% of the time
-- Human review focuses only on ambiguous cases

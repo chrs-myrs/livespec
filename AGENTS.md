@@ -121,24 +121,24 @@ Keep specs and code synchronized (continuous).
 
 ## MSL Format Quick Reference
 
-All specifications use MSL (Minimal Specification Language):
+All specifications use [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification):
 
 ```markdown
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks without this]
+---
+
 # [Feature/Component Name]
 
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [What breaks without this]
-
-## Specification
-[Concise description of WHAT is required, not HOW]
-
-## Validation
-- [Testable criterion 1]
-- [Testable criterion 2]
-- [Testable criterion 3]
+## Requirements
+- [!] [Concise description of WHAT is required, not HOW]
+  - [Testable criterion 1]
+  - [Testable criterion 2]
+  - [Testable criterion 3]
 ```
 
-**That's it.** Four sections. Keep specifications minimal.
+**That's it.** Title, frontmatter, Requirements. Keep specifications minimal.
 
 ## Folder Structure Pattern
 
@@ -538,7 +538,7 @@ Context7 will provide:
 
 **From specs/workspace/patterns.spec.md:**
 
-- All specs use MSL format (.spec.md extension with four sections)
+- All specs use MSL format (.spec.md extension: title, frontmatter, Requirements section)
 - British English for user docs (synchronisation, behaviour)
 - Phase-letter naming for prompts (0a-, 1b-, 2c-)
 - One spec per behavior

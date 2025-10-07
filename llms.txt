@@ -1,6 +1,6 @@
 # LiveSpec - Living Specification Framework
 
-LiveSpec is a folder structure and methodology for keeping specifications synchronized with code throughout the development lifecycle. Using a five-phase approach (DEFINE → DESIGN → BUILD → VERIFY → EVOLVE), it enables bidirectional sync between specs and implementation, preventing documentation drift while providing AI agents with structured context. Built on MSL (Minimal Specification Language), LiveSpec works with any AI coding agent and any programming language.
+LiveSpec is a folder structure and methodology for keeping specifications synchronized with code throughout the development lifecycle. Using a five-phase approach (DEFINE → DESIGN → BUILD → VERIFY → EVOLVE), it enables bidirectional sync between specs and implementation, preventing documentation drift while providing AI agents with structured context. Built on MSL (Markdown Specification Language), LiveSpec works with any AI coding agent and any programming language.
 
 ## Core Methodology (Read in Order)
 
@@ -79,25 +79,25 @@ claude-code "Use .livespec/4-evolve/4b-extract-specs.md"
 
 ## MSL Format Example
 
-All LiveSpec specifications use MSL (Minimal Specification Language):
+All LiveSpec specifications use [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification):
 
 ```markdown
+---
+criticality: CRITICAL
+failure_mode: System unsecured without authentication
+---
+
 # User Authentication
 
-**Criticality**: CRITICAL
-**Failure Mode**: System unsecured without authentication
-
-## Specification
-System authenticates users via email and password before allowing access.
-
-## Validation
-- Valid credentials allow login
-- Invalid credentials rejected
-- Sessions persist after authentication
-- Protected resources require authentication
+## Requirements
+- [!] System authenticates users via email and password before allowing access.
+  - Valid credentials allow login
+  - Invalid credentials rejected
+  - Sessions persist after authentication
+  - Protected resources require authentication
 ```
 
-Four sections. Minimal. Testable.
+Title, frontmatter, Requirements. Minimal. Testable.
 
 ## Key Features
 

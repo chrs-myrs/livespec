@@ -1,15 +1,18 @@
 ---
 specifies: prompts/utils/next-steps.md
+criticality: IMPORTANT
+failure_mode: Users get lost in process, skip phases, or don't know what to do next, leading to incomplete adoption
 ---
 
 # Workflow Orchestrator Prompt
 
-**Criticality**: IMPORTANT
-**Failure Mode**: Users get lost in process, skip phases, or don't know what to do next, leading to incomplete adoption
-
-## Specification
-
-Prompt analyzes current project state (what files exist, when last updated, completion status) and recommends next action based on LiveSpec phase progression, identifying blockers and providing clear next steps.
+## Requirements
+- Prompt analyzes current project state (what files exist, when last updated, completion status) and recommends next action based on LiveSpec phase progression, identifying blockers and providing clear next steps.
+  - Correctly identifies current phase from file analysis
+  - Recommends appropriate next action for project state
+  - Detects drift and suggests recovery path
+  - Decision tree handles all common scenarios (starting, in-progress, blocked, drifted)
+  - Output provides clear, executable next step
 
 ## Outputs
 

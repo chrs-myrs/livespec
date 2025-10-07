@@ -1,11 +1,17 @@
+---
+criticality: CRITICAL
+failure_mode: Without clear folder structure, AI agents cannot find relevant context and users become confused
+---
+
 # Folder Structure Behavior
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without clear folder structure, AI agents cannot find relevant context and users become confused
-
-## Specification
-
-LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using a standardized folder hierarchy.
+## Requirements
+- [!] LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using a standardized folder hierarchy.
+  - specs/workspace/ contains only development methodology, never product requirements
+  - specs/ root or type folders contain product specifications
+  - prompts/ organized by 5 phases with consistent naming
+  - AI agents can locate relevant context by phase and type
+  - Users understand where to add new specifications
 
 ## Structure
 
@@ -24,11 +30,3 @@ project/
 │   └── 4-evolve/
 └── [implementation]   # User's code
 ```
-
-## Validation
-
-- specs/workspace/ contains only development methodology, never product requirements
-- specs/ root or type folders contain product specifications
-- prompts/ organized by 5 phases with consistent naming
-- AI agents can locate relevant context by phase and type
-- Users understand where to add new specifications

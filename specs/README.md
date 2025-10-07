@@ -12,18 +12,20 @@ This folder contains all specifications for LiveSpec v2.
 
 ## Format
 
-All specifications follow MSL (Minimal Specification Language) format:
+All specifications follow [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification) format:
 
 ```markdown
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks]
+---
+
 # [Name]
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [What breaks]
 
-## Specification
-[Minimal description]
-
-## Validation
-[How to verify]
+## Requirements
+- [!] [Minimal description]
+  - [How to verify criterion 1]
+  - [How to verify criterion 2]
 ```
 
 ## Purpose

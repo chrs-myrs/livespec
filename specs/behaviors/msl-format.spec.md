@@ -1,38 +1,33 @@
+---
+criticality: CRITICAL
+failure_mode: Without MSL format, specifications bloat and become maintenance burdens
+derives_from:
+  - https://github.com/chrs-myrs/msl-specification
+---
+
 # MSL Format Behavior
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without MSL format, specifications bloat and become maintenance burdens
+## Requirements
+- [!] All LiveSpec specifications follow MSL (Markdown Specification Language) format from github.com/chrs-myrs/msl-specification.
+  - All .spec.md files have title and `## Requirements` section
+  - YAML frontmatter declares metadata (criticality, failure_mode, dependencies)
+  - LiveSpec uses custom frontmatter fields: `criticality`, `failure_mode`
+  - Requirement markers used: `[!]` (critical), `[?]` (needs validation), `[x]` (implemented), `[ ]` (pending)
+  - Optional sections allowed: `## Summary`, `## Notes`, domain-specific sections
+  - Specifications are minimal and testable
+  - No "nice to have" or "should" requirements exist
+  - Every specification can answer: "Would the system fail without this?"
 
-## Specification
+## Notes
 
-All LiveSpec specifications follow MSL (Minimal Specification Language) format with exactly four sections: Criticality, Failure Mode, Specification, and Validation.
+LiveSpec extends MSL with two custom frontmatter conventions:
 
-## Format
+**criticality:** CRITICAL | IMPORTANT
+- CRITICAL: System fails without this requirement
+- IMPORTANT: Quality degrades without this requirement
 
-```markdown
-# [Specification Name]
+**failure_mode:** Concrete description of what breaks if requirement not met
 
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [What breaks if this requirement is not met]
+These fields supplement MSL's standard frontmatter (derives_from, constrained_by, satisfies, supports, applies_to).
 
-## Specification
-[Single sentence or paragraph describing the requirement]
-
-## Validation
-[How to verify this requirement is satisfied]
-```
-
-## Rules
-
-1. **Criticality must be justified**: Only CRITICAL (system fails) or IMPORTANT (quality degrades) allowed
-2. **Failure mode must be concrete**: Explain specifically what breaks
-3. **Specification must be minimal**: Remove any word that doesn't change meaning
-4. **Validation must be testable**: Describe observable criteria
-
-## Validation
-
-- All specifications contain exactly these four sections
-- No "nice to have" or "should" requirements exist
-- Every specification can answer: "Would the system fail without this?"
-- Specifications are 70% smaller than traditional requirement documents
-- AI agents understand requirements without ambiguity
+For full MSL specification, see: https://github.com/chrs-myrs/msl-specification

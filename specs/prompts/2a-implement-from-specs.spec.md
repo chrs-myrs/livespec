@@ -1,15 +1,18 @@
 ---
 specifies: prompts/2-build/2a-implement-from-specs.md
+criticality: CRITICAL
+failure_mode: Implementation doesn't follow specifications
 ---
 
 # Prompt Behavior: Implement from Specifications
 
-**Criticality**: CRITICAL
-**Failure Mode**: Implementation doesn't follow specifications
-
-## Specification
-
-Prompt guides AI agent to implement system by following specifications in priority order (CRITICAL first), respecting workspace patterns and constraints.
+## Requirements
+- [!] Prompt guides AI agent to implement system by following specifications in priority order (CRITICAL first), respecting workspace patterns and constraints.
+  - All CRITICAL behaviors implemented
+  - Implementation follows workspace patterns
+  - All constraints satisfied
+  - Code matches behavior specifications
+  - No features added beyond specifications
 
 ## Prompt Inputs
 

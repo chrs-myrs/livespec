@@ -9,7 +9,7 @@ A folder structure and methodology for keeping specifications and code synchroni
 LiveSpec is three things:
 
 1. **A folder structure** - Separates workspace (HOW you build) from product (WHAT you build)
-2. **MSL specification format** - Minimal Specification Language keeps specs small and maintainable
+2. **MSL specification format** - Markdown Specification Language keeps specs small and maintainable
 3. **Five-phase methodology** - DEFINE → DESIGN → BUILD → VERIFY → EVOLVE
 
 **Not a framework. Not a tool. Just information architecture.**
@@ -132,27 +132,27 @@ your-project/
 
 ## MSL Format
 
-All specifications follow Minimal Specification Language (MSL):
+All specifications follow [Markdown Specification Language (MSL)](https://github.com/chrs-myrs/msl-specification):
 
 ```markdown
+---
+criticality: CRITICAL
+failure_mode: System unsecured without authentication
+---
+
 # User Authentication
 
-**Criticality**: CRITICAL
-**Failure Mode**: System unsecured without authentication
-
-## Specification
-System authenticates users via email and password before allowing access to protected resources.
-
-## Validation
-- Valid credentials allow login
-- Invalid credentials rejected
-- Sessions persist after authentication
-- Protected resources require authentication
+## Requirements
+- [!] System authenticates users via email and password before allowing access to protected resources.
+  - Valid credentials allow login
+  - Invalid credentials rejected
+  - Sessions persist after authentication
+  - Protected resources require authentication
 ```
 
-**That's it.** Four sections. Minimal. Testable.
+**That's it.** Title, frontmatter, Requirements. Minimal. Testable.
 
-[MSL Guide →](docs/msl-guide.md)
+[LiveSpec conventions →](docs/livespec-conventions.md) | [MSL Specification →](https://github.com/chrs-myrs/msl-specification)
 
 ## The Five Phases
 

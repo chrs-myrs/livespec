@@ -7,16 +7,14 @@ derives_from:
   - specs/workspace/workflows.spec.md
 supports:
   - all_development_activities
+criticality: CRITICAL
+failure_mode: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
 ---
 
 # LiveSpec Agent Integration
 
-**Criticality**: CRITICAL
-**Failure Mode**: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
-
-## Specification
-
-AI agents must proactively guide users through LiveSpec methodology using cached AGENTS.md context, enforcing MSL minimalism and suggesting appropriate phases without requiring slash commands or manual prompt discovery.
+## Requirements
+- [!] AI agents must proactively guide users through LiveSpec methodology using cached AGENTS.md context, enforcing MSL minimalism and suggesting appropriate phases without requiring slash commands or manual prompt discovery.
 
 **Agent behaviors:**
 
@@ -83,15 +81,12 @@ AI agents must proactively guide users through LiveSpec methodology using cached
 - Never require user to install LiveSpec tooling
 - Never require slash commands or special syntax
 - Work through natural conversation referencing cached methodology
-
-## Validation
-
-- Agent suggests appropriate phase without user prompting
-- Agent creates MSL-compliant specs without template reminder
-- Agent challenges over-specification with "Is this WHAT or HOW?" questions
-- Agent checks for drift before implementing features
-- Agent maintains frontmatter dependencies automatically
-- Agent explains "why this phase" when suggesting actions
-- Agent marks low-confidence extractions with appropriate frontmatter and markers
-- Agent provides confidence reasoning and review checklists for uncertain specs
-- Users report agent "just knows what to do" with LiveSpec projects
+  - Agent suggests appropriate phase without user prompting
+  - Agent creates MSL-compliant specs without template reminder
+  - Agent challenges over-specification with "Is this WHAT or HOW?" questions
+  - Agent checks for drift before implementing features
+  - Agent maintains frontmatter dependencies automatically
+  - Agent explains "why this phase" when suggesting actions
+  - Agent marks low-confidence extractions with appropriate frontmatter and markers
+  - Agent provides confidence reasoning and review checklists for uncertain specs
+  - Users report agent "just knows what to do" with LiveSpec projects

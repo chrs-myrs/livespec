@@ -1,11 +1,25 @@
+---
+criticality: IMPORTANT
+failure_mode: Inconsistent patterns make LiveSpec harder to understand and maintain
+---
+
 # LiveSpec Development Patterns
 
-**Criticality**: IMPORTANT
-**Failure Mode**: Inconsistent patterns make LiveSpec harder to understand and maintain
-
-## Specification
-
-LiveSpec follows strict patterns: MSL format for all specs (.spec.md extension with four sections), British English for user docs, phase-letter naming for prompts (0a-), one spec per behavior, workspace/strategy separation in folder structure, and YAML frontmatter declaring specification dependencies.
+## Requirements
+- LiveSpec follows strict patterns: MSL format for all specs (.spec.md extension with four sections), British English for user docs, phase-letter naming for prompts (0a-), one spec per behavior, workspace/strategy separation in folder structure, and YAML frontmatter declaring specification dependencies.
+  - All .spec.md files pass MSL format validation
+  - Documentation uses British spellings (synchronisation, behaviour)
+  - Prompt files follow [0-4][a-z]-*.md pattern
+  - Each behavior has single dedicated spec file
+  - specs/workspace/ contains only portable development methodology
+  - specs/strategy/ contains only product-specific technical decisions
+  - Specifications declare dependencies via YAML frontmatter
+  - Strategy files stay minimal (single file <100 lines, split files <50 lines each)
+  - AGENTS.md references specs/workspace/agents.spec.md in frontmatter
+  - Agent integration behaviors defined in specs/workspace/livespec.spec.md
+  - Regeneration prompt exists at prompts/4-evolve/4d-regenerate-agents.md
+  - Extracted specs use confidence markers when appropriate (LOW/MEDIUM confidence)
+  - Extracted specs promoted to VALIDATED status after human review
 
 ## Folder Organization
 
@@ -46,8 +60,9 @@ LiveSpec follows strict patterns: MSL format for all specs (.spec.md extension w
 ## Specification Patterns
 
 ### MSL Format
-- All specs use .spec.md extension with four sections
-- Criticality (CRITICAL/IMPORTANT), Failure Mode, Specification, Validation
+- All specs follow MSL (Markdown Specification Language) from github.com/chrs-myrs/msl-specification
+- Required: Title and `## Requirements` section
+- LiveSpec custom frontmatter: `criticality` (CRITICAL/IMPORTANT), `failure_mode`
 
 ### Naming Conventions
 - Prompts: [0-4][a-z]-descriptive-name.md (e.g., 1a-design-architecture.md)
@@ -98,19 +113,3 @@ extraction_reason: "Inferred from implementation, no tests found"
 ```
 
 **Promotion:** When validated, remove extraction metadata, add standard frontmatter (derives_from, satisfies, etc.)
-
-## Validation
-
-- All .spec.md files pass MSL format validation
-- Documentation uses British spellings (synchronisation, behaviour)
-- Prompt files follow [0-4][a-z]-*.md pattern
-- Each behavior has single dedicated spec file
-- specs/workspace/ contains only portable development methodology
-- specs/strategy/ contains only product-specific technical decisions
-- Specifications declare dependencies via YAML frontmatter
-- Strategy files stay minimal (single file <100 lines, split files <50 lines each)
-- AGENTS.md references specs/workspace/agents.spec.md in frontmatter
-- Agent integration behaviors defined in specs/workspace/livespec.spec.md
-- Regeneration prompt exists at prompts/4-evolve/4d-regenerate-agents.md
-- Extracted specs use confidence markers when appropriate (LOW/MEDIUM confidence)
-- Extracted specs promoted to VALIDATED status after human review

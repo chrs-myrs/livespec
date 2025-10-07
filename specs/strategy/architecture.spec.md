@@ -4,16 +4,22 @@ derives_from:
   - specs/requirements.spec.md
 constrained_by:
   - specs/constraints.spec.md
+criticality: CRITICAL
+failure_mode: Without clear architecture, LiveSpec becomes incoherent collection of files
 ---
 
 # LiveSpec Architecture
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without clear architecture, LiveSpec becomes incoherent collection of files
-
-## Specification
-
-LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, and includes templates within prompts/ for workspace bootstrapping.
+## Requirements
+- [!] LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, and includes templates within prompts/ for workspace bootstrapping.
+  - PURPOSE.md exists at root level
+  - specs/workspace/ contains our development methodology
+  - specs/prompts/ documents what each prompt does
+  - prompts/ contains all 5 phases (0-define through 4-evolve)
+  - prompts/templates/ contains workspace templates
+  - .livespec/ symlink points to prompts/
+  - Tests validate our own specs
+  - No user copies specs/ folder (only prompts/)
 
 ## Components
 

@@ -171,27 +171,25 @@ your-project/
 
 ## MSL Format Example
 
-All specs follow Minimal Specification Language (MSL):
+All specs follow [Markdown Specification Language (MSL)](https://github.com/chrs-myrs/msl-specification):
 
 ```markdown
+---
+criticality: CRITICAL
+failure_mode: System unsecured without authentication
+---
+
 # User Authentication
 
-**Criticality**: CRITICAL
-**Failure Mode**: System unsecured without authentication
-
-## Specification
-
-System authenticates users via email and password before allowing access to protected resources.
-
-## Validation
-
-- Valid credentials allow login
-- Invalid credentials are rejected
-- Session persists after authentication
-- Protected resources require authentication
+## Requirements
+- [!] System authenticates users via email and password before allowing access to protected resources.
+  - Valid credentials allow login
+  - Invalid credentials are rejected
+  - Session persists after authentication
+  - Protected resources require authentication
 ```
 
-**That's it.** Four sections. Minimal. Testable.
+**That's it.** Title, frontmatter, Requirements. Minimal. Testable.
 
 ## Using with Different AI Agents
 

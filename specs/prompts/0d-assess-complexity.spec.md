@@ -1,15 +1,17 @@
 ---
 specifies: prompts/0-define/0d-assess-complexity.md
+criticality: IMPORTANT
+failure_mode: Projects launched without realistic timeline expectations, leading to missed deadlines and poor planning
 ---
 
 # Complexity Assessment Prompt
 
-**Criticality**: IMPORTANT
-**Failure Mode**: Projects launched without realistic timeline expectations, leading to missed deadlines and poor planning
-
-## Specification
-
-Prompt analyzes project complexity factors (AI/ML, integrations, discovery needs, volatility) and provides complexity score with timeline buffer recommendations and identifies required discovery spikes.
+## Requirements
+- Prompt analyzes project complexity factors (AI/ML, integrations, discovery needs, volatility) and provides complexity score with timeline buffer recommendations and identifies required discovery spikes.
+  - Prompt correctly calculates weighted complexity score
+  - Buffer recommendations align with complexity level
+  - Discovery spikes identified for high-uncertainty areas
+  - Output enables realistic project planning
 
 ## Outputs
 

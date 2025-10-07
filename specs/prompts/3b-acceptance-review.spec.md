@@ -1,15 +1,17 @@
 ---
 specifies: prompts/3-verify/3b-acceptance-review.md
+criticality: IMPORTANT
+failure_mode: Stakeholders cannot assess if requirements are met
 ---
 
 # Prompt Behavior: Acceptance Review
 
-**Criticality**: IMPORTANT
-**Failure Mode**: Stakeholders cannot assess if requirements are met
-
-## Specification
-
-Prompt guides AI agent to prepare acceptance review package using specifications as validation framework, presenting to stakeholders for approval.
+## Requirements
+- Prompt guides AI agent to prepare acceptance review package using specifications as validation framework, presenting to stakeholders for approval.
+  - Review package references all specifications
+  - Stakeholders can assess against spec criteria
+  - Acceptance decision documented
+  - Any conditions clearly stated
 
 ## Prompt Outputs
 

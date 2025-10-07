@@ -8,16 +8,14 @@ derives_from:
   - specs/workspace/workflows.spec.md
 supports:
   - prompts/4-evolve/4d-regenerate-agents.md
+criticality: CRITICAL
+failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
 ---
 
 # Agent Configuration Structure
 
-**Criticality**: CRITICAL
-**Failure Mode**: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
-
-## Specification
-
-Root AGENTS.md file provides AI agents with complete LiveSpec methodology context in single cacheable document, enabling agents to guide users through all 5 phases without requiring slash commands or CLI tools.
+## Requirements
+- [!] Root AGENTS.md file provides AI agents with complete LiveSpec methodology context in single cacheable document, enabling agents to guide users through all 5 phases without requiring slash commands or CLI tools.
 
 **Generated from:**
 - PURPOSE.md (project vision and success criteria)
@@ -48,12 +46,9 @@ Root AGENTS.md file provides AI agents with complete LiveSpec methodology contex
 - Self-contained: Agent can guide new user without web search
 - Regeneratable: Script rebuilds from source specs when they change
 - Agent-agnostic: Same content works for Claude, Copilot, Cursor (different filename)
-
-## Validation
-
-- AGENTS.md generated from workspace specs plus PURPOSE.md
-- Agent can answer "what should I do next?" without additional context
-- Agent enforces MSL format without being reminded
-- Agent suggests relevant phase based on project state
-- File size remains under 100KB
-- Regeneration script exists and works
+  - AGENTS.md generated from workspace specs plus PURPOSE.md
+  - Agent can answer "what should I do next?" without additional context
+  - Agent enforces MSL format without being reminded
+  - Agent suggests relevant phase based on project state
+  - File size remains under 100KB
+  - Regeneration script exists and works

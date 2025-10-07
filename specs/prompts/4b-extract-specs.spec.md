@@ -1,15 +1,17 @@
 ---
 specifies: prompts/4-evolve/4b-extract-specs.md
+criticality: CRITICAL
+failure_mode: New behaviors remain undocumented
 ---
 
 # Prompt Behavior: Extract Specifications
 
-**Criticality**: CRITICAL
-**Failure Mode**: New behaviors remain undocumented
-
-## Specification
-
-Prompt guides AI agent to extract MSL specifications from code changes or existing codebase, generating behavior and contract specs for undocumented functionality.
+## Requirements
+- [!] Prompt guides AI agent to extract MSL specifications from code changes or existing codebase, generating behavior and contract specs for undocumented functionality.
+  - All new behaviors have specifications
+  - All specifications follow MSL format (Criticality, Failure Mode, Specification, Validation)
+  - Specs describe WHAT not HOW
+  - Validation criteria are observable and testable
 
 ## Prompt Outputs
 

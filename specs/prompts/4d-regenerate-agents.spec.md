@@ -3,16 +3,14 @@ specifies: prompts/4-evolve/4d-regenerate-agents.md
 derives_from:
   - specs/workspace/agents.spec.md
   - specs/workspace/workflows.spec.md
+criticality: IMPORTANT
+failure_mode: AGENTS.md becomes stale, agents lack current methodology context, users must repeatedly explain LiveSpec process
 ---
 
 # Regenerate Agent Configuration Prompt
 
-**Criticality**: IMPORTANT
-**Failure Mode**: AGENTS.md becomes stale, agents lack current methodology context, users must repeatedly explain LiveSpec process
-
-## Specification
-
-Prompt guides user or agent through regenerating AGENTS.md from current workspace specifications, ensuring AI agents have up-to-date methodology context without requiring manual updates.
+## Requirements
+- Prompt guides user or agent through regenerating AGENTS.md from current workspace specifications, ensuring AI agents have up-to-date methodology context without requiring manual updates.
 
 **Triggers:**
 - Workspace specs change (constitution, patterns, workflows)
@@ -32,6 +30,12 @@ Prompt guides user or agent through regenerating AGENTS.md from current workspac
 - Agent can guide users without additional context
 - Persistent context mechanism remains functional
 - File stays cacheable for agent efficiency
+  - AGENTS.md regenerated successfully from current workspace specs
+  - File size under 100KB (cacheable)
+  - All required sections present (Summary, Decision Tree, 5 Phases, MSL Format, etc.)
+  - Frontmatter includes spec reference, generation timestamp, version
+  - Agent can guide new user through LiveSpec without fetching additional context
+  - Regeneration process completes in under 5 minutes
 
 ## Prompt Outputs
 

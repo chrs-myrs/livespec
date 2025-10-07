@@ -1,11 +1,17 @@
+---
+criticality: CRITICAL
+failure_mode: Without structured phases, development becomes chaotic and AI agents lack clear direction
+---
+
 # Five Phases Behavior
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without structured phases, development becomes chaotic and AI agents lack clear direction
-
-## Specification
-
-LiveSpec guides development through exactly five phases: DEFINE, DESIGN, BUILD, VERIFY, and EVOLVE, with clear entry and exit criteria for each.
+## Requirements
+- [!] LiveSpec guides development through exactly five phases: DEFINE, DESIGN, BUILD, VERIFY, and EVOLVE, with clear entry and exit criteria for each.
+  - Each phase has 2-5 prompts (cognitive load managed)
+  - Phase transitions have clear criteria
+  - Phases can cycle (not strictly waterfall)
+  - AI agents know which phase they're in and what to do
+  - Users understand current project state
 
 ## Phases
 
@@ -38,11 +44,3 @@ LiveSpec guides development through exactly five phases: DEFINE, DESIGN, BUILD, 
 - **Entry**: System in production or active development
 - **Exit**: Continuous (loop back to phases as needed)
 - **Outputs**: Updated specifications, extracted learnings
-
-## Validation
-
-- Each phase has 2-5 prompts (cognitive load managed)
-- Phase transitions have clear criteria
-- Phases can cycle (not strictly waterfall)
-- AI agents know which phase they're in and what to do
-- Users understand current project state

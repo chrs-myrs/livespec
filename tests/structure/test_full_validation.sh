@@ -249,30 +249,33 @@ info "Validating MSL format compliance..."
 find specs/ -name "*.spec.md" | while read -r spec; do
     errors=0
 
-    # Check for required sections
-    if ! grep -q "^## Specification" "$spec"; then
-        fail "$(basename "$spec"): Missing '## Specification' section"
+    # Check for title
+    if ! grep -q "^# " "$spec"; then
+        fail "$(basename "$spec"): Missing title (# Heading)"
         errors=$((errors + 1))
     fi
 
-    if ! grep -q "^## Validation" "$spec"; then
-        fail "$(basename "$spec"): Missing '## Validation' section"
+    # Check for Requirements section
+    if ! grep -q "^## Requirements" "$spec"; then
+        fail "$(basename "$spec"): Missing '## Requirements' section"
         errors=$((errors + 1))
     fi
 
-    if ! grep -q "^\*\*Criticality\*\*:" "$spec"; then
-        fail "$(basename "$spec"): Missing '**Criticality**:' field"
+    # Check for criticality in frontmatter
+    if ! grep -q "^criticality:" "$spec"; then
+        fail "$(basename "$spec"): Missing 'criticality:' in frontmatter"
         errors=$((errors + 1))
     fi
 
-    if ! grep -q "^\*\*Failure Mode\*\*:" "$spec"; then
-        fail "$(basename "$spec"): Missing '**Failure Mode**:' field"
+    # Check for failure_mode in frontmatter
+    if ! grep -q "^failure_mode:" "$spec"; then
+        fail "$(basename "$spec"): Missing 'failure_mode:' in frontmatter"
         errors=$((errors + 1))
     fi
 
     # Check criticality is valid
-    criticality=$(grep "^\*\*Criticality\*\*:" "$spec" | sed 's/.*: *//')
-    if [[ ! "$criticality" =~ (CRITICAL|IMPORTANT) ]]; then
+    criticality=$(grep "^criticality:" "$spec" | sed 's/criticality: *//')
+    if [[ -n "$criticality" ]] && [[ ! "$criticality" =~ (CRITICAL|IMPORTANT) ]]; then
         fail "$(basename "$spec"): Invalid criticality '$criticality' (must be CRITICAL or IMPORTANT)"
         errors=$((errors + 1))
     fi

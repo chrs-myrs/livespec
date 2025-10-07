@@ -4,18 +4,21 @@ derives_from:
   - specs/requirements.spec.md
 supports:
   - specs/strategy/architecture.spec.md
+criticality: CRITICAL
+failure_mode: Violating these constraints makes LiveSpec unusable or defeats its purpose
 ---
 
 # LiveSpec Constraints
 
-**Criticality**: CRITICAL
-**Failure Mode**: Violating these constraints makes LiveSpec unusable or defeats its purpose
+## Requirements
+- [!] LiveSpec must operate within five critical boundaries:
+  - LiveSpec works across Claude, Copilot, Cursor (agent agnostic)
+  - Setup requires only file operations, no installation scripts (manual adoption)
+  - All specs follow 4-section MSL format (MSL minimalism)
+  - All content is standard markdown in standard folders (no lock-in)
+  - Every spec has testable validation criteria (testable behaviors)
 
-## Specification
-
-LiveSpec must operate within five critical boundaries:
-
-### Agent Agnostic
+## Agent Agnostic
 Works with any AI coding agent (Claude, Copilot, Cursor, etc.). Same structure produces effective results across 3+ agents.
 
 ### Manual Adoption

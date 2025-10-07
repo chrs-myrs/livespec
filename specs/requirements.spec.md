@@ -6,16 +6,17 @@ supports:
   - specs/strategy/architecture.spec.md
   - specs/workspace/
   - specs/prompts/
+criticality: CRITICAL
+failure_mode: Without clear requirements, LiveSpec lacks cohesive direction and becomes disconnected collection of features
 ---
 
 # LiveSpec Requirements
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without clear requirements, LiveSpec lacks cohesive direction and becomes disconnected collection of features
-
-## Specification
-
-LiveSpec must provide methodology for bidirectional specification-code synchronization, support AI-assisted development across any agent, work for both greenfield and brownfield projects, and maintain specifications without becoming maintenance burden.
+## Requirements
+- [!] LiveSpec must provide methodology for bidirectional specification-code synchronization, support AI-assisted development across any agent, work for both greenfield and brownfield projects, and maintain specifications without becoming maintenance burden.
+  - All 5 core requirements satisfied by identified specs
+  - Traceability maintained via frontmatter dependencies
+  - Changes to requirements trigger cascade review of satisfying specs
 
 ## Core Requirements
 

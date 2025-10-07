@@ -7,34 +7,34 @@ FAILURES=0
 
 echo "Testing: MSL Format Behavior"
 
-# Validation: All specifications contain exactly four sections
+# Validation: All specifications follow MSL format (github.com/chrs-myrs/msl-specification)
 echo "  Checking MSL format compliance..."
 
 for spec_file in specs/**/*.spec.md; do
     if [ -f "$spec_file" ]; then
         FILE_FAILURES=0
 
-        # Check for Criticality
-        if ! grep -q "^\*\*Criticality\*\*:" "$spec_file"; then
-            echo "    ❌ $spec_file missing Criticality"
+        # Check for title (# Heading)
+        if ! grep -q "^# " "$spec_file"; then
+            echo "    ❌ $spec_file missing title"
             FILE_FAILURES=1
         fi
 
-        # Check for Failure Mode
-        if ! grep -q "^\*\*Failure Mode\*\*:" "$spec_file"; then
-            echo "    ❌ $spec_file missing Failure Mode"
+        # Check for Requirements section
+        if ! grep -q "^## Requirements" "$spec_file"; then
+            echo "    ❌ $spec_file missing Requirements section"
             FILE_FAILURES=1
         fi
 
-        # Check for Specification section
-        if ! grep -q "^## Specification" "$spec_file"; then
-            echo "    ❌ $spec_file missing Specification section"
+        # Check for criticality in frontmatter
+        if ! grep -q "^criticality:" "$spec_file"; then
+            echo "    ❌ $spec_file missing criticality in frontmatter"
             FILE_FAILURES=1
         fi
 
-        # Check for Validation section
-        if ! grep -q "^## Validation" "$spec_file"; then
-            echo "    ❌ $spec_file missing Validation section"
+        # Check for failure_mode in frontmatter
+        if ! grep -q "^failure_mode:" "$spec_file"; then
+            echo "    ❌ $spec_file missing failure_mode in frontmatter"
             FILE_FAILURES=1
         fi
 

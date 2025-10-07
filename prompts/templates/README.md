@@ -31,10 +31,10 @@ mv specs/workspace/constitution.spec.md.template specs/workspace/constitution.sp
 
 ## MSL Format
 
-All templates follow MSL (Minimal Specification Language) format:
-- **Criticality**: CRITICAL or IMPORTANT
-- **Failure Mode**: What breaks without this
-- **Specification**: What is required
-- **Validation**: How to verify compliance
+All templates follow [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification) format:
+- **Title**: `# Specification Name`
+- **Frontmatter**: `criticality` (CRITICAL/IMPORTANT) and `failure_mode`
+- **Requirements**: `## Requirements` section with `[!]` marker for critical items
+- **Validation criteria**: Sub-bullets under main requirement
 
 Keep specifications minimal - only include what's truly necessary.

@@ -3,16 +3,14 @@ specifies: prompts/4-evolve/4e-validate-extractions.md
 derives_from:
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
+criticality: IMPORTANT
+failure_mode: Low-confidence extractions remain unvalidated, specs diverge from implementation reality, extraction errors propagate
 ---
 
 # Validate Extracted Specifications Prompt
 
-**Criticality**: IMPORTANT
-**Failure Mode**: Low-confidence extractions remain unvalidated, specs diverge from implementation reality, extraction errors propagate
-
-## Specification
-
-Prompt guides human validation of extracted specifications marked with confidence metadata, enabling promotion from EXTRACTED to VALIDATED status by reviewing accuracy, correcting errors, and removing extraction markers.
+## Requirements
+- Prompt guides human validation of extracted specifications marked with confidence metadata, enabling promotion from EXTRACTED to VALIDATED status by reviewing accuracy, correcting errors, and removing extraction markers.
 
 **Triggers:**
 - Specs with `confidence: LOW` or `MEDIUM` frontmatter
@@ -32,6 +30,14 @@ Prompt guides human validation of extracted specifications marked with confidenc
 - PROMOTE: Extraction accurate → remove markers, add dependencies
 - CORRECT: Fix errors → then remove markers
 - REJECT: Invalid extraction → delete spec, document reasoning
+  - Prompt provides clear validation criteria (accuracy, completeness, MSL compliance)
+  - Prompt defines three validation outcomes (PROMOTE/CORRECT/REJECT)
+  - Prompt includes checklist for validation review
+  - Prompt guides frontmatter updates (remove extraction, add dependencies)
+  - Prompt suggests test creation for untested behaviors
+  - Prompt includes batch validation workflow for efficiency
+  - Prompt provides prioritization guidance (CRITICAL first)
+  - Exit criteria verify all extraction markers removed
 
 ## Prompt Outputs
 
