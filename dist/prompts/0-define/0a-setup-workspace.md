@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/0a-setup-workspace.spec.md
+spec: specs/behaviors/prompts/0a-setup-workspace.spec.md
 ---
 
 # 0a: Setup Workspace

@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/3b-acceptance-review.spec.md
+spec: specs/behaviors/prompts/3b-acceptance-review.spec.md
 ---
 
 # 3b: Acceptance Review

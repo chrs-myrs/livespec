@@ -15,7 +15,7 @@ failure_mode: Without clear architecture, LiveSpec becomes incoherent collection
 - [!] LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, and includes templates within prompts/ for workspace bootstrapping.
   - PURPOSE.md exists at root level
   - specs/workspace/ contains our development methodology
-  - specs/prompts/ documents what each prompt does
+  - specs/behaviors/prompts/ documents what each prompt does
   - prompts/ contains all 5 phases (0-define through 4-evolve)
   - prompts/templates/ contains workspace templates
   - .livespec/ symlink points to prompts/
@@ -42,7 +42,7 @@ Development process specifications defining HOW LiveSpec is built:
 - patterns.spec.md - Code and specification patterns
 - workflows.spec.md - Development workflows
 
-### specs/prompts/
+### specs/behaviors/prompts/
 Meta-specifications defining WHAT each prompt accomplishes:
 - Prompt specs (0a-4c) - What each prompt does, expected outputs
 - Core behavior specs (folder-structure, msl-format, five-phases, drift-detection)
@@ -73,7 +73,7 @@ Validation suite proving specs are correct:
 ## Interactions
 
 1. **Dogfooding** (LiveSpec uses its own methodology):
-   - We maintain PURPOSE.md, specs/workspace/, specs/prompts/
+   - We maintain PURPOSE.md, specs/workspace/, specs/behaviors/prompts/
    - .livespec/ symlink lets us use prompts/ on ourselves
    - Tests validate our specs follow our own rules
 
@@ -92,7 +92,7 @@ Validation suite proving specs are correct:
 
 - PURPOSE.md exists at root level
 - specs/workspace/ contains our development methodology
-- specs/prompts/ documents what each prompt does
+- specs/behaviors/prompts/ documents what each prompt does
 - prompts/ contains all 5 phases (0-define through 4-evolve)
 - prompts/templates/ contains workspace templates
 - .livespec/ symlink points to prompts/

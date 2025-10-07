@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/analyze-failure.spec.md
+spec: specs/behaviors/prompts/analyze-failure.spec.md
 ---
 
 # Analyze LiveSpec Process Failure

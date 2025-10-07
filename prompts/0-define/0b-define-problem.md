@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/0b-define-problem.spec.md
+spec: specs/behaviors/prompts/0b-define-problem.spec.md
 ---
 
 # 0b: Define Problem

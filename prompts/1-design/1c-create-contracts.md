@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/1c-create-contracts.spec.md
+spec: specs/behaviors/prompts/1c-create-contracts.spec.md
 ---
 
 # 1c: Create Contracts

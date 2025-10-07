@@ -8,15 +8,17 @@ constrained_by:
 # Folder Structure Convention
 
 ## Requirements
-- [!] LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using standardized folder hierarchy.
+- [!] LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using standardized folder hierarchy with optional organizational subfolders.
   - `specs/workspace/` contains only development methodology (portable to any project)
   - `specs/behaviors/` contains observable system behaviors (user-facing)
   - `specs/strategy/` contains product-specific technical decisions and architecture
   - `specs/contracts/` contains API/data contracts (optional, only if needed)
+  - Subfolders allowed within standard folders for organization (e.g., specs/behaviors/prompts/, specs/strategy/architecture/)
   - `specs/requirements.spec.md` at root captures high-level requirements
   - `specs/constraints.spec.md` at root defines hard boundaries
-  - `.livespec/` contains LiveSpec methodology prompts (copied from LiveSpec prompts/)
-  - `..livespec/standard/` contains metaspecs and conventions (copied from LiveSpec .livespec/standard/)
+  - `.livespec/` contains LiveSpec methodology (copied from LiveSpec dist/)
+  - `.livespec/standard/` contains metaspecs and conventions
+  - `.livespec/templates/` contains workspace spec starter files
   - Decision test: "Could I copy this spec to different project?" YES = workspace/, NO = behaviors/strategy/
   - AI agents can locate relevant context by folder (workspace for process, behaviors for features)
 
@@ -26,17 +28,19 @@ constrained_by:
 project/
 ├── PURPOSE.md              # Why this exists
 │
-├── .livespec/              # LiveSpec methodology prompts
-│   ├── 0-define/
-│   ├── 1-design/
-│   ├── 2-build/
-│   ├── 3-verify/
-│   ├── 4-evolve/
-│   └── templates/
-│
-├── ..livespec/standard/     # LiveSpec standard (metaspecs, conventions)
-│   ├── metaspecs/
-│   └── conventions/
+├── .livespec/              # LiveSpec methodology
+│   ├── prompts/
+│   │   ├── 0-define/
+│   │   ├── 1-design/
+│   │   ├── 2-build/
+│   │   ├── 3-verify/
+│   │   ├── 4-evolve/
+│   │   └── utils/
+│   ├── standard/           # Metaspecs and conventions
+│   │   ├── metaspecs/
+│   │   └── conventions/
+│   └── templates/          # Workspace spec starter files
+│       └── workspace/
 │
 └── specs/
     ├── workspace/          # HOW you build (portable process)
@@ -45,6 +49,8 @@ project/
     │   └── workflows.spec.md
     │
     ├── behaviors/          # WHAT system does (user-facing)
+    │   ├── prompts/        # Organizational subfolder example
+    │   │   └── *.spec.md
     │   └── *.spec.md
     │
     ├── strategy/           # HOW technically (product-specific)

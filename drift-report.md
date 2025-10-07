@@ -17,7 +17,7 @@
 **Changes that don't require spec updates:**
 
 1. **Folder reorganization (627a1bf)**
-   - **Change**: Moved 4 behavior specs from specs/prompts/ to specs/behaviors/
+   - **Change**: Moved 4 behavior specs from specs/behaviors/prompts/ to specs/behaviors/
    - **Classification**: Refactoring - Same behavior, better organization
    - **Spec impact**: None - Folder structure spec already defined this requirement
    - **Action**: ✅ Auto-accepted
@@ -50,13 +50,13 @@
 
 2. **Agent Configuration System (facea5b)**
    - **Code**: AGENTS.md, CLAUDE.md symlink, 4d-regenerate-agents.md
-   - **Specs**: specs/workspace/agents.spec.md, specs/prompts/4d-regenerate-agents.spec.md
+   - **Specs**: specs/workspace/agents.spec.md, specs/behaviors/prompts/4d-regenerate-agents.spec.md
    - **Alignment**: ✅ All behaviors specified
    - **Action**: ✅ No drift
 
 3. **Utilities from v1 (be44344)**
    - **Code**: prompts/utils/analyze-failure.md, next-steps.md, run-spike.md
-   - **Specs**: specs/prompts/analyze-failure.spec.md, next-steps.spec.md, run-spike.spec.md
+   - **Specs**: specs/behaviors/prompts/analyze-failure.spec.md, next-steps.spec.md, run-spike.spec.md
    - **Alignment**: ✅ All utilities have specs
    - **Action**: ✅ No drift
 
@@ -76,8 +76,8 @@ None required.
 ## Spec-to-Implementation Validation
 
 ### All prompts specified ✅
-- 16 phase prompts: All have specs in specs/prompts/
-- 3 utility prompts: All have specs in specs/prompts/
+- 16 phase prompts: All have specs in specs/behaviors/prompts/
+- 3 utility prompts: All have specs in behaviors/prompts/
 
 ### All workspace behaviors implemented ✅
 

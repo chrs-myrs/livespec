@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/3a-run-validation.spec.md
+spec: specs/behaviors/prompts/3a-run-validation.spec.md
 ---
 
 # 3a: Run Validation

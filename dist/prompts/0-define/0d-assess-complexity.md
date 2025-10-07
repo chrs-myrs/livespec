@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/0d-assess-complexity.spec.md
+spec: specs/behaviors/prompts/0d-assess-complexity.spec.md
 ---
 
 # Assess Project Complexity

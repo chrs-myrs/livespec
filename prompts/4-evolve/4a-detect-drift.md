@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/4a-detect-drift.spec.md
+spec: specs/behaviors/prompts/4a-detect-drift.spec.md
 ---
 
 # 4a: Detect Drift
@@ -118,8 +118,8 @@ Identify child specs that may need updates:
 Changed: specs/strategy/architecture.spec.md
 
 Downward propagation:
-  - specs/prompts/0a-setup-workspace.spec.md (derives from architecture)
-  - specs/prompts/1a-design-architecture.spec.md (derives from architecture)
+  - specs/behaviors/prompts/0a-setup-workspace.spec.md (derives from architecture)
+  - specs/behaviors/prompts/1a-design-architecture.spec.md (derives from architecture)
   - All prompts/*/  (implementation may need updates)
 
 Action: Review each child spec for alignment

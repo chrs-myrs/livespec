@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/4e-validate-extractions.spec.md
+spec: specs/behaviors/prompts/4e-validate-extractions.spec.md
 ---
 
 # 4e: Validate Extracted Specifications

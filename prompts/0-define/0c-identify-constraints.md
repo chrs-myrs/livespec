@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/0c-identify-constraints.spec.md
+spec: specs/behaviors/prompts/0c-identify-constraints.spec.md
 ---
 
 # 0c: Identify Constraints

@@ -19,7 +19,7 @@ PURPOSE.md (Why we exist)
   │     │     ↓ limits options
   │     │     └─→ specs/strategy/architecture.spec.md (How we solve it)
   │     │           ↓ defines approach
-  │     │           ├─→ specs/prompts/*.spec.md (What each prompt does)
+  │     │           ├─→ specs/behaviors/prompts/*.spec.md (What each prompt does)
   │     │           │     ↓ implements methodology
   │     │           │     └─→ prompts/*.md (Actual prompts)
   │     │           │
@@ -75,7 +75,7 @@ Orthogonal (applies to all):
 
 ### 3. Implementation Specifications
 
-**specs/prompts/*.spec.md**
+**specs/behaviors/prompts/*.spec.md**
 - **Type**: Meta-specifications (MSL specs)
 - **Purpose**: What each prompt accomplishes
 - **Derives from**: architecture.spec.md
@@ -412,13 +412,13 @@ specs/constraints.spec.md → (limits) → specs/strategy/architecture.spec.md
 specs/strategy/architecture.spec.md:
   derives_from: [PURPOSE.md, specs/requirements.spec.md]
   constrained_by: [specs/constraints.spec.md]
-  enables: [specs/prompts/*, specs/behaviors/*]
+  enables: [specs/behaviors/prompts/*, specs/behaviors/*]
 ```
 
 ### Implementation
 
 ```yaml
-specs/prompts/*.spec.md:
+specs/behaviors/prompts/*.spec.md:
   derives_from: [specs/strategy/architecture.spec.md]
   implements: [prompts/*.md]
 

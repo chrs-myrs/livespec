@@ -414,8 +414,8 @@ LiveSpec itself demonstrates good scoping:
 **Why separate?** Different concerns, different update frequencies.
 
 **Prompt Specs (Product):**
-- `specs/prompts/0a-setup-workspace.spec.md` - One prompt's behavior
-- `specs/prompts/0b-define-problem.spec.md` - Another prompt's behavior
+- `specs/behaviors/prompts/0a-setup-workspace.spec.md` - One prompt's behavior
+- `specs/behaviors/prompts/0b-define-problem.spec.md` - Another prompt's behavior
 
 **Why separate?** Each prompt is independently testable, different failure modes.
 

@@ -34,7 +34,7 @@ Comprehensive validation of entire LiveSpec codebase completed. All critical lin
 ### 2. Implementation → Spec Coverage ✅
 
 **Prompts (19/19):**
-All prompts have governing specs in specs/prompts/:
+All prompts have governing specs in specs/behaviors/prompts/:
 - ✅ Phase 0: 4 prompts (0a, 0b, 0c, 0d)
 - ✅ Phase 1: 3 prompts (1a, 1b, 1c)
 - ✅ Phase 2: 2 prompts (2a, 2b)
@@ -76,12 +76,12 @@ All prompts have governing specs in specs/prompts/:
 
 **Prompt ↔ Spec Links (19/19):**
 All prompts have bidirectional links with their specs:
-- Prompt has `spec: specs/prompts/X.spec.md`
+- Prompt has `spec: specs/behaviors/prompts/X.spec.md`
 - Spec has `specifies: prompts/Y/X.md`
 
 **Issues Fixed During Validation:**
 - ✅ Fixed 4d-regenerate-agents.md: Was pointing to wrong spec (workspace/agents.spec.md instead of prompts/4d-regenerate-agents.spec.md)
-- ✅ Fixed utility prompts: Were referencing non-existent specs/prompts/utils/ directory
+- ✅ Fixed utility prompts: Were referencing non-existent specs/behaviors/prompts/utils/ directory
   - analyze-failure.md
   - next-steps.md
   - run-spike.md
@@ -142,13 +142,13 @@ Checked every spec for:
 ### Critical Fixes (4)
 
 1. **4d-regenerate-agents.md frontmatter**
-   - **Issue**: Referencing specs/workspace/agents.spec.md instead of specs/prompts/4d-regenerate-agents.spec.md
+   - **Issue**: Referencing specs/workspace/agents.spec.md instead of specs/behaviors/prompts/4d-regenerate-agents.spec.md
    - **Fix**: Updated `spec:` frontmatter to correct path
    - **Impact**: Restored bidirectional link validation
 
 2. **Utility prompt spec paths (3 files)**
-   - **Issue**: analyze-failure.md, next-steps.md, run-spike.md referencing non-existent specs/prompts/utils/ directory
-   - **Fix**: Updated all three to reference specs/prompts/ directly
+   - **Issue**: analyze-failure.md, next-steps.md, run-spike.md referencing non-existent specs/behaviors/prompts/utils/ directory
+   - **Fix**: Updated all three to reference specs/behaviors/prompts/ directly
    - **Impact**: Fixed spec resolution and bidirectional links
 
 3. **constraints.spec.md MSL compliance**

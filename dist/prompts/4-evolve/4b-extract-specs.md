@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/4b-extract-specs.spec.md
+spec: specs/behaviors/prompts/4b-extract-specs.spec.md
 ---
 
 # 4b: Extract Specifications

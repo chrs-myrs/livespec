@@ -1,12 +1,12 @@
 ---
-spec: specs/prompts/1b-define-behaviors.spec.md
+spec: specs/behaviors/prompts/1b-define-behaviors.spec.md
 ---
 
 # 1b: Define Behaviors
 
 **Phase**: DESIGN
 **Purpose**: Specify observable system behaviors
-**Context**: See `specs/prompts/` (LiveSpec's own prompt behaviors) as examples
+**Context**: See `specs/behaviors/prompts/` (LiveSpec's own prompt behaviors) as examples
 
 ## Task
 

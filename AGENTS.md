@@ -350,7 +350,7 @@ specs/requirements.spec.md (What - High-Level Requirements)
   ↓ constrains
 specs/constraints.spec.md → specs/strategy/architecture.spec.md
   ↓ boundaries                      ↓ approach shapes
-                                 specs/prompts/*.spec.md
+                                 specs/behaviors/prompts/*.spec.md
                                    ↓ implements
                                  prompts/*.md
 
@@ -446,7 +446,7 @@ LiveSpec uses YAML frontmatter for bidirectional links:
 **In prompts:**
 ```markdown
 ---
-spec: specs/prompts/0a-setup-workspace.spec.md
+spec: specs/behaviors/prompts/0a-setup-workspace.spec.md
 ---
 ```
 

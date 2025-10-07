@@ -293,16 +293,16 @@ livespec/
 
 **For Contributors:**
 - Read `specs/workspace/` to understand how WE build LiveSpec
-- Check `specs/prompts/` for what each prompt does
-- Check `specs/standard/` for the framework structure
+- Check `specs/behaviors/prompts/` for what each prompt does
+- Check `specs/behaviors/framework/` for the framework structure
 - We use `.livespec/` (symlinked to `dist/`) for our own development
 
 ## Contributing
 
 Contributions welcome! We dogfood our own methodology:
 - Read [specs/workspace/](specs/workspace/) to understand how WE build LiveSpec
-- Check [specs/prompts/](specs/prompts/) for what each prompt does
-- Check [specs/standard/](specs/standard/) for the framework structure
+- Check [specs/behaviors/prompts/](specs/behaviors/prompts/) for what each prompt does
+- Check [specs/behaviors/framework/](specs/behaviors/framework/) for the framework structure
 - Use `.livespec/` (symlinked to `dist/`) when working on LiveSpec itself
 - Submit PRs following workspace patterns
 
