@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/run-spike.spec.md
+spec: specs/behaviors/prompts/utils-run-spike.spec.md
 ---
 
 # Run Discovery Spike

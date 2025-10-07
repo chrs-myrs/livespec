@@ -12,12 +12,12 @@ failure_mode: Without clear architecture, LiveSpec becomes incoherent collection
 # LiveSpec Architecture
 
 ## Requirements
-- [!] LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, and includes templates within prompts/ for workspace bootstrapping.
+- [!] LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, and includes templates/ for workspace bootstrapping.
   - PURPOSE.md exists at root level
   - specs/workspace/ contains our development methodology
   - specs/behaviors/prompts/ documents what each prompt does
   - prompts/ contains all 5 phases (0-define through 4-evolve)
-  - prompts/templates/ contains workspace templates
+  - templates/ contains workspace templates
   - .livespec/ symlink points to prompts/
   - Tests validate our own specs
   - No user copies specs/ folder (only prompts/)

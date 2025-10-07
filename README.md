@@ -219,7 +219,7 @@ failure_mode: System unsecured without authentication
 
 ## The Five Phases
 
-LiveSpec guides development through five phases with clear entry/exit criteria. **Phases are iterative, not waterfall** - you can cycle back based on what you discover.
+LiveSpec guides development through five phases with clear entry/exit criteria. **Hybrid workflow** - natural progression through phases with feedback loops when discovering unknowns.
 
 ### Phase 0: DEFINE
 Establish problem space and development approach

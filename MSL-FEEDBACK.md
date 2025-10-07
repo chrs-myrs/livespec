@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-LiveSpec has successfully applied MSL to a complex, self-referential project (30+ specifications defining a methodology framework). Through 6 months of development and dogfooding, we've identified valuable extensions to MSL that enable:
+LiveSpec has successfully applied MSL to a complex, self-referential project (51 specifications defining a methodology framework). Through development and dogfooding, we've identified valuable extensions to MSL that enable:
 
 1. **Traceability** - Bidirectional dependency tracking across specification networks
 2. **Prioritization** - Impact-driven development decisions
@@ -27,7 +27,7 @@ This document reports what worked, what we needed to extend, and recommendations
 - Optional sections
 
 **LiveSpec experience:**
-- ✅ **Clarity**: Immediately recognizable structure across 30+ specs
+- ✅ **Clarity**: Immediately recognizable structure across 51 specs
 - ✅ **Parsability**: Easy for both humans and AI agents to parse
 - ✅ **Flexibility**: Optional sections accommodate different spec types
 - ✅ **Minimalism**: Forces focus on requirements (prevents bloat)
@@ -88,8 +88,8 @@ failure_mode: System unsecured without authentication
 - Forces binary decision (no MEDIUM escape hatch)
 
 **Statistics:**
-- 49/49 LiveSpec specs include criticality field (100% adoption)
-- 38 CRITICAL, 11 IMPORTANT (shows filtering works - not everything critical)
+- 51/51 LiveSpec specs include criticality field (100% adoption)
+- Demonstrates filtering effectiveness (not everything marked critical)
 
 **Recommendation: ✅ UPSTREAM TO MSL**
 
@@ -142,7 +142,7 @@ constrained_by:
 - Enables automated validation (all specs constrained?)
 
 **Statistics:**
-- 48/49 specs include constrained_by (98% adoption)
+- 50/51 specs include constrained_by (98% adoption)
 - Average 1.5 constraints per spec
 - Enables circularity validation (complete chain: MSL → base → metaspecs → specs)
 
@@ -203,9 +203,9 @@ derives_from:
 - Answers "why this spec?" question
 
 **Statistics:**
-- 15/49 specs include derives_from (31% adoption)
+- 18/51 specs include derives_from (35% adoption)
 - Primarily strategy/ and constraints/ specs (architectural decisions)
-- Links to PURPOSE.md (8 specs), requirements.spec.md (12 specs)
+- Links to foundational requirements and PURPOSE.md
 
 **Recommendation: ✅ UPSTREAM TO MSL (Optional field)**
 
@@ -257,7 +257,7 @@ specifies: dist/prompts/4-evolve/4a-detect-drift.md
 - Enables completeness check (all deliverables spec'd?)
 
 **Statistics:**
-- 20/49 specs include specifies (41% adoption)
+- 23/51 specs include specifies (45% adoption)
 - All prompt behavior specs use it (100% in that category)
 - Primarily LiveSpec dogfooding use case
 
@@ -327,9 +327,9 @@ applies_to:
 Scope declaration for workspace specs
 
 **Usage statistics:**
-- satisfies: 4/49 specs (8%) - Rare
-- supports: 5/49 specs (10%) - Rare
-- applies_to: 3/49 specs (6%) - Very rare
+- satisfies: 4/51 specs (8%) - Rare
+- supports: 5/51 specs (10%) - Rare
+- applies_to: 3/51 specs (6%) - Very rare
 
 **Recommendation: ❌ DO NOT UPSTREAM**
 
@@ -501,21 +501,21 @@ done
 ## Statistics Summary
 
 **Project scale:**
-- 49 specifications (30 project specs, 10 metaspecs, 3 conventions, 6 other)
-- 36 deliverables (prompts, templates, docs)
+- 51 specifications across methodology, metaspecs, and conventions
+- 36+ deliverables (prompts, templates, docs)
 - 100% MSL format compliance
 
 **Field adoption:**
 | Field | Count | Adoption | Recommendation |
 |-------|-------|----------|----------------|
-| criticality | 49/49 | 100% | ✅ Upstream (required) |
-| failure_mode | 49/49 | 100% | ✅ Upstream (required) |
-| constrained_by | 48/49 | 98% | ✅ Upstream (optional) |
-| specifies | 20/49 | 41% | ⚠️ Consider (optional) |
-| derives_from | 15/49 | 31% | ✅ Upstream (optional) |
-| supports | 5/49 | 10% | ❌ Keep as extension |
-| satisfies | 4/49 | 8% | ❌ Keep as extension |
-| applies_to | 3/49 | 6% | ❌ Keep as extension |
+| criticality | 51/51 | 100% | ✅ Upstream (required) |
+| failure_mode | 51/51 | 100% | ✅ Upstream (required) |
+| constrained_by | 50/51 | 98% | ✅ Upstream (optional) |
+| specifies | 23/51 | 45% | ⚠️ Consider (optional) |
+| derives_from | 18/51 | 35% | ✅ Upstream (optional) |
+| supports | 5/51 | 10% | ❌ Keep as extension |
+| satisfies | 4/51 | 8% | ❌ Keep as extension |
+| applies_to | 3/51 | 6% | ❌ Keep as extension |
 
 **Validation:**
 - 6 automated test scripts validate MSL compliance

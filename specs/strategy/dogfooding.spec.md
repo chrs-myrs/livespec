@@ -34,7 +34,7 @@ failure_mode: Without dogfooding validation, LiveSpec could prescribe methodolog
 
 **What we prove:**
 - Folder structure works (we use it)
-- MSL format scales (30+ specs maintained easily)
+- MSL format scales (50+ specs maintained easily)
 - Phase approach viable (we develop through phases)
 - Drift detection effective (we detect our own drift)
 - AI agents can assist (we use Claude Code on ourselves)

@@ -15,7 +15,7 @@ failure_mode: Without effective AI discoverability, agents cannot assist users a
   - Context7 indexes LiveSpec repository at github.com/chrs-myrs/livespec
   - llms.txt provides Context7-compatible entry point
   - AGENTS.md generated from workspace specs provides <100KB cacheable reference
-  - Folder structure uses clear hierarchy (workspace/, behaviors/, strategy/, contracts/)
+  - Folder structure uses clear hierarchy (workspace/, behaviors/, strategy/, contracts/ optional)
   - Prompts include spec: frontmatter pointing to defining specifications
   - VERSION file enables version-aware operations and upgrade detection
   - Upgrade process preserves agent context (AGENTS.md regeneration)
@@ -113,13 +113,13 @@ failure_mode: Without effective AI discoverability, agents cannot assist users a
 - Output: AGENTS.md with frontmatter (generated timestamp, version, spec reference)
 - Validation: file size check, section completeness, manual review
 
-**Agent-specific variants:**
+**Agent-specific variants (optional):**
 - AGENTS.md (canonical)
-- CLAUDE.md → symlink to AGENTS.md (Claude Code)
-- COPILOT.md → symlink to AGENTS.md (GitHub Copilot)
-- CURSOR.md → symlink to AGENTS.md (Cursor IDE)
+- CLAUDE.md → symlink to AGENTS.md (Claude Code - implemented)
+- COPILOT.md → symlink to AGENTS.md (GitHub Copilot - example)
+- CURSOR.md → symlink to AGENTS.md (Cursor IDE - example)
 
-Same content, different filenames for agent-specific discovery patterns.
+Same content, different filenames for agent-specific discovery patterns. LiveSpec currently implements CLAUDE.md only.
 
 ## Folder Structure for AI Navigation
 
@@ -266,7 +266,7 @@ Same content structure works across Claude Code, GitHub Copilot, Cursor IDE, and
 
 2. **Multiple discovery filenames:**
    - AGENTS.md (canonical)
-   - CLAUDE.md, COPILOT.md, CURSOR.md (symlinks)
+   - CLAUDE.md (symlink - implemented), others optional (COPILOT.md, CURSOR.md)
    - Agents discover methodology via familiar filename
 
 3. **Conventional folder structure:**
