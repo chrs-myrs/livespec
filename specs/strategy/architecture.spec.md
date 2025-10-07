@@ -51,6 +51,10 @@ Meta-specifications defining WHAT each prompt accomplishes:
 Technical approach and architectural decisions:
 - architecture.spec.md - This file (structural design)
 - ai-discoverability.spec.md - AI agent discoverability strategy
+- dogfooding.spec.md - Self-application validation strategy
+- validation.spec.md - Testing and verification approach
+- distribution.spec.md - Packaging and versioning strategy
+- phase-workflow.spec.md - Hybrid workflow strategy (waterfall + iterative)
 
 ### specs/
 Root-level product specifications:
