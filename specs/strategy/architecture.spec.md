@@ -50,6 +50,7 @@ Meta-specifications defining WHAT each prompt accomplishes:
 ### specs/strategy/
 Technical approach and architectural decisions:
 - architecture.spec.md - This file (structural design)
+- ai-discoverability.spec.md - AI agent discoverability strategy
 
 ### specs/
 Root-level product specifications:
@@ -87,6 +88,7 @@ Validation suite proving specs are correct:
    - Context7 indexes prompts/ and docs/
    - AI agents read methodology remotely
    - Users create specs locally with AI help
+   - Detailed strategy in specs/strategy/ai-discoverability.spec.md
 
 ## Validation
 
