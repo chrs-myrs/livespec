@@ -11,32 +11,29 @@ supports:
 **Criticality**: CRITICAL
 **Failure Mode**: Violating these constraints makes LiveSpec unusable or defeats its purpose
 
-## Agent Agnostic
+## Specification
 
-**Specification**: LiveSpec must work with any AI coding agent (Claude, Copilot, Cursor, etc.)
+LiveSpec must operate within five critical boundaries:
 
-**Validation**: Same LiveSpec structure produces effective results across 3+ different AI agents
+### Agent Agnostic
+Works with any AI coding agent (Claude, Copilot, Cursor, etc.). Same structure produces effective results across 3+ agents.
 
-## Manual Adoption
+### Manual Adoption
+Simple enough to adopt without custom tooling. Users can set up and use with standard file operations and AI prompts only.
 
-**Specification**: LiveSpec must be simple enough to adopt and use without custom tooling
+### MSL Minimalism
+All specifications follow MSL principles. Specifications cannot be further reduced without losing essential information.
 
-**Validation**: Users can set up and use LiveSpec with standard file operations and AI agent prompts only
+### No Framework Lock-in
+Pure information architecture with no proprietary formats. Specs are readable markdown, folder structure is standard, no custom parsers required.
 
-## MSL Minimalism
+### Testable Behaviors
+All behaviors must be observable and verifiable. Every specification includes concrete validation criteria.
 
-**Specification**: All specifications must follow MSL principles (critical requirements only)
+## Validation
 
-**Validation**: Specifications cannot be further reduced without losing essential information
-
-## No Framework Lock-in
-
-**Specification**: LiveSpec must be pure information architecture with no proprietary formats or tools
-
-**Validation**: Specifications are readable markdown, folder structure is standard, no custom parsers required
-
-## Testable Behaviors
-
-**Specification**: All behaviors must be observable and verifiable
-
-**Validation**: Every specification includes concrete validation criteria
+- LiveSpec works across Claude, Copilot, Cursor (agent agnostic)
+- Setup requires only file operations, no installation scripts (manual adoption)
+- All specs follow 4-section MSL format (MSL minimalism)
+- All content is standard markdown in standard folders (no lock-in)
+- Every spec has testable validation criteria (testable behaviors)

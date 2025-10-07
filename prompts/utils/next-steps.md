@@ -1,5 +1,5 @@
 ---
-spec: specs/prompts/utils/next-steps.spec.md
+spec: specs/prompts/next-steps.spec.md
 ---
 
 # Workflow Orchestrator - What To Do Next
