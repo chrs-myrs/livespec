@@ -1,8 +1,8 @@
-# Research and temporary files
-research/
+# Temporary files
 plan/
 .tmp/
 .scratch/
+var/
 
 # Generated content
 generated/
