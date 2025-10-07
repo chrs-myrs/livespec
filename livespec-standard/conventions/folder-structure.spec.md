@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without clear folder structure, AI agents cannot find relevant context and users become confused about where to place specs
 constrained_by:
-  - .livespec/specs/metaspecs/base.spec.md
+  - livespec-standard/metaspecs/base.spec.md
 ---
 
 # Folder Structure Convention
@@ -15,8 +15,8 @@ constrained_by:
   - `specs/contracts/` contains API/data contracts (optional, only if needed)
   - `specs/requirements.spec.md` at root captures high-level requirements
   - `specs/constraints.spec.md` at root defines hard boundaries
-  - `.livespec/` (or `prompts/`) contains LiveSpec methodology (copied from LiveSpec project)
-  - `.livespec/specs/` contains metaspecs and conventions (validation rules)
+  - `.livespec/` contains LiveSpec methodology prompts (copied from LiveSpec prompts/)
+  - `.livespec-standard/` contains metaspecs and conventions (copied from LiveSpec livespec-standard/)
   - Decision test: "Could I copy this spec to different project?" YES = workspace/, NO = behaviors/strategy/
   - AI agents can locate relevant context by folder (workspace for process, behaviors for features)
 
@@ -25,10 +25,18 @@ constrained_by:
 ```
 project/
 ├── PURPOSE.md              # Why this exists
-├── .livespec/              # LiveSpec methodology (symlink to prompts/)
-│   ├── prompts/            # Phase-based prompts
-│   ├── specs/              # Metaspecs and conventions
-│   └── templates/          # Workspace templates
+│
+├── .livespec/              # LiveSpec methodology prompts
+│   ├── 0-define/
+│   ├── 1-design/
+│   ├── 2-build/
+│   ├── 3-verify/
+│   ├── 4-evolve/
+│   └── templates/
+│
+├── .livespec-standard/     # LiveSpec standard (metaspecs, conventions)
+│   ├── metaspecs/
+│   └── conventions/
 │
 └── specs/
     ├── workspace/          # HOW you build (portable process)
@@ -52,9 +60,9 @@ project/
 ## Notes
 
 See individual metaspecs for what belongs in each folder:
-- `.livespec/specs/metaspecs/workspace.spec.md` - Workspace rules
-- `.livespec/specs/metaspecs/behavior.spec.md` - Behavior rules
-- `.livespec/specs/metaspecs/strategy.spec.md` - Strategy rules
-- `.livespec/specs/metaspecs/requirements.spec.md` - Requirements rules
-- `.livespec/specs/metaspecs/constraints.spec.md` - Constraints rules
-- `.livespec/specs/metaspecs/contract.spec.md` - Contract rules
+- `livespec-standard/metaspecs/workspace.spec.md` - Workspace rules
+- `livespec-standard/metaspecs/behavior.spec.md` - Behavior rules
+- `livespec-standard/metaspecs/strategy.spec.md` - Strategy rules
+- `livespec-standard/metaspecs/requirements.spec.md` - Requirements rules
+- `livespec-standard/metaspecs/constraints.spec.md` - Constraints rules
+- `livespec-standard/metaspecs/contract.spec.md` - Contract rules

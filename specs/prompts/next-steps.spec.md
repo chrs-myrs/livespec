@@ -3,7 +3,7 @@ specifies: prompts/utils/next-steps.md
 criticality: IMPORTANT
 failure_mode: Users get lost in process, skip phases, or don't know what to do next, leading to incomplete adoption
 constrained_by:
-  - .livespec/specs/metaspecs/behavior.spec.md
+  - livespec-standard/metaspecs/behavior.spec.md
 ---
 
 # Workflow Orchestrator Prompt

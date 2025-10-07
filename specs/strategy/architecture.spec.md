@@ -4,7 +4,7 @@ derives_from:
   - specs/requirements.spec.md
 constrained_by:
   - specs/constraints.spec.md
-  - .livespec/specs/metaspecs/strategy.spec.md
+  - livespec-standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without clear architecture, LiveSpec becomes incoherent collection of files
 ---

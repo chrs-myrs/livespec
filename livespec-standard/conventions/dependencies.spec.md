@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Without dependency tracking, specification relationships become implicit and unverifiable
 constrained_by:
-  - .livespec/specs/metaspecs/base.spec.md
+  - livespec-standard/metaspecs/base.spec.md
 ---
 
 # Dependency Convention
@@ -39,7 +39,7 @@ Boundaries and limits this specification must respect.
 ```yaml
 constrained_by:
   - specs/constraints.spec.md
-  - .livespec/specs/metaspecs/behavior.spec.md
+  - livespec-standard/metaspecs/behavior.spec.md
 ```
 
 ### satisfies

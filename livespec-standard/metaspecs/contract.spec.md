@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Without contract spec rules, API definitions mix with behaviors or become informal documentation
 constrained_by:
-  - .livespec/specs/metaspecs/base.spec.md
+  - livespec-standard/metaspecs/base.spec.md
 ---
 
 # Contract Specification Requirements

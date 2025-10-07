@@ -3,7 +3,7 @@ specifies: prompts/2-build/2a-implement-from-specs.md
 criticality: CRITICAL
 failure_mode: Implementation doesn't follow specifications
 constrained_by:
-  - .livespec/specs/metaspecs/behavior.spec.md
+  - livespec-standard/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Implement from Specifications

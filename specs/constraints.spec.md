@@ -7,7 +7,7 @@ supports:
 criticality: CRITICAL
 failure_mode: Violating these constraints makes LiveSpec unusable or defeats its purpose
 constrained_by:
-  - .livespec/specs/metaspecs/constraints.spec.md
+  - livespec-standard/metaspecs/constraints.spec.md
 ---
 
 # LiveSpec Constraints

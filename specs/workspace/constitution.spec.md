@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without governance principles, LiveSpec development becomes inconsistent and violates its own philosophy
 constrained_by:
-  - .livespec/specs/metaspecs/workspace.spec.md
+  - livespec-standard/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Development Constitution
