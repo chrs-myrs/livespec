@@ -128,8 +128,9 @@ your-project/
 │   │   ├── 2-build/        # Implementation
 │   │   ├── 3-verify/       # Validation
 │   │   ├── 4-evolve/       # Synchronisation
-│   │   └── templates/      # Workspace templates
-│   └── standard/           # MSL metaspecs and conventions
+│   │   └── utils/          # Utility prompts
+│   ├── standard/           # MSL metaspecs and conventions
+│   └── templates/          # Workspace spec starter files
 │
 └── [your code]             # Your implementation
 ```
@@ -269,10 +270,12 @@ livespec/
 │   │   ├── 2-build/
 │   │   ├── 3-verify/
 │   │   ├── 4-evolve/
-│   │   └── templates/      # Workspace templates
-│   └── standard/           # MSL metaspecs and conventions
-│       ├── metaspecs/
-│       └── conventions/
+│   │   └── utils/
+│   ├── standard/           # MSL metaspecs and conventions
+│   │   ├── metaspecs/
+│   │   └── conventions/
+│   └── templates/          # Workspace spec starter files
+│       └── workspace/
 │
 ├── specs/                  # DOGFOODING (LiveSpec's own specs)
 │   ├── workspace/          # How we build LiveSpec

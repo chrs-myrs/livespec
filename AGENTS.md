@@ -152,10 +152,13 @@ your-project/
 │   ├── 2-build/
 │   ├── 3-verify/
 │   ├── 4-evolve/
-│   └── templates/          # Workspace templates
-│
-└── specs/
-    ├── workspace/          # HOW you build (process)
+│   └── utils/              # Utility prompts
+├── standard/               # MSL metaspecs and conventions
+└── templates/              # Workspace spec starter files
+    └── workspace/
+
+specs/
+├── workspace/              # HOW you build (process)
     │   ├── constitution.spec.md
     │   ├── patterns.spec.md
     │   └── workflows.spec.md

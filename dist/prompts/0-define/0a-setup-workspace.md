@@ -16,40 +16,53 @@ Create the standard LiveSpec folder structure for this project:
 project/
 ├── specs/
 │   ├── workspace/
-│   │   ├── constitution.md
-│   │   ├── patterns.md
-│   │   └── workflows.md
+│   │   ├── constitution.spec.md
+│   │   ├── patterns.spec.md
+│   │   └── workflows.spec.md
 │   ├── behaviors/
 │   └── contracts/
-└── prompts/
-    ├── 0-define/
-    ├── 1-design/
-    ├── 2-build/
-    ├── 3-verify/
-    └── 4-evolve/
+└── .livespec/              # Already copied from dist/
+    ├── prompts/
+    ├── standard/
+    └── templates/
 ```
 
 ## Workspace Specifications
 
-Create initial workspace specifications in `specs/workspace/`:
+Create initial workspace specifications in `specs/workspace/` using provided templates:
 
-###constitution.md
-Define core development principles for this project:
-- What governance rules apply?
-- What quality standards must be met?
-- What philosophies guide decisions?
+### Step 1: Copy Templates
 
-### patterns.md
-Define code and specification patterns:
-- Naming conventions
-- File organization rules
-- Quality criteria
+```bash
+cp .livespec/templates/workspace/*.template specs/workspace/
+```
 
-### workflows.md
-Define development workflows:
-- How to add features
-- How to fix bugs
-- How to review changes
+### Step 2: Customize Each Template
+
+**constitution.spec.md.template** → **constitution.spec.md**
+- Replace `[PROJECT_NAME]` with your project name
+- Define core development principles
+- Specify governance rules and quality standards
+- Document guiding philosophies
+
+**patterns.spec.md.template** → **patterns.spec.md**
+- Define naming conventions
+- Specify file organization rules
+- Document coding patterns and quality criteria
+
+**workflows.spec.md.template** → **workflows.spec.md**
+- Document how to add features
+- Specify bug fix process
+- Define change review workflow
+
+### Step 3: Remove .template Extensions
+
+```bash
+cd specs/workspace
+mv constitution.spec.md.template constitution.spec.md
+mv patterns.spec.md.template patterns.spec.md
+mv workflows.spec.md.template workflows.spec.md
+```
 
 ## Format
 

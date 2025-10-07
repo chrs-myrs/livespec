@@ -9,7 +9,7 @@ These templates provide starting points for workspace specifications in your pro
 Copy the workspace templates to your project's specs/workspace/ folder:
 
 ```bash
-cp prompts/templates/workspace/*.template specs/workspace/
+cp .livespec/templates/workspace/*.template specs/workspace/
 ```
 
 Then customize each template:

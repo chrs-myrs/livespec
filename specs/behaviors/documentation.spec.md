@@ -53,8 +53,12 @@ satisfies:
 
 **Distribution model must explain:**
 - Users copy `dist/*` to `.livespec/` in their projects
-- dist/ contains standard (metaspecs/conventions) and prompts (methodology)
+- dist/ contains three components:
+  - standard/ - MSL metaspecs and conventions
+  - prompts/ - 5-phase methodology guidance
+  - templates/ - Spec starter files for bootstrapping projects
 - LiveSpec repo uses `.livespec` symlink to `dist/` for dogfooding
+- Templates are .spec.md.template files users copy and customize
 
 ## Agent-Specific Documentation
 
