@@ -14,6 +14,16 @@ These are **optional advanced prompts** for complex scenarios. Most projects won
 
 ## Available Utilities
 
+### upgrade-methodology.md - Safe Methodology Upgrade
+**Use when:** LiveSpec releases new version and you want latest improvements
+
+Guides through backup, fetch, diff, and selective application of methodology updates while preserving your customizations.
+
+```bash
+# Example:
+claude-code "Use .livespec/utils/upgrade-methodology.md"
+```
+
 ### next-steps.md - Workflow Orchestrator
 **Use when:** You're lost or unsure what to do next
 

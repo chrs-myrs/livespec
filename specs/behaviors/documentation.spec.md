@@ -32,9 +32,12 @@ satisfies:
   - README demonstrates LiveSpec is example of methodology applied to non-coding project
   - README explicitly states "Phases are iterative, not waterfall"
   - README provides 5-minute quick start for both new and existing projects
+  - README mentions upgrade path for existing .livespec/ installations
   - docs/quickstart.md provides step-by-step instructions for each phase
   - Documentation optimized for AI agent consumption (AGENTS.md, llms.txt)
   - All docs explain distribution model (copy dist/* to .livespec/)
+  - Upgrade utility documented in prompts/utils/README.md
+  - VERSION file exists in dist/ for version tracking
   - Target audiences addressed: new users, contributors, AI agents
 
 ## Documentation Structure
