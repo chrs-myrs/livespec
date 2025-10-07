@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without constraint spec rules, hard boundaries become vague requirements or mix with preferences
 constrained_by:
-  - livespec-standard/metaspecs/base.spec.md
+  - .livespec/standard/metaspecs/base.spec.md
 ---
 
 # Constraints Specification Requirements

@@ -3,7 +3,7 @@ specifies: prompts/0-define/0c-identify-constraints.md
 criticality: CRITICAL
 failure_mode: Projects violate boundaries that should have been identified upfront
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Identify Constraints

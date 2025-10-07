@@ -146,7 +146,7 @@ failure_mode: [What breaks without this]
 your-project/
 ├── PURPOSE.md              # Why this exists, what success looks like
 │
-├── .livespec/              # Copied from livespec/prompts/
+├── .livespec/              # Copied from livespec/dist/
 │   ├── 0-define/
 │   ├── 1-design/
 │   ├── 2-build/

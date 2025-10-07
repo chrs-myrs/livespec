@@ -34,7 +34,7 @@ LiveSpec separates workspace (HOW you build) from product (WHAT you build):
 ```
 your-project/
 ├── PURPOSE.md              # Why this project exists
-├── .livespec/              # Methodology prompts (copy from prompts/)
+├── .livespec/              # Methodology (copy from dist/)
 │   ├── 0-define/
 │   ├── 1-design/
 │   ├── 2-build/

@@ -11,7 +11,7 @@ supports:
 criticality: CRITICAL
 failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
 constrained_by:
-  - livespec-standard/metaspecs/workspace.spec.md
+  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # Agent Configuration Structure

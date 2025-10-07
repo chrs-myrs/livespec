@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without structured phases, development becomes chaotic and AI agents lack clear direction
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Five Phases Behavior

@@ -9,7 +9,7 @@ supports:
 criticality: CRITICAL
 failure_mode: Without clear requirements, LiveSpec lacks cohesive direction and becomes disconnected collection of features
 constrained_by:
-  - livespec-standard/metaspecs/requirements.spec.md
+  - .livespec/standard/metaspecs/requirements.spec.md
 ---
 
 # LiveSpec Requirements

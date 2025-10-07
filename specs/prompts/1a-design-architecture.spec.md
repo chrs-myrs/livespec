@@ -3,7 +3,7 @@ specifies: prompts/1-design/1a-design-architecture.md
 criticality: CRITICAL
 failure_mode: Implementation lacks architectural guidance
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Design Architecture

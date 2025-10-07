@@ -19,8 +19,8 @@ LiveSpec is a folder structure and methodology for keeping specifications and co
 # Clone LiveSpec
 git clone https://github.com/chrs-myrs/livespec.git
 
-# Copy prompts to .livespec/ folder
-cp -r livespec/prompts your-project/.livespec
+# Copy distribution to .livespec/ folder
+cp -r livespec/dist/* your-project/.livespec
 
 # Create specs structure
 mkdir -p your-project/specs/workspace your-project/specs/behaviors your-project/specs/contracts
@@ -33,7 +33,7 @@ cd your-project
 
 # Copy LiveSpec methodology
 git clone https://github.com/chrs-myrs/livespec.git /tmp/livespec
-cp -r /tmp/livespec/prompts .livespec
+cp -r /tmp/livespec/dist/* .livespec
 
 # Create specs structure
 mkdir -p specs/workspace specs/behaviors specs/contracts
@@ -110,7 +110,7 @@ claude-code "Use .livespec/4-evolve/4a-detect-drift.md"
 
 ```bash
 # Copy LiveSpec methodology
-cp -r livespec/prompts .livespec
+cp -r livespec/dist/* .livespec
 
 # Create specs folders
 mkdir -p specs/workspace specs/behaviors specs/contracts

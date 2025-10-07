@@ -69,7 +69,7 @@ git clone https://github.com/chrs-myrs/livespec.git
 cd your-project
 
 # Copy methodology to .livespec/ folder
-cp -r livespec/prompts .livespec
+cp -r livespec/dist/* .livespec
 
 # Create specs structure
 mkdir -p specs/workspace specs/behaviors specs/contracts
@@ -82,7 +82,7 @@ claude-code "Use .livespec/0-define/0a-setup-workspace.md"
 
 ```bash
 # Copy methodology
-cp -r livespec/prompts .livespec
+cp -r livespec/dist/* .livespec
 
 # Create structure
 mkdir -p specs/workspace specs/behaviors specs/contracts
@@ -119,13 +119,15 @@ your-project/
 │   ├── contracts/          # API/data contracts
 │   └── constraints.spec.md # Hard boundaries
 │
-├── .livespec/              # LiveSpec methodology (copied from prompts/)
-│   ├── 0-define/           # Problem definition
-│   ├── 1-design/           # Solution design
-│   ├── 2-build/            # Implementation
-│   ├── 3-verify/           # Validation
-│   ├── 4-evolve/           # Synchronisation
-│   └── templates/          # Workspace templates
+├── .livespec/              # LiveSpec methodology (copied from dist/)
+│   ├── prompts/
+│   │   ├── 0-define/       # Problem definition
+│   │   ├── 1-design/       # Solution design
+│   │   ├── 2-build/        # Implementation
+│   │   ├── 3-verify/       # Validation
+│   │   ├── 4-evolve/       # Synchronisation
+│   │   └── templates/      # Workspace templates
+│   └── standard/           # MSL metaspecs and conventions
 │
 └── [your code]             # Your implementation
 ```
@@ -258,37 +260,45 @@ livespec/
 ├── PURPOSE.md              # Why LiveSpec exists
 ├── README.md               # This file
 │
-├── prompts/                # METHODOLOGY (copy this to .livespec/)
-│   ├── 0-define/
-│   ├── 1-design/
-│   ├── 2-build/
-│   ├── 3-verify/
-│   ├── 4-evolve/
-│   └── templates/          # Workspace templates
+├── dist/                   # DISTRIBUTION (copy this to .livespec/)
+│   ├── prompts/            # 5-phase methodology
+│   │   ├── 0-define/
+│   │   ├── 1-design/
+│   │   ├── 2-build/
+│   │   ├── 3-verify/
+│   │   ├── 4-evolve/
+│   │   └── templates/      # Workspace templates
+│   └── standard/           # MSL metaspecs and conventions
+│       ├── metaspecs/
+│       └── conventions/
 │
 ├── specs/                  # DOGFOODING (LiveSpec's own specs)
 │   ├── workspace/          # How we build LiveSpec
+│   ├── behaviors/          # What LiveSpec does
 │   ├── prompts/            # Meta-specs about our prompts
-│   └── constraints.spec.md
+│   ├── standard/           # Meta-specs about the standard
+│   └── strategy/           # How we solve it technically
 │
-├── .livespec/              # Symlink to prompts/ (we dogfood our own methodology)
+├── .livespec/              # Symlink to dist/ (we dogfood our own methodology)
 ├── tests/                  # Validation suite
 └── docs/                   # User documentation
 ```
 
-**For Users:** Copy `prompts/` to `.livespec/` in your project
+**For Users:** Copy `dist/*` to `.livespec/` in your project
 
 **For Contributors:**
 - Read `specs/workspace/` to understand how WE build LiveSpec
 - Check `specs/prompts/` for what each prompt does
-- We use `.livespec/` (symlinked to `prompts/`) for our own development
+- Check `specs/standard/` for the framework structure
+- We use `.livespec/` (symlinked to `dist/`) for our own development
 
 ## Contributing
 
 Contributions welcome! We dogfood our own methodology:
 - Read [specs/workspace/](specs/workspace/) to understand how WE build LiveSpec
 - Check [specs/prompts/](specs/prompts/) for what each prompt does
-- Use `.livespec/` prompts when working on LiveSpec itself
+- Check [specs/standard/](specs/standard/) for the framework structure
+- Use `.livespec/` (symlinked to `dist/`) when working on LiveSpec itself
 - Submit PRs following workspace patterns
 
 ## License

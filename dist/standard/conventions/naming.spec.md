@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Inconsistent naming makes LiveSpec projects harder to understand and navigate
 constrained_by:
-  - livespec-standard/metaspecs/base.spec.md
+  - .livespec/standard/metaspecs/base.spec.md
 ---
 
 # Naming Convention

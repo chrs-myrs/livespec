@@ -3,7 +3,7 @@ specifies: prompts/3-verify/3b-acceptance-review.md
 criticality: IMPORTANT
 failure_mode: Stakeholders cannot assess if requirements are met
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Acceptance Review

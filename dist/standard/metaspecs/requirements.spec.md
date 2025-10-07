@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without requirements spec rules, high-level requirements become detailed behaviors or mix with constraints
 constrained_by:
-  - livespec-standard/metaspecs/base.spec.md
+  - .livespec/standard/metaspecs/base.spec.md
 ---
 
 # Requirements Specification Requirements

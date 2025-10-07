@@ -3,7 +3,7 @@ specifies: prompts/0-define/0d-assess-complexity.md
 criticality: IMPORTANT
 failure_mode: Projects launched without realistic timeline expectations, leading to missed deadlines and poor planning
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Complexity Assessment Prompt

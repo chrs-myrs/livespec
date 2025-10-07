@@ -10,7 +10,7 @@ supports:
 criticality: CRITICAL
 failure_mode: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
 constrained_by:
-  - livespec-standard/metaspecs/workspace.spec.md
+  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Agent Integration

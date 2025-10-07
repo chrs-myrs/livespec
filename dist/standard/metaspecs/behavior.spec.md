@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without behavior spec requirements, behavioral specs become implementation details rather than observable outcomes
 constrained_by:
-  - livespec-standard/metaspecs/base.spec.md
+  - .livespec/standard/metaspecs/base.spec.md
 ---
 
 # Behavior Specification Requirements

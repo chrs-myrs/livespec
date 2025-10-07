@@ -3,7 +3,7 @@ specifies: prompts/utils/analyze-failure.md
 criticality: IMPORTANT
 failure_mode: Process failures repeat without understanding root causes, preventing improvement
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Process Failure Analysis Prompt

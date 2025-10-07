@@ -6,7 +6,7 @@ derives_from:
 criticality: IMPORTANT
 failure_mode: AGENTS.md becomes stale, agents lack current methodology context, users must repeatedly explain LiveSpec process
 constrained_by:
-  - livespec-standard/metaspecs/behavior.spec.md
+  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Regenerate Agent Configuration Prompt
