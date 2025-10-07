@@ -36,9 +36,9 @@ graph TD
     PURPOSE[PURPOSE.md<br/>Why this exists]
     REQUIREMENTS[requirements.spec.md<br/>What we must achieve]
     CONSTRAINTS[constraints.spec.md<br/>Hard boundaries]
-    ARCH[architecture.spec.md<br/>How we solve it]
+    STRATEGY[strategy/<br/>Technical approach]
     SPECS[behaviors/ + contracts/<br/>What system does]
-    CODE[Your Code<br/>Implementation]
+    CODE[Your Code<br/>AI-generated or manual]
 
     %% Validation
     TESTS[tests/<br/>Validation]
@@ -49,9 +49,9 @@ graph TD
     %% Main Flow
     PURPOSE --> REQUIREMENTS
     REQUIREMENTS --> CONSTRAINTS
-    REQUIREMENTS --> ARCH
-    CONSTRAINTS --> ARCH
-    ARCH --> SPECS
+    REQUIREMENTS --> STRATEGY
+    CONSTRAINTS --> STRATEGY
+    STRATEGY --> SPECS
     SPECS --> CODE
 
     %% Validation
@@ -61,7 +61,7 @@ graph TD
     style PURPOSE fill:#e1f5ff
     style REQUIREMENTS fill:#e1f5ff
     style CONSTRAINTS fill:#e1f5ff
-    style ARCH fill:#fff4e1
+    style STRATEGY fill:#fff4e1
     style SPECS fill:#e8f5e9
     style CODE fill:#e8f5e9
     style TESTS fill:#fce4ec
@@ -81,32 +81,43 @@ LiveSpec achieves complete circularity - every deliverable is defined by a spec,
 
 ```mermaid
 graph TD
-    MSL[<a href='https://github.com/chrs-myrs/msl-specification'>MSL Standard</a><br/>External specification language]
-    BASE[base.spec.md<br/>LiveSpec extensions]
     META[Framework<br/>7 metaspecs + 3 conventions]
     SPECS[Project Specs<br/>30 specifications]
     DELIVER[Deliverables<br/>Prompts, docs, framework, templates]
 
-    MSL -->|extends| BASE
-    BASE -->|constrains| META
     META -->|constrain| SPECS
     SPECS -->|define| DELIVER
     DELIVER -.dogfoods.-> META
 
-    style MSL fill:#e1f5ff
-    style BASE fill:#fff4e1
     style META fill:#fff4e1
     style SPECS fill:#e8f5e9
     style DELIVER fill:#fce4ec
-
-    click MSL "https://github.com/chrs-myrs/msl-specification" "View MSL Specification"
 ```
 
 **Complete chain verified:**
-- [MSL](https://github.com/chrs-myrs/msl-specification) (external) → base.spec.md → metaspecs → project specs → deliverables
+- Framework extends [MSL Standard](https://github.com/chrs-myrs/msl-specification) via base.spec.md
 - Every spec has `constrained_by:` pointing to a metaspec
 - Every deliverable has a spec in `specs/` describing it
 - LiveSpec dogfoods itself: the framework is specified using the framework
+
+## AI-Powered Development
+
+**LiveSpec enables AI agents to generate code from your specifications:**
+
+Write minimal specs describing what your system should do. AI agents read these specs and generate the implementation. No framework lock-in - works with Claude Code, GitHub Copilot, Cursor, or any coding agent.
+
+**Spec-to-code generation:**
+1. **Phase 1-2**: Write behavior specs → AI generates code from specs
+2. **Phase 4**: Code changes → AI extracts specs from code
+3. **Continuous**: Bidirectional sync keeps specs and code aligned
+
+**Key difference from other tools:**
+- **No CLI required** - Just copy folders, paste prompts to your AI agent
+- **Agent-agnostic** - Same methodology works across Claude, Copilot, Cursor
+- **Bidirectional** - Start with specs OR start with code (both work)
+- **Zero dependencies** - Pure markdown files in standard folders
+
+Compare to spec-kit: LiveSpec is the no-tooling, agent-agnostic alternative. Same philosophy (specs drive development) but manual-friendly and framework-free.
 
 ## Quick Start
 

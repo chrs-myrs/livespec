@@ -10,15 +10,22 @@ satisfies:
 # Documentation Requirements
 
 ## Requirements
-- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear problem statement, architecture visualization, MSL integration, circularity demonstration, and example of LiveSpec applied to non-coding project (itself).
+- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear problem statement, architecture visualization, MSL integration, circularity demonstration, AI-powered development explanation, and example of LiveSpec applied to non-coding project (itself).
   - README starts with "The Problem" section explaining spec drift and manual sync burden
   - README explains LiveSpec's solution (bidirectional sync, minimal specs, continuous evolution)
   - Architecture diagram shows initial setup flow with note clarifying it's iterative (not waterfall)
+  - Architecture diagram uses "strategy/" not "ARCH" for technical approach node
+  - Architecture diagram shows "Your Code (AI-generated or manual)" node
   - Architecture diagram includes legend explaining color-coded flow
+  - Self-documenting diagram shows Framework → Project Specs → Deliverables flow (3 nodes)
   - Self-documenting diagram distinguishes how LiveSpec documents itself vs target project structure
-  - Circularity diagram (MSL → base → metaspecs → specs → deliverables) with clickable MSL link
-  - Circularity diagram demonstrates complete self-documentation (every deliverable has spec, every spec constrained by metaspec)
-  - Circularity diagram shows dogfooding loop (deliverables define the framework)
+  - Self-documenting diagram notes "Framework extends MSL Standard via base.spec.md"
+  - Self-documenting diagram demonstrates complete self-documentation (every deliverable has spec, every spec constrained by metaspec)
+  - Self-documenting diagram shows dogfooding loop (deliverables define the framework)
+  - AI-Powered Development section explains spec-to-code generation before Quick Start
+  - AI section covers Phase 1-2 (specs→code), Phase 4 (code→specs), continuous bidirectional sync
+  - AI section highlights agent-agnostic approach (Claude, Copilot, Cursor)
+  - AI section compares to spec-kit (no CLI vs CLI-based, agent-agnostic vs GitHub-focused)
   - Continuous evolution diagram shows Phase 4 bidirectional sync cycle
   - Evolution diagram clarifies design-first AND code-first workflows both work
   - README links to MSL specification (github.com/chrs-myrs/msl-specification)
