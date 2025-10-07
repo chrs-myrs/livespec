@@ -1,6 +1,8 @@
 ---
 criticality: IMPORTANT
 failure_mode: Inconsistent patterns make LiveSpec harder to understand and maintain
+constrained_by:
+  - .livespec/specs/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Development Patterns

@@ -2,6 +2,8 @@
 specifies: prompts/4-evolve/4b-extract-specs.md
 criticality: CRITICAL
 failure_mode: New behaviors remain undocumented
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Extract Specifications

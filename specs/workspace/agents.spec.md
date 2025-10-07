@@ -10,6 +10,8 @@ supports:
   - prompts/4-evolve/4d-regenerate-agents.md
 criticality: CRITICAL
 failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
+constrained_by:
+  - .livespec/specs/metaspecs/workspace.spec.md
 ---
 
 # Agent Configuration Structure

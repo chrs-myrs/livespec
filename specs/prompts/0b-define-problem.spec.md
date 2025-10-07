@@ -2,6 +2,8 @@
 specifies: prompts/0-define/0b-define-problem.md
 criticality: CRITICAL
 failure_mode: Projects lack clear problem definition, leading to misaligned solutions
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Define Problem

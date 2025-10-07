@@ -5,6 +5,8 @@ derives_from:
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: AGENTS.md becomes stale, agents lack current methodology context, users must repeatedly explain LiveSpec process
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Regenerate Agent Configuration Prompt

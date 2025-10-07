@@ -2,6 +2,8 @@
 specifies: prompts/3-verify/3a-run-validation.md
 criticality: CRITICAL
 failure_mode: Cannot verify specifications are met
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Run Validation

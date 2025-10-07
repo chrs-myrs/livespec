@@ -9,6 +9,8 @@ supports:
   - all_development_activities
 criticality: CRITICAL
 failure_mode: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
+constrained_by:
+  - .livespec/specs/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Agent Integration

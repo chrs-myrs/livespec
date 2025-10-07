@@ -2,6 +2,8 @@
 specifies: prompts/4-evolve/4c-sync-complete.md
 criticality: CRITICAL
 failure_mode: Cannot confirm specs and code are synchronized
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Synchronisation Complete

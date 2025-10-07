@@ -2,6 +2,8 @@
 specifies: prompts/utils/run-spike.md
 criticality: IMPORTANT
 failure_mode: Projects proceed with critical unknowns, leading to late-stage redesigns or failures
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Discovery Spike Prompt

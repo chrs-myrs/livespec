@@ -5,6 +5,8 @@ derives_from:
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: Low-confidence extractions remain unvalidated, specs diverge from implementation reality, extraction errors propagate
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Validate Extracted Specifications Prompt

@@ -8,6 +8,8 @@ supports:
   - specs/prompts/
 criticality: CRITICAL
 failure_mode: Without clear requirements, LiveSpec lacks cohesive direction and becomes disconnected collection of features
+constrained_by:
+  - .livespec/specs/metaspecs/requirements.spec.md
 ---
 
 # LiveSpec Requirements

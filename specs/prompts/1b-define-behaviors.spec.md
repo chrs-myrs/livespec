@@ -2,6 +2,8 @@
 specifies: prompts/1-design/1b-define-behaviors.md
 criticality: CRITICAL
 failure_mode: Implementation lacks observable behavior specifications
+constrained_by:
+  - .livespec/specs/metaspecs/behavior.spec.md
 ---
 
 # Prompt Behavior: Define Behaviors
