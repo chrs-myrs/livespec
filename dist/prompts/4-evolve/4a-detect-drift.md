@@ -169,7 +169,7 @@ Action: Update workspace specs to reflect new structure
 
 ## Create Drift Report
 
-Document findings in `var/drift-report.md`:
+Document findings in `var/drift-reports/drift-report.md`:
 
 ```markdown
 # Drift Detection Report

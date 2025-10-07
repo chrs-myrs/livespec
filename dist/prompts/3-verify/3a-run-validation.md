@@ -112,7 +112,7 @@ Create constraint validation report:
 
 ## Validation Report
 
-Create `var/validation-report.md`:
+Create `var/validation-reports/validation-report.md`:
 
 ```markdown
 # Validation Report

@@ -107,33 +107,33 @@ Generate comprehensive diff report:
 
 ```bash
 # Create diff report
-mkdir -p var
-echo "=== UPGRADE DIFF REPORT ===" > var/var/upgrade-diff.txt
-echo "Current version: $(cat .livespec/VERSION 2>/dev/null || echo 'unknown')" >> var/var/upgrade-diff.txt
-echo "New version: $(cat $NEW_DIST/VERSION)" >> var/var/upgrade-diff.txt
-echo "" >> var/var/upgrade-diff.txt
+mkdir -p var/upgrade-reports
+echo "=== UPGRADE DIFF REPORT ===" > var/upgrade-reports/upgrade-diff.txt
+echo "Current version: $(cat .livespec/VERSION 2>/dev/null || echo 'unknown')" >> var/upgrade-reports/upgrade-diff.txt
+echo "New version: $(cat $NEW_DIST/VERSION)" >> var/upgrade-reports/upgrade-diff.txt
+echo "" >> var/upgrade-reports/upgrade-diff.txt
 
 # Find new files (in new dist, not in .livespec)
-echo "🟢 NEW FILES (will be added):" >> var/var/upgrade-diff.txt
-comm -13 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/var/upgrade-diff.txt
-echo "" >> var/var/upgrade-diff.txt
+echo "🟢 NEW FILES (will be added):" >> var/upgrade-reports/upgrade-diff.txt
+comm -13 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-reports/upgrade-diff.txt
+echo "" >> var/upgrade-reports/upgrade-diff.txt
 
 # Find modified files (in both, different content)
-echo "🟡 MODIFIED FILES (review required):" >> var/var/upgrade-diff.txt
+echo "🟡 MODIFIED FILES (review required):" >> var/upgrade-reports/upgrade-diff.txt
 for file in $(comm -12 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort)); do
   if ! diff -q ".livespec/$file" "$NEW_DIST/$file" >/dev/null 2>&1; then
-    echo "  $file" >> var/upgrade-diff.txt
+    echo "  $file" >> var/upgrade-reports/upgrade-diff.txt
   fi
 done
-echo "" >> var/upgrade-diff.txt
+echo "" >> var/upgrade-reports/upgrade-diff.txt
 
 # Find removed files (in old .livespec, not in new dist)
-echo "🔴 REMOVED FILES (no longer in standard):" >> var/upgrade-diff.txt
-comm -23 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-diff.txt
-echo "" >> var/upgrade-diff.txt
+echo "🔴 REMOVED FILES (no longer in standard):" >> var/upgrade-reports/upgrade-diff.txt
+comm -23 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-reports/upgrade-diff.txt
+echo "" >> var/upgrade-reports/upgrade-diff.txt
 
 # Show report
-cat var/upgrade-diff.txt
+cat var/upgrade-reports/upgrade-diff.txt
 ```
 
 **Review the diff report carefully.**
@@ -154,7 +154,7 @@ Apply changes systematically. For each category:
 ```bash
 # Copy new files from diff report
 # Review list of new files first
-grep "🟢" var/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
+grep "🟢" var/upgrade-reports/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
   file=$(echo "$file" | xargs)  # trim whitespace
   if [ -f "$NEW_DIST/$file" ]; then
     echo "Add: $file? (y/n)"
@@ -174,7 +174,7 @@ done
 
 ```bash
 # For each modified file, show diff and ask
-grep "🟡" var/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
+grep "🟡" var/upgrade-reports/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
   file=$(echo "$file" | xargs)
   if [ -f ".livespec/$file" ] && [ -f "$NEW_DIST/$file" ]; then
     echo "===== MODIFIED: $file ====="
@@ -212,7 +212,7 @@ done
 
 ```bash
 # Review removed files - decide whether to delete
-grep "🔴" var/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
+grep "🔴" var/upgrade-reports/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
   file=$(echo "$file" | xargs)
   if [ -f ".livespec/$file" ]; then
     echo "Remove: $file (no longer in standard)? (y/n)"
@@ -240,54 +240,54 @@ echo "✓ Updated VERSION to $(cat .livespec/VERSION)"
 Verify upgrade integrity:
 
 ```bash
-echo "=== VALIDATION REPORT ===" > var/validation-report.txt
+echo "=== VALIDATION REPORT ===" > var/upgrade-reports/validation-report.txt
 
 # Check folder structure
-echo "Checking folder structure..." >> var/validation-report.txt
+echo "Checking folder structure..." >> var/upgrade-reports/validation-report.txt
 for dir in standard/metaspecs standard/conventions prompts/0-define prompts/1-design prompts/2-build prompts/3-verify prompts/4-evolve prompts/utils templates/workspace; do
   if [ -d ".livespec/$dir" ]; then
-    echo "  ✓ $dir exists" >> var/validation-report.txt
+    echo "  ✓ $dir exists" >> var/upgrade-reports/validation-report.txt
   else
-    echo "  ✗ $dir missing" >> var/validation-report.txt
+    echo "  ✗ $dir missing" >> var/upgrade-reports/validation-report.txt
   fi
 done
 
 # Check critical files
-echo "" >> var/validation-report.txt
-echo "Checking critical files..." >> var/validation-report.txt
+echo "" >> var/upgrade-reports/validation-report.txt
+echo "Checking critical files..." >> var/upgrade-reports/validation-report.txt
 
 # Metaspecs (7 required)
 for spec in base behavior workspace strategy requirements constraints contract; do
   if [ -f ".livespec/standard/metaspecs/${spec}.spec.md" ]; then
-    echo "  ✓ metaspecs/${spec}.spec.md" >> var/validation-report.txt
+    echo "  ✓ metaspecs/${spec}.spec.md" >> var/upgrade-reports/validation-report.txt
   else
-    echo "  ✗ metaspecs/${spec}.spec.md missing" >> var/validation-report.txt
+    echo "  ✗ metaspecs/${spec}.spec.md missing" >> var/upgrade-reports/validation-report.txt
   fi
 done
 
 # Conventions (3 required)
 for conv in folder-structure naming dependencies; do
   if [ -f ".livespec/standard/conventions/${conv}.spec.md" ]; then
-    echo "  ✓ conventions/${conv}.spec.md" >> var/validation-report.txt
+    echo "  ✓ conventions/${conv}.spec.md" >> var/upgrade-reports/validation-report.txt
   else
-    echo "  ✗ conventions/${conv}.spec.md missing" >> var/validation-report.txt
+    echo "  ✗ conventions/${conv}.spec.md missing" >> var/upgrade-reports/validation-report.txt
   fi
 done
 
 # VERSION file
 if [ -f ".livespec/VERSION" ]; then
-  echo "  ✓ VERSION: $(cat .livespec/VERSION)" >> var/validation-report.txt
+  echo "  ✓ VERSION: $(cat .livespec/VERSION)" >> var/upgrade-reports/validation-report.txt
 else
-  echo "  ✗ VERSION file missing" >> var/validation-report.txt
+  echo "  ✗ VERSION file missing" >> var/upgrade-reports/validation-report.txt
 fi
 
 # List non-standard files (potential custom additions)
-echo "" >> var/validation-report.txt
-echo "Custom or non-standard files:" >> var/validation-report.txt
-comm -23 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/validation-report.txt
+echo "" >> var/upgrade-reports/validation-report.txt
+echo "Custom or non-standard files:" >> var/upgrade-reports/validation-report.txt
+comm -23 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-reports/validation-report.txt
 
 # Show report
-cat var/validation-report.txt
+cat var/upgrade-reports/validation-report.txt
 ```
 
 **Review validation report:** Ensure no critical files missing.
@@ -297,20 +297,20 @@ cat var/validation-report.txt
 Generate upgrade summary:
 
 ```bash
-echo "=== UPGRADE SUMMARY ===" > var/upgrade-summary.txt
-echo "Upgraded from $(cat "$BACKUP_DIR/VERSION" 2>/dev/null || echo 'unknown') to $(cat .livespec/VERSION)" >> var/upgrade-summary.txt
-echo "" >> var/upgrade-summary.txt
-echo "Backup location: $BACKUP_DIR" >> var/upgrade-summary.txt
-echo "" >> var/upgrade-summary.txt
-echo "Changes applied:" >> var/upgrade-summary.txt
+echo "=== UPGRADE SUMMARY ===" > var/upgrade-reports/upgrade-summary.txt
+echo "Upgraded from $(cat "$BACKUP_DIR/VERSION" 2>/dev/null || echo 'unknown') to $(cat .livespec/VERSION)" >> var/upgrade-reports/upgrade-summary.txt
+echo "" >> var/upgrade-reports/upgrade-summary.txt
+echo "Backup location: $BACKUP_DIR" >> var/upgrade-reports/upgrade-summary.txt
+echo "" >> var/upgrade-reports/upgrade-summary.txt
+echo "Changes applied:" >> var/upgrade-reports/upgrade-summary.txt
 # Count changes from diff report
-echo "  New files added: $(grep -c "✓ Added" var/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-summary.txt
-echo "  Files modified: $(grep -c "✓ Applied" var/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-summary.txt
-echo "  Files removed: $(grep -c "✓ Removed" var/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-summary.txt
-echo "" >> var/upgrade-summary.txt
-echo "See var/upgrade-diff.txt and var/validation-report.txt for details." >> var/upgrade-summary.txt
+echo "  New files added: $(grep -c "✓ Added" var/upgrade-reports/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-reports/upgrade-summary.txt
+echo "  Files modified: $(grep -c "✓ Applied" var/upgrade-reports/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-reports/upgrade-summary.txt
+echo "  Files removed: $(grep -c "✓ Removed" var/upgrade-reports/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-reports/upgrade-summary.txt
+echo "" >> var/upgrade-reports/upgrade-summary.txt
+echo "See var/upgrade-reports/upgrade-diff.txt and var/upgrade-reports/validation-report.txt for details." >> var/upgrade-reports/upgrade-summary.txt
 
-cat var/upgrade-summary.txt
+cat var/upgrade-reports/upgrade-summary.txt
 ```
 
 ### Rollback Instructions
@@ -335,7 +335,7 @@ rm -rf "$BACKUP_DIR"
 echo "Backup removed. Upgrade complete."
 
 # Clean up temp files
-rm -f var/upgrade-diff.txt var/validation-report.txt var/upgrade-summary.txt
+rm -f var/upgrade-reports/upgrade-diff.txt var/upgrade-reports/validation-report.txt var/upgrade-reports/upgrade-summary.txt
 [ -d "$TEMP_DIR" ] && rm -rf "$TEMP_DIR"
 ```
 
@@ -348,7 +348,7 @@ After successful upgrade:
    ```bash
    claude-code "Use .livespec/4-evolve/4d-regenerate-agents.md"
    ```
-3. **Review skipped changes:** Check var/upgrade-diff.txt for anything you skipped
+3. **Review skipped changes:** Check var/upgrade-reports/upgrade-diff.txt for anything you skipped
 4. **Update project specs:** If metaspecs changed significantly, review your project specs
 
 ## Exit Criteria
@@ -377,7 +377,7 @@ After successful upgrade:
 - Try running commands manually
 
 **Validation fails:**
-- Review var/validation-report.txt for specific missing files
+- Review var/upgrade-reports/validation-report.txt for specific missing files
 - Consider re-applying skipped critical files
 - Check if custom changes broke structure
 
