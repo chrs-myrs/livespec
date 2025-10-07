@@ -10,14 +10,20 @@ satisfies:
 # Documentation Requirements
 
 ## Requirements
-- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear architecture visualization, MSL integration, circularity demonstration, and example of LiveSpec applied to non-coding project (itself).
-  - README.md starts with mermaid architecture diagram showing spec relationships
+- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear problem statement, architecture visualization, MSL integration, circularity demonstration, and example of LiveSpec applied to non-coding project (itself).
+  - README starts with "The Problem" section explaining spec drift and manual sync burden
+  - README explains LiveSpec's solution (bidirectional sync, minimal specs, continuous evolution)
+  - Architecture diagram shows initial setup flow with note clarifying it's iterative (not waterfall)
   - Architecture diagram includes legend explaining color-coded flow
-  - README includes circularity diagram (MSL → base → metaspecs → specs → deliverables)
+  - Self-documenting diagram distinguishes how LiveSpec documents itself vs target project structure
+  - Circularity diagram (MSL → base → metaspecs → specs → deliverables) with clickable MSL link
   - Circularity diagram demonstrates complete self-documentation (every deliverable has spec, every spec constrained by metaspec)
   - Circularity diagram shows dogfooding loop (deliverables define the framework)
+  - Continuous evolution diagram shows Phase 4 bidirectional sync cycle
+  - Evolution diagram clarifies design-first AND code-first workflows both work
   - README links to MSL specification (github.com/chrs-myrs/msl-specification)
   - README demonstrates LiveSpec is example of methodology applied to non-coding project
+  - README explicitly states "Phases are iterative, not waterfall"
   - README provides 5-minute quick start for both new and existing projects
   - docs/quickstart.md provides step-by-step instructions for each phase
   - Documentation optimized for AI agent consumption (AGENTS.md, llms.txt)

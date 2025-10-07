@@ -16,7 +16,19 @@ LiveSpec is three things:
 
 **This repository is a live example:** LiveSpec applied to a non-coding project (itself). See `specs/` for how we specify documentation, prompts, and methodology without writing code.
 
+## The Problem
+
+Software specifications and code inevitably drift apart. Documentation becomes obsolete. AI agents lack structured context for existing codebases. Manual sync is tedious and often skipped.
+
+**LiveSpec solves this through:**
+- Bidirectional synchronization (spec-first OR code-first workflows)
+- Minimal specifications (MSL format - just what's essential)
+- Continuous evolution (Phase 4 keeps specs and code aligned)
+- AI-agent friendly structure (clear context, consistent format)
+
 ## Architecture
+
+**Note:** This shows initial project setup flow. LiveSpec methodology is iterative - Phase 4 (EVOLVE) maintains continuous bidirectional sync between specs and code. See [Five Phases](#the-five-phases) for the complete cycle.
 
 ```mermaid
 graph TD
@@ -63,11 +75,13 @@ graph TD
 
 ## Self-Documenting Framework
 
+**Note:** This diagram shows how LiveSpec documents *itself* using its own methodology (dogfooding). The Architecture diagram above shows how *you* structure your project.
+
 LiveSpec achieves complete circularity - every deliverable is defined by a spec, every spec is defined by the framework:
 
 ```mermaid
 graph TD
-    MSL[MSL Standard<br/>External specification language]
+    MSL[<a href='https://github.com/chrs-myrs/msl-specification'>MSL Standard</a><br/>External specification language]
     BASE[base.spec.md<br/>LiveSpec extensions]
     META[Framework<br/>7 metaspecs + 3 conventions]
     SPECS[Project Specs<br/>30 specifications]
@@ -84,6 +98,8 @@ graph TD
     style META fill:#fff4e1
     style SPECS fill:#e8f5e9
     style DELIVER fill:#fce4ec
+
+    click MSL "https://github.com/chrs-myrs/msl-specification" "View MSL Specification"
 ```
 
 **Complete chain verified:**
@@ -192,6 +208,8 @@ failure_mode: System unsecured without authentication
 
 ## The Five Phases
 
+LiveSpec guides development through five phases with clear entry/exit criteria. **Phases are iterative, not waterfall** - you can cycle back based on what you discover.
+
 ### Phase 0: DEFINE
 Establish problem space and development approach
 - Define problem statement
@@ -221,6 +239,33 @@ Keep specs and code synchronized (continuous)
 - Detect drift
 - Extract new specs
 - Update existing specs
+
+### Continuous Evolution Cycle
+
+Phase 4 maintains bidirectional sync - the core value of LiveSpec:
+
+```mermaid
+graph LR
+    CODE[Code Changes]
+    SPECS[Specifications]
+    DRIFT[Detect Drift]
+    UPDATE[Update/Extract]
+
+    CODE -->|4a: detect-drift| DRIFT
+    DRIFT -->|drift found| UPDATE
+    UPDATE -->|4b: extract-specs<br/>4e: validate| SPECS
+    SPECS -->|guide| CODE
+
+    SPECS -.Phase 1-2<br/>Design & Build.-> CODE
+    CODE -.Phase 4<br/>Evolve.-> SPECS
+
+    style CODE fill:#e8f5e9
+    style SPECS fill:#e8f5e9
+    style DRIFT fill:#fff4e1
+    style UPDATE fill:#fff4e1
+```
+
+**Key insight:** Specs and code inform each other continuously. Start with specs (design-first) OR start with code (extract-first) - both work.
 
 [Methodology Guide →](docs/methodology.md)
 
