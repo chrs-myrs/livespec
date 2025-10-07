@@ -34,26 +34,26 @@ Create `specs/architecture.md` or equivalent that defines:
 ## MSL Format
 
 ```markdown
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks with different architecture]
+---
+
 # [Architecture Name]
 
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [What breaks with different architecture]
+## Requirements
+- [!] [High-level architecture description]
+  - Architecture addresses problem statement
+  - All constraints are satisfied
+  - Components have clear responsibilities
+  - Interactions are well-defined
 
-## Specification
-[High-level architecture description]
-
-### Components
+## Components
 - [Component 1]: [Purpose]
 - [Component 2]: [Purpose]
 
-### Interactions
+## Interactions
 [How components work together]
-
-## Validation
-- Architecture addresses problem statement
-- All constraints are satisfied
-- Components have clear responsibilities
-- Interactions are well-defined
 ```
 
 ## Guidelines

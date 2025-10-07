@@ -27,18 +27,18 @@ For each major feature or capability, create a spec file:
 `specs/behaviors/[behavior-name].spec.md`:
 
 ```markdown
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks without this behavior]
+---
+
 # [Behavior Name]
 
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [What breaks without this behavior]
-
-## Specification
-[What the system does - observable behavior]
-
-## Validation
-- [How to verify this behavior]
-- [Observable criteria]
-- [Test approach]
+## Requirements
+- [!] [What the system does - observable behavior]
+  - [How to verify this behavior]
+  - [Observable criteria]
+  - [Test approach]
 ```
 
 ## Examples

@@ -34,19 +34,19 @@ Create `specs/problem.md` that clearly defines the problem this project addresse
 Follow strict MSL format:
 
 ```markdown
+---
+criticality: CRITICAL
+failure_mode: Without clear problem definition, [specific consequence]
+---
+
 # Problem Statement
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without clear problem definition, [specific consequence]
-
-## Specification
-[Single paragraph or sentence defining the problem]
-
-## Validation
-- Users can explain the problem in their own words
-- Users recognize this problem in their context
-- Solution addresses stated problem
-- [Additional validation criteria]
+## Requirements
+- [!] [Single paragraph or sentence defining the problem]
+  - Users can explain the problem in their own words
+  - Users recognize this problem in their context
+  - Solution addresses stated problem
+  - [Additional validation criteria]
 ```
 
 ## Guidelines

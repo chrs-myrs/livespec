@@ -1,21 +1,14 @@
+---
+criticality: IMPORTANT
+failure_mode: Inconsistent patterns make codebase harder to understand and maintain
+---
+
 # [PROJECT_NAME] Development Patterns
 
-**Criticality**: IMPORTANT
-**Failure Mode**: Inconsistent patterns make codebase harder to understand and maintain
-
-## Specification
-
-[Describe coding and specification patterns for this project. Examples:
-- File naming conventions (kebab-case, .spec.md extension, etc.)
-- Code organization patterns (feature folders, separation of concerns)
-- Documentation standards (inline comments, README structure)
-- Specification format (all specs follow MSL)
-- Testing patterns (unit, integration, e2e structure)]
-
-## Validation
-
-- [File naming follows documented convention]
-- [Code structure adheres to patterns]
-- [Documentation matches standards]
-- [All specs follow specified format]
-- [Tests follow established patterns]
+## Requirements
+- [Describe coding and specification patterns for this project. Examples: File naming conventions (kebab-case, .spec.md extension), code organization patterns (feature folders, separation of concerns), documentation standards (inline comments, README structure), specification format (all specs follow MSL), testing patterns (unit, integration, e2e structure)]
+  - [File naming follows documented convention]
+  - [Code structure adheres to patterns]
+  - [Documentation matches standards]
+  - [All specs follow specified format]
+  - [Tests follow established patterns]

@@ -43,16 +43,18 @@ Constraints are hard limits that:
 Each constraint gets its own section:
 
 ```markdown
+---
+criticality: CRITICAL
+failure_mode: Violating these constraints makes the project fail or unusable
+---
+
 # Project Constraints
 
-**Criticality**: CRITICAL
-**Failure Mode**: Violating these constraints makes the project fail or unusable
-
-## [Constraint Name]
-
-**Specification**: [One sentence stating the constraint]
-
-**Validation**: [How to verify compliance]
+## Requirements
+- [!] [Constraint name]: [One sentence stating the constraint]
+  - [How to verify compliance]
+- [!] [Another constraint]: [One sentence stating the constraint]
+  - [How to verify compliance]
 ```
 
 ## Guidelines

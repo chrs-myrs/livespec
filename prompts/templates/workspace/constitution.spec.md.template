@@ -1,19 +1,12 @@
+---
+criticality: CRITICAL
+failure_mode: Without governance principles, development becomes inconsistent and violates project philosophy
+---
+
 # [PROJECT_NAME] Development Constitution
 
-**Criticality**: CRITICAL
-**Failure Mode**: Without governance principles, development becomes inconsistent and violates project philosophy
-
-## Specification
-
-[Describe 3-5 core development principles for this project. Examples:
-- Follow MSL minimalism (specifications justify their existence)
-- Maintain bidirectional sync between specs and code
-- Prioritize simplicity over features
-- Test-driven development for all features
-- Documentation evolves with code]
-
-## Validation
-
-- [How to verify each principle is followed]
-- [Observable behaviors that demonstrate adherence]
-- [Metrics or indicators of compliance]
+## Requirements
+- [Describe 3-5 core development principles for this project as main requirement. Examples: Follow MSL minimalism, maintain bidirectional sync between specs and code, prioritize simplicity over features, test-driven development, documentation evolves with code]
+  - [How to verify each principle is followed]
+  - [Observable behaviors that demonstrate adherence]
+  - [Metrics or indicators of compliance]

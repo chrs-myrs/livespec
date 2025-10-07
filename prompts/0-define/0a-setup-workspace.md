@@ -56,15 +56,16 @@ Define development workflows:
 All specifications must follow MSL format (see `specs/behaviors/msl-format.spec.md`):
 
 ```markdown
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks]
+---
+
 # [Name]
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [What breaks]
 
-## Specification
-[Minimal description]
-
-## Validation
-[How to verify]
+## Requirements
+- [!] [Minimal description]
+  - [How to verify]
 ```
 
 ## Agent Configuration

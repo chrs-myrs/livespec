@@ -64,23 +64,21 @@ Create spec in appropriate folder:
 
 `specs/behaviors/password-reset.spec.md`:
 ```markdown
+---
+criticality: CRITICAL
+failure_mode: Users cannot recover locked-out accounts
+---
+
 # Password Reset
 
-**Criticality**: CRITICAL
-**Failure Mode**: Users cannot recover locked-out accounts
-
-## Specification
-
-System sends password reset email containing unique token when user requests password reset via email address.
-
-## Validation
-
-- User can request reset via email address
-- Reset email received within 2 minutes
-- Token in email is unique and time-limited
-- Token allows single password reset
-- Old password no longer works after reset
-- New password works immediately
+## Requirements
+- [!] System sends password reset email containing unique token when user requests password reset via email address.
+  - User can request reset via email address
+  - Reset email received within 2 minutes
+  - Token in email is unique and time-limited
+  - Token allows single password reset
+  - Old password no longer works after reset
+  - New password works immediately
 ```
 
 ### 4. Update Contracts (If Needed)
