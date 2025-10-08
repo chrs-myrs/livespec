@@ -1,8 +1,8 @@
 ---
 spec: specs/workspace/agents.spec.md
-generated: 2025-10-05T11:10:07Z
+generated: 2025-10-08T00:00:00Z
 generator: livespec/generate-project-config
-version: 2.0.0
+version: 2.1.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
@@ -159,14 +159,88 @@ your-project/
 
 specs/
 ├── workspace/              # HOW you build (process)
-    │   ├── constitution.spec.md
-    │   ├── patterns.spec.md
-    │   └── workflows.spec.md
-    │
-    ├── behaviors/          # WHAT system does
-    ├── contracts/          # API/data contracts
-    └── constraints.spec.md # Hard boundaries
+│   ├── constitution.spec.md
+│   ├── patterns.spec.md
+│   └── workflows.spec.md
+│
+├── behaviors/              # WHAT system does
+├── contracts/              # API/data contracts
+└── constraints.spec.md     # Hard boundaries
 ```
+
+## Multi-Domain Organization (v2.1+)
+
+**Key insight:** behaviors/ and contracts/ abstractions work across ALL domains. Use subfolders for semantic organization.
+
+### Domain-Agnostic Abstractions
+
+**behaviors/** = Observable outcomes from any perspective:
+- Software: "System authenticates users"
+- Governance: "Only authorized entities access resources" (policy)
+- Operations: "Backups complete daily" (service)
+- Planning: "Feature meets success criteria" (requirement)
+
+**contracts/** = Interface definitions of any kind:
+- Software: API contracts (`GET /users/{id}`)
+- Governance: Process contracts (procedures)
+- Operations: Operational contracts (runbooks)
+- Planning: Workflow contracts (delivery processes)
+
+### Organization Patterns by Domain
+
+**Software projects:**
+```
+specs/behaviors/
+├── user-features/
+│   ├── authentication.spec.md
+│   └── authorization.spec.md
+└── system/
+    └── caching.spec.md
+
+specs/contracts/
+└── api/v1/
+    └── users-api.yaml
+```
+
+**Governance projects:**
+```
+specs/behaviors/
+└── policies/
+    ├── access-control.spec.md
+    └── data-protection.spec.md
+
+specs/contracts/
+└── procedures/
+    └── access-review.spec.md
+```
+
+**Operations projects:**
+```
+specs/behaviors/
+└── services/
+    ├── backup.spec.md
+    └── monitoring.spec.md
+
+specs/contracts/
+└── runbooks/
+    ├── incident-response.spec.md
+    └── deployment.spec.md
+```
+
+**Hybrid projects:**
+```
+specs/behaviors/
+├── user-features/         # Software
+├── policies/              # Governance
+└── services/              # Operations
+
+specs/contracts/
+├── api/                   # Software
+├── procedures/            # Governance
+└── runbooks/              # Operations
+```
+
+See `docs/domain-organization.md` for comprehensive patterns.
 
 ## Folder Organization Decision Tests
 
@@ -491,6 +565,60 @@ The three workspace specs define HOW this specific project is built:
 
 **Always read workspace specs first** when working on a project. They contain project-specific conventions and constraints.
 
+## Version Tracking and Customizations (v2.1+)
+
+### Version Tracking Files
+
+Projects using LiveSpec v2.1+ include version tracking for safe upgrades:
+
+- **`.livespec-version`** - Installed LiveSpec version (enables upgrade detection)
+- **`customizations.yaml`** - Tracks user customizations for AI-assisted merges
+
+### When AI Should Update customizations.yaml
+
+AI agents should update `customizations.yaml` when users:
+
+**Modify prompts:**
+```yaml
+prompts:
+  modified:
+    - path: prompts/0-define/0a-setup-workspace.md
+      reason: "Added governance-specific workspace setup steps"
+      modified_at: 2025-10-08
+```
+
+**Add custom prompts:**
+```yaml
+prompts:
+  added:
+    - path: prompts/custom/governance-review.md
+      reason: "Custom governance review workflow"
+      added_at: 2025-10-08
+```
+
+**Add custom templates:**
+```yaml
+templates:
+  added:
+    - path: templates/custom/governance-policy.spec.md.template
+      reason: "Organization-specific policy template"
+      added_at: 2025-10-08
+```
+
+**Protect paths from upgrades:**
+```yaml
+never_overwrite:
+  - prompts/custom/
+```
+
+### Upgrade Workflow
+
+Use `.livespec/utils/upgrade-methodology.md` for AI-assisted upgrades:
+- AI reads `customizations.yaml` to identify custom vs canonical files
+- Progressive merge: auto-update safe files, interactive review for customized files
+- AI explains changes, helps merge conflicts intelligently
+- Backup created before upgrade, rollback instructions provided
+
 ## Quick Examples by Use Case
 
 ### Starting Fresh
@@ -569,4 +697,4 @@ LiveSpec is just folders and markdown. The methodology guides AI agents to:
 Remember: **Start simple, add complexity only when needed. Trust the phases.**
 
 ---
-*Agent configuration for [LiveSpec v2.0.0](https://github.com/chrs-myrs/livespec) - Generated 2025-10-05*
+*Agent configuration for [LiveSpec v2.1.0](https://github.com/chrs-myrs/livespec) - Generated 2025-10-08*

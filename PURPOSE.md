@@ -2,12 +2,17 @@
 
 ## Why LiveSpec Exists
 
-Software specifications and code inevitably drift apart, causing documentation to become obsolete and preventing AI agents from working effectively with existing codebases.
+Specifications inevitably drift from reality—code diverges from docs, policies lag behind practice, procedures become outdated. This drift makes documentation obsolete and prevents AI agents from providing effective assistance.
 
 ## What Success Looks Like
 
-- Specifications remain synchronized with code throughout development
+- Specifications remain synchronized with reality throughout evolution
 - AI agents have structured context for effective assistance
 - Documentation stays current without becoming a maintenance burden
-- Works equally well for new projects and existing codebases
-- Developers adopt and maintain specifications voluntarily
+- Works equally well for new projects and existing systems
+- Teams adopt and maintain specifications voluntarily
+- Applies across software development, governance, operations, and planning
+
+## Primary Focus
+
+**Software development** remains LiveSpec's primary domain, with proven applications in governance (policies, procedures), operations (runbooks, playbooks), and planning (requirements, workflows).
