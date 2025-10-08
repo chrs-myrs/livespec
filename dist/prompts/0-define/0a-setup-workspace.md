@@ -14,6 +14,8 @@ Create the standard LiveSpec folder structure for this project:
 
 ```
 project/
+├── AGENTS.md               # Agent configuration (copied from dist/)
+├── CLAUDE.md → AGENTS.md   # Symlink for agent discovery
 ├── specs/
 │   ├── workspace/
 │   │   ├── constitution.spec.md
@@ -24,10 +26,46 @@ project/
 └── .livespec/              # Already copied from dist/
     ├── .livespec-version   # Version tracking
     ├── customizations.yaml # Customization tracking
+    ├── AGENTS.md           # Source for project AGENTS.md
     ├── prompts/
     ├── standard/
     └── templates/
 ```
+
+## Step 0: Bootstrap Agent Configuration
+
+**CRITICAL**: Do this FIRST so AI can discover prompts and help with remaining steps.
+
+### 0a: Copy Generic AGENTS.md
+
+```bash
+# Copy starter AGENTS.md to project root
+cp .livespec/AGENTS.md AGENTS.md
+```
+
+This generic AGENTS.md contains LiveSpec methodology knowledge and works for any project immediately.
+
+### 0b: Create Agent Symlink
+
+```bash
+# Create symlink for your AI assistant
+ln -s AGENTS.md CLAUDE.md      # For Claude Code
+# OR
+ln -s AGENTS.md COPILOT.md     # For GitHub Copilot
+# OR
+ln -s AGENTS.md CURSOR.md      # For Cursor IDE
+```
+
+### 0c: Verify Discoverability
+
+Test that your AI agent can now access prompts:
+- Ask: "What LiveSpec prompts are available?"
+- AI should list Phase 0-4 prompts
+- If not, check AGENTS.md and symlink exist
+
+**Why this works:** AGENTS.md caches methodology context so AI doesn't need repeated context7 lookups.
+
+**Note:** After customizing workspace specs, regenerate AGENTS.md using `prompts/4-evolve/4d-regenerate-agents.md` for project-specific content.
 
 ## Step 1: Create Version Tracking Files
 
@@ -161,33 +199,44 @@ failure_mode: [What breaks]
   - [How to verify]
 ```
 
-## Agent Configuration
+## Regenerate Agent Configuration (Optional)
 
-After workspace specs are created, generate agent configuration file:
+After customizing workspace specs, you can regenerate AGENTS.md for project-specific content:
 
 ```bash
-# Generate AGENTS.md from workspace specs + PURPOSE.md
+# Regenerate AGENTS.md from workspace specs + PURPOSE.md
 # (Use prompts/4-evolve/4d-regenerate-agents.md)
-
-# Create agent-specific symlink for your AI assistant
-ln -s AGENTS.md CLAUDE.md      # For Claude Code
-ln -s AGENTS.md COPILOT.md     # For GitHub Copilot
-ln -s AGENTS.md CURSOR.md      # For Cursor IDE
 ```
 
-This enables your AI agent to cache methodology context and guide you proactively.
+**When to regenerate:**
+- After customizing constitution.spec.md, patterns.spec.md, workflows.spec.md
+- After creating PURPOSE.md with project-specific vision
+- To replace generic AGENTS.md with project-specific version
+
+**Note:** The generic AGENTS.md from Step 0 already works fine for most projects. Only regenerate if you need project-specific methodology content in AGENTS.md.
 
 ## Exit Criteria
 
-- [ ] Folder structure matches LiveSpec standard
+**Step 0 (Critical for discoverability):**
+- [ ] AGENTS.md exists at project root (copied from .livespec/)
+- [ ] Agent-specific symlink created (CLAUDE.md, COPILOT.md, or CURSOR.md)
+- [ ] AI agent can discover .livespec/ prompts
+
+**Step 1 (Version tracking):**
 - [ ] .livespec-version file created
 - [ ] customizations.yaml file created
+
+**Step 2 (Domain organization):**
 - [ ] Domain organization considered (subfolders if needed)
+
+**Step 3 (Workspace specs):**
+- [ ] Folder structure matches LiveSpec standard
 - [ ] specs/workspace/ contains constitution, patterns, workflows
 - [ ] All workspace specs follow MSL format
 - [ ] Workspace defines HOW to build, not WHAT to build
-- [ ] AGENTS.md generated from workspace specs
-- [ ] Agent-specific symlink created (CLAUDE.md, COPILOT.md, etc.)
+
+**Optional:**
+- [ ] AGENTS.md regenerated from workspace specs (if project-specific content needed)
 
 ## Next Step
 
