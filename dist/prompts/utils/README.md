@@ -54,6 +54,24 @@ Forensic analysis of what went wrong, why specs drifted, and how to recover. Pro
 claude-code "Use .livespec/utils/analyze-failure.md - specs became outdated after 2 sprints"
 ```
 
+### generate-feedback-report.md - LiveSpec Evaluation Report
+**Use when:** You want to provide feedback or perform health check
+
+Generates structured feedback report combining automated adoption analysis with qualitative user experience. Helps LiveSpec maintainers improve methodology and provides users with reflection on their LiveSpec journey.
+
+```bash
+# Example:
+claude-code "Use .livespec/utils/generate-feedback-report.md"
+```
+
+**Report includes:**
+- Project context and adoption metrics
+- Quality assessment (drift, MSL adherence, tests)
+- Usage patterns (which prompts used most)
+- Your experience (what works, pain points, suggestions)
+
+**Can be run anytime** - after milestones, quarterly, or when you have feedback to share.
+
 ## Philosophy
 
 **Core prompts (Phase 0-4)** handle 80% of projects.
