@@ -1,0 +1,46 @@
+---
+criticality: IMPORTANT
+failure_mode: [What breaks without this playbook]
+constrained_by:
+  - ../../../../.livespec/standard/metaspecs/base.spec.md
+  - ../../../../.livespec/standard/metaspecs/contract.spec.md
+---
+
+# [Playbook Name]
+
+## Scenario
+[What situation does this playbook address]
+
+## Requirements
+- [!] [Primary response contract - coordinated actions across team/systems]
+  - Response phase 1: [Actions]
+  - Response phase 2: [Actions]
+  - Response phase 3: [Actions]
+
+## Roles
+- **[Role 1]**: [Responsibilities]
+- **[Role 2]**: [Responsibilities]
+
+## Communication
+- **Notification**: [Who gets notified and how]
+- **Updates**: [How often to communicate status]
+- **Escalation**: [When to escalate and to whom]
+
+## Validation
+- [How to verify playbook execution was successful]
+- [Criteria for declaring situation resolved]
+
+## Post-Execution
+- [!] [Post-mortem or review process]
+- [Documentation requirements]
+- [Lessons learned capture]
+
+## Notes
+
+**Playbook goes in:** `specs/contracts/playbooks/` or `specs/contracts/runbooks/playbooks/`
+
+**Why contracts?** Playbooks define coordinated response contracts across multiple actors.
+
+**Related:**
+- Incident response policy → `specs/behaviors/policies/`
+- Individual runbooks referenced → `specs/contracts/runbooks/`

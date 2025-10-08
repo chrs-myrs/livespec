@@ -1,0 +1,48 @@
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks without this runbook]
+constrained_by:
+  - ../../../../.livespec/standard/metaspecs/base.spec.md
+  - ../../../../.livespec/standard/metaspecs/contract.spec.md
+---
+
+# [Runbook Name]
+
+## Trigger
+[When to use this runbook - what event, alert, or condition triggers this]
+
+## Requirements
+- [!] [Primary operational contract - what must happen when triggered]
+  - Step 1: [Action with expected result]
+  - Step 2: [Action with expected result]
+  - Step 3: [Action with expected result]
+
+## Prerequisites
+- [Required access]
+- [Required tools]
+- [Required permissions]
+
+## Validation
+- [How to verify successful completion]
+- [Expected system state after completion]
+- [Metrics to check]
+
+## Rollback
+[How to rollback if runbook execution fails]
+
+## Escalation
+[When to escalate - conditions that require senior involvement]
+
+## Timing
+- Normal completion: [X minutes]
+- Maximum acceptable: [Y minutes]
+
+## Notes
+
+**Runbook goes in:** `specs/contracts/runbooks/`
+
+**Why contracts?** Runbooks define operational contracts ("when X happens, execute steps A→B→C").
+
+**Related:**
+- Service behavior this supports → `specs/behaviors/services/`
+- Technical decisions → `specs/strategy/`

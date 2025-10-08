@@ -1,0 +1,30 @@
+version: 2.1.0
+customized_at: null
+
+prompts:
+  modified: []
+  # Example:
+  # - path: prompts/0-define/0a-setup-workspace.md
+  #   reason: Added governance-specific workspace setup steps
+  #   modified_at: 2025-10-07
+
+  added: []
+  # Example:
+  # - path: prompts/0-define/0d-define-posture.md
+  #   reason: New governance-specific phase for security posture
+  #   modified_at: 2025-10-07
+
+templates:
+  added: []
+  # Example:
+  # - path: templates/governance/policy.spec.md.template
+  #   reason: Policy template for governance projects
+  #   modified_at: 2025-10-07
+
+never_overwrite: []
+# Example:
+# - prompts/custom/governance/
+
+# This file tracks customizations to .livespec/ contents.
+# AI agents should update this file when user customizes prompts or templates.
+# During upgrades, files listed here are preserved or merged carefully.
