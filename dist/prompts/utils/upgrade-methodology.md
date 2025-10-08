@@ -2,10 +2,16 @@
 spec: specs/behaviors/prompts/utils-upgrade.spec.md
 ---
 
-# Upgrade Methodology
+# Upgrade Methodology (AI-Assisted)
 
-**Purpose**: Safely upgrade .livespec/ to latest LiveSpec version
+**Purpose**: Safely upgrade .livespec/ to latest LiveSpec version using AI-assisted progressive merge
 **Context**: See `specs/behaviors/prompts/utils-upgrade.spec.md` for full requirements
+
+## Overview
+
+This prompt guides AI agents through upgrading .livespec/ while respecting user customizations. The process is **progressive**: automatically updating safe files, asking about customized files, and never touching explicitly protected files.
+
+**Key principle:** AI reads `customizations.yaml` to know what's custom, then applies intelligent merge strategy.
 
 ## When to Use
 
@@ -16,380 +22,395 @@ Use this prompt when:
 - New features or metaspecs added
 
 Do NOT use if:
-- `.livespec/` is a symlink (dogfooding setup - use `git pull` instead)
-- No `.livespec/` exists (use Quick Start install)
+- `.livespec/` is a symlink (dogfooding setup - use `git pull` in linked repo instead)
+- No `.livespec/` exists (use 0a-setup-workspace.md for fresh install)
 
 ## Pre-Flight Checks
 
-Before starting, verify:
+**AI agent should perform these checks first:**
 
+1. **Detect installation type:**
 ```bash
-# Check .livespec exists
-ls -la .livespec/
-
-# Check if symlink (dogfooding case)
-test -L .livespec && echo "SYMLINK DETECTED - Use git pull instead" || echo "Regular directory - proceed"
-
-# Check current version (if exists)
-cat .livespec/VERSION 2>/dev/null || echo "No VERSION file (pre-upgrade install)"
+test -L .livespec && echo "SYMLINK" || echo "DIRECTORY"
 ```
 
-**If symlink detected:** Stop here. Use `git pull` in the linked repository instead.
+If SYMLINK: Stop here. Instruct user to `cd` to linked repository and `git pull`.
 
-**If ready to proceed:** Continue to backup phase.
-
-## Phase 1: Backup
-
-Create timestamped backup before any changes:
-
+2. **Read current version:**
 ```bash
-# Create backup with timestamp
+cat .livespec/.livespec-version 2>/dev/null
+```
+
+If missing: Assume pre-2.1.0 installation (no version tracking yet).
+
+3. **Read customizations tracking:**
+```bash
+cat .livespec/customizations.yaml 2>/dev/null
+```
+
+If missing: Assume nothing customized yet (or pre-2.1.0).
+
+4. **Create backup:**
+```bash
 BACKUP_DIR=".livespec.backup-$(date +%Y%m%d-%H%M%S)"
 cp -r .livespec "$BACKUP_DIR"
-
-# Verify backup
-echo "Backup created at: $BACKUP_DIR"
-ls -la "$BACKUP_DIR"
+echo "Backup created: $BACKUP_DIR"
 ```
 
-**Verify:** Backup directory exists and contains all .livespec/ contents.
+**Store backup path for rollback instructions at end.**
 
-**Store backup path for rollback:** Remember this path in case rollback needed.
+## Fetch New Distribution
 
-## Phase 2: Fetch New Distribution
-
-Choose one fetch method:
-
-### Option A: Git Clone (Recommended)
+AI agent should fetch latest LiveSpec distribution. Prefer git clone:
 
 ```bash
-# Clone LiveSpec to temp directory
 TEMP_DIR=$(mktemp -d)
 git clone https://github.com/chrs-myrs/livespec.git "$TEMP_DIR"
-
-# Check version
-cat "$TEMP_DIR/dist/VERSION"
-
-# Path to new distribution
 NEW_DIST="$TEMP_DIR/dist"
-echo "Fetched version: $(cat $NEW_DIST/VERSION)"
+NEW_VERSION=$(cat "$NEW_DIST/.livespec-version.template")
+echo "Fetched LiveSpec version: $NEW_VERSION"
 ```
 
-### Option B: GitHub Release Tarball
+**Alternative methods** (if git fails):
+- GitHub release tarball
+- User-provided local path
+
+**Verify:** NEW_DIST path set and contains standard/, prompts/, templates/
+
+## Progressive Merge Strategy
+
+AI applies changes in phases, from safest to most interactive:
+
+### Phase 1: Standard Files (Always Overwrite)
+
+**Rationale:** `standard/` contains canonical metaspecs and conventions. Never customize these.
+
+**Action:**
+```bash
+cp -r "$NEW_DIST/standard" .livespec/
+```
+
+**Report to user:**
+```
+✓ Updated standard/ (canonical files, no customization allowed)
+  - metaspecs/base.spec.md
+  - metaspecs/behavior.spec.md
+  - metaspecs/contract.spec.md
+  [etc...]
+```
+
+### Phase 2: Non-Customized Prompts (Overwrite)
+
+**Check customizations.yaml** for which prompts are customized.
+
+**For each prompt NOT in customizations.yaml:**
+```bash
+# Example: prompts/3-verify/3a-run-validation.md not customized
+cp "$NEW_DIST/prompts/3-verify/3a-run-validation.md" .livespec/prompts/3-verify/
+```
+
+**Report to user:**
+```
+✓ Updated prompts/ (not customized):
+  - prompts/3-verify/3a-run-validation.md
+  - prompts/4-evolve/4c-sync-complete.md
+  [list all auto-updated prompts]
+```
+
+### Phase 3: Customized Prompts (Interactive)
+
+**For each prompt IN customizations.yaml modified list:**
+
+1. **Show user-friendly comparison:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 prompts/0-define/0a-setup-workspace.md
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📤 Upstream changes (what LiveSpec changed):
+  - Added better examples for PURPOSE.md
+  - Improved workspace template references
+  - Added domain organization guidance
+
+📝 Your customizations (from customizations.yaml):
+  - Reason: "Added governance-specific workspace setup steps"
+  - Modified: 2025-10-07
+
+Options:
+  [m] Merge upstream (lose your customizations, re-apply manually)
+  [k] Keep yours (miss upstream improvements)
+  [e] Edit together (AI helps merge both)
+  [d] View full diff
+
+Your choice?
+```
+
+2. **Handle user choice:**
+
+**If [m] (merge):**
+```bash
+cp "$NEW_DIST/prompts/0-define/0a-setup-workspace.md" .livespec/prompts/0-define/
+```
+Remove from customizations.yaml (no longer custom).
+Report: "⚠️ Applied upstream version. You'll need to re-apply your governance steps."
+
+**If [k] (keep):**
+Do nothing.
+Report: "✓ Kept your version (upstream changes not applied)."
+
+**If [e] (edit together):**
+AI reads both versions, understands differences, proposes merged version with BOTH:
+- Upstream improvements
+- User's customizations
+
+Show proposed merge, ask for approval. If approved, write merged version.
+Update customizations.yaml: modified_at = today, reason = "Merged with upstream X.Y.Z"
+
+**If [d] (diff):**
+Show full diff using diff -u, then re-prompt for choice.
+
+3. **Repeat for each customized prompt.**
+
+### Phase 4: Templates (Merge Strategy)
+
+**Add new templates from upstream:**
+```bash
+# Find templates in NEW_DIST not in .livespec
+# Copy them
+cp -r "$NEW_DIST/templates/governance" .livespec/templates/ 2>/dev/null
+cp -r "$NEW_DIST/templates/operations" .livespec/templates/ 2>/dev/null
+```
+
+**Preserve custom templates** (listed in customizations.yaml templates.added).
+
+**Report:**
+```
+✓ Templates updated:
+  + templates/governance/policy.spec.md.template (new in 2.1.0)
+  + templates/operations/runbook.spec.md.template (new in 2.1.0)
+  ✓ templates/custom/my-template.md (preserved - your custom template)
+```
+
+### Phase 5: Never-Overwrite Paths (Skip Entirely)
+
+**Check customizations.yaml never_overwrite list.**
+
+**For each path in never_overwrite:**
+Skip entirely. Don't even show diff.
+
+**Report:**
+```
+⊘ Skipped (never_overwrite):
+  - prompts/custom/governance/ (your custom prompts)
+```
+
+### Phase 6: New Files (Add)
+
+**Files in NEW_DIST not in .livespec:**
+
+List them, ask if user wants them:
+```
+🆕 New files available in 2.1.0:
+  - prompts/utils/new-helper.md
+  - standard/conventions/new-convention.spec.md
+
+Add these? [y/n for each]
+```
+
+Add approved files.
+
+## Finalize Upgrade
+
+### Update Version File
 
 ```bash
-# Download latest release (replace VERSION with desired version)
-VERSION="v2.0.0"
-curl -L "https://github.com/chrs-myrs/livespec/archive/refs/tags/$VERSION.tar.gz" -o livespec.tar.gz
-
-# Extract
-tar -xzf livespec.tar.gz
-
-# Path to new distribution
-NEW_DIST="livespec-${VERSION#v}/dist"
-echo "Fetched version: $(cat $NEW_DIST/VERSION)"
+cp "$NEW_DIST/.livespec-version.template" .livespec/.livespec-version
 ```
 
-### Option C: Manual Path
+### Update customizations.yaml
+
+If any new customizations made during merge:
+```yaml
+version: 2.1.0  # Update to new version
+customized_at: 2025-10-07  # Update timestamp
+prompts:
+  modified:
+    - path: prompts/0-define/0a-setup-workspace.md
+      reason: Merged upstream 2.1.0 with governance customizations
+      modified_at: 2025-10-07
+```
+
+### Create Upgrade Report
+
+Generate `var/upgrade-reports/upgrade-summary-YYYYMMDD.txt`:
+```
+===== LIVESPEC UPGRADE SUMMARY =====
+Upgraded: 2.0.0 → 2.1.0
+Date: 2025-10-07
+Backup: .livespec.backup-20251007-143022
+
+PHASE 1: Standard Files
+✓ Updated 10 canonical files (metaspecs, conventions)
+
+PHASE 2: Non-Customized Prompts
+✓ Updated 15 prompts automatically
+
+PHASE 3: Customized Prompts
+✓ Kept your version: prompts/0-define/0a-setup-workspace.md
+✓ Merged: prompts/1-design/1a-design-architecture.md
+
+PHASE 4: Templates
++ Added templates/governance/ (new in 2.1.0)
++ Added templates/operations/ (new in 2.1.0)
+
+PHASE 5: Never-Overwrite
+⊘ Skipped prompts/custom/governance/ (protected)
+
+PHASE 6: New Files
++ Added prompts/utils/new-helper.md
+
+ROLLBACK INSTRUCTIONS:
+rm -rf .livespec && mv .livespec.backup-20251007-143022 .livespec
+
+NEXT STEPS:
+- Test methodology: Try using a prompt
+- Review kept customizations for upstream improvements
+- Regenerate AGENTS.md if workspace specs changed
+```
+
+Show summary to user.
+
+### Cleanup
 
 ```bash
-# If you have LiveSpec cloned locally
-NEW_DIST="/path/to/your/livespec/dist"
-echo "Using distribution at: $NEW_DIST"
-cat "$NEW_DIST/VERSION"
+# Remove temp directory
+rm -rf "$TEMP_DIR"
 ```
 
-**Verify:** New distribution path set and VERSION file readable.
+**Ask user:** "Upgrade successful. Remove backup? (y/n)"
+If yes: `rm -rf "$BACKUP_DIR"`
 
-## Phase 3: Diff Analysis
+## AI Agent Guidelines
 
-Generate comprehensive diff report:
+### How AI Should Behave
 
-```bash
-# Create diff report
-mkdir -p var/upgrade-reports
-echo "=== UPGRADE DIFF REPORT ===" > var/upgrade-reports/upgrade-diff.txt
-echo "Current version: $(cat .livespec/VERSION 2>/dev/null || echo 'unknown')" >> var/upgrade-reports/upgrade-diff.txt
-echo "New version: $(cat $NEW_DIST/VERSION)" >> var/upgrade-reports/upgrade-diff.txt
-echo "" >> var/upgrade-reports/upgrade-diff.txt
+**Be conversational:**
+- Explain what you're doing at each step
+- Use user-friendly language (not just bash output)
+- Help user understand tradeoffs
 
-# Find new files (in new dist, not in .livespec)
-echo "🟢 NEW FILES (will be added):" >> var/upgrade-reports/upgrade-diff.txt
-comm -13 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-reports/upgrade-diff.txt
-echo "" >> var/upgrade-reports/upgrade-diff.txt
+**Be intelligent about merges:**
+- When user chooses [e]dit, actually merge intelligently
+- Understand semantic meaning of both versions
+- Propose merged version that preserves both intents
 
-# Find modified files (in both, different content)
-echo "🟡 MODIFIED FILES (review required):" >> var/upgrade-reports/upgrade-diff.txt
-for file in $(comm -12 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort)); do
-  if ! diff -q ".livespec/$file" "$NEW_DIST/$file" >/dev/null 2>&1; then
-    echo "  $file" >> var/upgrade-reports/upgrade-diff.txt
-  fi
-done
-echo "" >> var/upgrade-reports/upgrade-diff.txt
+**Be safe:**
+- Always create backup first
+- Never auto-apply to customized files without asking
+- Provide rollback instructions
+- Verify critical files exist after upgrade
 
-# Find removed files (in old .livespec, not in new dist)
-echo "🔴 REMOVED FILES (no longer in standard):" >> var/upgrade-reports/upgrade-diff.txt
-comm -23 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-reports/upgrade-diff.txt
-echo "" >> var/upgrade-reports/upgrade-diff.txt
+**Be helpful:**
+- Explain upstream changes in context user understands
+- Suggest which option [m/k/e] makes sense
+- Flag breaking changes that need user attention
+- Offer to help fix issues post-upgrade
 
-# Show report
-cat var/upgrade-reports/upgrade-diff.txt
+### Example AI Interaction
+
 ```
+User: "Use upgrade-methodology.md to upgrade to 2.1.0"
 
-**Review the diff report carefully.**
+AI: "I'll help you upgrade .livespec/ from 2.0.0 to 2.1.0. First, let me create a backup..."
 
-### Categorization Guide
+[Creates backup]
 
-- **🟢 New files**: Safe to add (new features, prompts, metaspecs)
-- **🟡 Modified files**: Review diff carefully - may conflict with your customizations
-- **🔴 Removed files**: Standard files removed from new version
-- **⚪ Custom files**: Your files not in standard (automatically preserved)
+AI: "✓ Backup created at .livespec.backup-20251007-143022
 
-## Phase 4: Selective Application
+Fetching LiveSpec 2.1.0..."
 
-Apply changes systematically. For each category:
+[Fetches distribution]
 
-### Apply New Files
+AI: "✓ Fetched version 2.1.0
 
-```bash
-# Copy new files from diff report
-# Review list of new files first
-grep "🟢" var/upgrade-reports/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
-  file=$(echo "$file" | xargs)  # trim whitespace
-  if [ -f "$NEW_DIST/$file" ]; then
-    echo "Add: $file? (y/n)"
-    read -r response
-    if [ "$response" = "y" ]; then
-      mkdir -p ".livespec/$(dirname "$file")"
-      cp "$NEW_DIST/$file" ".livespec/$file"
-      echo "  ✓ Added $file"
-    else
-      echo "  ⊘ Skipped $file"
-    fi
-  fi
-done
+I'll now upgrade in phases:
+
+Phase 1: Updating standard files (canonical, no customization)...
+✓ Updated 10 metaspecs and conventions
+
+Phase 2: Updating non-customized prompts...
+✓ Updated 15 prompts automatically
+
+Phase 3: Reviewing your customized prompts...
+
+Found 2 customized prompts. Let me check each one.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 prompts/0-define/0a-setup-workspace.md
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+You customized this on 2025-10-05 to add governance-specific setup steps.
+
+Upstream 2.1.0 added:
+- Domain organization guidance (behaviors/policies/ pattern)
+- Version tracking file creation
+- Customization tracking file creation
+
+This is interesting! The upstream changes actually complement your governance customizations. Would you like me to merge both together? I can create a version that has your governance steps PLUS the new version tracking.
+
+Options:
+[m] Merge upstream (you'll need to re-add governance steps)
+[k] Keep yours (you'll miss version tracking setup)
+[e] Edit together (I'll merge both - RECOMMENDED)
+[d] View full diff
+
+Your choice? █
 ```
-
-### Review & Apply Modified Files
-
-```bash
-# For each modified file, show diff and ask
-grep "🟡" var/upgrade-reports/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
-  file=$(echo "$file" | xargs)
-  if [ -f ".livespec/$file" ] && [ -f "$NEW_DIST/$file" ]; then
-    echo "===== MODIFIED: $file ====="
-    echo "Choose action: (d)iff, (a)pply, (s)kip, (f)ull-diff"
-    read -r action
-
-    case "$action" in
-      d)
-        # Show brief diff
-        diff -u ".livespec/$file" "$NEW_DIST/$file" | head -50
-        echo "Apply? (y/n)"
-        read -r response
-        [ "$response" = "y" ] && cp "$NEW_DIST/$file" ".livespec/$file" && echo "  ✓ Applied"
-        ;;
-      a)
-        cp "$NEW_DIST/$file" ".livespec/$file"
-        echo "  ✓ Applied $file"
-        ;;
-      s)
-        echo "  ⊘ Skipped $file (keeping your version)"
-        ;;
-      f)
-        # Full diff
-        diff -u ".livespec/$file" "$NEW_DIST/$file"
-        echo "Apply? (y/n)"
-        read -r response
-        [ "$response" = "y" ] && cp "$NEW_DIST/$file" ".livespec/$file" && echo "  ✓ Applied"
-        ;;
-    esac
-  fi
-done
-```
-
-### Handle Removed Files
-
-```bash
-# Review removed files - decide whether to delete
-grep "🔴" var/upgrade-reports/upgrade-diff.txt -A 100 | grep "^\s\s" | while read -r file; do
-  file=$(echo "$file" | xargs)
-  if [ -f ".livespec/$file" ]; then
-    echo "Remove: $file (no longer in standard)? (y/n)"
-    read -r response
-    if [ "$response" = "y" ]; then
-      rm ".livespec/$file"
-      echo "  ✓ Removed $file"
-    else
-      echo "  ⊘ Kept $file (custom file)"
-    fi
-  fi
-done
-```
-
-### Update VERSION File
-
-```bash
-# Update version after applying changes
-cp "$NEW_DIST/VERSION" .livespec/VERSION
-echo "✓ Updated VERSION to $(cat .livespec/VERSION)"
-```
-
-## Phase 5: Validation
-
-Verify upgrade integrity:
-
-```bash
-echo "=== VALIDATION REPORT ===" > var/upgrade-reports/validation-report.txt
-
-# Check folder structure
-echo "Checking folder structure..." >> var/upgrade-reports/validation-report.txt
-for dir in standard/metaspecs standard/conventions prompts/0-define prompts/1-design prompts/2-build prompts/3-verify prompts/4-evolve prompts/utils templates/workspace; do
-  if [ -d ".livespec/$dir" ]; then
-    echo "  ✓ $dir exists" >> var/upgrade-reports/validation-report.txt
-  else
-    echo "  ✗ $dir missing" >> var/upgrade-reports/validation-report.txt
-  fi
-done
-
-# Check critical files
-echo "" >> var/upgrade-reports/validation-report.txt
-echo "Checking critical files..." >> var/upgrade-reports/validation-report.txt
-
-# Metaspecs (7 required)
-for spec in base behavior workspace strategy requirements constraints contract; do
-  if [ -f ".livespec/standard/metaspecs/${spec}.spec.md" ]; then
-    echo "  ✓ metaspecs/${spec}.spec.md" >> var/upgrade-reports/validation-report.txt
-  else
-    echo "  ✗ metaspecs/${spec}.spec.md missing" >> var/upgrade-reports/validation-report.txt
-  fi
-done
-
-# Conventions (3 required)
-for conv in folder-structure naming dependencies; do
-  if [ -f ".livespec/standard/conventions/${conv}.spec.md" ]; then
-    echo "  ✓ conventions/${conv}.spec.md" >> var/upgrade-reports/validation-report.txt
-  else
-    echo "  ✗ conventions/${conv}.spec.md missing" >> var/upgrade-reports/validation-report.txt
-  fi
-done
-
-# VERSION file
-if [ -f ".livespec/VERSION" ]; then
-  echo "  ✓ VERSION: $(cat .livespec/VERSION)" >> var/upgrade-reports/validation-report.txt
-else
-  echo "  ✗ VERSION file missing" >> var/upgrade-reports/validation-report.txt
-fi
-
-# List non-standard files (potential custom additions)
-echo "" >> var/upgrade-reports/validation-report.txt
-echo "Custom or non-standard files:" >> var/upgrade-reports/validation-report.txt
-comm -23 <(cd .livespec && find . -type f | sort) <(cd "$NEW_DIST" && find . -type f | sort) | sed 's/^/  /' >> var/upgrade-reports/validation-report.txt
-
-# Show report
-cat var/upgrade-reports/validation-report.txt
-```
-
-**Review validation report:** Ensure no critical files missing.
-
-## Phase 6: Summary & Cleanup
-
-Generate upgrade summary:
-
-```bash
-echo "=== UPGRADE SUMMARY ===" > var/upgrade-reports/upgrade-summary.txt
-echo "Upgraded from $(cat "$BACKUP_DIR/VERSION" 2>/dev/null || echo 'unknown') to $(cat .livespec/VERSION)" >> var/upgrade-reports/upgrade-summary.txt
-echo "" >> var/upgrade-reports/upgrade-summary.txt
-echo "Backup location: $BACKUP_DIR" >> var/upgrade-reports/upgrade-summary.txt
-echo "" >> var/upgrade-reports/upgrade-summary.txt
-echo "Changes applied:" >> var/upgrade-reports/upgrade-summary.txt
-# Count changes from diff report
-echo "  New files added: $(grep -c "✓ Added" var/upgrade-reports/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-reports/upgrade-summary.txt
-echo "  Files modified: $(grep -c "✓ Applied" var/upgrade-reports/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-reports/upgrade-summary.txt
-echo "  Files removed: $(grep -c "✓ Removed" var/upgrade-reports/upgrade-diff.txt 2>/dev/null || echo '0')" >> var/upgrade-reports/upgrade-summary.txt
-echo "" >> var/upgrade-reports/upgrade-summary.txt
-echo "See var/upgrade-reports/upgrade-diff.txt and var/upgrade-reports/validation-report.txt for details." >> var/upgrade-reports/upgrade-summary.txt
-
-cat var/upgrade-reports/upgrade-summary.txt
-```
-
-### Rollback Instructions
-
-If upgrade fails or causes issues:
-
-```bash
-# Rollback to backup (REPLACE TIMESTAMP)
-rm -rf .livespec
-mv .livespec.backup-YYYYMMDD-HHMMSS .livespec
-
-echo "Rolled back to version: $(cat .livespec/VERSION 2>/dev/null || echo 'unknown')"
-```
-
-### Remove Backup (if successful)
-
-If validation passed and everything works:
-
-```bash
-# Remove backup to clean up
-rm -rf "$BACKUP_DIR"
-echo "Backup removed. Upgrade complete."
-
-# Clean up temp files
-rm -f var/upgrade-reports/upgrade-diff.txt var/upgrade-reports/validation-report.txt var/upgrade-reports/upgrade-summary.txt
-[ -d "$TEMP_DIR" ] && rm -rf "$TEMP_DIR"
-```
-
-## Post-Upgrade Steps
-
-After successful upgrade:
-
-1. **Test methodology:** Try using a prompt to ensure everything works
-2. **Regenerate AGENTS.md** (if workspace specs changed):
-   ```bash
-   claude-code "Use .livespec/4-evolve/4d-regenerate-agents.md"
-   ```
-3. **Review skipped changes:** Check var/upgrade-reports/upgrade-diff.txt for anything you skipped
-4. **Update project specs:** If metaspecs changed significantly, review your project specs
 
 ## Exit Criteria
 
-- [ ] Backup created and verified
+- [ ] Backup created
 - [ ] New distribution fetched
-- [ ] Diff report reviewed
-- [ ] Changes selectively applied
-- [ ] VERSION file updated
-- [ ] Validation passed (no critical files missing)
-- [ ] Upgrade summary reviewed
-- [ ] Rollback instructions noted (if needed)
-- [ ] Backup removed (if successful)
-- [ ] AGENTS.md regenerated (if applicable)
+- [ ] Phase 1: Standard files updated
+- [ ] Phase 2: Non-customized prompts updated
+- [ ] Phase 3: Customized prompts reviewed (user chose action for each)
+- [ ] Phase 4: Templates merged
+- [ ] Phase 5: Never-overwrite paths skipped
+- [ ] Phase 6: New files added (user approved)
+- [ ] .livespec-version updated
+- [ ] customizations.yaml updated
+- [ ] Upgrade summary created
+- [ ] Rollback instructions provided
+- [ ] Temp files cleaned up
 
 ## Troubleshooting
 
-**Fetch fails:**
-- Try alternative fetch method (git vs tarball vs manual)
+**Git clone fails:**
+- Try GitHub release tarball method
+- Ask user for local LiveSpec path
 - Check internet connection
-- Verify GitHub repository accessible
 
-**Diff fails:**
-- Ensure .livespec/ and NEW_DIST paths correct
-- Check file permissions
-- Try running commands manually
+**customizations.yaml missing:**
+- Treat as pre-2.1.0 install (nothing tracked yet)
+- After upgrade, create customizations.yaml with current state
+- Document this in upgrade summary
 
-**Validation fails:**
-- Review var/upgrade-reports/validation-report.txt for specific missing files
-- Consider re-applying skipped critical files
-- Check if custom changes broke structure
+**Merge conflict too complex:**
+- Offer to keep user's version
+- Provide manual merge instructions
+- Save both versions for user to compare later
 
-**Conflicts with customizations:**
-- Keep your version (skip modified files)
-- Manually merge changes later
-- Document conflicts in project notes
+**Critical file missing after upgrade:**
+- Stop immediately
+- Rollback from backup
+- Report what went wrong
+- Ask user to file issue on GitHub
 
 ## Notes
 
-- **Customizations preserved:** Your custom files and skipped changes remain untouched
-- **Selective application:** You control what changes apply
-- **Safety first:** Backup always created before changes
-- **Rollback available:** Can always restore from backup
-- **No automation:** Manual process ensures you understand each change
+- **AI-native approach:** No bash scripts, just AI following prompt
+- **Progressive safety:** Safe changes automatic, risky changes interactive
+- **Intelligence:** AI actually understands changes, not just diffs
+- **Customization-aware:** Respects customizations.yaml tracking
+- **User control:** User decides on every conflicting change
+- **Rollback always available:** Backup preserved until user confirms success

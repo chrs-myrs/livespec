@@ -22,22 +22,102 @@ project/
 │   ├── behaviors/
 │   └── contracts/
 └── .livespec/              # Already copied from dist/
+    ├── .livespec-version   # Version tracking
+    ├── customizations.yaml # Customization tracking
     ├── prompts/
     ├── standard/
     └── templates/
 ```
 
-## Workspace Specifications
+## Step 1: Create Version Tracking Files
+
+Create version and customization tracking files (enables safe upgrades):
+
+```bash
+# Create version file
+cp .livespec/.livespec-version.template .livespec/.livespec-version
+
+# Create customizations tracking file
+cp .livespec/customizations.yaml.template .livespec/customizations.yaml
+```
+
+**These files track:**
+- `.livespec-version` - Installed LiveSpec version (for upgrade detection)
+- `customizations.yaml` - Your customizations to prompts/templates (for safe upgrades)
+
+**AI agents:** Update `customizations.yaml` when user customizes prompts or templates.
+
+## Step 2: Organize Specs by Domain (Optional)
+
+Consider organizing specs with subfolders for clarity:
+
+**Software projects:**
+```
+specs/behaviors/
+├── user-features/     # User-facing behaviors
+│   ├── authentication.spec.md
+│   └── authorization.spec.md
+└── system/            # System behaviors
+    └── caching.spec.md
+
+specs/contracts/
+└── api/v1/            # API contracts
+    └── users-api.yaml
+```
+
+**Governance projects:**
+```
+specs/behaviors/
+├── policies/          # Policy behaviors
+│   ├── access-control.spec.md
+│   └── data-protection.spec.md
+└── compliance/        # Compliance behaviors
+    └── gdpr.spec.md
+
+specs/contracts/
+└── procedures/        # Process contracts
+    └── incident-response.spec.md
+```
+
+**Operations projects:**
+```
+specs/behaviors/
+└── services/          # Service behaviors
+    ├── backup.spec.md
+    └── monitoring.spec.md
+
+specs/contracts/
+└── runbooks/          # Operational contracts
+    ├── incident-response.spec.md
+    └── deployment.spec.md
+```
+
+**Hybrid projects:**
+```
+specs/behaviors/
+├── user-features/     # Software
+├── policies/          # Governance
+└── services/          # Operations
+
+specs/contracts/
+├── api/               # Software
+├── procedures/        # Governance
+└── runbooks/          # Operations
+```
+
+**Key insight:** behaviors/ and contracts/ work across domains. Organize by domain within these abstractions using subfolders.
+
+## Step 3: Workspace Specifications
 
 Create initial workspace specifications in `specs/workspace/` using provided templates:
 
-### Step 1: Copy Templates
+### 3a: Copy Templates
 
 ```bash
 cp .livespec/templates/workspace/*.template specs/workspace/
 ```
 
-### Step 2: Customize Each Template
+### 3b: Customize Each Template
 
 **constitution.spec.md.template** → **constitution.spec.md**
 - Replace `[PROJECT_NAME]` with your project name
@@ -55,7 +135,7 @@ cp .livespec/templates/workspace/*.template specs/workspace/
 - Specify bug fix process
 - Define change review workflow
 
-### Step 3: Remove .template Extensions
+### 3c: Remove .template Extensions
 
 ```bash
 cd specs/workspace
@@ -100,6 +180,9 @@ This enables your AI agent to cache methodology context and guide you proactivel
 ## Exit Criteria
 
 - [ ] Folder structure matches LiveSpec standard
+- [ ] .livespec-version file created
+- [ ] customizations.yaml file created
+- [ ] Domain organization considered (subfolders if needed)
 - [ ] specs/workspace/ contains constitution, patterns, workflows
 - [ ] All workspace specs follow MSL format
 - [ ] Workspace defines HOW to build, not WHAT to build
