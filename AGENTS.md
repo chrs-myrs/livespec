@@ -638,6 +638,13 @@ Cache this document, but fetch full prompts when you need:
 | Sync complete | `.livespec/4-evolve/4c-sync-complete.md` | Confirm alignment |
 | Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
 | Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
+| **Upgrade LiveSpec** | `.livespec/utils/upgrade-methodology.md` | **New version released** |
+
+**Important for upgrades:** The upgrade-methodology.md prompt includes mandatory pre-flight checks and proof-of-work requirements (like spec-first enforcement). You must:
+- Actually clone the LiveSpec repository (show git clone output)
+- Create backup and prove it exists (show ls output)
+- Run self-validation tests and show results
+- Cannot fake the process - evidence required for each phase
 
 ## Workspace Specs Guide AI
 

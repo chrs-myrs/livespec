@@ -9,9 +9,11 @@ spec: specs/behaviors/prompts/utils-upgrade.spec.md
 
 ## Overview
 
-This prompt guides AI agents through upgrading .livespec/ while respecting user customizations. The process is **progressive**: automatically updating safe files, asking about customized files, and never touching explicitly protected files.
+This prompt guides AI agents through upgrading .livespec/ while respecting user customizations. The process is **progressive** with **mandatory verification gates** ensuring you actually follow the process (not fake it).
 
 **Key principle:** AI reads `customizations.yaml` to know what's custom, then applies intelligent merge strategy.
+
+**Enforcement principle:** Like spec-first development (principle #1), upgrade process requires proof-of-work - you must show evidence you completed each step before proceeding.
 
 ## When to Use
 
@@ -25,96 +27,131 @@ Do NOT use if:
 - `.livespec/` is a symlink (dogfooding setup - use `git pull` in linked repo instead)
 - No `.livespec/` exists (use 0a-setup-workspace.md for fresh install)
 
-## Pre-Flight Checks
+---
 
-**AI agent should perform these checks first:**
+## ⚠️ PRE-FLIGHT CHECKS (Essential)
 
-1. **Detect installation type:**
+**Please perform these checks before upgrading:**
+
+### 1. Check Installation Type
+
 ```bash
 test -L .livespec && echo "SYMLINK" || echo "DIRECTORY"
 ```
 
-If SYMLINK: Stop here. Instruct user to `cd` to linked repository and `git pull`.
+**If SYMLINK:**
+- **STOP IMMEDIATELY** - This is a dogfooding setup
+- Instruct user: `cd` to the linked repository and run `git pull` instead
+- Exit without making any changes
 
-2. **Read current version:**
-```bash
-cat .livespec/.livespec-version 2>/dev/null
-```
+**If DIRECTORY:**
+- Continue to step 2
 
-If missing: Assume pre-2.1.0 installation (no version tracking yet).
-
-3. **Read customizations tracking:**
-```bash
-cat .livespec/customizations.yaml 2>/dev/null
-```
-
-If missing: Assume nothing customized yet (or pre-2.1.0).
-
-4. **Preview changes from CHANGELOG:**
-
-Read upstream CHANGELOG to understand what changed:
+### 2. Read Current Version
 
 ```bash
-# Fetch new distribution first (see next section)
-# Then read CHANGELOG
-cat "$NEW_DIST/../CHANGELOG.md" 2>/dev/null | head -200
+cat .livespec/.livespec-version 2>/dev/null || echo "Pre-2.1.0 installation (no version file)"
 ```
 
-**AI should:**
-- Find [Unreleased] section in CHANGELOG
-- Summarize key changes for user in plain language
-- Highlight ⚠️ changes affecting customized prompts (from customizations.yaml)
-- Set context for merge decisions ahead
+**Note current version** - If missing, this is a pre-2.1.0 installation (more changes expected).
 
-**Example summary:**
-```
-Upgrading from 2.1.0 to 2.1.1 (unreleased):
-
-Key changes:
-- 0a-setup-workspace.md: Added Step 0 for agent bootstrap (HIGH IMPACT)
-  → You customized this prompt, we'll need to review the merge
-- 1a-design-architecture.md: Fixed path + cross-cutting concerns (MEDIUM IMPACT)
-  → Path correction critical, checklist optional
-- New templates added: governance, operations, strategy
-- AGENTS.md now included in distribution
-
-I'll guide you through merging these changes into your customized prompts.
-```
-
-If no CHANGELOG or [Unreleased] section empty: Proceed without summary.
-
-5. **Create backup:**
-```bash
-BACKUP_DIR=".livespec.backup-$(date +%Y%m%d-%H%M%S)"
-cp -r .livespec "$BACKUP_DIR"
-echo "Backup created: $BACKUP_DIR"
-```
-
-**Store backup path for rollback instructions at end.**
-
-## Fetch New Distribution
-
-AI agent should fetch latest LiveSpec distribution. Prefer git clone:
+### 3. Clone LiveSpec Repository
 
 ```bash
 TEMP_DIR=$(mktemp -d)
 git clone https://github.com/chrs-myrs/livespec.git "$TEMP_DIR"
 NEW_DIST="$TEMP_DIR/dist"
-NEW_VERSION=$(cat "$NEW_DIST/.livespec-version.template")
-echo "Fetched LiveSpec version: $NEW_VERSION"
 ```
 
-**Alternative methods** (if git fails):
-- GitHub release tarball
-- User-provided local path
+**PROOF REQUIRED**: Show the git clone output above. You must actually clone the repository - do not fake this step.
 
-**Verify:** NEW_DIST path set and contains standard/, prompts/, templates/
+### 4. Verify New Distribution
 
-## Progressive Merge Strategy
+```bash
+ls "$NEW_DIST/"
+cat "$NEW_DIST/.livespec-version.template"
+```
 
-AI applies changes in phases, from safest to most interactive:
+**PROOF REQUIRED**: Show the new version number. You must show evidence you fetched the correct distribution.
 
-### Phase 1: Standard Files (Always Overwrite)
+**Store variables for later phases:**
+- `TEMP_DIR` - Temporary directory path
+- `NEW_DIST` - Path to new distribution ($TEMP_DIR/dist)
+- `NEW_VERSION` - Version number from .livespec-version.template
+
+### 5. Read Customizations Tracking
+
+```bash
+cat .livespec/customizations.yaml 2>/dev/null || echo "No customizations tracked (pre-2.1.0 or not customized)"
+```
+
+If missing: Assume nothing customized yet.
+
+**Pre-flight checks complete.** Proceed to Phase 1.
+
+---
+
+## Phase 1: Create Backup (MANDATORY)
+
+**Essential first step - create backup before any changes:**
+
+```bash
+BACKUP_DIR=".livespec.backup-$(date +%Y%m%d-%H%M%S)"
+cp -r .livespec "$BACKUP_DIR"
+```
+
+**PROOF REQUIRED**: Show backup created:
+
+```bash
+ls -la "$BACKUP_DIR" | head -20
+```
+
+You must show the ls output proving the backup directory exists and contains files.
+
+**Store backup path** for rollback instructions at end: `BACKUP_DIR`
+
+**Phase 1 complete when:**
+- [ ] Backup directory created (path shown above)
+- [ ] Backup contains .livespec/ contents (ls output shown)
+- [ ] Backup path stored in BACKUP_DIR variable
+
+**PHASE GATE**: Cannot proceed to Phase 2 without showing backup evidence above.
+
+---
+
+## Phase 2: Preview Changes from CHANGELOG
+
+Read upstream CHANGELOG to understand what changed:
+
+```bash
+cat "$NEW_DIST/../CHANGELOG.md" 2>/dev/null | head -200
+```
+
+**Summarize for user:**
+- Find [Unreleased] or latest version section
+- Explain key changes in plain language
+- Highlight ⚠️ HIGH IMPACT changes
+- Note changes affecting customized files (from customizations.yaml)
+
+**Example summary:**
+```
+Upgrading from 2.1.0 to 2.2.0:
+
+Key changes:
+- Spec-first development now principle #1 (affects all future development)
+- AGENTS.md Core Principles updated (drift fix)
+- Workspace specs now require applies_to frontmatter
+- 0a-setup-workspace.md: Added Step 0 for agent bootstrap
+  → If you customized this prompt, we'll need to review the merge
+
+I'll guide you through merging these changes.
+```
+
+If no CHANGELOG or section empty: Note "No changelog available, proceeding with file-by-file diff."
+
+---
+
+## Phase 3: Update Standard Files (Auto)
 
 **Rationale:** `standard/` contains canonical metaspecs and conventions. Never customize these.
 
@@ -258,7 +295,93 @@ Add these? [y/n for each]
 
 Add approved files.
 
-## Finalize Upgrade
+---
+
+## Phase 7: Regenerate AGENTS.md (If Needed)
+
+**Check if workspace specs changed during upgrade:**
+
+```bash
+diff -rq .livespec/specs/workspace/ "$BACKUP_DIR/specs/workspace/" 2>/dev/null
+```
+
+**If workspace/ specs changed:**
+
+1. **MANDATORY**: Regenerate AGENTS.md
+
+```
+AI: "Workspace specs changed during upgrade. I need to regenerate AGENTS.md to prevent drift..."
+```
+
+Use `4d-regenerate-agents.md` to regenerate AGENTS.md from current workspace specs.
+
+2. **PROOF REQUIRED**: Show before/after diff of Core Principles section
+
+```bash
+# Show that Core Principles now matches constitution.spec.md
+grep -A 30 "## Core Principles" AGENTS.md
+```
+
+3. **Verify principle order** matches constitution.spec.md (Specs Before Implementation should be #1)
+
+**Why this matters:** We caught AGENTS.md drift in 2.2.0 release - Core Principles section didn't match current constitution.spec.md. This phase prevents that.
+
+**If workspace/ specs NOT changed:**
+- Skip this phase
+- Note: "Workspace specs unchanged, AGENTS.md regeneration not needed"
+
+---
+
+## Phase 8: Self-Validation (MANDATORY)
+
+**Prove the upgrade worked - show evidence for all tests:**
+
+### Test 1: Version Updated
+
+```bash
+cat .livespec/.livespec-version
+```
+
+**PROOF REQUIRED**: Output should show new version number (stored in $NEW_VERSION).
+
+### Test 2: Critical Files Present
+
+```bash
+echo "Metaspecs: $(ls .livespec/standard/metaspecs/*.spec.md 2>/dev/null | wc -l)"
+echo "Phase 0 prompts: $(ls .livespec/prompts/0-define/*.md 2>/dev/null | wc -l)"
+echo "Phase 1 prompts: $(ls .livespec/prompts/1-design/*.md 2>/dev/null | wc -l)"
+```
+
+**PROOF REQUIRED**: Show file counts. Expected:
+- Metaspecs: 7
+- Phase prompts: 4+ per phase
+
+### Test 3: Backup Available for Rollback
+
+```bash
+ls -d "$BACKUP_DIR" && echo "✓ Backup available at: $BACKUP_DIR"
+```
+
+**PROOF REQUIRED**: Show backup directory exists.
+
+### Validation Summary
+
+Report validation results:
+```
+✅ Self-Validation Complete:
+  ✓ Version updated: 2.1.0 → 2.2.0
+  ✓ Metaspecs present: 7 files
+  ✓ Prompts intact: 20+ files across 5 phases
+  ✓ Backup available: .livespec.backup-20251009-123456
+
+Upgrade successful!
+```
+
+**PHASE GATE**: All tests must pass before proceeding to Phase 9. You cannot claim upgrade success without showing validation outputs.
+
+---
+
+## Phase 9: Finalize Upgrade
 
 ### Update Version File
 
@@ -359,69 +482,120 @@ If yes: `rm -rf "$BACKUP_DIR"`
 ### Example AI Interaction
 
 ```
-User: "Use upgrade-methodology.md to upgrade to 2.1.0"
+User: "Use upgrade-methodology.md to upgrade to 2.2.0"
 
-AI: "I'll help you upgrade .livespec/ from 2.0.0 to 2.1.0. First, let me create a backup..."
+AI: "I'll help you upgrade .livespec/ to version 2.2.0.
+
+Performing pre-flight checks..."
+
+[Runs test -L .livespec]
+DIRECTORY
+
+[Runs cat .livespec/.livespec-version]
+2.1.0
+
+AI: "Current version: 2.1.0"
+
+[Runs git clone]
+Cloning into '/tmp/tmp.abc123/livespec'...
+remote: Enumerating objects: 1234, done.
+...
+
+AI: "✓ Repository cloned"
+
+[Runs cat $TEMP_DIR/dist/.livespec-version.template]
+2.2.0
+
+AI: "✓ New version: 2.2.0
+
+Now creating backup..."
 
 [Creates backup]
+BACKUP_DIR=".livespec.backup-20251009-142233"
 
-AI: "✓ Backup created at .livespec.backup-20251007-143022
+[Runs ls -la "$BACKUP_DIR"]
+drwxr-xr-x  8 user user 4096 Oct  9 14:22 .
+drwxr-xr-x 12 user user 4096 Oct  9 14:22 ..
+drwxr-xr-x  4 user user 4096 Oct  9 14:22 prompts
+drwxr-xr-x  2 user user 4096 Oct  9 14:22 standard
+...
 
-Fetching LiveSpec 2.1.0..."
+AI: "✓ Backup created at .livespec.backup-20251009-142233
 
-[Fetches distribution]
+Phase 2: Checking CHANGELOG for changes..."
 
-AI: "✓ Fetched version 2.1.0
+Upgrading from 2.1.0 to 2.2.0:
 
-I'll now upgrade in phases:
+Key changes:
+- Spec-first development now principle #1
+- AGENTS.md Core Principles updated to match constitution.spec.md
+- Workspace specs now require applies_to frontmatter
 
-Phase 1: Updating standard files (canonical, no customization)...
+Phase 3: Updating standard files...
 ✓ Updated 10 metaspecs and conventions
 
-Phase 2: Updating non-customized prompts...
+Phase 4: Updating non-customized prompts...
 ✓ Updated 15 prompts automatically
 
-Phase 3: Reviewing your customized prompts...
+Phase 5: Found 1 customized prompt to review...
 
-Found 2 customized prompts. Let me check each one.
+Phase 7: Checking if workspace specs changed...
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 prompts/0-define/0a-setup-workspace.md
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Runs diff -rq]
+Files .livespec/specs/workspace/constitution.spec.md and .livespec.backup-20251009-142233/specs/workspace/constitution.spec.md differ
 
-You customized this on 2025-10-05 to add governance-specific setup steps.
+AI: "Workspace specs changed. Regenerating AGENTS.md..."
 
-Upstream 2.1.0 added:
-- Domain organization guidance (behaviors/policies/ pattern)
-- Version tracking file creation
-- Customization tracking file creation
+[Regenerates AGENTS.md, shows diff]
 
-This is interesting! The upstream changes actually complement your governance customizations. Would you like me to merge both together? I can create a version that has your governance steps PLUS the new version tracking.
+Phase 8: Self-validation...
 
-Options:
-[m] Merge upstream (you'll need to re-add governance steps)
-[k] Keep yours (you'll miss version tracking setup)
-[e] Edit together (I'll merge both - RECOMMENDED)
-[d] View full diff
+[Runs cat .livespec/.livespec-version]
+2.2.0
+✓ Version updated
 
-Your choice? █
+[Runs file counts]
+Metaspecs: 7
+Phase 0 prompts: 4
+...
+✓ Critical files present
+
+[Verifies backup]
+✓ Backup available at: .livespec.backup-20251009-142233
+
+✅ Self-Validation Complete:
+  ✓ Version updated: 2.1.0 → 2.2.0
+  ✓ Metaspecs present: 7 files
+  ✓ Prompts intact: 24 files across 5 phases
+  ✓ Backup available: .livespec.backup-20251009-142233
+
+Upgrade successful!
 ```
 
 ## Exit Criteria
 
-- [ ] Backup created
-- [ ] New distribution fetched
-- [ ] Phase 1: Standard files updated
-- [ ] Phase 2: Non-customized prompts updated
-- [ ] Phase 3: Customized prompts reviewed (user chose action for each)
-- [ ] Phase 4: Templates merged
-- [ ] Phase 5: Never-overwrite paths skipped
-- [ ] Phase 6: New files added (user approved)
-- [ ] .livespec-version updated
-- [ ] customizations.yaml updated
-- [ ] Upgrade summary created
-- [ ] Rollback instructions provided
-- [ ] Temp files cleaned up
+- [ ] **Pre-flight checks complete** (evidence shown):
+  - [ ] Installation type checked (DIRECTORY not SYMLINK)
+  - [ ] Current version noted
+  - [ ] Repository cloned (git clone output shown)
+  - [ ] New version verified (version number shown)
+  - [ ] Customizations read
+- [ ] **Phase 1: Backup created** (ls output shown proving backup exists)
+- [ ] **Phase 2: CHANGELOG preview** (key changes summarized for user)
+- [ ] **Phase 3: Standard files updated** (canonical metaspecs/conventions)
+- [ ] **Phase 4: Non-customized prompts updated** (auto-applied)
+- [ ] **Phase 5: Customized prompts reviewed** (user chose action for each)
+- [ ] **Phase 6: Templates and new files merged** (user approved new files)
+- [ ] **Phase 7: AGENTS.md regenerated** (if workspace specs changed, diff shown)
+- [ ] **Phase 8: Self-validation complete** (all 3 tests passed, outputs shown):
+  - [ ] Version updated (cat output shown)
+  - [ ] Critical files present (file counts shown)
+  - [ ] Backup available (backup path shown)
+- [ ] **Phase 9: Finalize**:
+  - [ ] customizations.yaml updated
+  - [ ] Upgrade summary created
+  - [ ] Rollback instructions provided
+  - [ ] Temp files cleaned up
 
 ## Troubleshooting
 
