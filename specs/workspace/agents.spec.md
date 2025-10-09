@@ -40,7 +40,11 @@ constrained_by:
 9. Constraints (critical boundaries)
 10. Dependency structure (frontmatter conventions)
 11. Common anti-patterns
-12. When to fetch full prompts (table mapping needs to prompts)
+12. When to fetch full prompts (table mapping needs to prompts):
+    - Includes all phase prompts (0a through 4e)
+    - Includes upgrade-methodology.md with note about proof-of-work requirements
+    - Note explains: Upgrade process requires showing evidence (git clone output, backup ls, validation tests)
+    - Emphasizes: Cannot fake the process - evidence required for each phase
 
 **Design principles:**
 - Single file <100KB for efficient caching
