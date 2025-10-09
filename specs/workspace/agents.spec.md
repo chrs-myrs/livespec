@@ -52,5 +52,12 @@ constrained_by:
   - Agent can answer "what should I do next?" without additional context
   - Agent enforces MSL format without being reminded
   - Agent suggests relevant phase based on project state
+  - **Agent enforces spec-first development** (CRITICAL - principle #1):
+    - Agent checks for spec existence before ANY implementation
+    - Agent blocks implementation if spec doesn't exist
+    - Agent redirects to Phase 1 (DESIGN) to create spec first
+    - Agent enforces this even for "obvious" deliverables (README, CHANGELOG, config)
+    - Agent explains WHY spec-first matters (prevents drift, ensures requirements captured)
+    - Agent references LiveSpec's CHANGELOG mistake (commit 40411e3) as cautionary example
   - File size remains under 100KB
   - Regeneration script exists and works

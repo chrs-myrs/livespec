@@ -8,6 +8,46 @@ spec: specs/behaviors/prompts/2a-implement-from-specs.spec.md
 **Purpose**: Implement the system according to design specifications
 **Prerequisites**: Phase 1 complete (architecture, behaviors, contracts defined)
 
+## ⚠️ PRE-FLIGHT CHECK (MANDATORY)
+
+**YOU MUST perform this check before implementing:**
+
+### Check for Specification Existence
+
+```bash
+# List all specifications
+ls specs/behaviors/*.spec.md specs/contracts/*.spec.md specs/strategy/*.spec.md 2>/dev/null
+```
+
+**If implementing a NEW deliverable:**
+
+1. **Does specification exist?**
+   - For behaviors: `specs/behaviors/[deliverable].spec.md`
+   - For contracts: `specs/contracts/[deliverable].spec.md`
+   - For strategy: `specs/strategy/[deliverable].spec.md`
+
+2. **If NO spec exists:**
+   - **STOP IMMEDIATELY**
+   - Say: "I need a specification before implementing. Let's create specs/behaviors/[deliverable].spec.md first."
+   - Redirect user to Phase 1 (DESIGN):
+     - Use `.livespec/1-design/1b-define-behaviors.md` for behaviors
+     - Use `.livespec/1-design/1c-create-contracts.md` for contracts
+     - Use `.livespec/1-design/1a-design-architecture.md` for strategy
+
+3. **If YES spec exists:**
+   - Read specification completely
+   - Verify spec has:
+     - Requirements section with [!] items
+     - Validation criteria
+     - Failure mode defined
+   - Proceed to implementation (continue with Task below)
+
+**No exceptions.** Even if deliverable seems "obvious" (CHANGELOG, README, config, template), specification required first.
+
+**Why this matters:** LiveSpec's own CHANGELOG was implemented without spec (commit 40411e3), violating spec-first principle. Familiarity creates false confidence. This check prevents that mistake.
+
+---
+
 ## Task
 
 Implement the system by following the specifications in order of criticality.

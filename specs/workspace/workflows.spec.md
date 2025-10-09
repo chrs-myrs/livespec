@@ -8,9 +8,17 @@ constrained_by:
 # LiveSpec Development Workflows
 
 ## Requirements
-- LiveSpec development follows specific workflows: new prompts require behavior specs first, spec changes follow EVOLVE phase workflow, changes validated through real usage before merge, periodic MSL audits maintain minimalism, and documentation updates accompany prompt/spec changes.
+- [!] LiveSpec development follows specific workflows with spec-first enforcement as mandatory first step: AI agents check for spec existence before ANY implementation, new prompts require behavior specs first, spec changes follow EVOLVE phase workflow, changes validated through real usage before merge, periodic MSL audits maintain minimalism, and documentation updates accompany prompt/spec changes.
+  - **Spec-First Enforcement Workflow** (mandatory before implementation):
+    - AI checks: Does `specs/behaviors/[deliverable].spec.md` exist for what user wants to implement?
+    - If NO: Block implementation immediately
+    - AI says: "I need a specification before implementing. Let's create specs/behaviors/[deliverable].spec.md first using Phase 1 (DESIGN)"
+    - AI guides user to appropriate Phase 1 prompt (1a-design-architecture.md, 1b-define-behaviors.md, or 1c-create-contracts.md)
+    - If YES: Verify spec has Requirements section with [!] items, Validation criteria, and Failure Mode defined
+    - Only then proceed to implementation
+    - No exceptions for "obvious" deliverables (CHANGELOG, README, configs, templates all need specs)
   - Every prompt in prompts/ has spec in specs/behaviors/prompts/
-  - Git history shows specs update with implementation
+  - Git history shows specs created before implementation
   - Pull requests include testing evidence
-  - Specifications don't grow larger over time
+  - Specifications don't grow larger over time (MSL audits)
   - docs/ reflects current prompts/ and specs/ state
