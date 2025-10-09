@@ -1,0 +1,44 @@
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks without this strategy]
+constrained_by:
+  - ../../.livespec/standard/metaspecs/base.spec.md
+  - ../../.livespec/standard/metaspecs/strategy.spec.md
+---
+
+# [Strategy Name]
+
+## Requirements
+- [!] [Primary strategic decision - cross-cutting technical approach]
+  - Decision addresses specific concern consistently across system
+  - Approach applies to entire product (not single feature)
+  - Technical mechanism defined (HOW this product solves it)
+  - Alternative approaches considered and rejected
+
+## Rationale
+[Why this approach? What alternatives were rejected? What tradeoffs were made?]
+
+## Validation
+[How to verify this strategy is being followed]
+
+## Notes
+
+**Strategy goes in:** `specs/strategy/`
+
+**Why strategy?** This is a product-specific technical decision that applies across the entire system.
+
+**Common strategy specs:**
+- `architecture.spec.md` - System structure, components, technical approach
+- `logging.spec.md` - Structured logging, observability, debugging
+- `security.spec.md` - Authentication, authorization, secrets management
+- `data.spec.md` - Persistence, caching, data consistency
+- `integration.spec.md` - APIs, messaging, external system communication
+- `deployment.spec.md` - Infrastructure, CI/CD, environments
+- `error-handling.spec.md` - Consistent error propagation and recovery
+
+**Scaling guidance:**
+- Start with single `architecture.spec.md` containing all strategy
+- Split into separate strategy specs when architecture.spec.md exceeds ~100 lines
+- Each split file should be <50 lines (keep minimal)
+
+**Decision test:** "Could I use this spec in a different project?" → NO (correct for strategy)

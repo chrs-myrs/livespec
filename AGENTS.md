@@ -190,54 +190,69 @@ specs/
 
 **Software projects:**
 ```
-specs/behaviors/
-├── user-features/
-│   ├── authentication.spec.md
-│   └── authorization.spec.md
-└── system/
-    └── caching.spec.md
-
-specs/contracts/
-└── api/v1/
-    └── users-api.yaml
+specs/
+├── workspace/           # How we work
+├── behaviors/
+│   ├── user-features/  # User-facing behaviors
+│   │   ├── authentication.spec.md
+│   │   └── authorization.spec.md
+│   └── system/         # System behaviors
+│       └── caching.spec.md
+├── contracts/
+│   └── api/v1/         # API contracts
+│       └── users-api.yaml
+└── strategy/           # Cross-cutting decisions
+    ├── architecture.spec.md
+    └── logging.spec.md
 ```
 
 **Governance projects:**
 ```
-specs/behaviors/
-└── policies/
-    ├── access-control.spec.md
-    └── data-protection.spec.md
-
-specs/contracts/
-└── procedures/
-    └── access-review.spec.md
+specs/
+├── workspace/           # How we work
+├── behaviors/
+│   └── policies/       # Policy behaviors
+│       ├── access-control.spec.md
+│       └── data-protection.spec.md
+├── contracts/
+│   └── procedures/     # Process contracts
+│       └── access-review.spec.md
+└── strategy/           # Cross-cutting decisions
+    └── security-posture.spec.md
 ```
 
 **Operations projects:**
 ```
-specs/behaviors/
-└── services/
-    ├── backup.spec.md
-    └── monitoring.spec.md
-
-specs/contracts/
-└── runbooks/
-    ├── incident-response.spec.md
-    └── deployment.spec.md
+specs/
+├── workspace/           # How we work
+├── behaviors/
+│   └── services/       # Service behaviors
+│       ├── backup.spec.md
+│       └── monitoring.spec.md
+├── contracts/
+│   └── runbooks/       # Operational contracts
+│       ├── incident-response.spec.md
+│       └── deployment.spec.md
+└── strategy/           # Cross-cutting decisions
+    └── infrastructure.spec.md
 ```
 
 **Hybrid projects:**
 ```
-specs/behaviors/
-├── user-features/         # Software
-├── policies/              # Governance
-└── services/              # Operations
-
-specs/contracts/
-├── api/                   # Software
-├── procedures/            # Governance
-└── runbooks/              # Operations
+specs/
+├── workspace/             # How we work
+├── behaviors/
+│   ├── user-features/    # Software
+│   ├── policies/         # Governance
+│   └── services/         # Operations
+├── contracts/
+│   ├── api/              # Software
+│   ├── procedures/       # Governance
+│   └── runbooks/         # Operations
+└── strategy/             # Cross-cutting (all domains)
+    ├── architecture.spec.md
+    ├── logging.spec.md
+    └── security.spec.md
 ```
 
 See `docs/domain-organization.md` for comprehensive patterns.
