@@ -5,6 +5,225 @@ All notable changes to LiveSpec will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## For Users with Customizations
+
+This changelog uses ⚠️ to mark changes affecting customized prompts/templates:
+- **HIGH impact**: Must merge to maintain functionality
+- **MEDIUM impact**: Should merge for improvements
+- **LOW impact**: Optional, backward compatible
+
+See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
+
+---
+
+## [Unreleased]
+
+### Added
+- **Prompt**: `prompts/utils/generate-feedback-report.md` - Optional evaluation report utility
+  - *Impact*: None (new utility, doesn't affect existing workflows)
+  - *Purpose*: Generate structured feedback reports for LiveSpec maintainers
+- **Template**: `templates/governance/policy.spec.md.template` - Governance policy template
+  - *Impact*: None (new domain template)
+- **Template**: `templates/governance/procedure.spec.md.template` - Governance procedure template
+  - *Impact*: None (new domain template)
+- **Template**: `templates/operations/runbook.spec.md.template` - Operations runbook template
+  - *Impact*: None (new domain template)
+- **Template**: `templates/operations/playbook.spec.md.template` - Operations playbook template
+  - *Impact*: None (new domain template)
+- **Template**: `templates/strategy.spec.md.template` - Strategy specification template
+  - *Impact*: None (new template)
+  - *Purpose*: Template for cross-cutting technical decisions
+- **File**: `dist/AGENTS.md` - Included in distribution
+  - *Impact*: LOW (new file in dist/, copy to project root)
+  - *Purpose*: Enable immediate AI agent discoverability upon adoption
+- **File**: `dist/.livespec-version.template` - Version tracking
+  - *Impact*: None (new file for upgrade detection)
+- **File**: `dist/customizations.yaml.template` - Customization tracking
+  - *Impact*: None (new file for AI-assisted upgrades)
+- **Documentation**: `docs/domain-organization.md` - Multi-domain organization patterns
+  - *Impact*: None (new documentation)
+
+### Changed
+
+- **⚠️ Prompt**: `prompts/0-define/0a-setup-workspace.md` - Added Step 0 for agent bootstrap (HIGH IMPACT)
+  - *Why*: Fixed discoverability gap - users couldn't effectively use prompts without AGENTS.md existing
+  - *Impact*: HIGH for customized versions - Step 0 must execute FIRST (before version tracking)
+  - *Changes*:
+    - NEW Step 0: Bootstrap Agent Configuration (copy AGENTS.md, create symlink, verify)
+    - Existing steps renumbered (Version tracking → Step 1, Domain org → Step 2, Workspace → Step 3)
+    - Exit criteria restructured by step
+    - Agent configuration moved to optional regeneration section
+  - *Migration*: Add Step 0 before your custom steps, ensure AGENTS.md copied first
+
+- **⚠️ Prompt**: `prompts/1-design/1a-design-architecture.md` - Fixed path and added cross-cutting concerns (MEDIUM IMPACT)
+  - *Why*: AI created `specs/architecture.spec.md` instead of `specs/strategy/architecture.spec.md`
+  - *Why*: User feedback: "without logging strategy debugging became a problem later"
+  - *Impact*: MEDIUM - path correction + new optional checklist
+  - *Changes*:
+    - Line 17: Fixed path from `specs/architecture.md` to `specs/strategy/architecture.spec.md`
+    - NEW section: "Consider Cross-Cutting Concerns" (observability, error handling, security, data, integration, deployment)
+    - Updated exit criteria to mention strategy/ folder
+  - *Migration*: Update architecture spec path, consider adding cross-cutting concerns checklist
+
+- **⚠️ Prompt**: `prompts/utils/upgrade-methodology.md` - Complete rewrite for AI-assisted upgrade (LOW IMPACT)
+  - *Why*: Enable safe, intelligent upgrades with customization awareness
+  - *Impact*: LOW (utility prompt, not core workflow)
+  - *Changes*: Shifted from bash-heavy to AI-native progressive merge strategy
+  - *Migration*: No action needed (utility only used during upgrades)
+
+- **Metaspec**: `standard/metaspecs/behavior.spec.md` - Added subfolder organization support
+  - *Why*: Support multi-domain projects (software, governance, operations, planning)
+  - *Impact*: LOW (backward compatible - flat structure still valid)
+  - *Changes*: Documented subfolder patterns (behaviors/policies/, behaviors/user-features/, etc.)
+
+- **Metaspec**: `standard/metaspecs/contract.spec.md` - Expanded beyond APIs
+  - *Why*: Contracts include procedures, runbooks, workflows (not just APIs)
+  - *Impact*: LOW (clarification, not breaking change)
+  - *Changes*: Added examples for operational/process contracts
+
+- **Documentation**: `PURPOSE.md` - Acknowledged multi-domain applicability
+  - *Impact*: None (documentation update)
+  - *Changes*: Software remains primary, governance/operations/planning noted as proven domains
+
+- **Documentation**: `specs/strategy/architecture.spec.md` - Added multi-domain patterns
+  - *Impact*: None (LiveSpec's own architecture doc)
+
+- **Documentation**: `AGENTS.md` - Added multi-domain organization and version tracking sections
+  - *Impact*: None (agent configuration, regenerate after customization)
+
+### Fixed
+
+- Strategy specifications now created in correct location (`specs/strategy/` not `specs/`)
+- AGENTS.md now included in distribution (fixes discoverability gap)
+- Cross-cutting concerns (logging, observability, error handling) now prompted early in design phase
+- Agent symlink (CLAUDE.md, COPILOT.md) now created automatically in Step 0
+
+---
+
+## [2.1.0] - 2025-10-07
+
+### Complete Methodology Rewrite
+
+LiveSpec 2.1.0 represents a complete rewrite from stage-based to phase-based methodology, adopting MSL (Markdown Specification Language) and establishing a mature, production-ready framework.
+
+### Major Changes
+
+#### New Five-Phase Methodology
+- **Phase 0: DEFINE** - Problem definition and workspace setup
+- **Phase 1: DESIGN** - Solution architecture and specifications
+- **Phase 2: BUILD** - Implementation from specifications
+- **Phase 3: VERIFY** - Validation and acceptance testing
+- **Phase 4: EVOLVE** - Continuous synchronization and drift detection
+
+Replaces old stage-based system (0-ux through 6-maintenance) with clearer, more focused workflow.
+
+#### MSL Format Adoption
+- All specifications use MSL (Markdown Specification Language)
+- Minimal format: title + frontmatter (criticality, failure_mode) + Requirements section
+- [!] markers denote critical requirements
+- Emphasis on "WHAT not HOW" - trust implementers for details
+
+#### Metaspec System
+- **base.spec.md** - Core requirements for all specifications
+- **behavior.spec.md** - Observable outcome specifications
+- **contract.spec.md** - Interface definition specifications
+- **strategy.spec.md** - Cross-cutting technical decision specifications
+
+Located in `.livespec/standard/metaspecs/`, these define the LiveSpec specification format itself.
+
+#### Workspace/Product Separation
+- **specs/workspace/** - HOW you build (process, portable to any project)
+  - constitution.spec.md - Development principles
+  - patterns.spec.md - Code and specification patterns
+  - workflows.spec.md - Development workflows
+- **specs/behaviors/** - WHAT system does (product-specific observable outcomes)
+- **specs/contracts/** - Interfaces and contracts (APIs, data formats)
+- **specs/strategy/** - Cross-cutting technical decisions (architecture, technology choices)
+
+Clear separation prevents mixing portable methodology with product-specific specifications.
+
+#### Template System
+- Workspace templates for bootstrapping new projects
+- Domain-specific templates (governance, operations)
+- All templates follow MSL format
+- Located in `.livespec/templates/`
+
+#### Utility Prompts
+- `utils/upgrade-methodology.md` - Safe methodology upgrades
+- `utils/next-steps.md` - Workflow orchestration
+- `utils/run-spike.md` - Discovery spike management
+- `utils/analyze-failure.md` - Process failure analysis
+
+Optional advanced prompts for complex scenarios.
+
+#### Distribution Structure
+
+```
+dist/
+├── AGENTS.md (new in unreleased)
+├── .livespec-version.template (new in unreleased)
+├── customizations.yaml.template (new in unreleased)
+├── prompts/
+│   ├── 0-define/
+│   ├── 1-design/
+│   ├── 2-build/
+│   ├── 3-verify/
+│   ├── 4-evolve/
+│   └── utils/
+├── standard/
+│   └── metaspecs/
+└── templates/
+    ├── workspace/
+    ├── governance/ (new in unreleased)
+    └── operations/ (new in unreleased)
+```
+
+Users copy `dist/` contents to `.livespec/` in their project.
+
+#### Key Prompts
+
+**Phase 0 (DEFINE):**
+- 0a-setup-workspace.md
+- 0b-define-problem.md
+- 0c-identify-constraints.md
+
+**Phase 1 (DESIGN):**
+- 1a-design-architecture.md
+- 1b-define-behaviors.md
+- 1c-create-contracts.md
+
+**Phase 2 (BUILD):**
+- 2a-implement-from-specs.md
+- 2b-create-tests.md
+
+**Phase 3 (VERIFY):**
+- 3a-run-validation.md
+- 3b-acceptance-review.md
+
+**Phase 4 (EVOLVE):**
+- 4a-detect-drift.md
+- 4b-extract-specs.md
+- 4c-sync-complete.md
+- 4d-regenerate-agents.md
+- 4e-validate-extractions.md
+
+### Removed
+
+- Stage-based system (0-ux through 6-maintenance)
+- Old reqs/ folder structure
+- Stakeholder review templates (replaced with simpler acceptance review)
+- UX-first templates (now general-purpose methodology)
+- livespec-start.sh deployment script
+
+### Breaking Changes
+
+- Complete folder structure change (reqs/ → specs/)
+- Specification format change (old templates → MSL format)
+- Workflow change (stages → phases)
+- No migration path from v0.2.0 (recommend fresh adoption)
+
+---
+
 ## [0.2.0] - 2024-01-30
 
 ### Beta Release

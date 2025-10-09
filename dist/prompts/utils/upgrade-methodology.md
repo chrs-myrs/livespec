@@ -50,7 +50,40 @@ cat .livespec/customizations.yaml 2>/dev/null
 
 If missing: Assume nothing customized yet (or pre-2.1.0).
 
-4. **Create backup:**
+4. **Preview changes from CHANGELOG:**
+
+Read upstream CHANGELOG to understand what changed:
+
+```bash
+# Fetch new distribution first (see next section)
+# Then read CHANGELOG
+cat "$NEW_DIST/../CHANGELOG.md" 2>/dev/null | head -200
+```
+
+**AI should:**
+- Find [Unreleased] section in CHANGELOG
+- Summarize key changes for user in plain language
+- Highlight ⚠️ changes affecting customized prompts (from customizations.yaml)
+- Set context for merge decisions ahead
+
+**Example summary:**
+```
+Upgrading from 2.1.0 to 2.1.1 (unreleased):
+
+Key changes:
+- 0a-setup-workspace.md: Added Step 0 for agent bootstrap (HIGH IMPACT)
+  → You customized this prompt, we'll need to review the merge
+- 1a-design-architecture.md: Fixed path + cross-cutting concerns (MEDIUM IMPACT)
+  → Path correction critical, checklist optional
+- New templates added: governance, operations, strategy
+- AGENTS.md now included in distribution
+
+I'll guide you through merging these changes into your customized prompts.
+```
+
+If no CHANGELOG or [Unreleased] section empty: Proceed without summary.
+
+5. **Create backup:**
 ```bash
 BACKUP_DIR=".livespec.backup-$(date +%Y%m%d-%H%M%S)"
 cp -r .livespec "$BACKUP_DIR"
@@ -122,15 +155,21 @@ cp "$NEW_DIST/prompts/3-verify/3a-run-validation.md" .livespec/prompts/3-verify/
 **For each prompt IN customizations.yaml modified list:**
 
 1. **Show user-friendly comparison:**
+
+**AI should reference CHANGELOG for upstream changes description** (from [Unreleased] section, ⚠️ entries).
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📝 prompts/0-define/0a-setup-workspace.md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📤 Upstream changes (what LiveSpec changed):
-  - Added better examples for PURPOSE.md
-  - Improved workspace template references
-  - Added domain organization guidance
+📤 Upstream changes (from CHANGELOG):
+  - Added Step 0: Bootstrap Agent Configuration (HIGH IMPACT)
+  - Step 0 must execute FIRST (before version tracking)
+  - Existing steps renumbered (Version tracking → Step 1, Domain org → Step 2)
+  - Exit criteria restructured by step
+
+  Why: Fixed discoverability gap - users couldn't use prompts without AGENTS.md
 
 📝 Your customizations (from customizations.yaml):
   - Reason: "Added governance-specific workspace setup steps"
@@ -303,6 +342,7 @@ If yes: `rm -rf "$BACKUP_DIR"`
 - When user chooses [e]dit, actually merge intelligently
 - Understand semantic meaning of both versions
 - Propose merged version that preserves both intents
+- Reference CHANGELOG for context on upstream changes (WHY they were made)
 
 **Be safe:**
 - Always create backup first
