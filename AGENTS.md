@@ -438,36 +438,43 @@ System appears to invalidate Redis cache entries after 1 hour TTL.
 
 ## Core Principles
 
-### 1. MSL Minimalism
-**From specs/workspace/constitution.spec.md:**
+**From specs/workspace/constitution.spec.md (in priority order):**
+
+### 1. Specs Before Implementation
+- Every deliverable requires specification before implementation
+- AI agents check for spec existence and guide to Phase 1 (DESIGN) if missing
+- Applies to all deliverables (code, prompts, templates, documentation, configs)
+- Even "obvious" deliverables need specs (CHANGELOG mistake in commit 40411e3)
+- See "⚠️ CRITICAL: Spec-First Guidance" section above for detailed workflow
+
+### 2. MSL Minimalism
 - Specs justify their existence (would system fail without this?)
 - Specify WHAT, not HOW
 - Only CRITICAL or IMPORTANT requirements
 - Trust implementers for details
 
-### 2. Dogfooding
-**From specs/workspace/constitution.spec.md:**
+### 3. Dogfooding
 - LiveSpec uses its own methodology
 - Repository has specs/ and prompts/
 - No custom tooling required
 
-### 3. Workspace vs Product
-**From specs/strategy/architecture.spec.md:**
-- specs/workspace/ = HOW you build (process)
-- specs/behaviors/ = WHAT system does (product)
-- Clear separation prevents confusion
-
-### 4. Phase 4 is Continuous
-**From specs/behaviors/five-phases.spec.md:**
-- Drift detection prevents staleness
-- Extract new behaviors as they emerge
-- Update specs alongside code
-
-### 5. Trust Implementers
-**From specs/workspace/constitution.spec.md:**
+### 4. Simplicity Over Features
+- No custom tooling (works with file operations and AI prompts only)
+- Standard markdown format, standard folder structure
 - Don't over-prescribe implementation details
 - Define edges, not paths
 - Innovation happens in unspecified spaces
+
+### 5. Living Documentation
+- Specs evolve continuously with code
+- Phase 4 (EVOLVE) runs regularly to detect drift
+- Extract new behaviors as they emerge
+- Update specs alongside code changes
+
+### 6. Governance Framework Awareness
+- LiveSpec is specialized for governance/methodology documentation
+- Patterns demonstrated here apply to governance domain specifically
+- Extensions documented as domain-specific, not universal patterns
 
 ## Constraints (Critical Boundaries)
 

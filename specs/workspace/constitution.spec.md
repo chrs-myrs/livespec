@@ -1,4 +1,6 @@
 ---
+applies_to:
+  - all_projects
 criticality: CRITICAL
 failure_mode: Without governance principles, LiveSpec development becomes inconsistent and violates its own philosophy
 constrained_by:

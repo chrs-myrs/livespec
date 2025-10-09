@@ -19,6 +19,25 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 ## [Unreleased]
 
 ### Added
+
+### Changed
+
+### Fixed
+
+---
+
+## [2.2.0] - 2025-10-09
+
+### Drift Resolution Release
+
+This release addresses drift detected between specifications and documentation, ensuring hierarchy consistency and metaspec compliance.
+
+**Key fixes:**
+- Added missing `applies_to` frontmatter to workspace specs (constitution, workflows, patterns)
+- Updated AGENTS.md Core Principles section to reflect spec-first as principle #1
+- Updated CHANGELOG with previously missing commits (spec-first enforcement updates)
+
+### Added
 - **Prompt**: `prompts/utils/generate-feedback-report.md` - Optional evaluation report utility
   - *Impact*: None (new utility, doesn't affect existing workflows)
   - *Purpose*: Generate structured feedback reports for LiveSpec maintainers
@@ -44,6 +63,29 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
   - *Impact*: None (new documentation)
 
 ### Changed
+
+- **⚠️ Multiple Files**: Spec-first development now principle #1 with hierarchy alignment (HIGH IMPACT)
+  - *Why*: CHANGELOG was implemented without spec (commit 40411e3), violating core spec-first principle
+  - *Why*: Needed to prevent future violations and maintain methodology integrity
+  - *Impact*: HIGH - Affects all future development, AI agents now guide spec creation before implementation
+  - *Changes*:
+    - PURPOSE.md: Clarified voluntary adoption includes AI-guided methodology discipline
+    - requirements.spec.md: Requirement #5 updated ("AI agents provide structured guidance" not "No enforcement mechanisms")
+    - workspace/constitution.spec.md: Spec-first moved from principle #4 to principle #1
+    - workspace/workflows.spec.md: Added Spec-First Guidance Workflow (essential before implementation)
+    - workspace/agents.spec.md: AI agents guide (not block) spec-first development
+    - prompts/2-build/2a-implement-from-specs.md: Added essential pre-flight check section
+    - AGENTS.md: Added prominent spec-first guidance section after Summary
+  - *Migration*: AI agents will now check for specs before implementing, guiding users to Phase 1 (DESIGN) if spec missing
+  - *Note*: Behavior is guidance (supportive tone), not blocking (forceful). Preserves voluntary adoption model while ensuring methodology discipline.
+  - *Commits*: 8321fd5 (initial enforcement), cd998df (hierarchy alignment correction)
+
+- **Spec**: `specs/behaviors/changelog.spec.md` - Added retrospective specification
+  - *Why*: Learning from CHANGELOG implementation-first mistake (commit 40411e3)
+  - *Impact*: None (spec-only, implementation already exists)
+  - *Purpose*: Document requirements that should have existed before CHANGELOG.md was implemented
+  - *Note*: Demonstrates importance of spec-first even for "obvious" deliverables
+  - *Commit*: 60c32e1
 
 - **⚠️ Prompt**: `prompts/0-define/0a-setup-workspace.md` - Added Step 0 for agent bootstrap (HIGH IMPACT)
   - *Why*: Fixed discoverability gap - users couldn't effectively use prompts without AGENTS.md existing
@@ -93,6 +135,9 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ### Fixed
 
+- **Workspace specs metaspec compliance**: Added missing `applies_to` frontmatter to constitution.spec.md, workflows.spec.md, patterns.spec.md (metaspec requirement)
+- **AGENTS.md Core Principles drift**: Updated to reflect current constitution.spec.md principle order (Specs Before Implementation now #1)
+- **CHANGELOG drift**: Added missing entries for spec-first enforcement commits (cd998df, 8321fd5, 60c32e1)
 - Strategy specifications now created in correct location (`specs/strategy/` not `specs/`)
 - AGENTS.md now included in distribution (fixes discoverability gap)
 - Cross-cutting concerns (logging, observability, error handling) now prompted early in design phase

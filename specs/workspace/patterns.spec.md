@@ -1,4 +1,7 @@
 ---
+applies_to:
+  - all_projects
+  - all_specifications
 criticality: IMPORTANT
 failure_mode: Inconsistent patterns make LiveSpec harder to understand and maintain
 constrained_by:

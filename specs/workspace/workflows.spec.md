@@ -1,4 +1,7 @@
 ---
+applies_to:
+  - all_projects
+  - livespec_development
 criticality: IMPORTANT
 failure_mode: Without clear workflows, contributors don't know how to evolve LiveSpec properly
 constrained_by:
