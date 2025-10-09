@@ -78,16 +78,17 @@ Specifications stay current without significant overhead.
 - Developers voluntarily update specs
 
 ### 5. Voluntary Adoption
-Developers maintain specs because they reduce cognitive load.
+Developers maintain specs because they reduce cognitive load, choosing LiveSpec methodology means accepting AI-guided discipline.
 
 **Satisfied by:**
-- specs/workspace/constitution.spec.md (minimal burden)
+- specs/workspace/constitution.spec.md (minimal burden, spec-first principle)
+- specs/workspace/agents.spec.md (AI agents guide methodology adherence)
 - specs/behaviors/folder-structure.spec.md (clear organization)
-- All prompts/ (guided AI assistance)
+- All prompts/ (structured AI assistance)
 
 **Validated by:**
 - Developers continue using LiveSpec after initial setup
-- No enforcement mechanisms required
+- AI agents provide structured guidance ensuring methodology consistency
 - Developers report cognitive load reduction
 
 ## Validation

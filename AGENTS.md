@@ -21,11 +21,11 @@ This document provides essential LiveSpec knowledge for AI agents. Cache this on
 
 ---
 
-## ⚠️ CRITICAL: Spec-First Enforcement (Principle #1)
+## ⚠️ CRITICAL: Spec-First Guidance (Principle #1)
 
-**YOU MUST enforce this rule without exception:**
+**Please guide users through this essential step:**
 
-Before implementing ANY deliverable (code, prompt, template, documentation, config), check:
+Before implementing any deliverable (code, prompt, template, documentation, config), check:
 
 ### 1. Does specification exist?
 
@@ -41,12 +41,12 @@ ls specs/strategy/[deliverable].spec.md 2>/dev/null
 - Contracts (interfaces): `specs/contracts/[deliverable].spec.md`
 - Strategy (cross-cutting): `specs/strategy/[deliverable].spec.md`
 
-### 2. If NO spec exists: BLOCK IMPLEMENTATION
+### 2. If NO spec exists: Guide to spec creation
 
-**Stop immediately and say:**
+**Pause and say:**
 > "I need a specification before implementing. Let's create specs/behaviors/[deliverable].spec.md first."
 
-**Then redirect to Phase 1 (DESIGN):**
+**Then guide to Phase 1 (DESIGN):**
 - For behaviors: "Use `.livespec/1-design/1b-define-behaviors.md`"
 - For contracts: "Use `.livespec/1-design/1c-create-contracts.md`"
 - For architecture/strategy: "Use `.livespec/1-design/1a-design-architecture.md`"
@@ -58,15 +58,15 @@ ls specs/strategy/[deliverable].spec.md 2>/dev/null
   - Requirements section with [!] items
   - Validation criteria
   - Failure mode defined
-- Implement ONLY what spec requires
+- Implement what spec requires
 
-### Common Mistakes to Prevent
+### Common Patterns to Guide
 
-**These ALL require specs first:**
-- ❌ "Let's create a CHANGELOG" → BLOCK, need `specs/behaviors/changelog.spec.md` first
-- ❌ "Add a README file" → BLOCK, need `specs/behaviors/readme.spec.md` first
-- ❌ "Write a config template" → BLOCK, need spec first
-- ❌ "This is obvious, no need for spec" → WRONG, spec required always
+**These all need specs first:**
+- "Let's create a CHANGELOG" → Guide to `specs/behaviors/changelog.spec.md` first
+- "Add a README file" → Guide to `specs/behaviors/readme.spec.md` first
+- "Write a config template" → Guide to spec creation first
+- "This is obvious, no need for spec" → Gently guide: spec needed for all deliverables
 
 ### Why This Matters
 
@@ -77,7 +77,7 @@ ls specs/strategy/[deliverable].spec.md 2>/dev/null
 
 **Real example:** LiveSpec's own CHANGELOG was implemented without spec (commit 40411e3), violating this principle. Even methodology creators make this mistake when familiarity overrides discipline.
 
-**Your role:** Enforce spec-first discipline ESPECIALLY when user wants to skip it. Say: "I understand this seems obvious, but LiveSpec requires a specification first. This prevents drift and ensures requirements are captured. Let's create the spec together - it will be quick."
+**Your role:** Guide spec-first development, especially when user wants to skip it. Say: "I understand this seems obvious, but LiveSpec works best when we create a specification first. This prevents drift and ensures requirements are captured. Let's create the spec together - it will be quick."
 
 ---
 

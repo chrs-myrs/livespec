@@ -8,9 +8,9 @@ spec: specs/behaviors/prompts/2a-implement-from-specs.spec.md
 **Purpose**: Implement the system according to design specifications
 **Prerequisites**: Phase 1 complete (architecture, behaviors, contracts defined)
 
-## ⚠️ PRE-FLIGHT CHECK (MANDATORY)
+## ⚠️ PRE-FLIGHT CHECK (Essential)
 
-**YOU MUST perform this check before implementing:**
+**Please perform this check before implementing:**
 
 ### Check for Specification Existence
 
@@ -27,9 +27,9 @@ ls specs/behaviors/*.spec.md specs/contracts/*.spec.md specs/strategy/*.spec.md 
    - For strategy: `specs/strategy/[deliverable].spec.md`
 
 2. **If NO spec exists:**
-   - **STOP IMMEDIATELY**
+   - **Pause to create spec first**
    - Say: "I need a specification before implementing. Let's create specs/behaviors/[deliverable].spec.md first."
-   - Redirect user to Phase 1 (DESIGN):
+   - Guide user to Phase 1 (DESIGN):
      - Use `.livespec/1-design/1b-define-behaviors.md` for behaviors
      - Use `.livespec/1-design/1c-create-contracts.md` for contracts
      - Use `.livespec/1-design/1a-design-architecture.md` for strategy
@@ -42,7 +42,7 @@ ls specs/behaviors/*.spec.md specs/contracts/*.spec.md specs/strategy/*.spec.md 
      - Failure mode defined
    - Proceed to implementation (continue with Task below)
 
-**No exceptions.** Even if deliverable seems "obvious" (CHANGELOG, README, config, template), specification required first.
+**Applies to all deliverables.** Even if deliverable seems "obvious" (CHANGELOG, README, config, template), specification required first.
 
 **Why this matters:** LiveSpec's own CHANGELOG was implemented without spec (commit 40411e3), violating spec-first principle. Familiarity creates false confidence. This check prevents that mistake.
 

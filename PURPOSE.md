@@ -10,7 +10,7 @@ Specifications inevitably drift from reality—code diverges from docs, policies
 - AI agents have structured context for effective assistance
 - Documentation stays current without becoming a maintenance burden
 - Works equally well for new projects and existing systems
-- Teams adopt and maintain specifications voluntarily
+- Teams adopt and maintain specifications voluntarily (choosing LiveSpec means accepting AI-guided methodology discipline)
 - Applies across software development, governance, operations, and planning
 
 ## Primary Focus
