@@ -80,8 +80,8 @@ Special situation handlers and continuous improvement.
 | next-steps | next-steps.spec.md | Status report | Workflow orchestration and navigation |
 | run-spike | run-spike.spec.md | specs/spikes/*.md | Time-boxed technical exploration |
 | upgrade-methodology | utils-upgrade.spec.md | Upgraded .livespec/ | Migrate to new LiveSpec version |
-| **generate-self-improvement** | **utils-generate-self-improvement.spec.md** | **prompts/utils/self-improve.md** | **Generate project-specific improvement analysis prompt** |
-| **generate-internalise-learnings** | **utils-generate-internalise-learnings.spec.md** | **prompts/utils/internalise-learnings.md** | **Generate project-specific learning capture prompt** |
+| **generate-self-improvement** | **utils-generate-self-improvement.spec.md** | **prompts/generated/self-improve.md** | **Generate project-specific improvement analysis prompt** |
+| **generate-internalise-learnings** | **utils-generate-internalise-learnings.spec.md** | **prompts/generated/internalise-learnings.md** | **Generate project-specific learning capture prompt** |
 | self-improve *(generated)* | utils-self-improve.spec.md | Improvement recommendations | Strategic project-wide analysis for systematic improvements |
 | internalise-learnings *(generated)* | utils-internalise-learnings.spec.md | Spec updates | Tactical conversation analysis for immediate learning capture |
 

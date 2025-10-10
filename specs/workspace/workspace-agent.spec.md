@@ -79,8 +79,8 @@ governed-by:
     - Agent explains WHY spec-first matters (prevents drift, ensures requirements captured)
     - Agent references LiveSpec's CHANGELOG mistake (commit 40411e3) as cautionary example
   - **Agent facilitates continuous improvement** (utilities):
-    - When user requests "self-improvement" or "suggest improvements", agent checks for prompts/utils/self-improve.md
-    - When user requests "capture learnings" or "internalise learnings", agent checks for prompts/utils/internalise-learnings.md
+    - When user requests "self-improvement" or "suggest improvements", agent checks for prompts/generated/self-improve.md
+    - When user requests "capture learnings" or "internalise learnings", agent checks for prompts/generated/internalise-learnings.md
     - If utilities missing, agent offers to generate using prompts/utils/generate-self-improvement.md or generate-internalise-learnings.md
     - Generated utilities are customized to project's PURPOSE, principles, and spec structure
     - Self-improvement: Strategic project-wide analysis (periodic health checks)

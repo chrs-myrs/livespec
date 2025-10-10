@@ -3,9 +3,15 @@ plan/
 .tmp/
 .scratch/
 var/
+.archive/
+research/
 
 # Generated content
 generated/
+
+# Tool-specific
+.claude/
+.livespec/
 
 # OS files
 .DS_Store

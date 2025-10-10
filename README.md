@@ -181,14 +181,19 @@ your-project/
 │   ├── behaviors/          # What system does
 │   └── contracts/          # API/data contracts
 │
-├── .livespec/              # LiveSpec methodology (copied from dist/)
-│   ├── prompts/
-│   │   ├── 0-define/       # Problem definition
-│   │   ├── 1-design/       # Solution design
-│   │   ├── 2-build/        # Implementation
-│   │   ├── 3-verify/       # Validation
-│   │   ├── 4-evolve/       # Synchronisation
-│   │   └── utils/          # Utility prompts
+├── prompts/                # Symlinks to .livespec/prompts/ (framework)
+│   ├── 0-define/ -> ../dist/prompts/0-define/
+│   ├── 1-design/ -> ../dist/prompts/1-design/
+│   ├── 2-build/ -> ../dist/prompts/2-build/
+│   ├── 3-verify/ -> ../dist/prompts/3-verify/
+│   ├── 4-evolve/ -> ../dist/prompts/4-evolve/
+│   ├── utils/ -> ../dist/prompts/utils/
+│   └── generated/          # Project-specific generated prompts (committed)
+│       ├── self-improve.md
+│       └── internalise-learnings.md
+│
+├── .livespec/              # LiveSpec methodology (copied from dist/, gitignored)
+│   ├── prompts/            # Canonical framework prompts
 │   ├── standard/           # MSL metaspecs and conventions
 │   └── templates/          # Workspace spec starter files
 │
@@ -374,7 +379,14 @@ livespec/
 │   ├── standard/           # Meta-specs about the standard
 │   └── strategy/           # How we solve it technically
 │
-├── .livespec/              # Symlink to dist/ (we dogfood our own methodology)
+├── prompts/                # Symlinks to dist/prompts/ (dogfooding)
+│   ├── 0-define/ -> dist/prompts/0-define/
+│   ├── 1-design/ -> dist/prompts/1-design/
+│   ├── [etc...]
+│   └── generated/          # LiveSpec's generated prompts
+│       ├── self-improve.md
+│       └── internalise-learnings.md
+│
 ├── tests/                  # Validation suite
 └── docs/                   # User documentation
 ```

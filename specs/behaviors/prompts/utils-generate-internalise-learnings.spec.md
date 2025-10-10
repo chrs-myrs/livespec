@@ -15,7 +15,7 @@ failure_mode: Without generator, projects create generic learning-capture prompt
 - [!] LiveSpec provides generator prompt that creates customized internalise-learnings.md tailored to project's specification structure, enabling conversation-specific learning capture and spec updates.
   - Generator reads spec hierarchy (PURPOSE.md → mission/ → strategy/ → workspace/ → behaviors/)
   - Generator uses template from dist/templates/utils/internalise-learnings.md.template
-  - Generated prompt written to prompts/utils/internalise-learnings.md
+  - Generated prompt written to prompts/generated/internalise-learnings.md
   - Generated prompt includes ultrathink for pattern recognition (graceful degradation if unsupported)
   - Customization based on:
     - specs/workspace/constitution.spec.md (what principles to reinforce)

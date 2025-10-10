@@ -15,7 +15,7 @@ failure_mode: Without generator, projects create generic self-improvement prompt
 - [!] LiveSpec provides generator prompt that creates customized self-improve.md tailored to project's PURPOSE, principles, and constraints, enabling project-specific systematic improvement analysis.
   - Generator reads spec hierarchy top-down (PURPOSE.md → mission/ → strategy/ → workspace/)
   - Generator uses template from dist/templates/utils/self-improve.md.template
-  - Generated prompt written to prompts/utils/self-improve.md
+  - Generated prompt written to prompts/generated/self-improve.md
   - Generated prompt includes ultrathink for deep analysis (graceful degradation if unsupported)
   - Customization based on:
     - PURPOSE.md (project vision and success criteria)

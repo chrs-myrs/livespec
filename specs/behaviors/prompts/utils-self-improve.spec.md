@@ -4,7 +4,7 @@ derives-from:
 governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 specifies:
-  - prompts/utils/self-improve.md (when generated)
+  - prompts/generated/self-improve.md (when generated)
 generated_by:
   - prompts/utils/generate-self-improvement.md
 criticality: IMPORTANT

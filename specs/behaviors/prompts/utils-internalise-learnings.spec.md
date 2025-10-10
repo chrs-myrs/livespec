@@ -4,7 +4,7 @@ derives-from:
 governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 specifies:
-  - prompts/utils/internalise-learnings.md (when generated)
+  - prompts/generated/internalise-learnings.md (when generated)
 generated_by:
   - prompts/utils/generate-internalise-learnings.md
 criticality: IMPORTANT
