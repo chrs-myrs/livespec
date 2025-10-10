@@ -34,8 +34,8 @@ Software specifications and code inevitably drift apart. Documentation becomes o
 graph TD
     %% Main Vertical Flow
     PURPOSE[PURPOSE.md<br/>Why this exists]
-    REQUIREMENTS[requirements.spec.md<br/>What we must achieve]
-    CONSTRAINTS[constraints.spec.md<br/>Hard boundaries]
+    REQUIREMENTS[mission/outcomes.spec.md<br/>What we must achieve]
+    CONSTRAINTS[mission/constraints.spec.md<br/>Hard boundaries]
     STRATEGY[strategy/<br/>Technical approach]
     SPECS[behaviors/ + contracts/<br/>What system does]
     CODE[Your Code<br/>AI-generated or manual]
@@ -96,7 +96,7 @@ graph TD
 
 **Complete chain verified:**
 - Framework extends [MSL Standard](https://github.com/chrs-myrs/msl-specification) via base.spec.md
-- Every spec has `constrained_by:` pointing to a metaspec
+- Every spec has `governed-by:` pointing to a metaspec
 - Every deliverable has a spec in `specs/` describing it
 - LiveSpec dogfoods itself: the framework is specified using the framework
 
@@ -171,13 +171,15 @@ your-project/
 ├── PURPOSE.md              # Why this project exists
 │
 ├── specs/
+│   ├── mission/            # High-level goals
+│   │   ├── outcomes.spec.md     # What we must achieve
+│   │   └── constraints.spec.md  # Hard boundaries
 │   ├── workspace/          # How you build
 │   │   ├── constitution.spec.md # Development principles
 │   │   ├── patterns.spec.md     # Code patterns
 │   │   └── workflows.spec.md    # Development workflows
 │   ├── behaviors/          # What system does
-│   ├── contracts/          # API/data contracts
-│   └── constraints.spec.md # Hard boundaries
+│   └── contracts/          # API/data contracts
 │
 ├── .livespec/              # LiveSpec methodology (copied from dist/)
 │   ├── prompts/
@@ -365,6 +367,7 @@ livespec/
 │       └── workspace/
 │
 ├── specs/                  # DOGFOODING (LiveSpec's own specs)
+│   ├── mission/            # Why LiveSpec exists (outcomes, constraints)
 │   ├── workspace/          # How we build LiveSpec
 │   ├── behaviors/          # What LiveSpec does
 │   ├── prompts/            # Meta-specs about our prompts

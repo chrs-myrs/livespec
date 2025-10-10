@@ -23,7 +23,7 @@ git clone https://github.com/chrs-myrs/livespec.git
 cp -r livespec/dist/* your-project/.livespec
 
 # Create specs structure
-mkdir -p your-project/specs/workspace your-project/specs/behaviors your-project/specs/contracts
+mkdir -p your-project/specs/mission your-project/specs/workspace your-project/specs/behaviors your-project/specs/contracts
 ```
 
 ### Option 2: Manual Setup
@@ -36,7 +36,7 @@ git clone https://github.com/chrs-myrs/livespec.git /tmp/livespec
 cp -r /tmp/livespec/dist/* .livespec
 
 # Create specs structure
-mkdir -p specs/workspace specs/behaviors specs/contracts
+mkdir -p specs/mission specs/workspace specs/behaviors specs/contracts
 ```
 
 ## Quick Start: New Project
@@ -75,7 +75,7 @@ This creates `PURPOSE.md` - Clear purpose statement at root level.
 claude-code "Use .livespec/0-define/0c-identify-constraints.md"
 ```
 
-This creates `specs/constraints.spec.md` - Hard boundaries for your project.
+This creates `specs/mission/constraints.spec.md` - Hard boundaries for your project.
 
 **✅ Phase 0 (DEFINE) complete! You now have:**
 - Workspace setup
@@ -113,7 +113,7 @@ claude-code "Use .livespec/4-evolve/4a-detect-drift.md"
 cp -r livespec/dist/* .livespec
 
 # Create specs folders
-mkdir -p specs/workspace specs/behaviors specs/contracts
+mkdir -p specs/mission specs/workspace specs/behaviors specs/contracts
 ```
 
 ### Step 2: Extract Specifications
@@ -150,13 +150,15 @@ your-project/
 ├── PURPOSE.md              # Why this project exists
 │
 ├── specs/
+│   ├── mission/            # High-level goals
+│   │   ├── outcomes.spec.md     # What we must achieve
+│   │   └── constraints.spec.md  # Hard boundaries
 │   ├── workspace/          # How you build
 │   │   ├── constitution.spec.md
 │   │   ├── patterns.spec.md
 │   │   └── workflows.spec.md
 │   ├── behaviors/          # What system does
-│   ├── contracts/          # API/data contracts
-│   └── constraints.spec.md # Hard boundaries
+│   └── contracts/          # API/data contracts
 │
 ├── .livespec/              # LiveSpec methodology
 │   ├── 0-define/

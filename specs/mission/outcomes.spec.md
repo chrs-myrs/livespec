@@ -82,7 +82,7 @@ Developers maintain specs because they reduce cognitive load, choosing LiveSpec 
 
 **Satisfied by:**
 - specs/workspace/constitution.spec.md (minimal burden, spec-first principle)
-- specs/workspace/agents.spec.md (AI agents guide methodology adherence)
+- specs/workspace/workspace-agent.spec.md (AI agents guide methodology adherence)
 - specs/behaviors/folder-structure.spec.md (clear organization)
 - All prompts/ (structured AI assistance)
 

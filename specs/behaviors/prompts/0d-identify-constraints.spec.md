@@ -1,0 +1,31 @@
+---
+specifies: prompts/0-define/0d-identify-constraints.md
+criticality: CRITICAL
+failure_mode: Projects violate boundaries that should have been identified upfront
+governed-by:
+  - .livespec/standard/metaspecs/behavior.spec.md
+---
+
+# Prompt Behavior: Identify Constraints
+
+## Requirements
+- [!] Prompt guides AI agent to document hard constraints (technical, business, domain) that cannot be negotiated, distinguishing real constraints from preferences and goals.
+  - Prompt produces specs/mission/constraints.spec.md file
+  - All constraints follow MSL format
+  - Each constraint has concrete validation criteria
+  - Constraints are real boundaries (not goals or preferences)
+  - No design decisions disguised as constraints
+  - Each constraint would cause project failure if violated
+
+## Prompt Outputs
+
+- `specs/mission/constraints.spec.md` - Non-negotiable project boundaries following MSL format
+
+## Validation
+
+- Prompt produces specs/mission/constraints.spec.md file
+- All constraints follow MSL format
+- Each constraint has concrete validation criteria
+- Constraints are real boundaries (not goals or preferences)
+- No design decisions disguised as constraints
+- Each constraint would cause project failure if violated

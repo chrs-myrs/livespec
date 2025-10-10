@@ -18,6 +18,112 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [2.4.0] - 2025-10-10
+
+### Continuous Improvement & Agent Clarity Release
+
+This release adds self-improvement utilities for project-specific learning capture and renames the agent configuration spec for disambiguation.
+
+**Key changes:**
+- Self-improvement utilities (strategic + tactical learning capture)
+- Agent spec renamed for clarity (agents.spec.md → workspace-agent.spec.md)
+- Updated documentation for mission/ folder alignment
+
+### Added
+
+- **⚠️ Prompt**: `prompts/utils/generate-self-improvement.md` - Generator for project-specific improvement analysis (LOW IMPACT)
+  - *Purpose*: Creates customized self-improve.md based on project specs
+  - *Impact*: LOW - New utility, not core workflow
+  - *Changes*: Reads spec hierarchy (PURPOSE → mission → strategy → workspace), customizes template
+  - *Output*: prompts/utils/self-improve.md (generated)
+  - *Usage*: When user requests "self-improvement" or "suggest improvements"
+
+- **⚠️ Prompt**: `prompts/utils/generate-internalise-learnings.md` - Generator for project-specific learning capture (LOW IMPACT)
+  - *Purpose*: Creates customized internalise-learnings.md based on project specs
+  - *Impact*: LOW - New utility, not core workflow
+  - *Changes*: Reads spec structure, update workflows
+  - *Output*: prompts/utils/internalise-learnings.md (generated)
+  - *Usage*: When user requests "capture learnings" or "internalise learnings"
+
+- **Spec**: `specs/behaviors/prompts/utils-generate-self-improvement.spec.md` - Generator specification
+  - *Impact*: None (spec for new utility)
+
+- **Spec**: `specs/behaviors/prompts/utils-generate-internalise-learnings.spec.md` - Generator specification
+  - *Impact*: None (spec for new utility)
+
+- **Spec**: `specs/behaviors/prompts/utils-self-improve.spec.md` - Generated prompt specification
+  - *Impact*: None (spec for generated content)
+
+- **Spec**: `specs/behaviors/prompts/utils-internalise-learnings.spec.md` - Generated prompt specification
+  - *Impact*: None (spec for generated content)
+
+- **Template**: `dist/templates/utils/self-improve.md.template` - Software project template (5507 bytes)
+  - *Impact*: None (template for generators)
+  - *Purpose*: Base for project-specific self-improvement prompts
+
+- **Template**: `dist/templates/utils/internalise-learnings.md.template` - Learning capture template (6658 bytes)
+  - *Impact*: None (template for generators)
+  - *Purpose*: Base for conversation-specific learning extraction
+
+### Changed
+
+- **⚠️ BREAKING**: Renamed `specs/workspace/agents.spec.md` → `workspace-agent.spec.md` (MEDIUM IMPACT)
+  - *Why*: Avoid ambiguity between "agents" (multiple) and "agent configuration" (single)
+  - *Impact*: MEDIUM - All references must be updated
+  - *Changes*:
+    - File renamed: specs/workspace/agents.spec.md → specs/workspace/workspace-agent.spec.md
+    - Updated references in: AGENTS.md, dist/AGENTS.md, patterns.spec.md, outcomes.spec.md, 4d-regenerate-agents.spec.md, 4d-regenerate-agents.md, internalise-learnings.md
+  - *Migration*:
+    1. Rename specs/workspace/agents.spec.md → workspace-agent.spec.md
+    2. Update frontmatter in AGENTS.md: `implements: specs/workspace/workspace-agent.spec.md`
+    3. Update any custom references
+  - *Rationale*: Clearer name prevents confusion with multiple-agent concepts
+
+- **Spec**: `specs/mission/constraints.spec.md` - Added agent-agnostic validation criteria
+  - *Impact*: None (LiveSpec's own spec)
+  - *Changes*: Detailed validation for prompts/ location, no tool-specific syntax, works across agents
+
+- **Spec**: `specs/workspace/patterns.spec.md` - Documented frontmatter conventions
+  - *Impact*: None (documentation improvement)
+  - *Changes*: Added dependency traceability section with `implements:`, `governed-by:` examples
+
+- **Spec**: `specs/workspace/agents.spec.md` - Added continuous improvement guidance
+  - *Impact*: None (agent behavior documentation)
+  - *Changes*: Documents how agents facilitate self-improvement and learning capture utilities
+
+- **Spec**: `specs/behaviors/prompts/registry.spec.md` - Updated prompt count to 24
+  - *Impact*: None (registry update)
+  - *Changes*: Added 4 new utils (20→24 total prompts: 4+3+2+2+5+8)
+
+- **Documentation**: All docs updated for mission/ folder paths
+  - *Files*: README.md, docs/methodology.md, docs/quickstart.md, docs/livespec-conventions.md
+  - *Impact*: None (documentation alignment)
+  - *Changes*: Updated all references to specs/mission/outcomes.spec.md and specs/mission/constraints.spec.md
+
+### Fixed
+
+- Documentation now consistently references mission/ folder structure
+- Frontmatter field examples now use correct `implements:` and `governed-by:` conventions
+
+### Philosophy
+
+**Self-improvement utilities embody LiveSpec principles:**
+- **Generator pattern**: Project-specific customization, not generic templates
+- **Dual-command approach**: Strategic (periodic health checks) + Tactical (immediate learning capture)
+- **Agent-agnostic**: Generated utilities work across Claude, Copilot, Cursor
+- **Spec hierarchy awareness**: Generators read PURPOSE → mission → strategy → workspace for context
+- **MSL minimalism**: Learning capture updates only high-priority specs
+
+**Usage patterns:**
+- **Strategic**: Run `self-improve.md` quarterly or before major releases (project-wide analysis)
+- **Tactical**: Run `internalise-learnings.md` after corrections or new patterns emerge (conversation-specific)
+
+---
+
+## [Unreleased (Post-2.4.0)]
+
 ### MSL Frontmatter Alignment (v2.2.0)
 
 LiveSpec frontmatter field names changed to align with MSL (Markdown Specification Language) core conventions for better semantic precision and ecosystem interoperability.

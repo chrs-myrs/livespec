@@ -1,7 +1,7 @@
 ---
 specifies: prompts/4-evolve/4d-regenerate-agents.md
 derives-from:
-  - specs/workspace/agents.spec.md
+  - specs/workspace/workspace-agent.spec.md
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: AGENTS.md becomes stale, agents lack current methodology context, users must repeatedly explain LiveSpec process
@@ -22,7 +22,7 @@ governed-by:
 
 **Process:**
 1. Gather source content from PURPOSE.md and specs/workspace/
-2. Structure content following specs/workspace/agents.spec.md template
+2. Structure content following specs/workspace/workspace-agent.spec.md template
 3. Generate AGENTS.md with frontmatter (generated timestamp, version, spec reference)
 4. Validate file size <100KB and section completeness
 5. Commit regenerated file with descriptive message

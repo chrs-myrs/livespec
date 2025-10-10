@@ -121,7 +121,7 @@ Scanning THIS conversation for learnings (not pre-filled examples)...
   - specs/workspace/constitution.spec.md (principles)
   - specs/workspace/patterns.spec.md (naming, format, frontmatter)
   - specs/workspace/workflows.spec.md (how to create/update specs)
-  - specs/workspace/agents.spec.md (agent behaviors)
+  - specs/workspace/workspace-agent.spec.md (agent behaviors)
 
 **Mission Learnings** (→ specs/mission/):
 - High-level requirements, constraints

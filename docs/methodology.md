@@ -102,8 +102,9 @@ LiveSpec guides development through five phases, not as rigid waterfall but as c
 **Purpose**: Establish problem space and development approach
 
 **Outputs:**
-- `specs/problem.md` - What are we solving?
-- `specs/constraints.md` - What boundaries exist?
+- `PURPOSE.md` - Why does this exist? What success looks like?
+- `specs/mission/outcomes.spec.md` - What must we achieve?
+- `specs/mission/constraints.spec.md` - What boundaries exist?
 - `specs/workspace/*` - How will we work?
 
 **When**: Start of project or major pivot

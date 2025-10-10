@@ -1,5 +1,5 @@
 ---
-implements: specs/workspace/agents.spec.md
+implements: specs/workspace/workspace-agent.spec.md
 generated: 2025-10-08T00:00:00Z
 generator: livespec/generate-project-config
 version: 2.1.0

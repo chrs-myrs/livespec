@@ -61,19 +61,20 @@ LiveSpec separates workspace specifications (HOW you build) from product specifi
 
 ```
 specs/
+├── mission/            # High-level project goals
+│   ├── outcomes.spec.md     # What we must achieve
+│   └── constraints.spec.md  # Hard boundaries
 ├── workspace/          # Development methodology (portable)
 │   ├── constitution.spec.md
 │   ├── patterns.spec.md
 │   └── workflows.spec.md
 ├── behaviors/          # Observable system behaviors
-├── contracts/          # API/data contracts
-├── requirements.spec.md
-└── constraints.spec.md
+└── contracts/          # API/data contracts
 ```
 
 **Decision test**: "Could I copy this spec to a different project?"
 - YES → `workspace/` (development process)
-- NO → Root or type folders (product-specific)
+- NO → `mission/`, `behaviors/`, `strategy/`, or `contracts/` (product-specific)
 
 ## Naming Conventions
 

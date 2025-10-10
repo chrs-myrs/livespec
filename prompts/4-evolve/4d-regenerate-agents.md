@@ -6,7 +6,7 @@ implements: specs/behaviors/prompts/4d-regenerate-agents.spec.md
 
 **Phase**: EVOLVE
 **Purpose**: Rebuild AGENTS.md from current workspace specifications
-**Context**: See `specs/workspace/agents.spec.md` for structure requirements
+**Context**: See `specs/workspace/workspace-agent.spec.md` for structure requirements
 
 ## Task
 
@@ -153,7 +153,7 @@ note: Generated from PURPOSE.md and specs/workspace/ - to update, regenerate thi
 ### 3. Generate File
 
 **Using AI agent:**
-"Please regenerate AGENTS.md following the structure defined in specs/workspace/agents.spec.md. Extract content from PURPOSE.md and all specs/workspace/*.spec.md files. Keep the file under 100KB and ensure it's self-contained for agent caching."
+"Please regenerate AGENTS.md following the structure defined in specs/workspace/workspace-agent.spec.md. Extract content from PURPOSE.md and all specs/workspace/*.spec.md files. Keep the file under 100KB and ensure it's self-contained for agent caching."
 
 **Key requirements:**
 - File size < 100KB (trim examples if needed)
