@@ -8,6 +8,7 @@ research/
 
 # Generated content
 generated/
+!prompts/generated/
 
 # Tool-specific
 .claude/
