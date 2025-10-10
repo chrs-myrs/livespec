@@ -1,0 +1,202 @@
+# Self-Improvement Analysis
+
+<ultrathink>
+[GENERATOR INSERTS: Project-specific context from PURPOSE, principles, constraints]
+
+This analysis should focus on [PROJECT DOMAIN] concerns:
+- [DOMAIN-SPECIFIC FOCUS AREA 1]
+- [DOMAIN-SPECIFIC FOCUS AREA 2]
+- [DOMAIN-SPECIFIC FOCUS AREA 3]
+
+Priority alignment with PURPOSE success criteria:
+- [SUCCESS METRIC 1 FROM PURPOSE]
+- [SUCCESS METRIC 2 FROM PURPOSE]
+- [SUCCESS METRIC 3 FROM PURPOSE]
+</ultrathink>
+
+## Execution
+
+### Phase 1: Context Validation
+
+Reading project specifications to understand current state...
+
+**Project Context:**
+```bash
+cat PURPOSE.md
+cat specs/mission/outcomes.spec.md 2>/dev/null || echo "Not found"
+cat specs/mission/constraints.spec.md 2>/dev/null || echo "Not found"
+cat specs/workspace/constitution.spec.md
+```
+
+**Purpose:** [EXTRACT from PURPOSE.md - why exists]
+**Success Criteria:** [EXTRACT from PURPOSE.md - what success looks like]
+**Core Principles:** [EXTRACT from constitution.spec.md - top 3]
+**Critical Constraints:** [EXTRACT from constraints.spec.md - hard boundaries]
+
+### Phase 2: Health Assessment
+
+Analyzing project health through [DOMAIN] lens...
+
+#### 2.1 Specification Completeness
+
+**Check spec coverage:**
+```bash
+# Verify all required specs exist
+ls specs/workspace/*.spec.md
+ls specs/mission/*.spec.md 2>/dev/null || echo "Mission specs not found"
+ls specs/strategy/*.spec.md 2>/dev/null || echo "Strategy specs not found"
+find specs/behaviors/ -name "*.spec.md" 2>/dev/null || echo "Behavior specs not found"
+```
+
+**Analysis:**
+- Are all behaviors specified before implementation?
+- Do specs have validation criteria?
+- Are failure modes documented?
+- Do frontmatter dependencies exist and resolve?
+
+#### 2.2 [DOMAIN-SPECIFIC ANALYSIS SECTION 1]
+
+[GENERATOR CUSTOMIZES BASED ON DETECTED DOMAIN]
+
+**For software projects:**
+- Code quality and architecture alignment
+- Test coverage for specified behaviors
+- Documentation currency
+- Technical debt accumulation
+
+**For governance projects:**
+- Policy completeness and accuracy
+- Procedure validation
+- Compliance verification
+- Audit trail integrity
+
+**For operations projects:**
+- Runbook reliability
+- Service monitoring effectiveness
+- Automation coverage
+- Incident response readiness
+
+#### 2.3 [DOMAIN-SPECIFIC ANALYSIS SECTION 2]
+
+[GENERATOR CUSTOMIZES BASED ON DETECTED DOMAIN]
+
+**For software projects:**
+- Dependency management
+- Security posture
+- Performance characteristics
+- Deployment reliability
+
+**For governance projects:**
+- Risk coverage
+- Control effectiveness
+- Evidence quality
+- Review cadence
+
+**For operations projects:**
+- System reliability metrics
+- Backup and recovery
+- Monitoring and alerting
+- Capacity planning
+
+#### 2.4 Process Adherence
+
+**Validate workflow compliance:**
+```bash
+cat specs/workspace/workflows.spec.md 2>/dev/null || echo "Using defaults"
+```
+
+**Check:**
+- Is spec-first principle followed? (Every deliverable has spec)
+- Are specs updated when code changes?
+- Do specs pass MSL minimalism test?
+- Are validation criteria being used?
+
+### Phase 3: Gap Analysis
+
+Identifying areas needing attention...
+
+#### 3.1 Specification Gaps
+
+**Missing specs:**
+- Which behaviors lack specifications?
+- Which interfaces lack contracts?
+- Which principles lack documentation?
+
+#### 3.2 Quality Gaps
+
+**Improvement opportunities:**
+- Which specs are too verbose (MSL minimalism violation)?
+- Which specs lack validation criteria?
+- Which specs have unclear failure modes?
+
+#### 3.3 [PURPOSE-ALIGNED GAPS]
+
+**Alignment with success criteria:**
+
+[GENERATOR MAPS TO ACTUAL PURPOSE SUCCESS METRICS]
+
+- Success metric 1: [FROM PURPOSE] - How well are we achieving this?
+- Success metric 2: [FROM PURPOSE] - What's blocking progress?
+- Success metric 3: [FROM PURPOSE] - What can improve?
+
+### Phase 4: Improvement Recommendations
+
+**High Priority** (Critical to success criteria):
+
+[GENERATOR ALIGNS TO PURPOSE SUCCESS METRICS]
+
+1. **[RECOMMENDATION 1]**: [Description]
+   - **Impact**: [How this advances success criteria]
+   - **Implementation**: [Specific steps]
+   - **Estimate**: [Time to complete]
+   - **Success**: [How to verify]
+
+**Medium Priority** (Enhanced quality):
+
+2. **[RECOMMENDATION 2]**: [Description]
+   - **Impact**: [Quality improvement]
+   - **Implementation**: [Specific steps]
+   - **Estimate**: [Time to complete]
+
+**Low Priority** (Proactive enhancements):
+
+3. **[RECOMMENDATION 3]**: [Description]
+   - **Impact**: [Nice-to-have benefit]
+   - **Implementation**: [Specific steps]
+   - **Estimate**: [Time to complete]
+
+### Phase 5: Implementation Roadmap
+
+**Immediate** (This week):
+1. [ACTION FROM HIGH PRIORITY RECOMMENDATIONS]
+2. [ACTION FROM HIGH PRIORITY RECOMMENDATIONS]
+
+**Short-term** (Next sprint):
+1. [ACTION FROM MEDIUM PRIORITY RECOMMENDATIONS]
+2. [ACTION FROM MEDIUM PRIORITY RECOMMENDATIONS]
+
+**Medium-term** (Next month):
+1. [ACTION FROM LOW PRIORITY RECOMMENDATIONS]
+2. [ACTION FROM LOW PRIORITY RECOMMENDATIONS]
+
+## Analysis Summary
+
+[GENERATOR PROVIDES PROJECT-SPECIFIC SUMMARY GUIDANCE]
+
+**Project Strengths:**
+- [Aligned with principles from constitution.spec.md]
+- [Aligned with constraints from constraints.spec.md]
+
+**Priority Focus Areas:**
+- [Derived from PURPOSE success criteria]
+- [Derived from gap analysis]
+
+**Success Metrics:**
+- [How to measure improvements]
+- [How to track progress toward PURPOSE]
+
+**Next Analysis:**
+- Run this prompt [weekly/monthly based on project pace]
+- Before major milestones
+- After significant changes
+- When onboarding new contributors
