@@ -2,7 +2,7 @@
 specifies: prompts/4-evolve/4a-detect-drift.md
 criticality: CRITICAL
 failure_mode: Specifications become outdated without detection
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

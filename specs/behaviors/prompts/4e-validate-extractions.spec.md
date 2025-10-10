@@ -1,11 +1,11 @@
 ---
 specifies: prompts/4-evolve/4e-validate-extractions.md
-derives_from:
+derives-from:
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: Low-confidence extractions remain unvalidated, specs diverge from implementation reality, extraction errors propagate
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

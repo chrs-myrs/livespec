@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without clear folder structure, AI agents cannot find relevant context and users become confused about where to place specs
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
 
@@ -9,13 +9,15 @@ constrained_by:
 
 ## Requirements
 - [!] LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using standardized folder hierarchy with optional organizational subfolders.
+  - `PURPOSE.md` at root captures project vision and success criteria (free-form, not MSL)
+  - `specs/mission/` contains top-level project definition (outcomes + constraints)
   - `specs/workspace/` contains only development methodology (portable to any project)
   - `specs/behaviors/` contains observable system behaviors (user-facing)
   - `specs/strategy/` contains product-specific technical decisions and architecture
   - `specs/contracts/` contains API/data contracts (optional, only if needed)
   - Subfolders allowed within standard folders for organization (e.g., specs/behaviors/prompts/, specs/strategy/architecture/)
-  - `specs/requirements.spec.md` at root captures high-level requirements
-  - `specs/constraints.spec.md` at root defines hard boundaries
+  - `specs/mission/outcomes.spec.md` captures high-level requirements
+  - `specs/mission/constraints.spec.md` defines hard boundaries
   - `.livespec/` contains LiveSpec methodology (copied from LiveSpec dist/)
   - `.livespec/standard/` contains metaspecs and conventions
   - `.livespec/templates/` contains workspace spec starter files
@@ -26,7 +28,7 @@ constrained_by:
 
 ```
 project/
-├── PURPOSE.md              # Why this exists
+├── PURPOSE.md              # Why this exists (vision + success criteria)
 │
 ├── .livespec/              # LiveSpec methodology
 │   ├── prompts/
@@ -39,10 +41,15 @@ project/
 │   ├── standard/           # Metaspecs and conventions
 │   │   ├── metaspecs/
 │   │   └── conventions/
-│   └── templates/          # Workspace spec starter files
+│   └── templates/          # Spec starter files
+│       ├── mission/
 │       └── workspace/
 │
 └── specs/
+    ├── mission/            # Top-level project definition
+    │   ├── outcomes.spec.md    # High-level requirements
+    │   └── constraints.spec.md # Hard boundaries
+    │
     ├── workspace/          # HOW you build (portable process)
     │   ├── constitution.spec.md
     │   ├── patterns.spec.md
@@ -56,19 +63,17 @@ project/
     ├── strategy/           # HOW technically (product-specific)
     │   └── architecture.spec.md (or split files)
     │
-    ├── contracts/          # API/data contracts (optional)
-    │   └── api/v1/*.yaml
-    │
-    ├── requirements.spec.md  # High-level requirements
-    └── constraints.spec.md   # Hard boundaries
+    └── contracts/          # API/data contracts (optional)
+        └── api/v1/*.yaml
 ```
 
 ## Notes
 
 See individual metaspecs for what belongs in each folder:
+- `.livespec/standard/metaspecs/purpose.spec.md` - Purpose document rules
+- `.livespec/standard/metaspecs/outcomes.spec.md` - Outcomes (high-level requirements) rules
+- `.livespec/standard/metaspecs/constraints.spec.md` - Constraints rules
 - `.livespec/standard/metaspecs/workspace.spec.md` - Workspace rules
 - `.livespec/standard/metaspecs/behavior.spec.md` - Behavior rules
 - `.livespec/standard/metaspecs/strategy.spec.md` - Strategy rules
-- `.livespec/standard/metaspecs/requirements.spec.md` - Requirements rules
-- `.livespec/standard/metaspecs/constraints.spec.md` - Constraints rules
 - `.livespec/standard/metaspecs/contract.spec.md` - Contract rules

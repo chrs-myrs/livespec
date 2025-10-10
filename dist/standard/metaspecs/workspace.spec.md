@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without workspace spec requirements, workspace specs become product-specific and lose portability
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
 

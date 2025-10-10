@@ -6,9 +6,38 @@ failure_mode: Without clear workflows, contributors don't know how to work on th
 # [PROJECT_NAME] Development Workflows
 
 ## Requirements
-- [Describe development workflows for this project. Examples: Feature development workflow (spec → implement → test → review), bug fix workflow (reproduce → diagnose → fix → verify), spec update workflow (detect drift → update spec → validate sync), release workflow (version → test → package → deploy), review and approval process]
+- [Describe development workflows for this project]
+
+**Recommended workflows to consider:**
+
+**Feature Development:**
+1. Specification first (always - create .spec.md before implementation)
+2. Implementation (follow spec, reference REQ-XXX)
+3. Testing (validate against spec requirements)
+4. Review and approval
+
+**Bug Fix Workflow:**
+1. Reproduce issue
+2. Add regression test (if applicable)
+3. Fix implementation
+4. Verify fix passes tests
+5. Update spec if behavior changed
+
+**Spec-Code Sync:**
+- Detect drift regularly (compare specs to implementation)
+- Update specs when requirements change
+- Validate implementation still satisfies specs
+- Maintain bidirectional traceability
+
+**Commit Workflow:**
+- For AI commit guidance: See .livespec/guides/ai-commits.md (optional)
+- Follow conventional commit format
+- Create atomic, logical commits
+- Reference specs/requirements in commit messages
+
+**Validation:**
   - [Evidence workflow is followed (git history, PR patterns)]
   - [Completed work adheres to workflow steps]
-  - [No steps skipped in critical workflows]
+  - [No steps skipped in critical workflows (especially spec-first)]
   - [Workflow produces expected artifacts]
   - [Team members follow documented process]

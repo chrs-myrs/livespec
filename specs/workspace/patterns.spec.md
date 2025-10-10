@@ -4,7 +4,7 @@ applies_to:
   - all_specifications
 criticality: IMPORTANT
 failure_mode: Inconsistent patterns make LiveSpec harder to understand and maintain
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
@@ -76,12 +76,27 @@ constrained_by:
 - American English for code elements
 
 ### Dependency Traceability
-Specifications declare dependencies via YAML frontmatter:
-- `derives_from` - Parent specs this is based on
-- `constrained_by` - Boundaries this must respect
-- `satisfies` - Requirements this fulfills
-- `supports` - What this spec enables
-- `applies_to` - Scope (for workspace specs)
+
+**Prompts use `implements:` to reference defining specifications:**
+```yaml
+---
+implements: specs/behaviors/prompts/1a-design-architecture.spec.md
+---
+```
+
+**Specs use `governed-by:` to reference constraining metaspecs:**
+```yaml
+---
+governed-by:
+  - .livespec/standard/metaspecs/behavior.spec.md
+---
+```
+
+**Other dependency fields for specs:**
+- `derives-from:` - Parent specs this is based on
+- `satisfies:` - Requirements this fulfills
+- `supports:` - What this spec enables
+- `applies_to:` - Scope (for workspace specs)
 
 ### Confidence Markers for Extracted Specifications
 

@@ -1,9 +1,9 @@
 ---
-derives_from:
-  - specs/requirements.spec.md (Minimal Maintenance, Voluntary Adoption)
+derives-from:
+  - specs/mission/outcomes.spec.md (Minimal Maintenance, Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
-constrained_by:
-  - specs/constraints.spec.md (Testable Behaviors, No Framework Lock-in, Manual Adoption)
+governed-by:
+  - specs/mission/constraints.spec.md (Testable Behaviors, No Framework Lock-in, Manual Adoption)
   - .livespec/standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without validation strategy, LiveSpec cannot verify it follows own rules, undermining dogfooding and risking spec-implementation drift

@@ -1,6 +1,6 @@
 ---
-spec: specs/workspace/agents.spec.md
-generated: 2025-10-08T00:00:00Z
+implements: specs/workspace/agents.spec.md
+generated: 2025-10-10T00:00:00Z
 generator: livespec/generate-project-config
 version: 2.1.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
@@ -18,6 +18,150 @@ This document provides essential LiveSpec knowledge for AI agents. Cache this on
 - Specs remain synchronized with code throughout development
 - AI agents have structured context for effective assistance
 - Documentation stays current without becoming a maintenance burden
+
+---
+
+# START SECTION - Critical Rules & Principles
+
+## ⚠️ CRITICAL: Spec-First Guidance (Principle #1)
+
+**Please guide users through this essential step:**
+
+Before implementing any deliverable (code, prompt, template, documentation, config), check:
+
+### 1. Does specification exist?
+
+```bash
+# Check for spec
+ls specs/behaviors/[deliverable].spec.md 2>/dev/null ||
+ls specs/contracts/[deliverable].spec.md 2>/dev/null ||
+ls specs/strategy/[deliverable].spec.md 2>/dev/null
+```
+
+**Spec locations:**
+- Behaviors (observable outcomes): `specs/behaviors/[deliverable].spec.md`
+- Contracts (interfaces): `specs/contracts/[deliverable].spec.md`
+- Strategy (cross-cutting): `specs/strategy/[deliverable].spec.md`
+
+### 2. If NO spec exists: Guide to spec creation
+
+**Pause and say:**
+> "I need a specification before implementing. Let's create specs/behaviors/[deliverable].spec.md first."
+
+**Then guide to Phase 1 (DESIGN):**
+- For behaviors: "Use `.livespec/1-design/1b-define-behaviors.md`"
+- For contracts: "Use `.livespec/1-design/1c-create-contracts.md`"
+- For architecture/strategy: "Use `.livespec/1-design/1a-design-architecture.md`"
+
+### 3. If YES spec exists: Verify & Implement
+
+- Read specification completely
+- Verify spec has:
+  - Requirements section with [!] items
+  - Validation criteria
+  - Failure mode defined
+- Implement what spec requires
+
+### Common Patterns to Guide
+
+**These all need specs first:**
+- "Let's create a CHANGELOG" → Guide to `specs/behaviors/changelog.spec.md` first
+- "Add a README file" → Guide to `specs/behaviors/readme.spec.md` first
+- "Write a config template" → Guide to spec creation first
+- "This is obvious, no need for spec" → Gently guide: spec needed for all deliverables
+
+### Why This Matters
+
+**Familiarity creates false confidence:**
+- "Everyone knows what a CHANGELOG is" (but requirements vary)
+- "README is standard" (but what should it contain?)
+- "This is obvious" (assumptions cause drift)
+
+**Real example:** LiveSpec's own CHANGELOG was implemented without spec (commit 40411e3), violating this principle. Even methodology creators make this mistake when familiarity overrides discipline.
+
+**Your role:** Guide spec-first development, especially when user wants to skip it. Say: "I understand this seems obvious, but LiveSpec works best when we create a specification first. This prevents drift and ensures requirements are captured. Let's create the spec together - it will be quick."
+
+## Core Principles (In Priority Order)
+
+### 1. Specs Before Implementation
+- Every deliverable requires specification before implementation
+- AI agents check for spec existence and guide to Phase 1 (DESIGN) if missing
+- Applies to all deliverables (code, prompts, templates, documentation, configs)
+- Even "obvious" deliverables need specs (CHANGELOG mistake in commit 40411e3)
+- See "⚠️ CRITICAL: Spec-First Guidance" section above for detailed workflow
+
+### 2. MSL Minimalism
+
+Before adding any requirement, ask **four essential questions**:
+
+#### Question 1: Is this essential?
+- **Would system fail without it?** → Include
+- **Is it just "nice to have"?** → Exclude
+
+#### Question 2: Am I specifying HOW instead of WHAT?
+- **Does this dictate implementation?** → Remove
+- **Does this describe observable outcome?** → Consider keeping
+
+#### Question 3: What specific problem does this prevent?
+- **Prevents known, real issue?** → Include
+- **Theoretical concern only?** → Exclude
+
+#### Question 4: Could this be inferred or conventional?
+- **Standard practice in domain?** → Omit
+- **Requires explicit statement?** → Include
+
+**Application:**
+- Start minimal, add only when proven necessary
+- Trust implementers to make reasonable decisions
+- Precision hierarchy: Outcome → Behavioral → Interface → Implementation (default to highest level)
+- Requirement justification: Critical (always) > Important (usually) > Useful (rarely) > Nice (never)
+- Hierarchical minimalism: Abstract common requirements to parent specs
+
+See `dist/guides/msl-minimalism.md` for complete decision framework.
+
+### 3. Dogfooding
+- LiveSpec uses its own methodology
+- Repository has specs/ and prompts/
+- No custom tooling required
+
+### 4. Simplicity Over Features
+- No custom tooling (works with file operations and AI prompts only)
+- Standard markdown format, standard folder structure
+- Don't over-prescribe implementation details
+- Define edges, not paths
+- Innovation happens in unspecified spaces
+
+### 5. Living Documentation
+- Specs evolve continuously with code
+- Phase 4 (EVOLVE) runs regularly to detect drift
+- Extract new behaviors as they emerge
+- Update specs alongside code changes
+
+### 6. Governance Framework Awareness
+- LiveSpec is specialized for governance/methodology documentation
+- Patterns demonstrated here apply to governance domain specifically
+- Extensions documented as domain-specific, not universal patterns
+
+## Critical Constraints (Boundaries That Must Never Be Violated)
+
+### Agent Agnostic
+Works with any AI coding agent (Claude, Copilot, Cursor, etc.). Same structure produces effective results across 3+ agents.
+
+### Manual Adoption
+Simple enough to adopt without custom tooling. Users can set up with standard file operations and AI prompts only.
+
+### MSL Minimalism
+All specifications follow MSL principles. Specifications cannot be further reduced without losing essential information.
+
+### No Framework Lock-in
+Pure information architecture. Specs are readable markdown, folder structure is standard, no custom parsers required.
+
+### Testable Behaviors
+All behaviors are observable and verifiable. Every specification includes concrete validation criteria.
+
+---
+
+# MIDDLE SECTION - Details, Examples, Procedures
 
 ## Quick Start (80% of Cases)
 
@@ -81,7 +225,12 @@ Establish problem space and constraints.
 **Entry**: Project idea or codebase
 **Exit**: Problem, constraints, workspace defined
 **Outputs**: PURPOSE.md, specs/constraints.spec.md, specs/workspace/
-**Key Prompt**: `0a-setup-workspace.md`
+**Key Prompts**:
+- `0a-setup-workspace.md`
+- `0b-define-problem.md`
+- `0c-define-outcomes.md`
+- `0d-identify-constraints.md`
+- `0e-assess-complexity.md`
 
 ### Phase 1: DESIGN
 Design solution architecture.
@@ -90,7 +239,10 @@ Design solution architecture.
 **Entry**: Problem and constraints defined
 **Exit**: Architecture and contracts specified
 **Outputs**: specs/behaviors/, specs/contracts/
-**Key Prompt**: `1a-design-architecture.md`
+**Key Prompts**:
+- `1a-design-architecture.md`
+- `1b-define-behaviors.md`
+- `1c-create-contracts.md`
 
 ### Phase 2: BUILD
 Implement the solution.
@@ -99,7 +251,9 @@ Implement the solution.
 **Entry**: Design specifications complete
 **Exit**: Implementation matches specifications
 **Outputs**: Code + tests satisfying specs
-**Key Prompt**: `2a-implement-from-specs.md`
+**Key Prompts**:
+- `2a-implement-from-specs.md`
+- `2b-create-tests.md`
 
 ### Phase 3: VERIFY
 Validate solution meets requirements.
@@ -108,7 +262,9 @@ Validate solution meets requirements.
 **Entry**: Implementation done
 **Exit**: All behaviors validated
 **Outputs**: Test results, validation reports
-**Key Prompt**: `3a-run-validation.md`
+**Key Prompts**:
+- `3a-run-validation.md`
+- `3b-acceptance-review.md`
 
 ### Phase 4: EVOLVE
 Keep specs and code synchronized (continuous).
@@ -117,7 +273,12 @@ Keep specs and code synchronized (continuous).
 **Entry**: System in production or active development
 **Exit**: Continuous (loop back to other phases as needed)
 **Outputs**: Updated specifications, drift reports
-**Key Prompt**: `4a-detect-drift.md`
+**Key Prompts**:
+- `4a-detect-drift.md`
+- `4b-extract-specs.md`
+- `4c-sync-complete.md`
+- `4d-regenerate-agents.md`
+- `4e-validate-extractions.md`
 
 ## MSL Format Quick Reference
 
@@ -152,10 +313,10 @@ your-project/
 │   ├── 2-build/
 │   ├── 3-verify/
 │   ├── 4-evolve/
-│   └── utils/              # Utility prompts
-├── standard/               # MSL metaspecs and conventions
-└── templates/              # Workspace spec starter files
-    └── workspace/
+│   ├── utils/              # Utility prompts
+│   ├── standard/           # MSL metaspecs and conventions
+│   └── templates/          # Workspace spec starter files
+│       └── workspace/
 
 specs/
 ├── workspace/              # HOW you build (process)
@@ -165,6 +326,7 @@ specs/
 │
 ├── behaviors/              # WHAT system does
 ├── contracts/              # API/data contracts
+├── strategy/               # Cross-cutting decisions
 └── constraints.spec.md     # Hard boundaries
 ```
 
@@ -190,54 +352,69 @@ specs/
 
 **Software projects:**
 ```
-specs/behaviors/
-├── user-features/
-│   ├── authentication.spec.md
-│   └── authorization.spec.md
-└── system/
-    └── caching.spec.md
-
-specs/contracts/
-└── api/v1/
-    └── users-api.yaml
+specs/
+├── workspace/           # How we work
+├── behaviors/
+│   ├── user-features/  # User-facing behaviors
+│   │   ├── authentication.spec.md
+│   │   └── authorization.spec.md
+│   └── system/         # System behaviors
+│       └── caching.spec.md
+├── contracts/
+│   └── api/v1/         # API contracts
+│       └── users-api.yaml
+└── strategy/           # Cross-cutting decisions
+    ├── architecture.spec.md
+    └── logging.spec.md
 ```
 
 **Governance projects:**
 ```
-specs/behaviors/
-└── policies/
-    ├── access-control.spec.md
-    └── data-protection.spec.md
-
-specs/contracts/
-└── procedures/
-    └── access-review.spec.md
+specs/
+├── workspace/           # How we work
+├── behaviors/
+│   └── policies/       # Policy behaviors
+│       ├── access-control.spec.md
+│       └── data-protection.spec.md
+├── contracts/
+│   └── procedures/     # Process contracts
+│       └── access-review.spec.md
+└── strategy/           # Cross-cutting decisions
+    └── security-posture.spec.md
 ```
 
 **Operations projects:**
 ```
-specs/behaviors/
-└── services/
-    ├── backup.spec.md
-    └── monitoring.spec.md
-
-specs/contracts/
-└── runbooks/
-    ├── incident-response.spec.md
-    └── deployment.spec.md
+specs/
+├── workspace/           # How we work
+├── behaviors/
+│   └── services/       # Service behaviors
+│       ├── backup.spec.md
+│       └── monitoring.spec.md
+├── contracts/
+│   └── runbooks/       # Operational contracts
+│       ├── incident-response.spec.md
+│       └── deployment.spec.md
+└── strategy/           # Cross-cutting decisions
+    └── infrastructure.spec.md
 ```
 
 **Hybrid projects:**
 ```
-specs/behaviors/
-├── user-features/         # Software
-├── policies/              # Governance
-└── services/              # Operations
-
-specs/contracts/
-├── api/                   # Software
-├── procedures/            # Governance
-└── runbooks/              # Operations
+specs/
+├── workspace/             # How we work
+├── behaviors/
+│   ├── user-features/    # Software
+│   ├── policies/         # Governance
+│   └── services/         # Operations
+├── contracts/
+│   ├── api/              # Software
+│   ├── procedures/       # Governance
+│   └── runbooks/         # Operations
+└── strategy/             # Cross-cutting (all domains)
+    ├── architecture.spec.md
+    ├── logging.spec.md
+    └── security.spec.md
 ```
 
 See `docs/domain-organization.md` for comprehensive patterns.
@@ -359,56 +536,6 @@ System appears to invalidate Redis cache entries after 1 hour TTL.
 
 **Promote to standard spec when validated:** Remove extraction metadata, add standard frontmatter (derives_from, satisfies).
 
-## Core Principles
-
-### 1. MSL Minimalism
-**From specs/workspace/constitution.spec.md:**
-- Specs justify their existence (would system fail without this?)
-- Specify WHAT, not HOW
-- Only CRITICAL or IMPORTANT requirements
-- Trust implementers for details
-
-### 2. Dogfooding
-**From specs/workspace/constitution.spec.md:**
-- LiveSpec uses its own methodology
-- Repository has specs/ and prompts/
-- No custom tooling required
-
-### 3. Workspace vs Product
-**From specs/strategy/architecture.spec.md:**
-- specs/workspace/ = HOW you build (process)
-- specs/behaviors/ = WHAT system does (product)
-- Clear separation prevents confusion
-
-### 4. Phase 4 is Continuous
-**From specs/behaviors/five-phases.spec.md:**
-- Drift detection prevents staleness
-- Extract new behaviors as they emerge
-- Update specs alongside code
-
-### 5. Trust Implementers
-**From specs/workspace/constitution.spec.md:**
-- Don't over-prescribe implementation details
-- Define edges, not paths
-- Innovation happens in unspecified spaces
-
-## Constraints (Critical Boundaries)
-
-### Agent Agnostic
-Works with any AI coding agent (Claude, Copilot, Cursor, etc.). Same structure produces effective results across 3+ agents.
-
-### Manual Adoption
-Simple enough to adopt without custom tooling. Users can set up with standard file operations and AI prompts only.
-
-### MSL Minimalism
-All specifications follow MSL principles. Specifications cannot be further reduced without losing essential information.
-
-### No Framework Lock-in
-Pure information architecture. Specs are readable markdown, folder structure is standard, no custom parsers required.
-
-### Testable Behaviors
-All behaviors are observable and verifiable. Every specification includes concrete validation criteria.
-
 ## Specification Dependencies
 
 LiveSpec specs form a **dependency graph**, not a hierarchy:
@@ -444,10 +571,10 @@ Specs declare dependencies via YAML frontmatter:
 
 ```yaml
 ---
-derives_from:
+derives-from:
   - PURPOSE.md
   - specs/problem.spec.md
-constrained_by:
+governed-by:
   - specs/constraints.spec.md
 satisfies:
   - specs/problem.spec.md
@@ -455,8 +582,8 @@ satisfies:
 ```
 
 **Fields:**
-- `derives_from` - Parent specs this is based on
-- `constrained_by` - Boundaries this must respect
+- `derives-from` - Parent specs this is based on
+- `governed-by` - Boundaries this must respect
 - `satisfies` - Requirements this fulfills
 - `supports` - What this spec enables
 - `applies_to` - Scope (for workspace specs)
@@ -468,13 +595,13 @@ When specs change, trace dependencies:
 **Upward (validate):** Does change still align with parents?
 ```bash
 # Check frontmatter
-grep "derives_from\|constrained_by" specs/changed-spec.spec.md
+grep "derives-from\|governed-by" specs/changed-spec.spec.md
 ```
 
 **Downward (propagate):** What derives from this?
 ```bash
 # Find children
-grep -r "derives_from.*changed-spec" specs/
+grep -r "derives-from.*changed-spec" specs/
 ```
 
 **Common impacts:**
@@ -520,7 +647,7 @@ LiveSpec uses YAML frontmatter for bidirectional links:
 **In prompts:**
 ```markdown
 ---
-spec: specs/behaviors/prompts/0a-setup-workspace.spec.md
+implements: specs/behaviors/prompts/0a-setup-workspace.spec.md
 ---
 ```
 
@@ -533,27 +660,50 @@ specifies: prompts/0-define/0a-setup-workspace.md
 
 This enables AI agents to navigate between prompts and their specifications.
 
-## When to Fetch Full Prompts
+## MSL Alignment (v2.2+)
 
-Cache this document, but fetch full prompts when you need:
+**LiveSpec uses MSL frontmatter conventions** for semantic precision and ecosystem interoperability.
 
-| Need | Fetch | When |
-|------|-------|------|
-| Setup workspace | `.livespec/0-define/0a-setup-workspace.md` | New project |
-| Define problem | `.livespec/0-define/0b-define-problem.spec.md` | Problem unclear |
-| Identify constraints | `.livespec/0-define/0c-identify-constraints.md` | Need boundaries |
-| Design architecture | `.livespec/1-design/1a-design-architecture.md` | Before implementation |
-| Define behaviors | `.livespec/1-design/1b-define-behaviors.md` | Specify features |
-| Create contracts | `.livespec/1-design/1c-create-contracts.md` | API/data interfaces |
-| Implement | `.livespec/2-build/2a-implement-from-specs.md` | Building features |
-| Create tests | `.livespec/2-build/2b-create-tests.md` | Validating code |
-| Run validation | `.livespec/3-verify/3a-run-validation.md` | Testing completeness |
-| Acceptance review | `.livespec/3-verify/3b-acceptance-review.md` | Stakeholder approval |
-| Detect drift | `.livespec/4-evolve/4a-detect-drift.md` | Periodic sync check |
-| Extract specs | `.livespec/4-evolve/4b-extract-specs.md` | Existing codebase |
-| Sync complete | `.livespec/4-evolve/4c-sync-complete.md` | Confirm alignment |
-| Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
-| Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
+### Field Semantics
+
+| Field | Meaning | Example Usage |
+|-------|---------|---------------|
+| `derives-from:` | "I was created from this source" | spec derives-from: PURPOSE.md |
+| `governed-by:` | "I must follow these rules/metaspecs" | spec governed-by: behavior-metaspec |
+| `implements:` | "I am code/content satisfying this spec" | prompt implements: prompt.spec.md |
+| `specifies:` | "I define what these files should do" | spec specifies: prompt.md |
+| `extends:` | "I am specialized type of parent" (MSL core) | mobile-api extends: api-base |
+| `supports:` | "These depend on me" (LiveSpec extension) | outcomes supports: architecture |
+
+### Field Examples
+
+**Prompt files**:
+```yaml
+---
+implements: specs/behaviors/prompts/setup.spec.md
+---
+```
+
+**Specification files**:
+```yaml
+---
+derives-from: PURPOSE.md
+governed-by: .livespec/standard/metaspecs/behavior.spec.md
+---
+```
+
+### Why This Matters
+
+- **Semantic clarity**: `implements:` precisely describes relationship
+- **MSL ecosystem**: Unified vocabulary across MSL and LiveSpec
+- **Hyphen consistency**: Matches MSL convention
+- **AI predictability**: Agents trained on MSL understand field meanings
+
+### Migration
+
+Projects using old field names (`spec:`, `constrained_by:`, `derives_from:`) should migrate.
+
+See `docs/msl-alignment-migration.md` for migration script and instructions.
 
 ## Workspace Specs Guide AI
 
@@ -685,6 +835,72 @@ Context7 will provide:
 - Periodic MSL audits maintain minimalism
 - Documentation updates accompany prompt/spec changes
 
+---
+
+# END SECTION - Prompt Registry & Current Priorities
+
+## When to Fetch Full Prompts
+
+Cache this document, but fetch full prompts when you need:
+
+| Need | Fetch | When |
+|------|-------|------|
+| Setup workspace | `.livespec/0-define/0a-setup-workspace.md` | New project |
+| Define problem | `.livespec/0-define/0b-define-problem.md` | Problem unclear |
+| Define outcomes | `.livespec/0-define/0c-define-outcomes.md` | Success criteria needed |
+| Identify constraints | `.livespec/0-define/0d-identify-constraints.md` | Need boundaries |
+| Assess complexity | `.livespec/0-define/0e-assess-complexity.md` | Estimate effort |
+| Design architecture | `.livespec/1-design/1a-design-architecture.md` | Before implementation |
+| Define behaviors | `.livespec/1-design/1b-define-behaviors.md` | Specify features |
+| Create contracts | `.livespec/1-design/1c-create-contracts.md` | API/data interfaces |
+| Implement | `.livespec/2-build/2a-implement-from-specs.md` | Building features |
+| Create tests | `.livespec/2-build/2b-create-tests.md` | Validating code |
+| Run validation | `.livespec/3-verify/3a-run-validation.md` | Testing completeness |
+| Acceptance review | `.livespec/3-verify/3b-acceptance-review.md` | Stakeholder approval |
+| Detect drift | `.livespec/4-evolve/4a-detect-drift.md` | Periodic sync check |
+| Extract specs | `.livespec/4-evolve/4b-extract-specs.md` | Existing codebase |
+| Sync complete | `.livespec/4-evolve/4c-sync-complete.md` | Confirm alignment |
+| Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
+| Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
+| **Upgrade LiveSpec** | `.livespec/utils/upgrade-methodology.md` | **New version released** |
+| Analyze failure | `.livespec/utils/analyze-failure.md` | Debugging issues |
+| Next steps | `.livespec/utils/next-steps.md` | Planning guidance |
+| Run spike | `.livespec/utils/run-spike.md` | Explore unknowns |
+
+**Important for upgrades:** The upgrade-methodology.md prompt includes mandatory pre-flight checks and proof-of-work requirements (like spec-first enforcement). You must:
+- Actually clone the LiveSpec repository (show git clone output)
+- Create backup and prove it exists (show ls output)
+- Run self-validation tests and show results
+- Cannot fake the process - evidence required for each phase
+
+## Current Priorities
+
+Based on project state, prioritize:
+
+### New Project (No specs/ folder)
+1. **First action:** Guide to `.livespec/0-define/0a-setup-workspace.md`
+2. Create PURPOSE.md
+3. Set up workspace specs (constitution, patterns, workflows)
+4. Define constraints
+
+### Existing Project (No .livespec/ folder)
+1. **First action:** Guide to `.livespec/4-evolve/4b-extract-specs.md`
+2. Extract behaviors from code
+3. Validate extractions (`.livespec/4-evolve/4e-validate-extractions.md`)
+4. Establish Phase 4 cadence
+
+### Active Development (specs/ and code both exist)
+1. **Before any implementation:** Check spec exists (spec-first principle #1)
+2. If spec missing: Pause, guide to Phase 1 (DESIGN)
+3. If spec exists: Verify completeness, then implement
+4. Run drift detection regularly (`.livespec/4-evolve/4a-detect-drift.md`)
+
+### Spec-Code Drift Detected
+1. **First action:** Guide to `.livespec/4-evolve/4a-detect-drift.md`
+2. Identify discrepancies
+3. Update specs or code to align
+4. Validate synchronization (`.livespec/4-evolve/4c-sync-complete.md`)
+
 ## Final Notes
 
 LiveSpec is just folders and markdown. The methodology guides AI agents to:
@@ -696,5 +912,7 @@ LiveSpec is just folders and markdown. The methodology guides AI agents to:
 
 Remember: **Start simple, add complexity only when needed. Trust the phases.**
 
+**Context positioning design note:** This document follows research-backed positioning framework (see `dist/guides/context-positioning.md`) with critical rules at START (30-40%), supporting details in MIDDLE (40%), and prompt registry at END (20-30%) for 20-30% performance improvement.
+
 ---
-*Agent configuration for [LiveSpec v2.1.0](https://github.com/chrs-myrs/livespec) - Generated 2025-10-08*
+*Agent configuration for [LiveSpec v2.1.0](https://github.com/chrs-myrs/livespec) - Generated 2025-10-10*

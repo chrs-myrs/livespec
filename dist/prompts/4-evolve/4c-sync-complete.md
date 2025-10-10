@@ -1,183 +1,42 @@
 ---
-spec: specs/behaviors/prompts/4c-sync-complete.spec.md
+implements: specs/behaviors/prompts/4c-sync-complete.spec.md
+generated: '2025-10-10'
+phase: 4-evolve
 ---
 
-# 4c: Synchronisation Complete
+# Prompt Behavior: Synchronisation Complete
 
-**Phase**: EVOLVE
 **Purpose**: Confirm specs and code are synchronized
-**Context**: Final step in drift resolution
+
+## Context
+
+You're in Phase 4 (EVOLVE), maintaining alignment between specifications and code as the system evolves.
 
 ## Task
 
-Verify that specifications and implementation are now synchronized and document the evolution.
+1. Prompt guides AI agent to verify all drift resolved, run validation, document evolution, and confirm synchronisation complete.
 
-## Synchronisation Checklist
+## Output
 
-### 1. Verify All Changes Addressed
+Produce drift report, updated specs, or synchronization confirmation.
 
-Review drift report from 4a:
-```markdown
-## Drift Report Status
+## Validation
 
-### Auto-Accepted
-✅ All accepted (no spec changes needed)
+- All drift items from 4a resolved
+- All tests passing
+- All behaviors have current specifications
+- Evolution logged with rationale
+- Changes committed to version control
 
-### Requiring Review
-✅ Password reset: Spec extracted (specs/behaviors/password-reset.spec.md)
-✅ CSV timestamps: Spec updated (specs/behaviors/data-export.spec.md)
+## Success Criteria
 
-### Manual Resolution
-✅ API pagination: Versioned to v2, spec updated
-```
-
-All items should be ✅ resolved.
-
-### 2. Run Validation
-
-Repeat verification from Phase 3:
-```bash
-# Run all tests
-pytest tests/
-
-# Validate contracts
-oasdiff specs/contracts/api/v1.yaml specs/contracts/api/v2.yaml
-
-# Check behaviors
-# Each behavior spec validated by tests
-```
-
-**Success Criteria:**
-- ✅ All tests pass
-- ✅ All behaviors have specs
-- ✅ All contracts documented
-- ✅ No undocumented features
-
-### 3. Update Evolution Log
-
-Document the evolution in `evolution-log.md`:
-
-```markdown
-# Evolution Log
-
-## 2025-01-10: Password Reset & Pagination
-
-### Changes
-- Added password reset feature
-- Added timestamps to CSV export
-- Versioned API to v2 with pagination
-
-### Specifications Updated
-- Created: specs/behaviors/password-reset.spec.md
-- Updated: specs/behaviors/data-export.spec.md
-- Versioned: specs/contracts/api/v2/users-api.yaml
-
-### Rationale
-- Password reset: Critical user need for account recovery
-- CSV timestamps: Audit requirement (CRITICAL)
-- API pagination: Performance requirement (>10K users)
-
-### Validation
-- ✅ All behaviors tested
-- ✅ All contracts validated
-- ✅ Breaking changes versioned
-
-### Next Review
-2025-01-17 (weekly)
-```
-
-### 4. Commit Changes
-
-Commit spec updates with clear message:
-
-```bash
-git add specs/
-git commit -m "Evolve specs: password reset, CSV timestamps, API v2
-
-- Extract password reset behavior spec
-- Update data export with timestamp requirement
-- Version API to v2 with pagination contract
-
-All behaviors validated with tests.
-Closes drift report 2025-01-10.
-
-🤖 Generated with Claude Code
-Co-Authored-By: Claude <noreply@anthropic.com>"
-```
-
-### 5. Update Workspace if Needed
-
-If patterns or workflows changed, update workspace specs:
-
-```markdown
-# specs/workspace/patterns.spec.md
-
-## New Pattern: API Versioning
-
-**Specification**: API breaking changes require version increment
-
-**Validation**:
-- Breaking changes create new version folder
-- Old versions maintain compatibility
-- Migration guide provided
-```
-
-## Continuous Evolution
-
-EVOLVE is a continuous phase:
-
-### Ongoing Activities
-- **Weekly drift checks**: Run 4a-detect-drift.md
-- **After features**: Extract specs (4b) immediately
-- **Before releases**: Verify synchronisation (4c)
-- **Quarterly reviews**: Audit MSL compliance
-
-### Triggering Phase Cycles
-
-From EVOLVE, you may cycle back:
-- **New requirements** → Phase 0 (DEFINE)
-- **Architecture changes** → Phase 1 (DESIGN)
-- **New features** → Phase 2 (BUILD)
-- **Validation issues** → Phase 3 (VERIFY)
-
-### Maintaining Minimalism
-
-Periodically audit specs for MSL compliance:
-- Can any spec be further reduced?
-- Are all requirements still critical?
-- Can validation criteria be simplified?
-- Is anything obvious that doesn't need stating?
-
-## Exit Criteria
-
-- [ ] All drift resolved
-- [ ] All specs synchronized with code
-- [ ] Validation passing
-- [ ] Evolution logged
-- [ ] Changes committed
-- [ ] Workspace updated if needed
-
-## Phase Complete
-
-✅ **Phase 4: EVOLVE cycle complete**
-
-Continuous cycle:
-- Monitor for drift → 4a
-- Extract new specs → 4b
-- Verify synchronisation → 4c
-- Repeat
+**This prompt succeeds when:**
+- All requirements from spec are satisfied
+- Output is actionable and immediately usable
+- No ambiguity in what needs to be done
+- Clear path from current state to desired state
 
 ---
 
-## LiveSpec v2 Full Cycle
-
-**Initial Development:**
-0. DEFINE → 1. DESIGN → 2. BUILD → 3. VERIFY → 4. EVOLVE
-
-**Continuous Evolution:**
-4. EVOLVE ↔ (2. BUILD ↔ 3. VERIFY) → 4. EVOLVE
-
-**Major Changes:**
-4. EVOLVE → 0. DEFINE → ... (full cycle)
-
-**The system stays synchronized because specifications are living documents that evolve with the code.**
+**Criticality**: CRITICAL
+**Failure Mode**: Cannot confirm specs and code are synchronized

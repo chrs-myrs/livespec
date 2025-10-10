@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/2b-create-tests.spec.md
+implements: specs/behaviors/prompts/2b-create-tests.spec.md
 ---
 
 # 2b: Create Tests

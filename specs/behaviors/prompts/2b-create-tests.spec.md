@@ -2,7 +2,7 @@
 specifies: prompts/2-build/2b-create-tests.md
 criticality: CRITICAL
 failure_mode: Specifications cannot be validated
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

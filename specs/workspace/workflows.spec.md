@@ -4,7 +4,7 @@ applies_to:
   - livespec_development
 criticality: IMPORTANT
 failure_mode: Without clear workflows, contributors don't know how to evolve LiveSpec properly
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/workspace.spec.md
 ---
 

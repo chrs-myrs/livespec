@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/2a-implement-from-specs.spec.md
+implements: specs/behaviors/prompts/2a-implement-from-specs.spec.md
 ---
 
 # 2a: Implement from Specifications

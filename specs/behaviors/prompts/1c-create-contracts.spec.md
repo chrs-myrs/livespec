@@ -2,7 +2,7 @@
 specifies: prompts/1-design/1c-create-contracts.md
 criticality: IMPORTANT
 failure_mode: External interfaces lack formal specifications
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

@@ -1,10 +1,10 @@
 ---
 criticality: IMPORTANT
 failure_mode: Without template guidance, users struggle to bootstrap workspace specs with correct structure and content
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 satisfies:
-  - specs/requirements.spec.md (minimal maintenance, voluntary adoption)
+  - specs/mission/outcomes.spec.md (minimal maintenance, voluntary adoption)
 ---
 
 # Workspace Templates

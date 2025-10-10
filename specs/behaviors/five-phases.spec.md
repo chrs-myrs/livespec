@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without structured phases, development becomes chaotic and AI agents lack clear direction
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
@@ -18,10 +18,10 @@ constrained_by:
 ## Phases
 
 ### Phase 0: DEFINE
-- **Purpose**: Establish problem space and constraints
+- **Purpose**: Establish project vision, outcomes, and constraints
 - **Entry**: Project idea or existing codebase
-- **Exit**: Problem, constraints, and workspace defined
-- **Outputs**: specs/problem.md, specs/constraints.md, specs/workspace/
+- **Exit**: Purpose, outcomes, constraints, and workspace defined
+- **Outputs**: PURPOSE.md, specs/mission/outcomes.spec.md, specs/mission/constraints.spec.md, specs/workspace/
 
 ### Phase 1: DESIGN
 - **Purpose**: Design solution architecture

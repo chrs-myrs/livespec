@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/4a-detect-drift.spec.md
+implements: specs/behaviors/prompts/4a-detect-drift.spec.md
 ---
 
 # 4a: Detect Drift
@@ -104,10 +104,10 @@ Changed: specs/strategy/architecture.spec.md
 
 Upward validation:
   ✓ Still satisfies PURPOSE.md goal
-  ✓ Still respects specs/constraints.spec.md
-  ⚠️ May not fully solve specs/problem.md anymore
+  ✓ Still respects specs/mission/constraints.spec.md
+  ⚠️ May not fully align with specs/mission/outcomes.spec.md anymore
 
-Action: Review problem.md alignment
+Action: Review outcomes.spec.md alignment
 ```
 
 **Downward Trace (Propagation):**
@@ -143,11 +143,11 @@ Action: Update workspace specs to reflect new structure
 
 | Changed Spec | Upward Check | Downward Check |
 |--------------|--------------|----------------|
-| **PURPOSE.md** | None (root) | problem.md, constraints.spec.md, architecture.spec.md |
-| **problem.md** | PURPOSE.md | architecture.spec.md, all behaviors/ |
-| **constraints.spec.md** | PURPOSE.md, problem.md | architecture.spec.md, all behaviors/ |
-| **architecture.spec.md** | PURPOSE.md, problem.md, constraints.spec.md | All prompts/, all behaviors/ |
-| **behaviors/*.spec.md** | architecture.spec.md, problem.md | Code implementation |
+| **PURPOSE.md** | None (root) | mission/outcomes.spec.md, mission/constraints.spec.md |
+| **mission/outcomes.spec.md** | PURPOSE.md | strategy/architecture.spec.md, all behaviors/ |
+| **mission/constraints.spec.md** | PURPOSE.md | strategy/architecture.spec.md, all behaviors/ |
+| **strategy/architecture.spec.md** | PURPOSE.md, mission/outcomes.spec.md, mission/constraints.spec.md | All prompts/, all behaviors/ |
+| **behaviors/*.spec.md** | strategy/architecture.spec.md, mission/outcomes.spec.md | Code implementation |
 
 **Detection Questions:**
 

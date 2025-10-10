@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without base requirements, LiveSpec specs lack essential metadata and consistency
-derives_from:
+derives-from:
   - https://github.com/chrs-myrs/msl-specification
 ---
 

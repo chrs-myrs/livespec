@@ -1,10 +1,10 @@
 ---
 specifies: dist/prompts/utils/generate-feedback-report.md
-derives_from:
+derives-from:
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: Without feedback mechanism, LiveSpec maintainers cannot understand real-world usage patterns, pain points, and successes, preventing methodology improvements
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

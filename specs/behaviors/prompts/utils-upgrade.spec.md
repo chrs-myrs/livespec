@@ -1,10 +1,10 @@
 ---
 specifies: prompts/utils/upgrade-methodology.md
-derives_from:
+derives-from:
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: Users cannot safely upgrade methodology, risking manual errors or abandoning updates when LiveSpec evolves
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

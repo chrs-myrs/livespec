@@ -1,7 +1,7 @@
 ---
 criticality: IMPORTANT
 failure_mode: Without dependency tracking, specification relationships become implicit and unverifiable
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
 
@@ -27,7 +27,7 @@ Parent specifications this is based on or extends.
 
 **Example:**
 ```yaml
-derives_from:
+derives-from:
   - PURPOSE.md
   - specs/requirements.spec.md
 ```
@@ -37,7 +37,7 @@ Boundaries and limits this specification must respect.
 
 **Example:**
 ```yaml
-constrained_by:
+governed-by:
   - specs/constraints.spec.md
   - .livespec/standard/metaspecs/behavior.spec.md
 ```

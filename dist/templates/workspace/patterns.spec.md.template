@@ -6,9 +6,34 @@ failure_mode: Inconsistent patterns make codebase harder to understand and maint
 # [PROJECT_NAME] Development Patterns
 
 ## Requirements
-- [Describe coding and specification patterns for this project. Examples: File naming conventions (kebab-case, .spec.md extension), code organization patterns (feature folders, separation of concerns), documentation standards (inline comments, README structure), specification format (all specs follow MSL), testing patterns (unit, integration, e2e structure)]
+- [Describe coding and specification patterns for this project]
+
+**Recommended patterns to consider:**
+
+**Specification Patterns:**
+- All .spec.md files follow MSL format (YAML frontmatter, Requirements section)
+- Apply MSL minimalism (see .livespec/guides/msl-minimalism.md for decision framework)
+- Each spec declares dependencies via frontmatter (derives_from, constrained_by, satisfies)
+- One spec per behavior or component
+
+**Naming Conventions:**
+- Specs: descriptive-name.spec.md
+- [Code files: your-convention]
+- [Test files: your-convention]
+
+**Code Organization:**
+- [Feature folders, separation of concerns]
+- [Module structure]
+- [Import conventions]
+
+**Testing Patterns:**
+- [Unit, integration, e2e structure]
+- Tests reference spec requirements (REQ-XXX)
+- For TDD guidance: See .livespec/guides/tdd.md (optional)
+
+**Validation:**
   - [File naming follows documented convention]
   - [Code structure adheres to patterns]
   - [Documentation matches standards]
-  - [All specs follow specified format]
+  - [All specs follow MSL format]
   - [Tests follow established patterns]

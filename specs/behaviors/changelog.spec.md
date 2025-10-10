@@ -1,7 +1,7 @@
 ---
 criticality: IMPORTANT
 failure_mode: Without structured changelog, users with customizations cannot understand version changes or make informed merge decisions during upgrades, leading to broken custom prompts or missed critical improvements
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/base.spec.md
   - .livespec/standard/metaspecs/behavior.spec.md
 notes: |

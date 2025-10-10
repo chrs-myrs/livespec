@@ -18,11 +18,188 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### MSL Frontmatter Alignment (v2.2.0)
+
+LiveSpec frontmatter field names changed to align with MSL (Markdown Specification Language) core conventions for better semantic precision and ecosystem interoperability.
+
 ### Added
+
+- **Documentation**: `docs/msl-alignment-migration.md` - Migration guide
+  - *Purpose*: Guide users through frontmatter field migration
+  - *Impact*: None (documentation only)
+  - *Contents*: Automated migration script, field semantics, migration steps
 
 ### Changed
 
+- **⚠️ BREAKING**: Frontmatter field names aligned with MSL (CRITICAL IMPACT)
+  - *Why*: Align with MSL ecosystem for semantic precision and interoperability
+  - *Impact*: CRITICAL - All projects must migrate frontmatter fields
+  - *Changes*:
+    - `spec:` → `implements:` (semantically precise: "this file implements that specification")
+    - `constrained_by:` → `governed-by:` (MSL standard term for metaspec governance)
+    - `derives_from:` → `derives-from:` (hyphen consistency with MSL conventions)
+    - `specifies:` unchanged (already aligned with MSL)
+  - *Benefits*:
+    - Semantic clarity: `implements:` more precise than `spec:`
+    - MSL ecosystem alignment: unified tooling across MSL and LiveSpec
+    - Hyphen consistency: matches MSL convention
+    - AI predictability: agents trained on MSL understand field meanings
+  - *Migration*: Use script in `docs/msl-alignment-migration.md` (simple sed commands)
+  - *Files affected*: All prompts (~21), all specs (~45), all templates (~8)
+
+- **⚠️ Documentation**: AGENTS.md and dist/AGENTS.md - MSL Alignment section added (HIGH IMPACT)
+  - *Why*: Document MSL frontmatter conventions for AI agents
+  - *Impact*: HIGH - AI agents must understand new field names
+  - *Changes*:
+    - New "MSL Alignment (v2.2+)" section
+    - Field semantics reference
+    - Migration guidance link
+  - *Migration*: Regenerate AGENTS.md after field migration
+
 ### Fixed
+
+---
+
+## [2.3.0] - 2025-10-10
+
+### Mission Folder Release
+
+This release restructures top-level specifications into a dedicated `specs/mission/` folder, providing clearer hierarchy and better organization.
+
+**Breaking changes:**
+- Folder structure change affects all existing projects
+- Metaspecs renamed/relocated
+- Phase 0 prompts restructured
+
+### Added
+
+- **⚠️ Metaspec**: `standard/metaspecs/purpose.spec.md` - Rules for PURPOSE.md (HIGH IMPACT)
+  - *Purpose*: Define requirements for project vision documents
+  - *Impact*: HIGH - New concept in specification hierarchy
+  - *Changes*: PURPOSE.md is now explicitly defined (free-form, not MSL spec)
+  - *Location*: Project root (most visible position)
+
+- **⚠️ Prompt**: `prompts/0-define/0c-define-outcomes.md` - Create high-level requirements (HIGH IMPACT)
+  - *Purpose*: Guide creation of specs/mission/outcomes.spec.md
+  - *Impact*: HIGH - New step in Phase 0
+  - *Changes*: Derives outcomes from PURPOSE.md success criteria
+  - *Output*: specs/mission/outcomes.spec.md
+
+- **Template**: `templates/mission/outcomes.spec.md.template` - High-level requirements template
+  - *Impact*: None (new template)
+  - *Purpose*: Starter template for project outcomes
+
+- **Template**: `templates/mission/constraints.spec.md.template` - Hard boundaries template
+  - *Impact*: None (new template)
+  - *Purpose*: Starter template for project constraints
+
+### Changed
+
+- **⚠️ BREAKING**: Folder structure reorganized with specs/mission/ (CRITICAL IMPACT)
+  - *Why*: Clarify top-level project definition vs detailed specifications
+  - *Impact*: CRITICAL - All existing projects must migrate
+  - *Old structure*:
+    ```
+    PURPOSE.md
+    specs/
+    ├── requirements.spec.md
+    ├── constraints.spec.md
+    ├── workspace/
+    ├── strategy/
+    └── behaviors/
+    ```
+  - *New structure*:
+    ```
+    PURPOSE.md
+    specs/
+    ├── mission/            # NEW: Top-level project definition
+    │   ├── outcomes.spec.md   (was requirements.spec.md)
+    │   └── constraints.spec.md
+    ├── workspace/
+    ├── strategy/
+    └── behaviors/
+    ```
+  - *Migration*:
+    1. Create `specs/mission/` directory
+    2. Move `specs/requirements.spec.md` → `specs/mission/outcomes.spec.md`
+    3. Move `specs/constraints.spec.md` → `specs/mission/constraints.spec.md`
+    4. Update all frontmatter references
+  - *Rationale*: Groups "why/what/limits" separately from "how" (strategy/behaviors)
+
+- **⚠️ BREAKING**: Metaspec renamed - requirements → outcomes (HIGH IMPACT)
+  - *Why*: "Outcomes" better conveys "what we achieve" vs detailed requirements
+  - *Impact*: HIGH - File renamed, location changed
+  - *Old*: `standard/metaspecs/requirements.spec.md` at `specs/requirements.spec.md`
+  - *New*: `standard/metaspecs/outcomes.spec.md` at `specs/mission/outcomes.spec.md`
+  - *Changes*: Updated location, clarified high-level nature, improved examples
+  - *Migration*: Update metaspec references in custom prompts
+
+- **⚠️ BREAKING**: Constraints metaspec location updated (HIGH IMPACT)
+  - *Impact*: HIGH - Location changed
+  - *Old*: `specs/constraints.spec.md`
+  - *New*: `specs/mission/constraints.spec.md`
+  - *Changes*: Updated location in metaspec, relationship diagrams
+  - *Migration*: Move constraints.spec.md to mission/ folder
+
+- **⚠️ BREAKING**: Phase 0 prompts restructured (HIGH IMPACT)
+  - *Why*: Align with new mission/ folder structure
+  - *Impact*: HIGH - Prompt numbering changed, PURPOSE.md now explicit
+  - *Changes*:
+    - `0b-define-problem.md` → now creates PURPOSE.md (not specs/problem.md)
+    - `0c-define-outcomes.md` → NEW - creates specs/mission/outcomes.spec.md
+    - `0d-identify-constraints.md` → RENUMBERED from 0c, creates specs/mission/constraints.spec.md
+    - `0e-assess-complexity.md` → RENUMBERED from 0d
+  - *Migration*: Update Phase 0 references in custom workflows
+
+- **Spec**: `specs/behaviors/five-phases.spec.md` - Phase 0 outputs updated
+  - *Impact*: None (LiveSpec's own spec)
+  - *Changes*: Updated Phase 0 outputs to reflect mission/ folder
+
+- **Convention**: `standard/conventions/folder-structure.spec.md` - Added mission/ folder
+  - *Impact*: HIGH (affects all projects)
+  - *Changes*: Documents specs/mission/ structure, updated examples
+
+- **Prompts**: Multiple prompts updated for path changes
+  - *Files*: next-steps.md, analyze-failure.md, 4a-detect-drift.md, 3b-acceptance-review.md
+  - *Impact*: MEDIUM (affects drift detection, validation)
+  - *Changes*: Updated all references to requirements/constraints paths
+
+### Fixed
+
+- Hierarchy confusion between PURPOSE.md, requirements, and constraints now resolved
+- Clear separation between vision (PURPOSE), outcomes (high-level), and constraints (limits)
+- Relationship diagrams updated across all metaspecs for consistency
+
+### Migration Guide
+
+**For existing LiveSpec projects:**
+
+1. **Create mission folder:**
+   ```bash
+   mkdir -p specs/mission
+   ```
+
+2. **Move specification files:**
+   ```bash
+   # If you have requirements.spec.md
+   mv specs/requirements.spec.md specs/mission/outcomes.spec.md
+
+   # If you have constraints.spec.md
+   mv specs/constraints.spec.md specs/mission/constraints.spec.md
+   ```
+
+3. **Update frontmatter dependencies:**
+   - Search for `specs/requirements.spec.md` → replace with `specs/mission/outcomes.spec.md`
+   - Search for `specs/constraints.spec.md` → replace with `specs/mission/constraints.spec.md`
+
+4. **Upgrade LiveSpec methodology:**
+   ```bash
+   # Use upgrade prompt for AI-assisted migration
+   # "Use .livespec/utils/upgrade-methodology.md"
+   ```
+
+**For new projects:**
+- No action needed - Phase 0 prompts create correct structure automatically
 
 ---
 

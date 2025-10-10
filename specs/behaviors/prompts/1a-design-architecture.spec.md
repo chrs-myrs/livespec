@@ -2,7 +2,7 @@
 specifies: prompts/1-design/1a-design-architecture.md
 criticality: CRITICAL
 failure_mode: Implementation lacks architectural guidance
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
@@ -19,7 +19,7 @@ constrained_by:
 
 ## Prompt Outputs
 
-- `specs/architecture.spec.md` or equivalent - System structure and key design decisions
+- `specs/strategy/architecture.spec.md` - System structure and key design decisions
 
 ## Validation
 

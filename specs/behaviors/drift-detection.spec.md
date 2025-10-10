@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without drift detection, specifications become outdated and useless
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

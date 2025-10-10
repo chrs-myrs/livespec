@@ -2,14 +2,14 @@
 applies_to:
   - all_ai_agents
   - livespec_integration
-derives_from:
+derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/workflows.spec.md
 supports:
   - all_development_activities
 criticality: CRITICAL
 failure_mode: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/workspace.spec.md
 ---
 

@@ -1,133 +1,41 @@
 ---
-spec: specs/behaviors/prompts/0d-assess-complexity.spec.md
+implements: specs/behaviors/prompts/0d-assess-complexity.spec.md
+generated: '2025-10-10'
+phase: 0-define
 ---
 
-# Assess Project Complexity
+# Complexity Assessment Prompt
 
-Assess your project's complexity to plan realistic timelines, identify where discovery spikes are needed, and determine appropriate buffer.
+**Purpose**: Evaluate project scope and complexity
 
-## When to Use This
+## Context
 
-**Use when:**
-- Starting a new project (before Phase 1)
-- Uncertain about timeline or approach
-- Project involves AI/ML, integrations, or unknowns
+You're in Phase 0 (DEFINE), establishing the problem space and project boundaries before any design or implementation.
 
-**Skip when:**
-- Simple CRUD app or well-understood project
-- Timeline isn't critical
-- Requirements are clear
+## Task
 
-## Instructions
-
-### 1. Analyze Complexity Factors
-
-**AI/ML Complexity** (0-10 score):
-- Non-deterministic behavior? (LLMs, agents)
-- Natural language processing?
-- Multi-step reasoning or tool use?
-- Learning/adaptation required?
-
-**Integration Complexity** (0-10 score):
-- Multiple external systems (3+)?
-- Real-time constraints?
-- State synchronization needed?
-- Complex authentication?
-
-**Discovery Needs** (0-10 score):
-- UX patterns undefined?
-- Technical approach uncertain?
-- Performance characteristics unknown?
-- Multiple viable approaches?
-
-**Requirements Volatility** (0-10 score):
-- Stakeholder alignment pending?
-- Market conditions changing?
-- Success metrics undefined?
-- Technology decisions unmade?
-
-### 2. Calculate Overall Complexity
-
-```
-Weighted Score = (AI/ML × 0.3) + (Integration × 0.25) + (Discovery × 0.25) + (Volatility × 0.2)
-
-0-2.5: Low - Traditional development
-2.5-5.0: Medium - Some iteration expected
-5.0-7.5: High - Significant exploration needed
-7.5-10: Extreme - Highly exploratory approach
-```
-
-### 3. Determine Timeline Buffer
-
-| Complexity | Recommended Buffer | Iteration Cycles |
-|------------|-------------------|------------------|
-| Low | +20% | 2-3 cycles |
-| Medium | +35% | 3-4 cycles |
-| High | +50% | 4-6 cycles |
-| Extreme | +70% | 6+ cycles |
-
-### 4. Identify Discovery Spikes
-
-List specific unknowns requiring time-boxed exploration:
-
-**Example Spikes:**
-- "How does GPT-4 handle our specific domain?"
-- "Can our architecture meet 100ms latency?"
-- "What UX pattern works for async agents?"
+Follow specification requirements.
 
 ## Output
 
-Create `specs/complexity-assessment.md`:
+Create or update specification files in specs/ directory with clear, testable requirements.
 
-```markdown
-# Complexity Assessment
+## Validation
 
-**Date**: [YYYY-MM-DD]
-**Overall Complexity**: [Low/Medium/High/Extreme]
-**Complexity Score**: [X.X/10]
+- Prompt correctly calculates weighted complexity score
+- Buffer recommendations align with complexity level
+- Discovery spikes identified for high-uncertainty areas
+- Output enables realistic project planning
 
-## Factor Scores
+## Success Criteria
 
-- **AI/ML Complexity**: [X/10] - [Why]
-- **Integration Complexity**: [X/10] - [Why]
-- **Discovery Needs**: [X/10] - [Why]
-- **Requirements Volatility**: [X/10] - [Why]
+**This prompt succeeds when:**
+- All requirements from spec are satisfied
+- Output is actionable and immediately usable
+- No ambiguity in what needs to be done
+- Clear path from current state to desired state
 
-## Timeline Recommendations
+---
 
-- **Base Estimate**: [X weeks/months]
-- **Recommended Buffer**: [+X%]
-- **Total Timeline**: [X weeks/months]
-- **Iteration Cycles**: [X cycles]
-
-## Discovery Spikes Needed
-
-1. **[Spike Name]**: [What to explore] (Duration: X days)
-   - Key question: [What must be answered]
-   - Success criteria: [How we'll know we're done]
-
-2. **[Spike Name]**: [What to explore] (Duration: X days)
-   - Key question: [What must be answered]
-   - Success criteria: [How we'll know we're done]
-
-## Risks
-
-**Highest Risks:**
-1. [Risk and mitigation]
-2. [Risk and mitigation]
-
-## Process Adaptations
-
-- [ ] Use iterative specification updates
-- [ ] Plan for spec evolution via Phase 4
-- [ ] Budget time for exploration spikes
-- [ ] Add reality checkpoints (use 4a-detect-drift quarterly)
-```
-
-## Next Steps
-
-- If **Low complexity**: Proceed to Phase 1 (design-architecture)
-- If **Medium+**: Run discovery spikes first, then Phase 1
-- If **High+**: Consider using `.livespec/utils/run-spike.md` for each unknown
-
-Remember: Better to overestimate complexity than underestimate it.
+**Criticality**: IMPORTANT
+**Failure Mode**: Projects launched without realistic timeline expectations, leading to missed deadlines and poor planning

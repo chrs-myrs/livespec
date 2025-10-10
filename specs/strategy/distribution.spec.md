@@ -1,9 +1,9 @@
 ---
-derives_from:
-  - specs/requirements.spec.md (Minimal Maintenance, Universal Applicability)
+derives-from:
+  - specs/mission/outcomes.spec.md (Minimal Maintenance, Universal Applicability)
   - specs/workspace/workflows.spec.md (Release process)
-constrained_by:
-  - specs/constraints.spec.md (Manual Adoption, No Framework Lock-in)
+governed-by:
+  - specs/mission/constraints.spec.md (Manual Adoption, No Framework Lock-in)
   - .livespec/standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without clear distribution strategy, users cannot adopt LiveSpec reliably and upgrades become chaotic

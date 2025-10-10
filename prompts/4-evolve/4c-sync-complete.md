@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/4c-sync-complete.spec.md
+implements: specs/behaviors/prompts/4c-sync-complete.spec.md
 ---
 
 # 4c: Synchronisation Complete

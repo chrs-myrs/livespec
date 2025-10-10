@@ -1,10 +1,10 @@
 ---
 criticality: CRITICAL
 failure_mode: Without effective documentation, users cannot adopt LiveSpec and agents cannot assist effectively
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 satisfies:
-  - specs/requirements.spec.md (voluntary adoption, AI agent support)
+  - specs/mission/outcomes.spec.md (voluntary adoption, AI agent support)
 ---
 
 # Documentation Requirements

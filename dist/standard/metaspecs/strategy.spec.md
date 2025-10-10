@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without strategy spec requirements, technical decisions scatter across behavior specs or mix with portable workspace methodology
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
 

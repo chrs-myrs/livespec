@@ -6,7 +6,29 @@ failure_mode: Without governance principles, development becomes inconsistent an
 # [PROJECT_NAME] Development Constitution
 
 ## Requirements
-- [Describe 3-5 core development principles for this project as main requirement. Examples: Follow MSL minimalism, maintain bidirectional sync between specs and code, prioritize simplicity over features, test-driven development, documentation evolves with code]
+- [Describe 3-5 core development principles for this project in priority order]
+
+**Recommended principles to consider:**
+
+1. **Spec-First Development**: All deliverables require specification before implementation
+   - AI agents check for spec existence
+   - Even "obvious" deliverables need specs (README, CHANGELOG, configs)
+   - Prevents drift and ensures requirements captured
+
+2. **MSL Minimalism**: Specifications justify their existence
+   - Before adding requirements, use 4 Essential Questions (see .livespec/guides/msl-minimalism.md)
+   - Start minimal, trust implementers
+   - Focus on WHAT, not HOW
+
+3. **[Your Project-Specific Principle]**: [Description]
+   - [How to apply]
+   - [Observable behaviors]
+
+**For MSL decision framework:** See .livespec/guides/msl-minimalism.md
+**For AI commit guidance:** See .livespec/guides/ai-commits.md (optional)
+**For TDD guidance:** See .livespec/guides/tdd.md (optional)
+
+**Validation:**
   - [How to verify each principle is followed]
   - [Observable behaviors that demonstrate adherence]
   - [Metrics or indicators of compliance]

@@ -1,8 +1,8 @@
 ---
-derives_from:
-  - specs/requirements.spec.md (AI Agent Support, Voluntary Adoption)
-constrained_by:
-  - specs/constraints.spec.md (Agent Agnostic, No Framework Lock-in, Manual Adoption)
+derives-from:
+  - specs/mission/outcomes.spec.md (AI Agent Support, Voluntary Adoption)
+governed-by:
+  - specs/mission/constraints.spec.md (Agent Agnostic, No Framework Lock-in, Manual Adoption)
   - .livespec/standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without effective AI discoverability, agents cannot assist users and voluntary adoption fails
@@ -109,7 +109,7 @@ failure_mode: Without effective AI discoverability, agents cannot assist users a
 **Generation workflow:**
 - Triggered by workspace spec changes, PURPOSE.md updates, or version upgrades
 - Prompt: prompts/4-evolve/4d-regenerate-agents.md
-- Sources: PURPOSE.md, specs/workspace/, specs/requirements.spec.md, specs/constraints.spec.md
+- Sources: PURPOSE.md, specs/workspace/, specs/mission/outcomes.spec.md, specs/mission/constraints.spec.md
 - Output: AGENTS.md with frontmatter (generated timestamp, version, spec reference)
 - Validation: file size check, section completeness, manual review
 
@@ -149,8 +149,9 @@ specs/
 ├── contracts/         # "What are the API boundaries?"
 │   └── api/v1/*.yaml
 │
-├── requirements.spec.md  # "What must be achieved?"
-└── constraints.spec.md   # "What are the hard limits?"
+└── mission/           # "What are the high-level goals?"
+    ├── outcomes.spec.md    # "What must be achieved?"
+    └── constraints.spec.md # "What are the hard limits?"
 ```
 
 **Agent benefits:**
@@ -174,7 +175,7 @@ specs/
 **Pattern:**
 ```yaml
 ---
-spec: specs/behaviors/prompts/4a-detect-drift.spec.md
+implements: specs/behaviors/prompts/4a-detect-drift.spec.md
 ---
 ```
 

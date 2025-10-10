@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/4d-regenerate-agents.spec.md
+implements: specs/behaviors/prompts/4d-regenerate-agents.spec.md
 ---
 
 # 4d: Regenerate Agent Configuration

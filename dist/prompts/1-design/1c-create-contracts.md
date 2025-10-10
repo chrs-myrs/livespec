@@ -1,134 +1,41 @@
 ---
-spec: specs/behaviors/prompts/1c-create-contracts.spec.md
+implements: specs/behaviors/prompts/1c-create-contracts.spec.md
+generated: '2025-10-10'
+phase: 1-design
 ---
 
-# 1c: Create Contracts
+# Prompt Behavior: Create Contracts
 
-**Phase**: DESIGN
-**Purpose**: Define API and data contracts for external interfaces
-**Context**: Contracts enable integration and testing
+**Purpose**: Define interfaces and data contracts
+
+## Context
+
+You're in Phase 1 (DESIGN), creating specifications that define what the system should do before any implementation begins.
 
 ## Task
 
-Create contracts in `specs/contracts/` for all external interfaces.
+Follow specification requirements.
 
-## When to Create Contracts
+## Output
 
-Create contracts if your system has:
-- **APIs** that other systems call
-- **Data formats** that must be validated
-- **Events** that are published/consumed
-- **Integration points** with external systems
+Generate behavior or contract specifications following MSL format.
 
-If your system has no external interfaces, skip this step.
+## Validation
 
-## Types of Contracts
+- Contracts created for all external interfaces
+- Uses standard formats (OpenAPI 3.0, JSON Schema draft-07, AsyncAPI 2.0)
+- Contracts are machine-readable and validatable
+- No internal implementation contracts created
 
-### API Contracts (`specs/contracts/api/`)
-Use OpenAPI 3.0 specification for REST APIs:
+## Success Criteria
 
-```yaml
-# specs/contracts/api/users-api.yaml
-openapi: 3.0.0
-info:
-  title: Users API
-  version: 1.0.0
-paths:
-  /users:
-    get:
-      summary: List users
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-```
+**This prompt succeeds when:**
+- All requirements from spec are satisfied
+- Output is actionable and immediately usable
+- No ambiguity in what needs to be done
+- Clear path from current state to desired state
 
-### Data Contracts (`specs/contracts/data/`)
-Use JSON Schema for data validation:
+---
 
-```json
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "User",
-  "type": "object",
-  "required": ["id", "email"],
-  "properties": {
-    "id": {"type": "string", "format": "uuid"},
-    "email": {"type": "string", "format": "email"}
-  }
-}
-```
-
-### Event Contracts (`specs/contracts/events/`)
-Use AsyncAPI for event-driven systems:
-
-```yaml
-# specs/contracts/events/user-events.yaml
-asyncapi: 2.0.0
-info:
-  title: User Events
-  version: 1.0.0
-channels:
-  user.created:
-    publish:
-      message:
-        payload:
-          type: object
-          properties:
-            userId: {type: string}
-            email: {type: string}
-```
-
-## Contract Benefits
-
-**For Testing:**
-- Use tools like `oasdiff` to detect breaking changes
-- Use contract testing (Pact) to validate integrations
-- Generate mock servers from contracts
-
-**For AI Agents:**
-- Contracts are machine-readable
-- Agents can validate implementations
-- Drift detection works on contracts
-
-**For Humans:**
-- Clear interface documentation
-- Version control for APIs
-- Change management
-
-## Guidelines
-
-**Only critical interfaces:**
-- External APIs (yes)
-- Internal helper functions (no)
-- Public data formats (yes)
-- Private data structures (no)
-
-**Use standard formats:**
-- OpenAPI for REST APIs
-- JSON Schema for data
-- AsyncAPI for events
-- GraphQL SDL for GraphQL
-
-**Version your contracts:**
-- Include version numbers
-- Document breaking vs non-breaking changes
-- Plan migration paths
-
-## Exit Criteria
-
-- [ ] All external interfaces have contracts
-- [ ] Contracts use standard formats (OpenAPI, JSON Schema, etc.)
-- [ ] Contracts are machine-readable
-- [ ] No internal implementation contracts (over-specification)
-
-## Phase Complete
-
-When architecture, behaviors, and contracts are defined:
-- ✅ **Phase 1: DESIGN is complete**
-- → Proceed to **Phase 2: BUILD** (`prompts/2-build/`)
+**Criticality**: IMPORTANT
+**Failure Mode**: External interfaces lack formal specifications

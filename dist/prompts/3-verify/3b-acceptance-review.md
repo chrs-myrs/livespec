@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/3b-acceptance-review.spec.md
+implements: specs/behaviors/prompts/3b-acceptance-review.spec.md
 ---
 
 # 3b: Acceptance Review
@@ -16,11 +16,11 @@ Present the system to stakeholders for acceptance review using specifications as
 
 Prepare a review package with:
 
-### 1. Problem Statement
-From `specs/problem.md`:
+### 1. Purpose and Vision
+From `PURPOSE.md`:
+- Why does this project exist?
 - What problem does this solve?
-- Who experiences this problem?
-- How is success measured?
+- What does success look like?
 
 ### 2. What Was Delivered
 List all implemented behaviors from `specs/behaviors/`:

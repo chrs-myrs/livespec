@@ -1,9 +1,9 @@
 ---
-derives_from:
-  - specs/requirements.spec.md (Voluntary Adoption, Minimal Maintenance, Bidirectional Synchronization)
+derives-from:
+  - specs/mission/outcomes.spec.md (Voluntary Adoption, Minimal Maintenance, Bidirectional Synchronization)
   - specs/behaviors/five-phases.spec.md (phase definitions)
-constrained_by:
-  - specs/constraints.spec.md (Agent Agnostic, Manual Adoption)
+governed-by:
+  - specs/mission/constraints.spec.md (Agent Agnostic, Manual Adoption)
   - .livespec/standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without clear workflow strategy, users either follow rigid waterfall (inflexible) or chaotic iteration (no structure), both defeating voluntary adoption

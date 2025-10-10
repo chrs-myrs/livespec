@@ -1,9 +1,9 @@
 ---
-derives_from:
+derives-from:
   - PURPOSE.md
-  - specs/requirements.spec.md
-constrained_by:
-  - specs/constraints.spec.md
+  - specs/mission/outcomes.spec.md
+governed-by:
+  - specs/mission/constraints.spec.md
   - .livespec/standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without clear architecture, LiveSpec becomes incoherent collection of files
@@ -77,9 +77,9 @@ Technical approach and architectural decisions:
 - distribution.spec.md - Packaging and versioning strategy
 - phase-workflow.spec.md - Hybrid workflow strategy (waterfall + iterative)
 
-### specs/
-Root-level product specifications:
-- requirements.spec.md - High-level requirements
+### specs/mission/
+Top-level product definition:
+- outcomes.spec.md - High-level requirements
 - constraints.spec.md - Hard boundaries
 
 ### .livespec/

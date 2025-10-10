@@ -2,7 +2,7 @@
 specifies: prompts/0-define/0a-setup-workspace.md
 criticality: CRITICAL
 failure_mode: Users cannot create workspace specifications without guidance
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

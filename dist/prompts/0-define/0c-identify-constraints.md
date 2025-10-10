@@ -1,98 +1,43 @@
 ---
-spec: specs/behaviors/prompts/0c-identify-constraints.spec.md
+implements: specs/behaviors/prompts/0c-identify-constraints.spec.md
+generated: '2025-10-10'
+phase: 0-define
 ---
 
-# 0c: Identify Constraints
+# Prompt Behavior: Identify Constraints
 
-**Phase**: DEFINE
-**Purpose**: Document hard boundaries that cannot be violated
-**Context**: See `specs/constraints.spec.md` (LiveSpec's own constraints) as example
+**Purpose**: Define hard boundaries and limitations
+
+## Context
+
+You're in Phase 0 (DEFINE), establishing the problem space and project boundaries before any design or implementation.
 
 ## Task
 
-Create `specs/constraints.md` that defines non-negotiable boundaries for this project.
+1. Prompt guides AI agent to document hard constraints (technical, business, domain) that cannot be negotiated, distinguishing real constraints from preferences and goals.
 
-## What Are Constraints?
+## Output
 
-Constraints are hard limits that:
-- **Cannot be negotiated** (not preferences or goals)
-- **Would break the system if violated** (CRITICAL failures)
-- **Shape all design decisions** (architectural implications)
+Create or update specification files in specs/ directory with clear, testable requirements.
 
-## Types of Constraints
+## Validation
 
-### Technical Constraints
-- Platform requirements (must run on X)
-- Performance limits (must respond in Y ms)
-- Compatibility needs (must work with Z)
-- Resource limits (memory, bandwidth, cost)
+- Prompt produces constraints.spec.md file
+- All constraints follow MSL format
+- Each constraint has concrete validation criteria
+- Constraints are real boundaries (not goals or preferences)
+- No design decisions disguised as constraints
+- Each constraint would cause project failure if violated
 
-### Business Constraints
-- Regulatory compliance (must follow X regulations)
-- Budget limits (cannot exceed Y)
-- Timeline requirements (must launch by Z)
-- Team constraints (skills, size, availability)
+## Success Criteria
 
-### Domain Constraints
-- Industry standards (must implement X protocol)
-- User constraints (accessibility, devices)
-- Integration requirements (must connect to Y)
+**This prompt succeeds when:**
+- All requirements from spec are satisfied
+- Output is actionable and immediately usable
+- No ambiguity in what needs to be done
+- Clear path from current state to desired state
 
-## MSL Format
-
-Each constraint gets its own section:
-
-```markdown
----
-criticality: CRITICAL
-failure_mode: Violating these constraints makes the project fail or unusable
 ---
 
-# Project Constraints
-
-## Requirements
-- [!] [Constraint name]: [One sentence stating the constraint]
-  - [How to verify compliance]
-- [!] [Another constraint]: [One sentence stating the constraint]
-  - [How to verify compliance]
-```
-
-## Guidelines
-
-**Only include real constraints:**
-- ❌ "Should be fast" → Too vague
-- ✅ "Must respond within 200ms for 95th percentile" → Testable
-
-**Focus on boundaries:**
-- ❌ "Use microservices architecture" → Design decision, not constraint
-- ✅ "Must integrate with existing PostgreSQL database" → Real constraint
-
-**Make them testable:**
-- Every constraint must have objective validation
-- "Cannot exceed" requires specific numbers
-- "Must support" requires specific criteria
-
-## Common Mistakes to Avoid
-
-❌ **Goals disguised as constraints**: "Should be user-friendly"
-❌ **Preferences**: "Python is preferred language"
-❌ **Nice-to-haves**: "Would be good if it scaled"
-❌ **Implementation details**: "Must use REST API"
-
-✅ **Real constraints**: "Must handle 10K concurrent users"
-✅ **Hard boundaries**: "Cannot store PII data"
-✅ **Non-negotiable limits**: "Budget cannot exceed £50K"
-
-## Exit Criteria
-
-- [ ] specs/constraints.md exists
-- [ ] Every constraint passes the "would project fail?" test
-- [ ] All constraints are testable/verifiable
-- [ ] Follows MSL format exactly
-- [ ] No design decisions disguised as constraints
-
-## Phase Complete
-
-When workspace, problem, and constraints are defined:
-- ✅ **Phase 0: DEFINE is complete**
-- → Proceed to **Phase 1: DESIGN** (`prompts/1-design/`)
+**Criticality**: CRITICAL
+**Failure Mode**: Projects violate boundaries that should have been identified upfront

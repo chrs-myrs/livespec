@@ -1,96 +1,42 @@
 ---
-spec: specs/behaviors/prompts/1b-define-behaviors.spec.md
+implements: specs/behaviors/prompts/1b-define-behaviors.spec.md
+generated: '2025-10-10'
+phase: 1-design
 ---
 
-# 1b: Define Behaviors
+# Prompt Behavior: Define Behaviors
 
-**Phase**: DESIGN
 **Purpose**: Specify observable system behaviors
-**Context**: See `specs/behaviors/prompts/` (LiveSpec's own prompt behaviors) as examples
+
+## Context
+
+You're in Phase 1 (DESIGN), creating specifications that define what the system should do before any implementation begins.
 
 ## Task
 
-Create behavior specifications in `specs/behaviors/` that define what the system does.
+1. Prompt guides AI agent to create behavior specifications for all major system capabilities, focusing on observable outcomes not implementation.
 
-## What Are Behaviors?
+## Output
 
-Behaviors are **observable outcomes** that:
-- Users can see or experience
-- Can be tested or validated
-- Don't specify implementation
-- Describe "what" not "how"
+Generate behavior or contract specifications following MSL format.
 
-## Creating Behavior Specifications
+## Validation
 
-For each major feature or capability, create a spec file:
+- Multiple behavior specs created in specs/behaviors/
+- Each follows MSL format
+- Behaviors are observable and testable
+- No implementation details included
+- Behaviors cover all aspects of problem statement
 
-`specs/behaviors/[behavior-name].spec.md`:
+## Success Criteria
 
-```markdown
+**This prompt succeeds when:**
+- All requirements from spec are satisfied
+- Output is actionable and immediately usable
+- No ambiguity in what needs to be done
+- Clear path from current state to desired state
+
 ---
-criticality: CRITICAL | IMPORTANT
-failure_mode: [What breaks without this behavior]
----
 
-# [Behavior Name]
-
-## Requirements
-- [!] [What the system does - observable behavior]
-  - [How to verify this behavior]
-  - [Observable criteria]
-  - [Test approach]
-```
-
-## Examples
-
-**Good Behaviors (Observable):**
-- "System authenticates users via email/password"
-- "API returns JSON responses with 200 status for success"
-- "User can export data as CSV file"
-- "Dashboard updates within 2 seconds of data change"
-
-**Bad Behaviors (Implementation):**
-- ❌ "Use JWT tokens for authentication" → Implementation detail
-- ❌ "Store data in PostgreSQL" → Implementation choice
-- ❌ "Use React for frontend" → Technology decision
-
-## Organization
-
-Group related behaviors by feature or component:
-
-```
-specs/behaviors/
-├── authentication.spec.md       # Auth behaviors
-├── data-export.spec.md          # Export behaviors
-├── dashboard-updates.spec.md    # UI behaviors
-└── api-responses.spec.md        # API behaviors
-```
-
-## Guidelines
-
-**Keep each behavior focused:**
-- One behavior per file
-- Single responsibility
-- Clear validation criteria
-
-**Make them testable:**
-- Every behavior must be verifiable
-- Include concrete validation criteria
-- Describe how to test
-
-**Stay minimal:**
-- Only CRITICAL or IMPORTANT behaviors
-- No "nice to have" features
-- No implementation details
-
-## Exit Criteria
-
-- [ ] specs/behaviors/ contains all key system behaviors
-- [ ] Each behavior is observable and testable
-- [ ] All behaviors follow MSL format
-- [ ] No implementation details in behavior specs
-- [ ] Behaviors cover all aspects of problem statement
-
-## Next Step
-
-Once behaviors are defined, proceed to `1c-create-contracts.md`
+**Criticality**: CRITICAL
+**Failure Mode**: Implementation lacks observable behavior specifications

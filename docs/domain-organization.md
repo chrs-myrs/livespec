@@ -202,7 +202,7 @@ Create domain-specific base specs for consistency within a domain:
 ---
 criticality: CRITICAL
 failure_mode: Without policy base requirements, policies lack consistency
-constrained_by:
+governed-by:
   - ../../../../.livespec/standard/metaspecs/base.spec.md
   - ../../../../.livespec/standard/metaspecs/behavior.spec.md
 ---
@@ -236,7 +236,7 @@ All policies must include (in addition to base.spec.md requirements):
 ---
 criticality: CRITICAL
 failure_mode: Weak access control enables unauthorized access
-constrained_by:
+governed-by:
   - _base-policy.spec.md
 compliance_mapping:
   - ISO 27001: A.9.2
@@ -267,7 +267,7 @@ compliance_mapping:
 ---
 criticality: IMPORTANT
 failure_mode: Without runbook base requirements, runbooks lack consistency
-constrained_by:
+governed-by:
   - ../../../../.livespec/standard/metaspecs/base.spec.md
   - ../../../../.livespec/standard/metaspecs/contract.spec.md
 ---

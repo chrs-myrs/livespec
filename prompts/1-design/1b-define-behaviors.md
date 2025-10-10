@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/1b-define-behaviors.spec.md
+implements: specs/behaviors/prompts/1b-define-behaviors.spec.md
 ---
 
 # 1b: Define Behaviors

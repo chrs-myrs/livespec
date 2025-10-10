@@ -13,9 +13,9 @@ LiveSpec specifications form a dependency graph, not a hierarchy:
 ```
 PURPOSE.md (Why we exist)
   ↓ defines scope
-  ├─→ specs/requirements.spec.md (What we must achieve - HLR)
+  ├─→ specs/mission/outcomes.spec.md (What we must achieve - HLR)
   │     ↓ constrains solution
-  │     ├─→ specs/constraints.spec.md (Critical boundaries)
+  │     ├─→ specs/mission/constraints.spec.md (Critical boundaries)
   │     │     ↓ limits options
   │     │     └─→ specs/strategy/architecture.spec.md (How we solve it)
   │     │           ↓ defines approach
@@ -30,7 +30,7 @@ PURPOSE.md (Why we exist)
   │     │
   │     └─→ specs/strategy/architecture.spec.md (derives from problem)
   │
-  └─→ specs/constraints.spec.md (derives from purpose)
+  └─→ specs/mission/constraints.spec.md (derives from purpose)
 
 Orthogonal (applies to all):
   specs/workspace/
@@ -49,14 +49,14 @@ Orthogonal (applies to all):
 - **Derives from**: Nothing (root)
 - **Constrains**: All other specs
 
-**specs/requirements.spec.md**
+**specs/mission/outcomes.spec.md**
 - **Type**: High-Level Requirements (MSL spec)
 - **Purpose**: What LiveSpec must achieve (strategic objectives)
 - **Derives from**: PURPOSE.md
 - **Constrains**: Solution space
 - **Changeability**: Rare (fundamental requirements)
 
-**specs/constraints.spec.md**
+**specs/mission/constraints.spec.md**
 - **Type**: Critical boundaries (MSL spec)
 - **Purpose**: Non-negotiable limits
 - **Derives from**: PURPOSE.md, requirements.spec.md
@@ -119,10 +119,10 @@ All specifications declare dependencies via YAML frontmatter:
 
 ```yaml
 ---
-derives_from:
+derives-from:
   - parent-spec-1.md
   - parent-spec-2.md
-constrained_by:
+governed-by:
   - constraint-spec.md
 satisfies:
   - requirement-spec.md
@@ -163,7 +163,7 @@ grep -r "derives_from.*PURPOSE" specs/
 - Do constraints conflict with new direction?
 - Is architecture still aligned?
 
-### When specs/requirements.spec.md Changes
+### When specs/mission/outcomes.spec.md Changes
 
 **Affected specs:**
 ```bash
@@ -180,7 +180,7 @@ grep -r "derives_from.*requirements.spec.md\|satisfies.*requirements.spec.md" sp
 - Do behaviors map to new requirements?
 - Are constraints still relevant?
 
-### When specs/constraints.spec.md Changes
+### When specs/mission/constraints.spec.md Changes
 
 **Affected specs:**
 ```bash
@@ -400,18 +400,18 @@ done
 ### Foundation
 
 ```yaml
-PURPOSE.md → (defines) → specs/requirements.spec.md
-PURPOSE.md → (defines) → specs/constraints.spec.md
-specs/requirements.spec.md → (constrains) → specs/strategy/architecture.spec.md
-specs/constraints.spec.md → (limits) → specs/strategy/architecture.spec.md
+PURPOSE.md → (defines) → specs/mission/outcomes.spec.md
+PURPOSE.md → (defines) → specs/mission/constraints.spec.md
+specs/mission/outcomes.spec.md → (constrains) → specs/strategy/architecture.spec.md
+specs/mission/constraints.spec.md → (limits) → specs/strategy/architecture.spec.md
 ```
 
 ### Approach
 
 ```yaml
 specs/strategy/architecture.spec.md:
-  derives_from: [PURPOSE.md, specs/requirements.spec.md]
-  constrained_by: [specs/constraints.spec.md]
+  derives_from: [PURPOSE.md, specs/mission/outcomes.spec.md]
+  constrained_by: [specs/mission/constraints.spec.md]
   enables: [specs/behaviors/prompts/*, specs/behaviors/*]
 ```
 
@@ -424,8 +424,8 @@ specs/behaviors/prompts/*.spec.md:
 
 specs/behaviors/* (when created):
   derives_from: [specs/strategy/architecture.spec.md]
-  satisfies: [specs/requirements.spec.md]
-  constrained_by: [specs/constraints.spec.md]
+  satisfies: [specs/mission/outcomes.spec.md]
+  constrained_by: [specs/mission/constraints.spec.md]
 ```
 
 ### Process

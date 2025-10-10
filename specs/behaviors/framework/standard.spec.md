@@ -1,10 +1,10 @@
 ---
 criticality: CRITICAL
 failure_mode: Without documented framework structure, users cannot understand what LiveSpec provides or how to use it correctly
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 satisfies:
-  - specs/requirements.spec.md
+  - specs/mission/outcomes.spec.md
 ---
 
 # LiveSpec Standard Framework

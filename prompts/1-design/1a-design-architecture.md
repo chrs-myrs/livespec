@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/1a-design-architecture.spec.md
+implements: specs/behaviors/prompts/1a-design-architecture.spec.md
 ---
 
 # 1a: Design Architecture

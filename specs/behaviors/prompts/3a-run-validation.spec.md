@@ -2,7 +2,7 @@
 specifies: prompts/3-verify/3a-run-validation.md
 criticality: CRITICAL
 failure_mode: Cannot verify specifications are met
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 ---
 

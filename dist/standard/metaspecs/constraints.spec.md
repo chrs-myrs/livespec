@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Without constraint spec rules, hard boundaries become vague requirements or mix with preferences
-constrained_by:
+governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
 
@@ -10,7 +10,7 @@ constrained_by:
 ## Requirements
 - [!] Constraints specification defines hard boundaries that solution must respect (non-negotiable limits).
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
-  - Spec located at `specs/constraints.spec.md` (root specs folder)
+  - Spec located at `specs/mission/constraints.spec.md`
   - Each constraint is a hard boundary (violating it = project fails)
   - Each constraint is testable and measurable
   - Constraints do NOT include preferences or "nice-to-haves"
@@ -46,9 +46,9 @@ constrained_by:
 ```
 PURPOSE.md + External factors
     ↓ identifies
-constraints.spec.md (hard boundaries)
+specs/mission/constraints.spec.md (hard boundaries)
     ↓ constrains
-strategy/architecture.spec.md (must respect constraints)
+specs/strategy/architecture.spec.md (must respect constraints)
 ```
 
-Constraints spec goes in target project's `specs/` root folder.
+Constraints spec goes in target project's `specs/mission/` folder.

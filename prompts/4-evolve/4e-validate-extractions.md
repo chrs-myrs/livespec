@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/4e-validate-extractions.spec.md
+implements: specs/behaviors/prompts/4e-validate-extractions.spec.md
 ---
 
 # 4e: Validate Extracted Specifications
@@ -82,7 +82,7 @@ extraction_reason: "..."
 2. Add standard frontmatter:
 ```yaml
 # ADD standard dependencies:
-derives_from:
+derives-from:
   - specs/strategy/architecture.spec.md
 satisfies:
   - specs/requirements.spec.md
@@ -163,11 +163,11 @@ After validation, ensure spec properly declares:
 
 ```yaml
 ---
-derives_from:
+derives-from:
   - specs/strategy/architecture.spec.md  # Where design decision lives
 satisfies:
   - specs/requirements.spec.md  # Which requirement this fulfills
-constrained_by:
+governed-by:
   - specs/constraints.spec.md  # Boundaries it must respect
 ---
 ```

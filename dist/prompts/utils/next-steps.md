@@ -1,5 +1,5 @@
 ---
-spec: specs/behaviors/prompts/utils-next-steps.spec.md
+implements: specs/behaviors/prompts/next-steps.spec.md
 ---
 
 # Workflow Orchestrator - What To Do Next
@@ -26,8 +26,8 @@ Analyzes your project state and recommends next actions. Helpful when you're uns
 **Foundation:**
 ```bash
 [ ] PURPOSE.md exists?
-[ ] specs/requirements.spec.md exists?
-[ ] specs/constraints.spec.md exists?
+[ ] specs/mission/outcomes.spec.md exists?
+[ ] specs/mission/constraints.spec.md exists?
 [ ] specs/workspace/ exists (constitution, patterns, workflows)?
 ```
 
@@ -127,12 +127,12 @@ No specs exist?
 
 ### Foundation Incomplete
 ```
-PURPOSE.md exists but no requirements?
-→ Use .livespec/0-define/0b-define-problem.md
-→ Use .livespec/0-define/0c-identify-constraints.md
+PURPOSE.md exists but no outcomes?
+→ Use .livespec/0-define/0c-define-outcomes.md
+→ Use .livespec/0-define/0d-identify-constraints.md
 
 Complex project?
-→ Consider .livespec/0-define/0d-assess-complexity.md
+→ Consider .livespec/0-define/0e-assess-complexity.md
 ```
 
 ### Design Phase

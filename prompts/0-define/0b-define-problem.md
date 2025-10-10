@@ -1,75 +1,68 @@
 ---
-spec: specs/behaviors/prompts/0b-define-problem.spec.md
+implements: specs/behaviors/prompts/0b-define-problem.spec.md
 ---
 
-# 0b: Define Problem
+# 0b: Define Purpose
 
 **Phase**: DEFINE
-**Purpose**: Articulate the core problem this project solves
+**Purpose**: Articulate project vision and success criteria
 **Context**: See `PURPOSE.md` (LiveSpec's own purpose statement) as example
 
 ## Task
 
-Create `specs/problem.md` that clearly defines the problem this project addresses.
+Create `PURPOSE.md` at project root that defines why this project exists and what success looks like.
 
 ## Questions to Answer
 
-1. **What problem exists?**
-   - What breaks or fails currently?
-   - What pain points do users experience?
-   - What gap exists in available solutions?
+1. **Why does this project exist?**
+   - What problem does it solve?
+   - What gap does it fill?
+   - What vision drives this?
 
-2. **Who experiences this problem?**
-   - Who are the primary users?
-   - What are their needs and constraints?
-   - What alternatives have they tried?
+2. **What does success look like?**
+   - How will you know it worked?
+   - What observable outcomes indicate success?
+   - Who benefits and how?
 
-3. **Why does this problem matter?**
-   - What's the impact of not solving it?
-   - What value comes from solving it?
-   - How do you measure success?
+## Format
 
-## MSL Format
-
-Follow strict MSL format:
+**Simple markdown format** (no frontmatter, not an MSL spec):
 
 ```markdown
----
-criticality: CRITICAL
-failure_mode: Without clear problem definition, [specific consequence]
----
+# [Project Name] Purpose
 
-# Problem Statement
+## Why [Project] Exists
+[1-3 sentences describing the problem or vision this project addresses]
 
-## Requirements
-- [!] [Single paragraph or sentence defining the problem]
-  - Users can explain the problem in their own words
-  - Users recognize this problem in their context
-  - Solution addresses stated problem
-  - [Additional validation criteria]
+## What Success Looks Like
+- [Observable outcome 1]
+- [Observable outcome 2]
+- [Observable outcome 3]
+- [Observable outcome 4]
 ```
 
 ## Guidelines
 
-**Keep it minimal:**
+**Keep it minimal (<20 lines):**
 - Remove marketing language
-- Remove obvious statements
-- Remove nice-to-haves
-- Focus on what fails without a solution
+- Remove implementation details
+- Remove technical decisions
+- Focus on vision and measurable outcomes
 
-**Make it testable:**
-- How do you know users have this problem?
-- How do you verify your solution addresses it?
-- What observable criteria indicate success?
+**Make success criteria observable:**
+- Can you verify each outcome?
+- Are they specific enough to test?
+- Do they trace to the vision?
 
 ## Exit Criteria
 
-- [ ] specs/problem.md exists
-- [ ] Problem statement is one clear sentence/paragraph
-- [ ] Follows MSL format exactly
-- [ ] Validation criteria are observable
-- [ ] Problem is worth solving (passes MSL test)
+- [ ] PURPOSE.md exists at project root
+- [ ] "Why Exists" section is 1-3 sentences
+- [ ] "Success Looks Like" has 3-6 observable criteria
+- [ ] Total length <20 lines
+- [ ] No frontmatter (simple markdown)
+- [ ] No implementation details
 
 ## Next Step
 
-Once problem is defined, proceed to `0c-identify-constraints.md`
+Once purpose is defined, proceed to `0c-define-outcomes.md`

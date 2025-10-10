@@ -1,9 +1,9 @@
 ---
-derives_from:
-  - specs/requirements.spec.md (Voluntary Adoption)
+derives-from:
+  - specs/mission/outcomes.spec.md (Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
-constrained_by:
-  - specs/constraints.spec.md (Testable Behaviors, No Framework Lock-in)
+governed-by:
+  - specs/mission/constraints.spec.md (Testable Behaviors, No Framework Lock-in)
   - .livespec/standard/metaspecs/strategy.spec.md
 criticality: CRITICAL
 failure_mode: Without dogfooding validation, LiveSpec could prescribe methodology that doesn't work in practice, undermining credibility and voluntary adoption

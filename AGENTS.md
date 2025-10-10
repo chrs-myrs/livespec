@@ -1,5 +1,5 @@
 ---
-spec: specs/workspace/agents.spec.md
+implements: specs/workspace/agents.spec.md
 generated: 2025-10-08T00:00:00Z
 generator: livespec/generate-project-config
 version: 2.1.0
@@ -528,10 +528,10 @@ Specs declare dependencies via YAML frontmatter:
 
 ```yaml
 ---
-derives_from:
+derives-from:
   - PURPOSE.md
   - specs/problem.spec.md
-constrained_by:
+governed-by:
   - specs/constraints.spec.md
 satisfies:
   - specs/problem.spec.md
@@ -539,8 +539,8 @@ satisfies:
 ```
 
 **Fields:**
-- `derives_from` - Parent specs this is based on
-- `constrained_by` - Boundaries this must respect
+- `derives-from` - Parent specs this is based on
+- `governed-by` - Boundaries this must respect
 - `satisfies` - Requirements this fulfills
 - `supports` - What this spec enables
 - `applies_to` - Scope (for workspace specs)
@@ -552,13 +552,13 @@ When specs change, trace dependencies:
 **Upward (validate):** Does change still align with parents?
 ```bash
 # Check frontmatter
-grep "derives_from\|constrained_by" specs/changed-spec.spec.md
+grep "derives-from\|governed-by" specs/changed-spec.spec.md
 ```
 
 **Downward (propagate):** What derives from this?
 ```bash
 # Find children
-grep -r "derives_from.*changed-spec" specs/
+grep -r "derives-from.*changed-spec" specs/
 ```
 
 **Common impacts:**
@@ -604,7 +604,7 @@ LiveSpec uses YAML frontmatter for bidirectional links:
 **In prompts:**
 ```markdown
 ---
-spec: specs/behaviors/prompts/0a-setup-workspace.spec.md
+implements: specs/behaviors/prompts/0a-setup-workspace.spec.md
 ---
 ```
 
@@ -616,6 +616,51 @@ specifies: prompts/0-define/0a-setup-workspace.md
 ```
 
 This enables AI agents to navigate between prompts and their specifications.
+
+## MSL Alignment (v2.2+)
+
+**LiveSpec uses MSL frontmatter conventions** for semantic precision and ecosystem interoperability.
+
+### Field Semantics
+
+| Field | Meaning | Example Usage |
+|-------|---------|---------------|
+| `derives-from:` | "I was created from this source" | spec derives-from: PURPOSE.md |
+| `governed-by:` | "I must follow these rules/metaspecs" | spec governed-by: behavior-metaspec |
+| `implements:` | "I am code/content satisfying this spec" | prompt implements: prompt.spec.md |
+| `specifies:` | "I define what these files should do" | spec specifies: prompt.md |
+| `extends:` | "I am specialized type of parent" (MSL core) | mobile-api extends: api-base |
+| `supports:` | "These depend on me" (LiveSpec extension) | outcomes supports: architecture |
+
+### Field Examples
+
+**Prompt files**:
+```yaml
+---
+implements: specs/behaviors/prompts/setup.spec.md
+---
+```
+
+**Specification files**:
+```yaml
+---
+derives-from: PURPOSE.md
+governed-by: .livespec/standard/metaspecs/behavior.spec.md
+---
+```
+
+### Why This Matters
+
+- **Semantic clarity**: `implements:` precisely describes relationship
+- **MSL ecosystem**: Unified vocabulary across MSL and LiveSpec
+- **Hyphen consistency**: Matches MSL convention
+- **AI predictability**: Agents trained on MSL understand field meanings
+
+### Migration
+
+Projects using old field names (`spec:`, `constrained_by:`, `derives_from:`) should migrate.
+
+See `docs/msl-alignment-migration.md` for migration script and instructions.
 
 ## When to Fetch Full Prompts
 
