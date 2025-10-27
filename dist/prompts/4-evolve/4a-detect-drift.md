@@ -1,12 +1,13 @@
 ---
-implements: specs/behaviors/prompts/4a-detect-drift.spec.md
+implements: specs/3-behaviors/prompts/4a-detect-drift.spec.md
+estimated_time: "20-30 minutes"
 ---
 
 # 4a: Detect Drift
 
 **Phase**: EVOLVE
 **Purpose**: Detect when code and specifications have diverged
-**Context**: See `specs/behaviors/drift-detection.spec.md` for methodology
+**Context**: See `specs/3-behaviors/drift-detection.spec.md` for methodology
 
 ## Task
 
@@ -56,7 +57,7 @@ For each changed area, use semantic understanding (not text diff):
 
 ### 3. Classify Changes
 
-Use the 70-80-10 pattern from `specs/behaviors/drift-detection.spec.md`:
+Use the 70-80-10 pattern from `specs/3-behaviors/drift-detection.spec.md`:
 
 #### Auto-Accept (70-80%)
 Changes that DON'T affect specs:
@@ -100,12 +101,12 @@ grep -r "derives_from.*$(basename $CHANGED_SPEC)" specs/
 Verify the change still aligns with parent specs:
 
 ```markdown
-Changed: specs/strategy/architecture.spec.md
+Changed: specs/2-strategy/architecture.spec.md
 
 Upward validation:
   ✓ Still satisfies PURPOSE.md goal
-  ✓ Still respects specs/mission/constraints.spec.md
-  ⚠️ May not fully align with specs/mission/outcomes.spec.md anymore
+  ✓ Still respects specs/1-requirements/strategic/constraints.spec.md
+  ⚠️ May not fully align with specs/1-requirements/strategic/outcomes.spec.md anymore
 
 Action: Review outcomes.spec.md alignment
 ```
@@ -115,11 +116,11 @@ Action: Review outcomes.spec.md alignment
 Identify child specs that may need updates:
 
 ```markdown
-Changed: specs/strategy/architecture.spec.md
+Changed: specs/2-strategy/architecture.spec.md
 
 Downward propagation:
-  - specs/behaviors/prompts/0a-setup-workspace.spec.md (derives from architecture)
-  - specs/behaviors/prompts/1a-design-architecture.spec.md (derives from architecture)
+  - specs/3-behaviors/prompts/0a-setup-workspace.spec.md (derives from architecture)
+  - specs/3-behaviors/prompts/1a-design-architecture.spec.md (derives from architecture)
   - All prompts/*/  (implementation may need updates)
 
 Action: Review each child spec for alignment
@@ -130,7 +131,7 @@ Action: Review each child spec for alignment
 Check if workspace specs need updates:
 
 ```markdown
-Changed: specs/strategy/architecture.spec.md (now uses 6 phases instead of 5)
+Changed: specs/2-strategy/architecture.spec.md (now uses 6 phases instead of 5)
 
 Horizontal impacts:
   - specs/workspace/workflows.spec.md (may reference 5-phase model)
@@ -143,11 +144,11 @@ Action: Update workspace specs to reflect new structure
 
 | Changed Spec | Upward Check | Downward Check |
 |--------------|--------------|----------------|
-| **PURPOSE.md** | None (root) | mission/outcomes.spec.md, mission/constraints.spec.md |
-| **mission/outcomes.spec.md** | PURPOSE.md | strategy/architecture.spec.md, all behaviors/ |
-| **mission/constraints.spec.md** | PURPOSE.md | strategy/architecture.spec.md, all behaviors/ |
-| **strategy/architecture.spec.md** | PURPOSE.md, mission/outcomes.spec.md, mission/constraints.spec.md | All prompts/, all behaviors/ |
-| **behaviors/*.spec.md** | strategy/architecture.spec.md, mission/outcomes.spec.md | Code implementation |
+| **PURPOSE.md** | None (root) | 1-requirements/strategic/outcomes.spec.md, 1-requirements/strategic/constraints.spec.md |
+| **1-requirements/strategic/outcomes.spec.md** | PURPOSE.md | 2-strategy/architecture.spec.md, all 3-behaviors/ |
+| **1-requirements/strategic/constraints.spec.md** | PURPOSE.md | 2-strategy/architecture.spec.md, all 3-behaviors/ |
+| **2-strategy/architecture.spec.md** | PURPOSE.md, 1-requirements/strategic/outcomes.spec.md, 1-requirements/strategic/constraints.spec.md | All prompts/, all 3-behaviors/ |
+| **3-behaviors/*.spec.md** | 2-strategy/architecture.spec.md, 1-requirements/strategic/outcomes.spec.md | Code implementation |
 
 **Detection Questions:**
 
@@ -193,13 +194,13 @@ Document findings in `drift-report.md`:
 
 2. **Modified behavior: CSV export includes timestamps**
    - **Code**: Added timestamp column to CSV export
-   - **Spec**: specs/behaviors/data-export.spec.md doesn't mention timestamps
+   - **Spec**: specs/3-behaviors/data-export.spec.md doesn't mention timestamps
    - **Action**: Update spec to include timestamp behavior
 
 ### Requiring Manual Resolution
 1. **Conflicting change: API response format**
    - **Code**: Changed response from array to paginated object
-   - **Spec**: specs/contracts/api/users-api.yaml specifies array
+   - **Spec**: specs/3-contracts/api/users-api.yaml specifies array
    - **Conflict**: Breaking change not documented
    - **Decision Needed**: Revert code or version API?
 

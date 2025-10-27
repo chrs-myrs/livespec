@@ -1,7 +1,8 @@
 ---
-implements: specs/behaviors/prompts/2b-create-tests.spec.md
+implements: specs/3-behaviors/prompts/2b-create-tests.spec.md
 generated: '2025-10-10'
 phase: 2-build
+estimated_time: "30-60 minutes per feature"
 ---
 
 # Prompt Behavior: Create Tests
@@ -11,6 +12,20 @@ phase: 2-build
 ## Context
 
 You're in Phase 2 (BUILD), implementing features based on existing specifications. All behaviors should already be specified.
+
+## Before This Prompt
+
+⚠️ **STOP: Verify specifications exist before creating tests. Tests without specs test the wrong thing.**
+
+**Check these artifacts exist:**
+- [ ] `specs/3-behaviors/` directory with behavior specs - What to test
+- [ ] `specs/workspace/workflows.spec.md` - Testing approach and patterns
+
+**If ANY is missing → STOP:**
+- Missing specs/3-behaviors/ → "Use `.livespec/1-design/1b-define-behaviors.md` to create behavior specs first"
+- Missing workspace workflows → "Use `.livespec/0-define/0a-setup-workspace.md` to define testing patterns first"
+
+**Only proceed when specifications exist.** Tests validate specs - can't test without them.
 
 ## Task
 

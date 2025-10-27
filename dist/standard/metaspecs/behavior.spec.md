@@ -10,7 +10,7 @@ governed-by:
 ## Requirements
 - [!] Behavior specifications define observable outcomes from any perspective, with validation criteria.
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
-  - Spec located in `specs/behaviors/` folder or subfolder
+  - Spec located in `specs/3-behaviors/` folder or subfolder
   - **Subfolders encouraged** for domain organization (behaviors/policies/, behaviors/user-features/, behaviors/services/)
   - Requirement statement describes WHAT is observable (not HOW it works)
   - Requirement is externally observable (users, systems, auditors, or stakeholders can verify)

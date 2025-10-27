@@ -10,14 +10,14 @@ governed-by:
 ## Requirements
 - [!] LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using standardized folder hierarchy with optional organizational subfolders.
   - `PURPOSE.md` at root captures project vision and success criteria (free-form, not MSL)
-  - `specs/mission/` contains top-level project definition (outcomes + constraints)
+  - `specs/1-requirements/strategic/` contains top-level project definition (outcomes + constraints)
   - `specs/workspace/` contains only development methodology (portable to any project)
-  - `specs/behaviors/` contains observable system behaviors (user-facing)
-  - `specs/strategy/` contains product-specific technical decisions and architecture
-  - `specs/contracts/` contains API/data contracts (optional, only if needed)
-  - Subfolders allowed within standard folders for organization (e.g., specs/behaviors/prompts/, specs/strategy/architecture/)
-  - `specs/mission/outcomes.spec.md` captures high-level requirements
-  - `specs/mission/constraints.spec.md` defines hard boundaries
+  - `specs/3-behaviors/` contains observable system behaviors (user-facing)
+  - `specs/2-strategy/` contains product-specific technical decisions and architecture
+  - `specs/3-contracts/` contains API/data contracts (optional, only if needed)
+  - Subfolders allowed within standard folders for organization (e.g., specs/3-behaviors/prompts/, specs/2-strategy/architecture/)
+  - `specs/1-requirements/strategic/outcomes.spec.md` captures high-level requirements
+  - `specs/1-requirements/strategic/constraints.spec.md` defines hard boundaries
   - `.livespec/` contains LiveSpec methodology (copied from LiveSpec dist/)
   - `.livespec/standard/` contains metaspecs and conventions
   - `.livespec/templates/` contains workspace spec starter files
@@ -42,28 +42,31 @@ project/
 │   │   ├── metaspecs/
 │   │   └── conventions/
 │   └── templates/          # Spec starter files
-│       ├── mission/
+│       ├── requirements/
 │       └── workspace/
 │
 └── specs/
-    ├── mission/            # Top-level project definition
-    │   ├── outcomes.spec.md    # High-level requirements
-    │   └── constraints.spec.md # Hard boundaries
+    ├── 1-requirements/     # Top-level project definition
+    │   ├── strategic/      # Outcomes + constraints
+    │   │   ├── outcomes.spec.md
+    │   │   └── constraints.spec.md
+    │   └── functional/     # Feature-level requirements
+    │       └── *.spec.md
     │
     ├── workspace/          # HOW you build (portable process)
     │   ├── constitution.spec.md
     │   ├── patterns.spec.md
     │   └── workflows.spec.md
     │
-    ├── behaviors/          # WHAT system does (user-facing)
+    ├── 2-strategy/         # HOW technically (product-specific)
+    │   └── architecture.spec.md (or split files)
+    │
+    ├── 3-behaviors/        # WHAT system does (user-facing)
     │   ├── prompts/        # Organizational subfolder example
     │   │   └── *.spec.md
     │   └── *.spec.md
     │
-    ├── strategy/           # HOW technically (product-specific)
-    │   └── architecture.spec.md (or split files)
-    │
-    └── contracts/          # API/data contracts (optional)
+    └── 3-contracts/        # API/data contracts (optional)
         └── api/v1/*.yaml
 ```
 

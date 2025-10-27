@@ -1,7 +1,8 @@
 ---
-implements: specs/behaviors/prompts/1c-create-contracts.spec.md
+implements: specs/3-behaviors/prompts/1c-create-contracts.spec.md
 generated: '2025-10-10'
 phase: 1-design
+estimated_time: "15-20 minutes"
 ---
 
 # Prompt Behavior: Create Contracts
@@ -12,9 +13,30 @@ phase: 1-design
 
 You're in Phase 1 (DESIGN), creating specifications that define what the system should do before any implementation begins.
 
+## Before This Prompt
+
+⚠️ **Prerequisites**: Verify Phase 0 complete before proceeding. [Full checklist](.livespec/standard/phase-prerequisites.md#phase-1-design---prerequisites)
+
 ## Task
 
 Follow specification requirements.
+
+## External Service Contracts
+
+Most external services (Auth0, Stripe, AWS) have excellent documentation. Reference it, don't duplicate it.
+
+**When to import external contracts:**
+- Code generation from OpenAPI spec
+- Contract testing against external API
+- External docs unavailable or unclear
+
+**How to handle:**
+1. Reference external docs in behavior specs
+2. If importing OpenAPI spec, place in `knowledge/integrations/[service]-api.yaml`
+3. Link behavior specs to knowledge/ imports
+4. Don't create contracts for well-documented external services
+
+**Focus on YOUR interfaces**, not external ones.
 
 ## Output
 

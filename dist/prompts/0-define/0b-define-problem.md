@@ -1,5 +1,6 @@
 ---
-implements: specs/behaviors/prompts/0b-define-problem.spec.md
+implements: specs/3-behaviors/prompts/0b-define-problem.spec.md
+estimated_time: "10-15 minutes"
 ---
 
 # 0b: Define Purpose

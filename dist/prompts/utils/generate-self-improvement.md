@@ -1,5 +1,5 @@
 ---
-implements: specs/behaviors/prompts/utils-generate-self-improvement.spec.md
+implements: specs/3-behaviors/prompts/utils-generate-self-improvement.spec.md
 phase: utils
 purpose: Generate customized self-improvement prompt tailored to project specs
 ---
@@ -38,14 +38,14 @@ Generate a customized `prompts/utils/self-improve.md` prompt tailored to this pr
 
 2. **Mission (if exists):**
    ```bash
-   cat specs/mission/outcomes.spec.md 2>/dev/null || echo "Not found"
-   cat specs/mission/constraints.spec.md 2>/dev/null || echo "Not found"
+   cat specs/1-requirements/strategic/outcomes.spec.md 2>/dev/null || echo "Not found"
+   cat specs/1-requirements/strategic/constraints.spec.md 2>/dev/null || echo "Not found"
    ```
    Extract: High-level requirements, hard boundaries
 
 3. **Strategy (if exists):**
    ```bash
-   cat specs/strategy/architecture.spec.md 2>/dev/null || echo "Not found"
+   cat specs/2-strategy/architecture.spec.md 2>/dev/null || echo "Not found"
    ```
    Extract: Technical approach, cross-cutting decisions
 
@@ -122,10 +122,10 @@ generated: [ISO-8601 timestamp]
 generated_by: prompts/utils/generate-self-improvement.md
 sources:
   - PURPOSE.md
-  - specs/mission/outcomes.spec.md
-  - specs/mission/constraints.spec.md
+  - specs/1-requirements/strategic/outcomes.spec.md
+  - specs/1-requirements/strategic/constraints.spec.md
   - specs/workspace/constitution.spec.md
-implements: specs/behaviors/prompts/utils-self-improve.spec.md
+implements: specs/3-behaviors/prompts/utils-self-improve.spec.md
 ---
 
 # Self-Improvement Analysis

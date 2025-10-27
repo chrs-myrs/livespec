@@ -10,7 +10,7 @@ governed-by:
 ## Requirements
 - [!] Contract specifications define precise interfaces between any components.
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode) OR uses standard format (OpenAPI, JSON Schema)
-  - Spec located in `specs/contracts/` folder or subfolder
+  - Spec located in `specs/3-contracts/` folder or subfolder
   - **Subfolders encouraged** for domain organization (contracts/api/, contracts/runbooks/, contracts/procedures/)
   - Contract defines interface precisely (what both sides must agree on)
   - Contract uses standard format when possible (OpenAPI, JSON Schema, MSL for operational contracts)
@@ -87,4 +87,4 @@ specs/contracts/
 **Contract testing:**
 Contract specs enable testing that both sides satisfy the interface agreement without testing full behavior.
 
-Contract specs go in target project's `specs/contracts/` folder or subfolders. Optional - only needed for projects with interfaces between components.
+Contract specs go in target project's `specs/3-contracts/` folder or subfolders. Optional - only needed for projects with interfaces between components.

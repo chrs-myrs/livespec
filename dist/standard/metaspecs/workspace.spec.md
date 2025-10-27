@@ -17,6 +17,7 @@ governed-by:
   - Spec does NOT include technical implementation details
   - Spec does NOT reference project-specific features
   - Spec includes `applies_to` frontmatter field (e.g., `all_projects`, `all_ai_agents`)
+  - Workspace constitution MAY include `context_compression` frontmatter field (light | moderate | aggressive; default: moderate if unspecified)
   - Decision test passes: "Could I use this spec in a different project?" → YES
 
 ## Notes

@@ -10,7 +10,7 @@ governed-by:
 ## Requirements
 - [!] Strategy specifications define product-specific technical decisions and architecture for THIS project.
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
-  - Spec located in `specs/strategy/` folder (single file) or `specs/strategy/*.spec.md` (multiple files)
+  - Spec located in `specs/2-strategy/` folder (single file) or `specs/2-strategy/*.spec.md` (multiple files)
   - Spec describes HOW this specific product solves its problem technically
   - Spec is product-specific (NOT portable to other projects)
   - Spec includes technical approach, components, interactions
@@ -45,4 +45,4 @@ governed-by:
 - When it exceeds ~100 lines, split by concern
 - Each split file should be <50 lines (keep minimal)
 
-Strategy specs go in target project's `specs/strategy/` folder.
+Strategy specs go in target project's `specs/2-strategy/` folder.

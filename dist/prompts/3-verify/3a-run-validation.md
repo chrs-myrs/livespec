@@ -1,7 +1,8 @@
 ---
-implements: specs/behaviors/prompts/3a-run-validation.spec.md
+implements: specs/3-behaviors/prompts/3a-run-validation.spec.md
 generated: '2025-10-10'
 phase: 3-verify
+estimated_time: "15-30 minutes"
 ---
 
 # Prompt Behavior: Run Validation
@@ -11,6 +12,22 @@ phase: 3-verify
 ## Context
 
 You're in Phase 3 (VERIFY), validating that implementation matches specifications and meets requirements.
+
+## Before This Prompt
+
+⚠️ **STOP: Verify Phase 2 prerequisites. Cannot validate without implementation and tests.**
+
+**Check these exist:**
+- [ ] Implementation code exists (actual code files)
+- [ ] Tests exist (test files corresponding to behaviors)
+- [ ] `specs/3-behaviors/` directory - Specifications to validate against
+
+**If ANY is missing → STOP:**
+- Missing implementation → "Use `.livespec/2-build/2a-implement-from-specs.md` to implement first"
+- Missing tests → "Use `.livespec/2-build/2b-create-tests.md` to create tests first"
+- Missing specs → "Use `.livespec/1-design/1b-define-behaviors.md` - need specs to validate"
+
+**Only proceed when implementation and tests exist.** Validation requires something to validate.
 
 ## Task
 

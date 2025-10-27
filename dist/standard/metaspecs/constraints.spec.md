@@ -10,7 +10,7 @@ governed-by:
 ## Requirements
 - [!] Constraints specification defines hard boundaries that solution must respect (non-negotiable limits).
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
-  - Spec located at `specs/mission/constraints.spec.md`
+  - Spec located at `specs/1-requirements/strategic/constraints.spec.md`
   - Each constraint is a hard boundary (violating it = project fails)
   - Each constraint is testable and measurable
   - Constraints do NOT include preferences or "nice-to-haves"
@@ -46,9 +46,9 @@ governed-by:
 ```
 PURPOSE.md + External factors
     ↓ identifies
-specs/mission/constraints.spec.md (hard boundaries)
+specs/1-requirements/strategic/constraints.spec.md (hard boundaries)
     ↓ constrains
-specs/strategy/architecture.spec.md (must respect constraints)
+specs/2-strategy/architecture.spec.md (must respect constraints)
 ```
 
-Constraints spec goes in target project's `specs/mission/` folder.
+Constraints spec goes in target project's `specs/1-requirements/strategic/` folder.

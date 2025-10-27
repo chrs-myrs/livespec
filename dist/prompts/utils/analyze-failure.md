@@ -1,5 +1,5 @@
 ---
-implements: specs/behaviors/prompts/analyze-failure.spec.md
+implements: specs/3-behaviors/prompts/analyze-failure.spec.md
 ---
 
 # Analyze LiveSpec Process Failure
@@ -144,7 +144,7 @@ Create `specs/failure-analysis.md`:
 **Priority 1 - Stop the Bleeding:**
 1. [ ] Run `.livespec/4-evolve/4a-detect-drift.md` to document current state
 2. [ ] Identify critical specs that MUST be updated
-3. [ ] Update PURPOSE.md and specs/mission/outcomes.spec.md (foundation)
+3. [ ] Update PURPOSE.md and specs/1-requirements/strategic/outcomes.spec.md (foundation)
 
 **Priority 2 - Quick Wins:**
 1. [ ] Update 3-5 most critical behavior specs
@@ -222,7 +222,7 @@ Create `specs/failure-analysis.md`:
 ## Recovery Success Criteria
 
 **After 1 week:**
-- [ ] Foundation specs updated (PURPOSE, mission/outcomes, architecture)
+- [ ] Foundation specs updated (PURPOSE, 1-requirements/strategic/outcomes, architecture)
 - [ ] Critical drift documented
 - [ ] Recovery plan agreed by team
 

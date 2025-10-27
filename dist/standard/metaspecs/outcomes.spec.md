@@ -10,7 +10,7 @@ governed-by:
 ## Requirements
 - [!] Outcomes specification captures high-level project requirements (what must be achieved) that behaviors and architecture must satisfy.
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
-  - Spec located at `specs/mission/outcomes.spec.md`
+  - Spec located at `specs/1-requirements/strategic/outcomes.spec.md`
   - Requirements are high-level (not detailed behaviors)
   - Requirements describe WHAT must be achieved (outcomes, not features)
   - Requirements trace to PURPOSE.md (why this project exists)
@@ -19,7 +19,7 @@ governed-by:
   - Requirements do NOT include observable behaviors (→ behavior specs)
   - Each requirement is testable (can verify if satisfied)
   - Requirement statement is concise (one sentence)
-  - Behaviors in `specs/behaviors/` should trace back to these outcomes
+  - Behaviors in `specs/3-behaviors/` should trace back to these outcomes
 
 ## Notes
 
@@ -43,12 +43,12 @@ governed-by:
 ```
 PURPOSE.md (why - vision)
     ↓ derives
-specs/mission/outcomes.spec.md (what - high-level requirements)
-specs/mission/constraints.spec.md (limits - hard boundaries)
+specs/1-requirements/strategic/outcomes.spec.md (what - high-level requirements)
+specs/1-requirements/strategic/constraints.spec.md (limits - hard boundaries)
     ↓ both inform
-specs/strategy/architecture.spec.md (how - technical approach)
+specs/2-strategy/architecture.spec.md (how - technical approach)
     ↓ implements
-specs/behaviors/*.spec.md (what - detailed behaviors)
+specs/3-behaviors/*.spec.md (what - detailed behaviors)
 ```
 
-Outcomes spec goes in target project's `specs/mission/` folder.
+Outcomes spec goes in target project's `specs/1-requirements/strategic/` folder.

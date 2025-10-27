@@ -1,5 +1,5 @@
 ---
-implements: specs/behaviors/prompts/run-spike.spec.md
+implements: specs/3-behaviors/prompts/run-spike.spec.md
 generated: '2025-10-10'
 ---
 

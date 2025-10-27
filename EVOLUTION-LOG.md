@@ -45,7 +45,7 @@
 **Created:**
 - specs/PURPOSE.md (root purpose)
 - specs/architecture.spec.md (system architecture)
-- specs/behaviors/0a-4c.spec.md (13 prompt behaviors)
+- specs/3-behaviors/0a-4c.spec.md (13 prompt behaviors)
 - specs/constraints.spec.md (from constraints.md)
 - specs/workspace/*.spec.md (converted to MSL format)
 

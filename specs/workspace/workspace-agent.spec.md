@@ -24,9 +24,9 @@ governed-by:
 - specs/workspace/constitution.spec.md (development principles)
 - specs/workspace/patterns.spec.md (naming, format, structure conventions)
 - specs/workspace/workflows.spec.md (5 phases, when to use each)
-- specs/mission/outcomes.spec.md (core requirements summary)
-- specs/mission/constraints.spec.md (critical boundaries summary)
-- specs/strategy/architecture.spec.md (technical approach summary)
+- specs/1-requirements/strategic/outcomes.spec.md (core requirements summary)
+- specs/1-requirements/strategic/constraints.spec.md (critical boundaries summary)
+- specs/2-strategy/architecture.spec.md (technical approach summary)
 
 **Content structure** (optimized for context positioning):
 
@@ -35,24 +35,49 @@ governed-by:
 2. Core principles from constitution.spec.md (spec-first #1, MSL minimalism #2 with decision framework)
 3. Critical constraints (boundaries that must never be violated)
 4. Spec-first guidance workflow (essential before implementation)
+5. **Pre-implementation verification** (from `.livespec/templates/agents/pre-implementation-verification.md`)
+6. **No plumbing exception warning** (from `.livespec/templates/agents/no-plumbing-exception.md`)
+7. **Active self-check questions** (from `.livespec/templates/agents/self-check-questions.md`)
+8. **Plan review checklist** (from `.livespec/templates/agents/plan-review-checklist.md`)
+
+- [!] AGENTS.md uses critical warnings (⚠️) sparingly with strict criteria to prevent warning fatigue.
+  - **Maximum 3 critical sections** in AGENTS.md START section
+  - **Critical criteria**: Violating this causes methodology failure (not just poor quality)
+  - **Critical status examples**:
+    - ⚠️ CRITICAL: Spec-First Guidance (without this, drift is inevitable)
+    - ⚠️ CRITICAL: Pre-Implementation Verification (without this, violations go undetected)
+  - **Non-critical examples** (important but not failure-mode):
+    - Visible Methodology Compliance (quality improvement, not failure prevention)
+    - Real-Time Learning Capture (enhancement, not core requirement)
+  - **Status levels available**:
+    - ⚠️ CRITICAL - Methodology fails without this (max 3)
+    - ## Important - Recommended but system survives without it
+    - ## Optional - Nice-to-have enhancement
+  - **Audit process**: During MSL audits, review critical status
+  - **Downgrade criterion**: If methodology can survive without it → remove ⚠️
+  - **Prevention**: Adding new critical section requires removing or downgrading existing critical section
 
 **MIDDLE section (40% - supporting details):**
-5. Quick start for 80% of cases (new project, existing project)
-6. Decision tree (which phase/prompt to use)
-7. 5 phases overview (entry/exit conditions, key prompts)
-8. MSL format quick reference
-9. Folder structure pattern
-10. Essential templates (workspace, behavior, contract)
-11. Dependency structure (frontmatter conventions)
-12. Common anti-patterns
+9. Quick start for 80% of cases (new project, existing project)
+10. Decision tree (which phase/prompt to use)
+11. 5 phases overview (entry/exit conditions, key prompts)
+12. MSL format quick reference
+13. Folder structure pattern
+14. Essential templates (workspace, behavior, contract)
+15. Dependency structure (frontmatter conventions)
+16. Common anti-patterns
+17. Reference Library (navigation to deep detail via `.livespec/` paths)
+    - Categories: Conventions, Metaspecs, Guides
+    - Each entry: "Fetch when" + "Provides" + "Cross-ref"
+    - Enables 80/20 navigation
 
 **END section (20-30% - recency bias):**
-13. When to fetch full prompts (table mapping needs to prompts):
+18. When to fetch full prompts (table mapping needs to prompts):
     - Includes all phase prompts (0a through 4e)
     - Includes upgrade-methodology.md with note about proof-of-work requirements
     - Note explains: Upgrade process requires showing evidence (git clone output, backup ls, validation tests)
     - Emphasizes: Cannot fake the process - evidence required for each phase
-14. Current priorities (what agent should focus on based on project state)
+19. Current priorities (what agent should focus on based on project state)
 
 **Design principles:**
 - Single file <100KB for efficient caching
@@ -66,7 +91,7 @@ governed-by:
   - END section (20-30%): Prompt registry (when to fetch full prompts), decision tree, current priorities
   - Research-backed: Stanford "Lost in the Middle" study shows middle-context performance degradation
   - Exploits primacy bias (START) and recency bias (END) for optimal AI processing
-  - See dist/guides/context-positioning.md for complete positioning framework
+  - See .livespec/guides/context-positioning.md for complete positioning framework
   - AGENTS.md generated from workspace specs plus PURPOSE.md
   - Agent can answer "what should I do next?" without additional context
   - Agent enforces MSL format without being reminded
@@ -78,6 +103,12 @@ governed-by:
     - Agent applies this to all deliverables (README, CHANGELOG, config)
     - Agent explains WHY spec-first matters (prevents drift, ensures requirements captured)
     - Agent references LiveSpec's CHANGELOG mistake (commit 40411e3) as cautionary example
+  - **Agent includes active verification prompts** (ESSENTIAL - from templates):
+    - Pre-implementation verification checklist (`.livespec/templates/agents/pre-implementation-verification.md`)
+    - No plumbing exception warning (`.livespec/templates/agents/no-plumbing-exception.md`)
+    - Active self-check questions (`.livespec/templates/agents/self-check-questions.md`)
+    - Plan review methodology checklist (`.livespec/templates/agents/plan-review-checklist.md`)
+    - Templates provide structural enforcement, not just passive documentation
   - **Agent facilitates continuous improvement** (utilities):
     - When user requests "self-improvement" or "suggest improvements", agent checks for prompts/generated/self-improve.md
     - When user requests "capture learnings" or "internalise learnings", agent checks for prompts/generated/internalise-learnings.md
@@ -86,5 +117,12 @@ governed-by:
     - Self-improvement: Strategic project-wide analysis (periodic health checks)
     - Internalise learnings: Tactical conversation analysis (immediate learning capture after corrections)
     - Both use project-specific context (not generic templates)
+  - **Reference Library section** enables 80/20 navigation (AGENTS.md → deep detail):
+    - **Purpose**: Tell agents where the other 20% lives (80/20 principle)
+    - **Path convention**: Use `.livespec/` prefix (works in livespec repo via symlink, target projects via copy)
+    - **Categories**: Conventions (structure), Metaspecs (spec types), Guides (application)
+    - **Navigation pattern**: "Fetch when: [trigger condition]" for each reference
+    - **Location**: MIDDLE or END section (detailed navigation, not critical rules)
+    - **Cross-references**: Link from AGENTS.md summary sections back to Reference Library
   - File size remains under 100KB
   - Regeneration script exists and works

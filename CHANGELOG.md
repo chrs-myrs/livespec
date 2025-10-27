@@ -20,6 +20,172 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.1.0] - 2025-10-27
+
+### Fixed
+
+- **⚠️ Folder structure consistency** - Fixed documentation drift where AGENTS.md referenced `4-contracts/` instead of `3-contracts/` (LOW IMPACT)
+  - Updated `dist/AGENTS.md.template` to use correct `3-contracts/` path (8 references)
+  - Updated root `AGENTS.md` to match (3 references)
+  - Updated 19 additional files across prompts, specs, and templates
+  - *Impact*: LOW - Documentation-only fix, no breaking changes
+  - *Migration*: None required; folder structure was always `3-contracts/`, only docs were incorrect
+
+### Added
+
+- **Context Compression Framework** - Configurable structural optimization for agent guidance efficiency
+  - Three compression levels: Light (verbose), Moderate (balanced), Aggressive (dense)
+  - Declared in `specs/workspace/constitution.spec.md` frontmatter (`context_compression:`)
+  - Framework spec: `dist/standard/conventions/context-compression.spec.md`
+  - Constitution templates showing each compression level: `dist/templates/workspace/constitution-*.md.template`
+  - Audit utility: `dist/prompts/utils/audit-context-compression.md` for measuring and migrating compression
+  - Integration in setup prompt (`0a-setup-workspace.md`) asks about agent capabilities and recommends level
+  - Integration in regeneration prompt (`4d-regenerate-agents.md`) applies compression during AGENTS.md generation
+  - Complements MSL Minimalism: MSL reduces content within specs, Context Compression optimizes structure across guidance
+  - *Why*: Different agents and use cases benefit from different guidance density levels
+  - *Impact*: LOW - Existing projects default to `moderate`, no changes required
+  - *Migration*: None required; add `context_compression:` frontmatter to enable explicit configuration
+
+### Changed
+
+- **⚠️ Workspace metaspec updated** - Added optional `context_compression` field (LOW IMPACT)
+  - `dist/standard/metaspecs/workspace.spec.md` now documents compression field
+  - Workspace constitutions MAY declare compression level
+  - Default: `moderate` if unspecified
+  - *Impact*: LOW - Backward compatible, optional field
+
+- **Setup workspace prompt enhanced** - Now recommends compression level based on project context (LOW IMPACT)
+  - `dist/prompts/0-define/0a-setup-workspace.md` asks about agent and usage patterns
+  - Recommends appropriate compression level
+  - Uses corresponding template for constitution generation
+  - *Impact*: LOW - Improves setup experience, no breaking changes
+
+- **Regenerate agents prompt enhanced** - Now considers compression level during generation (LOW IMPACT)
+  - `dist/prompts/4-evolve/4d-regenerate-agents.md` reads compression from constitution
+  - Applies compression strategy (inline vs extract, example verbosity, target size)
+  - *Impact*: LOW - Better AGENTS.md optimization, no breaking changes
+
+### Documentation
+
+- Added Context Compression section to `AGENTS.md` explaining the framework and this project's level (moderate)
+- Added Context Compression Patterns section to `specs/workspace/patterns.spec.md` with decision framework
+- Updated `specs/workspace/constitution.spec.md` to declare `moderate` compression and document principle
+- Added Context Compression section to `docs/methodology.md` explaining complementary relationship with MSL Minimalism
+- LiveSpec repository now dogfoods Context Compression framework at moderate level
+
+---
+
+## [3.0.0] - 2025-10-21
+
+### 🔄 Major Restructure: Numbered Folder Organization
+
+This release introduces numbered folders for clearer abstraction hierarchy and explicit "everything is a specification" philosophy.
+
+**BREAKING CHANGES:**
+- Folder structure reorganized with numbered prefixes
+- Documentation updated to reflect new structure
+- Migration required for existing projects
+
+### Changed
+
+- **⚠️ BREAKING**: Folder structure reorganized with numbered prefixes (HIGH IMPACT)
+  - `specs/mission/` → `specs/1-requirements/strategic/`
+  - `specs/strategy/` → `specs/2-strategy/`
+  - `specs/behaviors/` → `specs/3-behaviors/`
+  - `specs/contracts/` → `specs/3-contracts/`
+  - `specs/workspace/` remains unchanged (process specifications)
+  - *Why*: Numbered prefixes make abstraction levels explicit (strategic → approach → detailed)
+  - *Impact*: HIGH - All spec references must be updated
+  - *Migration*:
+    1. Rename spec folders following numbered pattern
+    2. Update all frontmatter references (derives-from, satisfies, etc.)
+    3. Update AGENTS.md and CLAUDE.md with new paths
+    4. Update any custom prompts or scripts
+  - *Rationale*: Clearer abstraction hierarchy, better AI agent navigation
+
+- **⚠️ BREAKING**: Requirements now organized as strategic vs functional (HIGH IMPACT)
+  - New structure: `1-requirements/strategic/` (outcomes, constraints)
+  - New structure: `1-requirements/functional/` (specific feature requirements)
+  - *Why*: Separate high-level strategic requirements from detailed functional requirements
+  - *Impact*: HIGH - Requirements must be categorized correctly
+  - *Migration*:
+    1. Move strategic outcomes/constraints to `1-requirements/strategic/`
+    2. Move feature requirements to `1-requirements/functional/`
+
+- **Documentation**: AGENTS.md updated to show numbered folder structure
+  - Updated "Folder Structure Pattern" section (lines 428-462)
+  - Updated "Folder Organization Decision Tests" section (lines 464-493)
+  - Updated "Multi-Domain Organization" examples (lines 515-542)
+  - Added 1-requirements/ decision test explanation
+  - *Impact*: None (documentation fix)
+  - *Rationale*: Agent guidance must match actual structure
+
+- **Documentation**: Added explicit "Specification Philosophy" to PURPOSE.md
+  - Clarifies that all LiveSpec artifacts are specifications at different abstraction levels
+  - Numbered folders represent abstraction (strategic → detailed), not document types
+  - Requirements ARE specifications (strategic-level)
+  - *Impact*: None (conceptual clarification)
+  - *Rationale*: Prevent semantic confusion between "requirements" and "specifications"
+
+- **Documentation**: Enhanced AGENTS.md with abstraction level clarification
+  - Added note to MSL Minimalism principle explaining folder semantics
+  - *Impact*: None (documentation improvement)
+
+- **Documentation**: Updated docs/methodology.md with abstraction levels section
+  - New "Specification Abstraction Levels" subsection
+  - Explains numbered folder organization pattern
+  - Clarifies all use MSL format
+  - *Impact*: None (user documentation improvement)
+
+- **Spec**: `specs/workspace/constitution.spec.md` - Added abstraction level requirement
+  - Documents that all artifacts are specifications at different abstraction levels
+  - *Impact*: None (workspace spec clarification)
+
+### Migration Guide
+
+**For existing LiveSpec projects:**
+
+1. **Backup first**: `cp -r specs/ specs.backup/`
+
+2. **Rename folders**:
+   ```bash
+   # Create new structure
+   mkdir -p specs/1-requirements/strategic specs/1-requirements/functional
+   mkdir -p specs/2-strategy specs/3-behaviors specs/3-contracts
+
+   # Move strategic requirements
+   mv specs/mission/*.spec.md specs/1-requirements/strategic/
+
+   # Move functional requirements (if any)
+   # (categorize existing requirements appropriately)
+
+   # Move strategy
+   mv specs/strategy/*.spec.md specs/2-strategy/
+
+   # Move behaviors
+   mv specs/behaviors/*.spec.md specs/3-behaviors/
+
+   # Move contracts
+   mv specs/contracts/*.spec.md specs/3-contracts/
+
+   # Remove old folders
+   rmdir specs/mission specs/strategy specs/behaviors specs/contracts
+   ```
+
+3. **Update references**: Update all frontmatter dependencies (derives-from, satisfies, etc.)
+
+4. **Update AGENTS.md**: Replace folder structure with v3.0.0 pattern
+
+5. **Test**: Run validation (if you have it)
+
+**Why this is v3.0.0:**
+- Breaking change to folder structure
+- Existing projects require migration
+- Documentation significantly restructured
+- Conceptual model clarified (everything is a specification)
+
+---
+
 ## [2.4.0] - 2025-10-10
 
 ### Continuous Improvement & Agent Clarity Release
@@ -47,16 +213,16 @@ This release adds self-improvement utilities for project-specific learning captu
   - *Output*: prompts/utils/internalise-learnings.md (generated)
   - *Usage*: When user requests "capture learnings" or "internalise learnings"
 
-- **Spec**: `specs/behaviors/prompts/utils-generate-self-improvement.spec.md` - Generator specification
+- **Spec**: `specs/3-behaviors/prompts/utils-generate-self-improvement.spec.md` - Generator specification
   - *Impact*: None (spec for new utility)
 
-- **Spec**: `specs/behaviors/prompts/utils-generate-internalise-learnings.spec.md` - Generator specification
+- **Spec**: `specs/3-behaviors/prompts/utils-generate-internalise-learnings.spec.md` - Generator specification
   - *Impact*: None (spec for new utility)
 
-- **Spec**: `specs/behaviors/prompts/utils-self-improve.spec.md` - Generated prompt specification
+- **Spec**: `specs/3-behaviors/prompts/utils-self-improve.spec.md` - Generated prompt specification
   - *Impact*: None (spec for generated content)
 
-- **Spec**: `specs/behaviors/prompts/utils-internalise-learnings.spec.md` - Generated prompt specification
+- **Spec**: `specs/3-behaviors/prompts/utils-internalise-learnings.spec.md` - Generated prompt specification
   - *Impact*: None (spec for generated content)
 
 - **Template**: `dist/templates/utils/self-improve.md.template` - Software project template (5507 bytes)
@@ -81,7 +247,7 @@ This release adds self-improvement utilities for project-specific learning captu
     3. Update any custom references
   - *Rationale*: Clearer name prevents confusion with multiple-agent concepts
 
-- **Spec**: `specs/mission/constraints.spec.md` - Added agent-agnostic validation criteria
+- **Spec**: `specs/1-requirements/strategic/constraints.spec.md` - Added agent-agnostic validation criteria
   - *Impact*: None (LiveSpec's own spec)
   - *Changes*: Detailed validation for prompts/ location, no tool-specific syntax, works across agents
 
@@ -93,14 +259,14 @@ This release adds self-improvement utilities for project-specific learning captu
   - *Impact*: None (agent behavior documentation)
   - *Changes*: Documents how agents facilitate self-improvement and learning capture utilities
 
-- **Spec**: `specs/behaviors/prompts/registry.spec.md` - Updated prompt count to 24
+- **Spec**: `specs/3-behaviors/prompts/registry.spec.md` - Updated prompt count to 24
   - *Impact*: None (registry update)
   - *Changes*: Added 4 new utils (20→24 total prompts: 4+3+2+2+5+8)
 
 - **Documentation**: All docs updated for mission/ folder paths
   - *Files*: README.md, docs/methodology.md, docs/quickstart.md, docs/livespec-conventions.md
   - *Impact*: None (documentation alignment)
-  - *Changes*: Updated all references to specs/mission/outcomes.spec.md and specs/mission/constraints.spec.md
+  - *Changes*: Updated all references to specs/1-requirements/strategic/outcomes.spec.md and specs/1-requirements/strategic/constraints.spec.md
 
 ### Fixed
 
@@ -170,7 +336,7 @@ LiveSpec frontmatter field names changed to align with MSL (Markdown Specificati
 
 ### Mission Folder Release
 
-This release restructures top-level specifications into a dedicated `specs/mission/` folder, providing clearer hierarchy and better organization.
+This release restructures top-level specifications into a dedicated `specs/1-requirements/strategic/` folder, providing clearer hierarchy and better organization.
 
 **Breaking changes:**
 - Folder structure change affects all existing projects
@@ -186,10 +352,10 @@ This release restructures top-level specifications into a dedicated `specs/missi
   - *Location*: Project root (most visible position)
 
 - **⚠️ Prompt**: `prompts/0-define/0c-define-outcomes.md` - Create high-level requirements (HIGH IMPACT)
-  - *Purpose*: Guide creation of specs/mission/outcomes.spec.md
+  - *Purpose*: Guide creation of specs/1-requirements/strategic/outcomes.spec.md
   - *Impact*: HIGH - New step in Phase 0
   - *Changes*: Derives outcomes from PURPOSE.md success criteria
-  - *Output*: specs/mission/outcomes.spec.md
+  - *Output*: specs/1-requirements/strategic/outcomes.spec.md
 
 - **Template**: `templates/mission/outcomes.spec.md.template` - High-level requirements template
   - *Impact*: None (new template)
@@ -201,7 +367,7 @@ This release restructures top-level specifications into a dedicated `specs/missi
 
 ### Changed
 
-- **⚠️ BREAKING**: Folder structure reorganized with specs/mission/ (CRITICAL IMPACT)
+- **⚠️ BREAKING**: Folder structure reorganized with specs/1-requirements/strategic/ (CRITICAL IMPACT)
   - *Why*: Clarify top-level project definition vs detailed specifications
   - *Impact*: CRITICAL - All existing projects must migrate
   - *Old structure*:
@@ -226,9 +392,9 @@ This release restructures top-level specifications into a dedicated `specs/missi
     └── behaviors/
     ```
   - *Migration*:
-    1. Create `specs/mission/` directory
-    2. Move `specs/requirements.spec.md` → `specs/mission/outcomes.spec.md`
-    3. Move `specs/constraints.spec.md` → `specs/mission/constraints.spec.md`
+    1. Create `specs/1-requirements/strategic/` directory
+    2. Move `specs/requirements.spec.md` → `specs/1-requirements/strategic/outcomes.spec.md`
+    3. Move `specs/constraints.spec.md` → `specs/1-requirements/strategic/constraints.spec.md`
     4. Update all frontmatter references
   - *Rationale*: Groups "why/what/limits" separately from "how" (strategy/behaviors)
 
@@ -236,14 +402,14 @@ This release restructures top-level specifications into a dedicated `specs/missi
   - *Why*: "Outcomes" better conveys "what we achieve" vs detailed requirements
   - *Impact*: HIGH - File renamed, location changed
   - *Old*: `standard/metaspecs/requirements.spec.md` at `specs/requirements.spec.md`
-  - *New*: `standard/metaspecs/outcomes.spec.md` at `specs/mission/outcomes.spec.md`
+  - *New*: `standard/metaspecs/outcomes.spec.md` at `specs/1-requirements/strategic/outcomes.spec.md`
   - *Changes*: Updated location, clarified high-level nature, improved examples
   - *Migration*: Update metaspec references in custom prompts
 
 - **⚠️ BREAKING**: Constraints metaspec location updated (HIGH IMPACT)
   - *Impact*: HIGH - Location changed
   - *Old*: `specs/constraints.spec.md`
-  - *New*: `specs/mission/constraints.spec.md`
+  - *New*: `specs/1-requirements/strategic/constraints.spec.md`
   - *Changes*: Updated location in metaspec, relationship diagrams
   - *Migration*: Move constraints.spec.md to mission/ folder
 
@@ -252,18 +418,18 @@ This release restructures top-level specifications into a dedicated `specs/missi
   - *Impact*: HIGH - Prompt numbering changed, PURPOSE.md now explicit
   - *Changes*:
     - `0b-define-problem.md` → now creates PURPOSE.md (not specs/problem.md)
-    - `0c-define-outcomes.md` → NEW - creates specs/mission/outcomes.spec.md
-    - `0d-identify-constraints.md` → RENUMBERED from 0c, creates specs/mission/constraints.spec.md
+    - `0c-define-outcomes.md` → NEW - creates specs/1-requirements/strategic/outcomes.spec.md
+    - `0d-identify-constraints.md` → RENUMBERED from 0c, creates specs/1-requirements/strategic/constraints.spec.md
     - `0e-assess-complexity.md` → RENUMBERED from 0d
   - *Migration*: Update Phase 0 references in custom workflows
 
-- **Spec**: `specs/behaviors/five-phases.spec.md` - Phase 0 outputs updated
+- **Spec**: `specs/3-behaviors/five-phases.spec.md` - Phase 0 outputs updated
   - *Impact*: None (LiveSpec's own spec)
   - *Changes*: Updated Phase 0 outputs to reflect mission/ folder
 
 - **Convention**: `standard/conventions/folder-structure.spec.md` - Added mission/ folder
   - *Impact*: HIGH (affects all projects)
-  - *Changes*: Documents specs/mission/ structure, updated examples
+  - *Changes*: Documents specs/1-requirements/strategic/ structure, updated examples
 
 - **Prompts**: Multiple prompts updated for path changes
   - *Files*: next-steps.md, analyze-failure.md, 4a-detect-drift.md, 3b-acceptance-review.md
@@ -282,21 +448,21 @@ This release restructures top-level specifications into a dedicated `specs/missi
 
 1. **Create mission folder:**
    ```bash
-   mkdir -p specs/mission
+   mkdir -p specs/1-requirements/strategic
    ```
 
 2. **Move specification files:**
    ```bash
    # If you have requirements.spec.md
-   mv specs/requirements.spec.md specs/mission/outcomes.spec.md
+   mv specs/requirements.spec.md specs/1-requirements/strategic/outcomes.spec.md
 
    # If you have constraints.spec.md
-   mv specs/constraints.spec.md specs/mission/constraints.spec.md
+   mv specs/constraints.spec.md specs/1-requirements/strategic/constraints.spec.md
    ```
 
 3. **Update frontmatter dependencies:**
-   - Search for `specs/requirements.spec.md` → replace with `specs/mission/outcomes.spec.md`
-   - Search for `specs/constraints.spec.md` → replace with `specs/mission/constraints.spec.md`
+   - Search for `specs/requirements.spec.md` → replace with `specs/1-requirements/strategic/outcomes.spec.md`
+   - Search for `specs/constraints.spec.md` → replace with `specs/1-requirements/strategic/constraints.spec.md`
 
 4. **Upgrade LiveSpec methodology:**
    ```bash
@@ -363,7 +529,7 @@ This release addresses drift detected between specifications and documentation, 
   - *Note*: Behavior is guidance (supportive tone), not blocking (forceful). Preserves voluntary adoption model while ensuring methodology discipline.
   - *Commits*: 8321fd5 (initial enforcement), cd998df (hierarchy alignment correction)
 
-- **Spec**: `specs/behaviors/changelog.spec.md` - Added retrospective specification
+- **Spec**: `specs/3-behaviors/changelog.spec.md` - Added retrospective specification
   - *Why*: Learning from CHANGELOG implementation-first mistake (commit 40411e3)
   - *Impact*: None (spec-only, implementation already exists)
   - *Purpose*: Document requirements that should have existed before CHANGELOG.md was implemented
@@ -381,11 +547,11 @@ This release addresses drift detected between specifications and documentation, 
   - *Migration*: Add Step 0 before your custom steps, ensure AGENTS.md copied first
 
 - **⚠️ Prompt**: `prompts/1-design/1a-design-architecture.md` - Fixed path and added cross-cutting concerns (MEDIUM IMPACT)
-  - *Why*: AI created `specs/architecture.spec.md` instead of `specs/strategy/architecture.spec.md`
+  - *Why*: AI created `specs/architecture.spec.md` instead of `specs/2-strategy/architecture.spec.md`
   - *Why*: User feedback: "without logging strategy debugging became a problem later"
   - *Impact*: MEDIUM - path correction + new optional checklist
   - *Changes*:
-    - Line 17: Fixed path from `specs/architecture.md` to `specs/strategy/architecture.spec.md`
+    - Line 17: Fixed path from `specs/architecture.md` to `specs/2-strategy/architecture.spec.md`
     - NEW section: "Consider Cross-Cutting Concerns" (observability, error handling, security, data, integration, deployment)
     - Updated exit criteria to mention strategy/ folder
   - *Migration*: Update architecture spec path, consider adding cross-cutting concerns checklist
@@ -410,7 +576,7 @@ This release addresses drift detected between specifications and documentation, 
   - *Impact*: None (documentation update)
   - *Changes*: Software remains primary, governance/operations/planning noted as proven domains
 
-- **Documentation**: `specs/strategy/architecture.spec.md` - Added multi-domain patterns
+- **Documentation**: `specs/2-strategy/architecture.spec.md` - Added multi-domain patterns
   - *Impact*: None (LiveSpec's own architecture doc)
 
 - **Documentation**: `AGENTS.md` - Added multi-domain organization and version tracking sections
@@ -421,7 +587,7 @@ This release addresses drift detected between specifications and documentation, 
 - **Workspace specs metaspec compliance**: Added missing `applies_to` frontmatter to constitution.spec.md, workflows.spec.md, patterns.spec.md (metaspec requirement)
 - **AGENTS.md Core Principles drift**: Updated to reflect current constitution.spec.md principle order (Specs Before Implementation now #1)
 - **CHANGELOG drift**: Added missing entries for spec-first enforcement commits (cd998df, 8321fd5, 60c32e1)
-- Strategy specifications now created in correct location (`specs/strategy/` not `specs/`)
+- Strategy specifications now created in correct location (`specs/2-strategy/` not `specs/`)
 - AGENTS.md now included in distribution (fixes discoverability gap)
 - Cross-cutting concerns (logging, observability, error handling) now prompted early in design phase
 - Agent symlink (CLAUDE.md, COPILOT.md) now created automatically in Step 0
@@ -464,9 +630,9 @@ Located in `.livespec/standard/metaspecs/`, these define the LiveSpec specificat
   - constitution.spec.md - Development principles
   - patterns.spec.md - Code and specification patterns
   - workflows.spec.md - Development workflows
-- **specs/behaviors/** - WHAT system does (product-specific observable outcomes)
-- **specs/contracts/** - Interfaces and contracts (APIs, data formats)
-- **specs/strategy/** - Cross-cutting technical decisions (architecture, technology choices)
+- **specs/3-behaviors/** - WHAT system does (product-specific observable outcomes)
+- **specs/3-contracts/** - Interfaces and contracts (APIs, data formats)
+- **specs/2-strategy/** - Cross-cutting technical decisions (architecture, technology choices)
 
 Clear separation prevents mixing portable methodology with product-specific specifications.
 

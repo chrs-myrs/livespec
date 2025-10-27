@@ -29,6 +29,17 @@ LiveSpec is not:
 
 **It's just folders, markdown files, and a methodology.**
 
+### Specification Abstraction Levels
+
+LiveSpec uses numbered folders to organize specifications by abstraction level, not by document type:
+
+- **1-requirements/** - Strategic specifications (high-level WHAT the system must achieve)
+- **2-strategy/** - Approach specifications (HOW the solution is architected)
+- **3-behaviors/** - Behavioral specifications (detailed WHAT the system does)
+- **contracts/** - Interface specifications (API/data contracts)
+
+**Key principle**: These are all specifications using MSL format. "Requirements" refers to strategic-level specs, not a different category of document. Everything follows the same MSL structure with title, frontmatter (criticality, failure_mode), and Requirements section.
+
 ## The Workspace/Product Distinction
 
 This is LiveSpec's core architectural decision.
@@ -75,7 +86,7 @@ This is LiveSpec's core architectural decision.
 
 **Example:**
 ```markdown
-# specs/behaviors/user-authentication.spec.md
+# specs/3-behaviors/user-authentication.spec.md
 
 **Criticality**: CRITICAL
 **Failure Mode**: System unsecured without authentication
@@ -103,8 +114,8 @@ LiveSpec guides development through five phases, not as rigid waterfall but as c
 
 **Outputs:**
 - `PURPOSE.md` - Why does this exist? What success looks like?
-- `specs/mission/outcomes.spec.md` - What must we achieve?
-- `specs/mission/constraints.spec.md` - What boundaries exist?
+- `specs/1-requirements/strategic/outcomes.spec.md` - What must we achieve?
+- `specs/1-requirements/strategic/constraints.spec.md` - What boundaries exist?
 - `specs/workspace/*` - How will we work?
 
 **When**: Start of project or major pivot
@@ -117,8 +128,8 @@ LiveSpec guides development through five phases, not as rigid waterfall but as c
 
 **Outputs:**
 - `specs/architecture.md` (or similar) - System structure
-- `specs/behaviors/*` - Observable behaviors
-- `specs/contracts/*` - API/data contracts
+- `specs/3-behaviors/*` - Observable behaviors
+- `specs/3-contracts/*` - API/data contracts
 
 **When**: After problem is clear, before implementation
 
@@ -214,7 +225,7 @@ Run EVOLVE prompts:
 claude-code "Use .livespec/0-define/0a-setup-workspace.md"
 
 # With context
-claude-code "Using specs/behaviors/authentication.spec.md as reference, implement the login endpoint"
+claude-code "Using specs/3-behaviors/authentication.spec.md as reference, implement the login endpoint"
 ```
 
 ### Cursor
@@ -231,7 +242,7 @@ claude-code "Using specs/behaviors/authentication.spec.md as reference, implemen
 ```python
 # In your code file
 # Following .livespec/2-build/2a-implement-from-specs.md
-# Implement user authentication per specs/behaviors/authentication.spec.md
+# Implement user authentication per specs/3-behaviors/authentication.spec.md
 ```
 
 ### Any Agent
@@ -325,6 +336,67 @@ API limits requests per user with 429 response when exceeded.
 
 **Result**: Spec is more flexible, equally complete.
 
+## Context Compression
+
+While MSL Minimalism optimizes content within specs, **Context Compression** optimizes the structure across your guidance layer (workspace/, AGENTS.md, templates/).
+
+### What It Is
+
+Context Compression is an **active force** that reorganizes guidance for agent focus efficiency:
+
+- **MSL Minimalism** → Content pressure (reduce within specs - WHAT/requirements)
+- **Context Compression** → Structural force (reorganize across guidance - HOW agents consume)
+
+### Three Compression Levels
+
+**Light** (verbose, self-contained):
+- Inline examples and explanations
+- Minimal extraction to templates
+- Good for: Exploratory work, large context agents, learning phase
+
+**Moderate** (balanced - default):
+- Strategic extraction of reusable content
+- Critical workflows inline, details referenced
+- Good for: Most production work, standard agents
+
+**Aggressive** (dense, focused):
+- Heavy extraction to templates
+- Deep reference hierarchies
+- Good for: Cost-sensitive contexts, high-frequency usage
+
+### Configuration
+
+Projects declare compression level in `specs/workspace/constitution.spec.md`:
+
+```yaml
+---
+context_compression: moderate  # light | moderate | aggressive
+---
+```
+
+### Extract vs Inline Decisions
+
+**Always extract** (all levels):
+- Content reused 3+ places
+- Large examples (>50 lines)
+
+**Extract at Moderate+**:
+- Detailed workflows
+- Verification checklists
+
+**Extract at Aggressive**:
+- Explanatory content (keep rules, extract rationale)
+- Nice-to-know content
+
+### Audit and Migrate
+
+Use `.livespec/prompts/utils/audit-context-compression.md` to:
+- Measure actual vs declared compression
+- Identify optimization opportunities
+- Migrate between compression levels
+
+**Framework reference**: `dist/standard/conventions/context-compression.spec.md`
+
 ## Spec Granularity
 
 ### When to Create a Specification
@@ -338,15 +410,15 @@ Create one specification per:
 
 **Example:**
 ```
-✅ specs/behaviors/user-login.spec.md
-✅ specs/behaviors/password-reset.spec.md
-✅ specs/contracts/payment-api.spec.md
+✅ specs/3-behaviors/user-login.spec.md
+✅ specs/3-behaviors/password-reset.spec.md
+✅ specs/3-contracts/payment-api.spec.md
 ```
 
 Not:
 ```
-❌ specs/behaviors/authentication.spec.md (too broad - covers multiple features)
-❌ specs/behaviors/login-button-styling.spec.md (too granular - implementation detail)
+❌ specs/3-behaviors/authentication.spec.md (too broad - covers multiple features)
+❌ specs/3-behaviors/login-button-styling.spec.md (too granular - implementation detail)
 ```
 
 ### When to Split Specifications
@@ -372,10 +444,10 @@ Covers authentication, profile management, permissions, and password policies...
 
 **After Split:**
 ```markdown
-# specs/behaviors/user-authentication.spec.md (CRITICAL)
-# specs/behaviors/user-profiles.spec.md (IMPORTANT)
-# specs/behaviors/user-permissions.spec.md (CRITICAL)
-# specs/behaviors/password-policy.spec.md (IMPORTANT)
+# specs/3-behaviors/user-authentication.spec.md (CRITICAL)
+# specs/3-behaviors/user-profiles.spec.md (IMPORTANT)
+# specs/3-behaviors/user-permissions.spec.md (CRITICAL)
+# specs/3-behaviors/password-policy.spec.md (IMPORTANT)
 ```
 
 ### When to Merge Specifications
@@ -390,16 +462,16 @@ Merge specifications when:
 
 **Example: Before Merge**
 ```markdown
-# specs/behaviors/login-form.spec.md (45 lines)
-# specs/behaviors/login-validation.spec.md (35 lines)
-# specs/behaviors/login-session.spec.md (40 lines)
+# specs/3-behaviors/login-form.spec.md (45 lines)
+# specs/3-behaviors/login-validation.spec.md (35 lines)
+# specs/3-behaviors/login-session.spec.md (40 lines)
 ```
 
 All three always change together, tested together, same criticality.
 
 **After Merge:**
 ```markdown
-# specs/behaviors/user-authentication.spec.md (120 lines)
+# specs/3-behaviors/user-authentication.spec.md (120 lines)
 Covers form, validation, and session in one cohesive spec.
 ```
 
@@ -415,15 +487,15 @@ LiveSpec itself demonstrates good scoping:
 **Why separate?** Different concerns, different update frequencies.
 
 **Prompt Specs (Product):**
-- `specs/behaviors/prompts/0a-setup-workspace.spec.md` - One prompt's behavior
-- `specs/behaviors/prompts/0b-define-problem.spec.md` - Another prompt's behavior
+- `specs/3-behaviors/prompts/0a-setup-workspace.spec.md` - One prompt's behavior
+- `specs/3-behaviors/prompts/0b-define-problem.spec.md` - Another prompt's behavior
 
 **Why separate?** Each prompt is independently testable, different failure modes.
 
 **Core Behavior Specs:**
-- `specs/behaviors/msl-format.spec.md` - MSL format rules
-- `specs/behaviors/folder-structure.spec.md` - Folder organization
-- `specs/behaviors/five-phases.spec.md` - Phase progression
+- `specs/3-behaviors/msl-format.spec.md` - MSL format rules
+- `specs/3-behaviors/folder-structure.spec.md` - Folder organization
+- `specs/3-behaviors/five-phases.spec.md` - Phase progression
 
 **Why separate?** Different aspects of methodology, tested differently.
 
@@ -431,23 +503,23 @@ LiveSpec itself demonstrates good scoping:
 
 **Too Granular:**
 ```
-❌ specs/behaviors/login-button-color.spec.md
-❌ specs/behaviors/password-field-placeholder.spec.md
-❌ specs/behaviors/login-error-animation.spec.md
+❌ specs/3-behaviors/login-button-color.spec.md
+❌ specs/3-behaviors/password-field-placeholder.spec.md
+❌ specs/3-behaviors/login-error-animation.spec.md
 ```
 
 **Too Broad:**
 ```
-❌ specs/behaviors/entire-application.spec.md
-❌ specs/behaviors/all-user-features.spec.md
-❌ specs/behaviors/frontend.spec.md
+❌ specs/3-behaviors/entire-application.spec.md
+❌ specs/3-behaviors/all-user-features.spec.md
+❌ specs/3-behaviors/frontend.spec.md
 ```
 
 **Just Right:**
 ```
-✅ specs/behaviors/user-authentication.spec.md
-✅ specs/behaviors/user-profile-management.spec.md
-✅ specs/behaviors/user-permissions.spec.md
+✅ specs/3-behaviors/user-authentication.spec.md
+✅ specs/3-behaviors/user-profile-management.spec.md
+✅ specs/3-behaviors/user-permissions.spec.md
 ```
 
 ### Decision Process

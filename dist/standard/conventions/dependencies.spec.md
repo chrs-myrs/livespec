@@ -13,6 +13,7 @@ governed-by:
   - `derives_from:` lists parent specs this is based on
   - `constrained_by:` lists boundaries this must respect
   - `satisfies:` lists requirements this fulfills
+  - `guided_by:` lists strategies that guide this spec (horizontal influence)
   - `supports:` lists what this spec enables
   - `applies_to:` defines scope (for workspace specs)
   - Dependency values are file paths (relative to project root) or URLs
@@ -51,6 +52,23 @@ satisfies:
   - specs/requirements.spec.md
 ```
 
+### guided_by
+Strategic approach or architectural decisions that guide this specification (horizontal influence, not satisfied by).
+
+Distinct from `satisfies:` (vertical fulfillment), `guided-by:` represents advisory/directional relationships where strategy specs guide implementation choices without being "fulfilled" by them.
+
+**Example:**
+```yaml
+guided-by:
+  - specs/2-strategy/api-design.spec.md
+  - specs/2-strategy/calculation-approach.spec.md
+```
+
+**Use cases:**
+- Implementation specs guided by architectural strategies
+- Behaviors following cross-cutting technical decisions
+- Distinguishing WHAT (satisfies requirements) from HOW (guided by strategy)
+
 ### supports
 What this specification enables or makes possible.
 
@@ -58,7 +76,7 @@ What this specification enables or makes possible.
 ```yaml
 supports:
   - prompts/4-evolve/4d-regenerate-agents.md
-  - specs/behaviors/drift-detection.spec.md
+  - specs/3-behaviors/drift-detection.spec.md
 ```
 
 ### applies_to
@@ -77,12 +95,18 @@ applies_to:
 ```
 PURPOSE.md
     ↓ derives_from
-specs/requirements.spec.md
-    ↓ satisfies
-specs/behaviors/user-authentication.spec.md
+specs/1-requirements/functional/user-authentication.spec.md
+    ↓ satisfies (vertical)
+specs/3-behaviors/oauth-authentication.spec.md
+    ↑ guided_by (horizontal)
+specs/2-strategy/security-architecture.spec.md
     ↓ constrained_by
-specs/constraints.spec.md
+specs/1-requirements/strategic/constraints.spec.md
 ```
+
+**Note:** Implementation specs (Layer 3) have dual linkage:
+- `satisfies:` requirements (vertical - WHAT they achieve)
+- `guided_by:` strategy (horizontal - HOW they do it)
 
 ## Notes
 

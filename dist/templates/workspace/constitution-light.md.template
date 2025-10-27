@@ -1,0 +1,73 @@
+---
+applies_to:
+  - all_projects
+context_compression: light
+criticality: CRITICAL
+failure_mode: Without governance principles, development becomes inconsistent
+governed-by:
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# [Project Name] Development Constitution
+
+## Requirements
+- [!] [Project] development follows core LiveSpec principles with light context compression for exploratory work
+  - **Specs Before Implementation**: Every deliverable (code, docs, configs) requires specification first
+    - *Example*: Before creating CHANGELOG, create specs/3-behaviors/changelog.spec.md defining what it must contain
+    - AI agents check for spec existence: `ls specs/3-behaviors/[deliverable].spec.md`
+    - If spec missing, guide to Phase 1 (DESIGN) prompts
+    - Even "obvious" deliverables need specs (prevents drift from assumptions)
+  - **MSL Minimalism**: Specifications justify their existence
+    - *Ask before adding*: Would system fail without this? (→ include) | Is this HOW not WHAT? (→ remove) | Problem theoretical only? (→ exclude) | Could be inferred? (→ omit)
+    - *Example*: "Submit button clearly visible" (good) vs "Button must be 120px wide with #007bff" (over-specified)
+    - Start minimal, add only when proven necessary
+    - Trust implementers to make reasonable decisions
+  - **Living Documentation**: Specs evolve continuously with code
+    - Run Phase 4 (EVOLVE) prompts regularly to detect drift
+    - Extract new behaviors as they emerge during development
+    - Update specs alongside code changes (not after the fact)
+  - **Context Compression**: Light compression applied for self-contained guidance
+    - Inline examples and explanations directly in guidance documents
+    - Minimal extraction to templates (only when reused 3+ times)
+    - Verbose, detailed guidance for clarity during exploratory phases
+    - Redundancy tolerated when it aids understanding
+
+## Pre-Implementation Verification (Inline Example)
+
+Before implementing ANY deliverable, verify:
+
+**☐ Specification exists**:
+```bash
+# Check for spec
+ls specs/3-behaviors/[deliverable].spec.md 2>/dev/null ||
+ls specs/3-contracts/[deliverable].spec.md 2>/dev/null ||
+ls specs/2-strategy/[deliverable].spec.md 2>/dev/null
+```
+
+**If NO spec exists**:
+1. Pause and say: "I need a specification before implementing"
+2. Guide to Phase 1 (DESIGN):
+   - For behaviors: `.livespec/1-design/1b-define-behaviors.md`
+   - For contracts: `.livespec/1-design/1c-create-contracts.md`
+   - For architecture: `.livespec/1-design/1a-design-architecture.md`
+
+**If YES spec exists**:
+1. Read specification completely
+2. Verify spec has:
+   - Requirements section with [!] items
+   - Validation criteria (how to test)
+   - Failure mode defined (what breaks if missing)
+3. Implement exactly what spec requires
+
+**☐ Plan includes methodology steps**:
+- Not just "create file X"
+- Include: "Create spec → Write tests (if TDD) → Implement → Validate"
+- Reference specific Phase prompts being followed
+
+## Validation
+- All deliverables have corresponding specifications before implementation
+- Specifications pass MSL minimalism test (CRITICAL or IMPORTANT only)
+- Specs evolve continuously (not static documentation)
+- Pre-implementation verification checklist followed consistently
+- Light context compression maintained (inline guidance, minimal extraction)
+- AI agents successfully guided through spec-first workflow

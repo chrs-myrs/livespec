@@ -1,0 +1,61 @@
+---
+applies_to:
+  - all_projects
+context_compression: moderate
+criticality: CRITICAL
+failure_mode: Without governance principles, development becomes inconsistent
+governed-by:
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# [Project Name] Development Constitution
+
+## Requirements
+- [!] [Project] development follows core LiveSpec principles with moderate context compression for production work
+  - **Specs Before Implementation**: Every deliverable requires specification first
+    - AI agents check for spec existence before implementation
+    - Guide to Phase 1 (DESIGN) if missing
+    - Even familiar deliverables need specs (prevents assumption drift)
+    - *See*: `.livespec/templates/agents/spec-first-verification.md` for full checklist
+  - **MSL Minimalism**: Specifications justify existence through decision framework
+    - Essential questions: Would system fail? | Specifying HOW not WHAT? | Problem theoretical? | Could be inferred?
+    - Only CRITICAL or IMPORTANT requirements
+    - Trust implementers for implementation details
+    - *See*: `.livespec/guides/msl-minimalism.md` for complete framework
+  - **Living Documentation**: Specs evolve continuously through Phase 4 (EVOLVE)
+    - Detect drift: `.livespec/4-evolve/4a-detect-drift.md`
+    - Extract behaviors: `.livespec/4-evolve/4b-extract-specs.md`
+    - Sync regularly: `.livespec/4-evolve/4c-sync-complete.md`
+  - **Context Compression**: Moderate compression balances inline/reference
+    - Critical workflows inline in AGENTS.md
+    - Detailed checklists extracted to templates/
+    - Examples show pattern inline, reference full details
+    - Strategic extraction of reusable verification content
+
+## Pre-Implementation Verification
+
+Before implementing, verify:
+
+1. **☐ Specification exists** for this deliverable
+   - Check: `specs/3-behaviors/[deliverable].spec.md`
+   - If missing → Guide to Phase 1 (DESIGN)
+
+2. **☐ Specification is complete**
+   - Has Requirements section with [!] items
+   - Has Validation criteria
+   - Has Failure Mode defined
+
+3. **☐ Plan follows methodology**
+   - Includes spec creation (if needed)
+   - Includes tests (if TDD project)
+   - References specific Phase prompts
+
+*Full verification checklist*: `.livespec/templates/agents/pre-implementation-verification.md`
+
+## Validation
+- All deliverables have specifications before implementation
+- Specifications pass MSL minimalism test
+- Specs evolve continuously with code
+- Pre-implementation verification followed
+- Moderate context compression maintained (balanced inline/reference)
+- Extracted templates reused across guidance documents

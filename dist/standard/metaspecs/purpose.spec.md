@@ -17,8 +17,8 @@ governed-by:
   - No YAML frontmatter (free-form markdown, not MSL spec)
   - No implementation details (→ strategy specs)
   - No architectural decisions (→ strategy specs)
-  - No detailed requirements (→ specs/mission/outcomes.spec.md)
-  - No constraints (→ specs/mission/constraints.spec.md)
+  - No detailed requirements (→ specs/1-requirements/strategic/outcomes.spec.md)
+  - No constraints (→ specs/1-requirements/strategic/constraints.spec.md)
 
 ## Notes
 
@@ -36,17 +36,17 @@ governed-by:
 **Not for PURPOSE.md:**
 - ❌ Detailed feature lists (→ behaviors/)
 - ❌ Architecture decisions (→ strategy/)
-- ❌ Technical constraints (→ mission/constraints.spec.md)
+- ❌ Technical constraints (→ 1-requirements/strategic/constraints.spec.md)
 - ❌ Process definitions (→ workspace/)
 
 **Relationship to other specs:**
 ```
 PURPOSE.md (why - vision)
     ↓ derives
-specs/mission/outcomes.spec.md (what - high-level requirements)
-specs/mission/constraints.spec.md (limits - hard boundaries)
+specs/1-requirements/strategic/outcomes.spec.md (what - high-level requirements)
+specs/1-requirements/strategic/constraints.spec.md (limits - hard boundaries)
     ↓ both inform
-specs/strategy/architecture.spec.md (how - technical approach)
+specs/2-strategy/architecture.spec.md (how - technical approach)
 ```
 
 **Example structure (LiveSpec's own PURPOSE.md):**

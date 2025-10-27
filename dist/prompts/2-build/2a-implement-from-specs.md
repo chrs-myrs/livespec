@@ -1,7 +1,8 @@
 ---
-implements: specs/behaviors/prompts/2a-implement-from-specs.spec.md
+implements: specs/3-behaviors/prompts/2a-implement-from-specs.spec.md
 generated: '2025-10-10'
 phase: 2-build
+estimated_time: "Varies by scope (30 minutes to several hours)"
 ---
 
 # Prompt Behavior: Implement from Specifications
@@ -11,6 +12,31 @@ phase: 2-build
 ## Context
 
 You're in Phase 2 (BUILD), implementing features based on existing specifications. All behaviors should already be specified.
+
+## Before This Prompt
+
+⚠️ **STOP: Verify Phase 0 and Phase 1 prerequisites before implementing. Coding without specs causes drift.**
+
+**Check Phase 0 artifacts exist:**
+- [ ] `PURPOSE.md` - Project purpose and vision
+- [ ] `specs/1-requirements/strategic/outcomes.spec.md` - High-level requirements
+- [ ] `specs/1-requirements/strategic/constraints.spec.md` - Boundaries and limits
+- [ ] `specs/workspace/` directory - Workspace constitution, patterns, workflows
+
+**Check Phase 1 artifacts exist:**
+- [ ] `specs/3-behaviors/` directory with behavior specs - What to build
+- [ ] Architecture defined (optional but recommended)
+
+**If ANY Phase 0 artifact is missing → STOP:**
+- Missing PURPOSE.md → "Use `.livespec/0-define/0b-define-problem.md`"
+- Missing outcomes/constraints → "Complete Phase 0 (DEFINE) first"
+- Missing workspace specs → "Use `.livespec/0-define/0a-setup-workspace.md`"
+
+**If Phase 1 artifacts missing → STOP:**
+- Missing specs/3-behaviors/ → "Use `.livespec/1-design/1b-define-behaviors.md` to create behavior specs first"
+- Empty behaviors directory → "Cannot implement without specifications"
+
+**Only proceed when specifications exist.** Implementation without specs = guaranteed drift.
 
 ## Task
 
@@ -27,6 +53,102 @@ Produce working code or tests that satisfy specifications.
 - All constraints satisfied
 - Code matches behavior specifications
 - No features added beyond specifications
+
+## When Implementation Diverges from Spec
+
+**During implementation, you may discover:**
+- Spec missed edge cases
+- Requirements infeasible as specified
+- Better approach than spec describes
+- External dependency constraints
+
+**Decision framework:**
+
+### Update Spec (Preferred)
+**When:**
+- Spec incomplete (missed edge case)
+- Spec wrong (misunderstood requirement)
+- Spec unclear (needs clarification)
+- Discovery improves requirements understanding
+
+**Process:**
+1. Pause implementation
+2. Update behavior spec with discovery
+3. Document why changed (commit message or spec comment)
+4. Resume implementation following updated spec
+
+**Example:**
+```yaml
+# In specs/3-behaviors/authentication.spec.md
+## Requirements
+- [!] System authenticates users via OAuth2
+  - Handles token refresh ← ADDED during implementation
+  - Validates token expiry ← ADDED during implementation
+```
+
+### Accept Divergence (Rare)
+**When:**
+- Spec technically correct but implementation requires deviation
+- External library constraint forces different approach
+- Performance requirement demands alternative
+- Security issue requires deviation
+
+**Process:**
+1. Document divergence in code comments
+2. Add note to spec explaining intentional deviation
+3. Update spec's "Implementation Notes" section (if exists)
+4. Mark for Phase 4 review
+
+**Example:**
+```python
+# Implementation deviates from spec: uses bcrypt instead of argon2
+# Reason: deployment environment doesn't support argon2
+# Spec note added: specs/3-behaviors/password-hashing.spec.md
+def hash_password(password: str) -> str:
+    return bcrypt.hashpw(password, bcrypt.gensalt())
+```
+
+### Reject Divergence
+**When:**
+- Implementation convenience (not good reason)
+- "I think this is better" without evidence
+- Skipping validation criteria
+- Ignoring constraints
+
+**Process:**
+- Implement as specified
+- If genuinely impossible, escalate (don't silently diverge)
+- Update spec first, then implement
+
+**Red flags:**
+- ❌ "Spec says X but I'll do Y because it's easier"
+- ❌ "This validation criterion is too hard to test"
+- ❌ "Constraint is inconvenient, I'll ignore it"
+- ✅ "Spec says X but discovered Y is required, updating spec"
+
+### Tracking Spec Evolution
+
+**In commit messages:**
+```
+feat: implement user authentication
+
+- Follows specs/3-behaviors/authentication.spec.md
+- Added token refresh handling (spec updated)
+- Added rate limiting (discovered during implementation)
+
+Updated specs:
+- authentication.spec.md: added token refresh requirement
+```
+
+**In spec frontmatter:**
+```yaml
+last_updated: 2025-10-24
+evolution_notes:
+  - "2025-10-24: Added token refresh (discovered during implementation)"
+  - "2025-10-24: Added rate limiting for security"
+```
+
+**Why this matters**: Specs should evolve with understanding. Rigid specs that can't adapt are as bad as no specs. But evolution must be documented, not silent drift.
 
 ## Success Criteria
 

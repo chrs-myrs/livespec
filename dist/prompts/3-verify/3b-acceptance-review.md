@@ -1,5 +1,6 @@
 ---
-implements: specs/behaviors/prompts/3b-acceptance-review.spec.md
+implements: specs/3-behaviors/prompts/3b-acceptance-review.spec.md
+estimated_time: "30-60 minutes"
 ---
 
 # 3b: Acceptance Review
@@ -23,7 +24,7 @@ From `PURPOSE.md`:
 - What does success look like?
 
 ### 2. What Was Delivered
-List all implemented behaviors from `specs/behaviors/`:
+List all implemented behaviors from `specs/3-behaviors/`:
 ```markdown
 ## Delivered Behaviors
 

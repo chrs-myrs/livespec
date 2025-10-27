@@ -1,5 +1,5 @@
 ---
-implements: specs/behaviors/prompts/next-steps.spec.md
+implements: specs/3-behaviors/prompts/next-steps.spec.md
 ---
 
 # Workflow Orchestrator - What To Do Next
@@ -26,16 +26,16 @@ Analyzes your project state and recommends next actions. Helpful when you're uns
 **Foundation:**
 ```bash
 [ ] PURPOSE.md exists?
-[ ] specs/mission/outcomes.spec.md exists?
-[ ] specs/mission/constraints.spec.md exists?
+[ ] specs/1-requirements/strategic/outcomes.spec.md exists?
+[ ] specs/1-requirements/strategic/constraints.spec.md exists?
 [ ] specs/workspace/ exists (constitution, patterns, workflows)?
 ```
 
 **Design:**
 ```bash
 [ ] specs/architecture.spec.md exists?
-[ ] specs/behaviors/ has behavior specs?
-[ ] specs/contracts/ has contracts (if needed)?
+[ ] specs/3-behaviors/ has behavior specs?
+[ ] specs/3-contracts/ has contracts (if needed)?
 ```
 
 **Implementation:**
@@ -129,7 +129,7 @@ No specs exist?
 ```
 PURPOSE.md exists but no outcomes?
 → Use .livespec/0-define/0c-define-outcomes.md
-→ Use .livespec/0-define/0d-identify-constraints.md
+→ Use .livespec/0-define/0f-identify-constraints.md
 
 Complex project?
 → Consider .livespec/0-define/0e-assess-complexity.md

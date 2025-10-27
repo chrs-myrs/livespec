@@ -1,0 +1,133 @@
+---
+applies_to:
+  - all_projects
+context_compression: aggressive
+criticality: CRITICAL
+failure_mode: Without governance principles, development becomes inconsistent
+governed-by:
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# [Project Name] Development Constitution
+
+## Requirements
+- [!] [Project] development follows LiveSpec principles with aggressive context compression for maximum focus
+  - **Specs Before Implementation**: Every deliverable requires spec first (See: `.livespec/templates/agents/spec-first-verification.md`)
+  - **MSL Minimalism**: Essential-only requirements (See: `.livespec/guides/msl-minimalism.md`)
+  - **Living Documentation**: Continuous spec evolution via Phase 4 (See: `.livespec/4-evolve/*.md`)
+  - **Context Compression**: Aggressive extraction for optimal agent focus
+    - Rules inline, details extracted
+    - Heavy template reuse (`.livespec/templates/agents/`)
+    - Deep reference hierarchies
+    - Cache-optimized boundaries
+
+## Pre-Implementation Verification
+
+**☐ Spec exists** → `specs/3-behaviors/[deliverable].spec.md`
+**☐ Spec complete** → Requirements, Validation, Failure Mode
+**☐ Plan follows methodology** → Phase references, not just implementation
+
+*Full checklist*: `.livespec/templates/agents/pre-implementation-verification.md`
+*Workflow guidance*: `.livespec/prompts/utils/next-steps.md`
+
+## Validation
+- Specifications before implementation (verified: `.livespec/templates/agents/spec-first-verification.md`)
+- MSL minimalism applied (framework: `.livespec/guides/msl-minimalism.md`)
+- Continuous evolution (prompts: `.livespec/4-evolve/*.md`)
+- Aggressive compression maintained (extraction ratio >70%, deep references)
+
+---
+
+## Concrete Compression Examples
+
+**Aggressive compression achieves >70% extraction** - here's what that means in practice:
+
+### Example 1: PURPOSE.md Compression
+
+**Before** (verbose, 174 lines):
+```
+# Project Purpose
+
+## What IS
+
+This project IS a Python daemon and SDK...
+[150+ lines of detailed implementation, principles, constraints, success criteria...]
+
+## What IS NOT
+
+This project IS NOT...
+[20+ lines of anti-patterns and exclusions...]
+```
+
+**After** (aggressive, 14 lines):
+```
+# Project Purpose
+
+## Why This Exists
+[1-2 sentences: core problem being solved]
+
+## What Success Looks Like
+- [Observable success criterion 1]
+- [Observable success criterion 2]
+- [Observable success criterion 3]
+```
+
+**Result**: 92% reduction (174 → 14 lines). Details extracted to `specs/1-requirements/`, `specs/workspace/`, `specs/2-strategy/`.
+
+### Example 2: Constitution Compression
+
+**Before** (verbose, ~200 lines):
+```
+# Development Principles
+
+## Principle 1: Specifications Before Implementation
+[Full description of spec-first workflow...]
+[Examples of good/bad practices...]
+[Step-by-step process...]
+[Common pitfalls...]
+
+## Principle 2: MSL Minimalism
+[Philosophy explanation...]
+[When to include/exclude requirements...]
+[Detailed examples...]
+
+[8 more principles with full details...]
+```
+
+**After** (aggressive, 38 lines):
+```
+# Development Constitution
+
+## Requirements
+- Specs Before Implementation (See: `.livespec/templates/agents/...`)
+- MSL Minimalism (See: `.livespec/guides/...`)
+- Living Documentation (See: `.livespec/4-evolve/...`)
+
+## Pre-Implementation Verification
+[Essential checklist only]
+*Full details*: [references]
+```
+
+**Result**: 81% reduction (200 → 38 lines). Principles inline, processes extracted to referenced guides.
+
+### Measuring Your Compression
+
+**Extraction Ratio Calculation:**
+```
+Before: [Total lines in uncompressed form]
+After: [Lines in compressed constitution]
+Extraction Ratio: (Before - After) / Before × 100%
+
+Target for Aggressive: >70%
+```
+
+**Quick Audit:**
+```bash
+# Count lines in your constitution
+wc -l specs/workspace/constitution.spec.md
+
+# If < 50 lines with proper references → likely achieving aggressive compression
+# If > 100 lines → may need further extraction
+```
+
+**See also**: `dist/prompts/utils/audit-context-compression.md` for full compression analysis

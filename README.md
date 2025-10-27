@@ -34,10 +34,10 @@ Software specifications and code inevitably drift apart. Documentation becomes o
 graph TD
     %% Main Vertical Flow
     PURPOSE[PURPOSE.md<br/>Why this exists]
-    REQUIREMENTS[mission/outcomes.spec.md<br/>What we must achieve]
-    CONSTRAINTS[mission/constraints.spec.md<br/>Hard boundaries]
-    STRATEGY[strategy/<br/>Technical approach]
-    SPECS[behaviors/ + contracts/<br/>What system does]
+    REQUIREMENTS[1-requirements/<br/>What we must achieve]
+    CONSTRAINTS[1-requirements/<br/>Hard boundaries]
+    STRATEGY[2-strategy/<br/>Technical approach]
+    SPECS[3-behaviors/ + 3-contracts/<br/>What system does]
     CODE[Your Code<br/>AI-generated or manual]
 
     %% Validation
@@ -46,13 +46,16 @@ graph TD
     %% Workspace (separate)
     WORKSPACE[workspace/<br/>Development process]
 
-    %% Main Flow
+    %% Downward Flow (derives-from, guided-by)
     PURPOSE --> REQUIREMENTS
     REQUIREMENTS --> CONSTRAINTS
     REQUIREMENTS --> STRATEGY
     CONSTRAINTS --> STRATEGY
-    STRATEGY --> SPECS
+    STRATEGY -->|guided-by| SPECS
     SPECS --> CODE
+
+    %% Upward Flow (satisfies)
+    SPECS -.satisfies.-> REQUIREMENTS
 
     %% Validation
     TESTS <-.validates.-> SPECS
@@ -72,6 +75,8 @@ graph TD
 - 🔵 Foundation (Why & What) → 🟡 Design (How) → 🟢 Implementation (Build)
 - 🔴 Tests validate specs and code
 - ⚪ Workspace defines how you work (applies to all)
+- Solid arrows: Downward flow (derives-from, guided-by)
+- Dotted arrows: Upward flow (satisfies) - implementations link back to requirements
 
 ## Self-Documenting Framework
 
@@ -132,7 +137,7 @@ cd your-project
 cp -r livespec/dist/* .livespec
 
 # Create specs structure
-mkdir -p specs/workspace specs/behaviors specs/contracts
+mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
 
 # Start Phase 0
 claude-code "Use .livespec/0-define/0a-setup-workspace.md"
@@ -145,7 +150,7 @@ claude-code "Use .livespec/0-define/0a-setup-workspace.md"
 cp -r livespec/dist/* .livespec
 
 # Create structure
-mkdir -p specs/workspace specs/behaviors specs/contracts
+mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
 
 # Extract specifications from code
 claude-code "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
@@ -155,7 +160,7 @@ claude-code "Use .livespec/4-evolve/4b-extract-specs.md to document this codebas
 
 ```bash
 # Just create structure
-mkdir -p specs/workspace specs/behaviors specs/contracts
+mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
 
 # Tell your AI agent:
 # "Use @context7/chrs-myrs/livespec methodology"
@@ -395,16 +400,16 @@ livespec/
 
 **For Contributors:**
 - Read `specs/workspace/` to understand how WE build LiveSpec
-- Check `specs/behaviors/prompts/` for what each prompt does
-- Check `specs/behaviors/framework/` for the framework structure
+- Check `specs/3-behaviors/prompts/` for what each prompt does
+- Check `specs/3-behaviors/framework/` for the framework structure
 - We use `.livespec/` (symlinked to `dist/`) for our own development
 
 ## Contributing
 
 Contributions welcome! We dogfood our own methodology:
 - Read [specs/workspace/](specs/workspace/) to understand how WE build LiveSpec
-- Check [specs/behaviors/prompts/](specs/behaviors/prompts/) for what each prompt does
-- Check [specs/behaviors/framework/](specs/behaviors/framework/) for the framework structure
+- Check [specs/3-behaviors/prompts/](specs/3-behaviors/prompts/) for what each prompt does
+- Check [specs/3-behaviors/framework/](specs/3-behaviors/framework/) for the framework structure
 - Use `.livespec/` (symlinked to `dist/`) when working on LiveSpec itself
 - Submit PRs following workspace patterns
 

@@ -100,12 +100,12 @@ For smaller projects, update files manually:
 ```yaml
 # Before
 ---
-spec: specs/behaviors/prompts/setup.spec.md
+spec: specs/3-behaviors/prompts/setup.spec.md
 ---
 
 # After
 ---
-implements: specs/behaviors/prompts/setup.spec.md
+implements: specs/3-behaviors/prompts/setup.spec.md
 ---
 ```
 

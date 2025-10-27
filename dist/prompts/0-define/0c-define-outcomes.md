@@ -1,5 +1,6 @@
 ---
-implements: specs/behaviors/prompts/0c-define-outcomes.spec.md
+implements: specs/3-behaviors/prompts/0c-define-outcomes.spec.md
+estimated_time: "15-20 minutes"
 ---
 
 # 0c: Define Outcomes
@@ -10,7 +11,7 @@ implements: specs/behaviors/prompts/0c-define-outcomes.spec.md
 
 ## Task
 
-Create `specs/mission/outcomes.spec.md` that defines high-level project outcomes derived from PURPOSE.md.
+Create `specs/1-requirements/strategic/outcomes.spec.md` that defines high-level project outcomes derived from PURPOSE.md.
 
 ## Questions to Answer
 
@@ -77,7 +78,7 @@ derives-from:
 
 ## Exit Criteria
 
-- [ ] specs/mission/outcomes.spec.md exists
+- [ ] specs/1-requirements/strategic/outcomes.spec.md exists
 - [ ] 3-6 high-level outcomes defined
 - [ ] Each outcome traces to PURPOSE.md
 - [ ] Each outcome has validation criteria
@@ -87,4 +88,4 @@ derives-from:
 
 ## Next Step
 
-Once outcomes are defined, proceed to `0d-identify-constraints.md`
+Once outcomes are defined, proceed to `0d-assess-complexity.md` (complexity assessment recommended for non-trivial projects)

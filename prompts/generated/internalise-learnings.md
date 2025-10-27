@@ -23,7 +23,7 @@ I need to analyze THIS current conversation to extract learnings for LiveSpec.
 
 **Specification Structure:**
 - specs/workspace/ - Development process (portable)
-- specs/mission/ - High-level goals (outcomes, constraints)
+- specs/1-requirements/strategic/ - High-level goals (outcomes, constraints)
 - specs/strategy/ - Technical approach (architecture, cross-cutting)
 - specs/behaviors/ - Observable outcomes (features)
 - specs/contracts/ - Interface definitions (APIs, data)
@@ -123,11 +123,11 @@ Scanning THIS conversation for learnings (not pre-filled examples)...
   - specs/workspace/workflows.spec.md (how to create/update specs)
   - specs/workspace/workspace-agent.spec.md (agent behaviors)
 
-**Mission Learnings** (→ specs/mission/):
+**Mission Learnings** (→ specs/1-requirements/strategic/):
 - High-level requirements, constraints
 - Files:
-  - specs/mission/outcomes.spec.md (what LiveSpec must achieve)
-  - specs/mission/constraints.spec.md (agent-agnostic, manual adoption, etc.)
+  - specs/1-requirements/strategic/outcomes.spec.md (what LiveSpec must achieve)
+  - specs/1-requirements/strategic/constraints.spec.md (agent-agnostic, manual adoption, etc.)
 
 **Strategy Learnings** (→ specs/strategy/):
 - Architectural decisions, technical approach

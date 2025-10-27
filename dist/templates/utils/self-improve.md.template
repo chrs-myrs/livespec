@@ -23,8 +23,8 @@ Reading project specifications to understand current state...
 **Project Context:**
 ```bash
 cat PURPOSE.md
-cat specs/mission/outcomes.spec.md 2>/dev/null || echo "Not found"
-cat specs/mission/constraints.spec.md 2>/dev/null || echo "Not found"
+cat specs/1-requirements/strategic/outcomes.spec.md 2>/dev/null || echo "Not found"
+cat specs/1-requirements/strategic/constraints.spec.md 2>/dev/null || echo "Not found"
 cat specs/workspace/constitution.spec.md
 ```
 
@@ -43,7 +43,7 @@ Analyzing project health through [DOMAIN] lens...
 ```bash
 # Verify all required specs exist
 ls specs/workspace/*.spec.md
-ls specs/mission/*.spec.md 2>/dev/null || echo "Mission specs not found"
+ls specs/1-requirements/strategic/*.spec.md 2>/dev/null || echo "Mission specs not found"
 ls specs/strategy/*.spec.md 2>/dev/null || echo "Strategy specs not found"
 find specs/behaviors/ -name "*.spec.md" 2>/dev/null || echo "Behavior specs not found"
 ```

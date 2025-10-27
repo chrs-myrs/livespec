@@ -23,7 +23,7 @@ constrained_by:
 
 ## Notes
 
-**Strategy goes in:** `specs/strategy/`
+**Strategy goes in:** `specs/2-strategy/`
 
 **Why strategy?** This is a product-specific technical decision that applies across the entire system.
 

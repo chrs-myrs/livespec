@@ -1,0 +1,106 @@
+---
+criticality: IMPORTANT
+failure_mode: Without structured [process], [what goes wrong]
+governed-by: .livespec/standard/metaspecs/behavior.metaspec.md
+satisfies: specs/1-requirements/strategic/outcomes.spec.md
+pattern: meta-process
+---
+
+# [Process Name] Behavior
+
+## Requirements
+
+### [Artifact] Structure
+
+- [!] Each [artifact] lives in `[location]/[naming-pattern]/`
+  - Naming convention: [describe pattern, e.g., "NNN-descriptive-name"]
+  - Example: `[concrete example path]`
+
+- [!] Each [artifact] folder contains:
+  - `[required-file-1].md` - [Purpose]
+  - `[required-file-2].md` - [Purpose]
+  - `[subfolder]/` - [Purpose]
+  - Optional: [optional elements]
+
+### [Artifact] Format ([primary-filename].md)
+
+- [!] Must define:
+  - **[Section 1]**: [What this section captures]
+  - **[Section 2]**: [What this section captures]
+  - **[Section 3]**: [What this section captures]
+
+- [!] Must be measurable/verifiable:
+  - ✓ Good example: "[Specific, testable criterion]"
+  - ✗ Bad example: "[Vague, unmeasurable criterion]"
+
+### Lifecycle States
+
+- [!] Valid states:
+  - `[state-1]` - [When artifact is in this state]
+  - `[state-2]` - [When artifact is in this state]
+  - `[state-3]` - [When artifact is in this state]
+  - `[state-4]` - [When artifact is in this state]
+
+- [!] State tracked via: `[mechanism]`
+  - Example: `[artifact]/status.txt` containing single line with current state
+  - Updated when [trigger for state change]
+
+### [Queue/Index] Management (if applicable)
+
+- [!] Central index managed via `[location]/[INDEX-FILE].md`
+  - Lists all [artifacts] with [key attributes]
+  - [Ordering/priority criteria]
+  - Updated when [artifacts created/completed/changed]
+
+### Learnings Capture (if continuous improvement)
+
+- [!] Cross-cutting insights documented in `[location]/LEARNINGS.md`
+  - Patterns discovered across multiple [artifacts]
+  - [Domain-specific insights]
+  - Anti-patterns to avoid
+  - Tool/technique discoveries
+
+- [!] Learnings feed back into this spec
+  - Update this spec when patterns emerge
+  - Document evolution in git commit messages
+  - Rationale section explains feedback loop
+
+## Rationale
+
+[Why this process exists]
+
+[What problem does it solve?]
+
+[What happens without this structure?]
+
+[If continuous improvement loop exists, describe it:]
+Example:
+```
+This spec evolves based on [artifact] learnings.
+See [location]/LEARNINGS.md for feedback loop documentation.
+Spec improvements feed back into better [artifact] outcomes.
+```
+
+## Validation
+
+[How to verify an instance conforms to this spec]
+
+**Valid [artifact] has:**
+- [ ] Correct folder structure and naming
+- [ ] All required files present
+- [ ] [Primary file] contains all required sections
+- [ ] State is valid and tracked correctly
+- [ ] [If applicable] Listed in [INDEX-FILE].md
+
+**Example validation:**
+```bash
+# Check structure
+ls [location]/NNN-example/
+
+# Verify required files
+test -f [location]/NNN-example/[required-file-1].md
+test -f [location]/NNN-example/[required-file-2].md
+
+# Check state validity
+grep -E "^(state-1|state-2|state-3|state-4)$" [location]/NNN-example/status.txt
+```

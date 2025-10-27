@@ -1,5 +1,5 @@
 ---
-implements: specs/behaviors/prompts/utils-feedback-report.spec.md
+implements: specs/3-behaviors/prompts/utils-feedback-report.spec.md
 generated: '2025-10-10'
 ---
 

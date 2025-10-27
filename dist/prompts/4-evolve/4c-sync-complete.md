@@ -1,7 +1,8 @@
 ---
-implements: specs/behaviors/prompts/4c-sync-complete.spec.md
+implements: specs/3-behaviors/prompts/4c-sync-complete.spec.md
 generated: '2025-10-10'
 phase: 4-evolve
+estimated_time: "10-15 minutes"
 ---
 
 # Prompt Behavior: Synchronisation Complete

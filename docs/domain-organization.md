@@ -197,7 +197,7 @@ Create domain-specific base specs for consistency within a domain:
 
 ### Example: Governance Base Spec
 
-**specs/behaviors/policies/_base-policy.spec.md:**
+**specs/3-behaviors/policies/_base-policy.spec.md:**
 ```markdown
 ---
 criticality: CRITICAL
@@ -231,7 +231,7 @@ All policies must include (in addition to base.spec.md requirements):
 
 **Individual policy then extends base:**
 
-**specs/behaviors/policies/access-control.spec.md:**
+**specs/3-behaviors/policies/access-control.spec.md:**
 ```markdown
 ---
 criticality: CRITICAL
@@ -262,7 +262,7 @@ compliance_mapping:
 
 ### Example: Operations Base Spec
 
-**specs/contracts/runbooks/_base-runbook.spec.md:**
+**specs/3-contracts/runbooks/_base-runbook.spec.md:**
 ```markdown
 ---
 criticality: IMPORTANT

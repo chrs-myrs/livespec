@@ -1,5 +1,5 @@
 ---
-implements: specs/behaviors/prompts/utils-generate-internalise-learnings.spec.md
+implements: specs/3-behaviors/prompts/utils-generate-internalise-learnings.spec.md
 phase: utils
 purpose: Generate customized learning-capture prompt tailored to project spec structure
 ---
@@ -38,25 +38,25 @@ Generate a customized `prompts/utils/internalise-learnings.md` prompt tailored t
 
 2. **Mission (goals):**
    ```bash
-   ls specs/mission/*.spec.md 2>/dev/null || echo "Not found"
+   ls specs/1-requirements/strategic/*.spec.md 2>/dev/null || echo "Not found"
    ```
    These define high-level WHAT (outcomes, constraints)
 
 3. **Strategy (approach):**
    ```bash
-   ls specs/strategy/*.spec.md 2>/dev/null || echo "Not found"
+   ls specs/2-strategy/*.spec.md 2>/dev/null || echo "Not found"
    ```
    These define technical HOW (architecture, cross-cutting)
 
 4. **Behaviors (features):**
    ```bash
-   find specs/behaviors/ -name "*.spec.md" -type f | head -10
+   find specs/3-behaviors/ -name "*.spec.md" -type f | head -10
    ```
    These define detailed WHAT (observable outcomes)
 
 5. **Contracts (interfaces):**
    ```bash
-   find specs/contracts/ -type f 2>/dev/null | head -10 || echo "Not found"
+   find specs/3-contracts/ -type f 2>/dev/null | head -10 || echo "Not found"
    ```
    These define API/data boundaries
 
@@ -88,10 +88,10 @@ Generate a customized `prompts/utils/internalise-learnings.md` prompt tailored t
 
 **If learning is about:**
 - Development process, principles, conventions → `specs/workspace/`
-- High-level project direction, goals, boundaries → `specs/mission/`
-- Technical approach, architecture, cross-cutting → `specs/strategy/`
-- Observable system behavior, features → `specs/behaviors/`
-- API contracts, data formats → `specs/contracts/`
+- High-level project direction, goals, boundaries → `specs/1-requirements/strategic/`
+- Technical approach, architecture, cross-cutting → `specs/2-strategy/`
+- Observable system behavior, features → `specs/3-behaviors/`
+- API contracts, data formats → `specs/3-contracts/`
 
 **Map to actual files:**
 ```bash
@@ -133,7 +133,7 @@ cat dist/templates/utils/internalise-learnings.md.template
 2. **Learning classification** - Use actual spec taxonomy:
    ```
    **Process Learnings** → specs/workspace/
-   **Mission Learnings** → specs/mission/
+   **Mission Learnings** → specs/1-requirements/strategic/
    **Strategy Learnings** → specs/strategy/
    **Behavior Learnings** → specs/behaviors/
    **Contract Learnings** → specs/contracts/
@@ -159,7 +159,7 @@ sources:
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
-implements: specs/behaviors/prompts/utils-internalise-learnings.spec.md
+implements: specs/3-behaviors/prompts/utils-internalise-learnings.spec.md
 ---
 
 # Internalise Learnings
@@ -189,15 +189,15 @@ Scanning THIS conversation for learnings...
 - How we work, conventions, principles
 - Files: [LIST ACTUAL WORKSPACE SPECS]
 
-**Mission Learnings** (→ specs/mission/):
+**Mission Learnings** (→ specs/1-requirements/strategic/):
 - High-level requirements, constraints
 - Files: [LIST ACTUAL MISSION SPECS OR "Not yet created"]
 
-**Strategy Learnings** (→ specs/strategy/):
+**Strategy Learnings** (→ specs/2-strategy/):
 - Architectural decisions, technical approach
 - Files: [LIST ACTUAL STRATEGY SPECS OR "Not yet created"]
 
-**Behavior Learnings** (→ specs/behaviors/):
+**Behavior Learnings** (→ specs/3-behaviors/):
 - Observable outcomes, features
 - Files: [LIST SOME EXISTING BEHAVIOR SPECS]
 

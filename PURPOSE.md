@@ -13,6 +13,10 @@ Specifications inevitably drift from reality—code diverges from docs, policies
 - Teams adopt and maintain specifications voluntarily (choosing LiveSpec means accepting AI-guided methodology discipline)
 - Applies across software development, governance, operations, and planning
 
+## Specification Philosophy
+
+LiveSpec treats everything as specifications—just at different abstraction levels. The numbered folders (1-requirements, 2-strategy, 3-behaviors) represent abstraction from strategic to detailed, not different document types. All use MSL format. Requirements are specifications; they specify strategic outcomes rather than implementation details.
+
 ## Primary Focus
 
 **Software development** remains LiveSpec's primary domain, with proven applications in governance (policies, procedures), operations (runbooks, playbooks), and planning (requirements, workflows).

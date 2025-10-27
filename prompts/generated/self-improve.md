@@ -3,8 +3,8 @@ generated: 2025-10-10T14:30:00Z
 generated_by: prompts/utils/generate-self-improvement.md
 sources:
   - PURPOSE.md
-  - specs/mission/outcomes.spec.md
-  - specs/mission/constraints.spec.md
+  - specs/1-requirements/strategic/outcomes.spec.md
+  - specs/1-requirements/strategic/constraints.spec.md
   - specs/strategy/architecture.spec.md
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
@@ -59,8 +59,8 @@ Reading project specifications to understand current state...
 **Project Context:**
 ```bash
 cat PURPOSE.md
-cat specs/mission/outcomes.spec.md
-cat specs/mission/constraints.spec.md
+cat specs/1-requirements/strategic/outcomes.spec.md
+cat specs/1-requirements/strategic/constraints.spec.md
 cat specs/strategy/architecture.spec.md
 cat specs/workspace/constitution.spec.md
 cat specs/workspace/patterns.spec.md
@@ -98,7 +98,7 @@ Analyzing LiveSpec's methodology completeness and self-application...
 ```bash
 # Verify all required specs exist
 ls -la specs/workspace/*.spec.md
-ls -la specs/mission/*.spec.md
+ls -la specs/1-requirements/strategic/*.spec.md
 ls -la specs/strategy/*.spec.md
 find specs/behaviors/ -name "*.spec.md" | wc -l
 find prompts/ -name "*.md" | wc -l
