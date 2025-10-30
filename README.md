@@ -139,8 +139,11 @@ cp -r livespec/dist/* .livespec
 # Create specs structure
 mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
 
-# Start Phase 0
-claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+# Start Phase 0 (Quick Start - 5 minutes)
+claude-code "Use .livespec/0-define/0a-quick-start.md"
+
+# Or customize workspace (20-30 minutes)
+claude-code "Use .livespec/0-define/0b-customize-workspace.md"
 ```
 
 ### Existing Project
