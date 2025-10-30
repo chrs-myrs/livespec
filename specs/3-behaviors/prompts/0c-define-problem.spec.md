@@ -1,5 +1,5 @@
 ---
-specifies: prompts/0-define/0b-define-problem.md
+specifies: dist/prompts/0-define/0c-define-problem.md
 criticality: CRITICAL
 failure_mode: Projects lack clear purpose and vision, leading to misaligned solutions
 governed-by:
