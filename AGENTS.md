@@ -944,6 +944,34 @@ When adding new prompts between existing prompts or renumbering:
 - Missing next-steps.md references (breaks navigation)
 - Breaking workflow logic with poor insertion point
 
+### Pre-Commit Hook (Automatic Validation)
+
+LiveSpec includes optional pre-commit hook that automatically validates before every commit:
+
+**Installation**:
+```bash
+bash scripts/setup-hooks.sh
+```
+
+**What it does**:
+- Runs `tests/structure/test_full_validation.sh` before every commit
+- Blocks commit if validation fails (0 failures required)
+- Shows clear error messages with fix suggestions
+- Can bypass with `git commit --no-verify` if needed
+
+**What it catches**:
+- Missing implementations (spec without prompt)
+- Missing specs (prompt without spec - violates spec-first)
+- Broken dependencies (`derives_from:` references invalid paths)
+- Asymmetric links (prompt → spec but spec doesn't link back)
+- MSL violations (missing title, criticality, Requirements section)
+- Test coverage issues (behaviors without tests)
+
+**When to bypass**:
+- Work-in-progress commits (creating spec, prompt later)
+- Experimental branches (testing ideas)
+- Multi-commit workflows (fix validation in next commit)
+
 ## Reference Library (Deep Detail Navigation)
 
 AGENTS.md provides 80% coverage. For deep detail, fetch these references using `.livespec/` paths:

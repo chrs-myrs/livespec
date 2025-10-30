@@ -60,6 +60,7 @@ governed-by:
     - Git hook integration (optional but recommended):
       - Pre-commit: Block commit if validation errors detected
       - Post-merge: Warn if validation issues after merge
+      - Setup: Run `bash scripts/setup-hooks.sh` to install pre-commit hook automatically
     - Prevents three failure modes:
       - Direct edits to generated files (AGENTS.md mistake)
       - Broken spec/doc cross-references (clt-formation mistake)
