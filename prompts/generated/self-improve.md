@@ -9,7 +9,7 @@ sources:
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
-implements: specs/behaviors/prompts/utils-self-improve.spec.md
+implements: specs/3-behaviors/prompts/utils-self-improve.spec.md
 ---
 
 # Self-Improvement Analysis

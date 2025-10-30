@@ -6,7 +6,7 @@ sources:
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
-implements: specs/behaviors/prompts/utils-internalise-learnings.spec.md
+implements: specs/3-behaviors/prompts/utils-internalise-learnings.spec.md
 ---
 
 # Internalise Learnings
