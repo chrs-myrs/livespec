@@ -16,29 +16,31 @@ guided-by:
 # Prompt Registry
 
 ## Requirements
-- [!] LiveSpec provides exactly 24 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
+- [!] LiveSpec provides exactly 30 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
   - Each prompt has corresponding behavior spec in specs/3-behaviors/prompts/
-  - Phase 0 (DEFINE): 4 prompts establishing foundation
+  - Phase 0 (DEFINE): 6 prompts establishing foundation
   - Phase 1 (DESIGN): 3 prompts specifying solution
   - Phase 2 (BUILD): 2 prompts implementing code
   - Phase 3 (VERIFY): 2 prompts validating correctness
   - Phase 4 (EVOLVE): 5 prompts maintaining synchronisation
-  - Utils: 8 prompts for special situations (workflow, improvement, generators)
+  - Utils: 12 prompts for special situations (workflow, improvement, generators, validation)
   - Registry matches five-phases.spec.md structure
   - All prompt paths and outputs documented accurately
   - Bidirectional links maintained (prompts → specs, specs → prompts)
 
 ## Prompt Inventory
 
-### Phase 0: DEFINE (4 prompts)
+### Phase 0: DEFINE (6 prompts)
 Establish problem space and constraints.
 
 | Prompt | Spec | Output | Purpose |
 |--------|------|--------|---------|
-| 0a-setup-workspace | 0a-setup-workspace.spec.md | specs/workspace/*.spec.md | Create constitution, patterns, workflows |
+| 0a-setup-workspace | 0a-setup-workspace.spec.md | specs/workspace/*.spec.md | Create taxonomy, constitution, patterns, workflows |
 | 0b-define-problem | 0b-define-problem.spec.md | PURPOSE.md | Articulate problem statement |
-| 0f-identify-constraints | 0f-identify-constraints.spec.md | specs/1-requirements/strategic/constraints.spec.md | Document non-negotiable boundaries |
+| 0c-define-outcomes | 0c-define-outcomes.spec.md | specs/1-requirements/strategic/outcomes.spec.md | Define high-level requirements |
 | 0d-assess-complexity | 0d-assess-complexity.spec.md | var/complexity-assessment.md | Evaluate project scope and approach |
+| 0e-evaluate-research-needs | 0e-evaluate-research-needs.spec.md | var/research-needs.md | Determine if UX research required |
+| 0f-identify-constraints | 0f-identify-constraints.spec.md | specs/1-requirements/strategic/constraints.spec.md | Document non-negotiable boundaries |
 
 ### Phase 1: DESIGN (3 prompts)
 Design solution architecture.
@@ -92,12 +94,12 @@ Special situation handlers and continuous improvement.
 
 ## Validation
 
-- Registry lists exactly 24 prompts (4+3+2+2+5+8)
+- Registry lists exactly 30 prompts (6+3+2+2+5+12)
 - All prompts have corresponding behavior specs in specs/3-behaviors/prompts/
 - Phase assignments match five-phases.spec.md definitions
 - Output paths documented for each prompt
 - Bidirectional links maintained (prompts reference specs, specs reference prompts)
 - Registry enables AI agents to navigate methodology
-- Utils prompts handle special situations (failure, navigation, exploration, upgrade, continuous improvement)
+- Utils prompts handle special situations (failure, navigation, exploration, upgrade, continuous improvement, validation, auditing)
 - Generator utils create customized prompts tailored to project specifics
 - Generated utils (self-improve, internalise-learnings) adapt to project PURPOSE and spec structure
