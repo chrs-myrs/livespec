@@ -375,8 +375,9 @@ echo "# Project Purpose
 ## What Success Looks Like
 [Measurable success criteria]" > PURPOSE.md
 
-# 4. Start Phase 0
-# "Use .livespec/0-define/0a-setup-workspace.md"
+# 4. Start Phase 0 (choose one):
+# Quick start (5 min, zero questions): "Use .livespec/0-define/0a-quick-start.md"
+# Full customization (20-30 min): "Use .livespec/0-define/0b-customize-workspace.md"
 ```
 
 ### Existing Project
@@ -391,7 +392,8 @@ echo "# Project Purpose
 What do you need to do?
 │
 ├─ **New project?**
-│  └─ Phase 0: Use .livespec/0-define/0a-setup-workspace.md
+│  ├─ Quick (5 min): Use .livespec/0-define/0a-quick-start.md
+│  └─ Customize (20-30 min): Use .livespec/0-define/0b-customize-workspace.md
 │
 ├─ **Existing project without specs?**
 │  └─ Phase 4: Use .livespec/4-evolve/4b-extract-specs.md
@@ -419,12 +421,13 @@ Establish problem space and constraints.
 **Exit**: Problem, constraints, workspace defined
 **Outputs**: PURPOSE.md, specs/1-requirements/strategic/constraints.spec.md, specs/workspace/
 **Key Prompts**:
-- `0a-setup-workspace.md` - Create workspace specs
-- `0b-define-problem.md` - Articulate problem statement
-- `0c-define-outcomes.md` - Define high-level requirements
-- `0d-assess-complexity.md` - Evaluate project complexity
-- `0e-evaluate-research-needs.md` - Determine if UX research needed
-- `0f-identify-constraints.md` - Document boundaries
+- `0a-quick-start.md` - Zero-question setup (5 min, defaults)
+- `0b-customize-workspace.md` - Full workspace customization
+- `0c-define-problem.md` - Articulate problem statement
+- `0d-define-outcomes.md` - Define high-level requirements
+- `0e-assess-complexity.md` - Evaluate project complexity
+- `0f-evaluate-research-needs.md` - Determine if UX research needed
+- `0g-identify-constraints.md` - Document boundaries
 
 ### Phase 1: DESIGN
 Design solution architecture.
@@ -823,14 +826,14 @@ LiveSpec uses YAML frontmatter for bidirectional links:
 **In prompts:**
 ```markdown
 ---
-implements: specs/3-behaviors/prompts/0a-setup-workspace.spec.md
+implements: specs/3-behaviors/prompts/0a-quick-start.spec.md
 ---
 ```
 
 **In specs:**
 ```markdown
 ---
-specifies: prompts/0-define/0a-setup-workspace.md
+specifies: dist/prompts/0-define/0a-quick-start.md
 ---
 ```
 
@@ -1014,12 +1017,13 @@ Cache this document, but fetch full prompts when you need:
 
 | Need | Fetch | When |
 |------|-------|------|
-| Setup workspace | `.livespec/0-define/0a-setup-workspace.md` | New project |
-| Define problem | `.livespec/0-define/0b-define-problem.md` | Problem unclear |
-| Define outcomes | `.livespec/0-define/0c-define-outcomes.md` | High-level requirements |
-| Assess complexity | `.livespec/0-define/0d-assess-complexity.md` | Timeline planning |
-| Evaluate research | `.livespec/0-define/0e-evaluate-research-needs.md` | Determine if UX research needed |
-| Identify constraints | `.livespec/0-define/0f-identify-constraints.md` | Need boundaries |
+| Quick start | `.livespec/0-define/0a-quick-start.md` | New project (fast, defaults) |
+| Customize workspace | `.livespec/0-define/0b-customize-workspace.md` | New project (full customization) |
+| Define problem | `.livespec/0-define/0c-define-problem.md` | Problem unclear |
+| Define outcomes | `.livespec/0-define/0d-define-outcomes.md` | High-level requirements |
+| Assess complexity | `.livespec/0-define/0e-assess-complexity.md` | Timeline planning |
+| Evaluate research | `.livespec/0-define/0f-evaluate-research-needs.md` | Determine if UX research needed |
+| Identify constraints | `.livespec/0-define/0g-identify-constraints.md` | Need boundaries |
 | Design architecture | `.livespec/1-design/1a-design-architecture.md` | Before implementation |
 | Define behaviors | `.livespec/1-design/1b-define-behaviors.md` | Specify features |
 | Create contracts | `.livespec/1-design/1c-create-contracts.md` | API/data interfaces |
@@ -1080,8 +1084,9 @@ cp -r livespec/dist/ .livespec/
 # Create structure
 mkdir -p specs/{workspace,mission,strategy,behaviors,contracts}
 
-# Use first prompt
-# "Use .livespec/0-define/0a-setup-workspace.md"
+# Use first prompt (choose one):
+# Quick: "Use .livespec/0-define/0a-quick-start.md"
+# Customize: "Use .livespec/0-define/0b-customize-workspace.md"
 ```
 
 ### Documenting Existing Code
