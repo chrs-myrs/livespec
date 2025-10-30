@@ -1,14 +1,27 @@
 # LiveSpec Specifications
 
-This folder contains all specifications for LiveSpec v2.
+This folder contains all specifications for LiveSpec v3.1.0.
+
+**CRITICAL**: Before creating any files, check `specs/workspace/taxonomy.spec.md` - it defines LiveSpec's project classification.
 
 ## Structure
 
-- **workspace/**: How LiveSpec is developed (development methodology, patterns, workflows)
-- **behaviors/**: Observable behaviors of LiveSpec (what it does)
-- **contracts/**: API contracts (if any - currently none for v2)
-- **problem.md**: The core problem LiveSpec solves
-- **constraints.md**: Hard boundaries that must be respected
+- **workspace/**: How LiveSpec is developed (portable methodology)
+  - **taxonomy.spec.md**: Project classification - CHECK THIS FIRST
+  - constitution.spec.md, patterns.spec.md, workflows.spec.md
+- **1-requirements/**: Strategic and functional requirements
+  - **strategic/**: High-level outcomes and constraints
+  - **functional/**: Feature-level requirements
+- **2-strategy/**: Technical approach and architecture
+- **3-behaviors/**: Observable behaviors (what LiveSpec does)
+- **3-contracts/**: API contracts (currently minimal for governance project)
+
+## LiveSpec's Taxonomy
+
+LiveSpec is a **Governance domain** project:
+- Produces methodology frameworks (not software products)
+- Pattern: specs/ (source) → dist/ (distributable framework)
+- Dogfooding: LiveSpec uses its own methodology
 
 ## Format
 

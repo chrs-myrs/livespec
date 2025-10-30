@@ -1,4 +1,4 @@
-# LiveSpec v2
+# LiveSpec v3.1.0
 
 **Specifications that live with your code**
 
@@ -176,15 +176,19 @@ your-project/
 ├── PURPOSE.md              # Why this project exists
 │
 ├── specs/
-│   ├── mission/            # High-level goals
-│   │   ├── outcomes.spec.md     # What we must achieve
-│   │   └── constraints.spec.md  # Hard boundaries
-│   ├── workspace/          # How you build
-│   │   ├── constitution.spec.md # Development principles
-│   │   ├── patterns.spec.md     # Code patterns
-│   │   └── workflows.spec.md    # Development workflows
-│   ├── behaviors/          # What system does
-│   └── contracts/          # API/data contracts
+│   ├── workspace/             # How you build (portable process)
+│   │   ├── taxonomy.spec.md        # Project classification (check FIRST)
+│   │   ├── constitution.spec.md    # Development principles
+│   │   ├── patterns.spec.md        # Code patterns
+│   │   └── workflows.spec.md       # Development workflows
+│   ├── 1-requirements/        # WHY and strategic/functional requirements
+│   │   ├── strategic/         # High-level outcomes + constraints
+│   │   │   ├── outcomes.spec.md
+│   │   │   └── constraints.spec.md
+│   │   └── functional/        # Feature-level requirements
+│   ├── 2-strategy/            # HOW technically (product-specific)
+│   ├── 3-behaviors/           # WHAT system does (user-facing)
+│   └── 3-contracts/           # API/data contracts
 │
 ├── prompts/                # Symlinks to .livespec/prompts/ (framework)
 │   ├── 0-define/ -> ../dist/prompts/0-define/
@@ -337,9 +341,9 @@ graph LR
 
 ## Version
 
-**Current Version: 2.0.0**
+**Current Version: 3.1.0**
 
-LiveSpec v2 is a complete rebuild focused on simplicity and effectiveness:
+LiveSpec v3.1.0 continues the evolution with improved agent guidance and context compression:
 - Simplified from 7+ stages to 5 phases
 - Flattened specs/ structure
 - Focused on information architecture, not tooling
@@ -425,6 +429,6 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**LiveSpec v2** - Information architecture for AI-first development.
+**LiveSpec v3.1.0** - Information architecture for AI-first development.
 
 Simple. Minimal. Effective.
