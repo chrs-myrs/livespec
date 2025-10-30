@@ -5,9 +5,12 @@ LiveSpec is a folder structure and methodology for keeping specifications synchr
 ## Core Methodology (Read in Order)
 
 1. [Phase 0: DEFINE](prompts/0-define/) - Problem definition and workspace setup
-   - 0a-setup-workspace.md - Create workspace specifications
+   - 0a-setup-workspace.md - Create workspace specifications (taxonomy, constitution, patterns, workflows)
    - 0b-define-problem.md - Document project purpose
-   - 0c-identify-constraints.md - Hard boundaries
+   - 0c-define-outcomes.md - Define high-level requirements
+   - 0d-assess-complexity.md - Evaluate project complexity
+   - 0e-evaluate-research-needs.md - Determine if UX research needed
+   - 0f-identify-constraints.md - Hard boundaries
 
 2. [Phase 1: DESIGN](prompts/1-design/) - Solution architecture
    - 1a-design-architecture.md - System structure
