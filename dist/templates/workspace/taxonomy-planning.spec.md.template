@@ -1,0 +1,54 @@
+---
+criticality: IMPORTANT
+failure_mode: Without taxonomy, analysis organization becomes inconsistent and agents confuse research with specifications
+applies_to: this_project
+governed-by:
+  - .livespec/standard/metaspecs/taxonomy.spec.md
+---
+
+# Project Taxonomy
+
+## Requirements
+- [!] This project is classified as PLANNING domain with explicit workspace scope and specs boundary to prevent organizational confusion.
+
+  **Project Domain**: Planning
+  - This project supports decision-making through research analysis and planning artifacts
+  - Primary pattern: research/ → specs/ define analysis → [generated analysis outputs]
+  - Examples: Strategic planning tools, decision matrices, pathway analysis, option evaluation
+
+  **Workspace Scope** (portable methodology only):
+  - ✅ workspace/constitution.spec.md - Development principles (portable)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
+  - ✅ workspace/workflows.spec.md - Development process (portable)
+  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  - ❌ NOT workspace: Domain-specific planning processes or research methodologies
+    - Examples: "pathway-analysis-methodology.spec.md", "stakeholder-research-process.spec.md", "decision-framework.spec.md"
+    - These define HOW THIS PROJECT analyzes (domain processes), not HOW to build any project (methodology)
+    - Correct location: specs/3-behaviors/processes/ (planning workflows) or specs/2-strategy/ (analysis approach)
+    - Test: "Could I use this exact spec in an e-commerce site?" → NO → Not workspace
+
+  **Specs Boundary** (specifications only, no research/data):
+  - specs/ contains ONLY .spec.md files defining observable analysis/planning behavior
+  - Research and outputs live OUTSIDE specs/:
+    - Research materials → research/ folder (findings, sources, background material)
+    - Source data → data/ folder (planning matrices, input data, source information)
+    - Generated analysis → data/generated/ or generated/ (analysis outputs worth preserving)
+    - Working files → var/ folder (transient processing artifacts)
+  - specs/ defines WHAT analysis to perform and HOW to structure outputs
+  - specs/ NEVER contains the actual research materials, data, or analysis results
+  - Example: ✅ specs/3-behaviors/pathway-analysis.spec.md (defines WHAT analysis produces), ❌ specs/research-findings.md (actual research)
+
+  **AI agents must**:
+  - Check this taxonomy.spec.md FIRST before creating any files
+  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Keep research, data, and analysis outputs OUT of specs/
+  - Place planning-specific processes in specs/3-behaviors/processes/, NOT workspace/
+  - Distinguish between analysis specifications (specs/) and analysis results (data/generated/ or generated/)
+  - Update this taxonomy when project classification fundamentally changes
+
+## Validation
+- All workspace/ files are portable methodology (pass "any project" test)
+- specs/ contains only .spec.md files (no research, data, or analysis results)
+- Research materials clearly separated from specifications
+- Planning processes placed in appropriate specs/ subdirectories, not workspace/
+- Generated analyses preserved in appropriate location (data/generated/ or generated/)

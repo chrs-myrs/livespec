@@ -1,0 +1,56 @@
+---
+criticality: IMPORTANT
+failure_mode: Without taxonomy, documentation organization becomes inconsistent and agents confuse doc source with build outputs
+applies_to: this_project
+governed-by:
+  - .livespec/standard/metaspecs/taxonomy.spec.md
+---
+
+# Project Taxonomy
+
+## Requirements
+- [!] This project is classified as DOCUMENTATION domain with explicit workspace scope and specs boundary to prevent organizational confusion.
+
+  **Project Domain**: Documentation
+  - This project produces published documentation (websites, PDFs, guides)
+  - Primary pattern: specs/ → docs/ source → build/ or public/ (published output)
+  - Examples: Product documentation, API reference, user guides, technical wikis
+
+  **Workspace Scope** (portable methodology only):
+  - ✅ workspace/constitution.spec.md - Development principles (portable)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
+  - ✅ workspace/workflows.spec.md - Development process (portable)
+  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  - ❌ NOT workspace: Documentation structure or content organization
+    - Examples: "documentation-structure.spec.md", "api-docs-format.spec.md", "content-guidelines.spec.md"
+    - These define HOW THIS PROJECT'S docs are organized (product strategy), not HOW to build any project (methodology)
+    - Correct location: specs/2-strategy/ (doc architecture) or specs/3-behaviors/ (publishing behavior)
+    - Test: "Could I use this exact spec in a banking API?" → NO → Not workspace
+
+  **Specs Boundary** (specifications only, no content):
+  - specs/ contains ONLY .spec.md files defining documentation behavior
+  - Documentation content lives OUTSIDE specs/:
+    - Doc source → docs/ folder (markdown, MDX, source files)
+    - Build output → public/, _site/, build/ folders (typically gitignored if reproducible)
+    - Static assets → assets/, static/ folders (images, CSS, JS)
+    - Templates → templates/docs/ (doc templates if needed)
+  - specs/ defines WHAT documentation system produces and HOW it's structured
+  - specs/ MAY be documentation source if specs serve as user-facing docs (dogfooding pattern)
+  - specs/ NEVER contains only-for-documentation content (that goes in docs/)
+  - Example: ✅ specs/3-behaviors/api-docs-generation.spec.md (defines doc generation), ❌ specs/user-guide-content.md (actual content)
+
+  **AI agents must**:
+  - Check this taxonomy.spec.md FIRST before creating any files
+  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Keep documentation source and build outputs OUT of specs/ (unless dogfooding)
+  - Place doc architecture in specs/2-strategy/, NOT workspace/
+  - Distinguish between doc specifications (specs/) and doc content (docs/)
+  - Follow static site generator conventions for build outputs
+  - Update this taxonomy when project classification fundamentally changes
+
+## Validation
+- All workspace/ files are portable methodology (pass "any project" test)
+- specs/ contains only .spec.md files (no doc content unless dogfooding)
+- Documentation source clearly separated from specifications
+- Doc architecture/structure placed in appropriate specs/ subdirectories, not workspace/
+- Build outputs follow site generator conventions (public/, _site/, build/)

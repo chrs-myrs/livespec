@@ -1,0 +1,60 @@
+---
+criticality: IMPORTANT
+failure_mode: Without taxonomy, methodology organization becomes inconsistent and agents confuse framework with specifications
+applies_to: this_project
+governed-by:
+  - .livespec/standard/metaspecs/taxonomy.spec.md
+---
+
+# Project Taxonomy
+
+## Requirements
+- [!] This project is classified as GOVERNANCE domain with explicit workspace scope and specs boundary to prevent organizational confusion.
+
+  **Project Domain**: Governance
+  - This project produces methodology, frameworks, or process definitions
+  - Primary pattern: specs/ (source) → dist/ or framework/ (distributable) + generated docs
+  - Examples: Development methodologies, process frameworks, governance systems, specification languages
+
+  **Workspace Scope** (portable methodology only):
+  - ✅ workspace/constitution.spec.md - Development principles (portable)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
+  - ✅ workspace/workflows.spec.md - Development process (portable)
+  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  - ❌ NOT workspace: Framework-specific patterns or methodology content
+    - Examples: "framework-distribution.spec.md", "methodology-structure.spec.md", "adoption-process.spec.md"
+    - These define THIS FRAMEWORK's patterns (product strategy/behaviors), not HOW to build any project (methodology)
+    - Correct location: specs/2-strategy/ (framework architecture) or specs/3-behaviors/ (framework behaviors)
+    - Test: "Could I use this exact spec in a React library?" → NO → Not workspace
+  - Special case: workspace/ specs in governance projects ARE the product (dogfooding)
+    - But they still define HOW THIS PROJECT works, not the framework being distributed
+
+  **Specs Boundary** (specifications only, not framework):
+  - specs/ contains ONLY .spec.md files defining the framework's behavior
+  - Framework artifacts live OUTSIDE specs/:
+    - Distributable framework → dist/, framework/ folders (what users receive)
+    - Framework prompts → dist/prompts/ or prompts/ (methodology prompts)
+    - Templates → dist/templates/ or templates/ (reusable templates)
+    - Generated configs → prompts/generated/ or similar (project-specific generated artifacts)
+    - Examples → examples/ folder (demonstration projects)
+  - specs/ defines WHAT the framework does (its requirements, behaviors, contracts)
+  - specs/ IS the source of truth but NOT the distributed product
+  - Dogfooding: Framework uses its own methodology (specs/ → framework development)
+  - Example: ✅ specs/3-behaviors/prompts/0a-setup-workspace.spec.md (defines prompt behavior), ❌ dist/prompts/0a-setup-workspace.md (distributable prompt)
+
+  **AI agents must**:
+  - Check this taxonomy.spec.md FIRST before creating any files
+  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Keep distributable framework artifacts OUT of specs/ (specs define framework, dist/ distributes it)
+  - Place framework architecture in specs/2-strategy/, NOT workspace/
+  - Distinguish between framework specifications (specs/) and framework distribution (dist/)
+  - Understand dogfooding: specs/ governs framework development using its own methodology
+  - Update this taxonomy when project classification fundamentally changes
+
+## Validation
+- All workspace/ files are portable methodology (pass "any project" test)
+- specs/ contains only .spec.md files (framework source, not distribution)
+- Distributable framework clearly separated from specifications
+- Framework architecture placed in appropriate specs/ subdirectories, not workspace/
+- Distribution follows declared pattern (dist/ or framework/ folder)
+- Dogfooding validated: framework uses its own methodology

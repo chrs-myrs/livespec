@@ -296,6 +296,47 @@ Before beginning execution, re-verify one final time that all methodology artifa
 
 **See Reference Library**: `context-compression.spec.md` for full framework
 
+## Project Taxonomy (Check First)
+
+**CRITICAL**: Before creating ANY files, check `specs/workspace/taxonomy.spec.md`
+
+This project-level classification defines three essential boundaries:
+
+1. **Project Domain**: What type of project this is
+   - Software (code → executables)
+   - Generation (data → tailored deliverables like CVs, reports)
+   - Planning (research → decisions/analyses)
+   - Documentation (specs → published docs)
+   - Governance (methodology → framework)
+   - Hybrid (combination of above)
+
+2. **Workspace Scope**: What's portable methodology vs product-specific
+   - Explicitly lists workspace/ contents (typically: constitution, patterns, workflows, taxonomy)
+   - Explicitly states what's NOT workspace with examples
+   - Test: "Could I use this in ANY project?" → YES = workspace/, NO = elsewhere
+
+3. **Specs Boundary**: Declares "specs/ = specifications only"
+   - No user data in specs/ (data → data/ folder)
+   - No research materials in specs/ (research → research/ folder)
+   - No generated artifacts in specs/ (outputs → generated/ or var/generated/)
+   - specs/ defines WHAT to do, never contains actual data or outputs
+
+**Common mistakes taxonomy prevents**:
+- ❌ Putting product features in workspace/ (fails portability test)
+  - Example: "job-applications.spec.md" in workspace/ → Should be 3-behaviors/processes/
+- ❌ Putting user data in specs/ (violates specs boundary)
+  - Example: CV details in specs/ → Should be in data/ folder
+- ❌ Creating files without checking project classification
+  - Always check taxonomy FIRST, then apply patterns
+
+**Decision order when creating files**:
+1. Read `specs/workspace/taxonomy.spec.md` (primary reference)
+2. Apply classification rules from taxonomy
+3. Check `specs/workspace/patterns.spec.md` for naming conventions
+4. If still unclear, use portability test ("works in any project?" → workspace/)
+
+**See Reference Library**: `taxonomy.spec.md` metaspec for complete framework
+
 ## Constraints (Critical Boundaries)
 
 ### Agent Agnostic

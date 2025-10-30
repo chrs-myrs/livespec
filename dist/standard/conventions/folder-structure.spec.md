@@ -11,6 +11,7 @@ governed-by:
 - [!] LiveSpec projects separate workspace specifications (how to build) from product specifications (what to build) using standardized folder hierarchy with optional organizational subfolders.
   - `PURPOSE.md` at root captures project vision and success criteria (free-form, not MSL)
   - `specs/1-requirements/strategic/` contains top-level project definition (outcomes + constraints)
+  - `specs/workspace/taxonomy.spec.md` declares project classification (domain, workspace scope, specs boundary) - **AI agents check this FIRST**
   - `specs/workspace/` contains only development methodology (portable to any project)
   - `specs/3-behaviors/` contains observable system behaviors (user-facing)
   - `specs/2-strategy/` contains product-specific technical decisions and architecture
@@ -20,9 +21,9 @@ governed-by:
   - `specs/1-requirements/strategic/constraints.spec.md` defines hard boundaries
   - `.livespec/` contains LiveSpec methodology (copied from LiveSpec dist/)
   - `.livespec/standard/` contains metaspecs and conventions
-  - `.livespec/templates/` contains workspace spec starter files
-  - Decision test: "Could I copy this spec to different project?" YES = workspace/, NO = behaviors/strategy/
-  - AI agents can locate relevant context by folder (workspace for process, behaviors for features)
+  - `.livespec/templates/` contains workspace spec starter files and taxonomy templates
+  - **Decision process**: Check taxonomy.spec.md → Apply classification rules → Use portability test if needed
+  - AI agents locate context by: taxonomy (classification) → workspace (process) → behaviors (features)
 
 ## Structure
 
@@ -54,6 +55,7 @@ project/
     │       └── *.spec.md
     │
     ├── workspace/          # HOW you build (portable process)
+    │   ├── taxonomy.spec.md        # Project classification (check FIRST)
     │   ├── constitution.spec.md
     │   ├── patterns.spec.md
     │   └── workflows.spec.md
@@ -70,9 +72,30 @@ project/
         └── api/v1/*.yaml
 ```
 
+## Folder Organization Decision Process
+
+**Step 0: Check Project Taxonomy (FIRST)**
+
+Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
+- Declares **Project Domain** (Software, Generation, Planning, Documentation, Governance, Hybrid)
+- Lists **Workspace Scope** explicitly (what's portable vs product-specific)
+- Defines **Specs Boundary** ("specs/ = specifications only", no data/research/artifacts)
+
+**If taxonomy unclear or conflicts with intended action, update taxonomy first.**
+
+**Step 1: Apply Classification from Taxonomy**
+- Domain informs context (e.g., Generation projects have data/ → specs/ → generated/ pattern)
+- Workspace scope explicitly lists what belongs in workspace/ (check against taxonomy)
+- Specs boundary prevents data/research from entering specs/ folder
+
+**Step 2: Use Portability Test (If Still Unclear)**
+- "Could I copy this exact spec to a different project?" → YES = workspace/, NO = behaviors/strategy/
+- Examples: constitution (YES), job-applications (NO), patterns (YES), api-design (NO)
+
 ## Notes
 
 See individual metaspecs for what belongs in each folder:
+- `.livespec/standard/metaspecs/taxonomy.spec.md` - Project classification rules (**check first**)
 - `.livespec/standard/metaspecs/purpose.spec.md` - Purpose document rules
 - `.livespec/standard/metaspecs/outcomes.spec.md` - Outcomes (high-level requirements) rules
 - `.livespec/standard/metaspecs/constraints.spec.md` - Constraints rules

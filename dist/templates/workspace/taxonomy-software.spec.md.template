@@ -1,0 +1,55 @@
+---
+criticality: IMPORTANT
+failure_mode: Without taxonomy, code organization becomes inconsistent and agents confuse specifications with implementation
+applies_to: this_project
+governed-by:
+  - .livespec/standard/metaspecs/taxonomy.spec.md
+---
+
+# Project Taxonomy
+
+## Requirements
+- [!] This project is classified as SOFTWARE domain with explicit workspace scope and specs boundary to prevent organizational confusion.
+
+  **Project Domain**: Software
+  - This project produces executable code, libraries, or applications
+  - Primary pattern: specs/ define behavior → src/ implements → dist/ contains build artifacts
+  - Examples: Web apps, CLI tools, libraries, APIs, microservices
+
+  **Workspace Scope** (portable methodology only):
+  - ✅ workspace/constitution.spec.md - Development principles (portable)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
+  - ✅ workspace/workflows.spec.md - Development process (portable)
+  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  - ❌ NOT workspace: Product-specific architecture or processes
+    - Examples: "deployment-process.spec.md", "api-design-guidelines.spec.md", "data-migration-procedure.spec.md"
+    - These define HOW THIS PRODUCT works (strategy/processes), not HOW to build any project (methodology)
+    - Correct location: specs/2-strategy/ (cross-cutting decisions) or specs/3-behaviors/processes/ (deployment workflows)
+    - Test: "Could I use this exact spec in a CV generator?" → NO → Not workspace
+
+  **Specs Boundary** (specifications only, no code/data):
+  - specs/ contains ONLY .spec.md files defining observable system behavior
+  - Implementation and artifacts live OUTSIDE specs/:
+    - Source code → src/, lib/ folders
+    - Build artifacts → dist/, build/ folders (typically gitignored)
+    - Test code → tests/ folder
+    - Configuration → config/ or root-level config files
+    - Documentation → docs/ folder (unless generated from specs)
+  - specs/ defines WHAT system does (requirements, behaviors, contracts)
+  - specs/ NEVER contains actual code, build outputs, or test implementations
+  - Example: ✅ specs/3-behaviors/authentication.spec.md (defines auth behavior), ❌ specs/auth-implementation.ts (actual code)
+
+  **AI agents must**:
+  - Check this taxonomy.spec.md FIRST before creating any files
+  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Keep code, builds, and implementation details OUT of specs/
+  - Place product-specific architecture in specs/2-strategy/, NOT workspace/
+  - Follow build tool conventions for artifact locations (dist/, build/)
+  - Update this taxonomy when project classification fundamentally changes
+
+## Validation
+- All workspace/ files are portable methodology (pass "any project" test)
+- specs/ contains only .spec.md files (no code, configs, or build artifacts)
+- Source code clearly separated from specifications
+- Product architecture/strategy placed in appropriate specs/ subdirectories, not workspace/
+- Build outputs follow standard toolchain conventions

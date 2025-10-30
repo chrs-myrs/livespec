@@ -16,9 +16,9 @@ guided-by:
 # Prompt Registry
 
 ## Requirements
-- [!] LiveSpec provides exactly 30 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
+- [!] LiveSpec provides exactly 31 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
   - Each prompt has corresponding behavior spec in specs/3-behaviors/prompts/
-  - Phase 0 (DEFINE): 6 prompts establishing foundation
+  - Phase 0 (DEFINE): 7 prompts establishing foundation (quick-start + customize)
   - Phase 1 (DESIGN): 3 prompts specifying solution
   - Phase 2 (BUILD): 2 prompts implementing code
   - Phase 3 (VERIFY): 2 prompts validating correctness
@@ -30,17 +30,18 @@ guided-by:
 
 ## Prompt Inventory
 
-### Phase 0: DEFINE (6 prompts)
+### Phase 0: DEFINE (7 prompts)
 Establish problem space and constraints.
 
 | Prompt | Spec | Output | Purpose |
 |--------|------|--------|---------|
-| 0a-setup-workspace | 0a-setup-workspace.spec.md | specs/workspace/*.spec.md | Create taxonomy, constitution, patterns, workflows |
-| 0b-define-problem | 0b-define-problem.spec.md | PURPOSE.md | Articulate problem statement |
-| 0c-define-outcomes | 0c-define-outcomes.spec.md | specs/1-requirements/strategic/outcomes.spec.md | Define high-level requirements |
-| 0d-assess-complexity | 0d-assess-complexity.spec.md | var/complexity-assessment.md | Evaluate project scope and approach |
-| 0e-evaluate-research-needs | 0e-evaluate-research-needs.spec.md | var/research-needs.md | Determine if UX research required |
-| 0f-identify-constraints | 0f-identify-constraints.spec.md | specs/1-requirements/strategic/constraints.spec.md | Document non-negotiable boundaries |
+| 0a-quick-start | 0a-quick-start.spec.md | specs/workspace/*.spec.md | Zero-question setup (5 min, defaults) |
+| 0b-customize-workspace | 0b-customize-workspace.spec.md | specs/workspace/*.spec.md | Full customization (20-30 min, tailored) |
+| 0c-define-problem | 0c-define-problem.spec.md | PURPOSE.md | Articulate problem statement |
+| 0d-define-outcomes | 0d-define-outcomes.spec.md | specs/1-requirements/strategic/outcomes.spec.md | Define high-level requirements |
+| 0e-assess-complexity | 0e-assess-complexity.spec.md | var/complexity-assessment.md | Evaluate project scope and approach |
+| 0f-evaluate-research-needs | 0f-evaluate-research-needs.spec.md | var/research-needs.md | Determine if UX research required |
+| 0g-identify-constraints | 0g-identify-constraints.spec.md | specs/1-requirements/strategic/constraints.spec.md | Document non-negotiable boundaries |
 
 ### Phase 1: DESIGN (3 prompts)
 Design solution architecture.

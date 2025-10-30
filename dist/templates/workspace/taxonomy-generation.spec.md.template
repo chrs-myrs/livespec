@@ -1,0 +1,51 @@
+---
+criticality: IMPORTANT
+failure_mode: Without taxonomy, deliverable organization becomes inconsistent and agents place content incorrectly
+applies_to: this_project
+governed-by:
+  - .livespec/standard/metaspecs/taxonomy.spec.md
+---
+
+# Project Taxonomy
+
+## Requirements
+- [!] This project is classified as GENERATION domain with explicit workspace scope and specs boundary to prevent organizational confusion.
+
+  **Project Domain**: Generation
+  - This project transforms source data (user-provided information) into tailored deliverables (generated documents, reports, PDFs)
+  - Primary pattern: data/ → specs/ define transformations → [generated outputs]
+  - Examples: CV generators, report builders, document templating systems
+
+  **Workspace Scope** (portable methodology only):
+  - ✅ workspace/constitution.spec.md - Development principles (portable)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
+  - ✅ workspace/workflows.spec.md - Development process (portable)
+  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  - ❌ NOT workspace: Product-specific processes or workflows
+    - Examples: "job-applications.spec.md", "career-research.spec.md", "report-generation-process.spec.md"
+    - These define WHAT this project does (product behaviors), not HOW to build any project (methodology)
+    - Correct location: specs/3-behaviors/processes/[domain]/ or specs/2-strategy/
+    - Test: "Could I use this exact spec in a weather app?" → NO → Not workspace
+
+  **Specs Boundary** (specifications only, no data):
+  - specs/ contains ONLY .spec.md files defining observable system behavior
+  - Source data lives OUTSIDE specs/:
+    - User data → data/ folder (personal information, templates, source content)
+    - Research notes → research/ folder (background research, findings, references)
+    - Generated outputs → [location where generation scripts output, typically var/generated/ or generated/]
+  - specs/ defines WHAT to do with data (transformation rules, generation behavior)
+  - specs/ NEVER contains the actual data itself
+  - Example: ✅ specs/3-behaviors/cv-generation.spec.md (defines HOW to generate CVs), ❌ specs/my-cv-details.yaml (actual data)
+
+  **AI agents must**:
+  - Check this taxonomy.spec.md FIRST before creating any files
+  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Keep data, research, and generated outputs OUT of specs/
+  - Place product-specific processes in specs/3-behaviors/processes/ or specs/2-strategy/, NOT workspace/
+  - Update this taxonomy when project classification fundamentally changes
+
+## Validation
+- All workspace/ files are portable methodology (pass "any project" test)
+- specs/ contains only .spec.md files (no data, research, or generated artifacts)
+- Source data clearly separated from specifications
+- Product behaviors placed in appropriate specs/ subdirectories, not workspace/

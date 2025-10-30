@@ -1,7 +1,7 @@
 ---
-specifies: prompts/0-define/0a-setup-workspace.md
-criticality: CRITICAL
-failure_mode: Users cannot create workspace specifications without guidance
+specifies: dist/prompts/0-define/0b-customize-workspace.md
+criticality: IMPORTANT
+failure_mode: Projects use suboptimal defaults when customization would better match needs
 governed-by:
   - .livespec/standard/metaspecs/prompt.spec.md
 satisfies:
@@ -12,7 +12,7 @@ guided-by:
   - specs/2-strategy/phase-workflow.spec.md
 ---
 
-# Prompt Behavior: Setup Workspace
+# Prompt Behavior: Customize Workspace
 
 ## Requirements
 - [!] Prompt guides creation of three workspace specifications customized to target project, defining HOW project is developed (not WHAT to build).

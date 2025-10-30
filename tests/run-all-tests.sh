@@ -4,7 +4,7 @@
 set -e
 
 echo "================================"
-echo "LiveSpec v2 Test Suite"
+echo "LiveSpec v3.1.0 Test Suite"
 echo "================================"
 echo ""
 

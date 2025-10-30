@@ -1,13 +1,13 @@
 ---
-implements: specs/3-behaviors/prompts/0a-setup-workspace.spec.md
+implements: specs/3-behaviors/prompts/0b-customize-workspace.spec.md
 generated: '2025-10-10'
 phase: 0-define
 estimated_time: "20-30 minutes"
 ---
 
-# Prompt Behavior: Setup Workspace
+# Prompt Behavior: Customize Workspace
 
-**Purpose**: Initialize LiveSpec methodology structure
+**Purpose**: Initialize LiveSpec methodology structure with full customization
 
 ## Context
 
@@ -48,9 +48,47 @@ Based on responses, recommend compression level:
 
 Explain recommendation with specific reasoning.
 
-### Step 3: Create Workspace Specifications
+### Step 3: Create Project Taxonomy
 
-Using appropriate template from `dist/templates/workspace/constitution-[level].md.template`, create three workspace specifications:
+**CRITICAL**: Establish project classification to guide all subsequent file placement decisions.
+
+Ask the user:
+
+1. **"What domain best describes this project?"**
+   - **Software** - Produces executable code, libraries, or applications (src/ → dist/)
+   - **Documentation** - Produces published documentation (docs/ → public/)
+   - **Planning** - Supports decision-making through analysis (research/ → analysis outputs)
+   - **Generation** - Transforms data into tailored deliverables (data/ → generated outputs)
+   - **Governance** - Produces methodology or frameworks (specs/ → dist/)
+   - **Hybrid** - Combination (explain which domains)
+
+2. **"Does this project process user-provided data or research materials?"**
+   - If YES: "You'll need data/ or research/ folders. These stay OUT of specs/"
+   - If NO: "specs/ will contain behavior specifications only"
+
+3. **"Will this project have domain-specific processes or workflows?"**
+   - Examples: job application workflows, deployment procedures, analysis methodologies
+   - If YES: "These go in specs/3-behaviors/processes/ or specs/2-strategy/, NOT specs/workspace/"
+   - If NO: "workspace/ will contain only portable methodology (constitution, patterns, workflows, taxonomy)"
+
+4. **Select appropriate taxonomy template** from `.livespec/templates/workspace/taxonomy-[domain].spec.md.template`
+
+5. **Create specs/workspace/taxonomy.spec.md**
+   - Use selected domain template
+   - Customize based on user responses
+   - Explicitly list what's in workspace/ (typically: constitution, patterns, workflows, taxonomy)
+   - Explicitly state product-specific content locations with examples
+   - Confirm "specs/ = specifications only, no data/research/artifacts"
+
+6. **Show user the taxonomy** and explain:
+   - "This taxonomy defines your project's classification"
+   - "AI agents will check taxonomy.spec.md FIRST before creating files"
+   - "It prevents common mistakes like putting product features in workspace/ or data in specs/"
+   - "Does this classification make sense for your project?" (allow user to refine)
+
+### Step 4: Create Workspace Specifications
+
+Using appropriate template from `dist/templates/workspace/constitution-[level].md.template` and referencing taxonomy, create three workspace specifications:
 
 1. **specs/workspace/constitution.spec.md**
    - Include `context_compression: [level]` in frontmatter
@@ -67,7 +105,9 @@ Using appropriate template from `dist/templates/workspace/constitution-[level].m
    - When to use which Phase prompts
    - How specs evolve with code
 
-### Step 4: Explain Context Compression Impact
+Note: taxonomy.spec.md created in Step 3 is also part of workspace/ (portable methodology).
+
+### Step 5: Explain Context Compression Impact
 
 Brief explanation of what the chosen compression level means:
 
@@ -82,10 +122,12 @@ Create or update specification files in specs/ directory with clear, testable re
 
 ## Validation
 
-- Prompt produces three workspace spec files
-- All specs follow MSL format (Criticality, Failure Mode, Specification, Validation)
+- Prompt produces four workspace spec files (constitution, patterns, workflows, taxonomy)
+- All specs follow MSL format (Criticality, Failure Mode, Requirements, Validation)
+- taxonomy.spec.md declares project domain, workspace scope, and specs boundary
 - Specs are specific to target project, not generic
 - User understands workspace defines HOW to build, not WHAT to build
+- User understands taxonomy.spec.md is checked FIRST before file creation
 - Prompt references folder-structure behavior and MSL format requirements
 
 ## Looking Ahead: How These Specs Are Used
