@@ -24,15 +24,11 @@ Run this prompt when:
 
 ## Prerequisites
 
-**Critical dependency:** This prompt requires `.livespec/templates/agents/` to exist with verification templates:
-- `pre-implementation-verification.md`
-- `no-plumbing-exception.md`
-- `self-check-questions.md`
-- `plan-review-checklist.md`
+**Critical dependency:** This prompt requires `.livespec/templates/agents/spec-first-enforcement.md` to exist.
 
 **If missing**: Copy `dist/templates/` → `.livespec/templates/` or copy entire `dist/` → `.livespec/` as documented in `specs/2-strategy/architecture.spec.md` Distribution section.
 
-**Why this matters**: Agent verification templates are inserted into AGENTS.md START section to provide structural enforcement. Without them, generated AGENTS.md lacks active verification prompts that prevent methodology violations.
+**Why this matters**: This template provides four-layer structural enforcement (TodoWrite gate, validation tool, mandatory plan mode, permanent file test) that makes spec-first compliance the path of least resistance. Target: 90%+ compliance before commit.
 
 ## Regeneration Process
 
@@ -104,14 +100,14 @@ note: Generated from PURPOSE.md and specs/workspace/ - to update, regenerate thi
 
 # START SECTION - Critical Rules & Principles
 
-## ⚠️ CRITICAL: Spec-First Guidance (Principle #1)
-[Detailed spec-first workflow from constitution.spec.md]
+**INCLUDE TEMPLATE (structural enforcement):**
+Insert: `.livespec/templates/agents/spec-first-enforcement.md`
 
-**INCLUDE TEMPLATES (active verification prompts):**
-1. Insert: `.livespec/templates/agents/pre-implementation-verification.md`
-2. Insert: `.livespec/templates/agents/no-plumbing-exception.md`
-3. Insert: `.livespec/templates/agents/self-check-questions.md`
-4. Insert: `.livespec/templates/agents/plan-review-checklist.md`
+This single template replaces four previous templates with simplified four-layer enforcement:
+- Layer 1: TodoWrite gate (must add "Create spec" todo before file creation)
+- Layer 2: Validation tool (scripts/check-requires-spec.sh)
+- Layer 3: Mandatory plan mode for new permanent files
+- Layer 4: Simple "permanent in git?" test (no complex taxonomies)
 
 ## Core Principles (In Priority Order)
 [From constitution.spec.md - all 7 principles with explanations]

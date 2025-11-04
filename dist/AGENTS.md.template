@@ -1,8 +1,7 @@
 ---
-implements: specs/workspace/workspace-agent.spec.md
-generated: 2025-10-27T00:00:00Z
-generator: livespec/generate-project-config
-version: 3.1.0
+generated: 2025-11-04T09:56:30Z
+generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
+version: 3.2.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
@@ -23,1277 +22,95 @@ This document provides essential LiveSpec knowledge for AI agents. Cache this on
 
 ---
 
-## ⚠️ CRITICAL: Spec-First Guidance (Principle #1)
+## ⚠️ CRITICAL: Spec-First Protocol (Structural Enforcement)
 
-**Please guide users through this essential step:**
+### Before Creating ANY Permanent File
 
-Before implementing any deliverable (code, prompt, template, documentation, config), check:
+**Four-layer enforcement for 90%+ compliance:**
 
-### 1. Does specification exist?
+#### Layer 1: TodoWrite Gate (MUST USE)
+
+When user requests new permanent file:
+
+1. **Add todo FIRST** (before any file operations):
+   ```
+   TodoWrite: "Create spec for [filename]" (status: pending)
+   ```
+
+2. **Only after spec created** → Mark todo complete
+
+#### Layer 2: Run Validation Check
 
 ```bash
-# Check for spec
-ls specs/3-behaviors/[deliverable].spec.md 2>/dev/null ||
-ls specs/3-contracts/[deliverable].spec.md 2>/dev/null ||
-ls specs/2-strategy/[deliverable].spec.md 2>/dev/null
+scripts/check-requires-spec.sh path/to/file
 ```
 
-**Spec locations:**
-- Behaviors (observable outcomes): `specs/3-behaviors/[deliverable].spec.md`
-- Contracts (interfaces): `specs/3-contracts/[deliverable].spec.md`
-- Strategy (cross-cutting): `specs/2-strategy/[deliverable].spec.md`
+**Exit code 0** = Spec exists or not needed
+**Exit code 1** = Spec required but missing → STOP and create spec
 
-### 2. If NO spec exists: Guide to spec creation
+#### Layer 3: Mandatory Plan Mode (New Files)
 
-**Pause and say:**
-> "I need a specification before implementing. Let's create specs/3-behaviors/[deliverable].spec.md first."
+Creating new permanent files requires presenting plan with:
+- [ ] TodoWrite item added showing spec creation
+- [ ] Spec creation step (specific path: `specs/3-behaviors/[name].spec.md`)
+- [ ] Validation check passed
 
-**Then guide to Phase 1 (DESIGN):**
-- For behaviors: "Use `.livespec/1-design/1b-define-behaviors.md`"
-- For contracts: "Use `.livespec/1-design/1c-create-contracts.md`"
-- For architecture/strategy: "Use `.livespec/1-design/1a-design-architecture.md`"
+**Plan optional for:** Editing existing files, working in var/generated/.archive/
 
-### 3. If YES spec exists: Verify & Implement
+#### Layer 4: What is "Permanent"?
 
-- Read specification completely
-- Verify spec has:
-  - Requirements section with [!] items
-  - Validation criteria
-  - Failure mode defined
-- Implement what spec requires
+**Simple test:** "Is this committed to git?"
 
-### Common Patterns to Guide
+**YES (requires spec):**
+- Code (`src/`, `lib/`, `scripts/`)
+- Tests (`tests/`, `__tests__/`)
+- Config (`.gitignore`, `tsconfig.json`, `package.json`, lock files)
+- Documentation (`README`, guides)
+- Agents (`.claude/agents/*/instructions.md`)
+- Slash commands (`.claude/commands/`)
 
-**These all need specs first:**
-- "Let's create a CHANGELOG" → Guide to `specs/3-behaviors/changelog.spec.md` first
-- "Add a README file" → Guide to `specs/3-behaviors/readme.spec.md` first
-- "Write a config template" → Guide to spec creation first
-- "This is obvious, no need for spec" → Gently guide: spec needed for all deliverables
+**NO (no spec needed):**
+- `var/`, `generated/`, `.archive/`
+- Build outputs (`dist/`, `build/`)
+- Logs, caches
 
-### Why This Matters
+**Exception:** `specs/workspace/*.spec.md` ARE specs (no meta-spec needed)
 
-**Familiarity creates false confidence:**
-- "Everyone knows what a CHANGELOG is" (but requirements vary)
-- "README is standard" (but what should it contain?)
-- "This is obvious" (assumptions cause drift)
+### Flexible Spec Organization
 
-**Real example:** LiveSpec's own CHANGELOG was implemented without spec (commit 40411e3), violating this principle. Even methodology creators make this mistake when familiarity overrides discipline.
+Multiple related files can share one spec (agent decides based on coherence):
+- `specs/3-behaviors/documentation.spec.md` → All README/GUIDE files
+- `specs/3-behaviors/project-config.spec.md` → Config files like .gitignore
+- `specs/3-behaviors/automation.spec.md` → Related maintenance scripts
 
-**Your role:** Guide spec-first development, especially when user wants to skip it. Say: "I understand this seems obvious, but LiveSpec works best when we create a specification first. This prevents drift and ensures requirements are captured. Let's create the spec together - it will be quick."
+**Test:** "Do these files serve the same observable purpose?"
+- YES → One spec covers them
+- NO → Separate specs
 
----
+### No Exceptions
 
-## ⚠️ CRITICAL: Pre-Implementation Verification
+❌ "This is obvious" → Still permanent → Needs spec
+❌ "Lock files are auto-generated" → Covered by project-config.spec.md
+❌ "Just infrastructure" → If permanent, needs spec
+❌ "Everyone knows what [X] is" → Your requirements may differ → Needs spec
 
-Before implementing ANY deliverable (code, prompt, template, documentation, config), verify:
+### Why This Works
 
-1. ☐ **Behavior spec exists** for this deliverable
-   - Check: `specs/3-behaviors/[deliverable].spec.md` exists
-   - Spec has Requirements section with [!] items
-   - Spec has Validation criteria
-   - Spec has Failure Mode defined
+**Path of least resistance:**
+1. User requests file → Agent adds todo "Create spec" (Layer 1)
+2. Agent runs validation check (Layer 2)
+3. Agent presents plan showing spec creation (Layer 3)
+4. User approves → Agent creates spec → Marks todo complete
+5. Pre-commit validates automatically (safety net)
 
-2. ☐ **Tests exist** (if TDD project) and currently FAIL (RED)
-   - Check: `tests/behaviors/[deliverable].test.ts` exists
-   - Tests map to validation criteria (one test per criterion)
-   - Tests currently fail (no implementation yet)
-
-3. ☐ **Plan includes methodology steps** (not just implementation)
-   - Plan includes spec creation (specific file path)
-   - Plan includes test creation if TDD (specific file path)
-   - Plan includes TDD cycle if applicable (RED → GREEN → REFACTOR)
-
-**If any checkbox is unchecked → STOP**
-
-Guide user to Phase 1 (DESIGN):
-- For behaviors: "Use `.livespec/1-design/1b-define-behaviors.md`"
-- For contracts: "Use `.livespec/1-design/1c-create-contracts.md`"
-- For architecture/strategy: "Use `.livespec/1-design/1a-design-architecture.md`"
-
-## ⚠️ WARNING: No "Plumbing" Exception
-
-**ALL behavior changes require specifications.** There is no exception for "simple" or "infrastructure" work.
-
-### Red Flags (Mental Categorization Errors)
-
-These phrases indicate you may be skipping necessary specification:
-- ❌ "Just wiring up [X]"
-- ❌ "Just infrastructure"
-- ❌ "Obviously simple"
-- ❌ "This is just plumbing"
-- ❌ "Everyone knows what [X] is"
-
-### The Test
-
-Ask yourself: **"If this breaks, does something stop working?"**
-
-- **YES** → It's a feature → Needs specification → Needs tests (if TDD)
-- **NO** → It's truly implementation detail → May not need spec
-
-### Real Example
-
-LiveSpec's own MCP resource serving was categorized as "just wiring up resources" and implemented without specs. This violated the project's TDD methodology despite having full documentation. The agent had to create a detailed violation report.
-
-**Lesson**: Familiarity creates false confidence. When in doubt, create a spec.
-
-## Active Self-Check Questions
-
-Before implementing, actively ask yourself:
-
-### Spec-First Check
-- **"Does this project require specs?"**
-  - Check: Does `specs/` directory exist?
-  - Check: Does `specs/workspace/constitution.spec.md` mention spec-first?
-
-- **"Does a spec exist for what I'm implementing?"**
-  - Check: `ls specs/3-behaviors/[deliverable].spec.md`
-  - If NO → Guide to Phase 1 (DESIGN)
-
-### TDD Check
-- **"Does this project use TDD?"**
-  - Check: Read `specs/workspace/workflows.spec.md`
-  - Look for: TDD cycle, test-first requirements
-
-- **"Have I written tests before implementation?"**
-  - Check: `ls tests/behaviors/[deliverable].test.ts`
-  - Tests should exist and FAIL before implementation
-
-### Methodology Compliance
-- **"Am I following the documented methodology?"**
-  - Check: Read `specs/workspace/` files
-  - Verify: My plan matches documented workflows
-
-- **"Have I verified my plan follows methodology?"**
-  - Before user approval, check plan includes:
-    - Spec creation (if needed)
-    - Test creation (if TDD)
-    - Methodology steps (not just implementation)
-
-### Meta-Check
-- **"Am I in execution mode bypassing methodology?"**
-  - Warning sign: Focused on "completing the plan" rather than "following methodology"
-  - Pause: Re-verify methodology compliance before continuing
+**Occasional bypass:** TodoWrite skipped → Plan mode catches → Pre-commit catches
+**Target:** 90%+ prevented before commit, 10% caught by validation
 
 ---
 
-## ⚠️ REQUIRED: Visible Methodology Compliance
+## Core Principles (In Priority Order)
 
-**You MUST output methodology checks during development - don't work silently.**
-
-**Critical issue:** Silent compliance = invisible compliance = appears NOT compliant. User needs to SEE that you're following LiveSpec methodology.
-
-### Before ANY Code Change
-
-Output prerequisite verification:
-
-```
-🔍 Checking prerequisites for [feature/change]...
-  ✓ PURPOSE.md - [How this aligns with project purpose]
-  ✓ specs/3-behaviors/[feature].spec.md - [Exists/needs creation]
-  ✓ specs/workspace/patterns.spec.md - [Relevant patterns identified]
-  [⚠️ if any missing] → Guiding to Phase X first
-```
-
-**Example:**
-```
-🔍 Checking prerequisites for lazy file hashing...
-  ✓ PURPOSE.md - Aligns with "storage analysis" purpose
-  ✓ specs/3-behaviors/scanner.spec.md - Exists, needs update
-  ✓ specs/workspace/patterns.spec.md - Python conventions apply
-```
-
-### During Implementation
-
-Output spec compliance:
-
-```
-📋 Implementing per specs/3-behaviors/[feature].spec.md:
-  - Requirement: [specific requirement from spec]
-  - Implementation: [how you're implementing it]
-  - Validation: [how you'll verify it works]
-```
-
-**Example:**
-```
-📋 Implementing per specs/3-behaviors/scanner.spec.md:
-  - Requirement: "Scanner aggregates node_modules directories"
-  - Implementation: Adding node_modules to AGGREGATE_PATTERNS
-  - Validation: Test scan skips node_modules in size calculations
-```
-
-### After Implementation
-
-Output spec update needs:
-
-```
-📝 Spec alignment check...
-  ✓ specs/3-behaviors/[feature].spec.md - [Aligned/needs update]
-  ⚠️ specs/2-strategy/architecture.spec.md - [New component added - updating]
-
-  [If updates needed] Updating specs now...
-  ✓ Updated [spec] to reflect [change]
-```
-
-**Example:**
-```
-📝 Spec alignment check...
-  ⚠️ scanner.spec.md diverged:
-    - Code now uses --hash-files flag (defaults OFF)
-    - Spec says "hashes files < 100MB" (always on)
-
-  Updating specs/3-behaviors/scanner.spec.md:
-    - Requirements: Added lazy hashing requirement
-    - Validation: Added --hash-files flag test
-
-  ✓ Updated scanner.spec.md to reflect lazy hashing behavior
-```
-
-### Why This Matters
-
-**Problem:** User can't tell if you're following methodology when you work silently.
-
-**Solution:** Make compliance VISIBLE. Output what you're checking, what you're following, what you're updating.
-
-**Not this:**
-```
-[Silently implements feature]
-Done!
-```
-
-**This:**
-```
-🔍 Checking prerequisites...
-  ✓ All prerequisites met
-📋 Implementing per scanner.spec.md...
-  [implementation details]
-📝 Updating specs to reflect changes...
-  ✓ scanner.spec.md updated
-Done!
-```
-
----
-
-## Spec Update Protocol
-
-**ALWAYS announce spec updates - don't update silently.**
-
-### When Code Changes Behavior
-
-1. **Identify affected specs** - List which specs need updates
-2. **Describe changes** - What sections need modification
-3. **Update specs** - Make the changes
-4. **Confirm updates** - Output "✓ Updated [spec] to reflect [change]"
-
-### Example Flow
-
-```
-Implementation complete. Checking spec alignment...
-
-⚠️ scanner.spec.md diverged from implementation:
-  - Code behavior: Uses --hash-files flag (defaults OFF)
-  - Spec requirement: "Hashes files < 100MB" (always on)
-
-  This is drift - spec no longer matches code.
-
-Updating specs/3-behaviors/scanner.spec.md:
-  - Requirements section: Added lazy hashing behavior
-  - Validation section: Added --hash-files flag test
-  - Rationale section: Added performance motivation
-
-✓ Spec updated and aligned with implementation
-✓ No other specs affected
-```
-
-### When Implementation Follows Spec
-
-If implementation exactly follows existing spec:
-
-```
-✓ Implementation follows scanner.spec.md exactly
-✓ No spec updates needed
-```
-
-**Never update code without announcing spec status.**
-
----
-
-## ⚠️ ACTIVE: Real-Time Learning Capture
-
-**CRITICAL: When users say "remember this" or provide methodology guidance, immediately update specs and AGENTS.md - don't let learnings vanish after session.**
-
-### Trigger Phrases
-
-Watch for user instructions that indicate lasting process changes:
-
-- "Remember this"
-- "Always do X"
-- "Never do Y"
-- "From now on..."
-- "In the future..."
-- "Make sure to..."
-- "Don't forget to..."
-- "Add this to your process"
-
-**These are NOT temporary instructions - they're permanent methodology updates.**
-
-### MSL Minimalism at Capture Time
-
-**CRITICAL: Check existing coverage BEFORE adding to workspace specs.**
-
-**Before adding ANY requirement to workspace specs:**
-
-1. **Search existing coverage**
-   - Read relevant workspace spec completely
-   - Check: Is this already stated (perhaps differently worded)?
-   - Check: Does existing requirement implicitly cover this?
-   - Use grep/search to find related terms
-
-2. **Three response options** (in priority order):
-
-   **Option A: Already covered** (preferred)
-   - Point user to existing requirement
-   - Say: "✓ This is already covered in [spec]:[line]"
-   - Quote existing requirement
-   - **Don't add** redundant requirement
-
-   **Option B: Consolidate** (second choice)
-   - Strengthen/clarify existing requirement
-   - Show before/after
-   - Keep it minimal (MSL test: would spec fail without this?)
-
-   **Option C: Add new** (only if truly novel)
-   - MSL test: Would spec fail without this? (If no → don't add)
-   - Keep concise (WHAT not HOW)
-   - Add to appropriate section
-   - Consider: Could this be inferred? (If yes → don't add)
-
-3. **Permission to refuse addition**
-   - Saying "already covered" is GOOD, not obstructive
-   - User satisfaction comes from spec quality, not spec size
-   - Minimal specs are better specs
-
-### The Protocol
-
-When user provides learning to capture:
-
-1. **Acknowledge immediately**
-   ```
-   📝 Capturing this in project methodology...
-   ```
-
-2. **Check existing coverage FIRST**
-   - Identify target spec:
-     - Process/workflow change → `specs/workspace/workflows.spec.md`
-     - Code pattern/convention → `specs/workspace/patterns.spec.md`
-     - Core principle → `specs/workspace/constitution.spec.md`
-     - Behavior-specific → `specs/3-behaviors/[feature].spec.md`
-   - Read target spec completely
-   - Search for similar/related requirements (use grep if helpful)
-   - Determine: Already covered / Consolidatable / Truly new
-
-2a. **If already covered**:
-   ```
-   ✓ This is already covered in specs/workspace/workflows.spec.md:45
-
-   Existing requirement:
-   "[Quote the existing requirement text]"
-
-   → No update needed - requirement already captured
-   ```
-   **STOP HERE** - Don't add, regeneration not needed
-
-2b. **If consolidatable**:
-   ```
-   📝 Consolidating with existing requirement...
-
-   ✓ Updated specs/workspace/patterns.spec.md:32
-     Before: "[Original requirement]"
-     After: "[Strengthened requirement incorporating new learning]"
-
-   Rationale: Consolidates [old concept] with [new learning]
-   ```
-   Continue to step 4 (regenerate AGENTS.md)
-
-2c. **If truly new requirement**:
-   ```
-   📝 Adding new requirement (passed MSL minimalism test)...
-
-   MSL test:
-   - Would spec fail without this? YES - [explain failure mode]
-   - Is this WHAT not HOW? YES - [confirm it's observable requirement]
-   - Could this be inferred? NO - [confirm it's explicit need]
-   ```
-   Continue to step 3
-
-3. **Update the spec** (only if 2c - truly new)
-   - Add requirement to appropriate section
-   - Mark as [!] if critical
-   - Include rationale if not obvious
-   - Keep concise (MSL: every word justified)
-   - Announce the update:
-   ```
-   ✓ Updated specs/workspace/workflows.spec.md:
-     - Added: [new requirement]
-     - Rationale: [why this matters]
-     - MSL justified: [failure mode if missing]
-   ```
-
-4. **Regenerate AGENTS.md** (if workspace spec changed)
-   - Guide user: "Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md"
-   - Explain: "This ensures future AI agents see this requirement"
-
-5. **Confirm capture**
-   ```
-   ✓ Learning captured in specs/workspace/[spec].spec.md
-   ✓ Will persist across sessions
-   [If AGENTS.md needs update] ⚠️ Run 4d-regenerate-agents to complete
-   ```
-
-### Example Scenarios
-
-**User:** "Remember to always run tests before committing"
-
-**You:**
-```
-📝 Capturing this in project methodology...
-
-✓ Updated specs/workspace/workflows.spec.md:
-  - Added: [!] Tests must pass before creating commits
-  - Section: Commit Workflow
-  - Validation: Pre-commit hook or manual test run required
-
-⚠️ Next: Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md
-This ensures future AI agents see this requirement.
-
-✓ Learning captured and will persist across sessions
-```
-
----
-
-**User:** "Always use lazy evaluation for expensive operations"
-
-**You:**
-```
-📝 Capturing this in project methodology...
-
-✓ Updated specs/workspace/patterns.spec.md:
-  - Added: [!] Expensive operations use lazy evaluation
-  - Context: Performance pattern
-  - Rationale: Prevent premature computation, improve startup time
-
-⚠️ Next: Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md
-This ensures future AI agents see this pattern.
-
-✓ Learning captured and will persist across sessions
-```
-
----
-
-**User:** "From now on, document all architecture decisions in ADRs"
-
-**You:**
-```
-📝 Capturing this in project methodology...
-
-✓ Updated specs/workspace/workflows.spec.md:
-  - Added: [!] Architecture decisions require ADR in docs/adr/
-  - Section: Design Workflow
-  - Format: Use ADR template from templates/adr.md
-  - Validation: Architecture changes include ADR file
-
-⚠️ Next: Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md
-This ensures future AI agents see this requirement.
-
-✓ Learning captured and will persist across sessions
-```
-
----
-
-**User:** "Never modify database schemas without migration scripts"
-
-**You:**
-```
-📝 Capturing this in project methodology...
-
-✓ Updated specs/workspace/patterns.spec.md:
-  - Added: [!] Database schema changes require migration scripts
-  - Constraint: No direct schema modifications
-  - Location: migrations/ directory
-  - Validation: Schema change + migration script in same commit
-
-⚠️ Next: Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md
-This ensures future AI agents see this constraint.
-
-✓ Learning captured and will persist across sessions
-```
-
-### Primary Target: specs/workspace/
-
-**Most learnings belong in workspace specs:**
-
-- `workflows.spec.md` - Process steps, phase requirements, commit workflow
-- `patterns.spec.md` - Code conventions, naming patterns, file organization
-- `constitution.spec.md` - Core principles, values, priorities
-
-**Occasionally other locations:**
-- Behavior-specific guidance → `specs/3-behaviors/[feature].spec.md`
-- Strategic decision → `specs/2-strategy/[domain].spec.md`
-- New meta-process → `specs/3-behaviors/processes/[process].spec.md`
-
-### Why This Matters
-
-**Problem:** User teaches AI agent important lesson during session, but learning vanishes when session ends. Next session, same mistake repeats.
-
-**Solution:** Immediately capture learnings in specs. Future AI agents read specs and follow the guidance from the start.
-
-**Not this:**
-```
-User: "Remember to always X"
-You: "Got it! I'll do X."
-[Session ends - learning lost]
-[Next session - agent doesn't do X]
-```
-
-**This:**
-```
-User: "Remember to always X"
-You:
-  📝 Capturing this in project methodology...
-  ✓ Updated specs/workspace/workflows.spec.md
-  ⚠️ Next: Run 4d-regenerate-agents to update AGENTS.md
-  ✓ Learning captured and will persist
-[Session ends - learning preserved]
-[Next session - agent reads spec, does X automatically]
-```
-
----
-
-## Plan Review for Methodology Compliance
-
-When presenting plans to users, include explicit methodology compliance verification:
-
-### Before User Approval
-
-Verify and report:
-
-**☐ Spec Creation**
-- [ ] Does plan include creating/updating spec?
-- [ ] Specific file path listed: `specs/3-behaviors/[feature].spec.md`
-- [ ] If spec already exists, is it listed as "read and verify"?
-
-**☐ Test Creation (if TDD project)**
-- [ ] Does plan include writing tests FIRST?
-- [ ] Specific file path listed: `tests/behaviors/[feature].test.ts`
-- [ ] TDD cycle explicit: "Write tests (RED) → Implement (GREEN) → Refactor"
-
-**☐ Methodology Steps vs Implementation Steps**
-- [ ] Plan describes methodology process (spec → test → implement)
-- [ ] Plan NOT just implementation steps ("create directory", "implement handlers")
-
-**☐ Workflow Reference**
-- [ ] Plan references project's documented workflow
-- [ ] Plan follows phases defined in `specs/workspace/workflows.spec.md`
-
-### Report to User
-
-**Before execution**, present compliance status:
-
-```markdown
-## Methodology Compliance Check
-
-☐ Specification: [EXISTS/WILL CREATE: path] / [MISSING - need to create first]
-☐ Tests: [EXISTS/WILL CREATE: path] / [N/A - not TDD project] / [MISSING - need to create first]
-☐ Workflow: Follows [reference specific workflow from specs/workspace/]
-
-[If non-compliant: "I need to revise this plan to include [missing items] first."]
-[If compliant: "This plan follows project methodology. Ready to proceed with your approval."]
-```
-
-### After User Approval
-
-Before beginning execution, re-verify one final time that all methodology artifacts are in place or explicitly included in approved plan.
-
----
-
-## Quick Start (80% of Cases)
-
-### New Project
-```bash
-# 1. Copy LiveSpec methodology
-cp -r livespec/prompts .livespec
-
-# 2. Create specs structure
-mkdir -p specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
-
-# 3. Create PURPOSE.md
-echo "# Project Purpose
-
-## Why This Exists
-[Problem this project solves]
-
-## What Success Looks Like
-[Measurable success criteria]" > PURPOSE.md
-
-# 4. Start Phase 0
-# "Use .livespec/0-define/0a-setup-workspace.md"
-```
-
-### Existing Project
-```bash
-# Extract specifications from code
-# "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
-```
-
-## Decision Tree
-
-```
-What do you need to do?
-│
-├─ **New project?**
-│  └─ Phase 0: Use .livespec/0-define/0a-setup-workspace.md
-│
-├─ **Existing project without specs?**
-│  └─ Phase 4: Use .livespec/4-evolve/4b-extract-specs.md
-│
-├─ **Code and specs drifted?**
-│  └─ Phase 4: Use .livespec/4-evolve/4a-detect-drift.md
-│
-├─ **Need to design new feature?**
-│  └─ Phase 1: Use .livespec/1-design/1a-design-architecture.md
-│
-├─ **Ready to implement?**
-│  └─ Phase 2: Use .livespec/2-build/2a-implement-from-specs.md
-│
-└─ **Need validation?**
-   └─ Phase 3: Use .livespec/3-verify/3a-run-validation.md
-```
-
-## The 5 Phases
-
-### Phase 0: DEFINE
-Establish problem space and constraints.
-
-**When**: Starting new project or documenting existing one
-**Entry**: Project idea or codebase
-**Exit**: Problem, constraints, workspace defined
-**Outputs**: PURPOSE.md, specs/constraints.spec.md, specs/workspace/
-**Key Prompt**: `0a-setup-workspace.md`
-
-### Phase 1: DESIGN
-Design solution architecture.
-
-**When**: After problem clear, before implementation
-**Entry**: Problem and constraints defined
-**Exit**: Architecture and contracts specified
-**Outputs**: specs/3-behaviors/, specs/3-contracts/
-**Key Prompt**: `1a-design-architecture.md`
-
-### Phase 2: BUILD
-Implement the solution.
-
-**When**: After design approved
-**Entry**: Design specifications complete
-**Exit**: Implementation matches specifications
-**Outputs**: Code + tests satisfying specs
-**Key Prompt**: `2a-implement-from-specs.md`
-
-### Phase 3: VERIFY
-Validate solution meets requirements.
-
-**When**: After implementation complete
-**Entry**: Implementation done
-**Exit**: All behaviors validated
-**Outputs**: Test results, validation reports
-**Key Prompt**: `3a-run-validation.md`
-
-### Phase 4: EVOLVE
-Keep specs and code synchronized (continuous).
-
-**When**: Ongoing throughout development
-**Entry**: System in production or active development
-**Exit**: Continuous (loop back to other phases as needed)
-**Outputs**: Updated specifications, drift reports
-**Key Prompt**: `4a-detect-drift.md`
-
-## MSL Format Quick Reference
-
-All specifications use [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification):
-
-```markdown
----
-criticality: CRITICAL | IMPORTANT
-failure_mode: [What breaks without this]
----
-
-# [Feature/Component Name]
-
-## Requirements
-- [!] [Concise description of WHAT is required, not HOW]
-  - [Testable criterion 1]
-  - [Testable criterion 2]
-  - [Testable criterion 3]
-```
-
-**That's it.** Title, frontmatter, Requirements. Keep specifications minimal.
-
-## Folder Structure Pattern
-
-```
-your-project/
-├── PURPOSE.md              # Why this exists, what success looks like
-│
-├── .livespec/              # Copied from livespec/dist/
-│   ├── 0-define/
-│   ├── 1-design/
-│   ├── 2-build/
-│   ├── 3-verify/
-│   ├── 4-evolve/
-│   └── utils/              # Utility prompts
-├── standard/               # MSL metaspecs and conventions
-└── templates/              # Workspace spec starter files
-    └── workspace/
-
-specs/
-├── workspace/              # HOW you build (process)
-│   ├── constitution.spec.md
-│   ├── patterns.spec.md
-│   └── workflows.spec.md
-│
-├── 1-requirements/         # High-level requirements
-├── 2-strategy/             # Technical approach
-├── 3-behaviors/            # Observable outcomes
-└── 3-contracts/            # Interface definitions
-```
-
-## Multi-Domain Organization (v2.1+)
-
-**Key insight:** behaviors/ and contracts/ abstractions work across ALL domains. Use subfolders for semantic organization.
-
-### Domain-Agnostic Abstractions
-
-**behaviors/** = Observable outcomes from any perspective:
-- Software: "System authenticates users"
-- Governance: "Only authorized entities access resources" (policy)
-- Operations: "Backups complete daily" (service)
-- Planning: "Feature meets success criteria" (requirement)
-
-**contracts/** = Interface definitions of any kind:
-- Software: API contracts (`GET /users/{id}`)
-- Governance: Process contracts (procedures)
-- Operations: Operational contracts (runbooks)
-- Planning: Workflow contracts (delivery processes)
-
-### Organization Patterns by Domain
-
-**Software projects:**
-```
-specs/
-├── workspace/           # How we work
-├── 3-behaviors/
-│   ├── user-features/  # User-facing behaviors
-│   │   ├── authentication.spec.md
-│   │   └── authorization.spec.md
-│   └── system/         # System behaviors
-│       └── caching.spec.md
-├── 3-contracts/
-│   └── api/v1/         # API contracts
-│       └── users-api.yaml
-└── 2-strategy/         # Cross-cutting decisions
-    ├── architecture.spec.md
-    └── logging.spec.md
-```
-
-**Governance projects:**
-```
-specs/
-├── workspace/           # How we work
-├── 3-behaviors/
-│   └── policies/       # Policy behaviors
-│       ├── access-control.spec.md
-│       └── data-protection.spec.md
-├── 3-contracts/
-│   └── procedures/     # Process contracts
-│       └── access-review.spec.md
-└── 2-strategy/         # Cross-cutting decisions
-    └── security-posture.spec.md
-```
-
-**Operations projects:**
-```
-specs/
-├── workspace/           # How we work
-├── 3-behaviors/
-│   └── services/       # Service behaviors
-│       ├── backup.spec.md
-│       └── monitoring.spec.md
-├── 3-contracts/
-│   └── runbooks/       # Operational contracts
-│       ├── incident-response.spec.md
-│       └── deployment.spec.md
-└── 2-strategy/         # Cross-cutting decisions
-    └── infrastructure.spec.md
-```
-
-**Hybrid projects:**
-```
-specs/
-├── workspace/             # How we work
-├── 3-behaviors/
-│   ├── user-features/    # Software
-│   ├── policies/         # Governance
-│   └── services/         # Operations
-├── 3-contracts/
-│   ├── api/              # Software
-│   ├── procedures/       # Governance
-│   └── runbooks/         # Operations
-└── 2-strategy/           # Cross-cutting (all domains)
-    ├── architecture.spec.md
-    ├── logging.spec.md
-    └── security.spec.md
-```
-
-See `docs/domain-organization.md` for comprehensive patterns.
-
----
-
-## Meta-Process Specs Pattern
-
-**When specs govern creation of documentation (not system behavior):**
-
-### What Are Meta-Process Specs?
-
-Specs that define HOW to create other documentation or artifacts:
-- `investigation.spec.md` - How to document investigations
-- `refactoring.spec.md` - How to document refactoring decisions
-- `adr.spec.md` - How to write Architecture Decision Records
-- `incident.spec.md` - How to document production incidents
-
-**Key characteristic:** These specs create a PATTERN for governed documentation instances.
-
-### Where They Belong
-
-**Option A (Recommended): behaviors/processes/**
-
-Place in `specs/3-behaviors/processes/[process].spec.md`
-
-**Rationale:** Following the process is observable behavior. The process produces observable artifacts.
-
-**Example structure:**
-```
-specs/
-├── 3-behaviors/
-│   ├── user-features/        # User-facing behaviors
-│   ├── system/               # System behaviors
-│   └── processes/            # Meta-process behaviors
-│       ├── investigation.spec.md
-│       ├── refactoring.spec.md
-│       └── incident.spec.md
-```
-
-**Option B: workspace/processes/**
-
-Place in `specs/workspace/processes/[process].spec.md`
-
-**Rationale:** Process governs how team works (workflow-level governance).
-
-**Use when:** Process is purely team/workflow governance with no project artifacts.
-
-**Decision criteria:**
-- Process creates project artifacts → `behaviors/processes/`
-- Process governs team workflow only → `workspace/processes/`
-
-### Governed Documentation Pattern
-
-Meta-process specs govern "governed documentation" - documentation that must conform to spec structure:
-
-**Spec (reusable):** `specs/3-behaviors/processes/investigation.spec.md`
-**Instances (governed):** `investigations/001-docker-wsl/problem.md`, `findings.md`
-
-**Relationship:**
-- Spec defines requirements for ALL instances
-- Instances MUST conform to spec structure
-- Instances are NOT specs themselves (they're data/documentation)
-
-**Example from Hoardwick:**
-```
-specs/3-behaviors/processes/
-└── investigation.spec.md          # Defines investigation requirements
-
-investigations/
-├── 001-docker-wsl-growth/
-│   ├── problem.md                 # Conforms to investigation.spec.md
-│   ├── findings.md                # Conforms to investigation.spec.md
-│   └── data/                      # Raw investigation data
-├── 002-wsl-vhdx-bloat/
-│   └── ...                        # Also conforms to spec
-└── LEARNINGS.md                   # Not governed (just documentation)
-```
-
-### Circular Dependencies (Continuous Improvement)
-
-Meta-process specs often have feedback loops:
-
-```
-Investigations → Learnings → Spec updates → Better investigations
-```
-
-**This is GOOD.** Continuous improvement requires feedback loops.
-
-**Document in spec's Rationale section:**
-```markdown
-## Rationale
-
-This spec evolves based on investigation learnings.
-See investigations/LEARNINGS.md for feedback loop documentation.
-Spec improvements feed back into better investigation outcomes.
-```
-
-**Convergence:** Specs should stabilize over time as patterns mature, but expect evolution as learnings accumulate.
-
-### Template Pattern
-
-Meta-process specs follow a common pattern:
-
-```markdown
----
-criticality: IMPORTANT
-failure_mode: [What happens without structured process]
-pattern: meta-process
----
-
-# [Process Name] Behavior
-
-## Requirements
-
-### [Artifact] Structure
-- [!] Each [artifact] lives in [location pattern]
-  - Naming convention
-  - Required files/sections
-
-### [Artifact] Format
-- [!] Must define: [required sections]
-- [!] Must be measurable/verifiable
-
-### Lifecycle
-- [!] States: [valid states]
-- [!] State tracking: [mechanism]
-
-## Rationale
-
-[Why this process exists]
-[Feedback loop if applicable]
-
-## Validation
-
-[How to verify conformance]
-```
-
-See `dist/templates/processes/meta-process.spec.md.template` for full template.
-
----
-
-## Spec Evolution
-
-**Live specs only. Git is the history.**
-
-### One Source of Truth Principle
-
-- `specs/` directory contains ONLY current, active specs
-- No `_old`, `_v2`, `_deprecated`, or `_backup` files
-- No deprecated specs (delete them, git preserves history)
-- No version numbers in filenames
-
-**Rationale:** Multiple versions create:
-- Risk of implementing from wrong spec
-- Confusion about which spec is authoritative
-- Drift between versions
-- Complexity that LiveSpec exists to prevent
-
-### Evolving Specs In Place
-
-**When spec needs updates:**
-
-1. **Update the existing spec directly**
-   - Edit the current spec file in place
-   - Git commit captures the change
-   - Commit message explains what and why
-
-2. **If filename should change:**
-   - Create new spec with better name
-   - Update all frontmatter references (guided-by, satisfies, etc.)
-   - DELETE old spec in same commit
-   - Git preserves old spec in history
-
-**Example evolution:**
-```bash
-# Bad (creates duplicate)
-cp investigation.spec.md investigation-v2.spec.md
-
-# Good (evolves in place)
-# Edit investigation.spec.md directly
-git commit -m "Update investigation.spec.md: Add learnings feedback loop requirement"
-
-# Good (rename if needed)
-git mv investigation.spec.md root-cause-investigation.spec.md
-# Update frontmatter in other specs that reference it
-git commit -m "Rename investigation spec for clarity"
-```
-
-### Breaking Changes to Specs
-
-**If change would break existing implementations:**
-
-1. Update implementation AND spec together in same commit
-2. Commit message explains what changed and why
-3. No deprecation period - just update
-
-**Example commit message:**
-```
-Update scanner behavior: Switch to lazy hashing
-
-- Updated scanner.spec.md: Added --hash-files flag requirement
-- Updated scan.py: Implemented lazy hashing behavior
-- Breaking change: Default behavior now skips hashing
-
-Rationale: 551k files hashed caused 6-hour scans.
-Lazy hashing reduces scan time to <1 hour.
-```
-
-### Viewing Spec History
-
-**To see spec evolution:**
-```bash
-# View all changes to spec
-git log -- specs/3-behaviors/scanner.spec.md
-
-# Compare current vs specific version
-git diff abc123 -- specs/3-behaviors/scanner.spec.md
-
-# View spec at specific point in time
-git show abc123:specs/3-behaviors/scanner.spec.md
-```
-
-**Git provides:**
-- What changed (diff)
-- When changed (commit timestamp)
-- Why changed (commit message)
-- Who changed (commit author)
-
-**No frontmatter versioning needed.** Git is the version control system.
-
-### When Spec Becomes Obsolete
-
-**If spec no longer applies:**
-
-1. DELETE the spec file
-2. Remove references from other specs
-3. Commit with clear explanation
-
-**Example:**
-```bash
-git rm specs/3-behaviors/manual-backup.spec.md
-# Update any specs that referenced it
-git commit -m "Remove manual-backup.spec.md: Replaced by automated-backup.spec.md"
-```
-
-**Git preserves the deleted spec.** If needed later, retrieve from history:
-```bash
-git checkout abc123 -- specs/3-behaviors/manual-backup.spec.md
-```
-
-### No Deprecated Specs
-
-**Never mark specs as deprecated and leave them in specs/ directory.**
-
-**Bad:**
-```yaml
----
-status: deprecated
-replaced-by: new-spec.spec.md
----
-```
-
-**Good:**
-```bash
-# Delete old spec
-git rm old-spec.spec.md
-
-# Update references in commit message
-git commit -m "Remove old-spec.spec.md
-
-Replaced by: new-spec.spec.md
-Migration: [if applicable, how to migrate]"
-```
-
-**Rationale:** Deprecated specs create confusion and risk. One source of truth means exactly one - not one current + several deprecated.
-
----
-
-## Spec vs Governed Documentation
-
-**Decision tree for "should this be a spec?"**
-
-```
-Does it define requirements for MULTIPLE instances?
-├─ YES → It's a SPEC
-│  └─ Example: investigation.spec.md (governs ALL investigations)
-│
-└─ NO → Does it define requirements for ONE instance?
-   ├─ YES → It's GOVERNED DOCUMENTATION
-   │  └─ Example: problem.md (one investigation's requirements)
-   │  └─ Follows pattern from governing spec
-   │
-   └─ NO → It's just DOCUMENTATION
-      └─ Example: LEARNINGS.md (captures insights, no requirements)
-      └─ Example: QUEUE.md (tracks state, no requirements)
-```
-
-### Examples
-
-| Artifact | Type | Rationale |
-|----------|------|-----------|
-| `investigation.spec.md` | SPEC | Defines requirements for ALL investigations |
-| `001-docker/problem.md` | GOVERNED DOC | One investigation's requirements, follows spec |
-| `001-docker/findings.md` | GOVERNED DOC | One investigation's findings, follows spec |
-| `investigations/LEARNINGS.md` | DOCUMENTATION | Captures insights across investigations, no requirements |
-| `investigations/QUEUE.md` | DOCUMENTATION | Tracks investigation state, no requirements |
-| `patterns.spec.md` | SPEC | Defines requirements for all code |
-| `README.md` | DOCUMENTATION | Explains project, no requirements |
-
-### When Uncertain
-
-**Ask:** "If there were 10 of these, would they all follow the same structure?"
-
-- YES → Create a spec defining that structure
-- NO → Just create the documentation
-
-**Example:** Creating first investigation:
-- First instinct: Just create `investigations/001-problem.md`
-- Better: Create `investigation.spec.md` first, defining pattern for ALL investigations
-- Result: Future investigations consistent, pattern reusable
-
----
-
-## Folder Organization Decision Tests
-
-**Critical for proper spec placement:**
-
-**workspace/ test:** "Could I copy this spec to ANY project?"
-- YES → workspace/ (portable process)
-- NO → Check strategy/ or behaviors/
-
-**strategy/ test:** "Does this apply across the whole product?"
-- YES → strategy/ (cross-cutting technical decision)
-- NO → Check behaviors/
-
-**behaviors/ test:** "Is this an observable outcome users/system must exhibit?"
-- YES → behaviors/ (what system does)
-- NO → Re-examine classification
-
-**Common Mistakes:**
-- ❌ "API returns JSON" → NOT workspace (product-specific) → strategy/
-- ❌ "Use 4-space indentation" → NOT strategy (not critical) → workspace/ (if it matters)
-- ❌ "System authenticates users" → NOT strategy (observable) → behaviors/
-
-**Correct Examples:**
-- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (applies to any project)
-- ✅ "API responses must be JSON" → strategy/architecture.spec.md (product-wide decision)
-- ✅ "System authenticates users via OAuth" → behaviors/authentication.spec.md (observable outcome)
-
-## Essential Templates
-
-### Workspace Constitution
-```markdown
-# [Project Name] Development Constitution
-
-**Criticality**: CRITICAL
-**Failure Mode**: Development becomes inconsistent
-
-## Specification
-[3-5 core development principles for this project]
-
-## Validation
-- [Observable behaviors demonstrating adherence]
-```
-
-### Behavior Specification
-```markdown
-# [Feature Name]
-
-**Criticality**: CRITICAL | IMPORTANT
-**Failure Mode**: [Impact if missing]
-
-## Specification
-[Observable behavior the system must exhibit]
-
-## Validation
-- [How to verify this works]
-- [Edge cases to test]
-```
-
-### API Contract
-```markdown
-# [Endpoint Name]
-
-**Criticality**: CRITICAL
-**Failure Mode**: [Integration breaks]
-
-## Specification
-[Request/response format, authentication, rate limits]
-
-## Validation
-- [Valid requests succeed]
-- [Invalid requests fail appropriately]
-```
-
-### Extracted Specification (Low Confidence)
-```markdown
----
-extracted_from:
-  - src/cache/redis.py
-  - src/cache/invalidation.py
-extracted_date: 2025-10-06
-confidence: LOW
-requires_validation: true
-extraction_reason: "Inferred from implementation, no tests found for invalidation behavior"
----
-
-# Cache Invalidation
-
-**Criticality**: IMPORTANT (estimated)
-**Failure Mode**: Stale data served to users (inferred)
-
-## Specification
-
-⚠️ **EXTRACTION NOTES**: TTL constant found in code. No tests for invalidation behavior. Actual requirement unclear.
-
-System appears to invalidate Redis cache entries after 1 hour TTL.
-
-## Validation
-
-**Status**: EXTRACTED - Requires validation
-
-- [?] Cache TTL is 1 hour (constant found: CACHE_TTL = 3600)
-- [?] Cache invalidates on entity updates (invalidation code present)
-- [?] Cache misses fetch from database (fallback logic exists)
-
-**Review checklist:**
-- [ ] Confirm 1-hour TTL is requirement (vs implementation detail)
-- [ ] Verify invalidation triggers
-- [ ] Add test coverage for cache behavior
-```
-
-**Use this template when:**
-- Extracting specs from code (Phase 4b)
-- Confidence is LOW or MEDIUM
-- No tests exist for the behavior
-- Multiple interpretations possible
-
-**Promote to standard spec when validated:** Remove extraction metadata, add standard frontmatter (derives_from, satisfies).
-
-## Core Principles
-
-**From specs/workspace/constitution.spec.md (in priority order):**
+**From specs/workspace/constitution.spec.md:**
 
 ### 1. Specs Before Implementation
 - Every deliverable requires specification before implementation
@@ -1307,6 +124,8 @@ System appears to invalidate Redis cache entries after 1 hour TTL.
 - Specify WHAT, not HOW
 - Only CRITICAL or IMPORTANT requirements
 - Trust implementers for details
+- **Note**: All LiveSpec artifacts are specifications at different abstraction levels. "Requirements" in folder names (1-requirements/) refers to strategic specifications (high-level WHAT), not a separate document category. All use MSL format.
+- **See Reference Library**: `msl-minimalism.md` for complete decision framework
 
 ### 3. Dogfooding
 - LiveSpec uses its own methodology
@@ -1330,6 +149,40 @@ System appears to invalidate Redis cache entries after 1 hour TTL.
 - LiveSpec is specialized for governance/methodology documentation
 - Patterns demonstrated here apply to governance domain specifically
 - Extensions documented as domain-specific, not universal patterns
+
+### 7. Active Agent Guidance
+- AGENTS.md is definitive cacheable agent context (<100KB)
+- 80/20 coverage (agents handle 80% of cases without fetching additional context)
+- Includes ACTIVE verification prompts (not passive documentation)
+- Context positioning optimized (START 30-40%, MIDDLE 40%, END 20-30%)
+- Clear pointers to extended context (when to fetch full prompts)
+- Templates in `.livespec/templates/agents/` provide reusable verification content
+- Structural enforcement makes compliance path of least resistance
+
+## Context Compression
+
+**What it is**: Active force that reorganizes guidance layer (workspace/, AGENTS.md, templates) for agent focus efficiency.
+
+**Complements MSL Minimalism**:
+- **MSL Minimalism**: Content pressure (reduce within specs - WHAT/requirements)
+- **Context Compression**: Structural force (reorganize across guidance - HOW agents consume)
+
+**This project uses**: Moderate compression (balanced inline/reference)
+- Strategic extraction of reusable content
+- Critical workflows inline, details referenced
+- Templates for repeated verification patterns
+- Target size: 70-85KB
+
+**Three levels**:
+- **Light**: Verbose, self-contained (exploratory work, large context agents)
+- **Moderate**: Balanced (production, most agents) ← **Current**
+- **Aggressive**: Dense, focused (cost-sensitive, high-frequency usage)
+
+**Configuration**: Declared in `specs/workspace/constitution.spec.md` frontmatter (`context_compression: moderate`)
+
+**Change level**: Use `.livespec/prompts/utils/audit-context-compression.md` to measure and migrate
+
+**See Reference Library**: `context-compression.spec.md` for full framework
 
 ## Project Taxonomy (Check First)
 
@@ -1389,6 +242,351 @@ Pure information architecture. Specs are readable markdown, folder structure is 
 ### Testable Behaviors
 All behaviors are observable and verifiable. Every specification includes concrete validation criteria.
 
+---
+
+## Quick Start (80% of Cases)
+
+### New Project
+```bash
+# 1. Copy LiveSpec methodology
+cp -r livespec/dist/ .livespec/
+
+# 2. Create specs structure
+mkdir -p specs/{workspace,mission,strategy,behaviors,contracts}
+
+# 3. Create PURPOSE.md
+echo "# Project Purpose
+
+## Why This Exists
+[Problem this project solves]
+
+## What Success Looks Like
+[Measurable success criteria]" > PURPOSE.md
+
+# 4. Start Phase 0 (choose one):
+# Quick start (5 min, zero questions): "Use .livespec/0-define/0a-quick-start.md"
+# Full customization (20-30 min): "Use .livespec/0-define/0b-customize-workspace.md"
+```
+
+### Existing Project
+```bash
+# Extract specifications from code
+# "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
+```
+
+## Decision Tree
+
+```
+What do you need to do?
+│
+├─ **New project?**
+│  ├─ Quick (5 min): Use .livespec/0-define/0a-quick-start.md
+│  └─ Customize (20-30 min): Use .livespec/0-define/0b-customize-workspace.md
+│
+├─ **Existing project without specs?**
+│  └─ Phase 4: Use .livespec/4-evolve/4b-extract-specs.md
+│
+├─ **Code and specs drifted?**
+│  └─ Phase 4: Use .livespec/4-evolve/4a-detect-drift.md
+│
+├─ **Need to design new feature?**
+│  └─ Phase 1: Use .livespec/1-design/1a-design-architecture.md
+│
+├─ **Ready to implement?**
+│  └─ Phase 2: Use .livespec/2-build/2a-implement-from-specs.md
+│
+└─ **Need validation?**
+   └─ Phase 3: Use .livespec/3-verify/3a-run-validation.md
+```
+
+## The 5 Phases
+
+### Phase 0: DEFINE
+Establish problem space and constraints.
+
+**When**: Starting new project or documenting existing one
+**Entry**: Project idea or codebase
+**Exit**: Problem, constraints, workspace defined
+**Outputs**: PURPOSE.md, specs/1-requirements/strategic/constraints.spec.md, specs/workspace/
+**Key Prompts**:
+- `0a-quick-start.md` - Zero-question setup (5 min, defaults)
+- `0b-customize-workspace.md` - Full workspace customization
+- `0c-define-problem.md` - Articulate problem statement
+- `0d-define-outcomes.md` - Define high-level requirements
+- `0e-assess-complexity.md` - Evaluate project complexity
+- `0f-evaluate-research-needs.md` - Determine if UX research needed
+- `0g-identify-constraints.md` - Document boundaries
+
+### Phase 1: DESIGN
+Design solution architecture.
+
+**When**: After problem clear, before implementation
+**Entry**: Problem and constraints defined
+**Exit**: Architecture and contracts specified
+**Outputs**: specs/2-strategy/architecture.spec.md, specs/3-behaviors/, specs/contracts/
+**Key Prompts**:
+- `1a-design-architecture.md` - Define system structure
+- `1b-define-behaviors.md` - Specify observable outcomes
+- `1c-create-contracts.md` - Define API/data interfaces
+
+### Phase 2: BUILD
+Implement the solution.
+
+**When**: After design approved
+**Entry**: Design specifications complete
+**Exit**: Implementation matches specifications
+**Outputs**: Code + tests satisfying specs
+**Key Prompts**:
+- `2a-implement-from-specs.md` - Build from specifications
+- `2b-create-tests.md` - Create validation tests
+
+**See Reference Library**: `tdd.md` for complete test-driven development process
+
+### Phase 3: VERIFY
+Validate solution meets requirements.
+
+**When**: After implementation complete
+**Entry**: Implementation done
+**Exit**: All behaviors validated
+**Outputs**: Test results, validation reports
+**Key Prompts**:
+- `3a-run-validation.md` - Execute validation tests
+- `3b-acceptance-review.md` - Stakeholder approval
+
+### Phase 4: EVOLVE
+Keep specs and code synchronized (continuous).
+
+**When**: Ongoing throughout development
+**Entry**: System in production or active development
+**Exit**: Continuous (loop back to other phases as needed)
+**Outputs**: Updated specifications, drift reports
+**Key Prompts**:
+- `4a-detect-drift.md` - Identify spec-code misalignment
+- `4b-extract-specs.md` - Generate specs from code
+- `4c-sync-complete.md` - Confirm synchronization
+- `4d-regenerate-agents.md` - Update AGENTS.md
+- `4e-validate-extractions.md` - Review extracted specs
+
+## MSL Format Quick Reference
+
+All specifications use [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification):
+
+```markdown
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks without this]
+---
+
+# [Feature/Component Name]
+
+## Requirements
+- [!] [Concise description of WHAT is required, not HOW]
+  - [Testable criterion 1]
+  - [Testable criterion 2]
+  - [Testable criterion 3]
+```
+
+**That's it.** Title, frontmatter, Requirements. Keep specifications minimal.
+
+## Folder Structure Pattern
+
+```
+your-project/
+├── PURPOSE.md              # Why this exists, what success looks like
+│
+├── .livespec/              # Copied from livespec/dist/
+│   ├── 0-define/
+│   ├── 1-design/
+│   ├── 2-build/
+│   ├── 3-verify/
+│   ├── 4-evolve/
+│   ├── utils/              # Utility prompts
+│   ├── standard/           # MSL metaspecs
+│   └── templates/          # Workspace and agent templates
+│
+└── specs/
+    ├── workspace/          # HOW you build (process)
+    │   ├── constitution.spec.md
+    │   ├── patterns.spec.md
+    │   └── workflows.spec.md
+    │
+    ├── 1-requirements/     # WHY and strategic/functional requirements
+    │   ├── strategic/      # High-level outcomes, constraints
+    │   │   ├── outcomes.spec.md
+    │   │   └── constraints.spec.md
+    │   └── functional/     # Specific feature requirements
+    │
+    ├── 2-strategy/         # HOW you solve (approach)
+    │   └── architecture.spec.md
+    │
+    ├── 3-behaviors/        # WHAT system does (observable outcomes)
+    └── 3-contracts/        # API/data contracts
+```
+
+## Folder Organization Decision Tests
+
+**Critical for proper spec placement:**
+
+**workspace/ test:** "Could I copy this spec to ANY project?"
+- YES → workspace/ (portable process)
+- NO → Check 1-requirements/, 2-strategy/, or 3-behaviors/
+
+**1-requirements/ test:** "Is this a strategic outcome or hard constraint?"
+- YES, strategic → 1-requirements/strategic/ (outcomes, constraints)
+- YES, functional → 1-requirements/functional/ (specific feature requirements)
+- NO → Check 2-strategy/ or 3-behaviors/
+
+**2-strategy/ test:** "Does this apply across the whole product?"
+- YES → 2-strategy/ (cross-cutting technical decision)
+- NO → Check 3-behaviors/
+
+**3-behaviors/ test:** "Is this an observable outcome users/system must exhibit?"
+- YES → 3-behaviors/ (what system does)
+- NO → Re-examine classification
+
+**Common Mistakes:**
+- ❌ "API returns JSON" → NOT workspace (product-specific) → 2-strategy/
+- ❌ "Use 4-space indentation" → NOT 2-strategy/ (not critical) → workspace/ (if it matters)
+- ❌ "System authenticates users" → NOT 2-strategy/ (observable) → 3-behaviors/
+
+**Correct Examples:**
+- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (applies to any project)
+- ✅ "API responses must be JSON" → 2-strategy/architecture.spec.md (product-wide decision)
+- ✅ "System authenticates users via OAuth" → 3-behaviors/authentication.spec.md (observable outcome)
+
+**See Reference Library**: `folder-structure.spec.md` for detailed classification tests
+
+## Multi-Domain Organization (v2.1+)
+
+**Key insight:** behaviors/ and contracts/ abstractions work across ALL domains. Use subfolders for semantic organization.
+
+### Domain-Agnostic Abstractions
+
+**behaviors/** = Observable outcomes from any perspective:
+- Software: "System authenticates users"
+- Governance: "Only authorized entities access resources" (policy)
+- Operations: "Backups complete daily" (service)
+- Planning: "Feature meets success criteria" (requirement)
+
+**contracts/** = Interface definitions of any kind:
+- Software: API contracts (`GET /users/{id}`)
+- Governance: Process contracts (procedures)
+- Operations: Operational contracts (runbooks)
+- Planning: Workflow contracts (delivery processes)
+
+### Organization Patterns by Domain
+
+**Software projects:**
+```
+specs/
+├── workspace/           # How we work
+├── 1-requirements/      # Strategic and functional requirements
+├── 2-strategy/          # Cross-cutting decisions
+├── 3-behaviors/
+│   ├── user-features/  # User-facing behaviors
+│   └── system/         # System behaviors
+└── 3-contracts/
+    └── api/v1/         # API contracts
+```
+
+**Hybrid projects:**
+```
+specs/
+├── workspace/             # How we work
+├── 1-requirements/        # Strategic and functional requirements
+├── 2-strategy/            # Cross-cutting (all domains)
+├── 3-behaviors/
+│   ├── user-features/    # Software
+│   ├── policies/         # Governance
+│   └── services/         # Operations
+└── 3-contracts/
+    ├── api/              # Software
+    ├── procedures/       # Governance
+    └── runbooks/         # Operations
+```
+
+## Essential Templates
+
+### Workspace Constitution
+```markdown
+# [Project Name] Development Constitution
+
+**Criticality**: CRITICAL
+**Failure Mode**: Development becomes inconsistent
+
+## Requirements
+[3-5 core development principles for this project]
+
+## Validation
+- [Observable behaviors demonstrating adherence]
+```
+
+### Behavior Specification
+```markdown
+# [Feature Name]
+
+**Criticality**: CRITICAL | IMPORTANT
+**Failure Mode**: [Impact if missing]
+
+## Requirements
+[Observable behavior the system must exhibit]
+
+## Validation
+- [How to verify this works]
+- [Edge cases to test]
+```
+
+### API Contract
+```markdown
+# [Endpoint Name]
+
+**Criticality**: CRITICAL
+**Failure Mode**: [Integration breaks]
+
+## Requirements
+[Request/response format, authentication, rate limits]
+
+## Validation
+- [Valid requests succeed]
+- [Invalid requests fail appropriately]
+```
+
+### Extracted Specification (Low Confidence)
+```markdown
+---
+extracted_from:
+  - src/cache/redis.py
+extracted_date: 2025-10-06
+confidence: LOW
+requires_validation: true
+extraction_reason: "Inferred from implementation, no tests found"
+---
+
+# Cache Invalidation
+
+**Criticality**: IMPORTANT (estimated)
+**Failure Mode**: Stale data served to users (inferred)
+
+## Requirements
+
+⚠️ **EXTRACTION NOTES**: TTL constant found in code. No tests for invalidation behavior. Actual requirement unclear.
+
+System appears to invalidate Redis cache entries after 1 hour TTL.
+
+## Validation
+
+**Status**: EXTRACTED - Requires validation
+
+- [?] Cache TTL is 1 hour (constant found: CACHE_TTL = 3600)
+- [?] Cache invalidates on entity updates (invalidation code present)
+- [?] Cache misses fetch from database (fallback logic exists)
+
+**Review checklist:**
+- [ ] Confirm 1-hour TTL is requirement (vs implementation detail)
+- [ ] Verify invalidation triggers
+- [ ] Add test coverage for cache behavior
+```
+
 ## Specification Dependencies
 
 LiveSpec specs form a **dependency graph**, not a hierarchy:
@@ -1441,11 +639,11 @@ Specs declare dependencies via YAML frontmatter:
 ---
 derives-from:
   - PURPOSE.md
-  - specs/problem.spec.md
+  - specs/1-requirements/strategic/outcomes.spec.md
 governed-by:
-  - specs/constraints.spec.md
+  - specs/1-requirements/strategic/constraints.spec.md
 satisfies:
-  - specs/problem.spec.md
+  - specs/1-requirements/strategic/outcomes.spec.md
 ---
 ```
 
@@ -1456,32 +654,6 @@ satisfies:
 - `guided-by` - Strategies that guide this spec (horizontal - HOW)
 - `supports` - What this spec enables
 - `applies_to` - Scope (for workspace specs)
-
-### Impact Detection
-
-When specs change, trace dependencies:
-
-**Upward (validate):** Does change still align with parents?
-```bash
-# Check frontmatter
-grep "derives-from\|governed-by" specs/changed-spec.spec.md
-```
-
-**Downward (propagate):** What derives from this?
-```bash
-# Find children
-grep -r "derives-from.*changed-spec" specs/
-```
-
-**Common impacts:**
-| Changed | Check Upward | Check Downward |
-|---------|--------------|----------------|
-| PURPOSE.md | None (root) | requirements.spec.md, constraints.spec.md |
-| requirements.spec.md | PURPOSE.md | architecture.spec.md, behaviors/ |
-| architecture.spec.md | requirements.spec.md, constraints.spec.md | prompts/, behaviors/ |
-| behaviors/*.spec.md | architecture.spec.md | Code |
-
-See `specs/DEPENDENCIES.md` for complete traceability reference.
 
 ### ⚠️ Critical: Dual Linkage Pattern
 
@@ -1506,6 +678,8 @@ Behaviors GUIDED-BY strategy (horizontal influence - HOW they do it)
 **Real example confusion:** Agent sees behavior linking directly to requirement and flags as "missing strategy layer." This is CORRECT behavior - behaviors should satisfy requirements directly while being guided by strategy.
 
 **See full explanation:** `specs/2-strategy/three-layer-architecture.spec.md` (section: "Dual Linkage Pattern")
+
+**See Reference Library**: `dependencies.spec.md` for complete frontmatter conventions
 
 ## Common Anti-Patterns
 
@@ -1540,202 +714,18 @@ LiveSpec uses YAML frontmatter for bidirectional links:
 **In prompts:**
 ```markdown
 ---
-implements: specs/3-behaviors/prompts/0a-setup-workspace.spec.md
+implements: specs/3-behaviors/prompts/0a-quick-start.spec.md
 ---
 ```
 
 **In specs:**
 ```markdown
 ---
-specifies: prompts/0-define/0a-setup-workspace.md
+specifies: dist/prompts/0-define/0a-quick-start.md
 ---
 ```
 
 This enables AI agents to navigate between prompts and their specifications.
-
-## MSL Alignment (v2.2+)
-
-**LiveSpec uses MSL frontmatter conventions** for semantic precision and ecosystem interoperability.
-
-### Field Semantics
-
-| Field | Meaning | Example Usage |
-|-------|---------|---------------|
-| `derives-from:` | "I was created from this source" | spec derives-from: PURPOSE.md |
-| `governed-by:` | "I must follow these rules/metaspecs" | spec governed-by: behavior-metaspec |
-| `implements:` | "I am code/content satisfying this spec" | prompt implements: prompt.spec.md |
-| `specifies:` | "I define what these files should do" | spec specifies: prompt.md |
-| `extends:` | "I am specialized type of parent" (MSL core) | mobile-api extends: api-base |
-| `supports:` | "These depend on me" (LiveSpec extension) | outcomes supports: architecture |
-
-### Field Examples
-
-**Prompt files**:
-```yaml
----
-implements: specs/3-behaviors/prompts/setup.spec.md
----
-```
-
-**Specification files**:
-```yaml
----
-derives-from: PURPOSE.md
-governed-by: .livespec/standard/metaspecs/behavior.spec.md
----
-```
-
-### Why This Matters
-
-- **Semantic clarity**: `implements:` precisely describes relationship
-- **MSL ecosystem**: Unified vocabulary across MSL and LiveSpec
-- **Hyphen consistency**: Matches MSL convention
-- **AI predictability**: Agents trained on MSL understand field meanings
-
-### Migration
-
-Projects using old field names (`spec:`, `constrained_by:`, `derives_from:`) should migrate.
-
-See `docs/msl-alignment-migration.md` for migration script and instructions.
-
-## When to Fetch Full Prompts
-
-Cache this document, but fetch full prompts when you need:
-
-| Need | Fetch | When |
-|------|-------|------|
-| Setup workspace | `.livespec/0-define/0a-setup-workspace.md` | New project |
-| Define problem | `.livespec/0-define/0b-define-problem.spec.md` | Problem unclear |
-| Identify constraints | `.livespec/0-define/0c-identify-constraints.md` | Need boundaries |
-| Design architecture | `.livespec/1-design/1a-design-architecture.md` | Before implementation |
-| Define behaviors | `.livespec/1-design/1b-define-behaviors.md` | Specify features |
-| Create contracts | `.livespec/1-design/1c-create-contracts.md` | API/data interfaces |
-| Implement | `.livespec/2-build/2a-implement-from-specs.md` | Building features |
-| Create tests | `.livespec/2-build/2b-create-tests.md` | Validating code |
-| Run validation | `.livespec/3-verify/3a-run-validation.md` | Testing completeness |
-| Acceptance review | `.livespec/3-verify/3b-acceptance-review.md` | Stakeholder approval |
-| Detect drift | `.livespec/4-evolve/4a-detect-drift.md` | Periodic sync check |
-| Extract specs | `.livespec/4-evolve/4b-extract-specs.md` | Existing codebase |
-| Sync complete | `.livespec/4-evolve/4c-sync-complete.md` | Confirm alignment |
-| Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
-| Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
-| **Upgrade LiveSpec** | `.livespec/utils/upgrade-methodology.md` | **New version released** |
-
-**Important for upgrades:** The upgrade-methodology.md prompt includes mandatory pre-flight checks and proof-of-work requirements (like spec-first enforcement). You must:
-- Actually clone the LiveSpec repository (show git clone output)
-- Create backup and prove it exists (show ls output)
-- Run self-validation tests and show results
-- Cannot fake the process - evidence required for each phase
-
-## Workspace Specs Guide AI
-
-The three workspace specs define HOW this specific project is built:
-
-- **constitution.spec.md** - Development principles and governance
-- **patterns.spec.md** - Code and specification patterns
-- **workflows.spec.md** - Development process workflows
-
-**Always read workspace specs first** when working on a project. They contain project-specific conventions and constraints.
-
-## Version Tracking and Customizations (v2.1+)
-
-### Version Tracking Files
-
-Projects using LiveSpec v2.1+ include version tracking for safe upgrades:
-
-- **`.livespec-version`** - Installed LiveSpec version (enables upgrade detection)
-- **`customizations.yaml`** - Tracks user customizations for AI-assisted merges
-
-### When AI Should Update customizations.yaml
-
-AI agents should update `customizations.yaml` when users:
-
-**Modify prompts:**
-```yaml
-prompts:
-  modified:
-    - path: prompts/0-define/0a-setup-workspace.md
-      reason: "Added governance-specific workspace setup steps"
-      modified_at: 2025-10-08
-```
-
-**Add custom prompts:**
-```yaml
-prompts:
-  added:
-    - path: prompts/custom/governance-review.md
-      reason: "Custom governance review workflow"
-      added_at: 2025-10-08
-```
-
-**Add custom templates:**
-```yaml
-templates:
-  added:
-    - path: templates/custom/governance-policy.spec.md.template
-      reason: "Organization-specific policy template"
-      added_at: 2025-10-08
-```
-
-**Protect paths from upgrades:**
-```yaml
-never_overwrite:
-  - prompts/custom/
-```
-
-### Upgrade Workflow
-
-Use `.livespec/utils/upgrade-methodology.md` for AI-assisted upgrades:
-- AI reads `customizations.yaml` to identify custom vs canonical files
-- Progressive merge: auto-update safe files, interactive review for customized files
-- AI explains changes, helps merge conflicts intelligently
-- Backup created before upgrade, rollback instructions provided
-
-## Quick Examples by Use Case
-
-### Starting Fresh
-```bash
-# Copy methodology
-cp -r livespec/prompts .livespec
-
-# Create structure
-mkdir -p specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
-
-# Use first prompt
-# "Use .livespec/0-define/0a-setup-workspace.md"
-```
-
-### Documenting Existing Code
-```bash
-# Use extract prompt on existing codebase
-# "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
-```
-
-### Checking for Drift
-```bash
-# Run drift detection
-# "Use .livespec/4-evolve/4a-detect-drift.md"
-```
-
-### Designing New Feature
-```bash
-# Use design prompts
-# "Use .livespec/1-design/1b-define-behaviors.md for [feature]"
-```
-
-## Integration with Context7
-
-When using Context7:
-```bash
-# Fetch LiveSpec methodology remotely
-"Use @context7/chrs-myrs/livespec methodology"
-```
-
-Context7 will provide:
-- This AGENTS.md file (cache it!)
-- Full prompt files as needed
-- MSL guide
-- Examples
 
 ## Development Patterns
 
@@ -1745,7 +735,62 @@ Context7 will provide:
 - British English for user docs (synchronisation, behaviour)
 - Phase-letter naming for prompts (0a-, 1b-, 2c-)
 - One spec per behavior
-- Workspace/product separation in folder structure
+- Workspace/strategy separation in folder structure
+- Cross-reference updates require systematic checklist (see below)
+
+### Cross-Reference Update Pattern
+
+When renaming or moving prompts or specs, use systematic checklist to maintain traceability:
+
+**Files to update:**
+- [ ] Source file renamed/moved (dist/prompts/ or specs/)
+- [ ] Spec frontmatter (`specifies:` or `implements:` field)
+- [ ] Registry entry (specs/3-behaviors/prompts/registry.spec.md)
+- [ ] Navigation files (dist/prompts/utils/next-steps.md)
+- [ ] Predecessor prompts ("Next Step" sections)
+- [ ] Documentation references (AGENTS.md, guides)
+- [ ] Validation run (prompts/utils/validate-project.md)
+
+**Why systematic approach matters:**
+- Missing spec frontmatter breaks bidirectional linking
+- Missing registry breaks prompt discovery
+- Missing navigation breaks workflow guidance
+- Validation catches errors before commit
+
+### Architecture Documentation Pattern
+
+When documenting architectural decisions, capture multiple dimensions:
+
+**Implementation Benefits** (developer experience):
+- Code organisation clarity
+- Developer productivity
+- Maintainability approach
+- Testing strategy
+
+**Strategic Benefits** (business value):
+- Business value delivered
+- Cost implications
+- Risk reduction mechanisms
+- Competitive advantages
+- Technology flexibility
+
+**Why both matter:**
+- Strategic benefits drive adoption (business case)
+- Implementation benefits drive success (developer experience)
+- Documentation needs both for complete picture
+
+**Example: Three-Layer Architecture**
+
+Implementation benefits:
+- Clear separation of concerns (WHAT/HOW/EXACTLY)
+- Testable requirements independent of implementation
+- Traceability from requirements through to code
+
+Strategic benefits:
+- Rapid rebuild on different technology stacks (microservices flexibility)
+- Technology evolution without specification rework
+- Cost reduction (no requirements rediscovery during replatforms)
+- Microservices pattern enablement (different services, different technologies, same requirements)
 
 ## Development Workflows
 
@@ -1756,6 +801,64 @@ Context7 will provide:
 - Changes validated through real usage before merge
 - Periodic MSL audits maintain minimalism
 - Documentation updates accompany prompt/spec changes
+- Spec-first guidance workflow precedes all implementation
+- Learning distribution flows through templates → specs → prompts → AGENTS.md → dist/
+
+### Prompt Reorganisation Workflow
+
+When adding new prompts between existing prompts or renumbering:
+
+**Phase 1: Plan Renumbering**
+1. Identify insertion point in workflow sequence
+2. Determine which existing prompts shift (e.g., 0d→0f, 0e→0d)
+3. Verify new sequence maintains workflow logic
+
+**Phase 2: Systematic Updates**
+1. Rename prompt files in dist/prompts/[phase]/
+2. Update spec frontmatter (specifies: field in specs/3-behaviors/prompts/)
+3. Update registry (specs/3-behaviors/prompts/registry.spec.md table)
+4. Update navigation (dist/prompts/utils/next-steps.md decision tree)
+5. Update predecessor prompts ("Next Step" sections)
+6. Update AGENTS.md references if prompt mentioned
+
+**Phase 3: Validation**
+1. Run cross-reference validation (prompts/utils/validate-project.md)
+2. Check all references resolve correctly
+3. Verify workflow sequence makes logical sense
+4. Test prompt discovery (can agents find renamed prompts?)
+
+**Common mistakes:**
+- Forgetting spec frontmatter updates (breaks bidirectional linking)
+- Missing next-steps.md references (breaks navigation)
+- Breaking workflow logic with poor insertion point
+
+### Pre-Commit Hook (Automatic Validation)
+
+LiveSpec includes optional pre-commit hook that automatically validates before every commit:
+
+**Installation**:
+```bash
+bash scripts/setup-hooks.sh
+```
+
+**What it does**:
+- Runs `tests/structure/test_full_validation.sh` before every commit
+- Blocks commit if validation fails (0 failures required)
+- Shows clear error messages with fix suggestions
+- Can bypass with `git commit --no-verify` if needed
+
+**What it catches**:
+- Missing implementations (spec without prompt)
+- Missing specs (prompt without spec - violates spec-first)
+- Broken dependencies (`derives_from:` references invalid paths)
+- Asymmetric links (prompt → spec but spec doesn't link back)
+- MSL violations (missing title, criticality, Requirements section)
+- Test coverage issues (behaviors without tests)
+
+**When to bypass**:
+- Work-in-progress commits (creating spec, prompt later)
+- Experimental branches (testing ideas)
+- Multi-commit workflows (fix validation in next commit)
 
 ## Reference Library (Deep Detail Navigation)
 
@@ -1822,6 +925,118 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 
 When AGENTS.md mentions a topic, look for "See Reference Library: [file]" to find detailed spec.
 
+---
+
+## When to Fetch Full Prompts
+
+Cache this document, but fetch full prompts when you need:
+
+| Need | Fetch | When |
+|------|-------|------|
+| Quick start | `.livespec/0-define/0a-quick-start.md` | New project (fast, defaults) |
+| Customize workspace | `.livespec/0-define/0b-customize-workspace.md` | New project (full customization) |
+| Define problem | `.livespec/0-define/0c-define-problem.md` | Problem unclear |
+| Define outcomes | `.livespec/0-define/0d-define-outcomes.md` | High-level requirements |
+| Assess complexity | `.livespec/0-define/0e-assess-complexity.md` | Timeline planning |
+| Evaluate research | `.livespec/0-define/0f-evaluate-research-needs.md` | Determine if UX research needed |
+| Identify constraints | `.livespec/0-define/0g-identify-constraints.md` | Need boundaries |
+| Design architecture | `.livespec/1-design/1a-design-architecture.md` | Before implementation |
+| Define behaviors | `.livespec/1-design/1b-define-behaviors.md` | Specify features |
+| Create contracts | `.livespec/1-design/1c-create-contracts.md` | API/data interfaces |
+| Implement | `.livespec/2-build/2a-implement-from-specs.md` | Building features |
+| Create tests | `.livespec/2-build/2b-create-tests.md` | Validating code |
+| Run validation | `.livespec/3-verify/3a-run-validation.md` | Testing completeness |
+| Acceptance review | `.livespec/3-verify/3b-acceptance-review.md` | Stakeholder approval |
+| Detect drift | `.livespec/4-evolve/4a-detect-drift.md` | Periodic sync check |
+| Extract specs | `.livespec/4-evolve/4b-extract-specs.md` | Existing codebase |
+| Sync complete | `.livespec/4-evolve/4c-sync-complete.md` | Confirm alignment |
+| Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
+| Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
+| **Upgrade LiveSpec** | `.livespec/utils/upgrade-methodology.md` | **New version released** |
+| Next steps | `.livespec/utils/next-steps.md` | Workflow navigation |
+| Run spike | `.livespec/utils/run-spike.md` | Time-boxed exploration |
+| Analyze failure | `.livespec/utils/analyze-failure.md` | Adoption issues |
+
+**Important for upgrades:** The upgrade-methodology.md prompt includes mandatory pre-flight checks and proof-of-work requirements. You must:
+- Actually clone the LiveSpec repository (show git clone output)
+- Create backup and prove it exists (show ls output)
+- Run self-validation tests and show results
+- Cannot fake the process - evidence required for each phase
+
+## Workspace Specs Guide AI
+
+The three workspace specs define HOW this specific project is built:
+
+- **constitution.spec.md** - Development principles and governance
+- **patterns.spec.md** - Code and specification patterns
+- **workflows.spec.md** - Development process workflows
+
+**Always read workspace specs first** when working on a project. They contain project-specific conventions and constraints.
+
+## Version Tracking and Customizations (v2.1+)
+
+### Version Tracking Files
+
+Projects using LiveSpec v2.1+ include version tracking for safe upgrades:
+
+- **`.livespec-version`** - Installed LiveSpec version (enables upgrade detection)
+- **`customizations.yaml`** - Tracks user customizations for AI-assisted merges
+
+### Upgrade Workflow
+
+Use `.livespec/utils/upgrade-methodology.md` for AI-assisted upgrades:
+- AI reads `customizations.yaml` to identify custom vs canonical files
+- Progressive merge: auto-update safe files, interactive review for customized files
+- AI explains changes, helps merge conflicts intelligently
+- Backup created before upgrade, rollback instructions provided
+
+## Quick Examples by Use Case
+
+### Starting Fresh
+```bash
+# Copy methodology
+cp -r livespec/dist/ .livespec/
+
+# Create structure
+mkdir -p specs/{workspace,mission,strategy,behaviors,contracts}
+
+# Use first prompt (choose one):
+# Quick: "Use .livespec/0-define/0a-quick-start.md"
+# Customize: "Use .livespec/0-define/0b-customize-workspace.md"
+```
+
+### Documenting Existing Code
+```bash
+# Use extract prompt on existing codebase
+# "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
+```
+
+### Checking for Drift
+```bash
+# Run drift detection
+# "Use .livespec/4-evolve/4a-detect-drift.md"
+```
+
+### Designing New Feature
+```bash
+# Use design prompts
+# "Use .livespec/1-design/1b-define-behaviors.md for [feature]"
+```
+
+## Integration with Context7
+
+When using Context7:
+```bash
+# Fetch LiveSpec methodology remotely
+"Use @context7/chrs-myrs/livespec methodology"
+```
+
+Context7 will provide:
+- This AGENTS.md file (cache it!)
+- Full prompt files as needed
+- MSL guide
+- Examples
+
 ## Final Notes
 
 LiveSpec is just folders and markdown. The methodology guides AI agents to:
@@ -1832,6 +1047,8 @@ LiveSpec is just folders and markdown. The methodology guides AI agents to:
 4. **Keep specs synchronized** (Phase 4)
 
 Remember: **Start simple, add complexity only when needed. Trust the phases.**
+
+**Context Positioning Design**: This document follows START/MIDDLE/END structure optimized for AI processing. Critical rules and spec-first guidance appear in START section (primacy bias). Detailed examples and procedures in MIDDLE section. Prompt registry and navigation in END section (recency bias). This design maximizes agent compliance with methodology.
 
 ---
 *Agent configuration for [LiveSpec v3.1.0](https://github.com/chrs-myrs/livespec) - Generated 2025-10-27*

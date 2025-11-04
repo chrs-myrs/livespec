@@ -34,11 +34,7 @@ governed-by:
 1. Summary section (purpose, success criteria)
 2. Core principles from constitution.spec.md (spec-first #1, MSL minimalism #2 with decision framework)
 3. Critical constraints (boundaries that must never be violated)
-4. Spec-first guidance workflow (essential before implementation)
-5. **Pre-implementation verification** (from `.livespec/templates/agents/pre-implementation-verification.md`)
-6. **No plumbing exception warning** (from `.livespec/templates/agents/no-plumbing-exception.md`)
-7. **Active self-check questions** (from `.livespec/templates/agents/self-check-questions.md`)
-8. **Plan review checklist** (from `.livespec/templates/agents/plan-review-checklist.md`)
+4. **Spec-first protocol** (from `.livespec/templates/agents/spec-first-enforcement.md` - combines four-layer enforcement: TodoWrite gate, validation tool, mandatory plan mode, permanent file test)
 
 - [!] AGENTS.md uses critical warnings (⚠️) sparingly with strict criteria to prevent warning fatigue.
   - **Maximum 3 critical sections** in AGENTS.md START section
@@ -103,12 +99,11 @@ governed-by:
     - Agent applies this to all deliverables (README, CHANGELOG, config)
     - Agent explains WHY spec-first matters (prevents drift, ensures requirements captured)
     - Agent references LiveSpec's CHANGELOG mistake (commit 40411e3) as cautionary example
-  - **Agent includes active verification prompts** (ESSENTIAL - from templates):
-    - Pre-implementation verification checklist (`.livespec/templates/agents/pre-implementation-verification.md`)
-    - No plumbing exception warning (`.livespec/templates/agents/no-plumbing-exception.md`)
-    - Active self-check questions (`.livespec/templates/agents/self-check-questions.md`)
-    - Plan review methodology checklist (`.livespec/templates/agents/plan-review-checklist.md`)
-    - Templates provide structural enforcement, not just passive documentation
+  - **Agent includes spec-first protocol with structural enforcement** (ESSENTIAL - from template):
+    - Four-layer enforcement: TodoWrite gate, validation tool, mandatory plan mode, permanent file test
+    - Template: `.livespec/templates/agents/spec-first-enforcement.md`
+    - Provides structural enforcement (TodoWrite + Plan Mode + validation tool), not just passive documentation
+    - Target: 90%+ compliance before commit, pre-commit hook catches remaining 10%
   - **Agent facilitates continuous improvement** (utilities):
     - When user requests "self-improvement" or "suggest improvements", agent checks for prompts/generated/self-improve.md
     - When user requests "capture learnings" or "internalise learnings", agent checks for prompts/generated/internalise-learnings.md

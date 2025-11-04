@@ -20,6 +20,94 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.2.0] - 2025-11-04
+
+### 🎯 Major Simplification: Spec-First Enforcement
+
+This release dramatically simplifies spec-first enforcement from 195 lines of overlapping guidance to a single 84-line structural enforcement protocol, increasing compliance from ~70% to target 90%+.
+
+**Key insight from SpellForge analysis:** Simpler text + structural enforcement = effectiveness. The previous approach failed because it was passive (agents could skip) and complex (cognitive overload). New approach makes compliance the path of least resistance.
+
+### Added
+
+- **Four-Layer Spec-First Enforcement Protocol** (MEDIUM IMPACT)
+  - Layer 1: TodoWrite Gate - Agents must add "Create spec" todo before file creation
+  - Layer 2: Validation Tool - New `scripts/check-requires-spec.sh` checks spec existence
+  - Layer 3: Mandatory Plan Mode - New permanent files require plan showing spec creation
+  - Layer 4: Simple "Permanent Test" - "Is this in git?" replaces complex taxonomies
+  - Replaces 4 templates (195 lines) with 1 template (84 lines)
+  - Template: `.livespec/templates/agents/spec-first-enforcement.md`
+  - Spec: `.livespec/templates/agents/spec-first-enforcement.spec.md`
+  - *Why*: Previous passive guidance bypassed ~30% of time despite 195 lines
+  - *Impact*: MEDIUM - Requires AGENTS.md regeneration for activation
+  - *Migration*: Run `prompts/4-evolve/4d-regenerate-agents.md` to apply new enforcement
+
+- **Spec Validation Tool** (MEDIUM IMPACT)
+  - New script: `scripts/check-requires-spec.sh`
+  - Spec: `scripts/check-requires-spec.spec.md`
+  - Checks if file requires spec, provides suggestions if missing
+  - Exit code 0 = spec exists or not needed, 1 = spec missing
+  - Used in Layer 2 enforcement and pre-commit hooks
+  - *Why*: Provides programmatic spec checking agents can invoke
+  - *Impact*: MEDIUM - Enables automated enforcement
+
+### Changed
+
+- **⚠️ BREAKING: Agent template structure consolidated** (HIGH IMPACT)
+  - Archived 4 old templates:
+    - `pre-implementation-verification.md` → `.archive/templates/agents/`
+    - `no-plumbing-exception.md` → `.archive/templates/agents/`
+    - `self-check-questions.md` → `.archive/templates/agents/`
+    - `plan-review-checklist.md` → `.archive/templates/agents/`
+  - New single template: `spec-first-enforcement.md` (structural enforcement)
+  - *Why*: Complexity caused cognitive overload and skipping
+  - *Impact*: HIGH - Projects using old .livespec/ must upgrade
+  - *Migration*:
+    1. Run `prompts/4-evolve/4d-regenerate-agents.md` (reads new template)
+    2. Regenerated AGENTS.md will use 4-layer enforcement
+    3. Old templates archived, not deleted (rollback possible)
+
+- **⚠️ Regeneration prompt updated** (MEDIUM IMPACT)
+  - `prompts/4-evolve/4d-regenerate-agents.md` now inserts single template
+  - `dist/prompts/4-evolve/4d-regenerate-agents.md` updated to match
+  - Documents 4-layer enforcement approach
+  - *Impact*: MEDIUM - Affects AGENTS.md generation only
+
+- **⚠️ Workspace agent spec updated** (MEDIUM IMPACT)
+  - `specs/workspace/workspace-agent.spec.md` references new template structure
+  - Documents target: 90%+ compliance before commit
+  - Describes enforcement layers and why they work
+  - *Impact*: MEDIUM - Defines agent expectations
+
+### Documentation
+
+- Updated `CLAUDE.md` (LiveSpec's AGENTS.md) with simplified enforcement (195 lines → 84 lines in START section)
+- Updated `dist/AGENTS.md.template` to match (distributed to new projects)
+- Created specs for new files (dogfooding):
+  - `scripts/check-requires-spec.spec.md`
+  - `.livespec/templates/agents/spec-first-enforcement.spec.md`
+- Archived old enforcement templates to `.archive/templates/agents/`
+
+### Analysis: Why This Works Better
+
+**Previous approach (195 lines, 5 frameworks):**
+- ❌ Passive - agents could read and skip
+- ❌ Complex - cognitive overload caused scanning instead of processing
+- ❌ Overlapping - pre-implementation + no-plumbing + self-check + plan-review redundancy
+- ❌ Abstract - "deliverable" vs "executable logic" classification ambiguous
+- Result: ~70% compliance, 30% bypass rate
+
+**New approach (84 lines, 4 layers):**
+- ✅ Structural - TodoWrite + Plan Mode force explicit consideration
+- ✅ Simple - one decision ("is this permanent?"), one workflow
+- ✅ Concrete - "committed to git" is objective test
+- ✅ Cascading - TodoWrite → Plan → Pre-commit safety net
+- Target: 90%+ compliance (TodoWrite/Plan catch most, pre-commit catches rest)
+
+**Credit:** Design informed by SpellForge analysis of agent compliance mechanisms and context processing patterns.
+
+---
+
 ## [3.1.0] - 2025-10-27
 
 ### Fixed

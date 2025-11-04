@@ -1,7 +1,7 @@
 ---
-generated: 2025-10-27T00:00:00Z
+generated: 2025-11-04T09:56:30Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
-version: 3.1.0
+version: 3.2.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
@@ -22,201 +22,89 @@ This document provides essential LiveSpec knowledge for AI agents. Cache this on
 
 ---
 
-## ⚠️ CRITICAL: Spec-First Guidance (Principle #1)
+## ⚠️ CRITICAL: Spec-First Protocol (Structural Enforcement)
 
-**Please guide users through this essential step:**
+### Before Creating ANY Permanent File
 
-Before implementing any deliverable (code, prompt, template, documentation, config), check:
+**Four-layer enforcement for 90%+ compliance:**
 
-### 1. Does specification exist?
+#### Layer 1: TodoWrite Gate (MUST USE)
+
+When user requests new permanent file:
+
+1. **Add todo FIRST** (before any file operations):
+   ```
+   TodoWrite: "Create spec for [filename]" (status: pending)
+   ```
+
+2. **Only after spec created** → Mark todo complete
+
+#### Layer 2: Run Validation Check
 
 ```bash
-# Check for spec
-ls specs/3-behaviors/[deliverable].spec.md 2>/dev/null ||
-ls specs/3-contracts/[deliverable].spec.md 2>/dev/null ||
-ls specs/2-strategy/[deliverable].spec.md 2>/dev/null
+scripts/check-requires-spec.sh path/to/file
 ```
 
-**Spec locations:**
-- Behaviors (observable outcomes): `specs/3-behaviors/[deliverable].spec.md`
-- Contracts (interfaces): `specs/3-contracts/[deliverable].spec.md`
-- Strategy (cross-cutting): `specs/2-strategy/[deliverable].spec.md`
+**Exit code 0** = Spec exists or not needed
+**Exit code 1** = Spec required but missing → STOP and create spec
 
-### 2. If NO spec exists: Guide to spec creation
+#### Layer 3: Mandatory Plan Mode (New Files)
 
-**Pause and say:**
-> "I need a specification before implementing. Let's create specs/3-behaviors/[deliverable].spec.md first."
+Creating new permanent files requires presenting plan with:
+- [ ] TodoWrite item added showing spec creation
+- [ ] Spec creation step (specific path: `specs/3-behaviors/[name].spec.md`)
+- [ ] Validation check passed
 
-**Then guide to Phase 1 (DESIGN):**
-- For behaviors: "Use `.livespec/1-design/1b-define-behaviors.md`"
-- For contracts: "Use `.livespec/1-design/1c-create-contracts.md`"
-- For architecture/strategy: "Use `.livespec/1-design/1a-design-architecture.md`"
+**Plan optional for:** Editing existing files, working in var/generated/.archive/
 
-### 3. If YES spec exists: Verify & Implement
+#### Layer 4: What is "Permanent"?
 
-- Read specification completely
-- Verify spec has:
-  - Requirements section with [!] items
-  - Validation criteria
-  - Failure mode defined
-- Implement what spec requires
+**Simple test:** "Is this committed to git?"
 
-### Common Patterns to Guide
+**YES (requires spec):**
+- Code (`src/`, `lib/`, `scripts/`)
+- Tests (`tests/`, `__tests__/`)
+- Config (`.gitignore`, `tsconfig.json`, `package.json`, lock files)
+- Documentation (`README`, guides)
+- Agents (`.claude/agents/*/instructions.md`)
+- Slash commands (`.claude/commands/`)
 
-**These all need specs first:**
-- "Let's create a CHANGELOG" → Guide to `specs/3-behaviors/changelog.spec.md` first
-- "Add a README file" → Guide to `specs/3-behaviors/readme.spec.md` first
-- "Write a config template" → Guide to spec creation first
-- "This is obvious, no need for spec" → Gently guide: spec needed for all deliverables
+**NO (no spec needed):**
+- `var/`, `generated/`, `.archive/`
+- Build outputs (`dist/`, `build/`)
+- Logs, caches
 
-### Why This Matters
+**Exception:** `specs/workspace/*.spec.md` ARE specs (no meta-spec needed)
 
-**Familiarity creates false confidence:**
-- "Everyone knows what a CHANGELOG is" (but requirements vary)
-- "README is standard" (but what should it contain?)
-- "This is obvious" (assumptions cause drift)
+### Flexible Spec Organization
 
-**Real example:** LiveSpec's own CHANGELOG was implemented without spec (commit 40411e3), violating this principle. Even methodology creators make this mistake when familiarity overrides discipline.
+Multiple related files can share one spec (agent decides based on coherence):
+- `specs/3-behaviors/documentation.spec.md` → All README/GUIDE files
+- `specs/3-behaviors/project-config.spec.md` → Config files like .gitignore
+- `specs/3-behaviors/automation.spec.md` → Related maintenance scripts
 
-**Your role:** Guide spec-first development, especially when user wants to skip it. Say: "I understand this seems obvious, but LiveSpec works best when we create a specification first. This prevents drift and ensures requirements are captured. Let's create the spec together - it will be quick."
+**Test:** "Do these files serve the same observable purpose?"
+- YES → One spec covers them
+- NO → Separate specs
 
----
+### No Exceptions
 
-## ⚠️ CRITICAL: Pre-Implementation Verification
+❌ "This is obvious" → Still permanent → Needs spec
+❌ "Lock files are auto-generated" → Covered by project-config.spec.md
+❌ "Just infrastructure" → If permanent, needs spec
+❌ "Everyone knows what [X] is" → Your requirements may differ → Needs spec
 
-Before implementing ANY deliverable (code, prompt, template, documentation, config), verify:
+### Why This Works
 
-1. ☐ **Behavior spec exists** for this deliverable
-   - Check: `specs/3-behaviors/[deliverable].spec.md` exists
-   - Spec has Requirements section with [!] items
-   - Spec has Validation criteria
-   - Spec has Failure Mode defined
+**Path of least resistance:**
+1. User requests file → Agent adds todo "Create spec" (Layer 1)
+2. Agent runs validation check (Layer 2)
+3. Agent presents plan showing spec creation (Layer 3)
+4. User approves → Agent creates spec → Marks todo complete
+5. Pre-commit validates automatically (safety net)
 
-2. ☐ **Tests exist** (if TDD project) and currently FAIL (RED)
-   - Check: `tests/behaviors/[deliverable].test.ts` exists
-   - Tests map to validation criteria (one test per criterion)
-   - Tests currently fail (no implementation yet)
-
-3. ☐ **Plan includes methodology steps** (not just implementation)
-   - Plan includes spec creation (specific file path)
-   - Plan includes test creation if TDD (specific file path)
-   - Plan includes TDD cycle if applicable (RED → GREEN → REFACTOR)
-
-**If any checkbox is unchecked → STOP**
-
-Guide user to Phase 1 (DESIGN):
-- For behaviors: "Use `.livespec/1-design/1b-define-behaviors.md`"
-- For contracts: "Use `.livespec/1-design/1c-create-contracts.md`"
-- For architecture/strategy: "Use `.livespec/1-design/1a-design-architecture.md`"
-
-## ⚠️ WARNING: No "Plumbing" Exception
-
-**ALL behavior changes require specifications.** There is no exception for "simple" or "infrastructure" work.
-
-### Red Flags (Mental Categorization Errors)
-
-These phrases indicate you may be skipping necessary specification:
-- ❌ "Just wiring up [X]"
-- ❌ "Just infrastructure"
-- ❌ "Obviously simple"
-- ❌ "This is just plumbing"
-- ❌ "Everyone knows what [X] is"
-
-### The Test
-
-Ask yourself: **"If this breaks, does something stop working?"**
-
-- **YES** → It's a feature → Needs specification → Needs tests (if TDD)
-- **NO** → It's truly implementation detail → May not need spec
-
-### Real Example
-
-LiveSpec's own MCP resource serving was categorized as "just wiring up resources" and implemented without specs. This violated the project's TDD methodology despite having full documentation. The agent had to create a detailed violation report.
-
-**Lesson**: Familiarity creates false confidence. When in doubt, create a spec.
-
-## Active Self-Check Questions
-
-Before implementing, actively ask yourself:
-
-### Spec-First Check
-- **"Does this project require specs?"**
-  - Check: Does `specs/` directory exist?
-  - Check: Does `specs/workspace/constitution.spec.md` mention spec-first?
-
-- **"Does a spec exist for what I'm implementing?"**
-  - Check: `ls specs/3-behaviors/[deliverable].spec.md`
-  - If NO → Guide to Phase 1 (DESIGN)
-
-### TDD Check
-- **"Does this project use TDD?"**
-  - Check: Read `specs/workspace/workflows.spec.md`
-  - Look for: TDD cycle, test-first requirements
-
-- **"Have I written tests before implementation?"**
-  - Check: `ls tests/behaviors/[deliverable].test.ts`
-  - Tests should exist and FAIL before implementation
-
-### Methodology Compliance
-- **"Am I following the documented methodology?"**
-  - Check: Read `specs/workspace/` files
-  - Verify: My plan matches documented workflows
-
-- **"Have I verified my plan follows methodology?"**
-  - Before user approval, check plan includes:
-    - Spec creation (if needed)
-    - Test creation (if TDD)
-    - Methodology steps (not just implementation)
-
-### Meta-Check
-- **"Am I in execution mode bypassing methodology?"**
-  - Warning sign: Focused on "completing the plan" rather than "following methodology"
-  - Pause: Re-verify methodology compliance before continuing
-
-## Plan Review for Methodology Compliance
-
-When presenting plans to users, include explicit methodology compliance verification:
-
-### Before User Approval
-
-Verify and report:
-
-**☐ Spec Creation**
-- [ ] Does plan include creating/updating spec?
-- [ ] Specific file path listed: `specs/3-behaviors/[feature].spec.md`
-- [ ] If spec already exists, is it listed as "read and verify"?
-
-**☐ Test Creation (if TDD project)**
-- [ ] Does plan include writing tests FIRST?
-- [ ] Specific file path listed: `tests/behaviors/[feature].test.ts`
-- [ ] TDD cycle explicit: "Write tests (RED) → Implement (GREEN) → Refactor"
-
-**☐ Methodology Steps vs Implementation Steps**
-- [ ] Plan describes methodology process (spec → test → implement)
-- [ ] Plan NOT just implementation steps ("create directory", "implement handlers")
-
-**☐ Workflow Reference**
-- [ ] Plan references project's documented workflow
-- [ ] Plan follows phases defined in `specs/workspace/workflows.spec.md`
-
-### Report to User
-
-**Before execution**, present compliance status:
-
-```markdown
-## Methodology Compliance Check
-
-☐ Specification: [EXISTS/WILL CREATE: path] / [MISSING - need to create first]
-☐ Tests: [EXISTS/WILL CREATE: path] / [N/A - not TDD project] / [MISSING - need to create first]
-☐ Workflow: Follows [reference specific workflow from specs/workspace/]
-
-[If non-compliant: "I need to revise this plan to include [missing items] first."]
-[If compliant: "This plan follows project methodology. Ready to proceed with your approval."]
-```
-
-### After User Approval
-
-Before beginning execution, re-verify one final time that all methodology artifacts are in place or explicitly included in approved plan.
+**Occasional bypass:** TodoWrite skipped → Plan mode catches → Pre-commit catches
+**Target:** 90%+ prevented before commit, 10% caught by validation
 
 ---
 
