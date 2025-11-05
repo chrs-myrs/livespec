@@ -190,6 +190,13 @@ Drift resolved?
 → Use .livespec/utils/next-steps.md (this prompt!)
 ```
 
+**Confused about organization (phases vs layers, where specs go):**
+```
+→ Read AGENTS.md section: "⚠️ CRITICAL DISTINCTION: Phases vs Layers"
+→ Use .livespec/0-define/0x-validate-understanding.md (concept check)
+→ Deep dive: specs/2-strategy/layer-definitions.spec.md
+```
+
 ## Integration Tips
 
 **For teams:**

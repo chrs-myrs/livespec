@@ -1,7 +1,7 @@
 ---
-generated: 2025-11-04T09:56:30Z
+generated: 2025-11-05T00:00:00Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
-version: 3.2.0
+version: 3.2.1
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
@@ -281,7 +281,8 @@ What do you need to do?
 │
 ├─ **New project?**
 │  ├─ Quick (5 min): Use .livespec/0-define/0a-quick-start.md
-│  └─ Customize (20-30 min): Use .livespec/0-define/0b-customize-workspace.md
+│  ├─ Customize (20-30 min): Use .livespec/0-define/0b-customize-workspace.md
+│  └─ Verify concepts (5-10 min): Use .livespec/0-define/0x-validate-understanding.md
 │
 ├─ **Existing project without specs?**
 │  └─ Phase 4: Use .livespec/4-evolve/4b-extract-specs.md
@@ -298,6 +299,49 @@ What do you need to do?
 └─ **Need validation?**
    └─ Phase 3: Use .livespec/3-verify/3a-run-validation.md
 ```
+
+## ⚠️ CRITICAL DISTINCTION: Phases vs Layers
+
+**Common confusion for new users:** LiveSpec uses numbers in two different contexts with different meanings.
+
+### Two Different Numbering Systems
+
+**5 Phases (Temporal Workflow)** - When you do things:
+- **Phase 0**: DEFINE (problem space)
+- **Phase 1**: DESIGN (solution architecture)
+- **Phase 2**: BUILD (implementation)
+- **Phase 3**: VERIFY (validation)
+- **Phase 4**: EVOLVE (maintenance)
+- **Location**: `.livespec/0-define/`, `.livespec/1-design/`, etc.
+- **Purpose**: Step-by-step development workflow
+
+**3 Abstraction Layers (Structural Organization)** - Where specs live:
+- **Layer 1**: `1-requirements/` (WHY - strategic outcomes, constraints)
+- **Layer 2**: `2-strategy/` (HOW - architectural approach)
+- **Layer 3**: `3-behaviors/` + `3-contracts/` (WHAT - observable behaviors + interfaces)
+- **Location**: `specs/1-requirements/`, `specs/2-strategy/`, etc.
+- **Purpose**: Organizing specifications by abstraction level
+
+### Key Insights
+
+**Not the same thing:**
+- You might write a spec during **Phase 1** (DESIGN workflow)
+- But that spec belongs in **`2-strategy/`** (architectural abstraction layer)
+- The phase describes WHEN you work, the layer describes WHAT you're specifying
+
+**Why layers matter:**
+- Technology-agnostic requirements enable rapid rebuild (same Layer 1, different Layer 2)
+- Clear traceability from strategic intent to implementation
+- Specs can reference "up" (satisfies requirements) and "across" (guided-by strategy)
+
+**Deep dive available:**
+- **Full explanation**: `specs/2-strategy/layer-definitions.spec.md` (257 lines)
+- **Dual linkage pattern**: `specs/2-strategy/three-layer-architecture.spec.md` (329 lines)
+- **Organization tests**: `dist/standard/conventions/folder-structure.spec.md`
+
+**When in doubt:** Ask yourself "Am I asking WHEN this happens (phase) or WHERE this spec goes (layer)?"
+
+---
 
 ## The 5 Phases
 
@@ -390,16 +434,18 @@ failure_mode: [What breaks without this]
 
 ## Folder Structure Pattern
 
+**Note**: The numbered folders below (`1-requirements/`, `2-strategy/`, etc.) are **abstraction layers**, not phases. See "CRITICAL DISTINCTION" section above if you're confused about the numbering.
+
 ```
 your-project/
 ├── PURPOSE.md              # Why this exists, what success looks like
 │
 ├── .livespec/              # Copied from livespec/dist/
-│   ├── 0-define/
-│   ├── 1-design/
-│   ├── 2-build/
-│   ├── 3-verify/
-│   ├── 4-evolve/
+│   ├── 0-define/           # Phase prompts (temporal workflow)
+│   ├── 1-design/           # Phase prompts (temporal workflow)
+│   ├── 2-build/            # Phase prompts (temporal workflow)
+│   ├── 3-verify/           # Phase prompts (temporal workflow)
+│   ├── 4-evolve/           # Phase prompts (temporal workflow)
 │   ├── utils/              # Utility prompts
 │   ├── standard/           # MSL metaspecs
 │   └── templates/          # Workspace and agent templates
@@ -410,17 +456,17 @@ your-project/
     │   ├── patterns.spec.md
     │   └── workflows.spec.md
     │
-    ├── 1-requirements/     # WHY and strategic/functional requirements
+    ├── 1-requirements/     # Abstraction Layer 1: WHY (strategic/functional requirements)
     │   ├── strategic/      # High-level outcomes, constraints
     │   │   ├── outcomes.spec.md
     │   │   └── constraints.spec.md
     │   └── functional/     # Specific feature requirements
     │
-    ├── 2-strategy/         # HOW you solve (approach)
+    ├── 2-strategy/         # Abstraction Layer 2: HOW (architectural approach)
     │   └── architecture.spec.md
     │
-    ├── 3-behaviors/        # WHAT system does (observable outcomes)
-    └── 3-contracts/        # API/data contracts
+    ├── 3-behaviors/        # Abstraction Layer 3: WHAT (observable outcomes)
+    └── 3-contracts/        # Abstraction Layer 3: Interfaces (API/data contracts)
 ```
 
 ## Folder Organization Decision Tests
@@ -1051,4 +1097,4 @@ Remember: **Start simple, add complexity only when needed. Trust the phases.**
 **Context Positioning Design**: This document follows START/MIDDLE/END structure optimized for AI processing. Critical rules and spec-first guidance appear in START section (primacy bias). Detailed examples and procedures in MIDDLE section. Prompt registry and navigation in END section (recency bias). This design maximizes agent compliance with methodology.
 
 ---
-*Agent configuration for [LiveSpec v3.1.0](https://github.com/chrs-myrs/livespec) - Generated 2025-10-27*
+*Agent configuration for [LiveSpec v3.2.1](https://github.com/chrs-myrs/livespec) - Generated 2025-11-05*

@@ -35,3 +35,56 @@ governs: All specs/workspace/taxonomy.spec.md files
 - Workspace scope explicitly lists portable vs product-specific content
 - Specs boundary clearly separates specifications from data/artifacts
 - AI agents reference taxonomy before file creation decisions
+
+## Domain Classification Guidance
+
+**Common patterns by domain type:**
+
+**Software**: Code → Executables
+- Primary: Produces software (libraries, applications, services)
+- Workspace: Development methodology (how we build)
+- Example: React library, API service, CLI tool
+
+**Documentation**: Specs → Published Docs
+- Primary: Documentation from specifications
+- Workspace: Documentation standards
+- Example: Technical documentation site
+
+**Planning**: Research → Decisions
+- Primary: Analysis and planning artifacts
+- Workspace: Planning methodology
+- Example: Strategic analysis, feasibility studies
+
+**Generation**: Data → Tailored Deliverables
+- Primary: Generated artifacts from data/templates
+- Workspace: Generation methodology
+- Example: CV generator, report builder
+
+**Governance**: Methodology → Framework
+- Primary: Portable methodologies and frameworks
+- Workspace: Framework development process (demonstrates patterns)
+- Example: LiveSpec itself
+
+**Hybrid**: Multiple combined
+- **Pattern A - Operational/Workspace Projects**:
+  - Primary activity: Workspace operations (investigations, orchestration, protocols)
+  - Secondary output: Built artifacts (agents, scripts, runbooks, documents)
+  - Workspace scope split:
+    - `workspace/` = What you DO (operations, protocols, methodologies)
+    - `numbered specs/` = What you BUILD (artifacts from specifications)
+  - Test: "Is this about HOW we operate (workspace) or WHAT we build (specs)?"
+  - Example: TechOps workspace, DevOps platform
+
+- **Pattern B - Multi-Domain Projects**:
+  - Combines domains: Software + Documentation, or Software + Generation
+  - Workspace: Unified development methodology
+  - Specs: Organized by domain (see Multi-Domain Organization in AGENTS.md)
+  - Example: SaaS product (Software) with auto-generated reports (Generation)
+
+**When Hybrid is unclear**: Ask these questions:
+1. What's the PRIMARY activity/output?
+2. What's the SECONDARY activity/output?
+3. Does workspace/ represent operations or development methodology?
+4. Are you building artifacts FROM specs or IS the operation itself the deliverable?
+
+**Decision priority**: Choose most specific domain if 80%+ fits. Use Hybrid only when genuinely multi-domain or operational/workspace pattern applies.

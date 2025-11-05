@@ -18,13 +18,29 @@ You're setting up a new project or adding LiveSpec to an existing codebase. This
 
 ## Task
 
+### Step 0.5: Validate Project Domain (Quick Check)
+
+**Before applying defaults**, verify project fits Software domain:
+
+Ask user one quick question:
+"**Is this project producing code/executables/libraries?** (Software domain)
+- YES → Continue with defaults
+- NO → Redirect to `.livespec/0-define/0b-customize-workspace.md` (handles Hybrid/Governance/Generation/Planning domains)"
+
+If user says NO or uncertain:
+"This quick-start assumes Software domain. For operational workspaces, hybrid projects, or governance frameworks, use `.livespec/0-define/0b-customize-workspace.md` instead."
+
+**STOP and redirect.** Don't continue with Software defaults if domain doesn't match.
+
+If YES (Software domain): Continue to Step 1.
+
 ### Step 1: Apply Sensible Defaults
 
-Use these defaults without asking:
+Use these defaults (already confirmed Software domain):
 
 **Context Compression**: Moderate (balanced inline/reference, suitable for most agents)
 
-**Project Domain**: Software (most common - produces code)
+**Project Domain**: Software (produces code/executables/libraries)
 
 **Workspace Scope**: Standard portable methodology (constitution, patterns, workflows, taxonomy)
 
@@ -183,7 +199,8 @@ Created:
 **Context compression**: Moderate (balanced)
 
 **Next steps**:
-- Define problem: Use `.livespec/0-define/0b-define-problem.md`
+- **Recommended**: Validate understanding: Use `.livespec/0-define/0x-validate-understanding.md` (5-10 min concept check)
+- Define problem: Use `.livespec/0-define/0c-define-problem.md`
 - Or customize workspace: Use `.livespec/0-define/0b-customize-workspace.md`
 
 **Defaults chosen for you**:
@@ -197,10 +214,11 @@ Create four specification files in specs/workspace/ with standard defaults.
 
 ## Validation
 
-- Prompt creates four workspace specs (taxonomy, constitution, patterns, workflows)
+- Prompt validates Software domain fit before applying defaults (one quick question)
+- Redirects non-Software projects to customize-workspace.md
+- Creates four workspace specs (taxonomy, constitution, patterns, workflows)
 - All specs follow MSL format
 - Taxonomy declares Software domain with workspace scope
-- No questions asked (zero-question fast path)
 - User can customize later if needed
 - Setup completes in ~5 minutes
 

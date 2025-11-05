@@ -16,21 +16,21 @@ guided-by:
 # Prompt Registry
 
 ## Requirements
-- [!] LiveSpec provides exactly 31 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
+- [!] LiveSpec provides exactly 28 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
   - Each prompt has corresponding behavior spec in specs/3-behaviors/prompts/
-  - Phase 0 (DEFINE): 7 prompts establishing foundation (quick-start + customize)
+  - Phase 0 (DEFINE): 8 prompts establishing foundation (quick-start + customize + validation)
   - Phase 1 (DESIGN): 3 prompts specifying solution
   - Phase 2 (BUILD): 2 prompts implementing code
   - Phase 3 (VERIFY): 2 prompts validating correctness
   - Phase 4 (EVOLVE): 5 prompts maintaining synchronisation
-  - Utils: 12 prompts for special situations (workflow, improvement, generators, validation)
+  - Utils: 8 prompts for special situations (workflow, improvement, generators, validation)
   - Registry matches five-phases.spec.md structure
   - All prompt paths and outputs documented accurately
   - Bidirectional links maintained (prompts → specs, specs → prompts)
 
 ## Prompt Inventory
 
-### Phase 0: DEFINE (7 prompts)
+### Phase 0: DEFINE (8 prompts)
 Establish problem space and constraints.
 
 | Prompt | Spec | Output | Purpose |
@@ -42,6 +42,7 @@ Establish problem space and constraints.
 | 0e-assess-complexity | 0e-assess-complexity.spec.md | var/complexity-assessment.md | Evaluate project scope and approach |
 | 0f-evaluate-research-needs | 0f-evaluate-research-needs.spec.md | var/research-needs.md | Determine if UX research required |
 | 0g-identify-constraints | 0g-identify-constraints.spec.md | specs/1-requirements/strategic/constraints.spec.md | Document non-negotiable boundaries |
+| 0x-validate-understanding | 0x-validate-understanding.spec.md | None (validation only) | Verify conceptual understanding before implementation |
 
 ### Phase 1: DESIGN (3 prompts)
 Design solution architecture.
@@ -95,12 +96,13 @@ Special situation handlers and continuous improvement.
 
 ## Validation
 
-- Registry lists exactly 30 prompts (6+3+2+2+5+12)
+- Registry lists exactly 28 prompts (8+3+2+2+5+8)
 - All prompts have corresponding behavior specs in specs/3-behaviors/prompts/
 - Phase assignments match five-phases.spec.md definitions
 - Output paths documented for each prompt
 - Bidirectional links maintained (prompts reference specs, specs reference prompts)
 - Registry enables AI agents to navigate methodology
+- Phase 0 includes conceptual validation prompt (0x-validate-understanding)
 - Utils prompts handle special situations (failure, navigation, exploration, upgrade, continuous improvement, validation, auditing)
 - Generator utils create customized prompts tailored to project specifics
 - Generated utils (self-improve, internalise-learnings) adapt to project PURPOSE and spec structure

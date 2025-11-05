@@ -1,6 +1,6 @@
 # LiveSpec Specifications
 
-This folder contains all specifications for LiveSpec v3.1.0.
+This folder contains all specifications for LiveSpec v3.2.1.
 
 **CRITICAL**: Before creating any files, check `specs/workspace/taxonomy.spec.md` - it defines LiveSpec's project classification.
 

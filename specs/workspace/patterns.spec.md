@@ -30,6 +30,14 @@ governed-by:
 
 **Core patterns covered in depth by specialized specs:**
 
+### Abstraction Layers Architecture
+**See:** `specs/2-strategy/layer-definitions.spec.md` (257 lines)
+- **CRITICAL**: Three abstraction layers (1-requirements/, 2-strategy/, 3-behaviors/) vs five phases (0-4)
+- Layer characteristics (changeability, frontmatter, cross-references)
+- Dual linkage pattern (satisfies requirements + guided-by strategy)
+- Technology-agnostic requirements enabling rapid rebuild
+- **Read this if confused about folder organization**
+
 ### Folder Organization
 **See:** `specs/workspace/folder-organization.spec.md`
 - Folder structure (workspace/, 1-requirements/, 2-strategy/, 3-behaviors/, 3-contracts/, knowledge/)

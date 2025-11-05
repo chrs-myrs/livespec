@@ -344,13 +344,14 @@ graph LR
 
 ## Version
 
-**Current Version: 3.1.0**
+**Current Version: 3.2.1**
 
-LiveSpec v3.1.0 continues the evolution with improved agent guidance and context compression:
-- Simplified from 7+ stages to 5 phases
-- Flattened specs/ structure
-- Focused on information architecture, not tooling
-- Adopted strict MSL minimalism
+LiveSpec v3.2.1 improves discoverability and addresses brownfield integration confusion:
+- CRITICAL DISTINCTION: Phases vs Layers section in AGENTS.md
+- Pre-flight validation prompt for concept verification
+- Hybrid Pattern A for operational/workspace projects
+- Navigation signposts throughout documentation
+- Completes version synchronization from 3.2.0
 
 [v1 archived →](.archive/v1-2025-01/)
 
