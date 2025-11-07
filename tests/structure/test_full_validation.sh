@@ -306,6 +306,73 @@ else
     find specs/ -name "*.md" ! -name "*.spec.md" ! -name "README.md" ! -name "DEPENDENCIES.md"
 fi
 
+header "8. CONTRACT COMPLETENESS"
+
+# Check contract parameters have behavior references
+if [ -d "specs/3-contracts" ]; then
+    info "Validating contract parameters have behavior specs..."
+    if bash scripts/check-contract-completeness.sh specs/3-contracts >/dev/null 2>&1; then
+        pass "All contract parameters have behavior references"
+    else
+        fail "Contract parameters missing behavior references (run scripts/check-contract-completeness.sh for details)"
+    fi
+else
+    info "No contracts directory found (specs/3-contracts) - skipping"
+fi
+
+header "9. VALUE PYRAMID TRACEABILITY"
+
+# Check PURPOSE.md exists (foundation of value pyramid)
+info "Validating value pyramid foundation..."
+if [ -f "PURPOSE.md" ]; then
+    pass "PURPOSE.md exists (value pyramid foundation)"
+else
+    fail "PURPOSE.md missing - all specs must trace to PURPOSE"
+fi
+
+# Run pyramid validation script
+info "Validating all specs have upstream references..."
+if [ -f "scripts/validate-value-pyramid.sh" ]; then
+    # Capture output and count
+    pyramid_output=$(bash scripts/validate-value-pyramid.sh 2>&1)
+    pyramid_exit=$?
+
+    # Extract counts from output
+    orphaned_count=$(echo "$pyramid_output" | grep "Orphaned specs:" | sed 's/.*Orphaned specs: //')
+
+    if [ "$pyramid_exit" -eq 0 ]; then
+        if [ -n "$orphaned_count" ] && [ "$orphaned_count" -gt 0 ]; then
+            warn "Found $orphaned_count orphaned specs without upstream references"
+            # Show orphaned specs
+            echo "$pyramid_output" | grep "^⚠ Orphaned:"
+        else
+            pass "All specs have upstream references (derives-from/governed-by/satisfies/guided-by)"
+        fi
+    else
+        fail "Value pyramid validation failed"
+        echo "$pyramid_output"
+    fi
+else
+    warn "Pyramid validation script not found (scripts/validate-value-pyramid.sh)"
+fi
+
+# Check for common traceability issues
+info "Checking for broken reference chains..."
+find specs/ -name "*.spec.md" | while read -r spec; do
+    # Check each frontmatter reference type
+    for field in derives-from governed-by satisfies guided-by; do
+        if grep -q "^${field}:" "$spec"; then
+            # Extract references and check they exist
+            awk "/^${field}:/,/^[a-z_-]+:/ {print}" "$spec" | grep "  - " | sed 's/  - //' | while read -r ref; do
+                ref=$(echo "$ref" | tr -d '\r')
+                if [ ! -f "$ref" ]; then
+                    fail "$(basename "$spec"): ${field} references missing file: $ref"
+                fi
+            done
+        fi
+    done
+done
+
 header "SUMMARY"
 
 echo ""

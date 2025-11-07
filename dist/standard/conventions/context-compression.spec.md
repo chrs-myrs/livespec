@@ -11,10 +11,12 @@ applies_to:
 
 # Context Compression
 
+**Part of**: Knowledge Hierarchy (optimizes LiveSpec methodology consumption, NOT your project's specs)
+
 ## Requirements
 - [!] LiveSpec projects apply context compression force to optimize agent guidance efficiency
   - **What it is**: Active force that reorganizes guidance layer (workspace/, AGENTS.md, templates) for agent focus and processing efficiency
-  - **Complements MSL Minimalism**: MSL reduces content within specs (vertical), context compression optimizes structure across guidance (horizontal)
+  - **Relationship to Value Hierarchy**: MSL Minimalism optimizes Value Hierarchy (content within YOUR specs), Context Compression optimizes Knowledge Hierarchy (structure across LiveSpec docs)
   - **Three compression levels**: Light (verbose, exploratory), Moderate (balanced, default), Aggressive (dense, focused)
   - **Configurable**: Projects declare compression level in workspace/constitution.spec.md frontmatter (`context_compression: light | moderate | aggressive`)
   - **Default**: Moderate if unspecified

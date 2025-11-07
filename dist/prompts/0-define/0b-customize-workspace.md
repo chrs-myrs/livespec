@@ -116,6 +116,39 @@ Brief explanation of what the chosen compression level means:
 - How this affects AGENTS.md structure
 - Can be changed later via audit utility (`.livespec/prompts/utils/audit-context-compression.md`)
 
+### Step 6: Regenerate AGENTS.md
+
+**CRITICAL**: Now that workspace specs exist, regenerate AGENTS.md with project context.
+
+Tell user:
+
+"Workspace specs created! Now regenerating AGENTS.md with your project-specific context..."
+
+**Use prompt 4d to regenerate**:
+```
+"Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md"
+```
+
+**What this does**:
+- Incorporates YOUR workspace specs into AGENTS.md
+- Applies chosen context compression level
+- Preserves generic LiveSpec methodology
+- Gives AI agents your project's specific context
+- Critical for agent effectiveness going forward
+
+**Wait for 4d completion** before confirming setup complete.
+
+Tell user after regeneration:
+
+**✅ Workspace customization complete!**
+
+Created:
+- `specs/workspace/taxonomy.spec.md` - Your project domain
+- `specs/workspace/constitution.spec.md` - Your development principles
+- `specs/workspace/patterns.spec.md` - Your conventions
+- `specs/workspace/workflows.spec.md` - Your processes
+- `AGENTS.md` - **Regenerated** with your project context
+
 ## Output
 
 Create or update specification files in specs/ directory with clear, testable requirements.

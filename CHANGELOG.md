@@ -20,6 +20,362 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.3.1] - 2025-11-06
+
+### 🎯 Value Pyramid Discoverability & Documentation Projects
+
+This patch release addresses feedback from documentation project adoption. LiveSpec 3.3.1 makes purpose traceability explicit, adds comprehensive onboarding guides, and provides documentation-specific examples.
+
+**Key insight**: "No project should escape the value pyramid - everything has a spec, this needs to be made clearer, the value being the link all the way back to project purpose."
+
+### Added
+
+- **⚠️ Value Pyramid Validation** (MEDIUM IMPACT)
+  - New: `scripts/validate-value-pyramid.sh` (90 lines, executable)
+  - Spec: `specs/3-behaviors/validation/purpose-traceability.spec.md`
+  - Validates every spec has upstream reference (derives-from/governed-by/satisfies/guided-by)
+  - Integrated into `tests/structure/test_full_validation.sh` (section 9)
+  - Detects orphaned specs (no PURPOSE.md traceability)
+  - Exit code 0 with warnings if orphaned specs found (non-blocking initially)
+  - *Why*: Documentation project had specs without clear PURPOSE linkage
+  - *Impact*: MEDIUM - Enforces value pyramid integrity
+
+- **⚠️ AGENTS.md Value Pyramid Section** (HIGH IMPACT)
+  - Updated: `AGENTS.md` with new "Value Pyramid: Purpose Traceability" section
+  - Mermaid diagram showing five-level structure
+  - Example traceability chains (PURPOSE → specs → implementation)
+  - Common mistakes explained (orphaned specs)
+  - Distinguishes VALUE PYRAMID (business) from CONTEXT TREE (agent info)
+  - *Why*: Agents need clear guidance on purpose traceability
+  - *Impact*: HIGH - Affects agent behavior, added to START section
+
+- **⚠️ Spec Decision Framework Guide** (HIGH IMPACT)
+  - New: `dist/guides/spec-decision-framework.md` (600+ lines)
+  - Core message: "Everything needs a spec" (not WHETHER, but WHAT TYPE)
+  - Value pyramid visualization
+  - Decision tree for spec types
+  - Common scenarios (FAQ, config, utility, generated code)
+  - Anti-patterns section ("Everyone knows what [X] is" - WRONG)
+  - Purpose Test (can you trace to PURPOSE?)
+  - *Why*: Users unclear when specs needed for docs/config files
+  - *Impact*: HIGH - Foundational onboarding guide
+
+- **⚠️ Frontmatter Relationships Guide** (HIGH IMPACT)
+  - New: `dist/guides/frontmatter-relationships.md` (500+ lines)
+  - Quick reference table (6 relationship types)
+  - Decision matrix for each frontmatter field
+  - Dual linkage pattern explained (satisfies + guided-by)
+  - Common mistakes (circular refs, wrong direction, missing bidirectional links)
+  - Validation checklist
+  - *Why*: Documentation project struggled with frontmatter choices
+  - *Impact*: HIGH - Critical for correct spec linkage
+
+- **⚠️ AGENTS.md Template Warning** (MEDIUM IMPACT)
+  - Updated: `dist/AGENTS.md.template` with prominent regeneration warning
+  - New section: "🚨 CRITICAL: This is a Template - Must Regenerate"
+  - Explains when to regenerate (after Phase 0 workspace setup)
+  - Shows how to regenerate (use prompt 4d)
+  - Lists what regeneration adds (YOUR project context)
+  - *Why*: Projects copied template without regeneration, missing project context
+  - *Impact*: MEDIUM - Prevents generic AGENTS.md usage
+
+- **⚠️ Quick-Start AGENTS.md Regeneration** (HIGH IMPACT)
+  - Updated: `dist/prompts/0-define/0a-quick-start.md` (Step 4: Regenerate AGENTS.md)
+  - Updated: `dist/prompts/0-define/0b-customize-workspace.md` (Step 6: Regenerate AGENTS.md)
+  - Prompts now explicitly call 4d-regenerate-agents.md after workspace setup
+  - Explains why regeneration critical (incorporates YOUR workspace specs)
+  - *Why*: Users skipped AGENTS.md regeneration, left with generic template
+  - *Impact*: HIGH - Fixes onboarding gap
+
+- **⚠️ 4d Regeneration Emphasis** (MEDIUM IMPACT)
+  - Updated: `dist/prompts/4-evolve/4d-regenerate-agents.md`
+  - First bullet: "⚠️ CRITICAL: Immediately after Phase 0 workspace setup"
+  - Explains why critical (template lacks YOUR project context)
+  - Value Pyramid Impact section (agents need YOUR PURPOSE.md)
+  - *Why*: Clarifies when and why to regenerate
+  - *Impact*: MEDIUM - Emphasizes critical timing
+
+- **⚠️ Documentation Project Example** (MEDIUM IMPACT)
+  - Enhanced: `dist/standard/metaspecs/taxonomy.spec.md`
+  - Complete worked example (technical-docs/ structure)
+  - Example behavior spec (architecture-docs.spec.md)
+  - Key patterns for docs projects
+  - MSL decision framework for docs
+  - Value pyramid visualization for docs
+  - Benefits of spec-driven docs
+  - *Why*: Documentation projects needed concrete examples
+  - *Impact*: MEDIUM - Demonstrates docs domain usage
+
+- **⚠️ MSL for Documentation Guide** (HIGH IMPACT)
+  - New: `dist/guides/msl-for-documentation.md` (400+ lines)
+  - Why spec-driven documentation
+  - MSL principles for docs (specify outcomes, not content)
+  - Common doc specs (architecture, API, runbooks, tutorials)
+  - What to specify vs leave to writers
+  - Value pyramid for docs
+  - Anti-patterns (over-specifying, no validation, docs as afterthought)
+  - Before/after examples
+  - Testing methods (time-to-task, comprehension testing)
+  - Getting started guide (5 steps)
+  - *Why*: Documentation projects needed domain-specific guidance
+  - *Impact*: HIGH - Complete MSL docs framework
+
+### Changed
+
+- **Value Pyramid Validation Integration** (MEDIUM IMPACT)
+  - Enhanced: `tests/structure/test_full_validation.sh` (Section 9: Value Pyramid Traceability)
+  - Runs pyramid validation script
+  - Checks for broken reference chains
+  - Reports orphaned spec count
+  - *Impact*: MEDIUM - Continuous validation
+
+### Fixed
+
+- **Validation Script Performance** (LOW IMPACT)
+  - Fixed: `scripts/validate-value-pyramid.sh` hanging issue
+  - Switched from process substitution to temp file approach
+  - Now completes quickly on 70+ spec files
+  - *Why*: Initial implementation hung on find/while loop
+  - *Impact*: LOW - Performance fix
+
+### Documentation
+
+- **Terminology Refinement** (MEDIUM IMPACT)
+  - "Value Pyramid" → "Value Hierarchy" (clearer terminology)
+  - "Context Compression" → "Knowledge Hierarchy: Context Compression" (clearer positioning)
+  - Distinguished TWO SEPARATE hierarchies:
+    - VALUE HIERARCHY: YOUR project's spec traceability (purpose validation)
+    - KNOWLEDGE HIERARCHY: LiveSpec methodology consumption (agent navigation)
+  - Added "Understanding Two Hierarchies" section to AGENTS.md
+  - MSL Minimalism optimizes Value Hierarchy (content within specs)
+  - Context Compression optimizes Knowledge Hierarchy (structure across LiveSpec docs)
+  - Updated guides: spec-decision-framework.md, frontmatter-relationships.md
+  - Script filenames unchanged (backward compatible)
+  - *Why*: "Hierarchy" more accurate than "pyramid", clearer separation of concerns
+  - *Impact*: MEDIUM - Terminology alignment, prevents conflation
+
+---
+
+## [3.3.0] - 2025-11-06
+
+### 🎯 Process Adherence & Learning Capture
+
+This minor release addresses systematic process bypasses identified in the Slack MCP implementation report. LiveSpec 3.3.0 makes spec-first adherence and test-driven development the path of least resistance through structural enforcement, comprehensive guidance, and honest failure analysis.
+
+**Key insight**: Documentation alone fails to prevent cognitive biases (overconfidence, efficiency instinct, pattern matching). This release adds structural enforcement, real-world pitfall examples, and learning capture systems.
+
+### Added
+
+- **⚠️ TDD Mandatory by Default** (HIGH IMPACT)
+  - Phase 2 renamed: "BUILD" → "BUILD (TDD)"
+  - Updated across all specs, prompts, and AGENTS.md
+  - Prompts reordered: `2b-create-tests.md` (RED) before `2a-implement-from-specs.md` (GREEN+REFACTOR)
+  - Escape hatch with scoring system (≥8/10 points required to skip)
+  - Guide transformed: `.livespec/guides/tdd.md` now "Mandatory with Escape Hatch" (was "Optional")
+  - *Why*: Slack MCP implementation skipped TDD entirely - "testing" assumed validation, not test-first
+  - *Impact*: HIGH - Affects Phase 2 workflow, requires prompt regeneration
+
+- **⚠️ UX Flow Documentation (Phase 1a)** (MEDIUM IMPACT)
+  - New: `.livespec/1-design/1a-document-ux-flows.md` (400+ lines)
+  - Spec: `specs/3-behaviors/prompts/1a-document-ux-flows.spec.md`
+  - Positioned BEFORE architecture design (1a → 1b → 1c → 1d)
+  - Mermaid diagram patterns, user journeys, error recovery flows
+  - Leverages existing `.livespec/standard/metaspecs/research/ux-flow.metaspec.md`
+  - Phase 1 prompts renumbered: 1a→1b, 1b→1c, 1c→1d (all frontmatter updated)
+  - *Why*: Slack MCP jumped from user request to tool contracts without documenting flows
+  - *Impact*: MEDIUM - Adds Phase 1a, requires prompt regeneration
+
+- **Contract Completeness Validation** (MEDIUM IMPACT)
+  - New: `scripts/check-contract-completeness.sh` (170 lines, executable)
+  - Spec: `specs/3-behaviors/validation/contract-completeness.spec.md`
+  - Validates every contract parameter links to behavior spec
+  - Integrated into `tests/structure/test_full_validation.sh` (section 8)
+  - Pre-commit hook catches incomplete contracts
+  - Exit code 0 if complete, 1 if incomplete with clear error messages
+  - *Why*: Slack MCP had `expected_format` parameter with NO implementation
+  - *Impact*: MEDIUM - Prevents incomplete features, affects contract creation workflow
+
+- **⚠️ Decision Logs (ADR Pattern)** (LOW IMPACT)
+  - New: `docs/decisions/TEMPLATE.md` (170 lines)
+  - New: `docs/decisions/README.md` (140 lines)
+  - Architecture Decision Records pattern for complex decisions
+  - Relationship to LiveSpec specs documented (ADRs = WHY, Specs = WHAT)
+  - Optional pattern (only for projects with architectural complexity)
+  - *Why*: Complex decisions (MCP tools vs resources, threading models) need rationale capture
+  - *Impact*: LOW - Optional pattern, backward compatible
+
+- **Domain Model Metaspec** (MEDIUM IMPACT)
+  - Enhanced: `.livespec/standard/metaspecs/domain-model.spec.md`
+  - Structure for complex core concepts (threading, state machines, correlation)
+  - Comprehensive Slack Threading Model example
+  - Invariants, behavior rules, interaction patterns
+  - *Why*: Slack threading model ambiguity caused implementation assumptions
+  - *Impact*: MEDIUM - New spec type for domain complexity
+
+- **⚠️ Common Pitfalls Guide** (HIGH IMPACT)
+  - New: `dist/guides/common-pitfalls.md` (500+ lines)
+  - Real-world failures from Slack MCP implementation
+  - 9 pitfalls with honest cognitive bias analysis:
+    1. Skipping requirements (overconfidence bias)
+    2. Efficiency instinct (false speed)
+    3. Pattern matching without context
+    4. Ambiguity aversion (fear of questions)
+    5. TDD completely skipped
+    6. UX flows never documented
+    7. Incomplete feature implementation
+    8. Domain model ambiguity
+    9. Wrong folder for working documents
+  - Prevention strategies and recovery guidance
+  - Structural enforcement explanation
+  - *Why*: Cognitive biases are systematic, not random - need pattern recognition
+  - *Impact*: HIGH - Proactive learning from real failures
+
+- **⚠️ Behavior-Contract Boundary Guide** (MEDIUM IMPACT)
+  - New: `dist/guides/behavior-contract-boundary.md` (600+ lines)
+  - Clear separation rules: Behaviors (OUTCOMES) vs Contracts (INTERFACES)
+  - Decision framework with examples
+  - Common boundary violations from real implementations
+  - Dual linkage pattern explained
+  - Contract completeness requirement
+  - *Why*: Slack MCP mixed behavior logic in contracts, interface details in behaviors
+  - *Impact*: MEDIUM - Clarifies Layer 3 organization
+
+- **Implementation Feedback System** (MEDIUM IMPACT)
+  - New: `dist/templates/reports/implementation-report.md.template` (400+ lines)
+  - New: `dist/prompts/4-evolve/4f-document-implementation.md` (550+ lines)
+  - Spec: `specs/3-behaviors/prompts/4f-document-implementation.spec.md`
+  - Comprehensive template with cognitive bias sections
+  - Honest failure analysis structure
+  - Quantitative metrics tracking
+  - Cataloging for pattern recognition
+  - *Why*: Learning from implementations requires systematic capture
+  - *Impact*: MEDIUM - Enables continuous methodology improvement
+
+### Changed
+
+- **⚠️ AGENTS.md Updates** (HIGH IMPACT)
+  - Phase 2 renamed to "BUILD (TDD)" in all sections
+  - Added Common Pitfalls to Reference Library (Guides section)
+  - Added Behavior-Contract Boundary to Reference Library
+  - Enhanced anti-patterns section with guide reference
+  - Domain Model and UX Flow added to metaspecs section
+  - *Impact*: HIGH - Requires AGENTS.md regeneration
+
+- **⚠️ Metaspec Updates** (MEDIUM IMPACT)
+  - `behavior.spec.md`: Added "Behavior vs Contract Boundary" section
+  - `contract.spec.md`: Added completeness requirement, boundary guidance
+  - Both metaspecs emphasize dual linkage pattern
+  - Reference `behavior-contract-boundary.md` guide
+  - *Impact*: MEDIUM - Affects new spec creation workflow
+
+- **⚠️ Constitution Updates** (HIGH IMPACT)
+  - `specs/workspace/constitution.spec.md`: TDD promoted to Principle #3
+  - Principles count: 7 → 8
+  - TDD marked as "essential" (was implicit)
+  - Phase naming updated throughout
+  - *Impact*: HIGH - Core principles changed
+
+- **⚠️ Prompt Registry Updated** (LOW IMPACT)
+  - Phase 1: 3 → 4 prompts (added 1a-document-ux-flows)
+  - Phase 4: 5 → 6 prompts (added 4f-document-implementation)
+  - Total: 28 → 30 prompts
+  - *Impact*: LOW - Registry metadata only
+
+### Documentation
+
+- Enhanced TDD guide with escape hatch criteria and inverted scoring
+- Phase workflow spec updated with TDD emphasis
+- Five phases spec updated with Phase 2 TDD requirements
+- All cross-references updated for prompt renumbering
+- Validation tests include contract completeness check
+
+### Rationale: Structural Enforcement Over Documentation
+
+**Problem**: Slack MCP implementation bypassed LiveSpec process despite extensive documentation (586+ lines on architecture, comprehensive guides, clear examples).
+
+**Root cause**: Cognitive biases (overconfidence, efficiency instinct) persist even when documented.
+
+**Solution**: Make correct approach path of least resistance:
+1. **TodoWrite gate**: Creating file → "Create spec" todo FIRST
+2. **Validation check**: scripts/check-requires-spec.sh blocks missing specs
+3. **Plan mode**: New files require plan showing spec creation
+4. **Pre-commit hook**: Automatic validation catches bypasses
+5. **Phase naming**: "BUILD (TDD)" makes test-first explicit
+6. **Contract completeness**: Parameters without behavior links fail validation
+
+**Result**: 90%+ compliance through structural enforcement, 10% caught by pre-commit.
+
+### Impact Assessment
+
+**Breaking changes**: None (fully backward compatible)
+
+**High impact changes**:
+- TDD mandatory by default (escape hatch available)
+- Phase 2 renamed throughout framework
+- AGENTS.md regeneration required
+- Common pitfalls guide availability
+
+**Migration path**:
+1. Use `.livespec/utils/upgrade-methodology.md` for AI-assisted upgrade
+2. Regenerate AGENTS.md via `prompts/4-evolve/4d-regenerate-agents.md`
+3. Review new guides (common-pitfalls.md, behavior-contract-boundary.md)
+4. Optional: Create implementation reports for existing projects
+
+### Files Modified
+
+**Batch 1: TDD Enforcement (11 files)**
+- specs/1-requirements/functional/five-phases.spec.md
+- specs/2-strategy/phase-workflow.spec.md
+- specs/workspace/constitution.spec.md
+- dist/guides/tdd.md
+- dist/prompts/2-build/2a-implement-from-specs.md
+- dist/prompts/2-build/2b-create-tests.md
+- AGENTS.md (Phase 2 sections)
+- specs/3-behaviors/prompts/registry.spec.md
+
+**Batch 2: UX Flows + Domain Models (8 files)**
+- specs/3-behaviors/prompts/1a-document-ux-flows.spec.md (new)
+- dist/prompts/1-design/1a-document-ux-flows.md (new)
+- dist/prompts/1-design/1a-design-architecture.md → 1b-design-architecture.md
+- dist/prompts/1-design/1b-define-behaviors.md → 1c-define-behaviors.md
+- dist/prompts/1-design/1c-create-contracts.md → 1d-create-contracts.md
+- Corresponding spec renumbering (3 files)
+- dist/standard/metaspecs/domain-model.spec.md (enhanced)
+- AGENTS.md (Phase 1a, metaspecs)
+
+**Batch 3: Validation + Decision Logs (5 files)**
+- specs/3-behaviors/validation/contract-completeness.spec.md (new)
+- scripts/check-contract-completeness.sh (new)
+- docs/decisions/TEMPLATE.md (new)
+- docs/decisions/README.md (new)
+- tests/structure/test_full_validation.sh (section 8 added)
+
+**Batch 4: Guidance + Refinement (5 files)**
+- dist/guides/common-pitfalls.md (new, 500+ lines)
+- dist/guides/behavior-contract-boundary.md (new, 600+ lines)
+- AGENTS.md (Reference Library updates)
+- dist/standard/metaspecs/behavior.spec.md
+- dist/standard/metaspecs/contract.spec.md
+
+**Bonus: Implementation Feedback (4 files)**
+- specs/3-behaviors/prompts/4f-document-implementation.spec.md (new)
+- dist/templates/reports/implementation-report.md.template (new)
+- dist/prompts/4-evolve/4f-document-implementation.md (new)
+- specs/3-behaviors/prompts/registry.spec.md
+
+**Total: 33 files modified/created**
+
+### Validation
+
+All changes validated:
+- ✅ Full validation suite passed (0 failures)
+- ✅ Contract completeness script functional
+- ✅ MSL compliance maintained
+- ✅ Cross-references updated
+- ✅ Bidirectional links intact
+
+---
+
 ## [3.2.1] - 2025-11-05
 
 ### 🔍 Discoverability Improvements

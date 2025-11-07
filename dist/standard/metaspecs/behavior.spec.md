@@ -20,6 +20,37 @@ governed-by:
   - File name describes the behavior (e.g., `user-authentication.spec.md`)
   - One behavior per spec file (no combining multiple behaviors)
 
+## Behavior vs Contract Boundary
+
+**Critical distinction**: Behaviors describe OUTCOMES, contracts describe INTERFACES.
+
+**Behaviors answer**: "What should happen when...?"
+- ✅ "System posts messages to Slack channels"
+- ✅ "Thread replies appear under parent message"
+- ✅ "Invalid credentials rejected with error"
+
+**Contracts answer**: "What does the API/function/interface look like?"
+- ✅ `slack_post_message(channel, text, thread_ts?)` parameter schema
+- ✅ `POST /auth/login` request/response format
+- ✅ Error response structure: `{ ok: false, error: string }`
+
+**Every contract parameter MUST link to behavior spec** (enforced by scripts/check-contract-completeness.sh)
+
+**Example linkage**:
+```markdown
+# Contract: specs/3-contracts/mcp-tools/slack.spec.md
+Parameters:
+- thread_ts (optional): Parent message timestamp
+  - Behavior: specs/3-behaviors/threading.spec.md#thread-replies
+```
+
+**Common mistakes**:
+- ❌ Putting interface details in behavior spec (API endpoints, schemas, parameter types)
+- ❌ Putting behavior logic in contract spec (validation rules, business logic)
+- ❌ Contract parameters without behavior links (incomplete feature)
+
+**See Reference Library**: `behavior-contract-boundary.md` for complete decision framework.
+
 ## Notes
 
 **Behaviors apply across domains:**

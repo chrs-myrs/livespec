@@ -19,6 +19,57 @@ governed-by:
   - Contract does NOT include business logic or validation rules (→ behavior specs)
   - Contract is machine-readable when possible (enables contract testing)
   - MSL wrapper spec can reference standard format files
+  - **[!] Every contract parameter MUST link to behavior spec** (completeness requirement)
+    - Inline reference: `- param_name: Description\n  - Behavior: specs/3-behaviors/feature.spec.md#section`
+    - OR frontmatter: `satisfies: [specs/3-behaviors/feature.spec.md]`
+    - Validated by: `scripts/check-contract-completeness.sh`
+    - Pre-commit hook: Blocks commits if parameters lack behavior links
+    - Prevents incomplete features (parameters that promise behavior without implementation)
+
+## Contract vs Behavior Boundary
+
+**Critical distinction**: Contracts describe INTERFACES, behaviors describe OUTCOMES.
+
+**Contracts answer**: "What does the API/function/interface look like?"
+- ✅ Parameter schemas (type, format, validation rules)
+- ✅ Request/response structures
+- ✅ Function signatures
+- ✅ Error response formats
+
+**Behaviors answer**: "What should happen when...?"
+- ✅ What the system does with those parameters
+- ✅ Observable outcomes from using the interface
+- ✅ Business logic and validation rules
+- ✅ Error conditions and handling
+
+**Dual linkage required**:
+```markdown
+# Contract (Interface Definition)
+## slack_post_message
+
+**Parameters**:
+- `thread_ts` (optional): Parent message timestamp
+  - Type: string (format: "1234567890.123456")
+  - Behavior: specs/3-behaviors/threading.spec.md#thread-replies
+```
+
+**Corresponding behavior** (Referenced from contract):
+```markdown
+# Behavior (Observable Outcome)
+## Thread Replies
+
+- [!] System posts replies to message threads.
+  - Reply appears under parent message
+  - thread_ts identifies parent
+  - Graceful failure if parent not found
+```
+
+**Common mistakes**:
+- ❌ Describing WHAT HAPPENS in contract (put in behavior spec)
+- ❌ Describing INTERFACE in behavior (put in contract spec)
+- ❌ **Contract parameter without behavior link** (incomplete feature - caught by validation)
+
+**See Reference Library**: `behavior-contract-boundary.md` for complete decision framework.
 
 ## Notes
 

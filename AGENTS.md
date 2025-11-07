@@ -1,7 +1,7 @@
 ---
-generated: 2025-11-05T00:00:00Z
+generated: 2025-11-07T00:00:00Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
-version: 3.2.1
+version: 3.3.1
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
@@ -108,6 +108,139 @@ Multiple related files can share one spec (agent decides based on coherence):
 
 ---
 
+## Value Hierarchy: Purpose Traceability
+
+**What this validates**: YOUR project's specs (NOT LiveSpec's methodology docs)
+
+**Key principle**: Every artifact must trace back to PURPOSE.md through specification chain.
+
+**Why this matters**: If you can't trace a file back to project purpose, why are you building it?
+
+### The Five-Level Structure
+
+```mermaid
+graph TD
+    PURPOSE[PURPOSE.md<br/>Why project exists]
+    REQ[1-requirements/<br/>Strategic outcomes + constraints]
+    STRAT[2-strategy/<br/>Architectural approach]
+    BEH[3-behaviors/ + 3-contracts/<br/>Observable outcomes + interfaces]
+    IMPL[Implementation<br/>Code, docs, configs]
+
+    PURPOSE --> REQ
+    REQ --> STRAT
+    STRAT --> BEH
+    BEH --> IMPL
+
+    style PURPOSE fill:#ff9999
+    style REQ fill:#ffcc99
+    style STRAT fill:#ffff99
+    style BEH fill:#99ff99
+    style IMPL fill:#99ccff
+```
+
+**Every spec needs at least ONE upstream link**:
+- `derives-from:` - Based on parent spec
+- `governed-by:` - Follows governance rules
+- `satisfies:` - Implements requirement (WHAT)
+- `guided-by:` - Follows strategy (HOW)
+
+### Validation: Pyramid Integrity
+
+**Automated checks** (Section 9 of full validation):
+```bash
+bash scripts/validate-value-pyramid.sh
+```
+
+**What it catches**:
+- ❌ Orphaned specs (no upstream reference)
+- ❌ Broken reference chains (references non-existent files)
+- ❌ Missing PURPOSE.md (foundation of pyramid)
+
+**Example valid chain**:
+```yaml
+# PURPOSE.md → "Build secure API"
+
+# specs/1-requirements/strategic/security.spec.md
+derives-from:
+  - PURPOSE.md
+
+# specs/2-strategy/oauth-architecture.spec.md
+derives-from:
+  - specs/1-requirements/strategic/security.spec.md
+
+# specs/3-behaviors/authentication.spec.md
+satisfies:
+  - specs/1-requirements/strategic/security.spec.md  # WHAT
+guided-by:
+  - specs/2-strategy/oauth-architecture.spec.md      # HOW
+
+# src/auth/oauth.ts
+implements: specs/3-behaviors/authentication.spec.md
+```
+
+**Traceability**: `oauth.ts → authentication.spec.md → security.spec.md → PURPOSE.md ✓`
+
+### Common Mistake: Orphaned Specs
+
+**❌ Wrong** (spec without upstream):
+```yaml
+# specs/3-behaviors/caching.spec.md
+# (No derives-from, governed-by, satisfies, or guided-by)
+```
+
+**✅ Right** (spec with upstream):
+```yaml
+# specs/3-behaviors/caching.spec.md
+satisfies:
+  - specs/1-requirements/functional/performance.spec.md
+```
+
+**See Guides** for detailed frameworks:
+- `dist/guides/spec-decision-framework.md` - "Does this need a spec?" (Answer: YES)
+- `dist/guides/frontmatter-relationships.md` - Complete relationship guide
+
+## Understanding Two Hierarchies
+
+LiveSpec involves TWO SEPARATE hierarchies:
+
+### 1. VALUE HIERARCHY (Your Project)
+
+**Applies to**: YOUR project's specs and implementations
+
+**Structure**: YOUR PURPOSE.md → YOUR requirements → YOUR implementation
+
+**Question**: "Why does THIS project artifact exist?"
+
+**Validation**: `scripts/validate-value-pyramid.sh`
+
+**Optimization**: MSL Minimalism (content pressure within specs)
+
+**Example**: `oauth.ts → authentication.spec.md → security.spec.md → YOUR PURPOSE.md`
+
+### 2. KNOWLEDGE HIERARCHY (LiveSpec Methodology)
+
+**Applies to**: How agents learn LIVESPEC methodology
+
+**Structure**: AGENTS.md → workspace specs → guides → detailed standards
+
+**Question**: "How do agents find LiveSpec guidance?"
+
+**Optimization**: Context Compression (structural pressure across guidance)
+
+**Example**: "Agent reads AGENTS.md → references guide → fetches detailed spec"
+
+### Critical Distinction
+
+**Value Hierarchy** validates YOUR artifacts (project specs).
+
+**Knowledge Hierarchy** optimizes LiveSpec documentation consumption (methodology docs).
+
+**Parallel optimizations**:
+- MSL Minimalism reduces content WITHIN each spec (Value Hierarchy)
+- Context Compression optimizes structure ACROSS guidance layer (Knowledge Hierarchy)
+
+---
+
 ## Core Principles (In Priority Order)
 
 **From specs/workspace/constitution.spec.md:**
@@ -159,13 +292,15 @@ Multiple related files can share one spec (agent decides based on coherence):
 - Templates in `.livespec/templates/agents/` provide reusable verification content
 - Structural enforcement makes compliance path of least resistance
 
-## Context Compression
+## Knowledge Hierarchy: Context Compression
+
+**What this optimizes**: LiveSpec methodology documentation (NOT your project's specs)
 
 **What it is**: Active force that reorganizes guidance layer (workspace/, AGENTS.md, templates) for agent focus efficiency.
 
-**Complements MSL Minimalism**:
-- **MSL Minimalism**: Content pressure (reduce within specs - WHAT/requirements)
-- **Context Compression**: Structural force (reorganize across guidance - HOW agents consume)
+**Relationship to Value Hierarchy**:
+- **MSL Minimalism**: Optimizes Value Hierarchy (content pressure within YOUR specs)
+- **Context Compression**: Optimizes Knowledge Hierarchy (structural pressure across LiveSpec docs)
 
 **This project uses**: Moderate compression (balanced inline/reference)
 - Strategic extraction of reusable content
@@ -309,7 +444,7 @@ What do you need to do?
 **5 Phases (Temporal Workflow)** - When you do things:
 - **Phase 0**: DEFINE (problem space)
 - **Phase 1**: DESIGN (solution architecture)
-- **Phase 2**: BUILD (implementation)
+- **Phase 2**: BUILD (TDD) (test-driven implementation)
 - **Phase 3**: VERIFY (validation)
 - **Phase 4**: EVOLVE (maintenance)
 - **Location**: `.livespec/0-define/`, `.livespec/1-design/`, etc.
@@ -367,24 +502,28 @@ Design solution architecture.
 **When**: After problem clear, before implementation
 **Entry**: Problem and constraints defined
 **Exit**: Architecture and contracts specified
-**Outputs**: specs/2-strategy/architecture.spec.md, specs/3-behaviors/, specs/contracts/
+**Outputs**: research/flows/ (UX flows), specs/2-strategy/architecture.spec.md, specs/3-behaviors/, specs/3-contracts/
 **Key Prompts**:
-- `1a-design-architecture.md` - Define system structure
-- `1b-define-behaviors.md` - Specify observable outcomes
-- `1c-create-contracts.md` - Define API/data interfaces
+- `1a-document-ux-flows.md` - Document user interaction flows (optional but recommended for UX-heavy features)
+- `1b-design-architecture.md` - Define system structure
+- `1c-define-behaviors.md` - Specify observable outcomes
+- `1d-create-contracts.md` - Define API/data interfaces
 
-### Phase 2: BUILD
-Implement the solution.
+**Note**: Phase 1a (UX flows) is optional for simple projects. Skip for pure backend/API work. Use when user interaction patterns are complex or need validation.
+
+### Phase 2: BUILD (TDD)
+Implement the solution using test-driven development.
 
 **When**: After design approved
 **Entry**: Design specifications complete
-**Exit**: Implementation matches specifications
-**Outputs**: Code + tests satisfying specs
+**Exit**: Tests pass, implementation matches specifications
+**Outputs**: Automated tests + working code following specs
+**TDD**: Mandatory by default (tests before code, escape hatch for trivial scripts with justification)
 **Key Prompts**:
-- `2a-implement-from-specs.md` - Build from specifications
-- `2b-create-tests.md` - Create validation tests
+- `2b-create-tests.md` - Write failing tests FIRST (RED phase)
+- `2a-implement-from-specs.md` - Make tests pass (GREEN + REFACTOR phases)
 
-**See Reference Library**: `tdd.md` for complete test-driven development process
+**See Reference Library**: `tdd.md` for complete test-driven development framework
 
 ### Phase 3: VERIFY
 Validate solution meets requirements.
@@ -753,6 +892,8 @@ Bad:  Everything marked CRITICAL
 Good: Only truly critical requirements marked CRITICAL
 ```
 
+**See Reference Library**: `common-pitfalls.md` for real-world failure examples, cognitive bias analysis, and prevention strategies based on actual implementations.
+
 ## Bidirectional Linking
 
 LiveSpec uses YAML frontmatter for bidirectional links:
@@ -945,6 +1086,14 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 **Workspace** - `.livespec/standard/metaspecs/workspace.spec.md`
 - **Fetch when**: Creating workspace specs, defining project governance
 
+**Domain Model** - `.livespec/standard/metaspecs/domain-model.spec.md`
+- **Fetch when**: Documenting complex core concepts (threading models, state machines, correlation patterns)
+- **Provides**: Structure for explicit domain concept documentation with state models, invariants, edge cases
+
+**UX Flow** - `.livespec/standard/metaspecs/research/ux-flow.metaspec.md`
+- **Fetch when**: Documenting user interaction patterns, creating flow diagrams
+- **Provides**: Complete UX flow structure with Mermaid diagrams, screen documentation, error handling
+
 **Others**: `base.spec.md`, `constraints.spec.md`, `outcomes.spec.md`, `purpose.spec.md`, `strategy.spec.md`
 
 ### Guides (How to Apply)
@@ -966,6 +1115,16 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 **AI Commits** - `.livespec/guides/ai-commits.md`
 - **Fetch when**: Creating git commits, following commit standards
 - **Provides**: Commit message format, Git safety protocol
+
+**Common Pitfalls** - `dist/guides/common-pitfalls.md`
+- **Fetch when**: Starting new project, caught yourself skipping phases, implementation review revealed gaps
+- **Provides**: Real-world failure examples with honest analysis, cognitive biases (overconfidence, efficiency instinct, pattern matching), prevention strategies, recovery guidance
+- **Cross-ref**: See "Common Anti-Patterns" section for quick reference
+
+**Behavior-Contract Boundary** - `dist/guides/behavior-contract-boundary.md`
+- **Fetch when**: Unclear whether to create behavior or contract spec, designing APIs, defining interfaces
+- **Provides**: Clear separation rules, decision framework, common boundary violations, dual linkage pattern
+- **Cross-ref**: Behaviors (WHAT outcomes) vs Contracts (WHAT interfaces)
 
 ### Navigation Pattern
 
@@ -1097,4 +1256,4 @@ Remember: **Start simple, add complexity only when needed. Trust the phases.**
 **Context Positioning Design**: This document follows START/MIDDLE/END structure optimized for AI processing. Critical rules and spec-first guidance appear in START section (primacy bias). Detailed examples and procedures in MIDDLE section. Prompt registry and navigation in END section (recency bias). This design maximizes agent compliance with methodology.
 
 ---
-*Agent configuration for [LiveSpec v3.2.1](https://github.com/chrs-myrs/livespec) - Generated 2025-11-05*
+*Agent configuration for [LiveSpec v3.3.0](https://github.com/chrs-myrs/livespec) - Generated 2025-11-06*

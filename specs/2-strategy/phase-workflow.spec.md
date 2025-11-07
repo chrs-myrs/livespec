@@ -13,7 +13,7 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 
 ## Requirements
 - [!] LiveSpec combines waterfall structure (linear first pass 0→1→2→3) with iterative flexibility (cycling back when discovering unknowns) through loose workflow providing guidance without enforcement, with Phase 4 as continuous background process maintaining bidirectional synchronization.
-  - Five specific phases: DEFINE (0), DESIGN (1), BUILD (2), VERIFY (3), EVOLVE (4)
+  - Five specific phases: DEFINE (0), DESIGN (1), BUILD (TDD) (2), VERIFY (3), EVOLVE (4)
   - Natural linear progression for first pass (waterfall spine)
   - Cycling permitted when learning invalidates assumptions (iterative flexibility)
   - Entry/exit criteria are guidance not gates (loose workflow, no enforcement)
@@ -35,14 +35,14 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 **Five phases chosen** (sweet spot):
 - **0: DEFINE** - WHAT (problem, constraints, process)
 - **1: DESIGN** - HOW (architecture, behaviors, contracts)
-- **2: BUILD** - Implementation (code, tests)
+- **2: BUILD (TDD)** - Test-driven implementation (tests first, then code)
 - **3: VERIFY** - Validation (acceptance, correctness)
 - **4: EVOLVE** - Synchronization (continuous drift prevention)
 
 **Rationale**:
 - Phase 0: Separate problem understanding from solution design, establish workspace
 - Phase 1: Think before building, separate WHAT (behaviors) from HOW (code)
-- Phase 2: Core implementation guided by specs (most familiar for developers)
+- Phase 2: Core test-driven implementation guided by specs, tests before code ensures correctness
 - Phase 3: Separate validation mindset from implementation, stakeholder involvement
 - Phase 4: Continuous bidirectional sync (code ↔ specs), unique to LiveSpec
 
@@ -57,8 +57,8 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
   ↓ (problem defined, constraints identified)
 1: DESIGN
   ↓ (architecture specified, behaviors documented)
-2: BUILD
-  ↓ (implementation complete, tests passing)
+2: BUILD (TDD)
+  ↓ (tests written first, implementation complete, all tests passing)
 3: VERIFY
   ↓ (validation complete, acceptance achieved)
 4: EVOLVE (continuous)
@@ -82,11 +82,11 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 ```
 0: DEFINE
   ↓
-1: DESIGN  ←──┐
-  ↓          │
-2: BUILD  ───┘ (discovered design flaw)
+1: DESIGN      ←──┐
+  ↓              │
+2: BUILD (TDD) ───┘ (discovered design flaw)
   ↓
-3: VERIFY ───→ 1: DESIGN (requirements incomplete)
+3: VERIFY      ───→ 1: DESIGN (requirements incomplete)
 ```
 
 **Cycling triggers (examples)**:
@@ -265,12 +265,13 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 - Minimalism maintains low overhead, sustainable long-term
 
 ## Validation
-- Five phases specifically (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE)
+- Five phases specifically (DEFINE, DESIGN, BUILD (TDD), VERIFY, EVOLVE)
 - Natural linear first pass (0→1→2→3)
 - Cycling permitted based on learning (decision criteria documented)
 - Entry/exit criteria are guidance not gates (loose workflow)
 - Phase 4 continuous not episodic (ongoing drift detection)
 - Hybrid model (waterfall spine + iterative cycles)
+- Phase 2 emphasizes TDD (tests before code, mandatory with escape hatch)
 - AI agents understand structure without rigidity
 - Light methodology maintained (minimal ceremony, voluntary adoption)
 - Decision criteria help determine when to cycle vs proceed

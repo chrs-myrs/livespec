@@ -1,52 +1,59 @@
-# Test-Driven Development Guide (Optional)
+# Test-Driven Development Guide (Mandatory with Escape Hatch)
 
-Decision framework for when TDD (Test-Driven Development) adds value versus when it creates overhead.
+LiveSpec Phase 2 (BUILD) requires test-driven development by default. This guide defines the TDD discipline and when escape hatch applies.
 
 ## Philosophy
 
-TDD is a **design tool** that creates robust, well-structured code through the red-green-refactor cycle. However, TDD isn't universally beneficial - use it where complexity justifies the overhead.
+TDD is **the default approach** in Phase 2 (BUILD). Write tests before implementation to ensure correctness, enable refactoring, and prevent regression.
 
-**Core belief:** Selective application. Use TDD for complex logic and critical functions, skip it for simple operations.
+**Core belief:** TDD is mandatory by default, with escape hatch for trivial scripts (justification required). When in doubt, use TDD.
 
-## When TDD Adds Value
+## When TDD is Required (Default)
 
-### Complexity Indicators (Use TDD if ANY apply)
+**Use TDD for all code UNLESS escape hatch applies:**
+
+### Complexity Indicators (TDD required)
 - **Business Logic**: Multiple conditional paths, edge cases, or rules
 - **Algorithms**: Complex calculations, data transformations, or optimizations
 - **State Management**: Objects with complex internal state transitions
 - **Error Handling**: Non-trivial error recovery or validation logic
 - **Integration Points**: APIs, message handlers, or external service interfaces
 
-### Risk Factors (Use TDD if ANY apply)
+### Risk Factors (TDD required)
 - **High-Impact Failures**: Bugs cause significant user/business impact
 - **Frequent Changes**: Code that evolves regularly needs test safety
 - **Security Critical**: Authentication, authorization, data validation
 - **Performance Sensitive**: Code where regressions have user impact
 
-## When TDD is Overhead
+## When Escape Hatch Applies (Justification Required)
 
-### Simple Operations (Skip TDD for)
+**You may skip TDD ONLY for truly trivial code with documented justification:**
+
+### Simple Operations (Escape hatch permitted)
 - **Basic CRUD**: Simple create, read, update, delete without complex logic
 - **Data Mapping**: Straightforward object transformations
 - **Configuration**: Environment setup, dependency injection wiring
 - **Trivial Functions**: Getters, setters, simple property access
 
-### Exploratory Work (Defer TDD for)
+### Exploratory Work (Escape hatch permitted)
 - **Prototypes**: Proof-of-concept code intended for throwaway
 - **Spike Solutions**: Investigating technical approaches or APIs
 - **Research Code**: Experimental algorithms or approaches
 
-## The 5 Assessment Questions
+**Important**: Document why TDD was skipped (code comment or commit message). Be conservative - when uncertain, use TDD.
 
-Ask these to determine if TDD adds value (Yes = +2 points, ≥6 suggests TDD):
+## The 5 Escape Hatch Assessment Questions
 
-1. **Failure Impact**: Would a bug here significantly impact users or business?
-2. **Change Frequency**: Will this code be modified regularly?
-3. **Logic Complexity**: Does this involve multiple conditions or edge cases?
-4. **External Dependencies**: Does this integrate with other systems?
-5. **Team Collaboration**: Will multiple developers work on this code?
+**TDD is default.** Ask these to determine if escape hatch applies (No = +2 points, ≥8 permits skipping TDD):
 
-**Scoring:** Total ≥6 points → TDD recommended
+1. **Failure Impact**: Would a bug here have minimal impact on users or business?
+2. **Change Frequency**: Is this code unlikely to be modified?
+3. **Logic Complexity**: Is this straightforward with no edge cases?
+4. **External Dependencies**: Does this avoid integration with other systems?
+5. **Team Collaboration**: Is this isolated work by single developer?
+
+**Scoring:** Total ≥8 points → Escape hatch may apply (justify in code/commit)
+**Scoring:** Total <8 points → TDD required
 
 ## Integration with Spec-Driven Development
 
@@ -98,12 +105,13 @@ def load_database_config():
 ## Success Criteria
 
 TDD succeeds when:
-- Developers can quickly decide when TDD adds value
+- Phase 2 (BUILD) consistently follows test-first discipline
 - Tests serve as executable documentation of requirements
-- Complex code has reliable test coverage
-- Simple code avoids test overhead
-- Refactoring is performed confidently
+- All non-trivial code has automated test coverage
+- Escape hatch used conservatively with justification
+- Refactoring is performed confidently with test safety
+- Red-Green-Refactor cycle becomes natural workflow
 
 ---
 
-*Adapted from SpellForge Test-Driven Development policy for LiveSpec distribution. This is an OPTIONAL practice - use judgment based on project complexity.*
+*Adapted from SpellForge Test-Driven Development policy for LiveSpec distribution. **TDD is MANDATORY by default** in Phase 2 (BUILD), with escape hatch for truly trivial code (justification required).*

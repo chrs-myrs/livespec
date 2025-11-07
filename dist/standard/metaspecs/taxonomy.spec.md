@@ -88,3 +88,138 @@ governs: All specs/workspace/taxonomy.spec.md files
 4. Are you building artifacts FROM specs or IS the operation itself the deliverable?
 
 **Decision priority**: Choose most specific domain if 80%+ fits. Use Hybrid only when genuinely multi-domain or operational/workspace pattern applies.
+
+## Documentation Project Example
+
+**Complete worked example for Documentation domain:**
+
+### Project Structure
+
+```
+technical-docs/
+├── PURPOSE.md                           # Document architecture for developers
+├── AGENTS.md                            # Regenerated after workspace setup
+├── .livespec/                           # Copied from livespec/dist/
+│
+├── specs/
+│   ├── workspace/
+│   │   ├── taxonomy.spec.md             # Domain: Documentation
+│   │   ├── constitution.spec.md         # Spec-driven docs
+│   │   ├── patterns.spec.md             # Doc conventions
+│   │   └── workflows.spec.md            # Doc creation process
+│   │
+│   ├── 1-requirements/
+│   │   └── strategic/
+│   │       └── outcomes.spec.md         # Developers understand arch in 2hrs
+│   │
+│   ├── 2-strategy/
+│   │   └── documentation-approach.spec.md  # Progressive disclosure pattern
+│   │
+│   └── 3-behaviors/
+│       └── documentation/
+│           ├── architecture-docs.spec.md   # System overview content
+│           ├── api-reference.spec.md       # API doc completeness
+│           └── onboarding-guide.spec.md    # Getting started content
+│
+└── docs/                                # Actual documentation (implementation)
+    ├── architecture/
+    │   ├── README.md                    # implements: specs/3-behaviors/documentation/architecture-docs.spec.md
+    │   ├── overview.md
+    │   └── components.md
+    ├── api/
+    │   └── reference.md                 # implements: specs/3-behaviors/documentation/api-reference.spec.md
+    └── guides/
+        └── getting-started.md           # implements: specs/3-behaviors/documentation/onboarding-guide.spec.md
+```
+
+### Example Spec: Documentation Behavior
+
+**File**: `specs/3-behaviors/documentation/architecture-docs.spec.md`
+
+```yaml
+---
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md
+guided-by:
+  - specs/2-strategy/documentation-approach.spec.md
+specifies:
+  - docs/architecture/README.md
+  - docs/architecture/overview.md
+  - docs/architecture/components.md
+criticality: CRITICAL
+failure_mode: Developers cannot understand system architecture, onboarding fails
+---
+
+# Architecture Documentation
+
+## Requirements
+- [!] Documentation enables developers to understand system architecture within 2 hours.
+  - System overview with high-level components diagram
+  - Component responsibilities clearly explained (1-2 paragraphs each)
+  - Data flow between components visualized (Mermaid diagram)
+  - Integration points documented (APIs, events, data stores)
+  - No implementation details (focus on conceptual architecture)
+  - Updated when architecture changes
+
+## Validation
+- New developer completes architecture comprehension in <2 hours
+- All major components documented with clear responsibilities
+- Data flow diagram includes all primary paths
+- Integration points have complete interface descriptions
+- Mermaid diagrams render correctly
+- Content reviewed when architecture changes
+```
+
+### Key Patterns for Documentation Projects
+
+**What needs specs in docs projects**:
+- ✅ **Content requirements**: What docs must contain (architecture-docs.spec.md)
+- ✅ **Completeness criteria**: How to know docs are sufficient (api-reference.spec.md)
+- ✅ **Structure patterns**: How to organize content (documentation-approach.spec.md)
+- ✅ **Update triggers**: When to refresh docs (in each behavior spec)
+
+**What doesn't need specs**:
+- ❌ Individual paragraphs or sentences (too granular)
+- ❌ Exact wording (that's implementation, not requirement)
+- ❌ Specific examples (unless example IS the requirement)
+- ❌ Navigation structure (unless critical to UX)
+
+**MSL in docs projects**:
+- **Requirements section** = What information must docs convey
+- **Validation section** = How to verify docs achieve purpose
+- **Frontmatter** = Links to strategic outcomes (WHY docs exist)
+
+**Common mistake**: Over-specifying content
+```yaml
+# ❌ Too specific (implementation detail)
+## Requirements
+- [!] Architecture section starts with "Welcome to our architecture documentation..."
+  - First paragraph explains microservices
+  - Second paragraph lists 15 components
+  - ...
+
+# ✅ Correct level (observable outcome)
+## Requirements
+- [!] Architecture documentation explains system design to new developers.
+  - Component overview with responsibilities
+  - Integration patterns visualized
+  - Sufficient detail for onboarding
+```
+
+**Value pyramid for docs**:
+```
+PURPOSE.md: "Enable developer onboarding"
+    ↓
+1-requirements/outcomes.spec.md: "Developers understand arch in 2hrs"
+    ↓
+3-behaviors/architecture-docs.spec.md: "Docs contain components, data flow, integrations"
+    ↓
+docs/architecture/README.md: [Actual content implementing spec]
+```
+
+**Benefits of spec-driven docs**:
+- Clear success criteria before writing
+- Prevents scope creep (only write what's specified)
+- Validates against user needs (requirements), not author assumptions
+- Enables multiple writers (spec defines consistency)
+- Detects drift (when docs no longer meet spec)

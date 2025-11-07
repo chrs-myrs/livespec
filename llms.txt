@@ -161,11 +161,11 @@ Copy/paste prompts - they're plain markdown
 
 ## Version and Repository
 
-Version: 3.2.1
+Version: 3.3.0
 Updated: 2025-11-05
 Repository: https://github.com/chrs-myrs/livespec
 License: MIT
 
 ---
 
-*LiveSpec v3.2.1 - Information architecture for AI-first development. Simple. Minimal. Effective.*
+*LiveSpec v3.3.0 - Information architecture for AI-first development. Simple. Minimal. Effective.*

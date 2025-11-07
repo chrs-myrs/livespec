@@ -8,7 +8,7 @@ governed-by:
 # Five Phases Behavior
 
 ## Requirements
-- [!] LiveSpec guides development through exactly five phases: DEFINE, DESIGN, BUILD, VERIFY, and EVOLVE, with clear entry and exit criteria for each.
+- [!] LiveSpec guides development through exactly five phases: DEFINE, DESIGN, BUILD (TDD), VERIFY, and EVOLVE, with clear entry and exit criteria for each.
   - Each phase has 2-5 prompts (cognitive load managed)
   - Phase transitions have clear criteria
   - Phases can cycle (not strictly waterfall)
@@ -29,11 +29,12 @@ governed-by:
 - **Exit**: Architecture and contracts specified
 - **Outputs**: specs/3-behaviors/, specs/3-contracts/ (if needed)
 
-### Phase 2: BUILD
-- **Purpose**: Implement the solution
+### Phase 2: BUILD (TDD)
+- **Purpose**: Implement the solution using test-driven development
 - **Entry**: Design specifications complete
-- **Exit**: Implementation matches specifications
-- **Outputs**: Working code following specs
+- **Exit**: Tests pass, implementation matches specifications
+- **Outputs**: Automated tests + working code following specs
+- **Note**: TDD is mandatory with escape hatch for trivial scripts (justification required)
 
 ### Phase 3: VERIFY
 - **Purpose**: Validate solution meets requirements

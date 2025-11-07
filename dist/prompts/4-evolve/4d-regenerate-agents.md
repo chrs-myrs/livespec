@@ -16,11 +16,20 @@ Regenerate root AGENTS.md file from PURPOSE.md and workspace specifications to e
 ## When to Regenerate
 
 Run this prompt when:
+- **⚠️ CRITICAL: Immediately after Phase 0 workspace setup** - Quick-start (0a) and customize-workspace (0b) prompts explicitly call this to incorporate YOUR project context into AGENTS.md
 - **Workspace specs change**: constitution.spec.md, patterns.spec.md, workflows.spec.md modified
 - **PURPOSE.md changes**: Project vision or success criteria updated
 - **New workspace spec added**: Additional methodology specification created
 - **Strategy architecture changes**: Major architectural decisions that affect agent guidance
 - **After LiveSpec version upgrade**: Methodology updates from upstream
+
+**Why critical after workspace setup**: The template AGENTS.md contains generic LiveSpec methodology. Without regeneration, AI agents lack YOUR project's:
+- Purpose and success criteria
+- Domain classification (Software/Governance/Hybrid)
+- Specific constraints and patterns
+- Development principles unique to your project
+
+**Value Hierarchy Impact**: Regenerated AGENTS.md ensures agents can guide Value Hierarchy validation - checking that every artifact traces back to YOUR PURPOSE.md, not just "a" PURPOSE.md.
 
 ## Prerequisites
 

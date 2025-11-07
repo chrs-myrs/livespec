@@ -5,13 +5,15 @@ phase: 2-build
 estimated_time: "Varies by scope (30 minutes to several hours)"
 ---
 
-# Prompt Behavior: Implement from Specifications
+# Prompt Behavior: Implement from Specifications (TDD)
 
-**Purpose**: Build features according to specifications
+**Purpose**: Build features according to specifications using test-driven development
 
 ## Context
 
-You're in Phase 2 (BUILD), implementing features based on existing specifications. All behaviors should already be specified.
+You're in Phase 2 (BUILD - TDD), implementing features based on existing specifications. All behaviors should already be specified.
+
+**⚠️ CRITICAL: Phase 2 follows TDD discipline by default.** Write tests BEFORE implementation (Red-Green-Refactor cycle). See escape hatch section below if you believe code is trivial enough to skip TDD.
 
 ## Before This Prompt
 
@@ -38,6 +40,105 @@ You're in Phase 2 (BUILD), implementing features based on existing specification
 
 **Only proceed when specifications exist.** Implementation without specs = guaranteed drift.
 
+## Test-Driven Development (TDD) Workflow
+
+**Phase 2 default approach: Tests before implementation**
+
+### The Red-Green-Refactor Cycle
+
+**Follow this sequence for each behavior**:
+
+1. **Red**: Write a failing test for one behavior requirement
+   - Test should verify observable behavior from spec
+   - Test should fail (feature not yet implemented)
+   - Test should be specific and focused
+
+2. **Green**: Write minimal code to make test pass
+   - Implement just enough to pass the test
+   - Don't add features beyond current test
+   - Keep it simple (refactor later)
+
+3. **Refactor**: Improve code while keeping tests green
+   - Remove duplication
+   - Clarify intent
+   - Optimize if needed
+   - Tests still pass
+
+**Repeat for each requirement until all behaviors implemented**
+
+### TDD with Spec-Driven Development
+
+**Workflow**:
+```
+Behavior Spec → Test Cases → Red → Green → Refactor → Next Behavior
+```
+
+**Example**:
+```python
+# 1. Read spec: specs/3-behaviors/user-auth.spec.md
+# REQ-003: System validates password strength (12+ chars, mixed case)
+
+# 2. RED: Write failing test
+def test_password_validation_requires_12_chars_req_003():
+    """Verify REQ-003: Minimum 12 characters"""
+    assert validate_password("Short1!") == False  # FAILS (not implemented)
+    assert validate_password("LongEnough1!") == True
+
+# 3. GREEN: Minimal implementation
+def validate_password(password: str) -> bool:
+    return len(password) >= 12  # Just enough to pass
+
+# 4. REFACTOR: Add other requirements (mixed case, etc.)
+# 5. REPEAT for next requirement
+```
+
+### When to Use Escape Hatch (Rare)
+
+**TDD is mandatory by default.** Skip ONLY for trivial code with justification:
+
+**Escape hatch permitted for**:
+- Simple CRUD (straightforward database operations)
+- Basic getters/setters
+- Configuration loading (environment variables)
+- Throwaway prototypes/spikes
+
+**Escape hatch decision framework**:
+
+Ask 5 questions (No = +2 points, ≥8 permits skipping):
+1. Would a bug here have minimal impact?
+2. Is this code unlikely to change?
+3. Is this straightforward with no edge cases?
+4. Does this avoid external integrations?
+5. Is this isolated single-developer work?
+
+**Score ≥8 → May skip TDD (document justification in code)**
+**Score <8 → TDD required**
+
+**When skipping TDD, document why**:
+```python
+# TDD skipped: Simple environment variable read (escape hatch score: 10/10)
+# Justification: No logic, no edge cases, standard library only
+def get_database_url() -> str:
+    return os.getenv("DATABASE_URL", "sqlite:///dev.db")
+```
+
+**See `.livespec/guides/tdd.md` for complete TDD framework**
+
+### Benefits of TDD in LiveSpec
+
+**Why tests before code**:
+- **Correctness**: Tests verify specs before implementation bias sets in
+- **Regression safety**: Refactor confidently, tests catch breaks
+- **Living documentation**: Tests show how code should behave
+- **Design feedback**: Hard-to-test code signals design problems
+- **Spec validation**: Writing tests reveals spec gaps early
+
+**Evidence from real implementations**: Skipping TDD leads to:
+- No automated test coverage
+- 2+ hours debugging issues tests would catch in minutes
+- Fear of refactoring (might break something)
+- Drift between specs and implementation
+
 ## Task
 
 1. Prompt guides AI agent to implement system by following specifications in priority order (CRITICAL first), respecting workspace patterns and constraints.
@@ -48,11 +149,14 @@ Produce working code or tests that satisfy specifications.
 
 ## Validation
 
+- **Tests written BEFORE implementation** (TDD followed, or escape hatch documented)
 - All CRITICAL behaviors implemented
+- **All tests passing** (Green in Red-Green-Refactor)
 - Implementation follows workspace patterns
 - All constraints satisfied
 - Code matches behavior specifications
 - No features added beyond specifications
+- Test coverage maps to behavior specs (each [!] requirement has test)
 
 ## When Implementation Diverges from Spec
 

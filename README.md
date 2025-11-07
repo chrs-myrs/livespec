@@ -344,9 +344,9 @@ graph LR
 
 ## Version
 
-**Current Version: 3.2.1**
+**Current Version: 3.3.0**
 
-LiveSpec v3.2.1 improves discoverability and addresses brownfield integration confusion:
+LiveSpec v3.3.0 makes spec-first adherence and test-driven development the path of least resistance through structural enforcement, comprehensive guidance, and honest failure analysis:
 - CRITICAL DISTINCTION: Phases vs Layers section in AGENTS.md
 - Pre-flight validation prompt for concept verification
 - Hybrid Pattern A for operational/workspace projects

@@ -1,13 +1,52 @@
 ---
-generated: 2025-11-05T00:00:00Z
+generated: 2025-11-07T00:00:00Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
-version: 3.2.1
+version: 3.3.1
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
 > **⚠️ Generated File**: Do not edit directly. See frontmatter for regeneration instructions.
 
 # LiveSpec Agent Configuration
+
+---
+
+## 🚨 CRITICAL: This is a Template - Must Regenerate
+
+**DO NOT USE THIS FILE AS-IS IN YOUR PROJECT**
+
+This AGENTS.md file contains:
+- ✅ Generic LiveSpec methodology (applicable to all projects)
+- ❌ YOUR project's specific context (missing - needs generation)
+
+### When to Regenerate
+
+**After Phase 0** (DEFINE - workspace setup):
+1. ✅ Created `PURPOSE.md` for your project
+2. ✅ Created `specs/workspace/` (constitution, patterns, workflows, taxonomy)
+3. ⚠️ **NOW REGENERATE** this file using your project context
+
+### How to Regenerate
+
+```bash
+# Use prompt 4d to regenerate AGENTS.md with YOUR project context
+"Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md"
+```
+
+**What regeneration does**:
+- Preserves generic LiveSpec methodology (this template)
+- Adds YOUR project's purpose, constraints, patterns
+- Adds YOUR workspace specs' principles
+- Tailors guidance to YOUR project domain
+
+**Without regeneration**: AI agents will lack project-specific context and may:
+- Miss critical project constraints
+- Apply wrong patterns for your domain
+- Violate project-specific governance rules
+
+**Validation**: After regeneration, AGENTS.md should reference YOUR PURPOSE.md and workspace specs.
+
+---
 
 ## Summary
 
@@ -1051,4 +1090,4 @@ Remember: **Start simple, add complexity only when needed. Trust the phases.**
 **Context Positioning Design**: This document follows START/MIDDLE/END structure optimized for AI processing. Critical rules and spec-first guidance appear in START section (primacy bias). Detailed examples and procedures in MIDDLE section. Prompt registry and navigation in END section (recency bias). This design maximizes agent compliance with methodology.
 
 ---
-*Agent configuration for [LiveSpec v3.2.1](https://github.com/chrs-myrs/livespec) - Generated 2025-11-05*
+*Agent configuration for [LiveSpec v3.3.0](https://github.com/chrs-myrs/livespec) - Generated {{date}}*

@@ -184,7 +184,28 @@ governed-by:
 - Phase 4 runs continuously in production
 ```
 
-### Step 4: Confirm Setup
+### Step 4: Regenerate AGENTS.md
+
+**CRITICAL**: Now that workspace specs exist, regenerate AGENTS.md with project context.
+
+Tell user:
+
+"Workspace specs created! Now regenerating AGENTS.md with your project-specific context..."
+
+**Use prompt 4d to regenerate**:
+```
+"Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md"
+```
+
+**What this does**:
+- Incorporates YOUR workspace specs into AGENTS.md
+- Preserves generic LiveSpec methodology
+- Gives AI agents your project's specific context
+- Critical for agent effectiveness going forward
+
+**Wait for 4d completion** before proceeding to Step 5.
+
+### Step 5: Confirm Setup
 
 Tell user:
 
@@ -195,6 +216,7 @@ Created:
 - `specs/workspace/constitution.spec.md` - Spec-driven development
 - `specs/workspace/patterns.spec.md` - MSL format, naming conventions
 - `specs/workspace/workflows.spec.md` - Five-phase workflow
+- `AGENTS.md` - **Regenerated** with your project context
 
 **Context compression**: Moderate (balanced)
 

@@ -44,14 +44,15 @@ Establish problem space and constraints.
 | 0g-identify-constraints | 0g-identify-constraints.spec.md | specs/1-requirements/strategic/constraints.spec.md | Document non-negotiable boundaries |
 | 0x-validate-understanding | 0x-validate-understanding.spec.md | None (validation only) | Verify conceptual understanding before implementation |
 
-### Phase 1: DESIGN (3 prompts)
+### Phase 1: DESIGN (4 prompts)
 Design solution architecture.
 
 | Prompt | Spec | Output | Purpose |
 |--------|------|--------|---------|
-| 1a-design-architecture | 1a-design-architecture.spec.md | specs/2-strategy/architecture.spec.md | Define system structure and components |
-| 1b-define-behaviors | 1b-define-behaviors.spec.md | specs/3-behaviors/*.spec.md | Specify observable outcomes |
-| 1c-create-contracts | 1c-create-contracts.spec.md | specs/3-contracts/*.spec.md | Define API/data interfaces |
+| 1a-document-ux-flows | 1a-document-ux-flows.spec.md | research/flows/*.md | Document user interaction flows before architecture |
+| 1b-design-architecture | 1b-design-architecture.spec.md | specs/2-strategy/architecture.spec.md | Define system structure and components |
+| 1c-define-behaviors | 1c-define-behaviors.spec.md | specs/3-behaviors/*.spec.md | Specify observable outcomes |
+| 1d-create-contracts | 1d-create-contracts.spec.md | specs/3-contracts/*.spec.md | Define API/data interfaces |
 
 ### Phase 2: BUILD (2 prompts)
 Implement the solution.
@@ -69,7 +70,7 @@ Validate solution meets requirements.
 | 3a-run-validation | 3a-run-validation.spec.md | var/validation-report.md | Execute validation tests and document results |
 | 3b-acceptance-review | 3b-acceptance-review.spec.md | var/acceptance-review.md | Stakeholder approval process |
 
-### Phase 4: EVOLVE (5 prompts)
+### Phase 4: EVOLVE (6 prompts)
 Maintain synchronisation between specs and code.
 
 | Prompt | Spec | Output | Purpose |
@@ -79,6 +80,7 @@ Maintain synchronisation between specs and code.
 | 4c-sync-complete | 4c-sync-complete.spec.md | Updated specs | Confirm synchronisation restored |
 | 4d-regenerate-agents | 4d-regenerate-agents.spec.md | AGENTS.md | Regenerate AI agent configuration |
 | 4e-validate-extractions | 4e-validate-extractions.spec.md | Promoted specs | Review low-confidence extracted specs |
+| 4f-document-implementation | 4f-document-implementation.spec.md | var/implementation-reports/*.md | Create comprehensive implementation feedback report |
 
 ### Utils (8 prompts)
 Special situation handlers and continuous improvement.
@@ -96,7 +98,7 @@ Special situation handlers and continuous improvement.
 
 ## Validation
 
-- Registry lists exactly 28 prompts (8+3+2+2+5+8)
+- Registry lists exactly 30 prompts (8+4+2+2+6+8)
 - All prompts have corresponding behavior specs in specs/3-behaviors/prompts/
 - Phase assignments match five-phases.spec.md definitions
 - Output paths documented for each prompt

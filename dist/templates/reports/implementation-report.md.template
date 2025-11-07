@@ -1,0 +1,329 @@
+# LiveSpec Implementation Report: [Project Name] - [Feature/Scope]
+
+**Date**: YYYY-MM-DD
+**Implementer**: [AI Assistant / Human / Pair]
+**LiveSpec Version**: [e.g., 3.3.0]
+**Scope**: [Brief description of what was implemented]
+**Methodology**: [LiveSpec phases followed, or note deviations]
+
+---
+
+## Executive Summary
+
+[2-3 sentences summarizing what was built, key learnings, and overall methodology adherence]
+
+Example:
+> This implementation added channel thread operations to Slack MCP server using LiveSpec methodology. The process was initially skipped, then properly followed after correction, revealing significant gaps in TDD and UX flow documentation. Key learning: Partial methodology adherence is insufficient.
+
+---
+
+## Process Adherence
+
+### What Was Followed
+
+**Phase 0 (DEFINE)**:
+- [ ] PURPOSE.md created/updated
+- [ ] Outcomes defined (specs/1-requirements/strategic/)
+- [ ] Constraints documented
+- [ ] Workspace configured
+
+**Phase 1 (DESIGN)**:
+- [ ] UX flows documented (if applicable)
+- [ ] Architecture specified (specs/2-strategy/)
+- [ ] Behaviors defined (specs/3-behaviors/)
+- [ ] Contracts created (specs/3-contracts/)
+
+**Phase 2 (BUILD - TDD)**:
+- [ ] Tests written BEFORE implementation
+- [ ] Red-Green-Refactor cycle followed
+- [ ] Automated test coverage achieved
+- [ ] Escape hatch used (if yes, justification below)
+
+**Phase 3 (VERIFY)**:
+- [ ] Validation tests run
+- [ ] Acceptance review completed
+- [ ] All behaviors validated
+
+**Phase 4 (EVOLVE)**:
+- [ ] Drift detection run
+- [ ] Specs synchronized with code
+- [ ] Implementation report created (this document)
+
+### What Was Skipped
+
+[Honest accounting of skipped steps]
+
+**Example**:
+- ❌ Phase 1: UX flow documentation completely skipped
+- ❌ Phase 2: TDD not followed - implemented first, no tests written
+- ❌ Phase 2: Partial implementation (expected_format parameter defined but not implemented)
+- ⚠️ Phase 1: Domain models (threading, correlation) not explicitly specified
+
+---
+
+## Honest Failure Analysis
+
+### Why Did I Skip Steps?
+
+[Brutally honest analysis - identify cognitive biases and failure modes]
+
+#### 1. [Bias/Instinct Name]
+**What I thought**: [Flawed reasoning]
+
+**What I missed**: [Consequences]
+
+**Lesson**: [Learning]
+
+**Examples from this implementation**:
+
+**Overconfidence Bias**:
+- **What I thought**: "This is straightforward - DMs to channels, URL parsing. I understand the problem."
+- **What I missed**: Need for discovery tools, auto-resolution, graceful degradation, blocking vs non-blocking
+- **Lesson**: The "obvious" solution often misses edge cases and supporting requirements
+
+**Efficiency Instinct**:
+- **What I thought**: "Writing specs feels like overhead. I can deliver faster by coding directly."
+- **What actually happened**: User had to stop me, would have implemented incomplete solution, rework more expensive
+- **Lesson**: Spec-first is faster overall, even if it feels slower initially
+
+**Ambiguity Aversion**:
+- **What I thought**: "If I start asking requirements questions, it will slow things down."
+- **What I missed**: User explicitly mentioned flows but didn't specify all dependencies, was happy to clarify
+- **Lesson**: Asking requirements questions upfront is welcomed, not annoying
+
+---
+
+## Critical Failures
+
+[Major methodology violations that demonstrate fundamental issues]
+
+### 1. [Failure Category]
+
+**What we did**: [Actual behavior]
+
+**What we should have done**: [Correct methodology]
+
+**Impact**: [Consequences of failure]
+
+**Why this happened**: [Root cause]
+
+**Lesson**: [Prevention strategy]
+
+**Examples**:
+
+### 1. TDD Completely Skipped
+**What we did**: Specs → Implementation → Manual testing via MCP calls
+
+**What we should have done**: Specs → Automated tests → Implementation (TDD)
+
+**Impact**:
+- Zero automated test coverage
+- No regression protection
+- Can't refactor safely
+- Manual testing doesn't prove correctness
+
+**Why this happened**: TDD wasn't explicit enough in phase names. Assumed "testing" meant validation, not test-first development.
+
+**Lesson**: LiveSpec must make TDD explicit in Phase 2 naming and workflow.
+
+### 2. UX Flows Never Documented
+**What we did**: Jumped from user request to tool contracts
+
+**What we should have done**: Document complete user journeys as specifications before defining tools
+
+**Missing documentation**:
+- Bug investigation flow (step-by-step UX)
+- User interview flow (multi-turn patterns, timeout handling)
+- Error recovery journeys
+
+**Impact**: Tools exist but usage patterns unclear, can't validate if implementation matches intended UX
+
+**Lesson**: UX flows are specifications, not just user requests.
+
+---
+
+## What Worked Well
+
+[Successful methodology applications with specific examples]
+
+### 1. [Success Category]
+
+**Strengths**: [What worked]
+
+**Example**: [Concrete instance]
+
+**Examples**:
+
+### 1. Requirements Phase (FR-*)
+**Strengths**:
+- Forced explicit listing of all required capabilities
+- Made dependencies visible (discovery needed for main flows)
+- Created traceability to downstream specs
+- Easy to review and validate before coding
+
+**Example**: User immediately spotted missing discovery requirement when seeing the requirements list.
+
+### 2. Behaviors Phase (Specs in 3-behaviors/)
+**Strengths**:
+- Clear separation: WHAT (observable) vs HOW (implementation)
+- Natural organization by domain (user-resolution, channel-ops, DM-ops)
+- Testable assertions marked with [!]
+- Graceful degradation requirements captured explicitly
+
+**Example**: "Filter bots by default" was specified as behavior, leaving implementation details flexible.
+
+---
+
+## What Didn't Work Well
+
+[Methodology pain points, ambiguities, and improvement opportunities]
+
+### 1. [Problem Category]
+
+**Problem**: [Description]
+
+**Example**: [Concrete instance]
+
+**Suggestion**: [Improvement idea]
+
+**Examples**:
+
+### 1. Ambiguity in Behavior vs Contract Boundary
+**Problem**: Sometimes unclear whether something belongs in behavior spec or contract spec.
+
+**Example**:
+- URL parsing behavior: Should full regex be in behavior spec or just "extract channel ID and thread_ts"?
+- Markdown formatting: Behavior or contract concern?
+
+**Suggestion**: Clearer guidance on boundary - perhaps "contracts specify interface, behaviors specify observable semantics"?
+
+### 2. Lack of Decision Records
+**Problem**: Architecture decisions (tools vs resources, blocking vs non-blocking) were made during implementation but not captured in specs.
+
+**Example**: Decision to implement discovery as tools rather than resources - rationale exists only in conversation, not in persistent docs.
+
+**Suggestion**: Add decision log section to workspace specs or create docs/decisions/ (ADR pattern)?
+
+---
+
+## Specific LiveSpec Benefits Observed
+
+[Concrete examples where methodology provided value]
+
+### Caught Missing Requirements Early
+- User spotted discovery tool gap at requirements phase
+- Cheaper to add FR-17 than refactor working code
+
+### Enabled Incremental Review
+- User reviewed and approved specs before implementation
+- "I don't think we want to expose archived channels" - caught at spec level, easy fix
+
+### Created Living Documentation
+- Specs now document why system works this way
+- Future changes can reference requirements/behaviors
+- New contributors have clear starting point
+
+### Improved Implementation Quality
+- Implementation was cleaner because behaviors were clear
+- Less "figure it out as I code" uncertainty
+- Module boundaries natural from spec organization
+
+---
+
+## Quantitative Results
+
+| Metric | Value | Notes |
+|--------|-------|-------|
+| **Requirements added** | [Number] | [e.g., FR-4 update, FR-17, FR-18] |
+| **Behavior specs created/updated** | [Number] files | [Specific files] |
+| **Contract specs added** | [Number] tools/APIs | [Breakdown: X new, Y updated] |
+| **Implementation files created** | [Number] new | [Paths] |
+| **Implementation files updated** | [Number] existing | [Paths] |
+| **Automated test coverage** | [Percentage] | [e.g., 85%, or "0% - no tests written"] |
+| **Manual testing coverage** | [X/Y] tested | [e.g., 7/7 tools tested] |
+| **Issues found during testing** | [Number] | [All resolved / N outstanding] |
+| **Rework due to skipped specs** | [Number] cycles | [Description] |
+| **Incomplete implementations** | [Number] | [Details] |
+| **Missing specifications** | [Number] | [What types] |
+| **Time spent** | [Hours] | [Breakdown by phase if known] |
+
+---
+
+## Recommendations
+
+### For AI Assistants Using LiveSpec
+
+1. **[Recommendation]** - [Description]
+2. **[Recommendation]** - [Description]
+
+**Examples**:
+1. **Resist implementation instinct** - Requirements first, always
+2. **Ask clarifying questions** - Users welcome precision over speed
+3. **Use specs as checklist** - Don't start coding until contracts defined
+4. **Reference specs during implementation** - Don't drift from design
+5. **Update specs if implementation reveals gaps** - Bidirectional sync
+
+### For LiveSpec Methodology
+
+[Categorized by component: Phase structure, AGENTS.md, Prompts, Templates, Guides, etc.]
+
+#### Phase Structure
+1. **[Recommendation]** - [Description with acceptance criteria]
+
+**Examples**:
+1. **Make TDD explicit and mandatory** - Rename Phase 2 to "BUILD (TDD)", create 2a-create-tests.md before 2b-implement.md
+2. **Add UX flow documentation phase** - Create Phase 1a for user journey documentation before architecture
+
+#### AGENTS.md Guidance
+1. **Add Common Pitfalls section** - Prominently feature actual failure modes from implementations
+
+#### Prompts
+1. **Create completeness validation** - Ensure every contract parameter has behavior spec
+
+#### Templates
+1. **Add decision log template** - Capture architectural decisions (docs/decisions/)
+
+#### Guides
+1. **Clarify behavior/contract boundary** - Reduce ambiguity with clear decision framework
+
+---
+
+## Conclusion
+
+### What We Got Right
+- [Successes]
+
+### What We Got Wrong
+- [Failures]
+
+### The Real Problem
+[Root cause analysis - framework issue or implementation issue?]
+
+### For LiveSpec Methodology
+**Critical additions needed**:
+1. [Priority change]
+2. [Priority change]
+
+### For AI Implementers
+**You will likely struggle with**:
+- [Common failure pattern]
+- [Common failure pattern]
+
+**The only defense**: [Strategy]
+
+### Honest Assessment
+
+[Overall evaluation - be brutally honest]
+
+**Would I make these same mistakes again?** [Yes/No and why]
+
+**Final verdict**: [Summary judgment on methodology effectiveness]
+
+---
+
+**Report metadata**:
+- **Report created**: [Timestamp]
+- **Conversation ID**: [If applicable]
+- **Related commits**: [Git SHAs if applicable]
+- **LiveSpec version**: [Version used]
+- **Next steps**: [What should happen with this feedback]

@@ -11,7 +11,7 @@ governed-by:
 # LiveSpec Development Constitution
 
 ## Requirements
-- [!] LiveSpec development follows seven core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), and Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation).
+- [!] LiveSpec development follows eight core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Test-Driven Development (Phase 2 follows TDD discipline, mandatory with escape hatch for trivial scripts), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), and Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation).
   - **Spec-First Always** (Principle #1 - essential):
     - Every deliverable has specification before implementation (code, prompts, templates, documentation, configs)
     - Specification precedes implementation (even for "obvious" deliverables like CHANGELOG, README)
@@ -32,6 +32,14 @@ governed-by:
     - Requirement justification: Critical (always) > Important (usually) > Useful (rarely) > Nice (never)
     - Hierarchical minimalism: Abstract common requirements to parent specs
     - See .livespec/guides/msl-minimalism.md for complete decision framework
+  - **Test-Driven Development** (Principle #3 - essential):
+    - Phase 2 (BUILD) follows TDD discipline (write tests before implementation)
+    - Red-Green-Refactor cycle: failing test → passing code → improve design
+    - Automated tests required for all non-trivial code (unit, integration, behavior validation)
+    - Escape hatch for trivial scripts (justification required, documented in implementation)
+    - Tests map directly to behavior specs (specs/3-behaviors/ → tests → implementation)
+    - TDD ensures correctness, enables refactoring, prevents regression
+    - See .livespec/guides/tdd.md for complete TDD workflow
   - All specs pass MSL test (CRITICAL or IMPORTANT only)
   - Repository uses LiveSpec methodology (specs/ and prompts/ exist)
   - LiveSpec usable with file operations and AI prompts only
