@@ -1,7 +1,7 @@
 ---
 generated: 2025-11-08T11:10:02Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
-version: 3.5.0
+version: 3.5.1
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
@@ -1390,4 +1390,4 @@ Remember: **Start simple, add complexity only when needed. Trust the phases.**
 **Context Positioning Design**: This document follows START/MIDDLE/END structure optimized for AI processing. Critical rules and spec-first guidance appear in START section (primacy bias). Detailed examples and procedures in MIDDLE section. Prompt registry and navigation in END section (recency bias). This design maximizes agent compliance with methodology.
 
 ---
-*Agent configuration for [LiveSpec v3.4.0](https://github.com/chrs-myrs/livespec) - Generated 2025-11-08*
+*Agent configuration for [LiveSpec v3.5.1](https://github.com/chrs-myrs/livespec) - Generated 2025-11-08*

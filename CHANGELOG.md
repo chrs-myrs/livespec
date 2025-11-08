@@ -20,6 +20,65 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.5.1] - 2025-11-08
+
+### 🔧 Learning Internalization & Dogfooding Improvements
+
+This patch release applies learnings from the v3.5.0 session using LiveSpec's own learning internalization process. Demonstrates dogfooding: feedback captured → analyzed → specs updated → methodology improved.
+
+**Impact**: LOW - Incremental improvements to workflows and validation, backward compatible
+
+### Changed
+
+- **Version Synchronization** (⚠️ LOW impact)
+  - Updated: `specs/workspace/version-management.spec.md` - Added `dist/VERSION` to synchronized files
+  - All three version files (`.livespec-version`, `AGENTS.md`, `dist/VERSION`) now validated together
+  - Prevents version drift that breaks upgrade detection
+  - No action required: Validation script updated automatically
+
+- **Session Completion Timing** (⚠️ LOW impact)
+  - Updated: `specs/3-behaviors/session-completion.spec.md` - Threshold changed from 150K → 100K tokens
+  - Updated: `dist/prompts/utils/complete-session.md` - Agent recommends completion at 50% budget (was 75%)
+  - Rationale: Earlier completion maintains better focus (feedback from 127K token session)
+  - No action required: Agents will automatically suggest completion earlier
+
+- **Documentation Updates**
+  - Updated: `AGENTS.md` - Regenerated with workflow improvements and new threshold
+  - Added: Dogfooding validation workflow section
+  - Updated: Session completion detection threshold
+
+### Added
+
+- **Dogfooding Validation Workflow** (⚠️ LOW impact)
+  - Updated: `specs/workspace/workflows.spec.md` - New "Dogfooding Validation Workflow" section
+  - Process: Build → USE → Validate → Commit
+  - Catches integration issues before release (missing files, incomplete workflows, version drift)
+  - Example: Session completion framework discovered version drift via dogfooding
+  - No action required: Informational workflow guidance
+
+- **Learning Internalization Process** (⚠️ LOW impact)
+  - New: `dist/prompts/utils/internalise-learnings.md` - Systematic learning capture
+  - Generated customized prompt for analyzing sessions and updating specs
+  - Maps conversation learnings to appropriate specification locations
+  - Creates feedback loop: session → analysis → spec updates → prevention
+  - No action required: Optional utility for methodology improvement
+
+### Fixed
+
+- Version management validation now includes `dist/VERSION` (was missing)
+- Session completion threshold more appropriate for maintaining focus
+
+### Migration Notes
+
+No migration required. All changes are backward compatible improvements to workflows and validation.
+
+**Upgrading from 3.5.0:**
+- Version tracking now includes `dist/VERSION` - agents will validate all three files
+- Sessions will complete earlier (100K tokens vs 150K) - adjust expectations
+- New dogfooding workflow available for reference when building features
+
+---
+
 ## [3.5.0] - 2025-11-08
 
 ### 🎓 Session Completion & Learning Framework
