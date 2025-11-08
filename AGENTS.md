@@ -1,5 +1,5 @@
 ---
-generated: 2025-11-08T00:00:00Z
+generated: 2025-11-08T11:10:02Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
 version: 3.5.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
@@ -990,6 +990,28 @@ Strategic benefits:
 - Documentation updates accompany prompt/spec changes
 - Spec-first guidance workflow precedes all implementation
 - Learning distribution flows through templates → specs → prompts → AGENTS.md → dist/
+- **Dogfooding validation required before committing new features**
+
+### Dogfooding Validation Workflow
+
+**Build → USE → Validate → Commit** (catches integration issues before release)
+
+**Process:**
+1. Build feature according to specifications
+2. USE the feature in the same session where it was built
+3. Validate feature works as specified (run through actual workflow)
+4. Fix any integration gaps discovered during usage
+5. Commit only after successful real-world validation
+
+**Examples:**
+- Session completion framework: Built feature → ran completion analysis on same session → discovered version drift → fixed before committing
+- Version tracking: Updated version files → ran regeneration workflow → discovered missing dist/VERSION → added to spec
+
+**Why this prevents failures:**
+- Reveals integration gaps (missing files, incomplete workflows)
+- Validates complete end-to-end functionality
+- Catches issues while context is fresh (easier to fix)
+- Demonstrates feature actually works (not just passes tests)
 
 ### Prompt Reorganisation Workflow
 
@@ -1140,7 +1162,7 @@ LiveSpec uses session completion analysis to keep sessions focused and improve m
 
 **Agent should detect and recommend completion when:**
 - Task completed successfully (all todos done)
-- Context approaching 150K tokens (75% of 200K budget)
+- Context approaching 100K tokens (50% of 200K budget)
 - Natural stopping point (ready to commit, switching tasks)
 - User appears stuck (repeated attempts, no progress)
 

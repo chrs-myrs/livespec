@@ -22,7 +22,7 @@ specifies:
 
 - [!] Agent eagerly detects when session should end
   - Task completed successfully (all todos done)
-  - Context approaching 150K tokens (75% of 200K budget)
+  - Context approaching 100K tokens (50% of 200K budget)
   - Natural stopping point (ready to commit, switching tasks)
   - User appears stuck (suggest break + fresh session)
   - Agent recommends completion proactively, not waiting for user request
@@ -86,7 +86,7 @@ specifies:
 ## Validation
 
 - [ ] Agent detects task completion and recommends analysis
-- [ ] Agent detects context approaching 150K tokens and recommends completion
+- [ ] Agent detects context approaching 100K tokens and recommends completion
 - [ ] Agent detects natural stopping point and suggests analysis
 - [ ] User report shows accomplishments, scores, highlights, improvements in ≤15 lines
 - [ ] Compliance JSON written to ~/.claude/livespec/compliance/ with correct structure

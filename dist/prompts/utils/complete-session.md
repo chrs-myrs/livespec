@@ -19,7 +19,7 @@ You are completing a LiveSpec development session. Provide concise analysis, sav
 
 Check if session should end:
 - ✅ Task completed successfully (all todos done)
-- ✅ Context approaching 150K tokens (75% of budget)
+- ✅ Context approaching 100K tokens (50% of budget)
 - ✅ Natural stopping point (ready to commit, switching tasks)
 - ✅ User appears stuck (repeated attempts, no progress)
 

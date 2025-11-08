@@ -65,6 +65,27 @@ governed-by:
       - Direct edits to generated files (AGENTS.md mistake)
       - Broken spec/doc cross-references (clt-formation mistake)
       - Version drift (v3.0.0 in .livespec-version but v2.4.0 in AGENTS.md)
+  - **Dogfooding Validation Workflow** (essential before committing new features):
+    - Build feature following specs → USE feature in current session → THEN commit
+    - Catches integration issues before release (missing files, incomplete workflows, version drift)
+    - Process:
+      1. Build feature according to specifications
+      2. USE the feature in the same session where it was built
+      3. Validate feature works as specified (run through actual workflow)
+      4. Fix any integration gaps discovered during usage
+      5. Commit only after successful real-world validation
+    - Examples:
+      - Session completion framework: Built feature → ran completion analysis on same session → discovered version drift → fixed before committing
+      - Version tracking: Updated version files → ran regeneration workflow → discovered missing dist/VERSION → added to spec
+    - Why this prevents failures:
+      - Reveals integration gaps (missing files, incomplete workflows)
+      - Validates complete end-to-end functionality
+      - Catches issues while context is fresh (easier to fix)
+      - Demonstrates feature actually works (not just passes tests)
+    - Validation criteria:
+      - Feature used successfully in building session
+      - All integration points validated (file references, workflows, version synchronization)
+      - No manual workarounds needed (feature works as specified)
   - **Prompt Reorganisation Workflow** (when adding prompts between existing ones):
     - When adding new prompts between existing prompts or renumbering:
       - **Phase 1: Plan Renumbering**

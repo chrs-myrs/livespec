@@ -16,10 +16,12 @@ governed-by:
 
 - [!] All version-related files remain synchronized across the project
   - `.livespec-version` file contains current version (single source of truth)
+  - `dist/VERSION` contains current version (distributed with methodology)
   - `AGENTS.md` frontmatter `version:` field matches `.livespec-version`
   - `AGENTS.md` footer link text matches `.livespec-version` (e.g., "LiveSpec v3.1.0")
   - `dist/AGENTS.md.template` frontmatter `version:` field matches `.livespec-version`
   - `dist/AGENTS.md.template` footer link text matches `.livespec-version`
+  - All files updated atomically in same commit during release
   - Validation detects mismatches before commits (via validate-project.md)
 
 - [!] Version increments follow semantic versioning principles
@@ -70,18 +72,21 @@ governed-by:
 ```bash
 # Extract versions from all files
 VERSION_FILE=$(cat .livespec-version)
+DIST_VERSION=$(cat dist/VERSION)
 AGENTS_VERSION=$(grep "^version:" AGENTS.md | cut -d' ' -f2)
 AGENTS_FOOTER=$(grep "LiveSpec v" AGENTS.md | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+")
 TEMPLATE_VERSION=$(grep "^version:" dist/AGENTS.md.template | cut -d' ' -f2)
 TEMPLATE_FOOTER=$(grep "LiveSpec v" dist/AGENTS.md.template | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+")
 
 # Verify all match
-if [ "$VERSION_FILE" != "$AGENTS_VERSION" ] || \
+if [ "$VERSION_FILE" != "$DIST_VERSION" ] || \
+   [ "$VERSION_FILE" != "$AGENTS_VERSION" ] || \
    [ "$VERSION_FILE" != "$AGENTS_FOOTER" ] || \
    [ "$VERSION_FILE" != "$TEMPLATE_VERSION" ] || \
    [ "$VERSION_FILE" != "$TEMPLATE_FOOTER" ]; then
   echo "❌ ERROR: Version mismatch detected"
   echo "  .livespec-version: $VERSION_FILE"
+  echo "  dist/VERSION: $DIST_VERSION"
   echo "  AGENTS.md version: $AGENTS_VERSION"
   echo "  AGENTS.md footer: $AGENTS_FOOTER"
   echo "  Template version: $TEMPLATE_VERSION"
