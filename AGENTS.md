@@ -1132,6 +1132,117 @@ When AGENTS.md mentions a topic, look for "See Reference Library: [file]" to fin
 
 ---
 
+## Session Completion & Learning
+
+LiveSpec uses session completion analysis to keep sessions focused and improve methodology.
+
+### When to Complete Sessions (Eagerly)
+
+**Agent should detect and recommend completion when:**
+- Task completed successfully (all todos done)
+- Context approaching 150K tokens (75% of 200K budget)
+- Natural stopping point (ready to commit, switching tasks)
+- User appears stuck (repeated attempts, no progress)
+
+**Benefits of fresh sessions:**
+- Reduced context size = better focus
+- Lower cognitive load
+- Clearer task boundaries
+
+### Unified Session Analysis
+
+**One action at session end:** `dist/prompts/utils/complete-session.md`
+
+**Agent performs:**
+1. Analyze compliance (process + focus efficiency)
+2. Calculate signal-to-noise ratio (context efficiency)
+3. Identify what didn't work (methodology gaps)
+4. Show concise report to user (≤15 lines)
+5. Save data globally for learning
+
+**User sees immediately:**
+- What was accomplished
+- Compliance scores (X/8 process, X/13 focus)
+- What went well (2-3 highlights)
+- What could improve (2-3 suggestions)
+
+### Data Saved Globally
+
+**Two files written to `~/.claude/livespec/`:**
+
+1. **compliance/YYYY-MM-DD-HHMMSS-projectname.json**
+   - Quantitative metrics (scores, context analysis)
+   - Project metadata (name, path, git remote)
+   - Machine-readable for aggregate analysis
+
+2. **feedback/YYYY-MM-DD-HHMMSS-projectname.md**
+   - Concise qualitative feedback (≤10 lines)
+   - What didn't work well
+   - LiveSpec methodology gaps
+   - Improvement suggestions
+
+### Compliance Scoring
+
+**Process Compliance (0-8 points):**
+- Layer 1 (TodoWrite): 0-2 points
+- Layer 2 (Validation): 0-2 points
+- Layer 3 (Plan Mode): 0-3 points
+- Layer 4 (Pre-commit): 0-1 point
+
+**Focus Efficiency (0-13 points):**
+- Tool Efficiency: 0-5 points (Read/Grep/Glob vs Bash)
+- Context Navigation: 0-3 points (AGENTS.md usage)
+- Task Focus: 0-2 points (scope adherence)
+- Context Efficiency: 0-3 points (signal-to-noise ratio)
+  - 3 points: >60% efficiency
+  - 2 points: 40-60% efficiency
+  - 1 point: 20-40% efficiency
+  - 0 points: <20% efficiency
+
+**Levels:**
+- Perfect (100%): 8/8 process + 11+ focus
+- Good (75-99%): 6-7 process + 8+ focus
+- Fair (50-74%): 4-5 process
+- Poor (<50%): 0-3 process
+
+### Signal-to-Noise Ratio
+
+**Measures context efficiency:**
+- Signal = sections actually used during session
+- Noise = sections loaded but never referenced
+- Ratio = (sections used / total sections) × 100%
+
+**Example analysis:**
+- CLAUDE.md: 30% used (MSL, Spec-First, Folder Structure)
+- AGENTS.md: 50% used (LiveSpec methodology)
+- Unused: TMP context, personal details, unused modes
+- Overall: 40% signal-to-noise → 2 points
+
+**Identifies:**
+- Redundancy between CLAUDE.md and AGENTS.md
+- Sections NEVER used across any project
+- Opportunities for context optimization
+
+### How LiveSpec Learns
+
+**This project can analyze global data:**
+- Read all ~/.claude/livespec/feedback/*.md files
+- Find common pain points across projects
+- Identify methodology gaps
+- Update prompts/guides based on real usage
+
+**Future capability:**
+- Prompt to analyze all compliance data
+- Find systemic issues (low context efficiency everywhere)
+- Identify best practices from high-performing sessions
+- Improve AGENTS.md based on actual usage patterns
+
+**See specs:**
+- `specs/3-behaviors/session-completion.spec.md` - Session completion behavior
+- `specs/3-behaviors/prompts/utils-complete-session.spec.md` - Completion prompt spec
+
+---
+
 ## When to Fetch Full Prompts
 
 Cache this document, but fetch full prompts when you need:
@@ -1158,6 +1269,7 @@ Cache this document, but fetch full prompts when you need:
 | Regenerate agents | `.livespec/4-evolve/4d-regenerate-agents.md` | Update AGENTS.md |
 | Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
 | **Upgrade LiveSpec** | `.livespec/utils/upgrade-methodology.md` | **New version released** |
+| Measure session | `dist/prompts/utils/measure-session-compliance.md` | Evaluate compliance |
 | Next steps | `.livespec/utils/next-steps.md` | Workflow navigation |
 | Run spike | `.livespec/utils/run-spike.md` | Time-boxed exploration |
 | Analyze failure | `.livespec/utils/analyze-failure.md` | Adoption issues |
