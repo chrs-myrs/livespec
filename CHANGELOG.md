@@ -20,6 +20,169 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.4.0] - 2025-11-08
+
+### 🎯 Build Configuration Standardization
+
+This minor release introduces `project.yaml` as the standard location for build-time configuration flags that guide AGENTS.md generation and phased workflow selection.
+
+**Key insight**: Scattered configuration (frontmatter in constitution, implicit in PURPOSE.md) made build behavior inconsistent. Centralized config enables programmatic flag checks and clear methodology decisions.
+
+### Added
+
+- **⚠️ Build Configuration Standard** (HIGH IMPACT)
+  - New: `project.yaml` at project root (mandatory for new projects)
+  - Spec: `specs/3-behaviors/config/project-config.spec.md` (350+ lines)
+  - Schema: Project identification, methodology decisions, taxonomy, agent guidance config
+  - Build-time only (guides context generation, not runtime behavior)
+  - Coexists with spec-level frontmatter (project-level in yaml, spec-level in frontmatter)
+  - *Why*: `context_compression` buried in constitution frontmatter, TDD enforcement in prose, domain implicit
+  - *Impact*: HIGH - AGENTS.md regeneration now reads project.yaml for customization
+
+- **Template**: `.livespec/templates/project.yaml.template` (30 lines)
+  - Standard format with placeholders for all required fields
+  - Comments explaining each section
+  - Ready for Phase 0 prompts to use
+  - *Impact*: None (new template for generators)
+
+### Changed
+
+- **⚠️ AGENTS.md Regeneration Updated** (HIGH IMPACT)
+  - Updated: `.livespec/prompts/4-evolve/4d-regenerate-agents.md`
+  - Step 2: Now reads `project.yaml` for build configuration (was: constitution frontmatter only)
+  - Step 3: Generates `project.yaml` if missing (before AGENTS.md generation)
+  - Steps renumbered: 3-8 (was: 2-5)
+  - Configuration affects: spec-first enforcement, TDD guidance, compression strategy, doc filename, target size
+  - *Why*: Centralize all build config in one location
+  - *Impact*: HIGH - Affects AGENTS.md generation workflow
+  - *Migration*: Run 4d-regenerate-agents.md to generate project.yaml and updated AGENTS.md
+
+- **LiveSpec Project Configuration** (MEDIUM IMPACT)
+  - Created: `project.yaml` for LiveSpec itself
+  - Domain: governance
+  - Spec-first: mandatory
+  - TDD: mandatory_with_escape
+  - Context compression: moderate
+  - Workspace scope: constitution, patterns, workflows, taxonomy
+  - *Impact*: MEDIUM - LiveSpec dogfoods new standard
+
+### Configuration Schema
+
+```yaml
+project:
+  name: string
+  description: string
+  keywords: [string]
+
+livespec:
+  version: string
+  methodology:
+    spec_first: mandatory | encouraged | optional
+    tdd: mandatory | mandatory_with_escape | encouraged | optional
+    context_compression: light | moderate | aggressive
+  taxonomy:
+    domain: software | generation | planning | documentation | governance | hybrid
+    workspace_scope: [string]
+    specs_boundary: specifications_only | includes_data | includes_research
+
+agent:
+  doc_format: string           # AGENTS.md or CLAUDE.md
+  context_budget: string        # e.g., "100KB"
+  coverage_target: integer      # e.g., 80
+  verification_mode: active | passive
+```
+
+### Integration Points
+
+**AGENTS.md regeneration** (4d-regenerate-agents.md):
+- Reads `context_compression` → Controls inline vs reference balance
+- Reads `spec_first` → Adjusts verification prompt severity
+- Reads `tdd` → Customizes Phase 2 guidance
+- Reads `domain` → Filters applicable phases
+- Reads `agent.doc_format` → Determines output filename
+
+**Phase 0 setup** (future enhancement):
+- 0a-quick-start.md and 0b-customize-workspace.md will generate project.yaml
+- Reads PURPOSE.md for metadata
+- Prompts for domain and methodology preferences
+
+**Validation scripts** (future enhancement):
+- Read config when present to enforce flags
+- `spec_first: mandatory` → Strict validation fails on missing specs
+- `spec_first: encouraged` → Validation warns on missing specs
+
+### Benefits
+
+**For methodology developers:**
+- Single source of truth for build configuration
+- Programmatic flag checks (no parsing prose)
+- Clear methodology decisions (explicit flags)
+
+**For users:**
+- Transparent build behavior (read project.yaml to understand)
+- Customizable enforcement (adjust flags for project needs)
+- Consistent across projects (same schema)
+
+**For AI agents:**
+- Read flags before enforcing rules (spec_first level)
+- Customize AGENTS.md based on config (compression, budget)
+- Navigate projects understanding taxonomy (domain, workspace scope)
+
+### Design Decisions
+
+✅ **Mandatory** - File required when present (graceful degradation if missing)
+✅ **Coexists with frontmatter** - Project-level in yaml, spec-level in frontmatter
+✅ **Build-time only** - Not loaded into AI context during normal work
+✅ **No versioning** - Simple yaml, no schema evolution complexity
+✅ **Generate on update** - 4d-regenerate-agents.md creates if missing
+
+### Files Modified
+
+**Batch 1: Spec and Template (2 files)**
+- specs/3-behaviors/config/project-config.spec.md (new, 350+ lines)
+- .livespec/templates/project.yaml.template (new, 30 lines)
+
+**Batch 2: Regeneration Prompt (1 file)**
+- .livespec/prompts/4-evolve/4d-regenerate-agents.md (updated, steps 2-8 modified)
+
+**Batch 3: LiveSpec Dogfooding (1 file)**
+- project.yaml (new, LiveSpec's own configuration)
+
+**Total: 4 files created/modified**
+
+### Migration Guide
+
+**For existing LiveSpec users:**
+
+1. **Regenerate AGENTS.md**: Run `.livespec/prompts/4-evolve/4d-regenerate-agents.md`
+   - Prompt will create project.yaml if missing
+   - AGENTS.md generation will read config from project.yaml
+
+2. **Review generated config**: Check `project.yaml` matches your project
+   - Adjust methodology flags if needed (spec_first, tdd, compression)
+   - Verify domain classification accurate
+   - Update workspace_scope if customized
+
+3. **Commit configuration**: `git add project.yaml && git commit -m "Add build configuration"`
+
+**For new projects:**
+- No action needed - Phase 0 prompts will create project.yaml automatically (future enhancement)
+
+**Backward compatibility:** ✅ FULL
+- Missing project.yaml → defaults apply (graceful degradation)
+- Existing projects continue working (4d prompt generates config)
+- No breaking changes to existing prompts or specs
+
+### Validation
+
+- ✅ project.yaml schema documented in spec
+- ✅ Template created with all required fields
+- ✅ 4d-regenerate-agents.md updated to read/generate config
+- ✅ LiveSpec dogfoods standard (project.yaml created)
+- ✅ Integration points documented (AGENTS.md, Phase 0, validation)
+
+---
+
 ## [3.3.1] - 2025-11-06
 
 ### 🎯 Value Pyramid Discoverability & Documentation Projects

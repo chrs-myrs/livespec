@@ -66,25 +66,38 @@ specs/2-strategy/architecture.spec.md
 - workflows.spec.md → 5 phases with entry/exit conditions
 - architecture.spec.md → High-level approach (2-3 sentences)
 
-### 2. Read Context Compression Level
+### 2. Read Build Configuration
 
-Check workspace/constitution.spec.md frontmatter for `context_compression`:
+Check for `project.yaml` at project root:
 
 ```yaml
----
-context_compression: light | moderate | aggressive
----
+livespec:
+  methodology:
+    spec_first: mandatory | encouraged | optional
+    tdd: mandatory | mandatory_with_escape | encouraged | optional
+    context_compression: light | moderate | aggressive
+  taxonomy:
+    domain: software | generation | planning | documentation | governance | hybrid
+    workspace_scope: [list]
+    specs_boundary: specifications_only | includes_data | includes_research
+
+agent:
+  doc_format: AGENTS.md | CLAUDE.md
+  context_budget: 100KB
+  coverage_target: 80
+  verification_mode: active | passive
 ```
 
-**If unspecified**: Assume `moderate` (default)
+**If project.yaml missing**: Generate it first using template at `.livespec/templates/project.yaml.template`
 
-**Compression affects**:
-- How much content to inline vs extract/reference
-- Template insertion strategy
-- Example verbosity
-- Section sizing
+**Configuration affects**:
+- Spec-first enforcement level (mandatory vs encouraged)
+- TDD guidance approach
+- Context compression strategy (inline vs extract)
+- Agent doc filename
+- Target file size
 
-**See**: `.livespec/standard/conventions/context-compression.spec.md` for detailed framework
+**See**: `specs/3-behaviors/config/project-config.spec.md` for schema details
 
 ### 3. Structure AGENTS.md
 
@@ -245,22 +258,36 @@ Each entry: "Fetch when" trigger + "Provides" description + "Cross-ref" to AGENT
 [Note about context positioning design]
 ```
 
-### 3. Generate File
+### 3. Generate project.yaml (if missing)
+
+**If project.yaml doesn't exist**, create it first:
+
+1. Copy template: `.livespec/templates/project.yaml.template` → `project.yaml`
+2. Fill in values:
+   - `project.name` from PURPOSE.md
+   - `project.description` from PURPOSE.md summary
+   - `livespec.version` from VERSION file or AGENTS.md frontmatter
+   - `livespec.taxonomy.domain` from PURPOSE.md or taxonomy.spec.md
+   - Keep defaults for methodology flags
+3. Commit: `git add project.yaml && git commit -m "Add build configuration"`
+
+### 4. Generate AGENTS.md File
 
 **Using AI agent:**
-"Please regenerate AGENTS.md following the structure defined in specs/workspace/workspace-agent.spec.md. Extract content from PURPOSE.md and all specs/workspace/*.spec.md files. Include agent verification templates from `.livespec/templates/agents/` in START section. Keep the file under 100KB and ensure it's self-contained for agent caching."
+"Please regenerate AGENTS.md following the structure defined in specs/workspace/workspace-agent.spec.md. Read configuration from project.yaml. Extract content from PURPOSE.md and all specs/workspace/*.spec.md files. Include agent verification templates from `.livespec/templates/agents/` in START section. Keep the file under configured context_budget and ensure it's self-contained for agent caching."
 
 **Key requirements:**
-- File size < 100KB (trim examples if needed)
+- File size < `agent.context_budget` from project.yaml (trim examples if needed)
+- Filename = `agent.doc_format` from project.yaml
 - Self-contained (80% of questions answerable without additional context)
 - Decision tree prominent (helps agent suggest next steps)
 - Phase descriptions with entry/exit conditions clear
 - MSL format template included
 - Frontmatter shows generation timestamp and source
 
-### 3.5. Apply Context Compression
+### 5. Apply Context Compression
 
-**Based on declared compression level, adjust content strategy:**
+**Based on `livespec.methodology.context_compression` from project.yaml:**
 
 **Light Compression** (verbose, self-contained):
 - Inline full verification checklists in START section
@@ -291,7 +318,7 @@ Each entry: "Fetch when" trigger + "Provides" description + "Cross-ref" to AGENT
 - Moderate: Extract if reused 2+ times or >50 lines
 - Aggressive: Extract almost everything, inline only critical rules
 
-### 3.6. Apply MSL Minimalism to Generated Content
+### 6. Apply MSL Minimalism to Generated Content
 
 **After applying compression, rationalize content:**
 
@@ -328,12 +355,12 @@ For each H2 section, ask:
 - If 90-100KB: Mandatory trimming (remove nice-to-have sections)
 - If >100KB: Aggressive consolidation (keep only critical sections)
 
-### 4. Validate
+### 7. Validate
 
 **Check generated file:**
 ```bash
-# Size check
-ls -lh AGENTS.md  # Should be < 100KB
+# Size check (using agent.doc_format from project.yaml)
+ls -lh AGENTS.md  # Should be < agent.context_budget
 
 # Structure check
 grep "^## " AGENTS.md  # Verify all main sections present
@@ -355,15 +382,16 @@ head -n 10 AGENTS.md  # Verify generated, generator, version fields
   - [ ] Active self-check questions present
   - [ ] Plan review checklist present
 
-### 5. Commit
+### 8. Commit
 
 **If regeneration changes methodology:**
 ```bash
-git add AGENTS.md
+git add AGENTS.md project.yaml
 git commit -m "Regenerate AGENTS.md from updated workspace specs
 
 Updated to reflect changes in:
 - [list changed specs]
+- Added/updated project.yaml build configuration
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 

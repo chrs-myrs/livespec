@@ -1,0 +1,28 @@
+# Project identification
+project:
+  name: livespec
+  description: Specifications that live with your code
+  keywords: [documentation, specifications, ai-agents, methodology, governance]
+
+# LiveSpec methodology configuration
+livespec:
+  version: 3.4.0
+
+  # Core methodology decisions (guides context generation)
+  methodology:
+    spec_first: mandatory              # mandatory | encouraged | optional
+    tdd: mandatory_with_escape         # mandatory | mandatory_with_escape | encouraged | optional
+    context_compression: moderate      # light | moderate | aggressive
+
+  # Project taxonomy (determines phase applicability)
+  taxonomy:
+    domain: governance                 # software | generation | planning | documentation | governance | hybrid
+    workspace_scope: [constitution, patterns, workflows, taxonomy]
+    specs_boundary: specifications_only  # specifications_only | includes_data | includes_research
+
+# Agent guidance configuration (build AGENTS.md)
+agent:
+  doc_format: AGENTS.md                # Or CLAUDE.md for non-governance projects
+  context_budget: 100KB
+  coverage_target: 80
+  verification_mode: active            # active | passive
