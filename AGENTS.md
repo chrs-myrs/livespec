@@ -1,7 +1,7 @@
 ---
 generated: 2025-11-08T00:00:00Z
 generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
-version: 3.4.0
+version: 3.5.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use prompts/4-evolve/4d-regenerate-agents.md
 ---
 
