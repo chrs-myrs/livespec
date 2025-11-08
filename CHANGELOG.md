@@ -20,6 +20,81 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.5.0] - 2025-11-08
+
+### 🎓 Session Completion & Learning Framework
+
+This minor release introduces unified session completion analysis that combines compliance measurement with methodology feedback, creating a continuous learning loop for LiveSpec improvement.
+
+**Key insight**: Sessions running too long reduce focus and waste context. Measuring what works (compliance) and what doesn't (feedback) enables data-driven methodology evolution.
+
+### Added
+
+- **Session Completion Workflow** (NEW FEATURE)
+  - New: `dist/prompts/utils/complete-session.md` - Unified session analysis prompt
+  - Spec: `specs/3-behaviors/session-completion.spec.md` - Session completion behavior
+  - Spec: `specs/3-behaviors/prompts/utils-complete-session.spec.md` - Prompt specification
+  - Agent eagerly detects when sessions should end (task complete, context >75%, natural stopping point)
+  - Single action combines compliance measurement + methodology feedback
+  - Concise report (≤15 lines) shows accomplishments, scores, highlights, improvements
+  - Encourages fresh sessions for better focus
+
+- **Global Learning Storage** (NEW CAPABILITY)
+  - Location: `~/.claude/livespec/compliance/` - Quantitative metrics (JSON)
+  - Location: `~/.claude/livespec/feedback/` - Qualitative insights (markdown, ≤10 lines)
+  - Cross-project learning: LiveSpec can analyze data from all projects
+  - No local duplication: Single source of truth in home directory
+  - Project metadata: Name, path, git remote, LiveSpec version
+
+- **Context Efficiency Measurement** (NEW METRIC)
+  - Signal-to-noise ratio: (sections used / total sections) × 100%
+  - 4th focus efficiency dimension (0-3 points): >60%=3, 40-60%=2, 20-40%=1, <20%=0
+  - Identifies unused CLAUDE.md/AGENTS.md sections across all sessions
+  - Detects redundancy between context files
+  - Focus efficiency scoring expanded: 10 → 13 points total
+
+- **Compliance Scoring** (STANDARDIZED)
+  - Process compliance: 4-layer spec-first enforcement (0-8 points)
+  - Focus efficiency: 4 dimensions including context (0-13 points)
+  - Classification: Perfect (100%), Good (75-99%), Fair (50-74%), Poor (<50%)
+  - Updated levels: Perfect = 8/8 process + 11+ focus (was 8+)
+
+### Changed
+
+- **AGENTS.md** - New "Session Completion & Learning" section replaces "Measurement & Compliance"
+  - Simplified to unified workflow (was: separate measurement + feedback steps)
+  - Emphasis on eager session completion (not just metrics)
+  - Added signal-to-noise ratio explanation with example
+  - Future capability: Analyzing global data for methodology improvement
+
+- **Value Hierarchy** - Session completion traces to PURPOSE.md
+  - Updated: `specs/1-requirements/strategic/outcomes.spec.md` Requirement 6 (Sustainable Evolution)
+  - New entry: `session-completion.spec.md` satisfies feedback loop requirement
+  - Traceability: PURPOSE.md → outcomes.spec.md → session-completion.spec.md → complete-session.md
+
+### Design Principles Applied
+
+- **MSL Minimalism**: Simplified from complex dual-storage + scripts to single prompt workflow
+- **Dogfooding**: Framework itself demonstrates spec-first (all specs created before implementation)
+- **Sustainable Evolution**: Feedback loop enables methodology to learn from real usage
+- **Fresh Context**: Eager session completion keeps context focused (< 150K tokens)
+
+### Migration Notes
+
+This is a new feature - no migration required for existing projects. To use:
+
+1. **Complete sessions**: Use `dist/prompts/utils/complete-session.md` when session should end
+2. **Review feedback**: Check `~/.claude/livespec/feedback/` for methodology gaps
+3. **Analyze compliance**: Read `~/.claude/livespec/compliance/` for quantitative trends
+
+### Impact Assessment
+
+- **New projects**: Automatically benefit from session completion guidance in AGENTS.md
+- **Existing projects**: Opt-in by using complete-session prompt
+- **LiveSpec development**: Can analyze all feedback to improve methodology
+
+---
+
 ## [3.4.0] - 2025-11-08
 
 ### 🎯 Build Configuration Standardization
