@@ -23,6 +23,40 @@ Run drift detection:
 
 ## Drift Detection Process
 
+### 0. Run Structural Validations (New)
+
+Before checking code/spec drift, validate structural integrity:
+
+**Taxonomy structure validation:**
+```bash
+bash scripts/validate-taxonomy-structure.sh
+```
+- Ensures taxonomy.spec.md has all required sections (Project Domain, Workspace Scope, Specs Boundary, AI agents must)
+- Prevents agent confusion about file placement
+
+**Workspace scope audit:**
+```bash
+bash scripts/audit-workspace-scope.sh
+```
+- Detects product-specific content in workspace/ (portability violations)
+- Flags files that fail "Could I use this in ANY project?" test
+
+**Spec purity detection:**
+```bash
+bash scripts/detect-code-in-specs.sh
+```
+- Finds executable implementation code in requirements/strategy specs
+- Enforces WHAT-not-HOW principle (MSL purity)
+
+**Architecture alignment:**
+```bash
+bash scripts/validate-architecture-alignment.sh
+```
+- Verifies directory structures mentioned in architecture specs actually exist
+- Detects spec-reality misalignment (specs describing non-existent structures)
+
+**Fix violations before proceeding** - Structural issues cause false drift signals.
+
 ### 1. Identify Changes
 
 **Since Last Check:**

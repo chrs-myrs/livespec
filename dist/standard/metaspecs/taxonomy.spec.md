@@ -30,11 +30,45 @@ governs: All specs/workspace/taxonomy.spec.md files
   - Frontmatter includes `applies_to: this_project`
 
 ## Validation
+
+### Manual Validation
 - Every LiveSpec project has specs/workspace/taxonomy.spec.md
-- Taxonomy contains all three required classifications (Domain, Workspace Scope, Specs Boundary)
+- Taxonomy contains all four required sections (Domain, Workspace Scope, Specs Boundary, AI agents must)
 - Workspace scope explicitly lists portable vs product-specific content
 - Specs boundary clearly separates specifications from data/artifacts
 - AI agents reference taxonomy before file creation decisions
+
+### Automated Validation
+
+**Taxonomy structure validation:**
+```bash
+bash scripts/validate-taxonomy-structure.sh
+```
+
+**Checks:**
+- Presence of all four required section headings
+- Reports missing sections with remediation guidance
+- Blocks commit if sections missing (via pre-commit hook)
+
+**Workspace scope audit:**
+```bash
+bash scripts/audit-workspace-scope.sh
+```
+
+**Checks:**
+- Applies portability test to each workspace/ file
+- Detects product-specific indicators (features, organization names, architecture constraints)
+- Reports violations with relocation suggestions
+
+**When to validate:**
+- After Phase 0 (DEFINE) workspace setup
+- Before releases (verify clean boundary)
+- Monthly maintenance (prevent scope creep)
+- After adding files to workspace/
+
+**Exit codes:**
+- 0 = All validations pass
+- 1 = Violations detected (see output for remediation)
 
 ## Domain Classification Guidance
 

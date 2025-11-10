@@ -20,6 +20,138 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.5.2] - 2025-11-10
+
+### 🛡️ Enforcement Infrastructure & Validation Framework
+
+This patch release addresses the root cause identified in failed project implementations: **weak enforcement of LiveSpec principles**. Based on analysis of project-governance failure modes, adds proactive validation scripts and comprehensive guidance to make compliance the path of least resistance.
+
+**Impact**: MEDIUM - New validation tools strengthen enforcement, backward compatible but highly recommended for adoption
+
+### Added
+
+- **Taxonomy Structure Validation** (⚠️ MEDIUM impact)
+  - New: `scripts/validate-taxonomy-structure.sh` - Validates all 4 required sections in taxonomy.spec.md
+  - Checks: Project Domain, Workspace Scope, Specs Boundary, AI agents must sections
+  - Prevents agent confusion about file placement decisions
+  - Discovered: LiveSpec's own taxonomy needs structure fix (dogfooding validation)
+  - Action recommended: Run validation on your projects, fix any missing sections
+
+- **Workspace Scope Audit** (⚠️ MEDIUM impact)
+  - New: `scripts/audit-workspace-scope.sh` - Detects product-specific content in workspace/
+  - Applies portability test: "Could I use this in ANY project?"
+  - Prevents workspace pollution with product features/architecture
+  - Historical context: Catches exact failure from project-governance (TMP taxonomy in workspace/)
+  - Action recommended: Audit your workspace/ directory, relocate product content
+
+- **Spec Purity Detection** (⚠️ MEDIUM impact)
+  - New: `scripts/detect-code-in-specs.sh` - Finds executable code in requirements/strategy specs
+  - Enforces WHAT-not-HOW principle (MSL purity)
+  - Detects procedural code (Python, TypeScript, bash loops) in declarative specs
+  - Historical context: Catches Python caching implementation in policy-resolution.spec.md
+  - Action recommended: Scan your specs, remove implementation details
+
+- **Architecture Alignment Validation** (⚠️ LOW impact)
+  - New: `scripts/validate-architecture-alignment.sh` - Verifies referenced directories exist
+  - Prevents spec-reality drift (specs describing non-existent structures)
+  - Historical context: Would catch project-governance describing policies/, templates/, src/ that don't exist
+  - Action optional: Run if architecture specs reference directory structures
+
+- **Comprehensive Workspace Scope Guide** (⚠️ LOW impact)
+  - New: `dist/guides/workspace-scope-clarity.md` - Deep dive on portability principle
+  - Explains "two taxonomies confusion" (product taxonomy vs project taxonomy)
+  - Real examples from project-governance failure mode
+  - Decision framework for workspace vs product boundary
+  - Action optional: Reference when unclear about workspace/ placement
+
+- **Validation Utility Prompts** (⚠️ LOW impact)
+  - New: `dist/prompts/utils/audit-workspace-scope.md` - Guides agents through portability testing
+  - New: `dist/prompts/utils/validate-spec-purity.md` - Guides agents through code-in-specs detection
+  - New: 6 behavior specifications for validation workflows (specs/3-behaviors/validation/)
+  - Action optional: Use prompts for guided validation sessions
+
+### Changed
+
+- **Phase 0 (DEFINE) Enhanced** (⚠️ MEDIUM impact)
+  - Updated: `dist/prompts/0-define/0b-customize-workspace.md` - Added taxonomy validation step
+  - Agents now run `scripts/validate-taxonomy-structure.sh` after creating taxonomy
+  - Ensures complete taxonomy before proceeding to Phase 1
+  - Action recommended: Use updated prompt for new projects
+
+- **Phase 4 (EVOLVE) Enhanced** (⚠️ MEDIUM impact)
+  - Updated: `dist/prompts/4-evolve/4a-detect-drift.md` - Added structural validations phase
+  - Drift detection now starts with 4 structural validations before code/spec comparison
+  - Prevents false drift signals from structural issues
+  - Action recommended: Run structural validations before drift detection
+
+- **Project Validation Enhanced** (⚠️ MEDIUM impact)
+  - Updated: `dist/prompts/utils/validate-project.md` - Integrated 4 new validation scripts
+  - Comprehensive validation now includes taxonomy, workspace scope, spec purity, architecture alignment
+  - Action recommended: Use enhanced validation before releases
+
+- **MSL Minimalism Guide Enhanced** (⚠️ LOW impact)
+  - Updated: `dist/guides/msl-minimalism.md` - Added "Code in Specs = HOW Violation" section
+  - Clear guidance on when code blocks are acceptable vs violations
+  - Examples: Python implementation (violation) vs JSON config (acceptable)
+  - Action optional: Reference when writing specifications
+
+- **Taxonomy Metaspec Enhanced** (⚠️ LOW impact)
+  - Updated: `dist/standard/metaspecs/taxonomy.spec.md` - Added automated validation section
+  - Documents validation scripts and when to run them
+  - Action optional: Informational update
+
+- **AGENTS.md Enhanced** (⚠️ LOW impact)
+  - Updated: `AGENTS.md` - Added 4 new anti-patterns with validation scripts
+  - Added workspace scope clarity guide to reference library
+  - Added 2 new utility prompts to prompt navigation table
+  - Action optional: Agents automatically use updated guidance
+
+### Fixed
+
+- Taxonomy structure validation catches incomplete taxonomies (missing required sections)
+- Workspace scope audit prevents product-specific content accumulation
+- Spec purity detection enforces MSL minimalism (WHAT not HOW)
+- Architecture alignment prevents spec-reality drift
+
+### Historical Context
+
+This release directly addresses failure modes discovered in project-governance analysis:
+
+1. **Incomplete taxonomy** → Agent had no guidance on file placement → `validate-taxonomy-structure.sh`
+2. **Product taxonomy in workspace/** → Violated portability principle → `audit-workspace-scope.sh`
+3. **Python code in strategy specs** → Violated WHAT-not-HOW → `detect-code-in-specs.sh`
+4. **Specs describing non-existent directories** → Spec-reality drift → `validate-architecture-alignment.sh`
+
+**User quote**: "I had to re-iterate many fundamental LiveSpec principles" → Now enforced structurally
+
+### Dogfooding Validation
+
+All 4 validation scripts tested on:
+- ✅ **project-governance** (failed project) - Caught all identified issues
+- ✅ **LiveSpec itself** - Discovered LiveSpec's own taxonomy structure issue
+
+### Migration Notes
+
+**Upgrading from 3.5.1:**
+
+**Recommended actions:**
+1. Run `bash scripts/validate-taxonomy-structure.sh` - Fix any missing sections
+2. Run `bash scripts/audit-workspace-scope.sh` - Relocate any product content from workspace/
+3. Run `bash scripts/detect-code-in-specs.sh` - Remove implementation code from specs
+4. Read `dist/guides/workspace-scope-clarity.md` if workspace boundary unclear
+
+**Optional:**
+- Integrate validations into your pre-commit hooks
+- Use new utility prompts for guided validation sessions
+- Run `bash scripts/validate-architecture-alignment.sh` if architecture specs reference directories
+
+**Backward compatibility:**
+- All validation scripts are non-destructive (report only)
+- Existing workflows continue to work
+- New validations supplement existing validation, don't replace
+
+---
+
 ## [3.5.1] - 2025-11-08
 
 ### 🔧 Learning Internalization & Dogfooding Improvements

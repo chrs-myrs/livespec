@@ -35,6 +35,48 @@ Default to the highest applicable level:
 3. **Interface Level**: "Auth endpoint returns 401 for bad credentials"
 4. **Implementation Level**: "Use bcrypt with 10 rounds" ← **Avoid unless critical**
 
+## Code in Specs = HOW Violation
+
+**Red flag**: If your spec contains executable code, you're specifying HOW, not WHAT.
+
+### Common Violations
+
+**❌ Wrong** (implementation details):
+```python
+# In specs/2-strategy/caching.spec.md
+cache_key = hash(f"{nature}|{type}|{deployment}")
+if mtime > cache_mtime:
+    clear_cache()
+```
+
+**✅ Right** (declarative requirement):
+```markdown
+## Requirements
+- [!] System caches composed policy sets for performance
+  - Cache keyed by taxonomy dimensions
+  - Cache invalidated when source modified
+```
+
+### When Code Appears Acceptable
+
+**Declarative examples (OK):**
+- JSON/YAML configuration (settings, not logic)
+- API request/response examples in contracts
+- Data schemas (TypeScript interfaces, JSON Schema)
+- Mermaid diagrams
+
+**Procedural code (NOT OK):**
+- Function definitions, control flow, loops
+- Variable assignments and mutations
+- Step-by-step algorithms
+- Language-specific implementations
+
+### Test: "Is this logic or data?"
+- **Data/config** → May include in spec as example
+- **Logic/procedure** → Remove, state requirement declaratively
+
+**Historical context**: This guidance prevents the exact issue found in project-governance where Python caching implementation appeared in strategy spec, violating WHAT-not-HOW principle.
+
 ## Requirement Justification Scale
 
 - **Critical**: System fails without this → **Always include**

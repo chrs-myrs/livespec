@@ -892,6 +892,31 @@ Bad:  Everything marked CRITICAL
 Good: Only truly critical requirements marked CRITICAL
 ```
 
+❌ **Incomplete Taxonomy** (NEW)
+```
+Bad:  taxonomy.spec.md missing Project Domain, Workspace Scope, or Specs Boundary sections
+Good: All four required sections present (run scripts/validate-taxonomy-structure.sh)
+```
+
+❌ **Product Content in Workspace** (NEW)
+```
+Bad:  specs/workspace/taxonomy.spec.md contains TMP product taxonomy dimensions
+Good: Workspace contains only portable methodology (run scripts/audit-workspace-scope.sh)
+Test: "Could I use this in ANY project?" → NO → Not workspace
+```
+
+❌ **Code in Specs** (NEW)
+```
+Bad:  specs/2-strategy/policy-resolution.spec.md contains Python implementation code
+Good: Specifications are declarative (WHAT not HOW, run scripts/detect-code-in-specs.sh)
+```
+
+❌ **Spec-Reality Drift** (NEW)
+```
+Bad:  architecture.spec.md describes policies/, templates/, src/ directories that don't exist
+Good: Architecture specs align with reality (run scripts/validate-architecture-alignment.sh)
+```
+
 **See Reference Library**: `common-pitfalls.md` for real-world failure examples, cognitive bias analysis, and prevention strategies based on actual implementations.
 
 ## Bidirectional Linking
@@ -1148,6 +1173,11 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 - **Provides**: Clear separation rules, decision framework, common boundary violations, dual linkage pattern
 - **Cross-ref**: Behaviors (WHAT outcomes) vs Contracts (WHAT interfaces)
 
+**Workspace Scope Clarity** - `dist/guides/workspace-scope-clarity.md` (NEW)
+- **Fetch when**: Unclear what belongs in workspace/, after creating workspace specs, product content appearing in workspace/
+- **Provides**: Portability test framework, product vs methodology distinction, two taxonomies confusion explained, real examples from project-governance
+- **Cross-ref**: See "Product Content in Workspace" anti-pattern, workspace scope audit utility
+
 ### Navigation Pattern
 
 When AGENTS.md mentions a topic, look for "See Reference Library: [file]" to find detailed spec.
@@ -1292,6 +1322,8 @@ Cache this document, but fetch full prompts when you need:
 | Validate extractions | `.livespec/4-evolve/4e-validate-extractions.md` | Review low-confidence specs |
 | **Upgrade LiveSpec** | `.livespec/utils/upgrade-methodology.md` | **New version released** |
 | Measure session | `dist/prompts/utils/measure-session-compliance.md` | Evaluate compliance |
+| **Audit workspace scope** | `dist/prompts/utils/audit-workspace-scope.md` | **Verify portability (NEW)** |
+| **Validate spec purity** | `dist/prompts/utils/validate-spec-purity.md` | **Detect code in specs (NEW)** |
 | Next steps | `.livespec/utils/next-steps.md` | Workflow navigation |
 | Run spike | `.livespec/utils/run-spike.md` | Time-boxed exploration |
 | Analyze failure | `.livespec/utils/analyze-failure.md` | Adoption issues |
@@ -1390,4 +1422,4 @@ Remember: **Start simple, add complexity only when needed. Trust the phases.**
 **Context Positioning Design**: This document follows START/MIDDLE/END structure optimized for AI processing. Critical rules and spec-first guidance appear in START section (primacy bias). Detailed examples and procedures in MIDDLE section. Prompt registry and navigation in END section (recency bias). This design maximizes agent compliance with methodology.
 
 ---
-*Agent configuration for [LiveSpec v3.5.1](https://github.com/chrs-myrs/livespec) - Generated 2025-11-08*
+*Agent configuration for [LiveSpec v3.5.2](https://github.com/chrs-myrs/livespec) - Generated 2025-11-10*

@@ -86,6 +86,16 @@ Ask the user:
    - "It prevents common mistakes like putting product features in workspace/ or data in specs/"
    - "Does this classification make sense for your project?" (allow user to refine)
 
+7. **Validate taxonomy structure:**
+   - Run: `bash scripts/validate-taxonomy-structure.sh`
+   - Verify all four required sections present:
+     - Project Domain
+     - Workspace Scope
+     - Specs Boundary
+     - AI agents must
+   - If validation fails, add missing sections using metaspec guidance
+   - Validation ensures taxonomy provides complete agent guidance
+
 ### Step 4: Create Workspace Specifications
 
 Using appropriate template from `dist/templates/workspace/constitution-[level].md.template` and referencing taxonomy, create three workspace specifications:

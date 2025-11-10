@@ -21,10 +21,40 @@ derives-from:
 1. **Cross-references**: All frontmatter references between specs, docs, and implementation
 2. **Generated files**: Detection of direct edits that bypass source-of-truth
 3. **Version synchronisation**: All version indicators match .livespec-version
+4. **Taxonomy structure**: Required sections present in taxonomy.spec.md (NEW)
+5. **Workspace scope**: Product-specific content not in workspace/ (NEW)
+6. **Spec purity**: No implementation code in requirements/strategy specs (NEW)
+7. **Architecture alignment**: Referenced directories actually exist (NEW)
 
 ---
 
 ## Validation Process
+
+### Phase 0: Structural Validations (NEW)
+
+Run the four new validation scripts:
+
+```bash
+# Taxonomy structure
+bash scripts/validate-taxonomy-structure.sh
+
+# Workspace scope
+bash scripts/audit-workspace-scope.sh
+
+# Spec purity
+bash scripts/detect-code-in-specs.sh
+
+# Architecture alignment
+bash scripts/validate-architecture-alignment.sh
+```
+
+**Fix any violations before proceeding to Phase 1.**
+
+These validations prevent:
+- Agent confusion (incomplete taxonomy)
+- Workspace pollution (product-specific content)
+- MSL violations (code in specs)
+- Spec-reality drift (non-existent directories)
 
 ### Phase 1: Cross-Reference Validation
 
