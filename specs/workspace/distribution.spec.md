@@ -40,6 +40,30 @@ derives-from:
   - Customized to project PURPOSE, principles, and spec structure
 - **.livespec/** - Copied from dist/ on project setup (gitignored)
 
+### Bootstrap AGENTS.md Pattern
+- **dist/AGENTS.md** - Bootstrap version (minimal, ~5KB, instructs generation)
+- **Project AGENTS.md** - Generated from workspace specs (30-40KB, routing)
+- **Project ctxt/** - Generated sub-agent contexts (not distributed)
+  - ctxt/phases/ - 5 phase specialists
+  - ctxt/domains/ - Domain-specific patterns
+  - ctxt/utils/ - 3 utility specialists
+- **Generation**: Use `.livespec/prompts/utils/regenerate-contexts.md`
+- **Timing**: Immediately after Phase 0 (workspace specs established)
+
+**Bootstrap AGENTS.md content**:
+- No frontmatter (clean agent context)
+- Inline edit warning
+- Summary of bootstrap purpose
+- Instructions to regenerate full context tree
+- Minimal essential rules (spec-first, MSL format)
+- Path to Phase 0 for new projects
+
+**Generated AGENTS.md + ctxt/ content**:
+- Customized to project PURPOSE, domain, constraints
+- Root AGENTS.md: Routing to specialized sub-agents
+- Sub-agents: Phase/domain/utility specialists with proactive loading
+- Total tree <150KB, typical loaded <60KB
+
 ## Why Symlinks
 
 **Benefits:**
@@ -141,10 +165,13 @@ prompts/generated/ # Real directory with project-specific content
 
 ## Validation
 - dist/ contains canonical framework source
+- dist/AGENTS.md is bootstrap version (~5KB, instructs generation)
 - prompts/ uses symlinks to dist/prompts/* (no duplication)
 - prompts/generated/ contains project-specific content
 - Generated prompts committed to version control
 - .livespec/ copied from dist/ (gitignored in projects)
+- Project AGENTS.md generated from workspace specs (after Phase 0)
+- Project ctxt/ generated alongside AGENTS.md (not distributed)
 - Templates follow structure and naming conventions
 - Reference Library uses `.livespec/` prefix consistently
 - No drift between framework and project copies

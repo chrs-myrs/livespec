@@ -6,8 +6,10 @@ derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
+  - specs/workspace/agent-contexts.spec.md
 supports:
   - prompts/4-evolve/4d-regenerate-agents.md
+  - .livespec/prompts/utils/regenerate-contexts.md
 criticality: CRITICAL
 failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
 governed-by:
@@ -18,6 +20,15 @@ governed-by:
 
 ## Requirements
 - [!] Root AGENTS.md file provides AI agents with complete LiveSpec methodology context in single cacheable document, enabling agents to guide users through all 5 phases without requiring slash commands or CLI tools.
+
+- [!] AGENTS.md evolves from monolithic structure to hierarchical context tree (root + ctxt/ sub-agents) to improve agent focus efficiency through proactive specialized loading.
+  - **Monolithic pattern** (legacy): Single 50-60KB AGENTS.md with all methodology
+  - **Context tree pattern** (current): Root AGENTS.md (30-40KB, routing) + ctxt/ specialists
+  - **Generation**: Use `.livespec/prompts/utils/regenerate-contexts.md` to build tree
+  - **Distribution**: dist/AGENTS.md is bootstrap (~5KB), instructs generation after Phase 0
+  - **Proactive loading**: Agent reads root, autonomously loads ctxt/ sub-agents based on task
+  - **Governance**: specs/workspace/agent-contexts.spec.md defines tree structure
+  - **Benefits**: Better focus (specialized contexts), reduced overload (load what's needed), improved signal-to-noise (60% vs 20%)
 
 **Generated from:**
 - PURPOSE.md (project vision and success criteria)

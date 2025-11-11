@@ -22,13 +22,13 @@ else
     echo "✅ AGENTS.md version correct"
 fi
 
-# 2. Check dist/AGENTS.md.template frontmatter
-TEMPLATE_VERSION=$(grep "^version:" dist/AGENTS.md.template | head -1 | sed 's/version: //')
-if [ "$TEMPLATE_VERSION" != "$CANONICAL_VERSION" ]; then
-    echo "❌ dist/AGENTS.md.template version mismatch: $TEMPLATE_VERSION (expected: $CANONICAL_VERSION)"
+# 2. Check dist/VERSION
+DIST_VERSION=$(cat dist/VERSION 2>/dev/null)
+if [ "$DIST_VERSION" != "$CANONICAL_VERSION" ]; then
+    echo "❌ dist/VERSION mismatch: $DIST_VERSION (expected: $CANONICAL_VERSION)"
     ERRORS=$((ERRORS + 1))
 else
-    echo "✅ dist/AGENTS.md.template version correct"
+    echo "✅ dist/VERSION correct"
 fi
 
 # 3. Check README.md title
@@ -47,12 +47,12 @@ else
     echo "✅ llms.txt version correct"
 fi
 
-# 5. Check that VERSION file doesn't exist (deprecated)
+# 5. Check that root VERSION file doesn't exist (use dist/VERSION instead)
 if [ -f VERSION ]; then
-    echo "❌ Obsolete VERSION file exists (should use .livespec-version only)"
+    echo "❌ Obsolete root VERSION file exists (should use dist/VERSION for distribution)"
     ERRORS=$((ERRORS + 1))
 else
-    echo "✅ No obsolete VERSION file"
+    echo "✅ No obsolete root VERSION file"
 fi
 
 # Report results

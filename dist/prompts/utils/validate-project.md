@@ -202,10 +202,8 @@ grep -r "MANUAL SECTION START" . --include="*.md" -l
 ```bash
 # Extract version from each file
 VERSION_FILE=$(cat .livespec-version 2>/dev/null)
-AGENTS_VERSION=$(grep "^version:" AGENTS.md 2>/dev/null | head -1 | awk '{print $2}')
+DIST_VERSION=$(cat dist/VERSION 2>/dev/null)
 AGENTS_FOOTER=$(grep "LiveSpec v" AGENTS.md 2>/dev/null | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+" | head -1)
-TEMPLATE_VERSION=$(grep "^version:" dist/AGENTS.md.template 2>/dev/null | head -1 | awk '{print $2}')
-TEMPLATE_FOOTER=$(grep "LiveSpec v" dist/AGENTS.md.template 2>/dev/null | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+" | head -1)
 ```
 
 **Validate synchronisation:**
@@ -227,17 +225,13 @@ TEMPLATE_FOOTER=$(grep "LiveSpec v" dist/AGENTS.md.template 2>/dev/null | grep -
 ### ❌ ERRORS (version mismatch)
 - **Version indicators out of sync**
   - .livespec-version: 3.1.0 ✓ (source of truth)
-  - AGENTS.md version: 2.4.0 ✗
+  - dist/VERSION: 2.4.0 ✗
   - AGENTS.md footer: 2.4.0 ✗
-  - Template version: 2.4.0 ✗
-  - Template footer: 2.1.0 ✗
 
 **Fix:**
 1. Update all version indicators to match .livespec-version:
-   - AGENTS.md frontmatter: `version: 3.1.0`
+   - dist/VERSION: `3.1.0`
    - AGENTS.md footer: `LiveSpec v3.1.0`
-   - dist/AGENTS.md.template frontmatter: `version: 3.1.0`
-   - dist/AGENTS.md.template footer: `LiveSpec v3.1.0`
 2. Or if .livespec-version is wrong, update it first, then others
 3. See specs/workspace/version-management.spec.md for workflow
 
@@ -304,21 +298,15 @@ echo ""
 
 if [[ -f .livespec-version ]]; then
   VERSION_FILE=$(cat .livespec-version)
-  AGENTS_VERSION=$(grep "^version:" AGENTS.md 2>/dev/null | head -1 | awk '{print $2}')
+  DIST_VERSION=$(cat dist/VERSION 2>/dev/null)
   AGENTS_FOOTER=$(grep "LiveSpec v" AGENTS.md 2>/dev/null | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+" | head -1)
-  TEMPLATE_VERSION=$(grep "^version:" dist/AGENTS.md.template 2>/dev/null | head -1 | awk '{print $2}')
-  TEMPLATE_FOOTER=$(grep "LiveSpec v" dist/AGENTS.md.template 2>/dev/null | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+" | head -1)
 
-  if [[ "$VERSION_FILE" != "$AGENTS_VERSION" ]] || \
-     [[ "$VERSION_FILE" != "$AGENTS_FOOTER" ]] || \
-     [[ "$VERSION_FILE" != "$TEMPLATE_VERSION" ]] || \
-     [[ "$VERSION_FILE" != "$TEMPLATE_FOOTER" ]]; then
+  if [[ "$VERSION_FILE" != "$DIST_VERSION" ]] || \
+     [[ "$VERSION_FILE" != "$AGENTS_FOOTER" ]]; then
     echo "❌ ERROR: Version mismatch detected"
     echo "  .livespec-version: $VERSION_FILE"
-    echo "  AGENTS.md version: $AGENTS_VERSION"
+    echo "  dist/VERSION: $DIST_VERSION"
     echo "  AGENTS.md footer: $AGENTS_FOOTER"
-    echo "  Template version: $TEMPLATE_VERSION"
-    echo "  Template footer: $TEMPLATE_FOOTER"
     ((errors++))
   else
     echo "✓ All versions synchronized at $VERSION_FILE"

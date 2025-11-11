@@ -11,7 +11,7 @@ governed-by:
 # LiveSpec Development Constitution
 
 ## Requirements
-- [!] LiveSpec development follows eight core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Test-Driven Development (Phase 2 follows TDD discipline, mandatory with escape hatch for trivial scripts), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), and Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation).
+- [!] LiveSpec development follows nine core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Test-Driven Development (Phase 2 follows TDD discipline, mandatory with escape hatch for trivial scripts), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation), and Clean Evolution (no deprecation or backwards compatibility, evolve forward without legacy baggage).
   - **Spec-First Always** (Principle #1 - essential):
     - Every deliverable has specification before implementation (code, prompts, templates, documentation, configs)
     - Specification precedes implementation (even for "obvious" deliverables like CHANGELOG, README)
@@ -67,3 +67,12 @@ governed-by:
       - Balanced inline/reference approach (critical inline, details referenced)
       - Configurable: Light (verbose) | Moderate (balanced) | Aggressive (dense)
       - Framework: `.livespec/standard/conventions/context-compression.spec.md`
+  - **Clean Evolution** (Principle #8 - LiveSpec project only):
+    - LiveSpec itself evolves without backwards compatibility or deprecation cycles
+    - Old patterns deleted, not deprecated (no .deprecated files, no legacy code paths)
+    - Users on old versions use their copied dist/ (already have it, not broken)
+    - New users get current best practice only (no confusion from multiple patterns)
+    - Lean codebase with no accumulated baggage
+    - Dogfoods "remain lean" principle (LiveSpec practices what it preaches)
+    - **Not imposed on projects using LiveSpec** (projects can handle backwards compatibility as needed)
+    - **LiveSpec-specific constraint** (governance framework development philosophy)
