@@ -48,6 +48,61 @@ bash scripts/detect-code-in-specs.sh
 bash scripts/validate-architecture-alignment.sh
 ```
 
+**Slash Command Validation:**
+
+Check all 11 LiveSpec slash commands exist and are synchronized:
+
+```bash
+# Check command directory exists
+test -d .claude/commands/livespec || echo "⚠️ WARNING: .claude/commands/livespec/ missing (run generate-slash-commands.md)"
+
+# Check all 11 commands exist
+COMMANDS=(
+  "complete-session"
+  "rebuild-agents"
+  "refine-workspace"
+  "suggest-improvements"
+  "health-report"
+  "validate"
+  "audit"
+  "next-steps"
+  "run-spike"
+  "analyze-failure"
+  "upgrade"
+)
+
+MISSING=0
+for cmd in "${COMMANDS[@]}"; do
+  if [ ! -f ".claude/commands/livespec/$cmd.md" ]; then
+    echo "❌ ERROR: Missing command: .claude/commands/livespec/$cmd.md"
+    MISSING=$((MISSING + 1))
+  fi
+done
+
+if [ $MISSING -gt 0 ]; then
+  echo "❌ $MISSING slash commands missing. Run: dist/prompts/utils/generate-slash-commands.md"
+fi
+
+# Check generated commands have metadata
+STALE=0
+for cmd_file in .claude/commands/livespec/*.md; do
+  if [ -f "$cmd_file" ]; then
+    if grep -q "^generated_by: livespec$" "$cmd_file"; then
+      # Check prompt path exists
+      PROMPT=$(grep "^prompt:" "$cmd_file" | cut -d' ' -f2)
+      if [ "$PROMPT" != "Multiple" ] && [ ! -f "$PROMPT" ]; then
+        echo "⚠️ WARNING: $cmd_file references missing prompt: $PROMPT"
+        STALE=$((STALE + 1))
+      fi
+    fi
+  fi
+done
+
+if [ $STALE -gt 0 ]; then
+  echo "⚠️ $STALE commands reference missing prompts. Consider regenerating."
+fi
+```
+
 **Fix any violations before proceeding to Phase 1.**
 
 These validations prevent:
@@ -55,6 +110,7 @@ These validations prevent:
 - Workspace pollution (product-specific content)
 - MSL violations (code in specs)
 - Spec-reality drift (non-existent directories)
+- Utility discoverability issues (missing/stale slash commands)
 
 ### Phase 1: Cross-Reference Validation
 

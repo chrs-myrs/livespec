@@ -16,14 +16,14 @@ guided-by:
 # Prompt Registry
 
 ## Requirements
-- [!] LiveSpec provides exactly 30 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
+- [!] LiveSpec provides exactly 36 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
   - Each prompt has corresponding behavior spec in specs/3-behaviors/prompts/
   - Phase 0 (DEFINE): 8 prompts establishing foundation (quick-start + customize + validation)
   - Phase 1 (DESIGN): 4 prompts specifying solution
   - Phase 2 (BUILD): 2 prompts implementing code
   - Phase 3 (VERIFY): 2 prompts validating correctness
   - Phase 4 (EVOLVE): 6 prompts maintaining synchronisation
-  - Utils: 8 prompts for special situations (session completion, strategic improvements, health diagnostics, workspace optimization, workflow analysis, spikes, upgrade)
+  - Utils: 14 prompts for special situations (session completion, strategic improvements, health diagnostics, workspace optimization, workflow analysis, spikes, upgrade, audits, slash command generation)
   - Registry matches five-phases.spec.md structure
   - All prompt paths and outputs documented accurately
   - Bidirectional links maintained (prompts → specs, specs → prompts)
@@ -82,30 +82,38 @@ Maintain synchronisation between specs and code.
 | 4e-validate-extractions | 4e-validate-extractions.spec.md | Promoted specs | Review low-confidence extracted specs |
 | 4f-document-implementation | 4f-document-implementation.spec.md | var/implementation-reports/*.md | Create comprehensive implementation feedback report |
 
-### Utils (8 prompts)
+### Utils (14 prompts)
 Special situation handlers and continuous improvement.
 
 | Prompt | Spec | Output | Purpose |
 |--------|------|--------|---------|
 | analyze-failure | analyze-failure.spec.md | specs/failure-analysis.md | Forensic analysis when adoption fails |
-| next-steps | next-steps.spec.md | Status report | Workflow orchestration and navigation |
-| run-spike | run-spike.spec.md | specs/spikes/*.md | Time-boxed technical exploration |
-| upgrade-methodology | utils-upgrade.spec.md | Upgraded .livespec/ | Migrate to new LiveSpec version |
+| audit-context-compression | utils-audit-context-compression.spec.md | var/audits/context-*.md | Analyze context compression effectiveness |
+| **audit-msl-minimalism** | **utils-audit-msl-minimalism.spec.md** | **var/audits/minimalism-*.md** | **Check specs for over-specification using MSL principles** |
+| **audit-spec-coverage** | **utils-audit-spec-coverage.spec.md** | **var/audits/coverage-*.md** | **Verify all permanent files have specifications** |
+| audit-workspace-scope | utils-audit-workspace-scope.spec.md | var/audits/workspace-scope-*.md | Verify workspace scope appropriateness |
+| audit-workspace-specs | utils-audit-workspace-specs.spec.md | var/audits/workspace-specs-*.md | Detect bloat/redundancy in workspace specs |
 | **complete-session** | **utils-complete-session.spec.md** | **~/.claude/livespec/compliance/, feedback/** | **End-of-session analysis with compliance scoring and learning capture** |
-| **suggest-improvements** | **utils-suggest-improvements.spec.md** | **Prioritized recommendations** | **Strategic improvement analysis based on accumulated data (registries, trends, feedback)** |
-| **run-health-report** | **utils-run-health-report.spec.md** | **var/health-reports/*.md** | **Diagnostic health assessment with 🟢🟡🔴 status and remediation plans** |
+| **generate-slash-commands** | **utils-generate-slash-commands.spec.md** | **.claude/commands/livespec/*.md** | **Generate Claude Code slash commands for LiveSpec utilities** |
+| next-steps | next-steps.spec.md | Status report | Workflow orchestration and navigation |
 | **reorganize-workspace** | **utils-reorganize-workspace.spec.md** | **Reorganization plan** | **Context optimization based on usage patterns (START/MIDDLE/END positioning)** |
+| **run-health-report** | **utils-run-health-report.spec.md** | **var/health-reports/*.md** | **Diagnostic health assessment with 🟢🟡🔴 status and remediation plans** |
+| run-spike | run-spike.spec.md | specs/spikes/*.md | Time-boxed technical exploration |
+| **suggest-improvements** | **utils-suggest-improvements.spec.md** | **Prioritized recommendations** | **Strategic improvement analysis based on accumulated data (registries, trends, feedback)** |
+| upgrade-methodology | utils-upgrade.spec.md | Upgraded .livespec/ | Migrate to new LiveSpec version |
 
 ## Validation
 
-- Registry lists exactly 30 prompts (8+4+2+2+6+8)
+- Registry lists exactly 36 prompts (8+4+2+2+6+14)
 - All prompts have corresponding behavior specs in specs/3-behaviors/prompts/
 - Phase assignments match five-phases.spec.md definitions
 - Output paths documented for each prompt
 - Bidirectional links maintained (prompts reference specs, specs reference prompts)
 - Registry enables AI agents to navigate methodology
 - Phase 0 includes conceptual validation prompt (0x-validate-understanding)
-- Utils prompts handle special situations (failure, navigation, exploration, upgrade, session completion, strategic improvements, health diagnostics, workspace optimization)
+- Utils prompts handle special situations (failure, navigation, exploration, upgrade, session completion, strategic improvements, health diagnostics, workspace optimization, audits, slash command generation)
 - Four-level improvement taxonomy supported (session, context, strategic, diagnostic)
 - Session completion integrated with learning capture (no separate internalise-learnings prompt)
 - Obsolete prompts archived (generate-self-improvement, generate-internalise-learnings, self-improve, internalise-learnings)
+- Five audit types available (minimalism, context, coverage, workspace-specs, workspace-scope)
+- Slash command generation creates discoverable commands in .claude/commands/livespec/ namespace

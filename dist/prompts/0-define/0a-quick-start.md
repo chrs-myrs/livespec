@@ -203,7 +203,39 @@ Tell user:
 - Gives AI agents your project's specific context
 - Critical for agent effectiveness going forward
 
-**Wait for 4d completion** before proceeding to Step 5.
+**Wait for 4d completion** before proceeding to Step 4.5.
+
+### Step 4.5: Generate Slash Commands
+
+**Make LiveSpec utilities discoverable** via Claude Code slash commands.
+
+Tell user:
+
+"Generating slash commands for LiveSpec utilities..."
+
+**Use generation prompt**:
+```
+"Use dist/prompts/utils/generate-slash-commands.md to create discoverable commands"
+```
+
+**What this does**:
+- Creates 11 slash commands in `.claude/commands/livespec/` namespace
+- Makes utilities discoverable via `/` autocomplete in Claude Code
+- Enables parameterized commands (`/livespec/audit minimalism`)
+- Avoids polluting project root command namespace
+
+**Commands generated**:
+- `/livespec/complete-session` - End session with analysis
+- `/livespec/rebuild-agents` - Regenerate from specs
+- `/livespec/refine-workspace` - Optimize structure
+- `/livespec/suggest-improvements` - Strategic recommendations
+- `/livespec/health-report` - Project health check
+- `/livespec/validate` - Run validation
+- `/livespec/audit [type]` - Quality audits
+- `/livespec/next-steps` - Navigate workflow
+- Plus 3 optional: run-spike, analyze-failure, upgrade
+
+**Wait for generation completion** before proceeding to Step 5.
 
 ### Step 5: Confirm Setup
 
@@ -217,6 +249,7 @@ Created:
 - `specs/workspace/patterns.spec.md` - MSL format, naming conventions
 - `specs/workspace/workflows.spec.md` - Five-phase workflow
 - `AGENTS.md` - **Regenerated** with your project context
+- `.claude/commands/livespec/*.md` - 11 discoverable slash commands
 
 **Context compression**: Moderate (balanced)
 
