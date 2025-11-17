@@ -199,7 +199,7 @@ Use .livespec/1-design/1c-define-behaviors.md
 git checkout HEAD -- AGENTS.md
 
 # Regenerate from source
-Use .livespec/4-evolve/4d-regenerate-agents.md
+Use .livespec/4-evolve/4d-regenerate-context.md
 
 # Commit regenerated version
 ```

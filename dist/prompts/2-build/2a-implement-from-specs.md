@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/2a-implement-from-specs.spec.md
+implements: specs/3-artifacts/prompts/2a-implement-from-specs.spec.md
 generated: '2025-10-10'
 phase: 2-build
 estimated_time: "Varies by scope (30 minutes to several hours)"

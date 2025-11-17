@@ -40,10 +40,10 @@ Sources:
   - specs/workspace/workflows.spec.md
 
 Regeneration:
-  Use: prompts/4-evolve/4d-regenerate-agents.md
+  Use: prompts/4-evolve/4d-regenerate-context.md
 
 Generated: 2025-10-12T10:30:00Z
-Generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
+Generator: livespec/prompts/4-evolve/4d-regenerate-context.md
 Version: 2.4.0
 -->
 
@@ -87,7 +87,7 @@ generated_from:
 ```markdown
 ---
 generated: 2025-10-12T10:30:00Z
-generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
+generator: livespec/prompts/4-evolve/4d-regenerate-context.md
 version: 2.4.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, regenerate this file
 ---

@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/4e-validate-extractions.spec.md
+implements: specs/3-artifacts/prompts/4e-validate-extractions.spec.md
 generated: '2025-10-10'
 phase: 4-evolve
 estimated_time: "30-60 minutes"

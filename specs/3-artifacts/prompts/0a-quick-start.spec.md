@@ -5,7 +5,7 @@ specifies: dist/prompts/0-define/0a-quick-start.md
 governed-by:
   - .livespec/standard/metaspecs/prompt.spec.md
 derives-from:
-  - specs/3-behaviors/prompts/0a-setup-workspace.spec.md
+  - specs/3-artifacts/prompts/0a-setup-workspace.spec.md
 ---
 
 # Prompt Behavior: Quick Start

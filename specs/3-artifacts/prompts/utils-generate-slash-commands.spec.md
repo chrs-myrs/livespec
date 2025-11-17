@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Slash commands not generated, LiveSpec utilities not discoverable, users must manually navigate .livespec/ structure
 specifies: dist/prompts/utils/generate-slash-commands.md
-implements: specs/3-behaviors/slash-command-generation.spec.md
+implements: specs/3-artifacts/commands/generation.spec.md
 governed-by:
   - .livespec/standard/metaspecs/prompt.spec.md
   - specs/workspace/patterns.spec.md
@@ -23,7 +23,7 @@ governed-by:
   - Step 8: Generate report
 
 - [!] Prompt MUST define 11 command mappings
-  - 8 essential commands (complete-session, rebuild-agents, refine-workspace, suggest-improvements, health-report, validate, audit, next-steps)
+  - 8 essential commands (complete-session, rebuild-context, refine-workspace, suggest-improvements, health-report, validate, audit, next-steps)
   - 3 optional commands (run-spike, analyze-failure, upgrade)
   - Each mapping includes: name, prompt path, description, parameters (if applicable)
   - Router logic for `audit` command (maps type parameter to specific audit prompt)

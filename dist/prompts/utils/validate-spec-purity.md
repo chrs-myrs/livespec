@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-validate-spec-purity.spec.md
+implements: specs/3-artifacts/prompts/utils-validate-spec-purity.spec.md
 implements: specs/3-behaviors/validation/spec-purity-detection.spec.md
 derives-from:
   - dist/guides/msl-minimalism.md

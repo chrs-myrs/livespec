@@ -35,7 +35,7 @@ guided-by:
 
 **Valid cross-reference:**
 ```yaml
-# In specs/3-behaviors/prompts/0a-setup-workspace.spec.md
+# In specs/3-artifacts/prompts/0a-setup-workspace.spec.md
 ---
 specifies: prompts/0-define/0a-setup-workspace.md
 governed-by:

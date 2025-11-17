@@ -21,7 +21,7 @@ specifies:
 
 - [!] Commands align with four-level improvement taxonomy
   - Session-level: `/livespec/complete-session`
-  - Context-level: `/livespec/rebuild-agents`, `/livespec/refine-workspace`
+  - Context-level: `/livespec/rebuild-context`, `/livespec/refine-workspace`
   - Strategic-level: `/livespec/suggest-improvements [scope]`
   - Diagnostic-level: `/livespec/health-report`
   - Plus 6 other utilities: validate, audit, next-steps, run-spike, analyze-failure, upgrade
@@ -68,7 +68,7 @@ specifies:
 
 **Essential Commands (8):**
 1. `/livespec/complete-session` → `complete-session.md` (no params)
-2. `/livespec/rebuild-agents` → `4d-regenerate-agents.md` (no params)
+2. `/livespec/rebuild-context` → `4d-regenerate-context.md` (no params)
 3. `/livespec/refine-workspace` → `reorganize-workspace.md` (no params)
 4. `/livespec/suggest-improvements [scope]` → `suggest-improvements.md` (params: all/context/registries/validation)
 5. `/livespec/health-report` → `run-health-report.md` (no params)
@@ -87,7 +87,7 @@ specifies:
 ```bash
 # All 11 commands must exist
 test -f .claude/commands/livespec/complete-session.md
-test -f .claude/commands/livespec/rebuild-agents.md
+test -f .claude/commands/livespec/rebuild-context.md
 # ... (all 11 commands)
 ```
 

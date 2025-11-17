@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/4b-extract-specs.spec.md
+implements: specs/3-artifacts/prompts/4b-extract-specs.spec.md
 generated: '2025-10-10'
 phase: 4-evolve
 estimated_time: "1-3 hours depending on codebase size"

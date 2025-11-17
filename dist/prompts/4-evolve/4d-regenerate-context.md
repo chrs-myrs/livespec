@@ -1,9 +1,9 @@
 ---
-implements: specs/3-behaviors/prompts/4d-regenerate-agents.spec.md
+implements: specs/3-artifacts/prompts/4d-regenerate-context.spec.md
 estimated_time: "10-15 minutes"
 ---
 
-# 4d: Regenerate Agent Configuration
+# 4d: Regenerate Context Tree
 
 **Phase**: EVOLVE
 **Purpose**: Rebuild AGENTS.md from current workspace specifications
@@ -412,7 +412,7 @@ Content is identical, filename changes for agent recognition.
 Consider creating a script to regenerate automatically when workspace specs change:
 ```bash
 # Watch for changes
-ls specs/workspace/*.spec.md PURPOSE.md | entr prompts/4-evolve/4d-regenerate-agents.md
+ls specs/workspace/*.spec.md PURPOSE.md | entr prompts/4-evolve/4d-regenerate-context.md
 ```
 
 ## Success Criteria

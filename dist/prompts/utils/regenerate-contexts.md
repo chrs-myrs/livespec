@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-regenerate-contexts.spec.md
+implements: specs/3-artifacts/prompts/utils-regenerate-context.spec.md
 phase: utilities
 estimated_time: "5-10 minutes"
 ---
@@ -18,7 +18,7 @@ estimated_time: "5-10 minutes"
 
 **Why after workspace setup**: Bootstrap AGENTS.md is minimal. Full context tree requires workspace specs to generate from.
 
-**Evolution from 4d-regenerate-agents**: This prompt generates full context tree (root + ctxt/ hierarchy) instead of monolithic AGENTS.md. Enables specialized agent contexts for improved focus efficiency.
+**Evolution from 4d-regenerate-context**: This prompt generates full context tree (root + ctxt/ hierarchy) instead of monolithic AGENTS.md. Enables specialized agent contexts for improved focus efficiency.
 
 ---
 
@@ -189,14 +189,14 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 ## Notes
 
-**Relation to 4d-regenerate-agents**:
+**Relation to 4d-regenerate-context**:
 - Old: Generates monolithic AGENTS.md (~50-60KB)
 - New: Generates context tree (root + ctxt/) for specialized loading
 - Both read same workspace specs as source
 - Context tree enables better focus efficiency
 
 **Frequency**:
-- Run after workspace changes (like 4d-regenerate-agents)
+- Run after workspace changes (like 4d-regenerate-context)
 - Also run when compression level changes
 - Run if context tree feels stale or misaligned
 

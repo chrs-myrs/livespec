@@ -138,7 +138,7 @@ Context compression **actively drives** these decisions:
 2. Reorganize content:
    - **To higher compression:** Extract items to templates, update references
    - **To lower compression:** Inline templates, remove unnecessary references
-3. Regenerate AGENTS.md: `.livespec/4-evolve/4d-regenerate-agents.md`
+3. Regenerate AGENTS.md: `.livespec/4-evolve/4d-regenerate-context.md`
 4. Validate structure matches new declared level
 5. Monitor next 5 sessions for effectiveness
 

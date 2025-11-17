@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/0a-quick-start.spec.md
+implements: specs/3-artifacts/prompts/0a-quick-start.spec.md
 phase: 0-define
 estimated_time: "5 minutes"
 ---
@@ -194,7 +194,7 @@ Tell user:
 
 **Use prompt 4d to regenerate**:
 ```
-"Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md"
+"Use .livespec/4-evolve/4d-regenerate-context.md to update AGENTS.md"
 ```
 
 **What this does**:
@@ -226,7 +226,7 @@ Tell user:
 
 **Commands generated**:
 - `/livespec/complete-session` - End session with analysis
-- `/livespec/rebuild-agents` - Regenerate from specs
+- `/livespec/rebuild-context` - Regenerate from specs
 - `/livespec/refine-workspace` - Optimize structure
 - `/livespec/suggest-improvements` - Strategic recommendations
 - `/livespec/health-report` - Project health check

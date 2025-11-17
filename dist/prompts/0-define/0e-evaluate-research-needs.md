@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/0e-evaluate-research-needs.spec.md
+implements: specs/3-artifacts/prompts/0e-evaluate-research-needs.spec.md
 estimated_time: "10-15 minutes (evaluation only), 1-3 hours if conducting research"
 ---
 

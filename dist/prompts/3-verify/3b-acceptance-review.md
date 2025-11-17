@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/3b-acceptance-review.spec.md
+implements: specs/3-artifacts/prompts/3b-acceptance-review.spec.md
 estimated_time: "30-60 minutes"
 ---
 

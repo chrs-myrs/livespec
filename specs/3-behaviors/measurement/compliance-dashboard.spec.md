@@ -4,6 +4,12 @@ failure_mode: Cannot track compliance trends over time, missing systemic issues 
 derives_from:
   - specs/workspace/constitution.spec.md
   - specs/3-behaviors/measurement/agent-compliance.spec.md
+governed-by:
+  - .livespec/standard/metaspecs/behavior.spec.md
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md
+guided-by:
+  - specs/2-strategy/architecture.spec.md
 supports:
   - Process improvement decisions
   - Agent performance comparison

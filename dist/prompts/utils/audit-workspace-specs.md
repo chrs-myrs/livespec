@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-audit-workspace-specs.spec.md
+implements: specs/3-artifacts/prompts/utils-audit-workspace-specs.spec.md
 ---
 
 # Audit Workspace Specifications
@@ -114,7 +114,7 @@ For each requirement in workspace specs, ask:
 
 After review approved:
 1. Make recommended changes to workspace specs
-2. Run 4d-regenerate-agents.md
+2. Run 4d-regenerate-context.md
 3. Verify AGENTS.md size reduced/maintained
 4. Commit with "MSL audit: consolidate workspace specs"
 

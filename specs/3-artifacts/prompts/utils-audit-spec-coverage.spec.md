@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Without coverage audit, permanent files lack specifications and implementation proceeds without clear requirements
 specifies: dist/prompts/utils/audit-spec-coverage.md
-implements: specs/3-behaviors/slash-command-generation.spec.md
+implements: specs/3-artifacts/commands/generation.spec.md
 governed-by:
   - .livespec/standard/metaspecs/prompt.spec.md
   - specs/workspace/patterns.spec.md

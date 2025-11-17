@@ -14,7 +14,7 @@ governed-by:
   - Prompt filenames follow pattern `[0-4][a-z]-descriptive-name.md`
   - Phase prefix: 0-4 (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE)
   - Letter suffix: sequential within phase (a, b, c, d, e)
-  - Prompt examples: `0a-setup-workspace.md`, `1b-define-behaviors.md`, `4d-regenerate-agents.md`
+  - Prompt examples: `0a-setup-workspace.md`, `1b-define-behaviors.md`, `4d-regenerate-context.md`
   - Specification filenames describe content clearly (no abbreviations unless standard)
   - One behavior per spec file (filename matches behavior)
   - User documentation uses British English (synchronisation, behaviour, organise)
@@ -36,7 +36,7 @@ governed-by:
 **Good prompt names:**
 - ✅ `0a-setup-workspace.md` (Phase 0, first prompt)
 - ✅ `1b-define-behaviors.md` (Phase 1, second prompt)
-- ✅ `4d-regenerate-agents.md` (Phase 4, fourth prompt)
+- ✅ `4d-regenerate-context.md` (Phase 4, fourth prompt)
 
 **Bad prompt names:**
 - ❌ `setup-workspace.md` (missing phase prefix)

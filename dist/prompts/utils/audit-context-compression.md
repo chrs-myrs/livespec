@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-audit-context-compression.spec.md
+implements: specs/3-artifacts/prompts/utils-audit-context-compression.spec.md
 phase: utility
 ---
 
@@ -133,7 +133,7 @@ If recommending compression level change, provide migration plan:
 2. **Reorganize content**:
    - Moving to higher compression: Extract specific items to templates, update references
    - Moving to lower compression: Inline specific templates, remove unnecessary references
-3. **Regenerate AGENTS.md** with new compression level (use `.livespec/4-evolve/4d-regenerate-agents.md`)
+3. **Regenerate AGENTS.md** with new compression level (use `.livespec/4-evolve/4d-regenerate-context.md`)
 4. **Validate** that structure matches new declared level
 5. **Commit** with clear explanation of compression change
 
@@ -200,5 +200,5 @@ Structure:
 ## Related Prompts
 
 - `.livespec/standard/conventions/context-compression.spec.md` - Framework definition
-- `.livespec/4-evolve/4d-regenerate-agents.md` - Regenerate AGENTS.md with compression awareness
+- `.livespec/4-evolve/4d-regenerate-context.md` - Regenerate AGENTS.md with compression awareness
 - `.livespec/0-define/0a-setup-workspace.md` - Initial compression level selection

@@ -314,14 +314,14 @@ This minor release introduces `project.yaml` as the standard location for build-
 ### Changed
 
 - **⚠️ AGENTS.md Regeneration Updated** (HIGH IMPACT)
-  - Updated: `.livespec/prompts/4-evolve/4d-regenerate-agents.md`
+  - Updated: `.livespec/prompts/4-evolve/4d-regenerate-context.md`
   - Step 2: Now reads `project.yaml` for build configuration (was: constitution frontmatter only)
   - Step 3: Generates `project.yaml` if missing (before AGENTS.md generation)
   - Steps renumbered: 3-8 (was: 2-5)
   - Configuration affects: spec-first enforcement, TDD guidance, compression strategy, doc filename, target size
   - *Why*: Centralize all build config in one location
   - *Impact*: HIGH - Affects AGENTS.md generation workflow
-  - *Migration*: Run 4d-regenerate-agents.md to generate project.yaml and updated AGENTS.md
+  - *Migration*: Run 4d-regenerate-context.md to generate project.yaml and updated AGENTS.md
 
 - **LiveSpec Project Configuration** (MEDIUM IMPACT)
   - Created: `project.yaml` for LiveSpec itself
@@ -360,7 +360,7 @@ agent:
 
 ### Integration Points
 
-**AGENTS.md regeneration** (4d-regenerate-agents.md):
+**AGENTS.md regeneration** (4d-regenerate-context.md):
 - Reads `context_compression` → Controls inline vs reference balance
 - Reads `spec_first` → Adjusts verification prompt severity
 - Reads `tdd` → Customizes Phase 2 guidance
@@ -400,7 +400,7 @@ agent:
 ✅ **Coexists with frontmatter** - Project-level in yaml, spec-level in frontmatter
 ✅ **Build-time only** - Not loaded into AI context during normal work
 ✅ **No versioning** - Simple yaml, no schema evolution complexity
-✅ **Generate on update** - 4d-regenerate-agents.md creates if missing
+✅ **Generate on update** - 4d-regenerate-context.md creates if missing
 
 ### Files Modified
 
@@ -409,7 +409,7 @@ agent:
 - .livespec/templates/project.yaml.template (new, 30 lines)
 
 **Batch 2: Regeneration Prompt (1 file)**
-- .livespec/prompts/4-evolve/4d-regenerate-agents.md (updated, steps 2-8 modified)
+- .livespec/prompts/4-evolve/4d-regenerate-context.md (updated, steps 2-8 modified)
 
 **Batch 3: LiveSpec Dogfooding (1 file)**
 - project.yaml (new, LiveSpec's own configuration)
@@ -420,7 +420,7 @@ agent:
 
 **For existing LiveSpec users:**
 
-1. **Regenerate AGENTS.md**: Run `.livespec/prompts/4-evolve/4d-regenerate-agents.md`
+1. **Regenerate AGENTS.md**: Run `.livespec/prompts/4-evolve/4d-regenerate-context.md`
    - Prompt will create project.yaml if missing
    - AGENTS.md generation will read config from project.yaml
 
@@ -443,7 +443,7 @@ agent:
 
 - ✅ project.yaml schema documented in spec
 - ✅ Template created with all required fields
-- ✅ 4d-regenerate-agents.md updated to read/generate config
+- ✅ 4d-regenerate-context.md updated to read/generate config
 - ✅ LiveSpec dogfoods standard (project.yaml created)
 - ✅ Integration points documented (AGENTS.md, Phase 0, validation)
 
@@ -511,13 +511,13 @@ This patch release addresses feedback from documentation project adoption. LiveS
 - **⚠️ Quick-Start AGENTS.md Regeneration** (HIGH IMPACT)
   - Updated: `dist/prompts/0-define/0a-quick-start.md` (Step 4: Regenerate AGENTS.md)
   - Updated: `dist/prompts/0-define/0b-customize-workspace.md` (Step 6: Regenerate AGENTS.md)
-  - Prompts now explicitly call 4d-regenerate-agents.md after workspace setup
+  - Prompts now explicitly call 4d-regenerate-context.md after workspace setup
   - Explains why regeneration critical (incorporates YOUR workspace specs)
   - *Why*: Users skipped AGENTS.md regeneration, left with generic template
   - *Impact*: HIGH - Fixes onboarding gap
 
 - **⚠️ 4d Regeneration Emphasis** (MEDIUM IMPACT)
-  - Updated: `dist/prompts/4-evolve/4d-regenerate-agents.md`
+  - Updated: `dist/prompts/4-evolve/4d-regenerate-context.md`
   - First bullet: "⚠️ CRITICAL: Immediately after Phase 0 workspace setup"
   - Explains why critical (template lacks YOUR project context)
   - Value Pyramid Impact section (agents need YOUR PURPOSE.md)
@@ -746,7 +746,7 @@ This minor release addresses systematic process bypasses identified in the Slack
 
 **Migration path**:
 1. Use `.livespec/utils/upgrade-methodology.md` for AI-assisted upgrade
-2. Regenerate AGENTS.md via `prompts/4-evolve/4d-regenerate-agents.md`
+2. Regenerate AGENTS.md via `prompts/4-evolve/4d-regenerate-context.md`
 3. Review new guides (common-pitfalls.md, behavior-contract-boundary.md)
 4. Optional: Create implementation reports for existing projects
 
@@ -822,7 +822,7 @@ This patch release addresses brownfield integration confusion identified in tech
   - Key insight: "You might write spec during Phase 1 but it belongs in 2-strategy/"
   - Points to deep-dive specs: `layer-definitions.spec.md` (257 lines), `three-layer-architecture.spec.md` (329 lines)
   - *Why*: Users confused phases (0-DEFINE, 1-DESIGN) with folders (1-requirements/, 2-strategy/)
-  - *Impact*: MEDIUM - Requires AGENTS.md regeneration via `prompts/4-evolve/4d-regenerate-agents.md`
+  - *Impact*: MEDIUM - Requires AGENTS.md regeneration via `prompts/4-evolve/4d-regenerate-context.md`
 
 - **Pre-Flight Validation Prompt** (MEDIUM IMPACT)
   - New: `dist/prompts/0-define/0x-validate-understanding.md` (180 lines)
@@ -902,7 +902,7 @@ This patch release addresses brownfield integration confusion identified in tech
 
 **For existing LiveSpec users:**
 1. Update to 3.2.1: `git pull && git checkout v3.2.1`
-2. Regenerate AGENTS.md: Run `prompts/4-evolve/4d-regenerate-agents.md`
+2. Regenerate AGENTS.md: Run `prompts/4-evolve/4d-regenerate-context.md`
 3. Optional: Run `0x-validate-understanding.md` to verify conceptual understanding
 4. Benefit: Improved navigation, Hybrid pattern documented, pre-flight validation available
 
@@ -933,7 +933,7 @@ This release dramatically simplifies spec-first enforcement from 195 lines of ov
   - Spec: `.livespec/templates/agents/spec-first-enforcement.spec.md`
   - *Why*: Previous passive guidance bypassed ~30% of time despite 195 lines
   - *Impact*: MEDIUM - Requires AGENTS.md regeneration for activation
-  - *Migration*: Run `prompts/4-evolve/4d-regenerate-agents.md` to apply new enforcement
+  - *Migration*: Run `prompts/4-evolve/4d-regenerate-context.md` to apply new enforcement
 
 - **Spec Validation Tool** (MEDIUM IMPACT)
   - New script: `scripts/check-requires-spec.sh`
@@ -956,13 +956,13 @@ This release dramatically simplifies spec-first enforcement from 195 lines of ov
   - *Why*: Complexity caused cognitive overload and skipping
   - *Impact*: HIGH - Projects using old .livespec/ must upgrade
   - *Migration*:
-    1. Run `prompts/4-evolve/4d-regenerate-agents.md` (reads new template)
+    1. Run `prompts/4-evolve/4d-regenerate-context.md` (reads new template)
     2. Regenerated AGENTS.md will use 4-layer enforcement
     3. Old templates archived, not deleted (rollback possible)
 
 - **⚠️ Regeneration prompt updated** (MEDIUM IMPACT)
-  - `prompts/4-evolve/4d-regenerate-agents.md` now inserts single template
-  - `dist/prompts/4-evolve/4d-regenerate-agents.md` updated to match
+  - `prompts/4-evolve/4d-regenerate-context.md` now inserts single template
+  - `dist/prompts/4-evolve/4d-regenerate-context.md` updated to match
   - Documents 4-layer enforcement approach
   - *Impact*: MEDIUM - Affects AGENTS.md generation only
 
@@ -1021,7 +1021,7 @@ This release dramatically simplifies spec-first enforcement from 195 lines of ov
   - Constitution templates showing each compression level: `dist/templates/workspace/constitution-*.md.template`
   - Audit utility: `dist/prompts/utils/audit-context-compression.md` for measuring and migrating compression
   - Integration in setup prompt (`0a-setup-workspace.md`) asks about agent capabilities and recommends level
-  - Integration in regeneration prompt (`4d-regenerate-agents.md`) applies compression during AGENTS.md generation
+  - Integration in regeneration prompt (`4d-regenerate-context.md`) applies compression during AGENTS.md generation
   - Complements MSL Minimalism: MSL reduces content within specs, Context Compression optimizes structure across guidance
   - *Why*: Different agents and use cases benefit from different guidance density levels
   - *Impact*: LOW - Existing projects default to `moderate`, no changes required
@@ -1042,7 +1042,7 @@ This release dramatically simplifies spec-first enforcement from 195 lines of ov
   - *Impact*: LOW - Improves setup experience, no breaking changes
 
 - **Regenerate agents prompt enhanced** - Now considers compression level during generation (LOW IMPACT)
-  - `dist/prompts/4-evolve/4d-regenerate-agents.md` reads compression from constitution
+  - `dist/prompts/4-evolve/4d-regenerate-context.md` reads compression from constitution
   - Applies compression strategy (inline vs extract, example verbosity, target size)
   - *Impact*: LOW - Better AGENTS.md optimization, no breaking changes
 
@@ -1221,7 +1221,7 @@ This release adds self-improvement utilities for project-specific learning captu
   - *Impact*: MEDIUM - All references must be updated
   - *Changes*:
     - File renamed: specs/workspace/agents.spec.md → specs/workspace/workspace-agent.spec.md
-    - Updated references in: AGENTS.md, dist/AGENTS.md, patterns.spec.md, outcomes.spec.md, 4d-regenerate-agents.spec.md, 4d-regenerate-agents.md, internalise-learnings.md
+    - Updated references in: AGENTS.md, dist/AGENTS.md, patterns.spec.md, outcomes.spec.md, 4d-regenerate-context.spec.md, 4d-regenerate-context.md, internalise-learnings.md
   - *Migration*:
     1. Rename specs/workspace/agents.spec.md → workspace-agent.spec.md
     2. Update frontmatter in AGENTS.md: `implements: specs/workspace/workspace-agent.spec.md`
@@ -1679,7 +1679,7 @@ Users copy `dist/` contents to `.livespec/` in their project.
 - 4a-detect-drift.md
 - 4b-extract-specs.md
 - 4c-sync-complete.md
-- 4d-regenerate-agents.md
+- 4d-regenerate-context.md
 - 4e-validate-extractions.md
 
 ### Removed

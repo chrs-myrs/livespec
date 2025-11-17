@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-measure-session.spec.md
+implements: specs/3-artifacts/prompts/utils-measure-session.spec.md
 phase: utilities
 ---
 

@@ -302,10 +302,10 @@ jobs:
 ```
 # Test detects
 prompt added: dist/prompts/utils/upgrade-methodology.md
-No spec found: specs/3-behaviors/prompts/utils-upgrade.spec.md
+No spec found: specs/3-artifacts/prompts/utils-upgrade.spec.md
 
 # Resolution
-Create specs/3-behaviors/prompts/utils-upgrade.spec.md
+Create specs/3-artifacts/prompts/utils-upgrade.spec.md
 Add spec: frontmatter to prompt
 Tests pass
 ```

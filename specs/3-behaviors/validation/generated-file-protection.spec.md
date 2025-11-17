@@ -40,10 +40,10 @@ DO NOT EDIT: This file is generated from specs/workspace/*.spec.md and PURPOSE.m
 
 To update this file:
 1. Edit the source specifications in specs/workspace/
-2. Run: Use prompts/4-evolve/4d-regenerate-agents.md
+2. Run: Use prompts/4-evolve/4d-regenerate-context.md
 
 Generated: 2025-10-12T10:30:00Z
-Generator: livespec/prompts/4-evolve/4d-regenerate-agents.md
+Generator: livespec/prompts/4-evolve/4d-regenerate-context.md
 Version: 2.4.0
 -->
 
@@ -64,7 +64,7 @@ This violates generated file discipline.
 To fix:
 1. Revert AGENTS.md to last generated version
 2. Edit source specs in specs/workspace/
-3. Regenerate: Use prompts/4-evolve/4d-regenerate-agents.md
+3. Regenerate: Use prompts/4-evolve/4d-regenerate-context.md
 ```
 
 **Partial generation (file with manual sections):**
@@ -101,7 +101,7 @@ Sources:
   - specs/workspace/workflows.spec.md
 
 Regeneration:
-  Use: prompts/4-evolve/4d-regenerate-agents.md
+  Use: prompts/4-evolve/4d-regenerate-context.md
 
 Generated: [ISO-8601 timestamp]
 Generator: [prompt or script path]

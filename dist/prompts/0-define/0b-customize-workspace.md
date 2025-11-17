@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/0b-customize-workspace.spec.md
+implements: specs/3-artifacts/prompts/0b-customize-workspace.spec.md
 generated: '2025-10-10'
 phase: 0-define
 estimated_time: "20-30 minutes"
@@ -136,7 +136,7 @@ Tell user:
 
 **Use prompt 4d to regenerate**:
 ```
-"Use .livespec/4-evolve/4d-regenerate-agents.md to update AGENTS.md"
+"Use .livespec/4-evolve/4d-regenerate-context.md to update AGENTS.md"
 ```
 
 **What this does**:

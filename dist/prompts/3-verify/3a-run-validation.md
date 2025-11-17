@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/3a-run-validation.spec.md
+implements: specs/3-artifacts/prompts/3a-run-validation.spec.md
 generated: '2025-10-10'
 phase: 3-verify
 estimated_time: "15-30 minutes"

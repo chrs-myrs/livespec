@@ -33,7 +33,7 @@ guided-by:
 - `livespec.taxonomy.domain` is valid enum (software | generation | planning | documentation | governance | hybrid)
 - `agent.doc_format` specifies agent documentation file name
 - Validation scripts read config when present, use defaults when missing
-- AGENTS.md regeneration (4d-regenerate-agents.md) reads config to customize output
+- AGENTS.md regeneration (4d-regenerate-context.md) reads config to customize output
 
 ## Schema
 
@@ -122,7 +122,7 @@ agent:
 
 ## Integration Points
 
-**AGENTS.md regeneration** (prompts/4-evolve/4d-regenerate-agents.md):
+**AGENTS.md regeneration** (prompts/4-evolve/4d-regenerate-context.md):
 - Reads `context_compression` to control inline vs reference balance
 - Reads `spec_first` to adjust verification prompt severity
 - Reads `tdd` to customize Phase 2 guidance

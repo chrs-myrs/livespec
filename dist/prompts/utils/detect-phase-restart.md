@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-detect-phase-restart.spec.md
+implements: specs/3-artifacts/prompts/utils-detect-phase-restart.spec.md
 ---
 
 # Detect Phase Restart

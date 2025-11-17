@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/4a-detect-drift.spec.md
+implements: specs/3-artifacts/prompts/4a-detect-drift.spec.md
 estimated_time: "20-30 minutes"
 ---
 
@@ -153,8 +153,8 @@ Identify child specs that may need updates:
 Changed: specs/2-strategy/architecture.spec.md
 
 Downward propagation:
-  - specs/3-behaviors/prompts/0a-setup-workspace.spec.md (derives from architecture)
-  - specs/3-behaviors/prompts/1a-design-architecture.spec.md (derives from architecture)
+  - specs/3-artifacts/prompts/0a-setup-workspace.spec.md (derives from architecture)
+  - specs/3-artifacts/prompts/1a-design-architecture.spec.md (derives from architecture)
   - All prompts/*/  (implementation may need updates)
 
 Action: Review each child spec for alignment

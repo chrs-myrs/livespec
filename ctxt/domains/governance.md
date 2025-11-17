@@ -99,7 +99,7 @@ target-project (user's repo):
 
 3. **Update prompt to reference template:**
    ```
-   .livespec/prompts/4-evolve/4d-regenerate-agents.md
+   .livespec/prompts/4-evolve/4d-regenerate-context.md
    → Includes template in AGENTS.md generation
    ```
 
@@ -194,7 +194,7 @@ Use .livespec/2-build/2a-implement-from-specs.md
 # Copy: .livespec/prompts/0-define/0g-new-prompt.md → dist/prompts/0-define/
 
 # Step 5: Regenerate agents
-Use .livespec/4-evolve/4d-regenerate-agents.md
+Use .livespec/4-evolve/4d-regenerate-context.md
 # Updates: AGENTS.md (references new prompt)
 
 # Result: New prompt distributed to target projects
@@ -214,11 +214,11 @@ Use .livespec/4-evolve/4d-regenerate-agents.md
 # Mandate: "Use spec-first-enforcement template"
 
 # Step 3: Update regeneration prompt
-# Edit: specs/3-behaviors/prompts/4d-regenerate-agents.spec.md
+# Edit: specs/3-behaviors/prompts/4d-regenerate-context.spec.md
 # Require: Include template in AGENTS.md
 
 # Step 4: Regenerate
-Use .livespec/4-evolve/4d-regenerate-agents.md
+Use .livespec/4-evolve/4d-regenerate-context.md
 # AGENTS.md now has spec-first enforcement inline
 
 # Step 5: Copy to dist/

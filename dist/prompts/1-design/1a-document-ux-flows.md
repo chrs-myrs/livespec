@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/1a-document-ux-flows.spec.md
+implements: specs/3-artifacts/prompts/1a-document-ux-flows.spec.md
 phase: 1-DESIGN
 purpose: Document user interaction flows before architecture design
 estimated_time: "30-90 minutes per major flow"

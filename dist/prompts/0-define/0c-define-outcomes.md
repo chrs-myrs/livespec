@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/0c-define-outcomes.spec.md
+implements: specs/3-artifacts/prompts/0c-define-outcomes.spec.md
 estimated_time: "15-20 minutes"
 ---
 

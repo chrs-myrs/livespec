@@ -15,7 +15,7 @@ failure_mode: Without clear architecture, LiveSpec becomes incoherent collection
 - [!] LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, includes version tracking for safe upgrades, and supports domain-agnostic abstractions with subfolder organization.
   - PURPOSE.md exists at root level
   - specs/workspace/ contains our development methodology
-  - specs/3-behaviors/prompts/ documents what each prompt does
+  - specs/3-artifacts/prompts/ documents what each prompt does
   - prompts/ contains all 5 phases (0-define through 4-evolve)
   - templates/ contains workspace templates and domain-specific templates
   - .livespec/ symlink points to prompts/ (dogfooding)
@@ -63,7 +63,7 @@ Development process specifications defining HOW LiveSpec is built:
 - patterns.spec.md - Code and specification patterns
 - workflows.spec.md - Development workflows
 
-### specs/3-behaviors/prompts/
+### specs/3-artifacts/prompts/
 Meta-specifications defining WHAT each prompt accomplishes:
 - Prompt specs (0a-4c) - What each prompt does, expected outputs
 - Core behavior specs (folder-structure, msl-format, five-phases, drift-detection)
@@ -169,7 +169,7 @@ specs/
    - References templates explicitly by path
    - Defines context positioning (START 30-40%, MIDDLE 40%, END 20-30%)
 
-3. **Prompts insert templates** (`prompts/4-evolve/4d-regenerate-agents.md`):
+3. **Prompts insert templates** (`prompts/4-evolve/4d-regenerate-context.md`):
    - Reads templates during AGENTS.md generation
    - Inserts in START section (primacy bias)
    - Validates presence during review
@@ -187,7 +187,7 @@ specs/
 ## Interactions
 
 1. **Dogfooding** (LiveSpec uses its own methodology):
-   - We maintain PURPOSE.md, specs/workspace/, specs/3-behaviors/prompts/
+   - We maintain PURPOSE.md, specs/workspace/, specs/3-artifacts/prompts/
    - .livespec/ symlink lets us use prompts/ on ourselves
    - Tests validate our specs follow our own rules
 
@@ -202,7 +202,7 @@ specs/
    - Create `.livespec-version` from `.livespec/.livespec-version.template`
    - Create `customizations.yaml` from `.livespec/customizations.yaml.template`
    - Organize specs/ with subfolders for domain clarity (optional)
-   - Generate AGENTS.md using `.livespec/prompts/4-evolve/4d-regenerate-agents.md`
+   - Generate AGENTS.md using `.livespec/prompts/4-evolve/4d-regenerate-context.md`
      - Reads templates from `.livespec/templates/agents/`
      - Inserts verification content into AGENTS.md START section
      - Creates project-specific agent configuration
@@ -229,7 +229,7 @@ specs/
 
 - PURPOSE.md exists at root level
 - specs/workspace/ contains our development methodology
-- specs/3-behaviors/prompts/ documents what each prompt does
+- specs/3-artifacts/prompts/ documents what each prompt does
 - prompts/ contains all 5 phases (0-define through 4-evolve) plus utils/
 - standard/ contains canonical metaspecs
 - templates/ contains workspace, governance, and operations templates

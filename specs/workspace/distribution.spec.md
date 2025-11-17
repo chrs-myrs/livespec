@@ -115,7 +115,7 @@ prompts/generated/ # Real directory with project-specific content
 **Example:** Agent verification templates
 - `templates/agents/pre-implementation-verification.md` - Checklist before implementing
 - Referenced by: `specs/workspace/workspace-agent.spec.md`
-- Inserted by: `prompts/4-evolve/4d-regenerate-agents.md`
+- Inserted by: `prompts/4-evolve/4d-regenerate-context.md`
 - Result: AGENTS.md includes verification in START section
 
 **Benefits:**

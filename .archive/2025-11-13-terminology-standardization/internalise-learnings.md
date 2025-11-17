@@ -194,7 +194,7 @@ For each learning identified, propose specific update:
    - Add examples to patterns.spec.md if pattern
    - Update workflows.spec.md if process learning
    - Follow distribution workflow if methodology change: templates → specs → prompts → AGENTS.md → dist/
-   - Regenerate AGENTS.md if workspace specs changed: dist/prompts/4-evolve/4d-regenerate-agents.md
+   - Regenerate AGENTS.md if workspace specs changed: dist/prompts/4-evolve/4d-regenerate-context.md
 
 ### Phase 5: Prevent Repetition
 
@@ -208,7 +208,7 @@ For each learning identified, propose specific update:
 2. **Update Agent Configuration**
    - If workspace specs changed: Regenerate AGENTS.md
    ```bash
-   # Use dist/prompts/4-evolve/4d-regenerate-agents.md to regenerate
+   # Use dist/prompts/4-evolve/4d-regenerate-context.md to regenerate
    ```
 
 3. **Validate Integration**

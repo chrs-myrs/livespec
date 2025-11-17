@@ -183,34 +183,37 @@ Read `specs/workspace/taxonomy.spec.md` for:
 
 ### Step 2: Apply Decision Tests
 
-**workspace/ test:** "Could I copy this spec to ANY project?"
-- YES → workspace/ (portable process)
-- NO → Check 1-requirements/, 2-strategy/, or 3-behaviors/
+**workspace/ test:** "Is this ABOUT the workspace or IN the workspace?"
+- ABOUT (meta-governance, how workspace operates) → workspace/
+- IN (deliverables, behaviors) → Check 1-requirements/, 2-strategy/, or Layer 3
 
 **1-requirements/ test:** "Is this a strategic outcome or hard constraint?"
 - YES, strategic → 1-requirements/strategic/ (outcomes, constraints)
 - YES, functional → 1-requirements/functional/ (specific feature requirements)
-- NO → Check 2-strategy/ or 3-behaviors/
+- NO → Check 2-strategy/ or Layer 3
 
 **2-strategy/ test:** "Does this apply across the whole product?"
 - YES → 2-strategy/ (cross-cutting technical decision)
-- NO → Check 3-behaviors/
+- NO → Check Layer 3 (3-behaviors/, 3-artifacts/, or 3-contracts/)
 
-**3-behaviors/ test:** "Is this an observable outcome users/system must exhibit?"
-- YES → 3-behaviors/ (what system does)
-- NO → Re-examine classification
+**Layer 3 test (three-way split):** "Behavior, artifact, or interface?"
+- "What does the methodology DO?" → 3-behaviors/ (drift detection, validation, phase guidance)
+- "What is the methodology MADE OF?" → 3-artifacts/ (prompts, agents, commands, validators)
+- "What are the standard interfaces?" → 3-contracts/ (format definitions)
 
 ### Step 3: Verify Examples
 
 **Common mistakes:**
 - ❌ "API returns JSON" → NOT workspace (product-specific) → 2-strategy/
-- ❌ "Use 4-space indentation" → NOT 2-strategy/ (not critical) → workspace/ (if matters)
-- ❌ "System authenticates users" → NOT 2-strategy/ (observable) → 3-behaviors/
+- ❌ "Agent definitions" → NOT workspace (deliverables IN workspace) → 3-artifacts/agents/
+- ❌ "Slash commands" → NOT 3-behaviors/ (artifacts, not behaviors) → 3-artifacts/commands/
+- ❌ "Prompt files" → NOT 3-behaviors/ (artifacts, not behaviors) → 3-artifacts/prompts/
 
 **Correct examples:**
-- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (any project)
-- ✅ "API responses must be JSON" → 2-strategy/architecture.spec.md (product-wide)
-- ✅ "System authenticates users via OAuth" → 3-behaviors/authentication.spec.md (observable)
+- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (ABOUT workspace)
+- ✅ "AGENTS.md content rules" → workspace/context-structure.spec.md (ABOUT workspace)
+- ✅ "Drift detection behavior" → 3-behaviors/drift-detection.spec.md (methodology behavior)
+- ✅ "Individual prompt specs" → 3-artifacts/prompts/*.spec.md (methodology artifacts)
 
 ---
 
@@ -453,7 +456,7 @@ Keep specs and code synchronized (continuous).
 - `4a-detect-drift.md` - Identify spec-code misalignment
 - `4b-extract-specs.md` - Generate specs from code
 - `4c-sync-complete.md` - Confirm synchronization
-- `4d-regenerate-agents.md` - Update AGENTS.md
+- `4d-regenerate-context.md` - Update AGENTS.md
 - `4e-validate-extractions.md` - Review extracted specs
 
 ---
@@ -536,7 +539,7 @@ your-project/
 When renaming or moving prompts/specs, use systematic checklist:
 - [ ] Source file renamed/moved (dist/prompts/ or specs/)
 - [ ] Spec frontmatter (`specifies:` or `implements:` field)
-- [ ] Registry entry (specs/3-behaviors/prompts/registry.spec.md)
+- [ ] Registry entry (specs/3-artifacts/prompts/registry.spec.md)
 - [ ] Navigation files (dist/prompts/utils/next-steps.md)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
@@ -617,7 +620,7 @@ Changes flow through distribution mechanism:
 
 **Integration with regeneration:**
 1. Update source specs
-2. Regenerate files (Use prompts/4-evolve/4d-regenerate-agents.md)
+2. Regenerate files (Use prompts/4-evolve/4d-regenerate-context.md)
 3. Validate immediately (Use prompts/utils/validate-project.md)
 4. Fix any errors detected
 5. Commit if validation passes
@@ -638,8 +641,8 @@ Changes flow through distribution mechanism:
 
 **Phase 2: Systematic Updates**
 1. Rename prompt files in dist/prompts/[phase]/
-2. Update spec frontmatter (specifies: field in specs/3-behaviors/prompts/)
-3. Update registry (specs/3-behaviors/prompts/registry.spec.md)
+2. Update spec frontmatter (specifies: field in specs/3-artifacts/prompts/)
+3. Update registry (specs/3-artifacts/prompts/registry.spec.md)
 4. Update navigation (dist/prompts/utils/next-steps.md)
 5. Update predecessor prompts ("Next Step" sections)
 6. Update AGENTS.md references if prompt mentioned

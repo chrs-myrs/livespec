@@ -17,7 +17,7 @@ guided-by:
 
 ## Requirements
 - [!] LiveSpec provides exactly 36 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
-  - Each prompt has corresponding behavior spec in specs/3-behaviors/prompts/
+  - Each prompt has corresponding behavior spec in specs/3-artifacts/prompts/
   - Phase 0 (DEFINE): 8 prompts establishing foundation (quick-start + customize + validation)
   - Phase 1 (DESIGN): 4 prompts specifying solution
   - Phase 2 (BUILD): 2 prompts implementing code
@@ -78,7 +78,7 @@ Maintain synchronisation between specs and code.
 | 4a-detect-drift | 4a-detect-drift.spec.md | var/drift-reports/*.md | Identify spec-code misalignment |
 | 4b-extract-specs | 4b-extract-specs.spec.md | specs/3-behaviors/*.spec.md | Generate specs from existing code |
 | 4c-sync-complete | 4c-sync-complete.spec.md | Updated specs | Confirm synchronisation restored |
-| 4d-regenerate-agents | 4d-regenerate-agents.spec.md | AGENTS.md | Regenerate AI agent configuration |
+| 4d-regenerate-context | 4d-regenerate-context.spec.md | AGENTS.md | Regenerate context tree |
 | 4e-validate-extractions | 4e-validate-extractions.spec.md | Promoted specs | Review low-confidence extracted specs |
 | 4f-document-implementation | 4f-document-implementation.spec.md | var/implementation-reports/*.md | Create comprehensive implementation feedback report |
 
@@ -105,7 +105,7 @@ Special situation handlers and continuous improvement.
 ## Validation
 
 - Registry lists exactly 36 prompts (8+4+2+2+6+14)
-- All prompts have corresponding behavior specs in specs/3-behaviors/prompts/
+- All prompts have corresponding behavior specs in specs/3-artifacts/prompts/
 - Phase assignments match five-phases.spec.md definitions
 - Output paths documented for each prompt
 - Bidirectional links maintained (prompts reference specs, specs reference prompts)

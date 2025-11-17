@@ -22,7 +22,7 @@ governed-by:
   - Strategy files stay minimal (single file <100 lines, split files <50 lines each)
   - AGENTS.md references specs/workspace/workspace-agent.spec.md in frontmatter
   - Agent integration behaviors defined in specs/workspace/livespec.spec.md
-  - Regeneration prompt exists at prompts/4-evolve/4d-regenerate-agents.md
+  - Regeneration prompt exists at prompts/4-evolve/4d-regenerate-context.md
   - Extracted specs use confidence markers when appropriate (LOW/MEDIUM confidence)
   - Extracted specs promoted to VALIDATED status after human review
 

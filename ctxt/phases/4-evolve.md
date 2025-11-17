@@ -137,7 +137,7 @@ Phase 4 keeps specifications synchronized with reality through continuous evolut
 
 ### Step 6: Regenerate Agent Contexts
 
-**Prompt:** `.livespec/4-evolve/4d-regenerate-agents.md`
+**Prompt:** `.livespec/4-evolve/4d-regenerate-context.md`
 
 **Use when:**
 - Workspace specs changed (constitution, patterns, workflows)
@@ -161,7 +161,7 @@ Phase 4 keeps specifications synchronized with reality through continuous evolut
 | 4a-detect-drift.md | Weekly, before releases | Drift report, remediation plan |
 | 4b-extract-specs.md | Existing codebase, new behaviors | Extracted specs (with confidence markers) |
 | 4c-sync-complete.md | After fixing drift | Synchronization report |
-| 4d-regenerate-agents.md | Workspace specs changed | Updated AGENTS.md, ctxt/* |
+| 4d-regenerate-context.md | Workspace specs changed | Updated AGENTS.md, ctxt/* |
 | 4e-validate-extractions.md | Low-confidence specs | Promoted validated specs |
 | 4f-document-implementation.md | Implementation docs needed | Deployment guides, runbooks |
 
@@ -216,7 +216,7 @@ Use .livespec/4-evolve/4e-validate-extractions.md
 # Edit specs/workspace/ for your team
 
 # Step 4: Regenerate agents
-Use .livespec/4-evolve/4d-regenerate-agents.md
+Use .livespec/4-evolve/4d-regenerate-context.md
 
 # Result: Fully documented codebase
 ```

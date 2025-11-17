@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/analyze-failure.spec.md
+implements: specs/3-artifacts/prompts/analyze-failure.spec.md
 ---
 
 # Analyze LiveSpec Process Failure

@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/0d-assess-complexity.spec.md
+implements: specs/3-artifacts/prompts/0d-assess-complexity.spec.md
 estimated_time: "10-15 minutes"
 ---
 

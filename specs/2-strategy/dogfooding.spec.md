@@ -160,10 +160,10 @@ tests/
 ```
 # Drift detected
 prompts/utils/upgrade-methodology.md added
-But: No specs/3-behaviors/prompts/utils-upgrade.spec.md
+But: No specs/3-artifacts/prompts/utils-upgrade.spec.md
 
 # Resolution
-Create specs/3-behaviors/prompts/utils-upgrade.spec.md
+Create specs/3-artifacts/prompts/utils-upgrade.spec.md
 Define what upgrade prompt should do
 Verify prompt implements spec
 Commit both together
@@ -177,7 +177,7 @@ Commit both together
 ## Bidirectional Sync Demonstration
 
 **Spec → Deliverable (design-first):**
-1. Create behavior spec (e.g., specs/3-behaviors/prompts/utils-upgrade.spec.md)
+1. Create behavior spec (e.g., specs/3-artifacts/prompts/utils-upgrade.spec.md)
 2. Define requirements, triggers, outputs, validation criteria
 3. Implement prompt (prompts/utils/upgrade-methodology.md)
 4. Reference spec in prompt frontmatter (spec: ...)

@@ -28,7 +28,7 @@ derives-from:
 **Prompts use `implements:` to reference defining specifications:**
 ```yaml
 ---
-implements: specs/3-behaviors/prompts/1a-design-architecture.spec.md
+implements: specs/3-artifacts/prompts/1a-design-architecture.spec.md
 ---
 ```
 
@@ -86,7 +86,7 @@ When renaming or moving prompts or specs, use systematic checklist to maintain t
 **Files to update:**
 - [ ] Source file renamed/moved (dist/prompts/ or specs/)
 - [ ] Spec frontmatter (`specifies:` or `implements:` field)
-- [ ] Registry entry (specs/3-behaviors/prompts/registry.spec.md)
+- [ ] Registry entry (specs/3-artifacts/prompts/registry.spec.md)
 - [ ] Navigation files (dist/prompts/utils/next-steps.md)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
@@ -98,8 +98,8 @@ When renaming or moving prompts or specs, use systematic checklist to maintain t
 
 **Updated files:**
 1. ✓ dist/prompts/0-define/0f-identify-constraints.md (renamed)
-2. ✓ specs/3-behaviors/prompts/0f-identify-constraints.spec.md (frontmatter: `specifies:`)
-3. ✓ specs/3-behaviors/prompts/registry.spec.md (table entry)
+2. ✓ specs/3-artifacts/prompts/0f-identify-constraints.spec.md (frontmatter: `specifies:`)
+3. ✓ specs/3-artifacts/prompts/registry.spec.md (table entry)
 4. ✓ dist/prompts/utils/next-steps.md (decision tree references)
 5. ✓ dist/prompts/0-define/0c-define-outcomes.md (next step reference)
 6. ✓ AGENTS.md (if prompt mentioned)

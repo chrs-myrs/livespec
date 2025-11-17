@@ -5,6 +5,10 @@ derives_from:
   - specs/3-behaviors/measurement/agent-compliance.spec.md
 governed_by:
   - specs/workspace/constitution.spec.md
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md
+guided-by:
+  - specs/2-strategy/architecture.spec.md
 specifies:
   - dist/prompts/utils/measure-session-compliance.md
 ---

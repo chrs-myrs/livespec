@@ -1,5 +1,5 @@
 ---
-specifies: prompts/4-evolve/4d-regenerate-agents.md
+specifies: prompts/4-evolve/4d-regenerate-context.md
 derives-from:
   - specs/workspace/workspace-agent.spec.md
   - specs/workspace/workflows.spec.md
@@ -14,7 +14,7 @@ guided-by:
   - specs/2-strategy/ai-discoverability.spec.md
 ---
 
-# Prompt Behavior: Regenerate Agent Configuration
+# Prompt Behavior: Regenerate Context Tree
 
 ## Requirements
 - [!] Prompt guides user or agent through regenerating AGENTS.md from current workspace specifications, ensuring AI agents have up-to-date methodology context.

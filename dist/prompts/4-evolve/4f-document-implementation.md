@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/4f-document-implementation.spec.md
+implements: specs/3-artifacts/prompts/4f-document-implementation.spec.md
 phase: 4-EVOLVE
 purpose: Create comprehensive implementation feedback report for methodology learning
 ---

@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/1d-create-contracts.spec.md
+implements: specs/3-artifacts/prompts/1d-create-contracts.spec.md
 generated: '2025-10-10'
 phase: 1-design
 estimated_time: "15-20 minutes"

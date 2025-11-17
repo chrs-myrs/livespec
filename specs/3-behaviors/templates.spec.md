@@ -84,11 +84,11 @@ guided-by:
 
 **Usage flow in target projects:**
 1. Templates referenced by `specs/workspace/workspace-agent.spec.md`
-2. Read by `.livespec/prompts/4-evolve/4d-regenerate-agents.md` during AGENTS.md generation
+2. Read by `.livespec/prompts/4-evolve/4d-regenerate-context.md` during AGENTS.md generation
 3. Inserted into AGENTS.md START section
 4. Provide structural enforcement for target project agents
 
-**Critical dependency:** 4d-regenerate-agents.md requires `.livespec/templates/agents/` to exist. If target project only copied `prompts/`, AGENTS.md generation will fail or lack verification content.
+**Critical dependency:** 4d-regenerate-context.md requires `.livespec/templates/agents/` to exist. If target project only copied `prompts/`, AGENTS.md generation will fail or lack verification content.
 
 ## Validation
 
@@ -106,7 +106,7 @@ guided-by:
   - plan-review-checklist.md
 - Each is complete standalone markdown section
 - Referenced in `specs/workspace/workspace-agent.spec.md`
-- Inserted by `prompts/4-evolve/4d-regenerate-agents.md`
+- Inserted by `prompts/4-evolve/4d-regenerate-context.md`
 - Visible in generated AGENTS.md START section
 
 **Template architecture:**

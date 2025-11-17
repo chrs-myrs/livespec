@@ -5,7 +5,7 @@ supports:
   - specs/1-requirements/strategic/constraints.spec.md
   - specs/2-strategy/architecture.spec.md
   - specs/workspace/
-  - specs/3-behaviors/prompts/
+  - specs/3-artifacts/prompts/
 criticality: CRITICAL
 failure_mode: Without clear outcomes, LiveSpec lacks cohesive direction and becomes disconnected collection of features
 governed-by:
@@ -27,8 +27,8 @@ Support spec-first (design) and code-first (extraction) workflows.
 
 **Satisfied by:**
 - specs/2-strategy/architecture.spec.md (dogfooding section)
-- specs/3-behaviors/prompts/4a-detect-drift.spec.md (code→spec detection)
-- specs/3-behaviors/prompts/4b-extract-specs.spec.md (code→spec extraction)
+- specs/3-artifacts/prompts/4a-detect-drift.spec.md (code→spec detection)
+- specs/3-artifacts/prompts/4b-extract-specs.spec.md (code→spec extraction)
 - prompts/1-design/ (spec→code design)
 - prompts/2-build/ (spec→code implementation)
 

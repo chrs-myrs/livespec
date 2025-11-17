@@ -87,7 +87,7 @@ Use when:
 
 **Why critical after Phase 0**: Bootstrap AGENTS.md is minimal (5KB). Full context tree with specialized sub-agents requires workspace specs to generate from.
 
-**Relation to 4d-regenerate-agents**:
+**Relation to 4d-regenerate-context**:
 - Old: Generates monolithic AGENTS.md (~50-60KB)
 - New: Generates context tree (root + ctxt/) for specialized loading
 - Both read same workspace specs as source
@@ -220,7 +220,7 @@ What this prompt should NOT do:
 
 ## Notes
 
-**Frequency**: Run after workspace changes (like 4d-regenerate-agents), also when compression level changes or context tree feels stale.
+**Frequency**: Run after workspace changes (like 4d-regenerate-context), also when compression level changes or context tree feels stale.
 
 **Distribution**: Bootstrap dist/AGENTS.md is minimal (instructs to run this prompt). Project AGENTS.md + ctxt/ generated locally from workspace specs. ctxt/ NOT distributed (generated per-project).
 

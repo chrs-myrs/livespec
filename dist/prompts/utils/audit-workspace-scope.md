@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/utils-audit-workspace-scope.spec.md
+implements: specs/3-artifacts/prompts/utils-audit-workspace-scope.spec.md
 implements: specs/3-behaviors/validation/workspace-scope-audit.spec.md
 derives-from:
   - specs/workspace/taxonomy.spec.md

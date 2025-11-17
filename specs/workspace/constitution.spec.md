@@ -18,7 +18,7 @@ governed-by:
     - AI agents check for spec existence before implementation
     - AI agents guide users to Phase 1 (DESIGN) if spec missing
     - Familiarity doesn't excuse skipping specification (CHANGELOG mistake in commit 40411e3 demonstrates this)
-    - Every prompt in prompts/ has corresponding spec in specs/3-behaviors/prompts/
+    - Every prompt in prompts/ has corresponding spec in specs/3-artifacts/prompts/
     - Every behavior has validation criteria and failure mode defined
   - **MSL Minimalism** (Principle #2 - essential):
     - Before adding any requirement, ask four essential questions:

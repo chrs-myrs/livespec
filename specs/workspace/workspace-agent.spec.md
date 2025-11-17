@@ -8,7 +8,7 @@ derives-from:
   - specs/workspace/workflows.spec.md
   - specs/workspace/agent-contexts.spec.md
 supports:
-  - prompts/4-evolve/4d-regenerate-agents.md
+  - prompts/4-evolve/4d-regenerate-context.md
   - .livespec/prompts/utils/regenerate-contexts.md
 criticality: CRITICAL
 failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model

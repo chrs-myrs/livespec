@@ -31,7 +31,7 @@ cat .livespec/templates/commands/utility-command.md
 ### Step 2: Read Prompt Registry
 
 ```bash
-cat specs/3-behaviors/prompts/registry.spec.md
+cat specs/3-artifacts/prompts/registry.spec.md
 ```
 
 **Extract utility prompts:**
@@ -49,8 +49,8 @@ cat specs/3-behaviors/prompts/registry.spec.md
    - Description: "End-of-session analysis with compliance and learning capture"
    - Parameters: none
 
-2. **rebuild-agents**
-   - Prompt: `dist/prompts/4-evolve/4d-regenerate-agents.md`
+2. **rebuild-context**
+   - Prompt: `dist/prompts/4-evolve/4d-regenerate-context.md`
    - Description: "Rebuild AGENTS.md and context tree from workspace specs"
    - Parameters: none
 
@@ -296,7 +296,7 @@ done
 ### ✅ Created (X)
 
 - **complete-session** → dist/prompts/utils/complete-session.md
-- **rebuild-agents** → dist/prompts/4-evolve/4d-regenerate-agents.md
+- **rebuild-context** → dist/prompts/4-evolve/4d-regenerate-context.md
 - ...
 
 ### 🔄 Updated (X)
@@ -319,7 +319,7 @@ Commands available via Claude Code slash autocomplete:
 - `/livespec/complete-session` - End session with analysis
 
 **Context-Level:**
-- `/livespec/rebuild-agents` - Regenerate from specs
+- `/livespec/rebuild-context` - Regenerate from specs
 - `/livespec/refine-workspace` - Optimize structure
 
 **Strategic-Level:**

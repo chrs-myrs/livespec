@@ -75,7 +75,7 @@ What this specification enables or makes possible.
 **Example:**
 ```yaml
 supports:
-  - prompts/4-evolve/4d-regenerate-agents.md
+  - prompts/4-evolve/4d-regenerate-context.md
   - specs/3-behaviors/drift-detection.spec.md
 ```
 

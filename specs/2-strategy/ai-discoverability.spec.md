@@ -108,7 +108,7 @@ failure_mode: Without effective AI discoverability, agents cannot assist users a
 
 **Generation workflow:**
 - Triggered by workspace spec changes, PURPOSE.md updates, or version upgrades
-- Prompt: prompts/4-evolve/4d-regenerate-agents.md
+- Prompt: prompts/4-evolve/4d-regenerate-context.md
 - Sources: PURPOSE.md, specs/workspace/, specs/1-requirements/strategic/outcomes.spec.md, specs/1-requirements/strategic/constraints.spec.md
 - Output: AGENTS.md with frontmatter (generated timestamp, version, spec reference)
 - Validation: file size check, section completeness, manual review
@@ -175,7 +175,7 @@ specs/
 **Pattern:**
 ```yaml
 ---
-implements: specs/3-behaviors/prompts/4a-detect-drift.spec.md
+implements: specs/3-artifacts/prompts/4a-detect-drift.spec.md
 ---
 ```
 

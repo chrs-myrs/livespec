@@ -98,7 +98,7 @@ specs/
 **Examples:**
 - `0a-setup-workspace.md`
 - `1b-define-behaviors.md`
-- `4d-regenerate-agents.md`
+- `4d-regenerate-context.md`
 
 ## Language Conventions
 

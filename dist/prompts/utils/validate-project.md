@@ -59,7 +59,7 @@ test -d .claude/commands/livespec || echo "⚠️ WARNING: .claude/commands/live
 # Check all 11 commands exist
 COMMANDS=(
   "complete-session"
-  "rebuild-agents"
+  "rebuild-context"
   "refine-workspace"
   "suggest-improvements"
   "health-report"
@@ -167,7 +167,7 @@ grep -r "^generated:" . --include="*.md" -l  # Frontmatter style
 1. **Extract metadata:**
    - Generation timestamp: `Generated: 2025-10-12T10:30:00Z`
    - Source files: Listed in header
-   - Generator: `Generator: prompts/4-evolve/4d-regenerate-agents.md`
+   - Generator: `Generator: prompts/4-evolve/4d-regenerate-context.md`
 
 2. **Compare timestamps:**
    ```bash
@@ -207,14 +207,14 @@ grep -r "^generated:" . --include="*.md" -l  # Frontmatter style
   **Fix:**
   1. Revert AGENTS.md to last generated version: `git checkout AGENTS.md`
   2. Edit source specifications in specs/workspace/
-  3. Regenerate: Use prompts/4-evolve/4d-regenerate-agents.md
+  3. Regenerate: Use prompts/4-evolve/4d-regenerate-context.md
 
 ### ⚠️ WARNINGS (regeneration needed)
 - **dist/AGENTS.md**
   - Generated: 2025-10-12T10:30:00Z
   - Sources changed:
     - specs/workspace/patterns.spec.md (modified: 2025-10-12 14:00:00)
-  - Regenerate: Use prompts/4-evolve/4d-regenerate-agents.md
+  - Regenerate: Use prompts/4-evolve/4d-regenerate-context.md
 ```
 
 ### Phase 3: Partial Generation Validation
@@ -427,7 +427,7 @@ echo "✅ Validation passed"
 **After regenerating AGENTS.md:**
 ```bash
 # 1. Regenerate
-# Use prompts/4-evolve/4d-regenerate-agents.md
+# Use prompts/4-evolve/4d-regenerate-context.md
 
 # 2. Validate immediately
 # Use prompts/utils/validate-project.md

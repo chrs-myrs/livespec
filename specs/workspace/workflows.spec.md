@@ -20,7 +20,7 @@ governed-by:
     - If YES: Verify spec has Requirements section with [!] items, Validation criteria, and Failure Mode defined
     - Then proceed to implementation
     - Applies to all deliverables (CHANGELOG, README, configs, templates all need specs)
-  - Every prompt in prompts/ has spec in specs/3-behaviors/prompts/
+  - Every prompt in prompts/ has spec in specs/3-artifacts/prompts/
   - Git history shows specs created before implementation
   - Pull requests include testing evidence
   - Specifications don't grow larger over time (MSL audits via prompts/utils/audit-workspace-specs.md)
@@ -53,7 +53,7 @@ governed-by:
     - Validation reports actionable (file paths, line numbers, specific fix suggestions)
     - Integration with regeneration workflow:
       1. Update source specs
-      2. Regenerate files (Use prompts/4-evolve/4d-regenerate-agents.md)
+      2. Regenerate files (Use prompts/4-evolve/4d-regenerate-context.md)
       3. Validate immediately (Use prompts/utils/validate-project.md)
       4. Fix any errors detected
       5. Commit if validation passes
@@ -94,8 +94,8 @@ governed-by:
         3. Verify new sequence maintains workflow logic (setup → problem → outcomes → complexity → research → constraints)
       - **Phase 2: Systematic Updates**
         1. Rename prompt files in dist/prompts/[phase]/
-        2. Update spec frontmatter (specifies: field in specs/3-behaviors/prompts/)
-        3. Update registry (specs/3-behaviors/prompts/registry.spec.md table)
+        2. Update spec frontmatter (specifies: field in specs/3-artifacts/prompts/)
+        3. Update registry (specs/3-artifacts/prompts/registry.spec.md table)
         4. Update navigation (dist/prompts/utils/next-steps.md decision tree)
         5. Update predecessor prompts ("Next Step" sections)
         6. Update AGENTS.md references if prompt mentioned

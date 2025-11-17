@@ -36,7 +36,7 @@ guided-by:
     - Each phase requires completion before next phase starts
   - **Phase 7: AGENTS.md regeneration** (new - mandatory if workspace specs changed):
     - Agent checks if specs/workspace/ changed during upgrade (diff against backup)
-    - If changed: Agent must regenerate AGENTS.md using 4d-regenerate-agents.md
+    - If changed: Agent must regenerate AGENTS.md using 4d-regenerate-context.md
     - Agent shows before/after diff of Core Principles section
     - Agent verifies principle order matches constitution.spec.md
     - Prevents AGENTS.md drift (like we caught in 2.2.0 release)
@@ -120,7 +120,7 @@ guided-by:
 **Phase 7: AGENTS.md regeneration (NEW - mandatory if needed):**
 - Check if specs/workspace/ changed: `diff -q .livespec/specs/workspace/ $BACKUP/specs/workspace/`
 - If changed:
-  - **MANDATORY**: Agent must regenerate AGENTS.md using 4d-regenerate-agents.md
+  - **MANDATORY**: Agent must regenerate AGENTS.md using 4d-regenerate-context.md
   - **PROOF REQUIRED**: Agent shows before/after diff of Core Principles section
   - Agent verifies principle order matches constitution.spec.md
   - Prevents AGENTS.md drift (caught in 2.2.0 release)

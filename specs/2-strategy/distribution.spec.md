@@ -149,7 +149,7 @@ git submodule add https://github.com/chrs-myrs/livespec .livespec
 **Increment when:** New features, backward-compatible additions
 
 **Examples:**
-- New phase prompt added (e.g., 4d-regenerate-agents.md)
+- New phase prompt added (e.g., 4d-regenerate-context.md)
 - New utility added (e.g., upgrade-methodology.md)
 - New template added (e.g., additional workspace spec type)
 - Documentation improvements
@@ -283,7 +283,7 @@ git submodule add https://github.com/chrs-myrs/livespec .livespec
 - **Transparency**: No hidden updates
 - **Trust**: Users maintain agency
 
-**Upgrade workflow:** See specs/3-behaviors/prompts/utils-upgrade.spec.md
+**Upgrade workflow:** See specs/3-artifacts/prompts/utils-upgrade.spec.md
 
 **Connection to constraints:**
 - Manual adoption constraint (no automation)

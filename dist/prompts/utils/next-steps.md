@@ -1,5 +1,5 @@
 ---
-implements: specs/3-behaviors/prompts/next-steps.spec.md
+implements: specs/3-artifacts/prompts/next-steps.spec.md
 ---
 
 # Workflow Orchestrator - What To Do Next
