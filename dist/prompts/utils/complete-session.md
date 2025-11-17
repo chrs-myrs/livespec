@@ -98,7 +98,65 @@ If ANY signal present, proceed with completion analysis.
 - Which AGENTS.md sections weren't helpful?
 - What redundancy caused confusion?
 
-### Step 5: Show Concise Report (≤15 lines)
+### Step 5: Capture Session Learnings
+
+**Purpose:** Extract actionable insights from THIS session that should update project specs or inform LiveSpec methodology.
+
+**Scan current conversation for:**
+
+1. **Corrections made:**
+   - Mistaken assumptions you corrected
+   - Misunderstandings clarified
+   - Wrong approaches abandoned
+   - Example: "I initially thought X, but actually it's Y because..."
+
+2. **Clarifications user provided:**
+   - Requirements refined during discussion
+   - Scope adjusted based on feedback
+   - Ambiguities resolved
+   - Example: User said "No, I meant..." or "Actually, it should..."
+
+3. **Patterns that emerged:**
+   - Repeated issues (same problem multiple times)
+   - New conventions established
+   - Workflow improvements discovered
+   - Example: "We kept hitting X, so we decided Y approach works better"
+
+4. **Specs needing updates:**
+   - Workspace specs (process changes, new conventions)
+   - Behavior specs (requirements changed, new behaviors added)
+   - Contract specs (API changes, new interfaces)
+   - Example: "This session revealed we need to update X.spec.md to include Y"
+
+**For project specs (workspace/behaviors):**
+- List specific specs to update
+- Note what should change (add requirement, remove outdated, clarify ambiguity)
+- Brief reasoning (why this update matters)
+
+**For LiveSpec methodology (framework gaps):**
+- What LiveSpec guidance was unclear or missing?
+- What prompts were confusing or incomplete?
+- What caused unnecessary friction?
+- What would have helped during this session?
+
+**Output format for Step 6 report:**
+```markdown
+**Session Learnings:**
+- [Key learning 1: what you corrected/learned]
+- [Key learning 2: pattern or clarification]
+
+**Specs to Update:**
+- [path/to/spec.md: what needs updating]
+- [another/spec.md: what needs updating]
+
+**LiveSpec Feedback:**
+- [Methodology gap or improvement suggestion]
+- [Framework friction point or unclear guidance]
+```
+
+**If no learnings identified:** Skip the learnings section in report (perfectly fine - not every session has major insights)
+
+### Step 6: Show Concise Report (≤15 lines)
 
 ```markdown
 # Session Complete
@@ -107,6 +165,10 @@ If ANY signal present, proceed with completion analysis.
 - [Bullet list of what was done]
 
 **Compliance:** [X]% ([X]/8 process, [X]/13 focus) - [Perfect|Good|Fair|Poor]
+
+**Session Learnings:** (if any captured in Step 5)
+- [Key insights from this session]
+- [Specs to update: list paths]
 
 **Highlights:**
 - [2-3 things that went well]
@@ -119,7 +181,7 @@ If ANY signal present, proceed with completion analysis.
 **Next:** Consider committing your work and starting a fresh session for better focus.
 ```
 
-### Step 6: Detect Project Metadata
+### Step 7: Detect Project Metadata
 
 **Project name:**
 ```bash
@@ -143,7 +205,7 @@ git remote get-url origin 2>/dev/null
 **LiveSpec version:**
 - Check `.livespec-version` file or default to "unknown"
 
-### Step 7: Write Compliance JSON
+### Step 8: Write Compliance JSON
 
 **File:** `~/.claude/livespec/compliance/YYYY-MM-DD-HHMMSS-projectname.json`
 
@@ -202,7 +264,7 @@ mkdir -p ~/.claude/livespec/compliance
 }
 ```
 
-### Step 8: Write Feedback Markdown (≤10 lines)
+### Step 9: Write Feedback Markdown (≤10 lines)
 
 **File:** `~/.claude/livespec/feedback/YYYY-MM-DD-HHMMSS-projectname.md`
 
@@ -234,7 +296,7 @@ mkdir -p ~/.claude/livespec/feedback
 - Suggest concrete improvements
 - Skip this file if session was perfect (no feedback needed)
 
-### Step 9: Handle Write Failures Gracefully
+### Step 10: Handle Write Failures Gracefully
 
 ```bash
 # Try to write files, but don't fail session if it doesn't work
@@ -249,7 +311,7 @@ mkdir -p ~/.claude/livespec/feedback
 
 **Always show the report to user, even if file writes fail.**
 
-### Step 10: Encourage Fresh Session
+### Step 11: Encourage Fresh Session
 
 After showing report and saving files:
 
@@ -288,6 +350,7 @@ Before finalizing analysis:
 - [ ] Signal-to-noise calculated correctly
 - [ ] Context sections identified (used vs unused)
 - [ ] Redundancy detected between CLAUDE.md and AGENTS.md
+- [ ] Session learnings captured (corrections, clarifications, patterns, spec updates)
 - [ ] Report shown to user (≤15 lines)
 - [ ] JSON written to ~/.claude/livespec/compliance/
 - [ ] Markdown written to ~/.claude/livespec/feedback/ (if problems found)

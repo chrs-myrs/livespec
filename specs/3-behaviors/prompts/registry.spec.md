@@ -16,14 +16,14 @@ guided-by:
 # Prompt Registry
 
 ## Requirements
-- [!] LiveSpec provides exactly 28 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
+- [!] LiveSpec provides exactly 30 prompts organized by five phases (DEFINE, DESIGN, BUILD, VERIFY, EVOLVE) plus utilities, with clear phase assignments, output specifications, and relationships to behaviors.
   - Each prompt has corresponding behavior spec in specs/3-behaviors/prompts/
   - Phase 0 (DEFINE): 8 prompts establishing foundation (quick-start + customize + validation)
-  - Phase 1 (DESIGN): 3 prompts specifying solution
+  - Phase 1 (DESIGN): 4 prompts specifying solution
   - Phase 2 (BUILD): 2 prompts implementing code
   - Phase 3 (VERIFY): 2 prompts validating correctness
-  - Phase 4 (EVOLVE): 5 prompts maintaining synchronisation
-  - Utils: 8 prompts for special situations (workflow, improvement, generators, validation)
+  - Phase 4 (EVOLVE): 6 prompts maintaining synchronisation
+  - Utils: 8 prompts for special situations (session completion, strategic improvements, health diagnostics, workspace optimization, workflow analysis, spikes, upgrade)
   - Registry matches five-phases.spec.md structure
   - All prompt paths and outputs documented accurately
   - Bidirectional links maintained (prompts → specs, specs → prompts)
@@ -91,10 +91,10 @@ Special situation handlers and continuous improvement.
 | next-steps | next-steps.spec.md | Status report | Workflow orchestration and navigation |
 | run-spike | run-spike.spec.md | specs/spikes/*.md | Time-boxed technical exploration |
 | upgrade-methodology | utils-upgrade.spec.md | Upgraded .livespec/ | Migrate to new LiveSpec version |
-| **generate-self-improvement** | **utils-generate-self-improvement.spec.md** | **prompts/generated/self-improve.md** | **Generate project-specific improvement analysis prompt** |
-| **generate-internalise-learnings** | **utils-generate-internalise-learnings.spec.md** | **prompts/generated/internalise-learnings.md** | **Generate project-specific learning capture prompt** |
-| self-improve *(generated)* | utils-self-improve.spec.md | Improvement recommendations | Strategic project-wide analysis for systematic improvements |
-| internalise-learnings *(generated)* | utils-internalise-learnings.spec.md | Spec updates | Tactical conversation analysis for immediate learning capture |
+| **complete-session** | **utils-complete-session.spec.md** | **~/.claude/livespec/compliance/, feedback/** | **End-of-session analysis with compliance scoring and learning capture** |
+| **suggest-improvements** | **utils-suggest-improvements.spec.md** | **Prioritized recommendations** | **Strategic improvement analysis based on accumulated data (registries, trends, feedback)** |
+| **run-health-report** | **utils-run-health-report.spec.md** | **var/health-reports/*.md** | **Diagnostic health assessment with 🟢🟡🔴 status and remediation plans** |
+| **reorganize-workspace** | **utils-reorganize-workspace.spec.md** | **Reorganization plan** | **Context optimization based on usage patterns (START/MIDDLE/END positioning)** |
 
 ## Validation
 
@@ -105,6 +105,7 @@ Special situation handlers and continuous improvement.
 - Bidirectional links maintained (prompts reference specs, specs reference prompts)
 - Registry enables AI agents to navigate methodology
 - Phase 0 includes conceptual validation prompt (0x-validate-understanding)
-- Utils prompts handle special situations (failure, navigation, exploration, upgrade, continuous improvement, validation, auditing)
-- Generator utils create customized prompts tailored to project specifics
-- Generated utils (self-improve, internalise-learnings) adapt to project PURPOSE and spec structure
+- Utils prompts handle special situations (failure, navigation, exploration, upgrade, session completion, strategic improvements, health diagnostics, workspace optimization)
+- Four-level improvement taxonomy supported (session, context, strategic, diagnostic)
+- Session completion integrated with learning capture (no separate internalise-learnings prompt)
+- Obsolete prompts archived (generate-self-improvement, generate-internalise-learnings, self-improve, internalise-learnings)

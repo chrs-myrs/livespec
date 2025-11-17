@@ -735,22 +735,36 @@ guided-by:
 
 ---
 
-## Session Completion & Learning
+## Session Completion (ACTIVE MONITORING REQUIRED)
 
-LiveSpec uses session completion analysis to keep sessions focused and improve methodology.
+**YOU MUST proactively monitor and recommend session completion.** This is NOT optional guidance - it is a core responsibility.
 
-### When to Complete Sessions (Eagerly)
+### Trigger Detection (Check Continuously)
 
-**Agent should detect and recommend completion when:**
-- Task completed successfully (all todos done)
-- Context approaching 100K tokens (50% of 200K budget)
-- Natural stopping point (ready to commit, switching tasks)
-- User appears stuck (repeated attempts, no progress)
+**Monitor the following triggers and act IMMEDIATELY when ANY trigger hits:**
 
-**Benefits of fresh sessions:**
-- Reduced context size = better focus
-- Lower cognitive load
-- Clearer task boundaries
+#### Trigger 1: Context Threshold (>100K tokens)
+**Check:** Look at `<budget:token_budget>` in conversation context
+**Threshold:** >100K tokens (50% of 200K budget)
+**Action:** "We've used [X]K tokens (>50% of budget). I should complete this session now to capture learnings and start fresh with better context. This takes 30 seconds."
+**Tool:** Use `dist/prompts/utils/complete-session.md`
+
+#### Trigger 2: Task Completion (All todos done)
+**Check:** TodoWrite shows all items marked "completed"
+**Action:** "All tasks complete! Let me run session completion to analyze what we accomplished and save learnings for future improvement."
+**Tool:** Use `dist/prompts/utils/complete-session.md`
+
+#### Trigger 3: Natural Stopping Point
+**Check:** About to commit, user says "that's it" / "thanks", switching to different task
+**Action:** "Good stopping point. Should I complete the session before we [commit/switch]? It captures learnings and metrics for methodology improvement."
+**Tool:** Use `dist/prompts/utils/complete-session.md`
+
+#### Trigger 4: User Appears Stuck
+**Check:** 3+ failed attempts at same task, repeated errors, no progress for 10+ minutes
+**Action:** "This seems challenging. Let me complete the session - starting fresh with clearer context often helps. The session data will show what didn't work."
+**Tool:** Use `dist/prompts/utils/complete-session.md`
+
+**CRITICAL:** Do NOT wait for user to request completion. Proactive detection and recommendation is required.
 
 ### Unified Session Analysis
 
@@ -759,13 +773,15 @@ LiveSpec uses session completion analysis to keep sessions focused and improve m
 **Agent performs:**
 1. Analyze compliance (process + focus efficiency)
 2. Calculate signal-to-noise ratio (context efficiency)
-3. Identify what didn't work (methodology gaps)
-4. Show concise report to user (≤15 lines)
-5. Save data globally for learning
+3. **Capture session learnings** (corrections, clarifications, patterns, spec updates needed)
+4. Identify what didn't work (methodology gaps)
+5. Show concise report to user (≤15 lines)
+6. Save data globally for learning
 
 **User sees immediately:**
 - What was accomplished
 - Compliance scores (X/8 process, X/13 focus)
+- **Session learnings** (if any: key insights, specs to update)
 - What went well (2-3 highlights)
 - What could improve (2-3 suggestions)
 
