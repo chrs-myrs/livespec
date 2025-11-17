@@ -36,7 +36,7 @@ Most third-party components don't need LiveSpec specifications:
 
 **External documentation:**
 - Link to Auth0 docs, not copy them
-- Reference Stripe API, not duplicate it
+- Reference ApiService docs, not duplicate them
 - Point to AWS documentation
 
 **Only specify when:**
@@ -102,27 +102,27 @@ Do you integrate with external service/library?
 
 ## External Dependencies
 
-- **Auth0** (https://auth0.com/docs) - User authentication, OAuth2/OIDC
-- **Stripe** (https://stripe.com/docs/api) - Payment processing
-- **AWS S3** (https://docs.aws.amazon.com/s3/) - File storage
+- **AuthProvider** (https://auth-provider.example/docs) - User authentication, OAuth2/OIDC
+- **ApiService** (https://api-service.example/docs/api) - External service integration
+- **CloudStorage** (https://docs.cloud-storage.example/api/) - File storage
 ```
 
 **Complex integration needing behavior spec:**
 ```markdown
-# specs/3-behaviors/integrations/stripe-webhook-processing.spec.md
+# specs/3-behaviors/integrations/webhook-processing.spec.md
 ---
 criticality: IMPORTANT
-failure_mode: Payment confirmations not processed, orders stuck
+failure_mode: Event confirmations not processed, transactions stuck
 ---
 
-# Stripe Webhook Processing
+# External Service Webhook Processing
 
 ## Requirements
-- [!] System processes Stripe webhook events reliably
+- [!] System processes external service webhook events reliably
   - Validates webhook signatures
   - Handles idempotent processing
   - Retries failed webhooks with exponential backoff
-  - References: https://stripe.com/docs/webhooks
+  - References: https://api-service.example/docs/webhooks
 
 ## Validation
 - Webhook signature validation prevents spoofing

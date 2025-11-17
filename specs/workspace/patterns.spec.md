@@ -184,87 +184,15 @@ When extracting specs from code (Phase 4b), mark low-confidence extractions:
 
 ## Context Compression Patterns
 
-**Purpose:** Guidance layer optimization through configurable structural force
+**See:** `specs/workspace/context-compression.spec.md` (105 lines)
+- **IMPORTANT**: Configurable structural force for guidance layer optimization
+- Compression levels (light/moderate/aggressive) with characteristics
+- Extract vs inline decision framework (when to template)
+- Compression drives template extraction, AGENTS.md sizing, reference depth
+- Relationship to MSL Minimalism (content vs structural optimization)
+- Audit tool and migration path
 
-**Context compression** is an active force that reorganizes guidance layer (workspace/, AGENTS.md, templates/) for agent focus efficiency. Complements MSL Minimalism:
-- **MSL Minimalism**: Content pressure (reduce within specs - WHAT/requirements)
-- **Context Compression**: Structural force (reorganize across guidance - HOW agents consume)
-
-### Compression Level Declaration
-
-Projects declare compression level in workspace/constitution.spec.md frontmatter:
-
-```yaml
----
-context_compression: light | moderate | aggressive
----
-```
-
-**Default:** moderate (if unspecified)
-
-### Compression Level Characteristics
-
-**Light Compression** (verbose, exploratory):
-- Inline examples in AGENTS.md
-- Detailed explanations embedded
-- Minimal extraction to templates
-- Redundancy tolerated for clarity
-- Good for: Large context agents, learning phase, infrequent usage
-
-**Moderate Compression** (balanced - LiveSpec default):
-- Strategic extraction of reusable content
-- Critical workflows inline, details referenced
-- Templates for repeated patterns
-- Balanced inline/reference approach
-- Good for: Most production work, standard agents
-
-**Aggressive Compression** (dense, focused):
-- Heavy extraction to templates
-- Deep reference hierarchies
-- Minimal inline examples (pattern only)
-- Strict redundancy elimination
-- Good for: Cost-sensitive, high-frequency usage, small context agents
-
-### Extract vs Inline Decision Framework
-
-**Always extract** (all compression levels):
-- Content reused 3+ places
-- Large example blocks (>50 lines)
-- Generated content (maintain source of truth)
-
-**Extract at Moderate+**:
-- Detailed workflows (can reference from AGENTS.md)
-- Extended examples (inline pattern, reference full)
-- Verification checklists (template-ize for reuse)
-
-**Extract at Aggressive only**:
-- Explanatory content (keep rules, extract rationale)
-- Nice-to-know vs need-to-know separation
-- Context optimized for cache boundaries
-
-### Compression Force Manifestation
-
-Context compression **drives** decisions:
-- Template extraction (when to create `.livespec/templates/agents/*.md`)
-- AGENTS.md section sizing (how much detail inline vs referenced)
-- Reference depth (direct vs hierarchical)
-- Example placement (inline snippets vs separate files)
-- Cache boundary optimization (what agents cache vs fetch)
-
-### Audit and Migration
-
-**Measure compression**: Use `.livespec/prompts/utils/audit-context-compression.md`
-- Calculates extraction ratio, reference depth, example coverage
-- Compares declared vs actual compression
-- Identifies optimization opportunities
-
-**Migrate compression level**:
-1. Update `context_compression` in workspace/constitution.spec.md
-2. Reorganize content (extract or inline based on new level)
-3. Regenerate AGENTS.md: `.livespec/4-evolve/4d-regenerate-agents.md`
-4. Validate structure matches new level
-
-**Framework reference**: `.livespec/standard/conventions/context-compression.spec.md`
+**Key concept:** Context compression reorganizes HOW agents consume content (structural), while MSL Minimalism reduces WHAT is specified (content). Complementary forces.
 
 ## Validation
 - All specs use MSL format (.spec.md extension)
