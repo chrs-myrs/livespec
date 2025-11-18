@@ -1,5 +1,5 @@
 ---
-specifies: prompts/utils/upgrade-methodology.md
+specifies: dist/prompts/utils/upgrade-methodology.md
 derives-from:
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
@@ -15,213 +15,169 @@ guided-by:
 # Upgrade Methodology Utility Prompt
 
 ## Requirements
-- [!] Prompt guides user through safely upgrading .livespec/ methodology to latest LiveSpec version with mandatory verification gates ensuring AI agents actually follow the process (not fake it), preserving customizations while applying approved changes through backup, fetch, diff, selective apply, validation, and AGENTS.md regeneration workflow.
-  - **Mandatory pre-flight checks** (essential before upgrade):
-    - Detects current version from .livespec/.livespec-version (or notes if missing for pre-2.1.0 installs)
-    - Checks if .livespec/ is symlink (warns and exits if true - dogfooding case)
-    - Requires agent to clone LiveSpec repository and show git clone output (proof repository fetched)
-    - Requires agent to show new version number from cloned distribution before proceeding
-    - Agent cannot proceed without completing all pre-flight checks (no faking)
-  - **Phase 1: Backup (mandatory evidence)**:
-    - Creates timestamped backup (.livespec.backup-YYYYMMDD-HHMMSS/) before any changes
-    - Agent must show ls output proving backup exists and contains files
-    - Stores backup path for rollback instructions
-    - Phase gate: Cannot proceed to Phase 2 without backup evidence
-  - **Phase 2-6: Progressive merge** (existing phases with verification):
-    - Supports multiple fetch methods (git clone primary, GitHub release tarball fallback, manual path)
-    - Diffs .livespec/ vs new dist/ file by file
-    - Categorizes changes: new files, modified standard files, removed files, custom files
-    - Presents changes per customizations.yaml tracking (auto-update non-customized, review customized)
-    - Preserves custom files and unapproved changes
-    - Each phase requires completion before next phase starts
-  - **Phase 7: AGENTS.md regeneration** (new - mandatory if workspace specs changed):
-    - Agent checks if specs/workspace/ changed during upgrade (diff against backup)
-    - If changed: Agent must regenerate AGENTS.md using 4d-regenerate-context.md
-    - Agent shows before/after diff of Core Principles section
-    - Agent verifies principle order matches constitution.spec.md
-    - Prevents AGENTS.md drift (like we caught in 2.2.0 release)
-  - **Phase 8: Self-validation** (new - mandatory proof upgrade worked):
-    - Agent verifies .livespec/.livespec-version shows new version number
-    - Agent counts critical files (metaspecs, prompts) to prove structure intact
-    - Agent shows backup directory still exists for rollback
-    - All validation tests must pass before marking upgrade complete
-    - Agent cannot claim success without showing validation output
-  - Updates .livespec/.livespec-version to new version after successful upgrade
-  - Validates .livespec/ structure matches folder-structure convention
-  - Verifies critical files present (metaspecs, core phase prompts)
-  - Lists any structural anomalies
-  - Offers to remove backup after successful self-validation
-  - Provides rollback instructions (restore from backup)
-  - Shows summary of applied changes
-  - Process completes in under 15 minutes for typical upgrade (added phases increase time slightly)
-  - Zero data loss (backup preserved, custom files untouched, validation proves integrity)
+- [!] Prompt guides user through safely upgrading LiveSpec framework via git submodule update with validation checks ensuring upgrade succeeded and project specs remain independent.
+  - **Pre-Flight Checks**:
+    - Detects installation method (.livespec-repo/ exists = submodule, .livespec/ directory only = copy)
+    - Shows current version: `git -C .livespec-repo describe --tags` (submodule) or manual check
+    - Warns if uncommitted changes in project (user should commit before upgrading)
+    - Agent cannot proceed without completing pre-flight checks
+  - **Upgrade Methods by Installation Type**:
+    - **Submodule installations** (recommended):
+      - Check current: `git -C .livespec-repo describe --tags`
+      - Fetch latest: `git submodule update --remote .livespec-repo`
+      - Verify symlink: `.livespec → .livespec-repo/dist` still valid
+      - Show new version: `git -C .livespec-repo describe --tags`
+    - **Copy installations** (legacy):
+      - Warn: "Manual upgrade required (copy method has no auto-update)"
+      - Suggest: "Consider migrating to sparse submodule (bash scripts/install-livespec.sh)"
+      - Manual steps: Clone latest, diff, copy files
+  - **Validation**:
+    - Framework prompts accessible via `.livespec/prompts/`
+    - Project specs untouched in `specs/workspace/`
+    - Generated prompts preserved in `prompts/generated/`
+    - Quick test: Agent reads `.livespec/prompts/0-define/0a-quick-start.md` (proves framework accessible)
+  - **Post-Upgrade**:
+    - Show upgrade summary (old version → new version)
+    - Note: "Framework upgraded, project specs unchanged (customization via specs/workspace/)"
+    - Suggest: Check CHANGELOG for breaking changes (rare)
+  - Process completes in under 2 minutes for submodule installations
+  - Zero risk to project customizations (specs/workspace/ independent of framework)
 
 ## Triggers
 
 **When to use:**
 - LiveSpec releases new version
-- Metaspecs updated
-- New phase prompts added
-- Critical bug fixes in prompts
 - User wants latest methodology improvements
+- Bug fixes in framework prompts
 
 **When NOT to use:**
-- .livespec/ is symlink to dist/ (LiveSpec dogfooding - use git pull instead)
-- No .livespec/ directory exists (use Quick Start install instead)
-- User has heavily customized prompts (review changes carefully)
+- No `.livespec/` directory exists (use installation guide instead)
+- Major version upgrade (check migration guide first)
 
-## Process Phases
+## Upgrade Process
 
-**Pre-Flight Checks (MANDATORY):**
-- Agent checks .livespec/ exists (error if missing - use setup instead)
-- Agent reads current .livespec/.livespec-version if present (note if pre-2.1.0)
-- Agent detects if .livespec/ is symlink (warn and exit immediately - use git pull instead)
-- Agent clones LiveSpec repository to temp directory
-- **PROOF REQUIRED**: Agent shows git clone output proving repository fetched
-- **PROOF REQUIRED**: Agent shows new version number from dist/.livespec-version.template
-- Agent cannot proceed without showing evidence for all checks
+### For Submodule Installations (Preferred)
 
-**Phase 1: Backup (mandatory evidence):**
-- Create timestamped backup directory (.livespec.backup-YYYYMMDD-HHMMSS/)
-- Copy entire .livespec/ to backup
-- **PROOF REQUIRED**: Agent shows ls -la output of backup directory
-- Store backup path for rollback instructions
-- **PHASE GATE**: Cannot proceed to Phase 2 without backup evidence shown
+**Step 1: Check Current Version**
+```bash
+git -C .livespec-repo describe --tags
+# Example output: v3.7.0
+```
 
-**Phase 2: Fetch validation:**
-- Verify fetched distribution has standard/, prompts/, templates/
-- Read CHANGELOG from new distribution if present
-- Summarize key changes for user (especially ⚠️ HIGH IMPACT changes)
-- Highlight changes affecting customized files (from customizations.yaml)
+**Step 2: Update Framework**
+```bash
+git submodule update --remote .livespec-repo
+# Fetches latest from upstream
+```
 
-**Phase 3: Standard files (auto-update):**
-- Copy standard/ from new dist to .livespec/ (canonical files, always overwrite)
-- Report files updated to user
+**Step 3: Validate**
+```bash
+# Verify symlink still points correctly
+ls -l .livespec
+# Should show: .livespec -> .livespec-repo/dist
 
-**Phase 4: Non-customized prompts (auto-update):**
-- Read customizations.yaml to identify customized files
-- Copy non-customized prompts from new dist to .livespec/
-- Report files updated to user
+# Show new version
+git -C .livespec-repo describe --tags
+# Example output: v3.8.0
 
-**Phase 5: Customized prompts (interactive merge):**
-- For each file in customizations.yaml modified list:
-  - Show upstream changes (from CHANGELOG if available)
-  - Show user's customization reason (from customizations.yaml)
-  - Present options: [m]erge upstream, [k]eep yours, [e]dit together, [d]iff
-  - Apply user's choice
-  - Update customizations.yaml if merged
+# Test framework accessible
+cat .livespec/prompts/0-define/0a-quick-start.md | head -5
+```
 
-**Phase 6: Templates and new files:**
-- Add new templates from new dist
-- Preserve custom templates (from customizations.yaml)
-- Ask about new files not yet in .livespec/
-- Update .livespec/.livespec-version to new version
+**Step 4: Commit Submodule Update**
+```bash
+git add .livespec-repo
+git commit -m "Update LiveSpec framework to v3.8.0"
+```
 
-**Phase 7: AGENTS.md regeneration (NEW - mandatory if needed):**
-- Check if specs/workspace/ changed: `diff -q .livespec/specs/workspace/ $BACKUP/specs/workspace/`
-- If changed:
-  - **MANDATORY**: Agent must regenerate AGENTS.md using 4d-regenerate-context.md
-  - **PROOF REQUIRED**: Agent shows before/after diff of Core Principles section
-  - Agent verifies principle order matches constitution.spec.md
-  - Prevents AGENTS.md drift (caught in 2.2.0 release)
-- If not changed: Skip this phase
+### For Copy Installations (Legacy)
 
-**Phase 8: Self-validation (NEW - mandatory proof):**
-- **Test 1**: Verify .livespec/.livespec-version shows new version
-  - **PROOF REQUIRED**: Agent shows `cat .livespec/.livespec-version` output
-- **Test 2**: Count critical files to prove structure intact
-  - **PROOF REQUIRED**: Agent shows metaspec count, prompt count
-- **Test 3**: Verify backup still exists for rollback
-  - **PROOF REQUIRED**: Agent shows backup directory path
-- **PHASE GATE**: All tests must pass before marking upgrade complete
-- Agent cannot claim success without showing all validation outputs
+**Migration Recommended:**
+```bash
+# Better to migrate to submodule
+rm -rf .livespec/
+bash scripts/install-livespec.sh
+```
 
-**Phase 9: Cleanup and summary:**
-- Show upgrade summary (files added/modified/removed/skipped/preserved)
-- Offer to remove backup (only if self-validation passed)
-- Show rollback command: `rm -rf .livespec && mv .livespec.backup-YYYYMMDD-HHMMSS .livespec`
-- Report upgrade complete with new version number
+**Manual Upgrade (Not Recommended):**
+```bash
+# Clone latest
+git clone https://github.com/chrs-myrs/livespec /tmp/livespec-latest
+
+# Diff to see changes
+diff -r .livespec/ /tmp/livespec-latest/dist/
+
+# Manual copy (risks overwriting any customizations)
+rm -rf .livespec/
+cp -r /tmp/livespec-latest/dist/* .livespec/
+```
+
+## Framework Immutability
+
+**Key concept:** `.livespec/` is immutable framework reference
+- Framework prompts used as-is (no modification)
+- Project customization via `specs/workspace/` (not framework)
+- Submodule update safe (project specs separate)
+
+**What's preserved during upgrade:**
+- ✅ `specs/workspace/` - Your project-specific process
+- ✅ `prompts/generated/` - Your generated prompts
+- ✅ `AGENTS.md` - Your generated agent context
+- ✅ All project code and specs
+
+**What changes during upgrade:**
+- ⚠️ `.livespec/prompts/` - Framework prompts (expected)
+- ⚠️ `.livespec/templates/` - Reference templates (expected)
+- ⚠️ `.livespec/standard/` - MSL metaspecs (expected)
+
+**If framework doesn't fit:**
+- Rare case: Fork repository and point submodule to your fork
+- Normal case: Customize via `specs/workspace/` (sufficient for 99% of projects)
 
 ## Outputs
 
 **Primary outputs:**
-- Upgraded .livespec/ directory with approved changes
-- .livespec/.livespec-version updated to new version
-- Timestamped backup (.livespec.backup-YYYYMMDD-HHMMSS/)
-- Regenerated AGENTS.md (if workspace specs changed)
-- Upgrade summary report with self-validation results
-
-**Mandatory evidence outputs (agent must show):**
-- Git clone output (proves repository fetched)
-- Backup directory ls output (proves backup created)
-- New version number (proves correct version fetched)
-- Self-validation test results (proves upgrade worked)
-- AGENTS.md diff if regenerated (proves sync)
+- Updated `.livespec-repo/` (submodule method)
+- Version bump visible in `git -C .livespec-repo describe --tags`
+- Upgrade summary (old version → new version)
 
 **Validation checks:**
-- Backup exists and is complete (ls output shown)
-- .livespec/ structure valid after upgrade (file counts shown)
-- .livespec/.livespec-version updated correctly (cat output shown)
-- All approved changes applied
-- Custom files preserved (customizations.yaml respected)
-- AGENTS.md regenerated if workspace specs changed (diff shown)
-- No data loss occurred (backup available for rollback)
+- Framework accessible (test file read)
+- Symlink valid (ls -l .livespec)
+- Project specs unchanged (git status specs/)
+- Generated prompts preserved (ls prompts/generated/)
 
 **Success criteria:**
-- User can use upgraded methodology immediately
-- Custom files and unapproved changes preserved
-- Rollback available if needed (backup path provided)
-- Clear record of what changed (summary generated)
-- Self-validation passes (all tests shown green)
-- Agent provided proof-of-work (cannot fake the process)
+- User can immediately use upgraded methodology
+- Project customizations untouched
+- Clear version change shown (old → new)
+- Framework prompts accessible
 
 ## Edge Cases
 
-**No .livespec-version file in current .livespec/:**
-- Note: "Pre-2.1.0 installation detected (no .livespec-version file)"
-- Assume baseline version 1.0.0 or earlier
-- Proceed with caution (more diffs expected)
-- Create .livespec-version after successful upgrade
+**No .livespec-repo/ exists:**
+- Copy installation detected
+- Recommend migration to submodule
+- Provide manual upgrade steps if user declines
 
-**.livespec/ is symlink:**
-- Detect: `test -L .livespec`
-- Warn: "Detected symlink (dogfooding setup). Use 'git pull' in linked repo instead."
-- Exit without changes
+**Uncommitted changes:**
+- Warn before upgrade
+- User should commit or stash first
+- Prevents confusion about what changed
 
-**Modified standard prompts:**
-- Detect: File exists in both, differs from new standard
-- Show as 🟡 Modified with diff
-- User decides: overwrite (lose customizations) or skip (keep old version)
-- Note in summary: "Skipped modified standard files"
-
-**Custom utilities in utils/:**
-- Detect: File in .livespec/prompts/utils/ not in new dist/prompts/utils/
-- Preserve automatically
-- Note in summary: "Preserved custom utilities"
-
-**Conflicting folder structure:**
-- Detect: Folders in .livespec/ not in standard structure
-- Preserve folders (don't delete)
-- Note in validation: "Non-standard folders detected"
-
-**Fetch fails:**
-- Catch: Git clone fails, download fails, manual path invalid
-- Offer alternate fetch methods
-- Exit gracefully if all methods exhausted
+**Breaking changes (rare):**
+- Note in upgrade summary: "Check CHANGELOG for breaking changes"
+- LiveSpec maintains backwards compatibility in practice
+- Major version jumps may require migration guide
 
 ## Validation
 
 - Upgrade prompt exists at dist/prompts/utils/upgrade-methodology.md
-- Prompt references .livespec-version file for version detection (not VERSION - naming consistency)
-- Prompt includes mandatory pre-flight checks requiring proof-of-work (git clone output, version number)
-- Backup creation is timestamped and agent must show ls output (proves backup created)
-- Phase gates prevent proceeding without completion (cannot fake phases)
-- Fetch method uses git clone as primary (proof required), fallback methods documented
-- Diff strategy respects customizations.yaml (auto-update non-customized, review customized)
-- User approves customized file changes individually (not batch apply)
-- Phase 7 mandates AGENTS.md regeneration if workspace specs changed (prevents drift)
-- Phase 8 requires self-validation with proof (version check, file counts, backup verification)
-- Agent cannot claim success without showing all validation outputs (no faking)
-- Rollback instructions provided with backup path
-- Summary shows what changed (added/modified/removed/skipped/preserved)
-- Edge cases handled (no .livespec-version, symlink, modified standards, custom files)
+- Prompt detects installation method (submodule vs copy)
+- Submodule upgrade uses `git submodule update --remote`
+- Validation confirms framework accessible after upgrade
+- No references to customizations.yaml (removed - framework immutable)
+- No merge logic (framework is read-only reference)
+- Process simplified to 4 steps for submodule installations
+- Migration path documented for copy installations
+- Framework immutability principle reinforced throughout

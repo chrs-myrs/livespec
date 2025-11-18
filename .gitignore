@@ -13,6 +13,7 @@ generated/
 # Tool-specific
 .claude/
 .livespec/
+.livespec-repo/
 
 # OS files
 .DS_Store

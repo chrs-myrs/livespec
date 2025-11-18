@@ -1,6 +1,6 @@
 ---
 criticality: IMPORTANT
-failure_mode: Without structured changelog, users with customizations cannot understand version changes or make informed merge decisions during upgrades, leading to broken custom prompts or missed critical improvements
+failure_mode: Without structured changelog, users cannot understand version changes or assess upgrade impact, leading to confusion about what improved
 governed-by:
   - .livespec/standard/metaspecs/base.spec.md
   - .livespec/standard/metaspecs/behavior.spec.md
@@ -13,40 +13,38 @@ notes: |
 # CHANGELOG Behavior
 
 ## Requirements
-- [!] CHANGELOG enables users with customized prompts/templates to understand changes between versions and make informed merge decisions during AI-assisted upgrades.
+- [!] CHANGELOG enables users to understand changes between LiveSpec versions and assess upgrade impact.
   - Lists all changed prompts/templates with exact file paths (prompts/0-define/0a-setup-workspace.md format)
   - Explains WHY each change was made (user feedback, bug fix, improvement, real-world issue)
-  - Categorizes impact level for customization merge prioritization (HIGH = must merge, MEDIUM = should merge, LOW = optional)
-  - Provides concrete migration guidance for merging upstream changes into custom versions ("Add Step 0 before your custom steps")
+  - Categorizes impact level (BREAKING = incompatible change, FEATURE = new capability, FIX = bug fix, IMPROVEMENT = enhancement)
+  - Provides migration guidance for breaking changes (rare)
   - Follows Keep a Changelog format with Added/Changed/Fixed/Removed sections
-  - Uses ⚠️ markers to visually highlight changes affecting customizations (appears before "Prompt:" or "Metaspec:")
   - Integrates with upgrade-methodology.md (AI can parse [Unreleased] section and summarize changes)
   - Each released version gets dated entry in format [X.Y.Z] - YYYY-MM-DD
   - [Unreleased] section at top documents uncommitted changes for next release
-  - Header section explains ⚠️ markers and impact levels for users with customizations
+  - Header section explains how to upgrade (submodule vs copy method)
   - Header links to upgrade-methodology.md prompt
-  - New files (templates, utilities) listed with impact assessment (usually "None")
+  - New files (templates, utilities) listed with descriptions
   - Metaspec changes noted with backward compatibility status
 
 ## Validation
 
-### User with Customized Prompt
-User who customized `prompts/0-define/0a-setup-workspace.md` can read CHANGELOG [Unreleased] section and answer:
-- **What changed?** "Added Step 0: Bootstrap Agent Configuration, renumbered existing steps"
-- **Why changed?** "Fixed discoverability gap - users couldn't use prompts without AGENTS.md"
-- **Should I merge?** "HIGH IMPACT - Step 0 must execute FIRST"
-- **How do I merge?** "Add Step 0 before your custom steps, renumber your steps"
+### User Upgrading Framework
+User upgrading from v3.6.0 to v3.7.0 can read CHANGELOG and answer:
+- **What changed?** "Added value hierarchy traceability, improved documentation"
+- **Why changed?** "Enable better requirements tracking and clearer onboarding"
+- **Breaking changes?** "None - backwards compatible"
+- **How do I upgrade?** "Submodule: `git submodule update --remote`, Copy: manual"
 
 ### AI During Upgrade
 AI using upgrade-methodology.md can:
 - Parse CHANGELOG.md [Unreleased] section
-- Find all ⚠️ entries
 - Summarize changes in user-friendly language
-- Cross-reference user's customizations.yaml with ⚠️ entries
-- Explain upstream changes using CHANGELOG WHY field during Phase 3 (Customized Prompts)
+- Identify breaking changes (rare - BREAKING tag)
+- Explain upgrade impact (framework changes don't affect project specs)
 
 ### Entry Completeness
-For each ⚠️ Changed entry:
+For each Changed entry:
 - **File path**: Exact prompt/template/metaspec path (prompts/X/Y.md)
 - **WHY field**: Explanation of reason for change (user feedback, bug, improvement)
 - **IMPACT field**: Classification (HIGH IMPACT / MEDIUM IMPACT / LOW IMPACT) with parenthetical context
@@ -85,8 +83,8 @@ This CHANGELOG was initially created without a specification (commit 40411e3), v
 - Ironically not dogfooding: Building spec-driven methodology without following spec-driven process
 
 **Related behaviors:**
-- upgrade-methodology.md integrates with CHANGELOG (Phase 4: Preview changes)
-- customizations.yaml tracks what users modified (cross-referenced with ⚠️ entries)
+- upgrade-methodology.md integrates with CHANGELOG (shows version changes during upgrade)
+- Framework immutability eliminates customization tracking (no merge conflicts)
 - AGENTS.md explains folder organization (references CHANGELOG for version history)
 
 **Validation status:**

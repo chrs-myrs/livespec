@@ -126,48 +126,98 @@ Compare to spec-kit: LiveSpec is the no-tooling, agent-agnostic alternative. Sam
 
 ## Quick Start
 
-### New Project (5 minutes)
+### Installation Methods
+
+Choose your preferred method:
+
+#### Method 1: Sparse Submodule (Recommended)
+
+**Pros:** Auto-updates, no duplication, only fetches dist/
+**Requires:** git 2.25+ or git-partial-submodule tool
+
+```bash
+cd your-project
+
+# Automated (detects best method)
+bash <(curl -s https://raw.githubusercontent.com/chrs-myrs/livespec/master/scripts/install-livespec.sh)
+
+# Or manually with git-partial-submodule (install: pip install git+https://github.com/Reedbeta/git-partial-submodule)
+git-partial-submodule.py add --sparse-patterns 'dist/*' \
+  https://github.com/chrs-myrs/livespec .livespec-repo
+ln -s .livespec-repo/dist .livespec
+
+# Or manually with native git sparse-checkout (git 2.25+)
+git submodule add https://github.com/chrs-myrs/livespec .livespec-repo
+git -C .livespec-repo sparse-checkout init --cone
+git -C .livespec-repo sparse-checkout set dist
+ln -s .livespec-repo/dist .livespec
+
+# Update later
+git submodule update --remote .livespec-repo
+```
+
+#### Method 2: Directory Copy (Simple)
+
+**Pros:** Works everywhere, simple
+**Cons:** Manual updates, duplication
 
 ```bash
 # Clone LiveSpec
 git clone https://github.com/chrs-myrs/livespec.git
+
 cd your-project
 
 # Copy methodology to .livespec/ folder
-cp -r livespec/dist/* .livespec
+cp -r ../livespec/dist/* .livespec
 
+# Update later
+cp -r ../livespec/dist/* .livespec/
+```
+
+#### Method 3: Context7 (Remote)
+
+**Pros:** No local files needed
+**Cons:** Requires Context7 MCP server
+
+```bash
+# Tell your AI agent:
+# "Use @context7/chrs-myrs/livespec methodology"
+# AI reads prompts remotely
+```
+
+---
+
+**Note on Framework Immutability:**
+
+`.livespec/` is an **immutable framework reference** - use prompts as-is, don't modify them. Customize your project via `specs/workspace/` instead (constitution, patterns, workflows). Framework changes (rare) require forking the repository.
+
+---
+
+### New Project Setup
+
+After installation (any method):
+
+```bash
 # Create specs structure
 mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
 
 # Start Phase 0 (Quick Start - 5 minutes)
-claude-code "Use .livespec/0-define/0a-quick-start.md"
+claude-code "Use .livespec/prompts/0-define/0a-quick-start.md"
 
 # Or customize workspace (20-30 minutes)
-claude-code "Use .livespec/0-define/0b-customize-workspace.md"
+claude-code "Use .livespec/prompts/0-define/0b-customize-workspace.md"
 ```
 
 ### Existing Project
 
-```bash
-# Copy methodology
-cp -r livespec/dist/* .livespec
+After installation (any method):
 
+```bash
 # Create structure
 mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
 
 # Extract specifications from code
-claude-code "Use .livespec/4-evolve/4b-extract-specs.md to document this codebase"
-```
-
-### Using Context7
-
-```bash
-# Just create structure
-mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
-
-# Tell your AI agent:
-# "Use @context7/chrs-myrs/livespec methodology"
-# AI reads prompts remotely, helps create your specs
+claude-code "Use .livespec/prompts/4-evolve/4b-extract-specs.md to document this codebase"
 ```
 
 [Full quickstart guide →](docs/quickstart.md)

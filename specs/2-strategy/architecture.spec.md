@@ -19,7 +19,7 @@ failure_mode: Without clear architecture, LiveSpec becomes incoherent collection
   - prompts/ contains all 5 phases (0-define through 4-evolve)
   - templates/ contains workspace templates and domain-specific templates
   - .livespec/ symlink points to prompts/ (dogfooding)
-  - .livespec-version.template and customizations.yaml.template enable version tracking
+  - .livespec-version.template enables version tracking (deprecated - submodules use git tags)
   - standard/ contains canonical metaspecs (never customized)
   - behaviors/ and contracts/ abstractions work across all domains
   - Tests validate our own specs
@@ -53,9 +53,10 @@ Specification templates for bootstrapping:
 - operations/ - Operations domain templates (runbook, playbook)
 
 ### Version Tracking
-Files enabling safe AI-assisted upgrades:
-- .livespec-version.template - Version marker (users copy to .livespec-version)
-- customizations.yaml.template - Customization tracker (users copy to customizations.yaml)
+Framework version tracked via git:
+- .livespec-version.template - Legacy version marker (deprecated - submodules use git tags)
+- Submodule installations: Version via `git -C .livespec-repo describe --tags`
+- Copy installations: Manual version tracking (migration to submodule recommended)
 
 ### specs/workspace/
 Development process specifications defining HOW LiveSpec is built:
@@ -199,8 +200,7 @@ specs/
      - Copy `dist/prompts/` → `.livespec/prompts/` (methodology prompts)
      - Copy `dist/templates/` → `.livespec/templates/` (workspace bootstrap + agent verification)
      - Copy `dist/standard/` → `.livespec/standard/` (MSL metaspecs)
-   - Create `.livespec-version` from `.livespec/.livespec-version.template`
-   - Create `customizations.yaml` from `.livespec/customizations.yaml.template`
+   - Version tracked via git submodule (or .livespec-version for copy method)
    - Organize specs/ with subfolders for domain clarity (optional)
    - Generate AGENTS.md using `.livespec/prompts/4-evolve/4d-regenerate-context.md`
      - Reads templates from `.livespec/templates/agents/`
@@ -213,16 +213,11 @@ specs/
    - Users create specs locally with AI help
    - Detailed strategy in specs/2-strategy/ai-discoverability.spec.md
 
-4. **Upgrade** (AI-assisted progressive merge):
-   - AI reads customizations.yaml to identify custom vs canonical files
-   - Phase 1: Auto-update standard/ (canonical, never customized)
-   - Phase 2: Auto-update non-customized prompts
-   - Phase 3: Interactive review of customized prompts (AI helps merge)
-   - Phase 4: Merge templates (add new, preserve custom)
-   - Phase 5: Skip never_overwrite paths
-   - Phase 6: Offer new files for approval
-   - AI explains changes, proposes intelligent merges, respects user decisions
-   - Backup created before upgrade, rollback instructions provided
+4. **Upgrade** (Git submodule update):
+   - Submodule installations: `git submodule update --remote .livespec-repo`
+   - Copy installations: Manual upgrade (or migrate to submodule)
+   - Framework is immutable reference (no customization tracking needed)
+   - Project specs (specs/workspace/) independent of framework version
    - Detailed process in prompts/utils/upgrade-methodology.md
 
 ## Validation
@@ -233,7 +228,7 @@ specs/
 - prompts/ contains all 5 phases (0-define through 4-evolve) plus utils/
 - standard/ contains canonical metaspecs
 - templates/ contains workspace, governance, and operations templates
-- .livespec-version.template and customizations.yaml.template exist
+- .livespec-version.template exists (legacy - submodules use git tags)
 - .livespec/ symlink points to prompts/
 - docs/domain-organization.md explains multi-domain patterns
 - behaviors/ and contracts/ abstractions work across all domains
