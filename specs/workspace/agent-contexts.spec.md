@@ -1,4 +1,6 @@
 ---
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 applies_to:
   - all_projects
   - agent_context_generation

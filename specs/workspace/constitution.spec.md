@@ -1,4 +1,7 @@
 ---
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 4: Minimal Maintenance)
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 applies_to:
   - all_projects
 context_compression: moderate
@@ -33,13 +36,8 @@ governed-by:
     - Hierarchical minimalism: Abstract common requirements to parent specs
     - See .livespec/guides/msl-minimalism.md for complete decision framework
   - **Test-Driven Development** (Principle #3 - essential):
-    - Phase 2 (BUILD) follows TDD discipline (write tests before implementation)
-    - Red-Green-Refactor cycle: failing test → passing code → improve design
-    - Automated tests required for all non-trivial code (unit, integration, behavior validation)
-    - Escape hatch for trivial scripts (justification required, documented in implementation)
-    - Tests map directly to behavior specs (specs/3-behaviors/ → tests → implementation)
-    - TDD ensures correctness, enables refactoring, prevents regression
-    - See .livespec/guides/tdd.md for complete TDD workflow
+    - Phase 2 (BUILD) follows TDD discipline (tests written before implementation)
+    - See specs/2-strategy/testing-approach.spec.md for complete TDD workflow and requirements
   - All specs pass MSL test (CRITICAL or IMPORTANT only)
   - Repository uses LiveSpec methodology (specs/ and prompts/ exist)
   - LiveSpec usable with file operations and AI prompts only

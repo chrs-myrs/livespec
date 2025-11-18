@@ -57,14 +57,22 @@ specs/workspace/workflows.spec.md
 specs/2-strategy/architecture.spec.md
 ```
 
+**Follow workspace references to strategy specs:**
+
+When processing `specs/workspace/patterns.spec.md`, check for "See specs/2-strategy/" references and include those specs:
+- If references `specs/2-strategy/markdown-standards.spec.md` → Include MSL format, documentation patterns
+- If references `specs/2-strategy/testing-approach.spec.md` → Include TDD workflow
+- If references `specs/2-strategy/coding-standards.spec.md` → Include coding conventions
+
 **Extract from each:**
 - PURPOSE.md → Summary section (why this exists, success criteria)
 - requirements.spec.md → Core requirements list
 - constraints.spec.md → Critical boundaries list
-- constitution.spec.md → Development principles
-- patterns.spec.md → Naming, format, folder conventions
+- constitution.spec.md → Development principles (TDD reference, not full details)
+- patterns.spec.md → Naming, format, folder conventions + strategy references
 - workflows.spec.md → 5 phases with entry/exit conditions
 - architecture.spec.md → High-level approach (2-3 sentences)
+- Referenced strategy specs → Cross-cutting standards (if referenced by patterns.spec.md)
 
 ### 2. Read Build Configuration
 

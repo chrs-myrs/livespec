@@ -1,7 +1,7 @@
 ---
-derives-from:
-  - PURPOSE.md
-  - specs/1-requirements/strategic/outcomes.spec.md
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 1: Bidirectional Synchronization)
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 3: Universal Applicability)
 governed-by:
   - specs/1-requirements/strategic/constraints.spec.md
   - .livespec/standard/metaspecs/strategy.spec.md

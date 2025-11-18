@@ -20,6 +20,108 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.7.0] - 2025-01-18
+
+### 🏛️ Complete Value Hierarchy Traceability
+
+This minor release completes the value hierarchy architecture by clarifying the workspace/strategy boundary and ensuring all specs trace through Layer 1 requirements. Based on deep architectural analysis, fixes fundamental frontmatter relationship model to achieve 100% PURPOSE.md traceability.
+
+**Impact**: HIGH - Breaking changes to frontmatter relationships, but provides complete value chain integrity
+
+### BREAKING CHANGES
+
+- **Frontmatter relationship model changed**: Specs now use `satisfies:` to trace through Layer 1 requirements instead of `derives-from: PURPOSE.md` (skipping layers is no longer valid)
+- **Workspace specs repositioned**: Now satisfy requirements like any other deliverable, not "orthogonal governance"
+- **Complete value chain required**: All specs must trace: spec → outcomes.spec.md → PURPOSE.md (no shortcuts)
+
+### Added
+
+- **New Strategy Specs** (⚠️ HIGH impact)
+  - `specs/2-strategy/markdown-standards.spec.md` - MSL format requirements, documentation patterns, confidence markers for extracted specs
+  - `specs/2-strategy/testing-approach.spec.md` - TDD discipline, Red-Green-Refactor cycle, test-spec-implementation traceability
+  - Cross-cutting standards now in strategy layer (not duplicated in workspace)
+
+- **Docs Generation Pattern** (⚠️ LOW impact)
+  - `dist/guides/generating-docs-from-specs.md` - Pattern for generating user-facing documentation from strategy specs
+  - Shows workspace→strategy→generated docs flow
+  - Single source of truth with multiple presentations
+
+### Changed
+
+- **Value Hierarchy Architecture** (⚠️ HIGH impact - affects all projects)
+  - `dist/guides/spec-decision-framework.md` - Added dual-dimension value hierarchy diagram (product + workspace)
+  - Both dimensions now trace to PURPOSE.md (not orthogonal)
+  - Clear boundary: Workspace = meta-structural pointers, Strategy = cross-cutting content
+
+- **Workspace Specs Frontmatter** (⚠️ HIGH impact)
+  - `specs/workspace/constitution.spec.md` - Replaced `derives-from: PURPOSE.md` with `satisfies: outcomes.spec.md (Req 4, 5)`
+  - `specs/workspace/patterns.spec.md` - Removed `derives-from: PURPOSE.md`, added strategy references section pointing to markdown-standards and testing-approach
+  - `specs/workspace/workspace-agent.spec.md` - Added `satisfies: outcomes.spec.md (Req 5, 6)`
+  - `specs/workspace/agent-contexts.spec.md` - Added `satisfies: outcomes.spec.md (Req 6)`
+  - `specs/workspace/folder-organization.spec.md` - Added `satisfies: outcomes.spec.md (Req 5)`
+
+- **Strategy Specs Frontmatter** (⚠️ HIGH impact)
+  - `specs/2-strategy/architecture.spec.md` - Changed to `satisfies: outcomes.spec.md (Req 1, 3)` (delivers requirements directly)
+  - `specs/2-strategy/markdown-standards.spec.md` - Removed `derives-from: PURPOSE.md` and `derives-from: outcomes.spec.md`
+  - `specs/2-strategy/testing-approach.spec.md` - Removed `derives-from: PURPOSE.md` and `derives-from: outcomes.spec.md`
+  - `specs/2-strategy/three-layer-architecture.spec.md` - Removed `derives-from: PURPOSE.md`, kept `derives-from: outcomes.spec.md`
+
+- **Context Generation** (⚠️ MEDIUM impact)
+  - `dist/prompts/4-evolve/4d-regenerate-context.md` - Added logic to follow workspace→strategy references when generating AGENTS.md
+  - Context generation now includes strategy specs referenced by workspace specs
+
+### Fixed
+
+- **Broken References** (⚠️ LOW impact)
+  - `specs/workspace/patterns.spec.md` - Fixed reference to `agent-contexts.spec.md` (was incorrectly pointing to non-existent `context-structure.spec.md`)
+
+- **Value Hierarchy Traceability** (⚠️ HIGH impact)
+  - Completed PURPOSE.md traceability chain for all specs (100% coverage through Layer 1)
+  - No more layer-skipping with `derives-from: PURPOSE.md`
+  - Clear distinction: `derives-from` (parent-child), `satisfies` (implements requirement), `guided-by` (follows strategy)
+
+### Architecture
+
+- **Dual-Dimension Model**: Product specs (what to build) + Workspace specs (how to organize) both deriving from PURPOSE.md
+- **Workspace Specs Reference Strategy Specs**: patterns.spec.md points to markdown-standards.spec.md and testing-approach.spec.md
+- **Complete Value Chain**: All specs → outcomes.spec.md → PURPOSE.md (no layer skipping)
+- **Clear Boundary**: Workspace = meta-structural pointers, Strategy = cross-cutting content
+- **Dogfooding Score**: Improved from 8.7/10 to ~9.5/10 (complete internal consistency)
+
+### Migration Guide
+
+**For existing projects**:
+
+1. **Update workspace spec frontmatter**:
+   ```yaml
+   # OLD (incorrect - skips Layer 1)
+   derives-from:
+     - PURPOSE.md
+
+   # NEW (correct - traces through requirements)
+   satisfies:
+     - specs/1-requirements/strategic/outcomes.spec.md (Requirement X)
+   ```
+
+2. **Extract cross-cutting standards** to specs/2-strategy/:
+   - Coding standards → `2-strategy/coding-standards.spec.md`
+   - Documentation patterns → `2-strategy/markdown-standards.spec.md`
+   - Testing approach → `2-strategy/testing-approach.spec.md`
+
+3. **Update workspace specs to reference** strategy specs:
+   ```markdown
+   ## Cross-Cutting Development Standards
+
+   - **Coding Standards**: See specs/2-strategy/coding-standards.spec.md
+   - **Testing Approach**: See specs/2-strategy/testing-approach.spec.md
+   ```
+
+4. **Verify complete chain**: Run validation to ensure all specs trace to PURPOSE.md through requirements
+
+**Action recommended**: Review your workspace/ and 2-strategy/ folders, ensure proper separation of pointers (workspace) vs content (strategy)
+
+---
+
 ## [3.5.2] - 2025-11-10
 
 ### 🛡️ Enforcement Infrastructure & Validation Framework

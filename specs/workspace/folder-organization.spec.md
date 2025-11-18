@@ -1,4 +1,6 @@
 ---
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 applies_to:
   - all_projects
 criticality: IMPORTANT

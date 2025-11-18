@@ -1,6 +1,5 @@
 ---
 derives-from:
-  - PURPOSE.md
   - specs/1-requirements/strategic/outcomes.spec.md
 governed-by:
   - specs/1-requirements/strategic/constraints.spec.md

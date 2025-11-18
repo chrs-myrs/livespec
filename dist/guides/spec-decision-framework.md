@@ -10,25 +10,49 @@
 
 Every artifact in your project exists for a reason. That reason should trace back to your PURPOSE.
 
+LiveSpec uses a **dual-dimension model**: Product specs (what to build) and Workspace specs (how to organize and work).
+
 ```mermaid
 graph TD
     PURPOSE[PURPOSE.md<br/>Why project exists]
-    REQ[Requirements<br/>Strategic outcomes + constraints]
-    STRAT[Strategy<br/>Architectural approach]
-    BEH[Behaviors + Contracts<br/>Observable outcomes + interfaces]
-    IMPL[Implementation<br/>Code, docs, configs]
+
+    subgraph Product ["Product Specs (What to Build)"]
+        REQ[Requirements<br/>Strategic outcomes + constraints]
+        STRAT[Strategy<br/>Architectural approach]
+        BEH[Behaviors + Contracts<br/>Observable outcomes + interfaces]
+        IMPL[Implementation<br/>Code, docs, configs]
+    end
+
+    subgraph Workspace ["Workspace Specs (How to Organize)"]
+        CONST[Constitution<br/>Development principles]
+        PATTERNS[Patterns<br/>References to strategy specs]
+        TAXONOMY[Taxonomy<br/>Folder organization]
+    end
 
     PURPOSE --> REQ
+    PURPOSE --> CONST
     REQ --> STRAT
+    CONST --> PATTERNS
     STRAT --> BEH
     BEH --> IMPL
+
+    PATTERNS -.references.-> STRAT
 
     style PURPOSE fill:#ff9999
     style REQ fill:#ffcc99
     style STRAT fill:#ffff99
     style BEH fill:#99ff99
     style IMPL fill:#99ccff
+    style CONST fill:#ffccff
+    style PATTERNS fill:#ffccff
+    style TAXONOMY fill:#ffccff
 ```
+
+**Key insights**:
+- **Both dimensions trace to PURPOSE.md** - Everything serves the project's purpose
+- **Workspace specs reference product specs** - patterns.spec.md points to strategy specs
+- **Strategy contains cross-cutting standards** - Coding standards, markdown standards, testing approach
+- **Workspace defines meta-structure** - How specs are organized, not what they contain
 
 **If it can't trace to PURPOSE, why are you building it?**
 
@@ -171,7 +195,7 @@ flowchart TD
 | **Data schemas** | Contract | `3-contracts/data/` | Structure, validation rules |
 | **Lockfiles** | Contract | Covered by package spec | Dependencies manifest |
 | **Generated code** | None | If in `generated/` | Source template has spec |
-| **Workspace files** | Workspace spec | `specs/workspace/` | Process, patterns, governance |
+| **Workspace files** | Workspace spec | `specs/workspace/` | Meta-structure (references strategy specs) |
 
 ---
 

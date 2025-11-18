@@ -1,4 +1,7 @@
 ---
+satisfies:
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 applies_to:
   - all_ai_agents
   - AGENTS.md
