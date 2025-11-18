@@ -321,40 +321,67 @@ specs/
 
 ## When to Load Sub-Agents
 
-**Agent autonomously loads based on task classification. Load conservatively (1-2 sub-agents typical).**
+**Decision rule:** AGENTS.md (this file) provides 80% coverage. Only load sub-agents when task requires phase-specific workflow detail or specialized guidance not covered here.
 
-### Phase-Specific Work
+**Load conservatively:** 1-2 sub-agents typical, not 3+. Most tasks use AGENTS.md alone.
+
+### When NOT to Load Sub-Agents
+
+**AGENTS.md is sufficient for:**
+- Reading/understanding existing specs
+- Making small edits to files
+- Basic questions about LiveSpec structure
+- Running validation scripts
+- Creating simple specs following templates
+- General development work
+
+**Examples of tasks that DON'T need sub-agents:**
+- "Fix this spec" → Use AGENTS.md guidance directly
+- "What's in specs/3-behaviors/?" → Read files, no sub-agent needed
+- "Update this requirement" → Edit using MSL format from AGENTS.md
+- "Run validation" → Script paths already in AGENTS.md
+
+### Phase-Specific Work (Load When Actually Performing Phase Workflow)
 
 - **"New project", "setup", "define problem", "constraints"** → Load `ctxt/phases/0-define.md`
-  - Problem space definition, workspace customization, complexity assessment
+  - ONLY when: Starting brand new project, defining problem space, customizing workspace
+  - NOT for: Reading existing PURPOSE.md, understanding constraints
 
 - **"Design", "architecture", "behaviors", "contracts", "UX flow"** → Load `ctxt/phases/1-design.md`
-  - Architecture design, behavior specification, contract definition
+  - ONLY when: Creating new architecture, specifying new behaviors, designing contracts
+  - NOT for: Reading existing design specs, understanding architecture
 
 - **"Implement", "build", "tests", "TDD", "code"** → Load `ctxt/phases/2-build.md`
-  - Test-driven development, implementation from specs
+  - ONLY when: Writing tests, implementing from specs, TDD cycle
+  - NOT for: Reading code, understanding implementation
 
 - **"Validate", "verify", "acceptance", "review"** → Load `ctxt/phases/3-verify.md`
-  - Validation testing, acceptance review
+  - ONLY when: Running full validation suite, acceptance testing
+  - NOT for: Single validation script execution
 
 - **"Drift", "extract specs", "sync", "evolve", "maintain"** → Load `ctxt/phases/4-evolve.md`
-  - Drift detection, spec extraction, synchronization
+  - ONLY when: Detecting drift, extracting specs from code, synchronization workflow
+  - NOT for: Reading existing specs, small spec updates
 
-### Domain Patterns
+### Domain Patterns (Load Only for Specialized Contexts)
 
 - **Project taxonomy: governance** → Load `ctxt/domains/governance.md`
-  - Methodology development, specs about specs, dogfooding patterns
+  - ONLY when: Developing methodology, writing specs about specs, dogfooding patterns
+  - NOT for: Using LiveSpec normally
 
-### Utilities
+### Utilities (Load When Running Specialized Workflows)
 
 - **"Complete session", "measure compliance", "analyze session"** → Load `ctxt/utils/session-completion.md`
-  - Session analysis, compliance scoring, learning extraction
+  - ONLY when: Ending session, measuring compliance, analyzing work
+  - NOT for: Checking current progress
 
 - **"Detect drift", "check sync", "spec-code alignment"** → Load `ctxt/utils/drift-detection.md`
-  - Synchronization checking, gap detection
+  - ONLY when: Running drift detection workflow, spec extraction
+  - NOT for: Checking if specs exist
 
 - **"Audit MSL", "check minimalism", "review specs"** → Load `ctxt/utils/msl-audit.md`
-  - Minimalism enforcement, requirement auditing
+  - ONLY when: Auditing minimalism, reviewing spec quality
+  - NOT for: Writing specs (use AGENTS.md MSL guidance)
 
 ---
 

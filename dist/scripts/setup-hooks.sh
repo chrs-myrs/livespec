@@ -62,8 +62,19 @@ echo ""
 # Change to repo root
 cd "$(git rev-parse --show-toplevel)" || exit 1
 
+# Detect validation script location (LiveSpec source uses tests/, target projects use .livespec/tests/)
+if [ -f "tests/structure/test_full_validation.sh" ]; then
+    VALIDATION_SCRIPT="tests/structure/test_full_validation.sh"
+elif [ -f ".livespec/tests/structure/test_full_validation.sh" ]; then
+    VALIDATION_SCRIPT=".livespec/tests/structure/test_full_validation.sh"
+else
+    echo -e "${RED}✗ Validation script not found${NC}"
+    echo -e "${YELLOW}Expected: tests/structure/test_full_validation.sh or .livespec/tests/structure/test_full_validation.sh${NC}"
+    exit 1
+fi
+
 # Run full validation
-if bash tests/structure/test_full_validation.sh; then
+if bash "$VALIDATION_SCRIPT"; then
     echo ""
     echo -e "${GREEN}✓ Validation passed - proceeding with commit${NC}"
     echo ""

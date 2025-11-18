@@ -115,10 +115,10 @@ declare -A FAILURE_PATTERNS
 
 # Process each session log
 for log in "${FILTERED_SESSIONS[@]}"; do
-    # Extract scores
-    PROCESS=$(jq -r '.scores.process_compliance // 0' "$log")
-    FOCUS=$(jq -r '.scores.focus_efficiency // 0' "$log")
-    OVERALL=$(jq -r '.scores.overall_percentage // 0' "$log")
+    # Extract scores (convert to integers to handle any decimal values)
+    PROCESS=$(jq -r '.scores.process_compliance // 0' "$log" | awk '{printf "%.0f", $1}')
+    FOCUS=$(jq -r '.scores.focus_efficiency // 0' "$log" | awk '{printf "%.0f", $1}')
+    OVERALL=$(jq -r '.scores.overall_percentage // 0' "$log" | awk '{printf "%.0f", $1}')
     LEVEL=$(jq -r '.compliance_level // "unknown"' "$log")
     AGENT=$(jq -r '.agent // "unknown"' "$log")
 
@@ -132,10 +132,10 @@ for log in "${FILTERED_SESSIONS[@]}"; do
     FILES_CREATED=$((FILES_CREATED + FILE_COUNT))
 
     # Layer scores
-    L1=$(jq -r '.layers.todowrite_gate // 0' "$log")
-    L2=$(jq -r '.layers.validation_check // 0' "$log")
-    L3=$(jq -r '.layers.plan_mode // 0' "$log")
-    L4=$(jq -r '.layers.precommit // 0' "$log")
+    L1=$(jq -r '.layers.todowrite_gate // 0' "$log" | awk '{printf "%.0f", $1}')
+    L2=$(jq -r '.layers.validation_check // 0' "$log" | awk '{printf "%.0f", $1}')
+    L3=$(jq -r '.layers.plan_mode // 0' "$log" | awk '{printf "%.0f", $1}')
+    L4=$(jq -r '.layers.precommit // 0' "$log" | awk '{printf "%.0f", $1}')
 
     L1_TOTAL=$((L1_TOTAL + L1))
     L1_MAX=$((L1_MAX + 2))
@@ -147,9 +147,9 @@ for log in "${FILTERED_SESSIONS[@]}"; do
     L4_MAX=$((L4_MAX + 1))
 
     # Focus dimensions
-    TOOL=$(jq -r '.focus.tool_efficiency // 0' "$log")
-    CONTEXT=$(jq -r '.focus.context_navigation // 0' "$log")
-    TASK=$(jq -r '.focus.task_focus // 0' "$log")
+    TOOL=$(jq -r '.focus.tool_efficiency // 0' "$log" | awk '{printf "%.0f", $1}')
+    CONTEXT=$(jq -r '.focus.context_navigation // 0' "$log" | awk '{printf "%.0f", $1}')
+    TASK=$(jq -r '.focus.task_focus // 0' "$log" | awk '{printf "%.0f", $1}')
 
     TOOL_TOTAL=$((TOOL_TOTAL + TOOL))
     TOOL_MAX=$((TOOL_MAX + 5))
@@ -206,7 +206,7 @@ TASK_PCT=$((TASK_TOTAL * 100 / TASK_MAX))
 # Calculate spec-first compliance rate (sessions scoring ≥6/8)
 SPEC_FIRST_COMPLIANT=0
 for log in "${FILTERED_SESSIONS[@]}"; do
-    PROCESS=$(jq -r '.scores.process_compliance // 0' "$log")
+    PROCESS=$(jq -r '.scores.process_compliance // 0' "$log" | awk '{printf "%.0f", $1}')
     if [ "$PROCESS" -ge 6 ]; then
         SPEC_FIRST_COMPLIANT=$((SPEC_FIRST_COMPLIANT + 1))
     fi

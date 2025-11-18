@@ -20,6 +20,114 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.8.0] - 2025-11-18
+
+### 🚀 Validation Infrastructure Distribution & Sparse Submodules
+
+This minor release fixes a critical distribution gap that blocked validation adoption in target projects, and introduces sparse submodule installation for zero-duplication deployments. Health check tools (scripts, tests, git hooks) are now properly distributed in `dist/`, making validation work out-of-the-box for target projects. Sparse submodules enable sharing one LiveSpec installation across multiple projects with automatic updates.
+
+**Impact**: MEDIUM - Fixes blocking bug for validation adoption, adds new optional installation method (backward compatible)
+
+### Added
+
+- **Validation Script Distribution** (⚠️ MEDIUM impact)
+  - `dist/scripts/` now contains all 12 validation scripts (2,148 lines)
+  - `dist/scripts/traceability/` contains 6 research linkage validation scripts
+  - `dist/tests/structure/` contains comprehensive validation test suite
+  - `dist/tests/prompts/` contains prompt-specific test scripts
+  - Fixes critical bug: target projects can now run validation without manual script copying
+
+- **Git Hook Support for Target Projects** (⚠️ MEDIUM impact)
+  - `dist/scripts/setup-hooks.sh` now detects both LiveSpec source and target project paths
+  - Hooks work correctly in both contexts (tests/ for source, .livespec/tests/ for targets)
+  - Pre-commit validation functional out-of-the-box after copying dist/
+  - Action recommended: Re-run setup-hooks.sh in target projects to get fixed hook
+
+- **Sparse Submodule Installation** (⚠️ LOW impact - new optional method)
+  - New: `scripts/install-livespec.sh` - Automated installation helper with auto-detection
+  - Supports three methods: sparse submodule (preferred), full submodule, directory copy
+  - Sparse submodules enable zero-duplication across projects (one local copy, many references)
+  - Requires: git 2.25+ or git-partial-submodule tool
+  - Action optional: Use for new projects, existing projects continue working unchanged
+
+- **Installation Behavior Spec** (⚠️ LOW impact)
+  - New: `specs/3-behaviors/installation.spec.md` - Documents all three installation methods
+  - Specifies auto-detection logic, fallback behavior, validation steps
+
+### Changed
+
+- **Distribution Architecture** (⚠️ MEDIUM impact)
+  - LiveSpec source now uses symlinks: `/scripts → dist/scripts`, `/tests → dist/tests`
+  - True dogfooding: LiveSpec uses exactly what target projects receive
+  - Scripts/tests are authoritative in `dist/`, source project accesses via symlinks
+  - Matches existing pattern: `/prompts → dist/prompts`
+
+- **Framework Immutability Model** (⚠️ LOW impact)
+  - Removed customizations.yaml tracking pattern entirely
+  - `.livespec/` established as immutable framework reference
+  - Simplifies upgrades: 9 phases → 4 steps (git submodule update)
+  - Reduces upgrade time: 30+ minutes → 2 minutes
+  - Innovation happens by extending (not modifying) framework
+
+- **Upgrade Workflow Simplified** (⚠️ LOW impact)
+  - `specs/3-artifacts/prompts/utils-upgrade.spec.md` simplified (228 → 184 lines)
+  - `specs/2-strategy/architecture.spec.md` - Removed customization tracking section
+  - `specs/1-requirements/functional/changelog.spec.md` - Simplified impact categories
+  - Migration guide: `docs/migration/remove-customizations.md`
+
+### Fixed
+
+- **Validation Adoption Blocker** (⚠️ HIGH impact - was preventing adoption)
+  - **Problem**: Documentation told target projects to run `bash scripts/setup-hooks.sh` but scripts didn't exist in `dist/`
+  - **Impact**: First commit after hook setup failed with "No such file or directory"
+  - **Result**: Users either couldn't enable validation or used `--no-verify` (defeating Layer 4 enforcement)
+  - **Fix**: All validation tools now distributed in `dist/scripts/` and `dist/tests/`
+  - **Verified**: Tested in simulated target project - hooks install and execute correctly
+
+- **Dogfooding Gap** (⚠️ LOW impact - internal consistency)
+  - LiveSpec now uses same scripts/tests distribution as target projects (via symlinks)
+  - Ensures any changes to validation tools are immediately tested in source project
+  - Prevents future distribution gaps through true dogfooding
+
+### Architecture
+
+- **Distribution Model**: Scripts and tests moved to `dist/` as authoritative location (source project accesses via symlinks)
+- **Installation Methods**: Three options with auto-detection (sparse submodule preferred, full submodule fallback, directory copy last resort)
+- **Framework Immutability**: No customization tracking, `.livespec/` is read-only reference, extensions live outside
+- **Validation Enforcement**: Layer 4 (pre-commit hooks) now functional for target projects
+
+### Migration Guide
+
+**For existing target projects using LiveSpec**:
+
+1. **Update .livespec/ from dist/**:
+   ```bash
+   cd your-project
+   rm -rf .livespec
+   cp -r /path/to/livespec/dist/ .livespec/
+   ```
+
+2. **Re-run hook setup** (if using validation):
+   ```bash
+   bash .livespec/scripts/setup-hooks.sh
+   ```
+
+3. **Verify scripts exist**:
+   ```bash
+   ls .livespec/scripts/*.sh      # Should show 12 scripts
+   ls .livespec/tests/structure/  # Should show test_full_validation.sh
+   ```
+
+**For LiveSpec source project**:
+- No action required - symlinks automatically created
+- Scripts and tests now accessed via `scripts/` and `tests/` symlinks
+
+**For new projects**:
+- Consider sparse submodule installation for zero-duplication deployments
+- See `scripts/install-livespec.sh --help` for options
+
+---
+
 ## [3.7.0] - 2025-01-18
 
 ### 🏛️ Complete Value Hierarchy Traceability
