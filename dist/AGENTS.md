@@ -19,7 +19,10 @@ This is a **bootstrap agent configuration**. Once your workspace specs are estab
 ## Quick Start for New Projects
 
 **If starting fresh**:
-1. Copy `.livespec/` to your project (if not already present)
+1. **Install LiveSpec** (if not already present):
+   - **Recommended**: `bash scripts/install-livespec.sh` (auto-detects best method)
+   - **Alternative methods**: See `README.md` in this directory for sparse submodule, full submodule, or copy options
+   - **Verify**: Check that `.livespec/VERSION` exists after installation
 2. Run Phase 0: Use `.livespec/0-define/0a-quick-start.md` (5 min, defaults) OR `.livespec/0-define/0b-customize-workspace.md` (20-30 min, full customization)
 3. Phase 0 will establish workspace specs (constitution, patterns, workflows)
 4. **Immediately after Phase 0**: Regenerate this file using `.livespec/prompts/utils/regenerate-contexts.md`

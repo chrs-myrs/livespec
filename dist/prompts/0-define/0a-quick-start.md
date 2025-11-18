@@ -18,6 +18,43 @@ You're setting up a new project or adding LiveSpec to an existing codebase. This
 
 ## Task
 
+### Step 0: Verify LiveSpec Installation
+
+**Before creating workspace specs**, ensure LiveSpec framework is installed.
+
+**Check for installation:**
+```bash
+test -f .livespec/VERSION && echo "✓ Installed ($(cat .livespec/VERSION))" || echo "✗ Not installed"
+```
+
+**If "✗ Not installed"** appears:
+
+Tell user:
+"LiveSpec framework not detected. Installing now using the recommended method..."
+
+**Install using helper script:**
+```bash
+# From LiveSpec source directory
+bash /path/to/livespec/scripts/install-livespec.sh
+
+# OR from URL (if accessible)
+bash <(curl -fsSL https://raw.githubusercontent.com/chrs-myrs/livespec/master/scripts/install-livespec.sh)
+
+# OR manual sparse submodule (see .livespec/README.md for instructions)
+```
+
+**After installation**, verify:
+```bash
+ls .livespec/VERSION .livespec/prompts/ .livespec/scripts/ .livespec/templates/
+```
+
+**If verification fails**:
+"Installation incomplete. See `.livespec/README.md` for alternative installation methods."
+
+**STOP** if installation cannot be completed.
+
+**If "✓ Installed"** appears: Continue to Step 0.5.
+
 ### Step 0.5: Validate Project Domain (Quick Check)
 
 **Before applying defaults**, verify project fits Software domain:

@@ -11,6 +11,14 @@ derives-from:
 # Prompt Behavior: Quick Start
 
 ## Requirements
+- [!] Prompt verifies LiveSpec installation before proceeding, preventing workspace creation without functional framework.
+  - Checks for .livespec/VERSION file existence
+  - If missing, guides user to install using helper script or manual methods
+  - Verifies required directories exist (.livespec/prompts/, .livespec/scripts/, .livespec/templates/)
+  - Cannot proceed to workspace creation without functional .livespec/ directory
+  - Provides clear installation instructions if needed
+  - Uses validation script (check-livespec-installation.sh) if available
+
 - [!] Prompt initializes LiveSpec workspace with sensible defaults in under 5 minutes, asking zero questions, creating four standard workspace specs suitable for 80% of projects.
   - Asks zero questions (applies defaults)
   - Context compression: Moderate (balanced inline/reference)
@@ -28,6 +36,9 @@ derives-from:
   - Clear path to customization (0b-customize-workspace.md)
 
 ## Validation
+- Prompt verifies .livespec/VERSION exists before creating workspace specs
+- If installation missing, provides clear installation instructions
+- Cannot proceed without functional .livespec/ directory
 - Prompt creates exactly four workspace spec files
 - All specs follow MSL format (frontmatter, Requirements, Validation)
 - taxonomy.spec.md declares Software domain with standard workspace scope

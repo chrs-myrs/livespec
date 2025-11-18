@@ -20,6 +20,102 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.8.1] - 2025-11-18
+
+### 📚 Installation Documentation Fix
+
+This patch release fixes a documentation gap that caused AI agents to use outdated installation methods (manual directory copy) instead of the new sparse submodule installation introduced in v3.8.0. Adds comprehensive installation guide and verification tools to prevent future adoption issues.
+
+**Impact**: LOW - Documentation improvement, no code changes
+
+### Added
+
+- **dist/README.md** (⚠️ LOW impact - new entry point)
+  - Comprehensive installation guide (244 lines)
+  - Documents all 4 installation methods with pros/cons
+  - Quick start instructions after installation
+  - Version tracking guidance
+  - Git hook setup instructions
+  - First file users/agents see when they get dist/
+
+- **dist/scripts/check-livespec-installation.sh** (⚠️ LOW impact - new validation tool)
+  - Validates LiveSpec installation completeness
+  - Checks VERSION, directories, files, script permissions
+  - Detects symlink vs directory installation
+  - Version mismatch warnings
+  - Exit codes: 0=ready, 1=not installed, 2=incomplete
+  - 197 lines with colored diagnostic output
+
+### Changed
+
+- **dist/AGENTS.md Quick Start** (⚠️ MEDIUM impact - agents read this first)
+  - Line 22 changed from "Copy `.livespec/` to your project"
+  - To: "Install LiveSpec" with helper script recommendation
+  - References README.md for alternative methods
+  - Legacy copy method noted as still functional
+
+- **dist/prompts/0-define/0a-quick-start.md** (⚠️ MEDIUM impact - first prompt used)
+  - Added Step 0: Verify LiveSpec Installation (before creating workspace)
+  - Checks for .livespec/VERSION existence
+  - Guides to helper script installation if missing
+  - Cannot proceed without functional .livespec/ directory
+  - Multiple fallback installation options provided
+
+- **specs/3-artifacts/prompts/0a-quick-start.spec.md** (⚠️ LOW impact - spec update)
+  - Added installation verification requirement
+  - Updated validation criteria to include installation check
+  - Enforces "check before workspace creation" pattern
+
+### Fixed
+
+- **Installation Discovery Problem** (⚠️ HIGH severity - was causing adoption issues)
+  - **Problem**: Agents followed outdated "copy dist/" instructions in AGENTS.md
+  - **Impact**: Projects used manual copy method instead of sparse submodule
+  - **Result**: Duplication across projects, manual updates required, no submodule benefits
+  - **Example**: myrs-infra project installed with directory copy (no submodule integration)
+  - **Fix**: Multiple documentation touch points now reference helper script and README.md
+
+- **Missing Entry Point Documentation** (⚠️ MEDIUM severity)
+  - dist/ had no README explaining installation methods
+  - Quick-start prompt assumed .livespec/ already existed
+  - Helper script undocumented despite being implemented in v3.8.0
+  - Now: README.md is first file agents see with comprehensive installation guide
+
+### Prevention Measures
+
+**Multiple documentation layers prevent outdated method usage:**
+1. README.md as primary entry point (first file read)
+2. AGENTS.md Quick Start references helper script
+3. 0a-quick-start.md includes installation verification (Step 0)
+4. Validation script available for installation health checks
+5. Spec enforcement requires installation verification
+
+**Path agents now follow:**
+- Read AGENTS.md → See "Install LiveSpec" with helper script
+- OR read README.md → Get full installation guide
+- OR use 0a-quick-start.md → Hit installation check in Step 0
+- Cannot create workspace without .livespec/VERSION existing
+
+### Architecture
+
+**Documentation Touch Points:**
+- Entry: dist/README.md (comprehensive guide)
+- Quick Start: AGENTS.md (references helper script)
+- First Prompt: 0a-quick-start.md (installation verification)
+- Validation: check-livespec-installation.sh (health check)
+- Enforcement: Spec requires installation check
+
+### Migration Guide
+
+**No action required** - this is a documentation-only release. Projects using v3.8.0 continue working unchanged.
+
+**Optional improvements:**
+- Read dist/README.md for comprehensive installation documentation
+- Use check-livespec-installation.sh to verify existing installation health
+- Future installations will automatically use helper script method
+
+---
+
 ## [3.8.0] - 2025-11-18
 
 ### 🚀 Validation Infrastructure Distribution & Sparse Submodules
