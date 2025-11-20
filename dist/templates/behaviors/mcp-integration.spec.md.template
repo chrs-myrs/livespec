@@ -1,0 +1,188 @@
+---
+criticality: IMPORTANT
+failure_mode: Without MCP server integration, Claude Desktop cannot access custom tools and data integrations
+satisfies:
+  - specs/1-requirements/functional/[feature-requiring-mcp].spec.md
+guided-by:
+  - specs/2-strategy/development-environment.spec.md
+---
+
+# MCP Server Integration
+
+## Requirements
+- [!] Claude Desktop connects to configured MCP servers on startup.
+  - MCP server process starts successfully
+  - Server logs show "Server started and connected successfully"
+  - Server appears in Claude Desktop MCP section
+  - Tools/resources available to Claude within 60 seconds of startup
+  - Validation: `tail -50 <log-location>/mcp-server-<name>.log` shows no errors
+
+- [!] MCP server tools function correctly in conversations.
+  - Claude can discover server tools via autocomplete
+  - Tool invocations execute without errors
+  - Tool responses return within expected timeframes
+  - Error messages clearly indicate failure causes
+  - Validation: Test tool invocation in Claude conversation
+
+- [!] MCP server credentials and configuration remain secure.
+  - Credentials stored in environment variables only (not hardcoded)
+  - Config file has appropriate permissions (user read/write only)
+  - Secrets not logged or exposed in error messages
+  - Validation: Check config file permissions, review logs for credential leakage
+
+## Platform Configuration
+
+### Windows with WSL
+
+**Path Format:**
+- WSL paths use: `\\wsl.localhost\<Distribution>\<linux-path>`
+- Example: `\\wsl.localhost\Ubuntu-22.04\home\user\project\dist\server.js`
+
+**Config Location:**
+- `C:\Users\<Username>\AppData\Roaming\Claude\claude_desktop_config.json`
+
+**Credential Considerations:**
+- AWS: Cannot use SSO or AWS_PROFILE (static credentials only)
+- Environment variables passed via config `env` object
+
+### macOS/Linux
+
+**Path Format:**
+- Standard Unix paths: `/home/user/project/dist/server.js`
+
+**Config Location:**
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Linux: `~/.config/Claude/claude_desktop_config.json`
+
+**Credential Considerations:**
+- AWS: Cannot use SSO or AWS_PROFILE (static credentials only)
+- Environment variables passed via config `env` object
+
+## Debugging Workflow
+
+When MCP servers fail to connect or function correctly:
+
+**Step 1: Check Log Location**
+- Windows: `C:\Users\<Username>\AppData\Roaming\Claude\logs\`
+- macOS: `~/Library/Logs/Claude/`
+- Linux: `~/.config/Claude/logs/`
+
+**Step 2: Identify Server Log**
+- Pattern: `mcp-server-<server-name>.log`
+- Server name from config key (not display name)
+
+**Step 3: Examine Recent Errors**
+```bash
+tail -100 <log-location>/mcp-server-<name>.log
+```
+
+**Step 4: Common Error Patterns**
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `npm ERR! 404` | Package not found in registry | Use local path with `node` command instead of `npx` |
+| `Server transport closed unexpectedly` | Process crashed during startup | Check earlier errors in log, test command standalone |
+| `ENOENT: no such file or directory` | Incorrect path format | Verify file exists, check WSL path format on Windows |
+| `Authentication failed` | Invalid/missing credentials | Verify credentials valid, check environment variables set |
+| `Cannot find module` | Missing dependencies | Run `npm install` in project directory, rebuild if needed |
+
+**Step 5: Test Components Individually**
+```bash
+# Verify file exists
+ls -la <server-path>
+
+# Test command standalone
+node <server-path> --help
+
+# Validate config JSON syntax
+python3 -m json.tool <config-path> > /dev/null && echo "Valid"
+
+# Check credentials (if applicable)
+aws sts get-caller-identity  # For AWS credentials
+curl -H "Authorization: Bearer <token>" <api>  # For API tokens
+```
+
+**Step 6: Validate Configuration**
+- JSON syntax valid (no trailing commas, proper quotes)
+- Paths accessible from Windows (if using WSL)
+- Environment variables set correctly
+- Credentials have required permissions
+
+**Step 7: Restart Claude Desktop**
+1. Close completely (right-click system tray → Exit)
+2. Wait for process termination
+3. Launch from Start Menu/Applications
+4. Wait 30-60 seconds for MCP initialization
+5. Check logs for successful connection
+
+## Common Configuration Patterns
+
+### Local Development Server (Recommended)
+
+**When to use:**
+- Server source available locally
+- Development/debugging active
+- Package not published to registry
+
+**Configuration:**
+```json
+{
+  "mcpServers": {
+    "project-name": {
+      "command": "node",
+      "args": ["<absolute-path-to-server.js>"],
+      "env": {
+        "API_KEY": "value",
+        "OTHER_VAR": "value"
+      }
+    }
+  }
+}
+```
+
+### Published Package (Production)
+
+**When to use:**
+- Package published to npm/GitHub Packages
+- Stable version deployed
+- Auto-update desired
+
+**Configuration:**
+```json
+{
+  "mcpServers": {
+    "project-name": {
+      "command": "npx",
+      "args": ["-y", "@scope/package@latest"],
+      "env": {
+        "API_KEY": "value"
+      }
+    }
+  }
+}
+```
+
+## Reference Documentation
+
+For complete debugging methodology, see:
+- `var/mcp-setup-debugging-guide.md` (if available in project)
+- MCP specification: https://modelcontextprotocol.io/
+- Claude Desktop docs: https://docs.anthropic.com/claude/docs/mcp
+
+## Notes
+
+**Multiple MCP servers:**
+- Each server must have unique name
+- Avoid duplicate tool names across servers
+- Test each server individually before combining
+
+**Credential security:**
+- Never commit credentials to git
+- Use environment variables or secure secret management
+- Rotate credentials if exposed
+
+**Development workflow:**
+- Test server standalone before integrating
+- Monitor logs during development
+- Rebuild server after code changes (local development)
+- Restart Claude Desktop to pick up config changes

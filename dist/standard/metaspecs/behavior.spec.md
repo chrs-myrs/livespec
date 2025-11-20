@@ -88,6 +88,9 @@ specs/behaviors/
 ├── user-features/         # Software domain
 │   ├── authentication.spec.md
 │   └── authorization.spec.md
+├── dev-environment/       # Development setup domain
+│   ├── mcp-integration.spec.md
+│   └── local-dependencies.spec.md
 ├── policies/              # Governance domain
 │   ├── access-control.spec.md
 │   └── data-protection.spec.md

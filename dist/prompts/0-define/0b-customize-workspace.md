@@ -96,6 +96,93 @@ Ask the user:
    - If validation fails, add missing sections using metaspec guidance
    - Validation ensures taxonomy provides complete agent guidance
 
+### Step 3.5: Configure MCP Integration (Optional)
+
+**CRITICAL**: MCP servers extend Claude Desktop capabilities. Establishing configuration patterns early prevents debugging issues.
+
+Ask the user:
+
+1. **"Will this project use MCP (Model Context Protocol) servers?"**
+   - Examples: Custom tools, data integrations, external API access
+   - If NO: Skip to Step 4
+   - If YES: Continue with MCP configuration
+
+2. **"What platform will run Claude Desktop?"**
+   - **Windows with WSL**: Note path translation requirements (`\\wsl.localhost\Ubuntu-22.04\...`)
+   - **macOS/Linux**: Standard Unix paths
+   - **Important**: Affects config file location and path formats
+
+3. **"Will MCP servers require credentials?"**
+   - **API keys**: Environment variables in config
+   - **AWS credentials**: Note Claude Desktop cannot use SSO (static credentials only)
+   - **GitHub packages**: May need authentication tokens
+
+4. **Create MCP integration spec:**
+
+   Create `specs/3-behaviors/dev-environment/mcp-integration.spec.md`:
+   - Document MCP server requirements (what servers, what capabilities)
+   - Specify validation criteria (how to verify server working)
+   - Include platform-specific considerations
+   - Reference debugging workflow (see below)
+
+5. **Show debugging workflow:**
+
+   Explain to user:
+
+   "When MCP servers fail, use this systematic debugging process:
+
+   **Step 1**: Check log location
+   - Windows: `C:\Users\<Username>\AppData\Roaming\Claude\logs\`
+   - macOS: `~/Library/Logs/Claude/`
+   - Linux: `~/.config/Claude/logs/`
+
+   **Step 2**: Identify server log
+   - Pattern: `mcp-server-<server-name>.log`
+   - Example: `mcp-server-tmp-project.log`
+
+   **Step 3**: Examine recent errors
+   ```bash
+   tail -100 <log-file-path>
+   ```
+
+   **Step 4**: Common error patterns
+   - `npm ERR! 404` → Package not found (use local path instead)
+   - `Server transport closed unexpectedly` → Check earlier errors
+   - `ENOENT` → Path incorrect (check WSL format on Windows)
+   - `Authentication failed` → Verify credentials in env
+
+   **Step 5**: Test components
+   - Verify file exists: `ls -la <path>`
+   - Test command standalone: `node <path> --help`
+   - Validate config JSON: `python3 -m json.tool <config>`"
+
+6. **Document platform-specific patterns:**
+
+   Add to workflows.spec.md reference:
+
+   **WSL Path Translation (Windows only):**
+   ```
+   Linux: /home/chris/projects/tmp/project-mcp/dist/server.js
+   Windows: \\wsl.localhost\Ubuntu-22.04\home\chris\projects\tmp\project-mcp\dist\server.js
+   ```
+
+   **AWS Credentials (Claude Desktop):**
+   - Cannot use AWS_PROFILE or SSO
+   - Must use static credentials (AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY)
+   - Terminal-based Claude Code CAN use SSO
+
+   **Config File Locations:**
+   - Windows: `C:\Users\<Username>\AppData\Roaming\Claude\claude_desktop_config.json`
+   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+7. **Store detailed debugging guide:**
+
+   "I've placed a complete MCP debugging guide in `var/mcp-setup-debugging-guide.md` for reference. This includes:
+   - Complete error pattern library
+   - Platform-specific solutions
+   - Credential handling strategies
+   - Validation workflows"
+
 ### Step 4: Create Workspace Specifications
 
 Using appropriate template from `dist/templates/workspace/constitution-[level].md.template` and referencing taxonomy, create three workspace specifications:

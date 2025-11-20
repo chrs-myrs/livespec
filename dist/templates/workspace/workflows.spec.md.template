@@ -35,9 +35,32 @@ failure_mode: Without clear workflows, contributors don't know how to work on th
 - Create atomic, logical commits
 - Reference specs/requirements in commit messages
 
+**MCP Server Debugging (if applicable):**
+1. Check log location (platform-specific, see specs/3-behaviors/dev-environment/mcp-integration.spec.md)
+2. Identify server log (mcp-server-<name>.log)
+3. Examine recent errors (tail -100 <log>)
+4. Match error pattern (404, transport closed, ENOENT, auth failure)
+5. Test components individually (file exists, command works, config valid)
+6. Validate configuration (JSON syntax, paths, credentials)
+7. Restart Claude Desktop cleanly
+
+**Platform-Specific Patterns:**
+
+*Windows with WSL:*
+- Path format: `\\wsl.localhost\<Distribution>\<linux-path>`
+- Config: `C:\Users\<Username>\AppData\Roaming\Claude\claude_desktop_config.json`
+- AWS: Static credentials only (no SSO)
+
+*macOS/Linux:*
+- Path format: Standard Unix paths
+- Config: `~/Library/Application Support/Claude/` (macOS) or `~/.config/Claude/` (Linux)
+- AWS: Static credentials only (no SSO)
+
 **Validation:**
   - [Evidence workflow is followed (git history, PR patterns)]
   - [Completed work adheres to workflow steps]
   - [No steps skipped in critical workflows (especially spec-first)]
   - [Workflow produces expected artifacts]
   - [Team members follow documented process]
+  - [MCP servers connect successfully (if applicable)]
+  - [Debugging workflow resolves common issues (if applicable)]
