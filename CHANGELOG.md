@@ -20,6 +20,100 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.9.0] - 2025-11-21
+
+### 🏗️ Context Tree Knowledge Standardization
+
+This minor release extracts context tree mechanism into framework convention, enabling all projects to discover and adopt hierarchical agent contexts. Completes value tree traceability from requirements through implementation.
+
+**Impact**: MEDIUM (⚠️) - Phase 0 creates 5 workspace specs (was 3), framework provides universal mechanism
+
+#### Added
+
+- **dist/standard/conventions/context-tree.spec.md** (⚠️ MEDIUM impact - new convention)
+  - Universal context tree mechanism (384 lines)
+  - Root AGENTS.md + ctxt/ sub-agents pattern
+  - Proactive loading mechanism
+  - Size budget rationale
+  - Generation governance
+  - Distribution pattern
+  - Applies to all LiveSpec projects
+
+- **dist/standard/metaspecs/agent.spec.md** (⚠️ LOW impact - new pattern)
+  - Pattern for agent specifications
+  - Parallel to prompt.spec.md
+  - Prerequisites validation, source extraction, generation, validation, results reporting, isolation
+
+- **dist/templates/workspace/agent-contexts.spec.md.template** (⚠️ MEDIUM impact - Phase 0 template)
+  - Template for project context tree structure
+  - References context-tree convention for mechanism
+  - Focuses on project-specific choices (phase/domain/utility sub-agents)
+
+- **dist/templates/workspace/workspace-agent.spec.md.template** (⚠️ MEDIUM impact - Phase 0 template)
+  - Template for AGENTS.md content definition
+  - References positioning guide and context-tree convention
+  - Defines generation sources and content structure
+
+- **specs/3-behaviors/context-generation.spec.md**
+  - Behavior spec bridging workspace structure → artifact implementation
+  - Observable outcome: "Valid agent context tree generated from workspace specs"
+  - Completes value tree: requirements → workspace → behaviors → artifacts
+
+- **specs/3-artifacts/agents/context-builder.spec.md**
+  - Agent artifact spec for context-builder implementation
+  - Specifies prerequisites validation, content extraction, generation, compression, validation, results reporting
+
+#### Changed
+
+- **dist/prompts/0-define/0a-quick-start.md** (⚠️ MEDIUM impact - Phase 0 change)
+  - Now creates 5 workspace specs (was 3)
+  - Added agent-contexts.spec.md creation (step 4)
+  - Added workspace-agent.spec.md creation (step 5)
+  - Both required for context regeneration
+
+- **dist/prompts/0-define/0b-customize-workspace.md** (⚠️ MEDIUM impact - Phase 0 change)
+  - Now creates 5 workspace specs (was 3)
+  - Added template references for agent-contexts and workspace-agent specs
+  - Detailed customization guidance for context tree
+
+- **dist/AGENTS.md** (⚠️ LOW impact - bootstrap reference)
+  - References context-tree convention for universal mechanism
+  - Updated prerequisites list for full context tree generation
+
+- **specs/workspace/agent-contexts.spec.md**
+  - REFACTORED: 185 lines → 67 lines (64% reduction)
+  - Removed universal mechanism (now in convention)
+  - Focuses on LiveSpec's specific choices (9 sub-agents)
+  - Added governed-by: context-tree.spec.md
+
+- **specs/workspace/workspace-agent.spec.md**
+  - REFACTORED: 137 lines → 76 lines (45% reduction)
+  - Removed mechanism explanation
+  - Focuses on LiveSpec's content decisions
+  - Added governed-by: context-tree.spec.md
+
+- **specs/3-artifacts/prompts/utils-regenerate-context.spec.md**
+  - Added governed-by: context-tree.spec.md
+
+- **.claude/agents/context-builder/instructions.md**
+  - Added specification references (behavior, artifact, structure)
+
+#### Fixed
+
+- **specs/3-artifacts/validators/check-requires-spec.spec.md**
+  - Added missing frontmatter (was orphaned spec)
+  - Connected to value tree with derives-from, governed-by, guided-by
+
+#### Benefits
+
+- **Universal mechanism distributed automatically**: All projects get context-tree convention via dist/
+- **Clean separation of concerns**: Framework provides mechanism, projects customize choices
+- **Value tree navigable**: Complete traceability from requirements through implementation
+- **Phase 0 completeness**: Creates all prerequisites for context regeneration
+- **Agent discoverability**: Workspace agents find functionality through value tree
+
+---
+
 ## [3.8.1] - 2025-11-18
 
 ### 📚 Installation Documentation Fix
