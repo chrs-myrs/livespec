@@ -226,9 +226,9 @@ This minor release fixes a critical distribution gap that blocked validation ado
 
 ## [3.7.0] - 2025-01-18
 
-### 🏛️ Complete Value Hierarchy Traceability
+### 🏛️ Complete Value Structure Traceability
 
-This minor release completes the value hierarchy architecture by clarifying the workspace/strategy boundary and ensuring all specs trace through Layer 1 requirements. Based on deep architectural analysis, fixes fundamental frontmatter relationship model to achieve 100% PURPOSE.md traceability.
+This minor release completes the value structure architecture by clarifying the workspace/strategy boundary and ensuring all specs trace through Layer 1 requirements. Based on deep architectural analysis, fixes fundamental frontmatter relationship model to achieve 100% PURPOSE.md traceability.
 
 **Impact**: HIGH - Breaking changes to frontmatter relationships, but provides complete value chain integrity
 
@@ -252,8 +252,8 @@ This minor release completes the value hierarchy architecture by clarifying the 
 
 ### Changed
 
-- **Value Hierarchy Architecture** (⚠️ HIGH impact - affects all projects)
-  - `dist/guides/spec-decision-framework.md` - Added dual-dimension value hierarchy diagram (product + workspace)
+- **Value Structure Architecture** (⚠️ HIGH impact - affects all projects)
+  - `dist/guides/spec-decision-framework.md` - Added dual-dimension value structure diagram (product + workspace)
   - Both dimensions now trace to PURPOSE.md (not orthogonal)
   - Clear boundary: Workspace = meta-structural pointers, Strategy = cross-cutting content
 
@@ -279,7 +279,7 @@ This minor release completes the value hierarchy architecture by clarifying the 
 - **Broken References** (⚠️ LOW impact)
   - `specs/workspace/patterns.spec.md` - Fixed reference to `agent-contexts.spec.md` (was incorrectly pointing to non-existent `context-structure.spec.md`)
 
-- **Value Hierarchy Traceability** (⚠️ HIGH impact)
+- **Value Structure Traceability** (⚠️ HIGH impact)
   - Completed PURPOSE.md traceability chain for all specs (100% coverage through Layer 1)
   - No more layer-skipping with `derives-from: PURPOSE.md`
   - Clear distinction: `derives-from` (parent-child), `satisfies` (implements requirement), `guided-by` (follows strategy)
@@ -564,7 +564,7 @@ This minor release introduces unified session completion analysis that combines 
   - Added signal-to-noise ratio explanation with example
   - Future capability: Analyzing global data for methodology improvement
 
-- **Value Hierarchy** - Session completion traces to PURPOSE.md
+- **Value Structure** - Session completion traces to PURPOSE.md
   - Updated: `specs/1-requirements/strategic/outcomes.spec.md` Requirement 6 (Sustainable Evolution)
   - New entry: `session-completion.spec.md` satisfies feedback loop requirement
   - Traceability: PURPOSE.md → outcomes.spec.md → session-completion.spec.md → complete-session.md
@@ -757,37 +757,37 @@ agent:
 
 ## [3.3.1] - 2025-11-06
 
-### 🎯 Value Pyramid Discoverability & Documentation Projects
+### 🎯 Value Structure Discoverability & Documentation Projects
 
 This patch release addresses feedback from documentation project adoption. LiveSpec 3.3.1 makes purpose traceability explicit, adds comprehensive onboarding guides, and provides documentation-specific examples.
 
-**Key insight**: "No project should escape the value pyramid - everything has a spec, this needs to be made clearer, the value being the link all the way back to project purpose."
+**Key insight**: "No project should escape the value structure - everything has a spec, this needs to be made clearer, the value being the link all the way back to project purpose."
 
 ### Added
 
-- **⚠️ Value Pyramid Validation** (MEDIUM IMPACT)
-  - New: `scripts/validate-value-pyramid.sh` (90 lines, executable)
+- **⚠️ Value Structure Validation** (MEDIUM IMPACT)
+  - New: `scripts/validate-value-structure.sh` (90 lines, executable)
   - Spec: `specs/3-behaviors/validation/purpose-traceability.spec.md`
   - Validates every spec has upstream reference (derives-from/governed-by/satisfies/guided-by)
   - Integrated into `tests/structure/test_full_validation.sh` (section 9)
   - Detects orphaned specs (no PURPOSE.md traceability)
   - Exit code 0 with warnings if orphaned specs found (non-blocking initially)
   - *Why*: Documentation project had specs without clear PURPOSE linkage
-  - *Impact*: MEDIUM - Enforces value pyramid integrity
+  - *Impact*: MEDIUM - Enforces value structure integrity
 
-- **⚠️ AGENTS.md Value Pyramid Section** (HIGH IMPACT)
-  - Updated: `AGENTS.md` with new "Value Pyramid: Purpose Traceability" section
+- **⚠️ AGENTS.md Value Structure Section** (HIGH IMPACT)
+  - Updated: `AGENTS.md` with new "Value Structure: Purpose Traceability" section
   - Mermaid diagram showing five-level structure
   - Example traceability chains (PURPOSE → specs → implementation)
   - Common mistakes explained (orphaned specs)
-  - Distinguishes VALUE PYRAMID (business) from CONTEXT TREE (agent info)
+  - Distinguishes VALUE STRUCTURE (business) from CONTEXT TREE (agent info)
   - *Why*: Agents need clear guidance on purpose traceability
   - *Impact*: HIGH - Affects agent behavior, added to START section
 
 - **⚠️ Spec Decision Framework Guide** (HIGH IMPACT)
   - New: `dist/guides/spec-decision-framework.md` (600+ lines)
   - Core message: "Everything needs a spec" (not WHETHER, but WHAT TYPE)
-  - Value pyramid visualization
+  - Value structure visualization
   - Decision tree for spec types
   - Common scenarios (FAQ, config, utility, generated code)
   - Anti-patterns section ("Everyone knows what [X] is" - WRONG)
@@ -826,7 +826,7 @@ This patch release addresses feedback from documentation project adoption. LiveS
   - Updated: `dist/prompts/4-evolve/4d-regenerate-context.md`
   - First bullet: "⚠️ CRITICAL: Immediately after Phase 0 workspace setup"
   - Explains why critical (template lacks YOUR project context)
-  - Value Pyramid Impact section (agents need YOUR PURPOSE.md)
+  - Value Structure Impact section (agents need YOUR PURPOSE.md)
   - *Why*: Clarifies when and why to regenerate
   - *Impact*: MEDIUM - Emphasizes critical timing
 
@@ -836,7 +836,7 @@ This patch release addresses feedback from documentation project adoption. LiveS
   - Example behavior spec (architecture-docs.spec.md)
   - Key patterns for docs projects
   - MSL decision framework for docs
-  - Value pyramid visualization for docs
+  - Value structure visualization for docs
   - Benefits of spec-driven docs
   - *Why*: Documentation projects needed concrete examples
   - *Impact*: MEDIUM - Demonstrates docs domain usage
@@ -847,7 +847,7 @@ This patch release addresses feedback from documentation project adoption. LiveS
   - MSL principles for docs (specify outcomes, not content)
   - Common doc specs (architecture, API, runbooks, tutorials)
   - What to specify vs leave to writers
-  - Value pyramid for docs
+  - Value structure for docs
   - Anti-patterns (over-specifying, no validation, docs as afterthought)
   - Before/after examples
   - Testing methods (time-to-task, comprehension testing)
@@ -857,8 +857,8 @@ This patch release addresses feedback from documentation project adoption. LiveS
 
 ### Changed
 
-- **Value Pyramid Validation Integration** (MEDIUM IMPACT)
-  - Enhanced: `tests/structure/test_full_validation.sh` (Section 9: Value Pyramid Traceability)
+- **Value Structure Validation Integration** (MEDIUM IMPACT)
+  - Enhanced: `tests/structure/test_full_validation.sh` (Section 9: Value Structure Traceability)
   - Runs pyramid validation script
   - Checks for broken reference chains
   - Reports orphaned spec count
@@ -867,7 +867,7 @@ This patch release addresses feedback from documentation project adoption. LiveS
 ### Fixed
 
 - **Validation Script Performance** (LOW IMPACT)
-  - Fixed: `scripts/validate-value-pyramid.sh` hanging issue
+  - Fixed: `scripts/validate-value-structure.sh` hanging issue
   - Switched from process substitution to temp file approach
   - Now completes quickly on 70+ spec files
   - *Why*: Initial implementation hung on find/while loop
@@ -876,14 +876,14 @@ This patch release addresses feedback from documentation project adoption. LiveS
 ### Documentation
 
 - **Terminology Refinement** (MEDIUM IMPACT)
-  - "Value Pyramid" → "Value Hierarchy" (clearer terminology)
-  - "Context Compression" → "Knowledge Hierarchy: Context Compression" (clearer positioning)
+  - "Value Structure" → "Value Structure" (clearer terminology)
+  - "Context Compression" → "Context Tree: Context Compression" (clearer positioning)
   - Distinguished TWO SEPARATE hierarchies:
-    - VALUE HIERARCHY: YOUR project's spec traceability (purpose validation)
-    - KNOWLEDGE HIERARCHY: LiveSpec methodology consumption (agent navigation)
+    - VALUE STRUCTURE: YOUR project's spec traceability (purpose validation)
+    - CONTEXT TREE: LiveSpec methodology consumption (agent navigation)
   - Added "Understanding Two Hierarchies" section to AGENTS.md
-  - MSL Minimalism optimizes Value Hierarchy (content within specs)
-  - Context Compression optimizes Knowledge Hierarchy (structure across LiveSpec docs)
+  - MSL Minimalism optimizes Value Structure (content within specs)
+  - Context Compression optimizes Context Tree (structure across LiveSpec docs)
   - Updated guides: spec-decision-framework.md, frontmatter-relationships.md
   - Script filenames unchanged (backward compatible)
   - *Why*: "Hierarchy" more accurate than "pyramid", clearer separation of concerns

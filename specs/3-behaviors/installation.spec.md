@@ -47,6 +47,25 @@ guided-by:
     - Update workflows documented for each method
     - Backwards compatibility noted (existing copy-based setups continue working)
 
+- [!] Installation script creates complete project structure and bootstrap configuration required for immediate use.
+  - Creates specs/ directory structure: specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
+  - Copies dist/AGENTS.md to project root as bootstrap agent context
+  - Creates minimal PURPOSE.md template if not exists
+  - Displays "Next Steps" with Phase 0 command after installation
+  - Validates installation success before exiting
+  - Bootstrap AGENTS.md includes clear notice: "Temporary bootstrap - regenerate after Phase 0"
+
+- [!] Installation validates and enforces .livespec framework immutability through multiple protection layers.
+  - Validation script (scripts/validate-installation.sh) checks for:
+    - .livespec/ exists and is symlink or directory
+    - .livespec/prompts/, .livespec/standard/, .livespec/templates/ accessible
+    - specs/ directory structure exists
+    - AGENTS.md exists in project root
+    - No modifications to .livespec/ contents (if submodule: git status clean)
+  - Bootstrap AGENTS.md includes explicit warning: "NEVER write to .livespec/ directory - read-only framework"
+  - Spec-first enforcement (Layer 4) validates .livespec/ untouched during pre-commit
+  - Clear error messages guide users to correct locations (specs/workspace/, prompts/generated/)
+
 ## Method Selection Logic
 
 **Priority order (helper script):**
@@ -82,3 +101,11 @@ guided-by:
 - Update procedures documented for each method
 - Framework immutability principle stated clearly
 - Customization guidance points to specs/workspace/
+- Installation script creates complete specs/ directory structure
+- Bootstrap AGENTS.md copied to project root after installation
+- PURPOSE.md template created if not exists
+- "Next Steps" displayed clearly after successful installation
+- Validation script (validate-installation.sh) detects missing components
+- Validation script detects modifications to .livespec/ directory
+- Bootstrap AGENTS.md contains explicit ".livespec is read-only" warning
+- Error messages guide to correct file locations when .livespec/ write attempted

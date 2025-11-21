@@ -31,7 +31,7 @@ notes: |
 
 ### User Upgrading Framework
 User upgrading from v3.6.0 to v3.7.0 can read CHANGELOG and answer:
-- **What changed?** "Added value hierarchy traceability, improved documentation"
+- **What changed?** "Added value structure traceability, improved documentation"
 - **Why changed?** "Enable better requirements tracking and clearer onboarding"
 - **Breaking changes?** "None - backwards compatible"
 - **How do I upgrade?** "Submodule: `git submodule update --remote`, Copy: manual"

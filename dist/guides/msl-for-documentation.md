@@ -315,7 +315,7 @@ failure_mode: Users cannot complete first task, abandon product
 
 ---
 
-## Value Hierarchy for Documentation
+## Value Structure for Documentation
 
 **Every documentation artifact traces to PURPOSE**:
 
@@ -364,7 +364,7 @@ implements: specs/3-behaviors/documentation/architecture-docs.spec.md
 **Orphaned doc detection**:
 ```bash
 # Validation catches docs without specs
-bash scripts/validate-value-pyramid.sh
+bash scripts/validate-value-structure.sh
 
 # If doc has no spec → Why does it exist?
 # If spec has no requirement → What outcome does it serve?
@@ -856,7 +856,7 @@ Answer: "Developers must integrate our API successfully"
 - Specify WHAT information (outcomes), not HOW to write (implementation)
 - Define validation criteria (measurable success)
 - Leave structure/style to writers (trust implementers)
-- Trace docs to user needs (Value Hierarchy)
+- Trace docs to user needs (Value Structure)
 - Test against real users (validation)
 
 **Decision framework**:
@@ -877,7 +877,7 @@ Answer: "Developers must integrate our API successfully"
 - Track support tickets
 - Iterate until validation passes
 
-**Value pyramid**:
+**Value structure**:
 - Every doc traces to PURPOSE
 - Specs link to requirements
 - Validation ensures docs serve users

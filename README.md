@@ -138,19 +138,31 @@ Choose your preferred method:
 ```bash
 cd your-project
 
-# Automated (detects best method)
-bash <(curl -s https://raw.githubusercontent.com/chrs-myrs/livespec/master/scripts/install-livespec.sh)
+# Automated installation (RECOMMENDED - handles everything)
+bash <(curl -s https://raw.githubusercontent.com/chrs-myrs/livespec/master/dist/scripts/install-livespec.sh)
+
+# This script automatically:
+# - Detects and installs using best method (sparse > full > copy)
+# - Creates specs/ directory structure
+# - Installs bootstrap AGENTS.md
+# - Creates PURPOSE.md template
+# - Validates installation
+# - Displays next steps
 
 # Or manually with git-partial-submodule (install: pip install git+https://github.com/Reedbeta/git-partial-submodule)
 git-partial-submodule.py add --sparse-patterns 'dist/*' \
   https://github.com/chrs-myrs/livespec .livespec-repo
 ln -s .livespec-repo/dist .livespec
+mkdir -p specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
+cp .livespec/AGENTS.md .
 
 # Or manually with native git sparse-checkout (git 2.25+)
 git submodule add https://github.com/chrs-myrs/livespec .livespec-repo
 git -C .livespec-repo sparse-checkout init --cone
 git -C .livespec-repo sparse-checkout set dist
 ln -s .livespec-repo/dist .livespec
+mkdir -p specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
+cp .livespec/AGENTS.md .
 
 # Update later
 git submodule update --remote .livespec-repo
@@ -195,30 +207,36 @@ cp -r ../livespec/dist/* .livespec/
 
 ### New Project Setup
 
-After installation (any method):
+The install script handles setup automatically. After installation:
 
 ```bash
-# Create specs structure
-mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
+# 1. Edit PURPOSE.md (created by install script)
+#    Describe why your project exists and what success looks like
 
-# Start Phase 0 (Quick Start - 5 minutes)
-claude-code "Use .livespec/prompts/0-define/0a-quick-start.md"
+# 2. Run Phase 0 to customize workspace
+claude-code "Use .livespec/0-define/0a-quick-start.md"  # 5 min, defaults
+# OR
+claude-code "Use .livespec/0-define/0b-customize-workspace.md"  # 30 min, full customization
 
-# Or customize workspace (20-30 minutes)
-claude-code "Use .livespec/prompts/0-define/0b-customize-workspace.md"
+# 3. Regenerate full agent context
+claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
 ```
+
+**Note:** Install script creates specs/ structure and bootstrap AGENTS.md automatically.
 
 ### Existing Project
 
-After installation (any method):
+After installation:
 
 ```bash
-# Create structure
-mkdir -p specs/1-requirements/strategic specs/workspace specs/2-strategy specs/3-behaviors specs/3-contracts
-
-# Extract specifications from code
+# Extract specifications from existing code
 claude-code "Use .livespec/prompts/4-evolve/4b-extract-specs.md to document this codebase"
+
+# Then regenerate agent context
+claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
 ```
+
+**Note:** Install script creates specs/ structure automatically - ready to populate from code.
 
 [Full quickstart guide →](docs/quickstart.md)
 

@@ -31,6 +31,11 @@ governed-by:
     - Detailed checklists extracted to templates/
     - Examples show pattern inline, reference full details
     - Strategic extraction of reusable verification content
+  - **Framework Immutability**: `.livespec/` is read-only methodology reference
+    - NEVER write to `.livespec/` directory (framework source)
+    - Customization locations: `specs/workspace/` (process), `prompts/generated/` (project prompts)
+    - Updates via `git submodule update --remote` only
+    - Attempts to modify `.livespec/` indicate misunderstanding - redirect to proper locations
 
 ## Pre-Implementation Verification
 

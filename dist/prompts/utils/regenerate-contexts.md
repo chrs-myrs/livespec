@@ -67,13 +67,13 @@ The agent will:
 9. Report results
 
 Expected outputs:
-- AGENTS.md (30-40KB, no frontmatter)
-- ctxt/phases/*.md (5 files, 10-15KB each)
-- ctxt/domains/*.md (1-3 files, 8-12KB each)
-- ctxt/utils/*.md (3 files, 8-12KB each)
+- AGENTS.md (20-30KB, no frontmatter)
+- ctxt/phases/*.md (5 files, 8-12KB each)
+- ctxt/domains/*.md (1-3 files, 6-10KB each)
+- ctxt/utils/*.md (3 files, 6-10KB each)
 
 Total context tree: <150KB
-Typical loaded context: <60KB (root + 1-2 sub-agents)
+Typical loaded context: <50KB (root + 1-2 sub-agents)
 ```
 
 **Agent parameters**:
@@ -91,7 +91,7 @@ Typical loaded context: <60KB (root + 1-2 sub-agents)
 - Validation status
 
 **Review output**:
-- [ ] Root AGENTS.md exists (30-40KB)
+- [ ] Root AGENTS.md exists (20-30KB)
 - [ ] ctxt/phases/ contains 5 files
 - [ ] ctxt/domains/ contains domain-specific files
 - [ ] ctxt/utils/ contains 3 utility files
@@ -113,7 +113,7 @@ ls -lh ctxt/utils/*.md
 - [ ] Inline edit warning present
 - [ ] Contains "When to Load Sub-Agents" section
 - [ ] Load triggers for all phases/domains/utils
-- [ ] Size 30-40KB
+- [ ] Size 20-30KB
 
 **Verify sub-agents** (spot-check 2-3 files):
 - [ ] Frontmatter complete (generated, parent, applies_to, load_triggers, etc.)
@@ -214,7 +214,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 
 ## Success Criteria
 
-- Root AGENTS.md compressed to 30-40KB
+- Root AGENTS.md compressed to 20-30KB
 - Full context tree generated (<150KB total)
 - All sub-agents have complete frontmatter
 - Load triggers functional (clear keyword patterns)

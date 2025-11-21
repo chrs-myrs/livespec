@@ -30,7 +30,7 @@ governed-by:
   - detect-code-in-specs.sh
   - validate-architecture-alignment.sh
   - check-contract-completeness.sh
-  - validate-value-pyramid.sh
+  - validate-value-structure.sh
   - measure-agent-compliance.sh
   - generate-compliance-dashboard.sh
 

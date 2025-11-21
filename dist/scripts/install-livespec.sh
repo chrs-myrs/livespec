@@ -213,10 +213,99 @@ main() {
   esac
 
   echo ""
-  success "LiveSpec installed successfully at $SYMLINK_PATH"
-  info "Next steps:"
-  echo "  1. Create specs structure: mkdir -p specs/{workspace,1-requirements,2-strategy,3-behaviors,3-contracts}"
-  echo "  2. Start Phase 0: Use .livespec/prompts/0-define/0a-quick-start.md"
+  success "LiveSpec framework installed at $SYMLINK_PATH"
+
+  # Create specs directory structure
+  info "Creating specs/ directory structure..."
+  mkdir -p specs/workspace
+  mkdir -p specs/1-requirements/strategic
+  mkdir -p specs/1-requirements/functional
+  mkdir -p specs/2-strategy
+  mkdir -p specs/3-behaviors
+  mkdir -p specs/3-contracts
+  success "specs/ structure created"
+
+  # Copy bootstrap AGENTS.md
+  info "Installing bootstrap agent configuration..."
+  if [[ -f "$SYMLINK_PATH/AGENTS.md" ]]; then
+    cp "$SYMLINK_PATH/AGENTS.md" "AGENTS.md"
+    success "Bootstrap AGENTS.md installed"
+    warning "This is temporary bootstrap - regenerate after Phase 0"
+  else
+    warning "Bootstrap AGENTS.md not found at $SYMLINK_PATH/AGENTS.md"
+  fi
+
+  # Create PURPOSE.md template if it doesn't exist
+  if [[ ! -f "PURPOSE.md" ]]; then
+    info "Creating PURPOSE.md template..."
+    cat > PURPOSE.md << 'EOF'
+# Project Purpose
+
+## Why This Exists
+[Describe the core problem this project solves]
+
+## What Success Looks Like
+- [Measurable success criterion 1]
+- [Measurable success criterion 2]
+- [Measurable success criterion 3]
+EOF
+    success "PURPOSE.md template created"
+    info "Edit PURPOSE.md to describe your project"
+  else
+    info "PURPOSE.md already exists (not overwriting)"
+  fi
+
+  # Validate installation
+  info "Validating installation..."
+  local validation_errors=0
+
+  if [[ ! -d "$SYMLINK_PATH/prompts" ]]; then
+    error "Validation failed: $SYMLINK_PATH/prompts not found"
+    validation_errors=$((validation_errors + 1))
+  fi
+
+  if [[ ! -d "$SYMLINK_PATH/standard" ]]; then
+    error "Validation failed: $SYMLINK_PATH/standard not found"
+    validation_errors=$((validation_errors + 1))
+  fi
+
+  if [[ ! -d "specs/workspace" ]]; then
+    error "Validation failed: specs/workspace not created"
+    validation_errors=$((validation_errors + 1))
+  fi
+
+  if [[ ! -f "AGENTS.md" ]]; then
+    warning "Bootstrap AGENTS.md not installed (non-fatal)"
+  fi
+
+  if [[ $validation_errors -gt 0 ]]; then
+    error "Installation completed with $validation_errors validation error(s)"
+    exit 1
+  fi
+
+  success "Installation validation passed"
+
+  echo ""
+  echo -e "${GREEN}╔════════════════════════════════════════════════════════════════╗${NC}"
+  echo -e "${GREEN}║${NC}  ${BLUE}LiveSpec Installation Complete!${NC}                              ${GREEN}║${NC}"
+  echo -e "${GREEN}╠════════════════════════════════════════════════════════════════╣${NC}"
+  echo -e "${GREEN}║${NC}  Next Steps:                                                 ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}                                                               ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}  1. ${YELLOW}Edit PURPOSE.md${NC} - Describe why project exists           ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}                                                               ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}  2. ${YELLOW}Run Phase 0${NC} - Choose one:                               ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}     • Quick (5 min): Use .livespec/0-define/0a-quick-start.md${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}     • Full (30 min): Use .livespec/0-define/0b-customize...  ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}                                                               ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}  3. ${YELLOW}Regenerate context${NC}:                                      ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}     Use .livespec/prompts/utils/regenerate-contexts.md       ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}                                                               ${GREEN}║${NC}"
+  echo -e "${GREEN}╠════════════════════════════════════════════════════════════════╣${NC}"
+  echo -e "${GREEN}║${NC}  ${BLUE}⚠️  IMPORTANT:${NC}                                               ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}  • .livespec/ is READ-ONLY (framework reference)             ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}  • Customize via specs/workspace/ instead                    ${GREEN}║${NC}"
+  echo -e "${GREEN}║${NC}  • Bootstrap AGENTS.md is temporary until regenerated        ${GREEN}║${NC}"
+  echo -e "${GREEN}╚════════════════════════════════════════════════════════════════╝${NC}"
 }
 
 main "$@"

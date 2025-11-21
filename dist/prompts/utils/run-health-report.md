@@ -35,8 +35,8 @@ bash scripts/validate-architecture-alignment.sh 2>&1
 # 5. Contract completeness
 bash scripts/check-contract-completeness.sh 2>&1
 
-# 6. Value pyramid
-bash scripts/validate-value-pyramid.sh 2>&1
+# 6. Value structure
+bash scripts/validate-value-structure.sh 2>&1
 
 # 7. Agent compliance measurement
 bash scripts/measure-agent-compliance.sh 2>&1
@@ -188,7 +188,7 @@ Present comprehensive dashboard:
 | Code in Specs | ✅❌ | [Error message if failing] |
 | Architecture Alignment | ✅❌ | [Error message if failing] |
 | Contract Completeness | ✅❌ | [Error message if failing] |
-| Value Pyramid | ✅❌ | [Error message if failing] |
+| Value Structure | ✅❌ | [Error message if failing] |
 | Agent Compliance | ✅❌ | [Error message if failing] |
 | Compliance Dashboard | ✅❌ | [Error message if failing] |
 

@@ -21,7 +21,7 @@ specifies:
   - Thresholds: Hot >70%, Warm 40-70%, Cold <40%
 
 - [!] Agent measures current AGENTS.md structure
-  - Total size vs 30-40KB target
+  - Total size vs 20-30KB target
   - Section count
   - Current START/MIDDLE/END positioning (approximate line ranges)
   - Hot sections in START? (should be)

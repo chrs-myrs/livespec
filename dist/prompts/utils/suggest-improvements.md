@@ -5,7 +5,7 @@ phase: utilities
 
 # Suggest Strategic Improvements
 
-**Purpose**: Analyze accumulated data (registries, session feedback, compliance trends) to recommend prioritized improvements to project value hierarchy and LiveSpec methodology.
+**Purpose**: Analyze accumulated data (registries, session feedback, compliance trends) to recommend prioritized improvements to project value structure and LiveSpec methodology.
 
 **When to use**: Monthly, when 10+ session feedback files accumulated, or when systematic patterns emerge requiring strategic analysis.
 

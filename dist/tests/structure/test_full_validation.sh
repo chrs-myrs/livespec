@@ -320,40 +320,40 @@ else
     info "No contracts directory found (specs/3-contracts) - skipping"
 fi
 
-header "9. VALUE PYRAMID TRACEABILITY"
+header "9. VALUE STRUCTURE TRACEABILITY"
 
-# Check PURPOSE.md exists (foundation of value pyramid)
-info "Validating value pyramid foundation..."
+# Check PURPOSE.md exists (foundation of value structure)
+info "Validating value structure foundation..."
 if [ -f "PURPOSE.md" ]; then
-    pass "PURPOSE.md exists (value pyramid foundation)"
+    pass "PURPOSE.md exists (value structure foundation)"
 else
     fail "PURPOSE.md missing - all specs must trace to PURPOSE"
 fi
 
-# Run pyramid validation script
+# Run structure validation script
 info "Validating all specs have upstream references..."
-if [ -f "scripts/validate-value-pyramid.sh" ]; then
+if [ -f "scripts/validate-value-structure.sh" ]; then
     # Capture output and count
-    pyramid_output=$(bash scripts/validate-value-pyramid.sh 2>&1)
-    pyramid_exit=$?
+    structure_output=$(bash scripts/validate-value-structure.sh 2>&1)
+    structure_exit=$?
 
     # Extract counts from output
-    orphaned_count=$(echo "$pyramid_output" | grep "Orphaned specs:" | sed 's/.*Orphaned specs: //')
+    orphaned_count=$(echo "$structure_output" | grep "Orphaned specs:" | sed 's/.*Orphaned specs: //')
 
-    if [ "$pyramid_exit" -eq 0 ]; then
+    if [ "$structure_exit" -eq 0 ]; then
         if [ -n "$orphaned_count" ] && [ "$orphaned_count" -gt 0 ]; then
             warn "Found $orphaned_count orphaned specs without upstream references"
             # Show orphaned specs
-            echo "$pyramid_output" | grep "^⚠ Orphaned:"
+            echo "$structure_output" | grep "^⚠ Orphaned:"
         else
             pass "All specs have upstream references (derives-from/governed-by/satisfies/guided-by)"
         fi
     else
-        fail "Value pyramid validation failed"
-        echo "$pyramid_output"
+        fail "Value structure validation failed"
+        echo "$structure_output"
     fi
 else
-    warn "Pyramid validation script not found (scripts/validate-value-pyramid.sh)"
+    warn "Structure validation script not found (scripts/validate-value-structure.sh)"
 fi
 
 # Check for common traceability issues

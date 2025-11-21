@@ -29,7 +29,7 @@ Run this prompt when:
 - Specific constraints and patterns
 - Development principles unique to your project
 
-**Value Hierarchy Impact**: Regenerated AGENTS.md ensures agents can guide Value Hierarchy validation - checking that every artifact traces back to YOUR PURPOSE.md, not just "a" PURPOSE.md.
+**Value Structure Impact**: Regenerated AGENTS.md ensures agents can guide Value Structure validation - checking that every artifact traces back to YOUR PURPOSE.md, not just "a" PURPOSE.md.
 
 ## Prerequisites
 

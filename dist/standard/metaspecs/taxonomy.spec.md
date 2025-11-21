@@ -240,7 +240,7 @@ failure_mode: Developers cannot understand system architecture, onboarding fails
   - Sufficient detail for onboarding
 ```
 
-**Value pyramid for docs**:
+**Value structure for docs**:
 ```
 PURPOSE.md: "Enable developer onboarding"
     ↓

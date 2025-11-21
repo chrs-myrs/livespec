@@ -3,14 +3,14 @@ governed-by:
   - specs/workspace/constitution.spec.md
   - dist/standard/metaspecs/behavior.spec.md
 criticality: CRITICAL
-failure_mode: Without purpose traceability validation, artifacts exist without business justification, breaking the Value Hierarchy from PURPOSE → requirements → implementation
+failure_mode: Without purpose traceability validation, artifacts exist without business justification, breaking the Value Structure from PURPOSE → requirements → implementation
 ---
 
 # Purpose Traceability Validation
 
 ## Requirements
 - [!] System validates that every artifact traces back to PURPOSE.md through specification chain.
-  - PURPOSE.md exists at repository root (foundation of Value Hierarchy)
+  - PURPOSE.md exists at repository root (foundation of Value Structure)
   - Every spec has `derives-from:` OR `governed-by:` creating path to PURPOSE
   - No orphaned specs (specs without upstream traceability)
   - No orphaned implementations (files without specs without purpose)
@@ -18,8 +18,8 @@ failure_mode: Without purpose traceability validation, artifacts exist without b
   - Exit code 0 if pyramid complete, 1 if broken
   - Clear error messages showing which artifacts lack purpose traceability
 
-## Value Hierarchy Structure
-- [!] Value Hierarchy defines hierarchical traceability from purpose to implementation.
+## Value Structure Structure
+- [!] Value Structure defines hierarchical traceability from purpose to implementation.
 
   **Five levels**:
   ```
@@ -190,11 +190,11 @@ ERROR: Implementation without spec
 - [!] Purpose traceability validation integrates with existing validation suite.
   - Called by `tests/structure/test_full_validation.sh` (Section 9)
   - Blocks pre-commit if pyramid broken (optional via hook)
-  - Can be run standalone: `scripts/validate-value-pyramid.sh`
+  - Can be run standalone: `scripts/validate-value-structure.sh`
   - Runs after spec-implementation validation (builds on existing checks)
 
 ## Validation
-- Script exists at `scripts/validate-value-pyramid.sh`
+- Script exists at `scripts/validate-value-structure.sh`
 - Script has execute permission (chmod +x)
 - Exit code 0 when all artifacts trace to PURPOSE
 - Exit code 1 when orphaned artifacts found

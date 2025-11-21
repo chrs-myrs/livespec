@@ -185,22 +185,39 @@ Ask the user:
 
 ### Step 4: Create Workspace Specifications
 
-Using appropriate template from `dist/templates/workspace/constitution-[level].md.template` and referencing taxonomy, create three workspace specifications:
+Using appropriate templates from `dist/templates/workspace/`, create five workspace specifications:
 
 1. **specs/workspace/constitution.spec.md**
+   - Template: `dist/templates/workspace/constitution-[level].md.template`
    - Include `context_compression: [level]` in frontmatter
    - Define 3-5 core development principles
    - Customize from template for project context
 
 2. **specs/workspace/patterns.spec.md**
+   - Template: `dist/templates/workspace/patterns.spec.md.template`
    - Naming conventions
    - File structure patterns
    - Specification format requirements
 
 3. **specs/workspace/workflows.spec.md**
+   - Template: `dist/templates/workspace/workflows.spec.md.template`
    - Development process workflows
    - When to use which Phase prompts
    - How specs evolve with code
+
+4. **specs/workspace/agent-contexts.spec.md**
+   - Template: `dist/templates/workspace/agent-contexts.spec.md.template`
+   - Define project's context tree structure
+   - Specify which sub-agents exist (phases, domains, utils)
+   - Customize load triggers for project workflow
+   - References `.livespec/standard/conventions/context-tree.spec.md` for mechanism
+
+5. **specs/workspace/workspace-agent.spec.md**
+   - Template: `dist/templates/workspace/workspace-agent.spec.md.template`
+   - Define AGENTS.md content generation sources
+   - Specify content structure (START/MIDDLE/END positioning)
+   - Customize for project's methodology presentation
+   - References `.livespec/guides/context-positioning.md` for optimization
 
 Note: taxonomy.spec.md created in Step 3 is also part of workspace/ (portable methodology).
 
@@ -265,6 +282,8 @@ Created:
 - `specs/workspace/constitution.spec.md` - Your development principles
 - `specs/workspace/patterns.spec.md` - Your conventions
 - `specs/workspace/workflows.spec.md` - Your processes
+- `specs/workspace/agent-contexts.spec.md` - Your agent context tree structure
+- `specs/workspace/workspace-agent.spec.md` - Your AGENTS.md content definition
 - `AGENTS.md` - **Regenerated** with your project context
 - `.claude/commands/livespec/*.md` - 11 discoverable slash commands
 

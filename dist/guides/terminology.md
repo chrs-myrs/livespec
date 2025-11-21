@@ -53,7 +53,7 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 **When:** Monthly or when feedback accumulates (10+ session feedback files)
 
-**Scope:** Value hierarchy, methodology gaps, prioritization
+**Scope:** Value structure, methodology gaps, prioritization
 
 **Tool:** `dist/prompts/utils/suggest-improvements.md`
 

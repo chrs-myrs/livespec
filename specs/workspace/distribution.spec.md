@@ -89,7 +89,7 @@ derives-from:
 
 ### Bootstrap AGENTS.md Pattern
 - **dist/AGENTS.md** - Bootstrap version (minimal, ~5KB, instructs generation)
-- **Project AGENTS.md** - Generated from workspace specs (30-40KB, routing)
+- **Project AGENTS.md** - Generated from workspace specs (20-30KB, routing)
 - **Project ctxt/** - Generated sub-agent contexts (not distributed)
   - ctxt/phases/ - 5 phase specialists
   - ctxt/domains/ - Domain-specific patterns

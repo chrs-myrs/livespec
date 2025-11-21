@@ -2,11 +2,11 @@
 
 **Answer**: YES. Everything needs a spec.
 
-**Why**: Value Hierarchy traceability - every artifact must link back to PURPOSE.
+**Why**: Value Structure traceability - every artifact must link back to PURPOSE.
 
 ---
 
-## The Value Hierarchy
+## The Value Structure
 
 Every artifact in your project exists for a reason. That reason should trace back to your PURPOSE.
 
@@ -281,7 +281,7 @@ derives-from:
 - `satisfies:` (requirement)
 - `guided-by:` (strategy)
 
-**Validation**: `scripts/validate-value-pyramid.sh` checks hierarchy integrity
+**Validation**: `scripts/validate-value-structure.sh` checks hierarchy integrity
 
 ---
 
@@ -504,10 +504,10 @@ Write spec (10 min)
 
 ## Further Reading
 
-- **PURPOSE.md** - Foundation of Value Hierarchy
+- **PURPOSE.md** - Foundation of Value Structure
 - **dist/guides/frontmatter-relationships.md** - How to link specs
 - **specs/workspace/patterns.spec.md** - Naming conventions
-- **scripts/validate-value-pyramid.sh** - Automated hierarchy validation
+- **scripts/validate-value-structure.sh** - Automated hierarchy validation
 
 ---
 

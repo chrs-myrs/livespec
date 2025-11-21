@@ -2,7 +2,7 @@
 
 **Purpose**: Clear decision framework for which frontmatter fields to use and when.
 
-**Scope**: These relationships navigate YOUR project's Value Hierarchy (PURPOSE → specs → implementation).
+**Scope**: These relationships navigate YOUR project's Value Structure (PURPOSE → specs → implementation).
 
 ---
 
@@ -445,7 +445,7 @@ Workspace Specs
 
 ```bash
 # Check for upstream references
-scripts/validate-value-pyramid.sh
+scripts/validate-value-structure.sh
 
 # Check bidirectional links
 tests/structure/test_full_validation.sh
@@ -471,7 +471,7 @@ tests/structure/test_full_validation.sh
 
 **Run validation**:
 ```bash
-bash scripts/validate-value-pyramid.sh
+bash scripts/validate-value-structure.sh
 bash tests/structure/test_full_validation.sh
 ```
 

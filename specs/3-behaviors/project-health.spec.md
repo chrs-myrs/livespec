@@ -34,7 +34,7 @@ specifies:
   - Thresholds: GREEN <5 open gaps, YELLOW 5-10, RED >10
 
 - [!] Agent measures context efficiency
-  - AGENTS.md size vs 30-40KB target
+  - AGENTS.md size vs 20-30KB target
   - Phase specialists vs 8-12KB each
   - Total context tree size
   - Compression level appropriateness
@@ -84,7 +84,7 @@ test -f scripts/audit-workspace-scope.sh
 test -f scripts/detect-code-in-specs.sh
 test -f scripts/validate-architecture-alignment.sh
 test -f scripts/check-contract-completeness.sh
-test -f scripts/validate-value-pyramid.sh
+test -f scripts/validate-value-structure.sh
 test -f scripts/measure-agent-compliance.sh
 test -f scripts/generate-compliance-dashboard.sh
 ```

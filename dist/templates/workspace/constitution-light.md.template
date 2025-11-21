@@ -31,6 +31,11 @@ governed-by:
     - Minimal extraction to templates (only when reused 3+ times)
     - Verbose, detailed guidance for clarity during exploratory phases
     - Redundancy tolerated when it aids understanding
+  - **Framework Immutability**: `.livespec/` directory is read-only methodology reference
+    - NEVER write files to `.livespec/` directory (contains framework prompts, standards, templates)
+    - Customization happens in: `specs/workspace/` (process rules), `prompts/generated/` (project-specific prompts)
+    - Framework updates: `git submodule update --remote .livespec-repo` (for submodule installs)
+    - If agent attempts `.livespec/` write: Misunderstanding detected - redirect to `specs/workspace/` or `prompts/generated/`
 
 ## Pre-Implementation Verification (Inline Example)
 

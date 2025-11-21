@@ -1,0 +1,50 @@
+---
+applies_to:
+  - all_ai_agents
+  - AGENTS.md
+derives-from:
+  - specs/workspace/constitution.spec.md
+  - specs/workspace/patterns.spec.md
+  - specs/workspace/workflows.spec.md
+  - specs/workspace/agent-contexts.spec.md
+criticality: CRITICAL
+failure_mode: Without agent configuration, agents lack project context and cannot guide users effectively
+governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
+  - .livespec/guides/context-positioning.md
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# Agent Configuration Structure
+
+## Requirements
+
+- [!] [Project Name] AGENTS.md provides AI agents with project methodology context following context tree convention
+  - **Context tree pattern**: Root AGENTS.md + ctxt/ sub-agents (see `.livespec/standard/conventions/context-tree.spec.md`)
+  - **Generation**: Use `.livespec/prompts/utils/regenerate-contexts.md` to build tree
+  - **Distribution**: dist/AGENTS.md is bootstrap, full tree generated after Phase 0
+  - **Benefits**: Specialized contexts, proactive loading, improved focus efficiency
+
+- [!] [Project Name] AGENTS.md content generated from project specifications
+  - **Sources**: PURPOSE.md, workspace/*.spec.md, requirements, strategy
+  - **Content structure**: Optimized for context positioning (START/MIDDLE/END) per `.livespec/guides/context-positioning.md`
+  - **Compression**: Level declared in workspace/constitution.spec.md frontmatter
+  - **No frontmatter**: Clean context for agents (convention requirement)
+  - **Inline edit warning**: Instructs regeneration
+
+- [!] [Project Name] AGENTS.md uses START/MIDDLE/END positioning for optimal agent processing
+  - **START section (30-40%)**: Core principles, critical warnings, essential protocols
+  - **MIDDLE section (40%)**: Quick start, methodology overview, reference library
+  - **END section (20-30%)**: Prompts registry, current priorities
+  - **Rationale**: Exploits primacy and recency bias per research
+
+## Validation
+
+- AGENTS.md generated from project sources (PURPOSE.md, workspace specs)
+- Content structure follows START/MIDDLE/END positioning
+- Compression level applied per constitution.spec.md
+- No frontmatter (clean context per convention)
+- Inline edit warning at top
+- File size within convention budgets (20-30KB for root)
+- Regeneration workflow documented and functional
+- Agent can guide users through project methodology

@@ -135,7 +135,7 @@ This project produces executable code, libraries, or applications.
 
 ### Step 3: Create Standard Workspace Specs
 
-Create three core workspace specifications:
+Create five core workspace specifications:
 
 **1. specs/workspace/constitution.spec.md**
 
@@ -219,6 +219,77 @@ governed-by:
 - Phases followed in natural order for first pass
 - Cycling back when discovering fundamental issues
 - Phase 4 runs continuously in production
+```
+
+**4. specs/workspace/agent-contexts.spec.md**
+
+```markdown
+---
+applies_to:
+  - all_projects
+  - agent_context_generation
+criticality: CRITICAL
+failure_mode: Without agent context structure, agents lack specialized guidance
+derives-from:
+  - specs/workspace/constitution.spec.md
+  - specs/workspace/taxonomy.spec.md
+  - specs/workspace/workspace-agent.spec.md
+governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# Agent Context Structure
+
+## Requirements
+- [!] Project uses hierarchical agent context tree following context-tree convention
+  - Root AGENTS.md: Compressed methodology with routing to sub-agents
+  - Phase specialists (ctxt/phases/): 0-define through 4-evolve
+  - Domain specialists (ctxt/domains/): Based on taxonomy classification
+  - Utility specialists (ctxt/utils/): session-completion, drift-detection, msl-audit
+  - Proactive loading: Agent decides what context to load based on task
+
+## Validation
+- Root AGENTS.md follows convention size budgets (20-30KB)
+- Context tree structure matches taxonomy domain
+- Load triggers functional (agent matches query to sub-agent)
+- Regeneration workflow functional (.livespec/prompts/utils/regenerate-contexts.md)
+```
+
+**5. specs/workspace/workspace-agent.spec.md**
+
+```markdown
+---
+applies_to:
+  - all_ai_agents
+  - AGENTS.md
+derives-from:
+  - specs/workspace/constitution.spec.md
+  - specs/workspace/patterns.spec.md
+  - specs/workspace/workflows.spec.md
+  - specs/workspace/agent-contexts.spec.md
+criticality: CRITICAL
+failure_mode: Without agent configuration, agents lack project context
+governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
+  - .livespec/guides/context-positioning.md
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# Agent Configuration Structure
+
+## Requirements
+- [!] AGENTS.md provides AI agents with project methodology context
+  - Generated from: PURPOSE.md, workspace specs, requirements, strategy
+  - Content structure: START/MIDDLE/END positioning per context-positioning.md
+  - Context tree pattern: Root + ctxt/ sub-agents per context-tree convention
+  - Compression: Level declared in constitution.spec.md frontmatter
+
+## Validation
+- AGENTS.md generated from project sources
+- Content follows START/MIDDLE/END positioning
+- Compression level applied per constitution
+- Regeneration workflow documented
 ```
 
 ### Step 4: Regenerate AGENTS.md

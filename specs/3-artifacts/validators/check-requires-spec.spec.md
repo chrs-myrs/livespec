@@ -2,6 +2,12 @@
 criticality: IMPORTANT
 failure_mode: Agents cannot validate spec requirements before file creation, reducing enforcement effectiveness
 implements: scripts/check-requires-spec.sh
+derives-from:
+  - specs/3-behaviors/validation/spec-purity-detection.spec.md
+governed-by:
+  - .livespec/standard/metaspecs/behavior.spec.md
+guided-by:
+  - specs/2-strategy/architecture.spec.md
 ---
 
 # Spec Requirement Validation Tool
@@ -16,8 +22,14 @@ implements: scripts/check-requires-spec.sh
 
 - [!] Script identifies files that don't need specs (exceptions)
   - Temporary directories: `var/`, `generated/`, `.archive/`, `.git/`, `node_modules/`, `.cache/`, `build/`, `dist/`
+  - Framework immutability: `.livespec/` and `.livespec-repo/` are read-only (NEVER write to them)
   - Workspace specs are self-defining: `specs/workspace/` files ARE specs
   - Pure data/log files: `.log`, `.lock`, `.cache` extensions
+
+- [!] Script actively blocks .livespec modifications with clear guidance
+  - Exit code 1 if .livespec path detected
+  - Error message explains read-only framework architecture
+  - Redirects to proper customization locations (specs/workspace/, prompts/generated/)
 
 - [!] Script checks for existing spec coverage
   - Searches `specs/` directory for filename mentions (grep)
@@ -32,7 +44,10 @@ implements: scripts/check-requires-spec.sh
 ## Validation
 
 - Running `./scripts/check-requires-spec.sh var/temp.txt` → Exit 0 (temporary, no spec needed)
+- Running `./scripts/check-requires-spec.sh .livespec/prompts/0-define/new.md` → Exit 1 with immutability error
+- Running `./scripts/check-requires-spec.sh .livespec-repo/dist/AGENTS.md` → Exit 1 with immutability error
 - Running `./scripts/check-requires-spec.sh src/main.py` without spec → Exit 1 with suggestions
 - Running `./scripts/check-requires-spec.sh src/main.py` with spec → Exit 0 with confirmation
 - Error messages are clear and actionable
 - Colored output helps distinguish status (green/red/yellow/blue)
+- .livespec immutability error redirects to proper locations

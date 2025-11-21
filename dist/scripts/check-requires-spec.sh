@@ -34,6 +34,20 @@ if [[ "$filepath" =~ ^(var|generated|\.archive|\.git|node_modules|\.cache|build|
     exit 0
 fi
 
+# Exception - .livespec is read-only framework (NEVER create specs for it, NEVER write to it)
+if [[ "$filepath" =~ ^\.livespec/ ]] || [[ "$filepath" =~ ^\.livespec-repo/ ]]; then
+    echo -e "${RED}✗ NEVER write to .livespec/ directory${NC}"
+    echo ""
+    echo -e "${YELLOW}.livespec/ is a read-only methodology framework reference.${NC}"
+    echo ""
+    echo -e "${BLUE}Customize your project instead:${NC}"
+    echo -e "  • Process rules → specs/workspace/ (constitution, patterns, workflows)"
+    echo -e "  • Project prompts → prompts/generated/ (project-specific prompts)"
+    echo -e "  • Agent context → AGENTS.md (regenerated from workspace specs)"
+    echo ""
+    exit 1
+fi
+
 # Exception - workspace specs ARE specs (no meta-spec needed)
 if [[ "$filepath" =~ ^specs/workspace/ ]]; then
     echo -e "${GREEN}✓ No spec needed: $filepath (workspace spec = self-defining)${NC}"

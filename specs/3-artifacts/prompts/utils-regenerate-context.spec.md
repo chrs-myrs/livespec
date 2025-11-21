@@ -7,8 +7,10 @@ derives-from:
 criticality: IMPORTANT
 failure_mode: Agent contexts become stale or monolithic AGENTS.md remains, agents suffer from context overload and lack specialized guidance
 governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
   - .livespec/standard/metaspecs/prompt.spec.md
 satisfies:
+  - specs/3-behaviors/context-generation.spec.md
   - specs/1-requirements/functional/five-phases.spec.md
 guided-by:
   - specs/2-strategy/architecture.spec.md
@@ -21,11 +23,11 @@ guided-by:
 - [!] Prompt guides user or agent through generating hierarchical agent context tree (AGENTS.md + ctxt/) from workspace specifications, enabling specialized proactive context loading for improved agent focus efficiency.
 
   **Outputs Produced:**
-  - Root AGENTS.md (30-40KB, no frontmatter, routing to sub-agents)
-  - ctxt/phases/*.md (5 files, 10-15KB each, phase specialists)
-  - ctxt/domains/*.md (1-3 files, 8-12KB each, domain patterns)
-  - ctxt/utils/*.md (3 files, 8-12KB each, utility specialists)
-  - Total tree <150KB, typical loaded <60KB
+  - Root AGENTS.md (20-30KB, no frontmatter, routing to sub-agents)
+  - ctxt/phases/*.md (5 files, 8-12KB each, phase specialists)
+  - ctxt/domains/*.md (1-3 files, 6-10KB each, domain patterns)
+  - ctxt/utils/*.md (3 files, 6-10KB each, utility specialists)
+  - Total tree <150KB, typical loaded <50KB
 
   **Generation Process:**
   - Validates prerequisites (workspace specs, PURPOSE.md, templates)
@@ -107,23 +109,23 @@ Use when:
 
 ## Outputs
 
-**Root AGENTS.md** (30-40KB):
+**Root AGENTS.md** (20-30KB):
 - No frontmatter (clean context)
 - Inline edit warning
 - Routing to sub-agents
 - Compressed methodology
 
-**ctxt/phases/** (5 files, 10-15KB each):
+**ctxt/phases/** (5 files, 8-12KB each):
 - 0-define.md, 1-design.md, 2-build.md, 3-verify.md, 4-evolve.md
 - Phase-specific methodology
 - Frontmatter with load_triggers
 
-**ctxt/domains/** (1-3 files, 8-12KB each):
+**ctxt/domains/** (1-3 files, 6-10KB each):
 - Based on taxonomy.spec.md domain classification
 - governance.md, software.md, hybrid.md as applicable
 - Domain-specific patterns
 
-**ctxt/utils/** (3 files, 8-12KB each):
+**ctxt/utils/** (3 files, 6-10KB each):
 - session-completion.md, drift-detection.md, msl-audit.md
 - Utility-specific workflows
 - Frontmatter with load_triggers
@@ -135,7 +137,7 @@ Use when:
 ## Validation
 
 **Structure validation:**
-- [ ] Root AGENTS.md exists (30-40KB)
+- [ ] Root AGENTS.md exists (20-30KB)
 - [ ] Root has NO frontmatter (clean context)
 - [ ] Root has inline edit warning
 - [ ] Root has "When to Load Sub-Agents" section
@@ -213,7 +215,7 @@ What this prompt should NOT do:
 - ❌ Generate without validating prerequisites (incomplete sources cause failures)
 - ❌ Pollute parent session context with generation details (use isolated sub-agent)
 - ❌ Include frontmatter in root AGENTS.md or sub-agents (clean context required - frontmatter wastes tokens)
-- ❌ Exceed size budgets (root 30-40KB, sub-agents 10-15KB max)
+- ❌ Exceed size budgets (root 20-30KB, sub-agents 8-12KB max)
 - ❌ Use technical jargon in load triggers (natural user language required)
 - ❌ Generate monolithic AGENTS.md (use context tree structure)
 - ❌ Proceed with missing agent-contexts.spec.md (structure undefined)

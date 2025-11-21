@@ -20,6 +20,10 @@ governed-by:
     - Heavy template reuse (`.livespec/templates/agents/`)
     - Deep reference hierarchies
     - Cache-optimized boundaries
+  - **Framework Immutability**: `.livespec/` is read-only (NEVER write to it)
+    - Customize: `specs/workspace/` (process), `prompts/generated/` (prompts)
+    - Update: `git submodule update --remote` only
+    - Write attempts → misunderstanding → redirect to proper location
 
 ## Pre-Implementation Verification
 

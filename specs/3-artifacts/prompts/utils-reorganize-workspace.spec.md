@@ -48,7 +48,7 @@ governed-by:
   - Light: Verbose, self-contained (exploratory, large models)
   - Moderate: Balanced (production, most agents)
   - Aggressive: Dense, focused (cost-sensitive, high-frequency)
-  - Recommendation based on file size vs target (30-40KB)
+  - Recommendation based on file size vs target (20-30KB)
 
 - [!] Prompt MUST specify reorganization plan format
   - Usage pattern statistics (section frequencies)

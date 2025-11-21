@@ -1,0 +1,40 @@
+---
+applies_to:
+  - all_projects
+  - agent_context_generation
+criticality: CRITICAL
+failure_mode: Without agent context structure, agents lack specialized guidance and suffer from context overload
+derives-from:
+  - specs/workspace/constitution.spec.md
+  - specs/workspace/taxonomy.spec.md
+  - specs/workspace/workspace-agent.spec.md
+governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
+  - .livespec/standard/metaspecs/workspace.spec.md
+---
+
+# Agent Context Structure
+
+## Requirements
+
+- [!] [Project Name] uses hierarchical agent context tree following context-tree convention to enable specialized proactive loading
+  - **Context tree convention**: See `.livespec/standard/conventions/context-tree.spec.md` for universal mechanism
+  - **Root AGENTS.md**: Compressed [Project Name] methodology with routing to sub-agents
+  - **Phase specialists** (ctxt/phases/): 0-define through 4-evolve (methodology guidance for each phase)
+  - **Domain specialists** (ctxt/domains/): Based on project taxonomy classification
+  - **Utility specialists** (ctxt/utils/): session-completion, drift-detection, msl-audit
+  - **Load triggers**: Natural keywords matching [Project Name] workflow patterns (defined during generation)
+
+## Validation
+
+- Root AGENTS.md exists and follows convention size budgets (20-30KB)
+- Root has NO frontmatter (clean context per convention)
+- Root has "When to Load Sub-Agents" section
+- ctxt/phases/ contains 5 files (0-define through 4-evolve)
+- ctxt/domains/ contains domain-specific files based on taxonomy
+- ctxt/utils/ contains 3 files (session-completion, drift-detection, msl-audit)
+- All sub-agents have NO frontmatter (clean context per convention)
+- All sub-agents have inline edit warnings
+- Load triggers functional (agent can match query to sub-agent)
+- Proactive loading works (agent loads without user managing contexts)
+- Regeneration workflow functional (.livespec/prompts/utils/regenerate-contexts.md)

@@ -38,11 +38,14 @@ This is a **bootstrap agent configuration**. Once your workspace specs are estab
 
 ## Generate Full Context Tree
 
+**Understanding Context Trees**: See `.livespec/standard/conventions/context-tree.spec.md` for how hierarchical contexts work (universal mechanism applies to all LiveSpec projects).
+
 **Prerequisites** (established by Phase 0):
 - specs/workspace/constitution.spec.md (development principles)
 - specs/workspace/patterns.spec.md (conventions)
 - specs/workspace/workflows.spec.md (5 phases)
-- specs/workspace/agent-contexts.spec.md (context structure)
+- specs/workspace/agent-contexts.spec.md (YOUR project's context structure choices)
+- specs/workspace/workspace-agent.spec.md (YOUR project's AGENTS.md content definition)
 - PURPOSE.md (project vision)
 
 **Command**:
@@ -76,6 +79,25 @@ Every deliverable requires specification before implementation:
 2. **Validation tool**: Run `scripts/check-requires-spec.sh path/to/file`
 3. **Plan mode**: Present plan showing spec creation step
 4. **Permanent test**: "Is this committed to git?" → YES = needs spec
+
+### 🔒 Framework Immutability
+
+**NEVER write to `.livespec/` directory**:
+- `.livespec/` contains read-only methodology framework
+- Symlink to `.livespec-repo/dist` (submodule) or direct copy
+- Framework updates via `git submodule update --remote` only
+
+**Customization locations**:
+- **Process rules** → `specs/workspace/` (constitution, patterns, workflows)
+- **Project prompts** → `prompts/generated/` (project-specific prompts)
+- **Agent context** → `AGENTS.md` and `ctxt/` (regenerated from workspace specs)
+
+**If agent attempts to write to `.livespec/`**:
+- Indicates misunderstanding of architecture
+- Redirect to proper location based on intent:
+  - New/modified prompt → `prompts/generated/`
+  - Process customization → `specs/workspace/`
+  - Template → `specs/workspace/` or update LiveSpec repo itself
 
 ### MSL Format (Minimal)
 
