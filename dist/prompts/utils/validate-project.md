@@ -54,7 +54,7 @@ Check all 11 LiveSpec slash commands exist and are synchronized:
 
 ```bash
 # Check command directory exists
-test -d .claude/commands/livespec || echo "⚠️ WARNING: .claude/commands/livespec/ missing (run generate-slash-commands.md)"
+test -d .claude/commands/livespec || echo "⚠️ WARNING: .claude/commands/livespec/ missing (copy from dist/ or run generate-custom-slash-commands.md)"
 
 # Check all 11 commands exist
 COMMANDS=(
@@ -80,7 +80,9 @@ for cmd in "${COMMANDS[@]}"; do
 done
 
 if [ $MISSING -gt 0 ]; then
-  echo "❌ $MISSING slash commands missing. Run: dist/prompts/utils/generate-slash-commands.md"
+  echo "❌ $MISSING slash commands missing."
+  echo "   Fix: cp dist/.claude/commands/livespec/*.md .claude/commands/livespec/"
+  echo "   Or customize: Use dist/prompts/utils/generate-custom-slash-commands.md"
 fi
 
 # Check generated commands have metadata

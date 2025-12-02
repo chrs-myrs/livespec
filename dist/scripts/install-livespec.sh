@@ -235,6 +235,27 @@ main() {
     warning "Bootstrap AGENTS.md not found at $SYMLINK_PATH/AGENTS.md"
   fi
 
+  # Install slash commands if using Claude Code
+  if [[ -d ".claude" ]]; then
+    info "Claude Code detected - installing slash commands..."
+    mkdir -p .claude/commands/livespec
+
+    if [[ -d "$SYMLINK_PATH/.claude/commands/livespec" ]]; then
+      cp "$SYMLINK_PATH/.claude/commands/livespec/"*.md .claude/commands/livespec/
+      success "Slash commands installed to .claude/commands/livespec/"
+    else
+      warning "Commands not found at $SYMLINK_PATH/.claude/commands/livespec/"
+    fi
+
+    # Create AGENTS.md symlink for Claude Code
+    if [[ -f "AGENTS.md" && ! -L ".claude/AGENTS.md" ]]; then
+      ln -sf ../AGENTS.md .claude/AGENTS.md
+      success "Created AGENTS.md symlink in .claude/"
+    fi
+  else
+    info "Claude Code not detected (.claude/ not found) - skipping slash commands"
+  fi
+
   # Create PURPOSE.md template if it doesn't exist
   if [[ ! -f "PURPOSE.md" ]]; then
     info "Creating PURPOSE.md template..."

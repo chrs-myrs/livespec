@@ -63,7 +63,7 @@ specifies:
 # Minimum data requirements
 test $(ls -1 ~/.claude/livespec/compliance/*.json 2>/dev/null | wc -l) -ge 5 || echo "Need 5+ compliance files"
 test $(ls -1 ~/.claude/livespec/feedback/*.md 2>/dev/null | wc -l) -ge 3 || echo "Need 3+ feedback files"
-test -f specs/3-behaviors/registries/gaps.spec.md || echo "Need gaps registry"
+test -f docs/registries/gaps.md || echo "Need gaps registry"
 ```
 
 **Prioritization Quality:**

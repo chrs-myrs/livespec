@@ -252,28 +252,26 @@ Tell user:
 
 **Wait for 4d completion** before proceeding to slash command generation.
 
-### Step 6.5: Generate Slash Commands
+### Step 6.5: Verify Slash Commands
 
-**Make LiveSpec utilities discoverable** via Claude Code slash commands.
+**Check that LiveSpec utilities are discoverable** via Claude Code slash commands.
 
 Tell user:
 
-"Generating slash commands for LiveSpec utilities..."
+"Standard slash commands were installed automatically during setup. They're ready to use via `/livespec/` autocomplete."
 
-**Use generation prompt**:
+**What was installed**:
+- 11 slash commands in `.claude/commands/livespec/` namespace
+- Commands copied from `dist/.claude/commands/livespec/`
+- Utilities discoverable via `/` autocomplete in Claude Code
+- Parameterized commands available (`/livespec/audit minimalism`)
+
+**For customization** (optional):
 ```
-"Use dist/prompts/utils/generate-slash-commands.md to create discoverable commands"
+"Use dist/prompts/utils/generate-custom-slash-commands.md to create custom command variations"
 ```
 
-**What this does**:
-- Creates 11 slash commands in `.claude/commands/livespec/` namespace
-- Makes utilities discoverable via `/` autocomplete in Claude Code
-- Enables parameterized commands (`/livespec/audit minimalism`)
-- Avoids polluting project root command namespace
-
-**Wait for generation completion** before confirming setup.
-
-Tell user after generation:
+Tell user:
 
 **✅ Workspace customization complete!**
 

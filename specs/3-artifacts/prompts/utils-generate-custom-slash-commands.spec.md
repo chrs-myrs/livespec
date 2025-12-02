@@ -1,16 +1,22 @@
 ---
 criticality: IMPORTANT
-failure_mode: Slash commands not generated, LiveSpec utilities not discoverable, users must manually navigate .livespec/ structure
-specifies: dist/prompts/utils/generate-slash-commands.md
+failure_mode: Custom slash commands not generated properly, LiveSpec utilities not properly customized, command variations not available
+specifies: dist/prompts/utils/generate-custom-slash-commands.md
 implements: specs/3-artifacts/commands/generation.spec.md
 governed-by:
   - .livespec/standard/metaspecs/prompt.spec.md
   - specs/workspace/patterns.spec.md
 ---
 
-# Utility Prompt: Generate Slash Commands
+# Utility Prompt: Generate Custom Slash Commands
 
 ## Requirements
+
+- [!] Prompt MUST clarify this is for CUSTOMIZATION only
+  - Standard commands are shipped in `dist/.claude/commands/livespec/`
+  - Installation script automatically copies standard commands
+  - This prompt is for creating custom variations or project-specific commands
+  - Users should use standard commands unless they need customization
 
 - [!] Prompt MUST guide agent through command generation workflow
   - Step 1: Read command template

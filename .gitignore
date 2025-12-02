@@ -12,6 +12,7 @@ generated/
 
 # Tool-specific
 .claude/
+!dist/.claude/
 .livespec/
 .livespec-repo/
 

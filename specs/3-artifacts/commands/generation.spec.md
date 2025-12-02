@@ -6,18 +6,26 @@ satisfies:
 guided-by:
   - specs/workspace/patterns.spec.md
 specifies:
-  - dist/prompts/utils/generate-slash-commands.md
+  - dist/.claude/commands/livespec/*.md (distributed commands)
+  - dist/prompts/utils/generate-custom-slash-commands.md (customization prompt)
 ---
 
-# Slash Command Generation
+# Slash Command Distribution and Customization
 
 ## Requirements
 
-- [!] LiveSpec generates Claude Code slash commands for all utility prompts in `.claude/commands/livespec/` namespace
-  - Namespace prevents pollution of project root commands
-  - All 11 utility commands generated (8 essential + 3 optional)
-  - Commands point to corresponding prompts in `dist/prompts/utils/`
+- [!] LiveSpec ships pre-generated slash commands in `dist/.claude/commands/livespec/` (fast path)
+  - 11 standard commands included in distribution (8 essential + 3 optional)
+  - Commands checked into git, travel with framework
+  - Installation script copies to `.claude/commands/livespec/` when Claude Code detected
+  - Zero-time setup for 99% of users
   - Simple format: frontmatter + "Use [prompt-path]" instruction
+
+- [!] LiveSpec provides customization prompt for custom variations (flexibility path)
+  - `generate-custom-slash-commands.md` available for project-specific needs
+  - Reads prompt registry to determine command list
+  - Shows diff for existing commands
+  - Opt-in usage only (standard commands preferred)
 
 - [!] Commands align with four-level improvement taxonomy
   - Session-level: `/livespec/complete-session`
@@ -38,25 +46,28 @@ specifies:
   - Frontmatter field: `prompt: dist/prompts/utils/[name].md`
   - Absence of `generated_by` indicates user customization (skip regeneration)
 
-- [!] Commands generated automatically during Phase 0 setup
-  - 0a-quick-start.md includes command generation step
-  - 0b-customize-workspace.md includes command generation step
-  - Directory `.claude/commands/livespec/` created if missing
-  - Report: "Generated 11 LiveSpec slash commands"
+- [!] Commands installed automatically during setup (install script)
+  - Installation script detects `.claude/` directory existence
+  - Creates `.claude/commands/livespec/` if needed
+  - Copies all commands from `dist/.claude/commands/livespec/`
+  - Creates AGENTS.md symlink in `.claude/` for agent discovery
+  - Phase 0 prompts verify installation (no generation needed)
 
 - [!] Validation detects missing or stale commands
   - validate-project.md checks all 11 commands exist
   - Checks descriptions match prompt registry
-  - Offers to regenerate missing commands
+  - Offers TWO repair options:
+    1. Fast: Copy from `dist/.claude/commands/` (instant)
+    2. Custom: Use `generate-custom-slash-commands.md` (for variations)
   - Skips customized commands (missing `generated_by`)
-  - Auto-repair: prompts user to confirm regeneration
 
-- [!] Manual regeneration available via utility prompt
-  - generate-slash-commands.md can be invoked explicitly
+- [!] Manual customization available via utility prompt
+  - `generate-custom-slash-commands.md` can be invoked explicitly
   - Reads prompt registry to determine command list
-  - Shows diff for customized commands
+  - Shows diff for existing commands
   - Prompts before overwriting any customized command
   - Reports: Created X, Updated Y, Skipped Z (customized)
+  - Only recommended when user needs project-specific variations
 
 - [!] Command format follows template structure
   - Uses template from `.livespec/templates/commands/utility-command.md`
@@ -103,10 +114,12 @@ grep "^generated_by: livespec$" .claude/commands/livespec/*.md | wc -l
 - [ ] Parameter documentation present for parameterized commands
 - [ ] Prompt paths correct and files exist
 
-**Generation Workflow:**
-- [ ] Phase 0 prompts include command generation step
-- [ ] Validation offers regeneration for missing commands
-- [ ] Manual regeneration prompt exists and works
+**Distribution Workflow:**
+- [ ] Standard commands exist in `dist/.claude/commands/livespec/` (11 files)
+- [ ] Installation script copies commands when `.claude/` detected
+- [ ] Phase 0 prompts verify installation (not generation)
+- [ ] Validation offers copy or custom generation for missing commands
+- [ ] Manual customization prompt exists (`generate-custom-slash-commands.md`)
 - [ ] Customization detection works (skip when `generated_by` missing)
 
 ## Failure Mode

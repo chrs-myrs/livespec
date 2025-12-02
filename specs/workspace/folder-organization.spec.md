@@ -98,6 +98,23 @@ derives-from:
 
 **Note:** knowledge/ is NOT specifications - contains references, notes, imports. Not part of requirements.
 
+### docs/registries/ - Registry Data (Project-Specific)
+**Contains:** Actual registry entries (gaps, issues, improvements) for this project
+
+**Examples:**
+- docs/registries/gaps.md - Methodology gaps identified
+- docs/registries/issues.md - Problems encountered
+- docs/registries/improvements.md - Changes tried and results
+
+**Three-layer pattern:**
+- Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
+- Data files: `docs/registries/*.md` (project-specific entries)
+- Governance: `specs/3-behaviors/registry-specs.spec.md` (governs format specs)
+
+**Test:** "Is this operational record data (not a specification)?" → YES = docs/registries/
+
+**Note:** Registry DATA is not distributed. Each project maintains its own registries following the format specs from `.livespec/standard/registries/`.
+
 ## Folder Organization Decision Tests
 
 **Step 0: Check Project Taxonomy (FIRST)**

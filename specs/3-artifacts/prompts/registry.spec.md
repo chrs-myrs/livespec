@@ -94,7 +94,7 @@ Special situation handlers and continuous improvement.
 | audit-workspace-scope | utils-audit-workspace-scope.spec.md | var/audits/workspace-scope-*.md | Verify workspace scope appropriateness |
 | audit-workspace-specs | utils-audit-workspace-specs.spec.md | var/audits/workspace-specs-*.md | Detect bloat/redundancy in workspace specs |
 | **complete-session** | **utils-complete-session.spec.md** | **~/.claude/livespec/compliance/, feedback/** | **End-of-session analysis with compliance scoring and learning capture** |
-| **generate-slash-commands** | **utils-generate-slash-commands.spec.md** | **.claude/commands/livespec/*.md** | **Generate Claude Code slash commands for LiveSpec utilities** |
+| **generate-custom-slash-commands** | **utils-generate-custom-slash-commands.spec.md** | **.claude/commands/livespec/*.md** | **Generate customized Claude Code slash commands for LiveSpec utilities** |
 | next-steps | next-steps.spec.md | Status report | Workflow orchestration and navigation |
 | **reorganize-workspace** | **utils-reorganize-workspace.spec.md** | **Reorganization plan** | **Context optimization based on usage patterns (START/MIDDLE/END positioning)** |
 | **run-health-report** | **utils-run-health-report.spec.md** | **var/health-reports/*.md** | **Diagnostic health assessment with 🟢🟡🔴 status and remediation plans** |

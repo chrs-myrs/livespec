@@ -162,7 +162,7 @@ Run quality audits on LiveSpec project specifications.
 
 ## Generation Process
 
-**When generate-slash-commands.md runs:**
+**When generate-custom-slash-commands.md runs:**
 
 1. Reads this template
 2. For each command mapping:

@@ -1,75 +1,8 @@
----
-criticality: IMPORTANT
-failure_mode: Try improvements without tracking effectiveness, repeat failed approaches, no learning from experiments
-satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md
-guided-by:
-  - specs/workspace/patterns.spec.md
----
+# Improvement Registry
 
-# Improvement Tracking Registry
+Tracks improvement experiments and their outcomes.
 
-## Requirements
-
-- [!] Registry MUST track improvements tried and their results
-  - Each improvement includes: what changed, hypothesis (why we thought it would help), outcome, decision
-  - Changes categorized: process, tooling, documentation, structure, guidance
-  - Outcome tracked: effective, ineffective, mixed, too early to tell
-  - Decision recorded: keep, revert, iterate
-
-- [!] Improvement entries MUST support learning from experiments
-  - Hypothesis states expected benefit (measurable if possible)
-  - Outcome describes actual impact (with evidence if available)
-  - Decision justified based on outcome
-  - No "tried something" entries without evaluation
-
-- [!] Registry MUST prevent repeating failed approaches
-  - Ineffective improvements retained in registry (with why they failed)
-  - Related improvements linkable (same goal, different approach)
-  - "Iterate" decision includes what to adjust next time
-  - Reconsideration triggers documented (when might we retry?)
-
-- [!] Registry MUST be maintained through defined workflows
-  - Updated by: Suggest Improvements (when implementing changes)
-  - Evaluated after: 1 week (immediate impact), 1 month (sustained impact), 3 months (long-term)
-  - Status transitions: proposed → implemented → evaluating → effective/ineffective/mixed
-  - Ineffective improvements analyzed for lessons learned
-
-## Validation
-
-**Improvement Entry Completeness:**
-```bash
-# Each improvement must have required fields
-cat specs/3-behaviors/registries/improvements.spec.md | grep -A 10 "^### IMP-" | \
-  grep -E "(Changed|Hypothesis|Outcome|Decision)" | wc -l
-# Should be 4× number of improvements
-```
-
-**Hypothesis Quality:**
-```bash
-# No vague hypotheses
-! grep -i "will be better" specs/3-behaviors/registries/improvements.spec.md
-! grep -i "should improve" specs/3-behaviors/registries/improvements.spec.md | grep -v "specific metric"
-```
-
-**Decision Justification:**
-```bash
-# All keep/revert decisions have justification
-cat specs/3-behaviors/registries/improvements.spec.md | \
-  grep -E "(Decision: keep|Decision: revert)" | while read dec; do
-  grep -A 3 "$dec" specs/3-behaviors/registries/improvements.spec.md | \
-    grep "Reasoning:" >/dev/null || echo "Decision missing justification: $dec"
-done
-```
-
-## Failure Mode
-
-Without improvement tracking:
-- Repeat failed approaches (no institutional memory)
-- Unclear if changes actually helped (no measurement)
-- Good improvements reverted accidentally (no evidence)
-- No learning from experiments (try-fail-forget cycle)
-- Improvement fatigue (change without benefit)
+Format: `.livespec/standard/registries/improvements.spec.md`
 
 ---
 
@@ -202,25 +135,8 @@ Without improvement tracking:
 
 ---
 
-## Registry Maintenance
+## Maintenance
 
-**Update Frequency:**
-- When improvements implemented (initial entry)
-- At evaluation dates (update outcome)
-- When decision made (keep/revert/iterate)
-
-**Review Triggers:**
-- Evaluation date reached
-- User feedback about improvement
-- Validation reveals impact
-- Quarterly improvement effectiveness review
-
-**Archival Policy:**
-- Keep "effective" improvements (success stories)
-- Keep "ineffective" improvements (prevent repetition)
-- Keep "mixed" improvements (document nuance)
-- Only archive if improvement fully reverted AND lessons extracted
-
----
-
-*This registry tracks LiveSpec's own improvement experiments, creating institutional memory and preventing repeated mistakes.*
+**Update:** When implemented, at evaluation dates, when decision made
+**Review:** Evaluation date reached, user feedback, quarterly review
+**Archive:** Only if fully reverted AND lessons extracted

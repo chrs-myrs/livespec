@@ -3,11 +3,13 @@ implements: specs/3-behaviors/slash-command-generation.spec.md
 phase: utilities
 ---
 
-# Generate Slash Commands
+# Generate Custom Slash Commands
 
-**Purpose:** Generate Claude Code slash commands for all LiveSpec utility prompts in `.claude/commands/livespec/` namespace.
+**Purpose:** Generate customized Claude Code slash commands for LiveSpec utility prompts in `.claude/commands/livespec/` namespace.
 
-**When to use:** During Phase 0 setup, after updating prompts, when commands missing or stale, or manually via `/livespec/generate-commands`.
+**When to use:** When customizing standard commands (shipped in `dist/.claude/commands/`), after updating prompts, or when creating project-specific command variations.
+
+**Note:** Standard commands are automatically installed from `dist/.claude/commands/` during setup. Use this prompt only for customization.
 
 ---
 
@@ -380,16 +382,22 @@ Commands available via Claude Code slash autocomplete:
 
 ## Integration Points
 
+**Installation (Primary):**
+- Install script automatically copies standard commands from `dist/.claude/commands/livespec/`
+- Commands available immediately after installation (no generation needed)
+- This prompt is OPTIONAL - for customization only
+
 **Phase 0 Setup:**
-- 0a-quick-start.md includes: "Generate slash commands (use generate-slash-commands.md)"
-- 0b-customize-workspace.md includes: "Generate slash commands (use generate-slash-commands.md)"
+- 0a-quick-start.md: Verifies commands installed (mentions this prompt for customization)
+- 0b-customize-workspace.md: Verifies commands installed (mentions this prompt for customization)
 
 **Validation:**
 - validate-project.md checks: All 11 commands exist, descriptions match registry, prompt paths valid
+- Offers two repair options: Copy from dist/ (fast) or custom generation (this prompt)
 
 **Manual Invocation:**
-- User can run: "Use dist/prompts/utils/generate-slash-commands.md"
-- Or via slash command (once generated): `/livespec/generate-commands`
+- User can run: "Use dist/prompts/utils/generate-custom-slash-commands.md"
+- Used when creating project-specific command variations
 
 ---
 

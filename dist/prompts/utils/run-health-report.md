@@ -75,18 +75,18 @@ done
 
 ### Step 3: Check Registry Health
 
-Read all three registries:
+Read all three registry data files:
 
 ```bash
 # Count open vs resolved items
-cat specs/3-behaviors/registries/gaps.spec.md | grep -E "^### GAP-" | wc -l
-cat specs/3-behaviors/registries/gaps.spec.md | grep "Status: resolved" | wc -l
+cat docs/registries/gaps.md | grep -E "^### GAP-" | wc -l
+cat docs/registries/gaps.md | grep "Status: resolved" | wc -l
 
-cat specs/3-behaviors/registries/issues.spec.md | grep -E "^### ISSUE-" | wc -l
-cat specs/3-behaviors/registries/issues.spec.md | grep "Status: resolved" | wc -l
+cat docs/registries/issues.md | grep -E "^### ISSUE-" | wc -l
+cat docs/registries/issues.md | grep "Status: resolved" | wc -l
 
-cat specs/3-behaviors/registries/improvements.spec.md | grep -E "^### IMP-" | wc -l
-cat specs/3-behaviors/registries/improvements.spec.md | grep "Decision: keep" | wc -l
+cat docs/registries/improvements.md | grep -E "^### IMP-" | wc -l
+cat docs/registries/improvements.md | grep "Decision: keep" | wc -l
 ```
 
 **Registry health indicators:**

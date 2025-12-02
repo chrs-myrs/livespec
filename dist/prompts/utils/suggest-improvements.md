@@ -17,17 +17,17 @@ You are analyzing project health data to identify patterns and recommend priorit
 
 ### Step 1: Read All Registries
 
-Read the three registry files to understand current state:
+Read the three registry data files to understand current state:
 
 ```bash
 # Read gaps registry
-cat specs/3-behaviors/registries/gaps.spec.md
+cat docs/registries/gaps.md
 
 # Read issues registry
-cat specs/3-behaviors/registries/issues.spec.md
+cat docs/registries/issues.md
 
 # Read improvements registry
-cat specs/3-behaviors/registries/improvements.spec.md
+cat docs/registries/improvements.md
 ```
 
 **Extract:**

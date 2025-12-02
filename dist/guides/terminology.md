@@ -57,10 +57,9 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 **Tool:** `dist/prompts/utils/suggest-improvements.md`
 
-**Uses:** Three registries in `specs/3-behaviors/registries/`:
-- `gaps.spec.md` - Methodology gaps identified
-- `issues.spec.md` - Problems encountered
-- `improvements.spec.md` - Changes tried and their results
+**Uses:** Three registries:
+- Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
+- Data files: `docs/registries/*.md` (actual entries: gaps, issues, improvements)
 
 **What it does:**
 - Reads all registries + recent session feedback
@@ -164,16 +163,17 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 ### Registry
 
-**Definition:** A structured specification that tracks items in a category over time.
+**Definition:** A structured tracking system with separate format specs and data files.
 
 **Use for:**
-- Gaps tracking (`registries/gaps.spec.md`)
-- Issues tracking (`registries/issues.spec.md`)
-- Improvements tracking (`registries/improvements.spec.md`)
+- Gaps tracking (`docs/registries/gaps.md`)
+- Issues tracking (`docs/registries/issues.md`)
+- Improvements tracking (`docs/registries/improvements.md`)
 
 **Structure:**
-- MSL spec format
-- Each entry: description, status, metadata
+- Format specs in `.livespec/standard/registries/*.spec.md` (defines entry structure)
+- Data files in `docs/registries/*.md` (actual entries)
+- Each entry: ID, description, status, metadata
 - Updated by prompts (capture session learnings, suggest improvements)
 - Reviewed periodically (suggest improvements workflow)
 
