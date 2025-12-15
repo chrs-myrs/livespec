@@ -108,7 +108,7 @@ Analyze AGENTS.md and context tree:
 wc -c AGENTS.md .livespec/ctxt/**/*.md 2>/dev/null
 
 # Target vs actual
-cat specs/workspace/agent-contexts.spec.md | grep -E "target.*KB|budget.*KB"
+cat specs/workspace/context-architecture.spec.md | grep -E "target.*KB|budget.*KB"
 ```
 
 **Check:**

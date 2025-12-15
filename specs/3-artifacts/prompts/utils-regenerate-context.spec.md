@@ -1,8 +1,7 @@
 ---
 specifies: .livespec/prompts/utils/regenerate-contexts.md
 derives-from:
-  - specs/workspace/agent-contexts.spec.md
-  - specs/workspace/workspace-agent.spec.md
+  - specs/workspace/context-architecture.spec.md
   - specs/workspace/workflows.spec.md
 criticality: IMPORTANT
 failure_mode: Agent contexts become stale or monolithic AGENTS.md remains, agents suffer from context overload and lack specialized guidance
@@ -63,10 +62,11 @@ guided-by:
   - Sub-agents have NO frontmatter (clean context when loaded)
 
 - [!] Prompt validates prerequisites before launching context builder to prevent incomplete generation.
-  - Checks workspace specs exist (constitution, patterns, workflows, agent-contexts)
+  - Checks workspace specs exist (constitution, patterns, workflows, context-architecture)
+  - Checks context-architecture.spec.md specifically (REQUIRED for content sources)
   - Checks PURPOSE.md exists
   - Checks templates exist (.livespec/templates/agents/spec-first-enforcement.md)
-  - Stops with clear guidance if any prerequisites missing
+  - Stops with clear guidance if context-architecture.spec.md missing
   - Reports what's missing and how to fix (e.g., "Run Phase 0 first")
 
 - [!] Prompt uses Task tool to launch context-builder agent in isolated context, preventing session context pollution.
@@ -80,7 +80,7 @@ guided-by:
 
 Use when:
 - **CRITICAL: After Phase 0 workspace setup** (workspace specs established, need full context tree)
-- Workspace specs modified (constitution, patterns, workflows, agent-contexts)
+- Workspace specs modified (constitution, patterns, workflows, context-architecture)
 - PURPOSE.md updated (project vision changed)
 - New workspace spec added
 - After LiveSpec version upgrade (new methodology)
@@ -100,7 +100,7 @@ Use when:
 - specs/workspace/constitution.spec.md exists (core principles)
 - specs/workspace/patterns.spec.md exists (conventions)
 - specs/workspace/workflows.spec.md exists (5 phases)
-- specs/workspace/agent-contexts.spec.md exists (context tree structure)
+- specs/workspace/context-architecture.spec.md exists (REQUIRED - structure + content sources)
 - PURPOSE.md exists (project vision)
 - .livespec/templates/agents/spec-first-enforcement.md exists (structural enforcement template)
 - .claude/agents/context-builder/instructions.md exists (context builder agent definition)
@@ -173,7 +173,13 @@ Use when:
 
 ## Error Handling
 
-**If workspace specs incomplete:**
+**If context-architecture.spec.md missing:**
+- Stop immediately with ERROR
+- Report: "context-architecture.spec.md is REQUIRED for context generation"
+- Guide: "Run Phase 0 (`.livespec/prompts/0-define/0a-quick-start.md` or `0b-customize-workspace.md`) to create workspace specs"
+- Do not proceed without context-architecture.spec.md
+
+**If other workspace specs incomplete:**
 - Stop immediately with clear message
 - Report what's missing
 - Guide: "Run Phase 0 (0a-quick-start or 0b-customize-workspace) first"
@@ -218,7 +224,7 @@ What this prompt should NOT do:
 - ❌ Exceed size budgets (root 20-30KB, sub-agents 8-12KB max)
 - ❌ Use technical jargon in load triggers (natural user language required)
 - ❌ Generate monolithic AGENTS.md (use context tree structure)
-- ❌ Proceed with missing agent-contexts.spec.md (structure undefined)
+- ❌ Proceed with missing context-architecture.spec.md (content sources undefined)
 
 ## Notes
 

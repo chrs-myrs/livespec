@@ -9,7 +9,7 @@ derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
-  - specs/workspace/agent-contexts.spec.md
+  - specs/workspace/context-architecture.spec.md
 supports:
   - prompts/4-evolve/4d-regenerate-context.md
   - .livespec/prompts/utils/regenerate-contexts.md

@@ -4,7 +4,7 @@ failure_mode: Without link-based visualization, developers cannot understand the
 governed-by:
   - specs/workspace/patterns.spec.md
 satisfies:
-  - specs/workspace/agent-contexts.spec.md
+  - specs/workspace/context-architecture.spec.md
 ---
 
 # Context Tree Visualizer

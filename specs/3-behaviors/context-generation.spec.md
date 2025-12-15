@@ -9,8 +9,7 @@ guided-by:
   - specs/2-strategy/architecture.spec.md
   - specs/2-strategy/ai-discoverability.spec.md
 derives-from:
-  - specs/workspace/agent-contexts.spec.md
-  - specs/workspace/workspace-agent.spec.md
+  - specs/workspace/context-architecture.spec.md
 governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 supports:
@@ -36,12 +35,22 @@ supports:
 ### Source Validation
 
 - [!] Context generation validates prerequisites before building to prevent incomplete or invalid trees
-  - Workspace specs verified (constitution, patterns, workflows, agent-contexts)
+  - Workspace specs verified (constitution, patterns, workflows, context-architecture)
+  - context-architecture.spec.md is REQUIRED (provides content sources and structure)
   - PURPOSE.md verified (project vision)
   - Templates verified (.livespec/templates/agents/)
   - Context builder agent verified (.claude/agents/context-builder/)
-  - Clear error messages if prerequisites missing
+  - Clear error messages if prerequisites missing, especially context-architecture.spec.md
   - Guidance provided to resolve missing prerequisites (e.g., "Run Phase 0 first")
+
+### Spec-Driven Content Selection
+
+- [!] Context generation reads context-architecture.spec.md to determine what content populates the context tree
+  - Always-include content appears in root AGENTS.md
+  - Include-when-relevant content goes in sub-agents with appropriate load triggers
+  - Excluded content is referenced but not inlined
+  - Content focus (behaviors/constraints/patterns balance) applied to achieve specified ratios
+  - Compression level from spec applied consistently
 
 ### Proactive Loading Mechanism
 
@@ -121,10 +130,19 @@ supports:
 
 ### Prerequisites Validation
 - [ ] Generation validates workspace specs exist before starting
+- [ ] Generation validates context-architecture.spec.md exists (REQUIRED)
 - [ ] Generation validates PURPOSE.md exists before starting
 - [ ] Generation validates templates exist before starting
 - [ ] Clear error messages shown if prerequisites missing
+- [ ] Specific error for missing context-architecture.spec.md with Phase 0 guidance
 - [ ] Guidance provided to resolve missing prerequisites
+
+### Spec-Driven Content Validation
+- [ ] context-architecture.spec.md read before generation
+- [ ] Always-include content appears in root
+- [ ] Include-when-relevant content appears in sub-agents
+- [ ] Excluded content not inlined
+- [ ] Content focus balance achieved (behaviors/constraints/patterns)
 
 ### Size Budget Validation
 - [ ] Root AGENTS.md: 20-30KB

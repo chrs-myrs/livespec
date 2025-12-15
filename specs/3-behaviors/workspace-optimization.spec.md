@@ -4,7 +4,7 @@ failure_mode: Context organization static despite usage patterns, frequently-use
 satisfies:
   - specs/1-requirements/strategic/outcomes.spec.md
 guided-by:
-  - specs/workspace/agent-contexts.spec.md
+  - specs/workspace/context-architecture.spec.md
 specifies:
   - dist/prompts/utils/reorganize-workspace.md
 ---

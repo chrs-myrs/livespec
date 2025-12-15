@@ -10,7 +10,7 @@ estimated_time: "5-10 minutes"
 
 **When to use**:
 - **⚠️ CRITICAL: Immediately after Phase 0 workspace setup** (workspace specs established)
-- Workspace specs modified (constitution, patterns, workflows, agent-contexts)
+- Workspace specs modified (constitution, patterns, workflows, context-architecture)
 - PURPOSE.md updated (project vision changed)
 - New workspace spec added
 - After LiveSpec version upgrade
@@ -33,8 +33,13 @@ You are regenerating the agent context tree. Launch the context-builder agent to
 ls specs/workspace/constitution.spec.md
 ls specs/workspace/patterns.spec.md
 ls specs/workspace/workflows.spec.md
-ls specs/workspace/agent-contexts.spec.md
+ls specs/workspace/context-architecture.spec.md
 ```
+
+**If context-architecture.spec.md missing**:
+- **ERROR**: Context architecture spec is required for context generation
+- **Guide**: "Run Phase 0 (`.livespec/prompts/0-define/0a-quick-start.md` or `0b-customize-workspace.md`) to create workspace specs including context-architecture.spec.md"
+- **STOP**: Do not proceed without context-architecture.spec.md
 
 **Check required project files exist:**
 ```bash
@@ -56,15 +61,16 @@ ls .livespec/templates/agents/spec-first-enforcement.md
 Launch the context-builder agent (.claude/agents/context-builder/) to generate the agent context tree from workspace specifications.
 
 The agent will:
-1. Read specs/workspace/agent-contexts.spec.md for structure
+1. Read specs/workspace/context-architecture.spec.md for structure AND content sources
 2. Read all workspace specs as source content
 3. Apply compression level from constitution.spec.md
-4. Generate root AGENTS.md (compressed, routing)
-5. Generate ctxt/phases/ (5 phase specialists)
-6. Generate ctxt/domains/ (based on taxonomy)
-7. Generate ctxt/utils/ (3 utility specialists)
-8. Validate size budgets
-9. Report results
+4. Apply content focus from context-architecture.spec.md (behaviors/constraints/patterns balance)
+5. Generate root AGENTS.md (compressed, routing)
+6. Generate ctxt/phases/ (5 phase specialists)
+7. Generate ctxt/domains/ (based on taxonomy)
+8. Generate ctxt/utils/ (3 utility specialists)
+9. Validate size budgets
+10. Report results
 
 Expected outputs:
 - AGENTS.md (20-30KB, no frontmatter)
@@ -162,6 +168,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 ---
 
 ## Common Issues
+
+**"context-architecture.spec.md missing"**:
+- This spec is REQUIRED for context generation
+- Run Phase 0 first (0a-quick-start or 0b-customize-workspace)
+- Phase 0 creates all five workspace specs including context-architecture.spec.md
 
 **"Workspace specs missing"**:
 - Run Phase 0 first (0a-quick-start or 0b-customize-workspace)

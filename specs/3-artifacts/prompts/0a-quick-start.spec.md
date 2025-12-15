@@ -19,16 +19,17 @@ derives-from:
   - Provides clear installation instructions if needed
   - Uses validation script (check-livespec-installation.sh) if available
 
-- [!] Prompt initializes LiveSpec workspace with sensible defaults in under 5 minutes, asking zero questions, creating four standard workspace specs suitable for 80% of projects.
+- [!] Prompt initializes LiveSpec workspace with sensible defaults in under 5 minutes, asking zero questions, creating five standard workspace specs suitable for 80% of projects.
   - Asks zero questions (applies defaults)
   - Context compression: Moderate (balanced inline/reference)
   - Project domain: Software (produces code)
-  - Workspace scope: Standard portable methodology (constitution, patterns, workflows, taxonomy)
+  - Workspace scope: Standard portable methodology (constitution, patterns, workflows, context-architecture, taxonomy)
   - Specs boundary: Specifications only (no data/research)
   - Creates specs/workspace/taxonomy.spec.md with Software domain defaults
   - Creates specs/workspace/constitution.spec.md with spec-driven development
   - Creates specs/workspace/patterns.spec.md with MSL format conventions
   - Creates specs/workspace/workflows.spec.md with five-phase workflow
+  - Creates specs/workspace/context-architecture.spec.md with context generation control
   - Completes in ~5 minutes
   - Provides clear next steps (define problem or customize workspace)
   - Explains defaults chosen and how to change them
@@ -39,10 +40,11 @@ derives-from:
 - Prompt verifies .livespec/VERSION exists before creating workspace specs
 - If installation missing, provides clear installation instructions
 - Cannot proceed without functional .livespec/ directory
-- Prompt creates exactly four workspace spec files
+- Prompt creates exactly five workspace spec files (taxonomy, constitution, patterns, workflows, context-architecture)
 - All specs follow MSL format (frontmatter, Requirements, Validation)
 - taxonomy.spec.md declares Software domain with standard workspace scope
 - constitution.spec.md includes context_compression: moderate in frontmatter
+- context-architecture.spec.md includes content sources and focus balance
 - No questions asked to user (zero-question requirement met)
 - Setup completes in under 5 minutes
 - User can immediately proceed to define problem or design

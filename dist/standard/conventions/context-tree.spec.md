@@ -6,7 +6,7 @@ governed-by:
 applies_to:
   - AGENTS.md
   - ctxt/
-  - workspace/agent-contexts.spec.md
+  - workspace/context-architecture.spec.md
   - workspace/workspace-agent.spec.md
 ---
 
@@ -194,8 +194,7 @@ project-root/
 - specs/workspace/constitution.spec.md (development principles)
 - specs/workspace/patterns.spec.md (conventions)
 - specs/workspace/workflows.spec.md (5 phases)
-- specs/workspace/agent-contexts.spec.md (project's context tree structure)
-- specs/workspace/workspace-agent.spec.md (project's AGENTS.md content definition)
+- specs/workspace/context-architecture.spec.md (project's context structure + content sources)
 - PURPOSE.md (project vision)
 - .livespec/templates/agents/spec-first-enforcement.md (template)
 

@@ -4,6 +4,7 @@ date: 2025-12-15
 status: completed
 tags: [docs,spec]
 files_modified:
+  - CHANGELOG.md
   - dist/customizations.yaml.template
   - dist/prompts/2-build/2a-implement-from-specs.md
   - dist/prompts/2-build/2b-create-tests.md
@@ -17,9 +18,8 @@ files_modified:
   - dist/standard/metaspecs/prompt.spec.md
   - dist/standard/phase-prerequisites.md
   - dist/templates/workspace/taxonomy-governance.spec.md.template
-  - docs/livespec-conventions.md
-  - docs/methodology.md
-  # ... and 12 more files
+  - dist/VERSION
+  # ... and 14 more files
 ---
 
 # What was accomplished

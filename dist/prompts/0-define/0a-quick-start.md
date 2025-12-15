@@ -135,7 +135,7 @@ This project produces executable code, libraries, or applications.
 
 ### Step 3: Create Standard Workspace Specs
 
-Create five core workspace specifications:
+Create remaining workspace specifications (taxonomy already created in Step 2):
 
 **1. specs/workspace/constitution.spec.md**
 
@@ -221,75 +221,56 @@ governed-by:
 - Phase 4 runs continuously in production
 ```
 
-**4. specs/workspace/agent-contexts.spec.md**
+**4. specs/workspace/context-architecture.spec.md**
 
 ```markdown
 ---
-applies_to:
-  - all_projects
-  - agent_context_generation
-criticality: CRITICAL
-failure_mode: Without agent context structure, agents lack specialized guidance
+criticality: IMPORTANT
+failure_mode: Without context architecture, agents receive inappropriate or bloated context leading to focus inefficiency
+applies_to: this_project
+governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
 derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/taxonomy.spec.md
-  - specs/workspace/workspace-agent.spec.md
-governed-by:
-  - .livespec/standard/conventions/context-tree.spec.md
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
-# Agent Context Structure
+# Context Architecture
 
 ## Requirements
-- [!] Project uses hierarchical agent context tree following context-tree convention
-  - Root AGENTS.md: Compressed methodology with routing to sub-agents
+
+- [!] This project uses hierarchical agent context tree following context-tree convention.
+  - Root AGENTS.md: Compressed methodology (20-30KB) with routing to sub-agents
   - Phase specialists (ctxt/phases/): 0-define through 4-evolve
   - Domain specialists (ctxt/domains/): Based on taxonomy classification
   - Utility specialists (ctxt/utils/): session-completion, drift-detection, msl-audit
   - Proactive loading: Agent decides what context to load based on task
 
+- [!] This project defines what content populates agent contexts.
+
+  Always Include (root AGENTS.md):
+  - specs/workspace/constitution.spec.md - Development principles
+  - specs/workspace/patterns.spec.md - Naming conventions
+  - Key behaviors from specs/3-behaviors/ relevant to daily work
+
+  Include When Relevant (sub-agent contexts):
+  - Phase-specific behaviors when agent determines phase work
+  - Domain-specific patterns when taxonomy indicates
+  - Utility workflows when completing sessions or detecting drift
+
+  Content Focus (balanced mix):
+  - Behaviors: 40% - Observable outcomes from specs/3-behaviors/
+  - Constraints: 30% - Requirements from specs/1-requirements/
+  - Patterns: 30% - Workspace methodology from specs/workspace/
+
+  Compression Level: moderate
+
 ## Validation
 - Root AGENTS.md follows convention size budgets (20-30KB)
 - Context tree structure matches taxonomy domain
 - Load triggers functional (agent matches query to sub-agent)
-- Regeneration workflow functional (.livespec/prompts/utils/regenerate-contexts.md)
-```
-
-**5. specs/workspace/workspace-agent.spec.md**
-
-```markdown
----
-applies_to:
-  - all_ai_agents
-  - AGENTS.md
-derives-from:
-  - specs/workspace/constitution.spec.md
-  - specs/workspace/patterns.spec.md
-  - specs/workspace/workflows.spec.md
-  - specs/workspace/agent-contexts.spec.md
-criticality: CRITICAL
-failure_mode: Without agent configuration, agents lack project context
-governed-by:
-  - .livespec/standard/conventions/context-tree.spec.md
-  - .livespec/guides/context-positioning.md
-  - .livespec/standard/metaspecs/workspace.spec.md
----
-
-# Agent Configuration Structure
-
-## Requirements
-- [!] AGENTS.md provides AI agents with project methodology context
-  - Generated from: PURPOSE.md, workspace specs, requirements, strategy
-  - Content structure: START/MIDDLE/END positioning per context-positioning.md
-  - Context tree pattern: Root + ctxt/ sub-agents per context-tree convention
-  - Compression: Level declared in constitution.spec.md frontmatter
-
-## Validation
-- AGENTS.md generated from project sources
-- Content follows START/MIDDLE/END positioning
-- Compression level applied per constitution
-- Regeneration workflow documented
+- Context generation reads this spec before building AGENTS.md
+- Compression level matches constitution.spec.md declaration
 ```
 
 ### Step 4: Regenerate AGENTS.md
@@ -356,6 +337,7 @@ Created:
 - `specs/workspace/constitution.spec.md` - Spec-driven development
 - `specs/workspace/patterns.spec.md` - MSL format, naming conventions
 - `specs/workspace/workflows.spec.md` - Five-phase workflow
+- `specs/workspace/context-architecture.spec.md` - Context generation control
 - `AGENTS.md` - **Regenerated** with your project context
 - `.claude/commands/livespec/*.md` - 11 discoverable slash commands
 
@@ -373,13 +355,13 @@ Created:
 
 ## Output
 
-Create four specification files in specs/workspace/ with standard defaults.
+Create five specification files in specs/workspace/ with standard defaults.
 
 ## Validation
 
 - Prompt validates Software domain fit before applying defaults (one quick question)
 - Redirects non-Software projects to customize-workspace.md
-- Creates four workspace specs (taxonomy, constitution, patterns, workflows)
+- Creates five workspace specs (taxonomy, constitution, patterns, workflows, context-architecture)
 - All specs follow MSL format
 - Taxonomy declares Software domain with workspace scope
 - User can customize later if needed

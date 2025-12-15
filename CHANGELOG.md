@@ -20,6 +20,64 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.11.0] - 2025-12-15
+
+### 🎯 Project-Controlled Context Generation
+
+This release introduces `context-architecture.spec.md` as the 5th workspace spec, giving target projects explicit control over what content populates their AGENTS.md. Previously, regenerate-contexts had no project-level guidance, sometimes producing phase file dumps instead of synthesized context appropriate for coding agents.
+
+**Impact**: MEDIUM - New workspace spec required for context generation
+
+#### Added
+
+- **specs/workspace/context-architecture.spec.md** (⚠️ MEDIUM impact)
+  - New 5th workspace spec created during Phase 0 (quick-start and customize-workspace)
+  - Defines content sources: "always include" (root) vs "include when relevant" (sub-agents) vs "exclude"
+  - Specifies content focus balance: behaviors (40%) / constraints (30%) / patterns (30%)
+  - Includes structural hints: root priorities, sub-agent triggers
+  - Consolidates previous `agent-contexts.spec.md` and `workspace-agent.spec.md` concepts
+
+- **dist/templates/workspace/context-architecture.spec.md.template**
+  - Template for target projects with software domain defaults
+  - Sensible defaults for most projects (balanced mix, moderate compression)
+
+#### Changed
+
+- **dist/prompts/0-define/0a-quick-start.md** (⚠️ MEDIUM impact)
+  - Now creates 5 workspace specs (was 4): taxonomy, constitution, patterns, workflows, context-architecture
+  - Removed workspace-agent.spec.md (consolidated into context-architecture)
+
+- **dist/prompts/0-define/0b-customize-workspace.md** (⚠️ MEDIUM impact)
+  - Updated to create context-architecture.spec.md instead of agent-contexts.spec.md and workspace-agent.spec.md
+  - Reduced from 6 to 5 workspace specs
+
+- **dist/prompts/utils/regenerate-contexts.md** (⚠️ MEDIUM impact)
+  - Now requires context-architecture.spec.md (errors with Phase 0 guidance if missing)
+  - Context builder reads spec for content sources and focus balance
+
+- **.claude/agents/context-builder/instructions.md**
+  - Reads context-architecture.spec.md for content sources
+  - Applies content focus balance during generation
+  - Clear error if spec missing
+
+- **specs/workspace/agent-contexts.spec.md → context-architecture.spec.md**
+  - Renamed and expanded with content source control
+  - Combined structure + content definitions
+
+#### Removed
+
+- **dist/templates/workspace/agent-contexts.spec.md.template** (replaced by context-architecture)
+- **workspace-agent.spec.md from Phase 0 output** (consolidated)
+
+#### Migration
+
+Existing projects should:
+1. Create `specs/workspace/context-architecture.spec.md` from template
+2. Run regenerate-contexts to rebuild AGENTS.md with spec-driven content
+3. Optionally remove old `agent-contexts.spec.md` and `workspace-agent.spec.md`
+
+---
+
 ## [3.9.1] - 2025-12-15
 
 ### 🔧 Installation & Upgrade Documentation Fix

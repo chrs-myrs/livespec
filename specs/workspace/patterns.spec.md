@@ -21,7 +21,7 @@ governed-by:
   - Strategy files stay minimal (single file <100 lines, split files <50 lines each)
   - AGENTS.md references specs/workspace/workspace-agent.spec.md in frontmatter
   - Agent integration behaviors defined in specs/workspace/livespec.spec.md
-  - Agent context structure defined in specs/workspace/agent-contexts.spec.md
+  - Agent context structure defined in specs/workspace/context-architecture.spec.md
   - Regeneration prompt exists at prompts/4-evolve/4d-regenerate-context.md
 
 ## Cross-Cutting Development Standards (Strategy References)

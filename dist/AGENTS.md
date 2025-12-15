@@ -44,8 +44,7 @@ This is a **bootstrap agent configuration**. Once your workspace specs are estab
 - specs/workspace/constitution.spec.md (development principles)
 - specs/workspace/patterns.spec.md (conventions)
 - specs/workspace/workflows.spec.md (5 phases)
-- specs/workspace/agent-contexts.spec.md (YOUR project's context structure choices)
-- specs/workspace/workspace-agent.spec.md (YOUR project's AGENTS.md content definition)
+- specs/workspace/context-architecture.spec.md (YOUR project's context structure + content sources)
 - PURPOSE.md (project vision)
 
 **Command**:

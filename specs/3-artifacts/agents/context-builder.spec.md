@@ -21,11 +21,12 @@ specifies:
 ### Prerequisites Validation
 
 - [!] Agent validates all required source files exist before starting generation
-  - Core sources: PURPOSE.md, specs/workspace/*.spec.md (constitution, patterns, workflows, agent-contexts)
+  - Core sources: PURPOSE.md, specs/workspace/*.spec.md (constitution, patterns, workflows, context-architecture)
+  - context-architecture.spec.md is REQUIRED (provides content sources and structure)
   - Templates: .livespec/templates/agents/spec-first-enforcement.md
   - Optional sources: specs/workspace/taxonomy.spec.md, specs/2-strategy/architecture.spec.md
   - VERSION or dist/VERSION for version information
-  - Clear error messages identifying missing files
+  - Clear error messages identifying missing files, especially context-architecture.spec.md
   - Stops immediately if required files missing (no partial generation)
   - Provides guidance to resolve missing files (e.g., "Run Phase 0 first")
 
@@ -37,7 +38,7 @@ specifies:
   - Extracts patterns.spec.md → MSL format, naming conventions, folder structure
   - Extracts workflows.spec.md → 5 phases (entry/exit, outputs, key prompts)
   - Extracts taxonomy.spec.md → Project domain classification
-  - Extracts agent-contexts.spec.md → Context tree structure requirements
+  - Extracts context-architecture.spec.md → Context tree structure AND content sources
   - Reads PURPOSE.md → Project vision and success criteria
   - Reads compression configuration from constitution.spec.md frontmatter
 

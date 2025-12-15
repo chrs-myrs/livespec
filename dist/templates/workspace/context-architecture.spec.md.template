@@ -1,0 +1,96 @@
+---
+criticality: IMPORTANT
+failure_mode: Without context architecture, agents receive inappropriate or bloated context leading to focus inefficiency
+applies_to: this_project
+governed-by:
+  - .livespec/standard/conventions/context-tree.spec.md
+derives-from:
+  - specs/workspace/constitution.spec.md
+  - specs/workspace/taxonomy.spec.md
+---
+
+# Context Architecture
+
+## Requirements
+
+- [!] This project uses hierarchical agent context tree following context-tree convention.
+  - **Root AGENTS.md**: Compressed methodology (20-30KB) with routing to sub-agents
+  - **Phase specialists** (ctxt/phases/): 0-define through 4-evolve
+  - **Domain specialists** (ctxt/domains/): Based on taxonomy classification
+  - **Utility specialists** (ctxt/utils/): session-completion, drift-detection, msl-audit
+  - **Proactive loading**: Agent decides what context to load based on task
+  - **Regeneration workflow**: .livespec/prompts/utils/regenerate-contexts.md
+
+- [!] This project defines what content populates agent contexts to ensure focused, relevant guidance.
+
+  **Content Sources** (what feeds AGENTS.md generation):
+
+  Always Include (root AGENTS.md):
+  - specs/workspace/constitution.spec.md - Development principles
+  - specs/workspace/patterns.spec.md - Naming conventions
+  - specs/workspace/workflows.spec.md - Phase guidance
+  - Key behaviors from specs/3-behaviors/ relevant to daily work
+
+  Include When Relevant (sub-agent contexts):
+  - Phase-specific behaviors when agent determines phase work
+  - Domain-specific patterns when taxonomy indicates
+  - Utility workflows when completing sessions or detecting drift
+
+  Exclude:
+  - Detailed implementation specs (reference, don't inline)
+  - Contract definitions (link to specs/3-contracts/ instead)
+  - Historical/archived content
+
+  **LiveSpec Methodology Integration**:
+
+  Methodology Prompts Referenced:
+  - .livespec/prompts/0-define/ (Phase 0 guidance)
+  - .livespec/prompts/1-design/ (Phase 1 guidance)
+  - .livespec/prompts/2-build/ (Phase 2 guidance)
+  - .livespec/prompts/3-verify/ (Phase 3 guidance)
+  - .livespec/prompts/4-evolve/ (Phase 4 guidance)
+  - .livespec/prompts/utils/ (utility workflows)
+
+  Guides Incorporated:
+  - .livespec/guides/msl-minimalism.md (spec writing)
+  - .livespec/guides/tdd.md (test-driven development)
+  - .livespec/guides/context-positioning.md (prompt structure)
+
+  Compression Level: moderate
+  - Strategic extraction of reusable content
+  - Critical workflows inline, details referenced
+  - Templates for repeated verification patterns
+
+  **Structural Hints**:
+
+  Root AGENTS.md Priorities (ordering):
+  1. Spec-first enforcement (most critical)
+  2. Core principles from constitution
+  3. Patterns and conventions
+  4. Key behaviors for daily work
+  5. Sub-agent routing table
+
+  Sub-Agent Triggers (keyword → context mapping):
+  - "new project", "setup", "define" → phases/0-define.md
+  - "design", "architecture", "behaviors" → phases/1-design.md
+  - "implement", "build", "TDD" → phases/2-build.md
+  - "validate", "verify", "acceptance" → phases/3-verify.md
+  - "drift", "extract", "sync", "evolve" → phases/4-evolve.md
+  - "complete session", "measure compliance" → utils/session-completion.md
+
+  **Content Focus** (balanced mix):
+  - Behaviors: 40% - Observable outcomes from specs/3-behaviors/
+  - Constraints: 30% - Requirements from specs/1-requirements/
+  - Patterns: 30% - Workspace methodology from specs/workspace/
+
+## Validation
+
+- Root AGENTS.md follows convention size budgets (20-30KB)
+- Context tree structure matches taxonomy domain
+- Load triggers functional (agent matches query to sub-agent)
+- Context generation reads this spec before building AGENTS.md
+- Always-include content appears in root context
+- Sub-agent triggers route to correct context files
+- Excluded content not inlined (referenced only)
+- Compression level matches constitution.spec.md declaration
+- Content focus produces balanced, relevant guidance

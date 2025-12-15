@@ -185,7 +185,7 @@ Ask the user:
 
 ### Step 4: Create Workspace Specifications
 
-Using appropriate templates from `dist/templates/workspace/`, create five workspace specifications:
+Using appropriate templates from `dist/templates/workspace/`, create four workspace specifications:
 
 1. **specs/workspace/constitution.spec.md**
    - Template: `dist/templates/workspace/constitution-[level].md.template`
@@ -205,19 +205,13 @@ Using appropriate templates from `dist/templates/workspace/`, create five worksp
    - When to use which Phase prompts
    - How specs evolve with code
 
-4. **specs/workspace/agent-contexts.spec.md**
-   - Template: `dist/templates/workspace/agent-contexts.spec.md.template`
-   - Define project's context tree structure
-   - Specify which sub-agents exist (phases, domains, utils)
+4. **specs/workspace/context-architecture.spec.md**
+   - Template: `dist/templates/workspace/context-architecture.spec.md.template`
+   - Define project's context tree structure (phases, domains, utils)
+   - Specify what content populates AGENTS.md (always include, include when relevant)
    - Customize load triggers for project workflow
+   - Configure content focus (behaviors/constraints/patterns balance)
    - References `.livespec/standard/conventions/context-tree.spec.md` for mechanism
-
-5. **specs/workspace/workspace-agent.spec.md**
-   - Template: `dist/templates/workspace/workspace-agent.spec.md.template`
-   - Define AGENTS.md content generation sources
-   - Specify content structure (START/MIDDLE/END positioning)
-   - Customize for project's methodology presentation
-   - References `.livespec/guides/context-positioning.md` for optimization
 
 Note: taxonomy.spec.md created in Step 3 is also part of workspace/ (portable methodology).
 
@@ -280,8 +274,7 @@ Created:
 - `specs/workspace/constitution.spec.md` - Your development principles
 - `specs/workspace/patterns.spec.md` - Your conventions
 - `specs/workspace/workflows.spec.md` - Your processes
-- `specs/workspace/agent-contexts.spec.md` - Your agent context tree structure
-- `specs/workspace/workspace-agent.spec.md` - Your AGENTS.md content definition
+- `specs/workspace/context-architecture.spec.md` - Your context generation control
 - `AGENTS.md` - **Regenerated** with your project context
 - `.claude/commands/livespec/*.md` - 11 discoverable slash commands
 
@@ -291,7 +284,7 @@ Create or update specification files in specs/ directory with clear, testable re
 
 ## Validation
 
-- Prompt produces four workspace spec files (constitution, patterns, workflows, taxonomy)
+- Prompt produces five workspace spec files (taxonomy, constitution, patterns, workflows, context-architecture)
 - All specs follow MSL format (Criticality, Failure Mode, Requirements, Validation)
 - taxonomy.spec.md declares project domain, workspace scope, and specs boundary
 - Specs are specific to target project, not generic
