@@ -67,6 +67,22 @@ your-project/
     └── 3-contracts/        # WHAT - API/data contracts
 ```
 
+## Examples
+
+Working examples demonstrating three-layer architecture:
+
+- [Loan System](examples/loan-system/) - Financial calculations with many-to-many traceability
+  - Shows cascade impact analysis when requirements change
+  - Demonstrates requirement → strategy → behavior flow
+
+- [E-commerce Checkout](examples/ecommerce-checkout/) - UX-driven specifications
+  - Shows research-to-spec flow
+  - Demonstrates user personas and flow documentation
+
+- [Auth System](examples/auth-system/) - Security/cross-cutting concerns
+  - Authentication and authorization patterns
+  - Role-based access control specifications
+
 ## Quick Start
 
 ### New Project (Recommended: Helper Script)
@@ -100,6 +116,22 @@ git submodule update --remote .livespec-repo
 bash /path/to/livespec/dist/scripts/install-livespec.sh
 ```
 
+## Code-First Approach (Existing Projects)
+
+For brownfield projects with existing code, start with Phase 4 (EVOLVE):
+
+1. **Extract Specs**: Use [4b-extract-specs.md](prompts/4-evolve/4b-extract-specs.md)
+   - Analyzes code to generate specification drafts
+   - Marks extractions with `confidence: LOW` and `requires_validation: true`
+
+2. **Validate**: Use [4e-validate-extractions.md](prompts/4-evolve/4e-validate-extractions.md)
+   - Review extracted specs against actual implementation
+   - Promote LOW → VALIDATED confidence
+
+3. **Maintain Sync**: Use [4a-detect-drift.md](prompts/4-evolve/4a-detect-drift.md)
+   - Weekly drift checks identify spec-code misalignment
+   - Three drift types: behavioral, contractual, requirements
+
 ## MSL Format Example
 
 All LiveSpec specifications use [MSL (Markdown Specification Language)](https://github.com/chrs-myrs/msl-specification):
@@ -130,6 +162,32 @@ Title, frontmatter, Requirements. Minimal. Testable.
 - **MSL Minimalism**: 70% smaller specifications stay maintainable
 - **Workspace Separation**: HOW vs WHAT keeps concerns separated
 - **No Lock-in**: Just markdown files and folders
+
+## When Requirements Change
+
+Use cascade impact analysis to find affected specs:
+
+```bash
+# Find implementations affected by requirement change
+grep -r "satisfies:.*changed-requirement.spec.md" specs/3-behaviors/
+```
+
+**Decision framework:**
+- Spec reflects intended behavior → Update code
+- Code reflects actual needed behavior → Update spec
+- Both unclear → Run validation, update whichever fails
+
+See [loan-system example](examples/loan-system/) for detailed cascade analysis workflow.
+
+## Cross-Cutting Concerns
+
+For concerns spanning multiple modules (auth, logging, error handling):
+
+- **Behavior spec**: WHAT it does (e.g., "System authenticates users via OAuth")
+- **Strategy spec**: HOW approach applies broadly (e.g., `2-strategy/security-approach.spec.md`)
+- **Contract spec**: Interface definition (e.g., `3-contracts/auth-api.spec.md`)
+
+See [behavior-contract-boundary.md](guides/behavior-contract-boundary.md) and [auth-system example](examples/auth-system/).
 
 ## Documentation
 
