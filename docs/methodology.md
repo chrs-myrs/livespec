@@ -222,7 +222,7 @@ Run EVOLVE prompts:
 
 ```bash
 # Direct prompt execution
-claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+claude-code "Use .livespec/0-define/0a-quick-start.md"
 
 # With context
 claude-code "Using specs/3-behaviors/authentication.spec.md as reference, implement the login endpoint"
@@ -487,7 +487,7 @@ LiveSpec itself demonstrates good scoping:
 **Why separate?** Different concerns, different update frequencies.
 
 **Prompt Specs (Product):**
-- `specs/3-behaviors/prompts/0a-setup-workspace.spec.md` - One prompt's behavior
+- `specs/3-behaviors/prompts/0a-quick-start.spec.md` - One prompt's behavior
 - `specs/3-behaviors/prompts/0b-define-problem.spec.md` - Another prompt's behavior
 
 **Why separate?** Each prompt is independently testable, different failure modes.

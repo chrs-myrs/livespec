@@ -8,15 +8,16 @@ LiveSpec is a folder structure and methodology for keeping specifications synchr
    - 0a-quick-start.md - Zero-question setup (5 min, sensible defaults)
    - 0b-customize-workspace.md - Full workspace customization (20-30 min)
    - 0c-define-problem.md - Document project purpose
-   - 0d-define-outcomes.md - Define high-level requirements
-   - 0e-assess-complexity.md - Evaluate project complexity
-   - 0f-evaluate-research-needs.md - Determine if UX research needed
-   - 0g-identify-constraints.md - Hard boundaries
+   - 0d-assess-complexity.md - Evaluate project complexity
+   - 0e-evaluate-research-needs.md - Determine if UX research needed
+   - 0f-identify-constraints.md - Hard boundaries
+   - 0g-define-outcomes.md - Define high-level requirements
 
 2. [Phase 1: DESIGN](prompts/1-design/) - Solution architecture
-   - 1a-design-architecture.md - System structure
-   - 1b-define-behaviors.md - Observable behaviors
-   - 1c-create-contracts.md - API/data contracts
+   - 1a-document-ux-flows.md - UX interaction flows (optional)
+   - 1b-design-architecture.md - System structure
+   - 1c-define-behaviors.md - Observable behaviors
+   - 1d-create-contracts.md - API/data contracts
 
 3. [Phase 2: BUILD](prompts/2-build/) - Implementation
    - 2a-implement-from-specs.md - Build to specifications
@@ -30,6 +31,7 @@ LiveSpec is a folder structure and methodology for keeping specifications synchr
    - 4a-detect-drift.md - Find spec/code misalignment
    - 4b-extract-specs.md - Document new behaviors
    - 4c-sync-complete.md - Confirm synchronization
+   - 4d-regenerate-context.md - Update AGENTS.md
 
 ## Project Structure
 
@@ -38,47 +40,64 @@ LiveSpec separates workspace (HOW you build) from product (WHAT you build):
 ```
 your-project/
 ├── PURPOSE.md              # Why this project exists
-├── .livespec/              # Methodology (copy from dist/)
-│   ├── 0-define/
-│   ├── 1-design/
-│   ├── 2-build/
-│   ├── 3-verify/
-│   ├── 4-evolve/
-│   └── templates/
+├── AGENTS.md               # AI agent context (generated)
+├── .livespec/              # Methodology (via submodule or copy)
+│   ├── prompts/            # Phase prompts
+│   │   ├── 0-define/
+│   │   ├── 1-design/
+│   │   ├── 2-build/
+│   │   ├── 3-verify/
+│   │   ├── 4-evolve/
+│   │   └── utils/
+│   ├── templates/          # Spec and config templates
+│   ├── standard/           # MSL metaspecs and conventions
+│   ├── scripts/            # Validation tools
+│   └── guides/             # Deep-dive documentation
 └── specs/
-    ├── workspace/          # How you build
+    ├── workspace/          # How you build (portable methodology)
     │   ├── constitution.spec.md
     │   ├── patterns.spec.md
-    │   └── workflows.spec.md
-    ├── behaviors/          # What system does
-    ├── contracts/          # API/data contracts
-    └── constraints.spec.md # Hard boundaries
+    │   ├── workflows.spec.md
+    │   └── taxonomy.spec.md
+    ├── 1-requirements/     # WHY - Strategic and functional requirements
+    │   ├── strategic/
+    │   └── functional/
+    ├── 2-strategy/         # HOW - Architectural approach
+    ├── 3-behaviors/        # WHAT - Observable behaviors
+    └── 3-contracts/        # WHAT - API/data contracts
 ```
 
 ## Quick Start
 
-### New Project
+### New Project (Recommended: Helper Script)
 ```bash
 # Clone LiveSpec
 git clone https://github.com/chrs-myrs/livespec.git
 
-# Copy methodology
-cp -r livespec/prompts your-project/.livespec
-
-# Create structure
-mkdir -p your-project/specs/{workspace,behaviors,contracts}
+# Run installation script (auto-detects best method)
+cd your-project
+bash ../livespec/dist/scripts/install-livespec.sh
 
 # Start Phase 0
-claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+claude-code "Use .livespec/prompts/0-define/0a-quick-start.md"
 ```
 
 ### Existing Project
 ```bash
-# Copy methodology
-cp -r livespec/prompts .livespec
+# Install framework
+bash /path/to/livespec/dist/scripts/install-livespec.sh
 
-# Extract specs from code
-claude-code "Use .livespec/4-evolve/4b-extract-specs.md"
+# Extract specs from existing code
+claude-code "Use .livespec/prompts/4-evolve/4b-extract-specs.md"
+```
+
+### Upgrade Existing Installation
+```bash
+# For submodule installations
+git submodule update --remote .livespec-repo
+
+# For copy installations - reinstall
+bash /path/to/livespec/dist/scripts/install-livespec.sh
 ```
 
 ## MSL Format Example
@@ -128,7 +147,7 @@ See [specs/workspace/](specs/workspace/) for how LiveSpec itself is built:
 
 ## Prompt Specifications
 
-See [specs/prompts/](specs/prompts/) for what each prompt accomplishes:
+See [specs/3-artifacts/prompts/](specs/3-artifacts/prompts/) for what each prompt accomplishes:
 - Each prompt has corresponding .spec.md defining expected behavior
 - Specifications use bidirectional YAML frontmatter linking
 - All prompts validated against their specifications
@@ -141,14 +160,14 @@ Topics: livespec, living-specifications, spec-sync, ai-development, msl, minimal
 
 ### Claude Code
 ```bash
-claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+claude-code "Use .livespec/prompts/0-define/0a-quick-start.md"
 ```
 
 ### Cursor
-Open `.livespec/0-define/0a-setup-workspace.md` and use Composer
+Open `.livespec/prompts/0-define/0a-quick-start.md` and use Composer
 
 ### GitHub Copilot
-Add `.livespec/0-define/0a-setup-workspace.md` as context
+Add `.livespec/prompts/0-define/0a-quick-start.md` as context
 
 ### Any Agent
 Copy/paste prompts - they're plain markdown
@@ -161,11 +180,11 @@ Copy/paste prompts - they're plain markdown
 
 ## Version and Repository
 
-Version: 3.3.0
-Updated: 2025-11-05
+Version: 3.9.1
+Updated: 2025-12-15
 Repository: https://github.com/chrs-myrs/livespec
 License: MIT
 
 ---
 
-*LiveSpec v3.3.0 - Information architecture for AI-first development. Simple. Minimal. Effective.*
+*LiveSpec v3.9.1 - Information architecture for AI-first development. Simple. Minimal. Effective.*

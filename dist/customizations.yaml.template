@@ -4,7 +4,7 @@ customized_at: null
 prompts:
   modified: []
   # Example:
-  # - path: prompts/0-define/0a-setup-workspace.md
+  # - path: prompts/0-define/0a-quick-start.md
   #   reason: Added governance-specific workspace setup steps
   #   modified_at: 2025-10-07
 

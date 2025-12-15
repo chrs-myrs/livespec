@@ -46,7 +46,7 @@ guided-by:
 - Maintenance check (last updates, drift gap)
 
 **Decision tree coverage:**
-- Starting from scratch → 0a-setup-workspace
+- Starting from scratch → 0a-quick-start
 - Foundation incomplete → 0b-define-problem, 0c-identify-constraints
 - Design phase → 1a-design-architecture, 1b-define-behaviors, 1c-create-contracts
 - Build phase → 2a-implement-from-specs, 2b-create-tests

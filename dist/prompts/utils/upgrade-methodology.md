@@ -1,50 +1,206 @@
 ---
 implements: specs/3-artifacts/prompts/utils-upgrade.spec.md
-generated: '2025-10-10'
+generated: '2025-12-15'
 ---
 
 # Upgrade Methodology Utility Prompt
 
-**Purpose**: Upgrade LiveSpec methodology to latest version
+**Purpose**: Safely upgrade LiveSpec methodology to latest version
 
 ## Context
 
-This utility prompt helps with common development scenarios across all phases.
+This utility prompt guides you through upgrading the LiveSpec framework in your project. The upgrade process preserves all your project-specific customizations (specs/workspace/, AGENTS.md, etc.) while updating the framework prompts and tools.
+
+**When to use:**
+- New LiveSpec version released
+- You want latest methodology improvements
+- Bug fixes in framework prompts
+
+**When NOT to use:**
+- No `.livespec/` directory exists (use installation script instead)
+- Major version upgrade with breaking changes (check migration guide first)
 
 ## Task
 
-1. Prompt guides user through safely upgrading .livespec/ methodology to latest LiveSpec version with mandatory verification gates ensuring AI agents actually follow the process (not fake it), preserving customizations while applying approved changes through backup, fetch, diff, selective apply, validation, and AGENTS.md regeneration workflow.
+### Step 1: Pre-Flight Checks
+
+**Detect installation method:**
+```bash
+# Check for submodule
+if [ -d ".livespec-repo" ]; then
+  echo "Submodule installation detected"
+else
+  echo "Copy installation detected (or framework missing)"
+fi
+```
+
+**Show current version:**
+```bash
+# For submodule installations
+git -C .livespec-repo describe --tags 2>/dev/null || echo "No tags found"
+
+# Alternative: read VERSION file
+cat .livespec/VERSION 2>/dev/null || echo "VERSION file not found"
+```
+
+**Check for uncommitted changes:**
+```bash
+git status --porcelain
+```
+
+If uncommitted changes exist, warn user:
+"You have uncommitted changes. Consider committing or stashing before upgrading to clearly track what changed."
+
+**Cannot proceed without completing pre-flight checks.**
+
+### Step 2: Upgrade Framework
+
+**For Submodule Installations (Recommended):**
+
+```bash
+# Fetch latest from upstream
+git submodule update --remote .livespec-repo
+
+# Verify symlink still valid
+ls -l .livespec
+# Should show: .livespec -> .livespec-repo/dist
+
+# Show new version
+git -C .livespec-repo describe --tags
+```
+
+**For Copy Installations (Legacy):**
+
+Warn user:
+"Copy installations require manual upgrade. Consider migrating to sparse submodule for automatic updates."
+
+**Option A - Migrate to Submodule (Recommended):**
+```bash
+# Remove old copy
+rm -rf .livespec/
+
+# Install via submodule
+bash /path/to/livespec/dist/scripts/install-livespec.sh
+```
+
+**Option B - Manual Copy (Not Recommended):**
+```bash
+# Clone latest
+git clone https://github.com/chrs-myrs/livespec /tmp/livespec-latest
+
+# View changes (optional)
+diff -r .livespec/ /tmp/livespec-latest/dist/ | head -50
+
+# Replace framework
+rm -rf .livespec/
+cp -r /tmp/livespec-latest/dist .livespec
+
+# Cleanup
+rm -rf /tmp/livespec-latest
+```
+
+### Step 3: Validate Upgrade
+
+**Test framework accessibility:**
+```bash
+# Quick test - read a prompt
+cat .livespec/prompts/0-define/0a-quick-start.md | head -10
+```
+
+**Verify project specs untouched:**
+```bash
+# Should show no changes to your specs
+git status specs/
+```
+
+**Verify generated content preserved:**
+```bash
+# Check AGENTS.md exists
+test -f AGENTS.md && echo "AGENTS.md preserved" || echo "AGENTS.md missing"
+
+# Check generated prompts (if any)
+ls prompts/generated/ 2>/dev/null || echo "No generated prompts"
+```
+
+### Step 4: Post-Upgrade Actions
+
+**Commit the upgrade (submodule installations):**
+```bash
+git add .livespec-repo
+git commit -m "Update LiveSpec framework to $(git -C .livespec-repo describe --tags)"
+```
+
+**Show summary:**
+
+Tell user:
+"**Upgrade complete!**
+
+**Framework upgraded** (old version → new version)
+- `.livespec/prompts/` - Updated methodology prompts
+- `.livespec/templates/` - Updated templates
+- `.livespec/standard/` - Updated MSL metaspecs
+
+**Preserved (unchanged)**:
+- `specs/workspace/` - Your project-specific process
+- `AGENTS.md` - Your generated agent context
+- `prompts/generated/` - Your custom prompts
+- All project code and specs
+
+**Recommended**: Check CHANGELOG for breaking changes (rare)"
+
+## Framework Immutability
+
+**Key concept:** `.livespec/` is immutable framework reference
+- Framework prompts used as-is (no modification)
+- Project customization via `specs/workspace/` (not framework)
+- Submodule update safe (project specs separate from framework)
+
+**If framework doesn't fit your needs:**
+- 99% of cases: Customize via `specs/workspace/` (sufficient)
+- Rare case: Fork repository and point submodule to your fork
+
+## Edge Cases
+
+**No .livespec-repo/ exists:**
+- Copy installation detected
+- Recommend migration to submodule
+- Provide manual upgrade steps if user declines
+
+**Uncommitted changes:**
+- Warn before upgrade
+- User should commit or stash first
+- Prevents confusion about what changed
+
+**Breaking changes (rare):**
+- Note in upgrade summary: "Check CHANGELOG for breaking changes"
+- LiveSpec maintains backwards compatibility in practice
+- Major version jumps may require migration guide
 
 ## Output
 
-Complete the specified task with clear deliverables.
+**Primary outputs:**
+- Updated `.livespec-repo/` (submodule method) or `.livespec/` (copy method)
+- Version bump visible
+- Upgrade summary showing old → new version
+
+**Validation checks:**
+- Framework accessible (test file read)
+- Symlink valid (ls -l .livespec)
+- Project specs unchanged (git status specs/)
+- Generated content preserved
 
 ## Validation
 
-- Upgrade prompt exists at dist/prompts/utils/upgrade-methodology.md
-- Prompt references .livespec-version file for version detection (not VERSION - naming consistency)
-- Prompt includes mandatory pre-flight checks requiring proof-of-work (git clone output, version number)
-- Backup creation is timestamped and agent must show ls output (proves backup created)
-- Phase gates prevent proceeding without completion (cannot fake phases)
-- Fetch method uses git clone as primary (proof required), fallback methods documented
-- Diff strategy respects customizations.yaml (auto-update non-customized, review customized)
-- User approves customized file changes individually (not batch apply)
-- Phase 7 mandates AGENTS.md regeneration if workspace specs changed (prevents drift)
-- Phase 8 requires self-validation with proof (version check, file counts, backup verification)
-- Agent cannot claim success without showing all validation outputs (no faking)
-- Rollback instructions provided with backup path
-- Summary shows what changed (added/modified/removed/skipped/preserved)
-- Edge cases handled (no .livespec-version, symlink, modified standards, custom files)
+- Upgrade detected installation method correctly
+- Submodule upgrade used `git submodule update --remote`
+- Copy upgrade offered migration path first
+- Post-upgrade validation confirmed framework accessible
+- Project specs and generated content preserved
 
 ## Success Criteria
 
-**This prompt succeeds when:**
-- All requirements from spec are satisfied
-- Output is actionable and immediately usable
-- No ambiguity in what needs to be done
-- Clear path from current state to desired state
-
----
-
-**Criticality**: IMPORTANT
-**Failure Mode**: Users cannot safely upgrade methodology, risking manual errors or abandoning updates when LiveSpec evolves
+- User can immediately use upgraded methodology
+- Project customizations untouched
+- Clear version change shown (old → new)
+- Framework prompts accessible
+- Process completed in under 2 minutes (submodule installations)

@@ -96,7 +96,7 @@ guided-by:
 - Three templates exist in `dist/templates/workspace/` (constitution, patterns, workflows)
 - Each follows MSL format with appropriate criticality
 - Each provides clear placeholder instructions
-- Referenced in Phase 0 prompt (0a-setup-workspace.md)
+- Referenced in Phase 0 prompt (0a-quick-start.md)
 
 **Agent templates:**
 - Four templates exist in `dist/templates/agents/`:

@@ -18,7 +18,7 @@ guided-by:
   - Checks specs/1-requirements/strategic/outcomes.spec.md exists (if missing → guide to 0c-define-outcomes)
   - Checks specs/1-requirements/strategic/constraints.spec.md exists (if missing → guide to 0f-identify-constraints)
   - Checks specs/3-behaviors/ directory exists with behavior specs (if missing → guide to 1b-define-behaviors)
-  - Checks specs/workspace/ exists with constitution/patterns (if missing → guide to 0a-setup-workspace)
+  - Checks specs/workspace/ exists with constitution/patterns (if missing → guide to 0a-quick-start)
   - STOPS execution if any prerequisite missing
   - Outputs clear guidance to missing Phase 0/1 prompts
 
@@ -82,7 +82,7 @@ Use when:
 - Do not guess or make assumptions
 
 **If workspace patterns undefined:**
-- Guide to Phase 0a: Use `.livespec/0-define/0a-setup-workspace.md`
+- Guide to Phase 0a: Use `.livespec/0-define/0a-quick-start.md`
 - Cannot implement without HOW guidance
 
 **If implementation violates constraints:**

@@ -122,7 +122,7 @@ claude-code "Use .livespec/[phase]/[prompt].md"
 ### Starting from Scratch
 ```
 No specs exist?
-→ Use .livespec/0-define/0a-setup-workspace.md
+→ Use .livespec/0-define/0a-quick-start.md
 ```
 
 ### Foundation Incomplete
@@ -220,7 +220,7 @@ Drift resolved?
 ```
 Current Phase: 0 (DEFINE)
 Status: Starting
-Next: Use .livespec/0-define/0a-setup-workspace.md
+Next: Use .livespec/0-define/0a-quick-start.md
 Why: No specs exist yet - establish foundation first
 ```
 

@@ -96,7 +96,7 @@ specs/
 - **Letter suffix**: Sequential within phase (a, b, c, d, e)
 
 **Examples:**
-- `0a-setup-workspace.md`
+- `0a-quick-start.md`
 - `1b-define-behaviors.md`
 - `4d-regenerate-context.md`
 

@@ -32,7 +32,7 @@ You're in Phase 2 (BUILD - TDD), implementing features based on existing specifi
 **If ANY Phase 0 artifact is missing → STOP:**
 - Missing PURPOSE.md → "Use `.livespec/0-define/0b-define-problem.md`"
 - Missing outcomes/constraints → "Complete Phase 0 (DEFINE) first"
-- Missing workspace specs → "Use `.livespec/0-define/0a-setup-workspace.md`"
+- Missing workspace specs → "Use `.livespec/0-define/0a-quick-start.md`"
 
 **If Phase 1 artifacts missing → STOP:**
 - Missing specs/3-behaviors/ → "Use `.livespec/1-design/1b-define-behaviors.md` to create behavior specs first"

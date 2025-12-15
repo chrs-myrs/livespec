@@ -20,6 +20,43 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.9.1] - 2025-12-15
+
+### 🔧 Installation & Upgrade Documentation Fix
+
+This patch release fixes outdated installation instructions and stale prompt references that were causing agents (with or without Context7) to follow incorrect workflows.
+
+**Impact**: LOW - Documentation and reference fixes only, no behavioral changes
+
+#### Fixed
+
+- **llms.txt** (Context7 entry point)
+  - Updated version 3.3.0 → 3.9.1
+  - Fixed all prompt paths (`0a-setup-workspace` → `0a-quick-start`)
+  - Updated project structure to show current `1-requirements/`, `2-strategy/`, `3-behaviors/`, `3-contracts/` layout
+  - Updated quick start commands with correct paths
+
+- **dist/prompts/utils/upgrade-methodology.md** (⚠️ LOW impact)
+  - Converted from stub reference to full workflow prompt
+  - Added pre-flight checks (detect installation method, show version)
+  - Added submodule upgrade steps
+  - Added copy installation upgrade steps with migration recommendation
+  - Added validation checks and post-upgrade summary
+
+- **Stale `0a-setup-workspace` → `0a-quick-start` references** (25+ files)
+  - dist/prompts/utils/next-steps.md, audit-context-compression.md
+  - dist/prompts/2-build/2a-implement-from-specs.md, 2b-create-tests.md
+  - dist/prompts/4-evolve/4a-detect-drift.md
+  - dist/standard/phase-prerequisites.md
+  - dist/standard/metaspecs/prompt.spec.md, behavior.spec.md
+  - dist/standard/conventions/naming.spec.md, context-compression.spec.md
+  - dist/customizations.yaml.template
+  - dist/templates/workspace/taxonomy-governance.spec.md.template
+  - docs/methodology.md, quickstart.md, livespec-conventions.md
+  - Multiple specs in specs/1-requirements/, specs/3-behaviors/, specs/3-artifacts/
+
+---
+
 ## [3.9.0] - 2025-11-21
 
 ### 🏗️ Context Tree Knowledge Standardization

@@ -15,7 +15,7 @@ extends:
   - Spec follows behavior.spec.md requirements (observable outcomes, validation criteria)
   - Spec located in `specs/3-behaviors/prompts/` folder
   - Spec uses `specifies:` frontmatter field pointing to actual prompt file path
-  - File name matches prompt filename (e.g., `0a-setup-workspace.spec.md` specifies `0a-setup-workspace.md`)
+  - File name matches prompt filename (e.g., `0a-quick-start.spec.md` specifies `0a-quick-start.md`)
 
   **Essential sections (required):**
   - **Context section requirement**: Spec requires generated prompt include Context explaining when to use prompt (conditions, triggers, phase alignment)

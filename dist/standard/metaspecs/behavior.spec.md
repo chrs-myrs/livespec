@@ -98,6 +98,6 @@ specs/behaviors/
 │   ├── backup.spec.md
 │   └── monitoring.spec.md
 └── prompts/               # Methodology domain (LiveSpec's own)
-    ├── 0a-setup-workspace.spec.md
+    ├── 0a-quick-start.spec.md
     └── 4a-detect-drift.spec.md
 ```

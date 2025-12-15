@@ -47,13 +47,13 @@ Use your AI agent with the first prompt:
 
 ```bash
 # With Claude Code
-claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+claude-code "Use .livespec/0-define/0a-quick-start.md"
 
 # With Cursor
-# Open .livespec/0-define/0a-setup-workspace.md and use Composer
+# Open .livespec/0-define/0a-quick-start.md and use Composer
 
 # With Copilot
-# Open .livespec/0-define/0a-setup-workspace.md as context
+# Open .livespec/0-define/0a-quick-start.md as context
 ```
 
 This creates:
@@ -129,7 +129,7 @@ claude-code "Use .livespec/4-evolve/4b-extract-specs.md to document this existin
 Create workspace specs for how you actually work:
 
 ```bash
-claude-code "Use .livespec/0-define/0a-setup-workspace.md based on existing patterns in this codebase"
+claude-code "Use .livespec/0-define/0a-quick-start.md based on existing patterns in this codebase"
 ```
 
 ### Step 4: Maintain Synchronisation
@@ -198,12 +198,12 @@ failure_mode: System unsecured without authentication
 ### Claude Code
 
 ```bash
-claude-code "Use .livespec/0-define/0a-setup-workspace.md"
+claude-code "Use .livespec/0-define/0a-quick-start.md"
 ```
 
 ### Cursor
 
-1. Open the prompt file (`.livespec/0-define/0a-setup-workspace.md`)
+1. Open the prompt file (`.livespec/0-define/0a-quick-start.md`)
 2. Select content
 3. Use Composer (Cmd+K)
 4. "Follow these instructions"
@@ -211,7 +211,7 @@ claude-code "Use .livespec/0-define/0a-setup-workspace.md"
 ### GitHub Copilot
 
 1. Open the prompt file as context
-2. In your code file, write: `// Following .livespec/0-define/0a-setup-workspace.md`
+2. In your code file, write: `// Following .livespec/0-define/0a-quick-start.md`
 3. Let Copilot complete
 
 ### Any Agent

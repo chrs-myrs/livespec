@@ -59,7 +59,7 @@ Use when:
 
 **If project has no existing specs:**
 - Not a restart decision - this is initial Phase 0
-- Guide to `.livespec/0-define/0a-setup-workspace.md`
+- Guide to `.livespec/0-define/0a-quick-start.md`
 
 **If work scope unclear:**
 - Ask clarifying questions before decision

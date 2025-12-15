@@ -35,14 +35,14 @@ guided-by:
 
 **Valid cross-reference:**
 ```yaml
-# In specs/3-artifacts/prompts/0a-setup-workspace.spec.md
+# In specs/3-artifacts/prompts/0a-quick-start.spec.md
 ---
-specifies: prompts/0-define/0a-setup-workspace.md
+specifies: prompts/0-define/0a-quick-start.md
 governed-by:
   - .livespec/standard/metaspecs/prompt.spec.md
 ---
 ```
-✅ Both targets exist: `prompts/0-define/0a-setup-workspace.md` and `.livespec/standard/metaspecs/prompt.spec.md`
+✅ Both targets exist: `prompts/0-define/0a-quick-start.md` and `.livespec/standard/metaspecs/prompt.spec.md`
 
 **Broken cross-reference:**
 ```yaml

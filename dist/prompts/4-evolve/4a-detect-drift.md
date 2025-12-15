@@ -153,7 +153,7 @@ Identify child specs that may need updates:
 Changed: specs/2-strategy/architecture.spec.md
 
 Downward propagation:
-  - specs/3-artifacts/prompts/0a-setup-workspace.spec.md (derives from architecture)
+  - specs/3-artifacts/prompts/0a-quick-start.spec.md (derives from architecture)
   - specs/3-artifacts/prompts/1a-design-architecture.spec.md (derives from architecture)
   - All prompts/*/  (implementation may need updates)
 

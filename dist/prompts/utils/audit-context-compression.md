@@ -201,4 +201,4 @@ Structure:
 
 - `.livespec/standard/conventions/context-compression.spec.md` - Framework definition
 - `.livespec/4-evolve/4d-regenerate-context.md` - Regenerate AGENTS.md with compression awareness
-- `.livespec/0-define/0a-setup-workspace.md` - Initial compression level selection
+- `.livespec/0-define/0a-quick-start.md` - Initial compression level selection

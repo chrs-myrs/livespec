@@ -55,7 +55,7 @@ Provide structured context enabling effective AI assistance.
 Work equally well for new projects and existing codebases.
 
 **Satisfied by:**
-- prompts/0-define/0a-setup-workspace.md (new projects)
+- prompts/0-define/0a-quick-start.md (new projects)
 - prompts/4-evolve/4b-extract-specs.md (existing codebases)
 - specs/2-strategy/architecture.spec.md (both modes supported)
 

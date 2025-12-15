@@ -38,7 +38,7 @@
 - Missing outcomes.spec.md → "Use `.livespec/0-define/0c-define-outcomes.md` to define outcomes first"
 - Missing constraints.spec.md → "Use `.livespec/0-define/0f-identify-constraints.md` to define constraints first"
 - No research evaluation → "Use `.livespec/0-define/0e-evaluate-research-needs.md` to evaluate research needs first"
-- Missing workspace specs → "Use `.livespec/0-define/0a-setup-workspace.md` to initialize workspace first"
+- Missing workspace specs → "Use `.livespec/0-define/0a-quick-start.md` to initialize workspace first"
 
 **Exit criteria**:
 - [ ] specs/2-strategy/architecture.spec.md exists (system structure)

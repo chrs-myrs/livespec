@@ -14,7 +14,7 @@ notes: |
 
 ## Requirements
 - [!] CHANGELOG enables users to understand changes between LiveSpec versions and assess upgrade impact.
-  - Lists all changed prompts/templates with exact file paths (prompts/0-define/0a-setup-workspace.md format)
+  - Lists all changed prompts/templates with exact file paths (prompts/0-define/0a-quick-start.md format)
   - Explains WHY each change was made (user feedback, bug fix, improvement, real-world issue)
   - Categorizes impact level (BREAKING = incompatible change, FEATURE = new capability, FIX = bug fix, IMPROVEMENT = enhancement)
   - Provides migration guidance for breaking changes (rare)

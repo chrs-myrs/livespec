@@ -15,7 +15,7 @@ guided-by:
 ## Requirements
 - [!] Prompt actively verifies Phase 0 and Phase 1 prerequisites before proceeding, preventing premature test creation.
   - Checks specs/3-behaviors/ exists with behavior specs (if missing → guide to 1b-define-behaviors)
-  - Checks specs/workspace/workflows.spec.md exists (if missing → guide to 0a-setup-workspace)
+  - Checks specs/workspace/workflows.spec.md exists (if missing → guide to 0a-quick-start)
   - STOPS execution if any prerequisite missing
   - Outputs clear guidance to missing Phase 0/1 prompts
 

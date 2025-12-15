@@ -115,7 +115,7 @@ applies_to:
 ## Usage Patterns
 
 ### During Project Setup
-Use `.livespec/0-define/0a-setup-workspace.md`:
+Use `.livespec/0-define/0a-quick-start.md`:
 1. Ask about primary agent(s) and context capabilities
 2. Ask about usage pattern (exploratory vs production)
 3. Recommend compression level based on answers
