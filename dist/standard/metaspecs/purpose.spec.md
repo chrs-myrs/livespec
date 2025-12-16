@@ -34,10 +34,33 @@ governed-by:
 - ✅ "Works for new and existing projects"
 
 **Not for PURPOSE.md:**
-- ❌ Detailed feature lists (→ behaviors/)
-- ❌ Architecture decisions (→ strategy/)
-- ❌ Technical constraints (→ 1-requirements/strategic/constraints.spec.md)
-- ❌ Process definitions (→ workspace/)
+- Detailed feature lists (→ behaviors/)
+- Architecture decisions (→ strategy/)
+- Technical constraints (→ 1-requirements/strategic/constraints.spec.md)
+- Process definitions (→ workspace/)
+
+## Content Routing Table
+
+**Route content to the correct location at capture time (don't accumulate then extract):**
+
+| Content Type | Correct Location | Test |
+|--------------|------------------|------|
+| "Must comply with X" | `specs/1-requirements/strategic/constraints.spec.md` | Regulatory/legal requirement? |
+| "Users can do X" | `specs/1-requirements/strategic/outcomes.spec.md` | Measurable outcome? |
+| "Will use X technology" | `specs/2-strategy/architecture.spec.md` | Technical decision? |
+| "System does X when Y" | `specs/3-behaviors/[feature].spec.md` | Observable behavior? |
+| "Team follows X process" | `specs/workspace/workflows.spec.md` | Development process? |
+| "We value X principle" | `specs/workspace/constitution.spec.md` | Governing principle? |
+
+**Decision test:** "Can I explain this in an elevator pitch to a non-technical stakeholder?"
+- YES (high-level vision) → Keep in PURPOSE.md
+- NO (needs technical context) → Route to appropriate spec
+
+**Common mistakes:**
+- "Must support 1000 concurrent users" → NOT PURPOSE (constraint) → constraints.spec.md
+- "Use PostgreSQL for persistence" → NOT PURPOSE (technical) → architecture.spec.md
+- "API returns JSON" → NOT PURPOSE (contract) → 3-contracts/
+- "Checkout must complete in <3 seconds" → NOT PURPOSE (requirement) → outcomes.spec.md
 
 **Relationship to other specs:**
 ```

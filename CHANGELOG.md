@@ -20,6 +20,67 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.12.0] - 2025-12-15
+
+### PURPOSE Boundary Enforcement
+
+This release introduces enforcement for PURPOSE.md document boundaries. PURPOSE documents should capture vision only (<20 lines) with all other content routed directly to appropriate specs at capture time. This prevents PURPOSE files from becoming bloated catch-alls.
+
+**Impact**: LOW - Backward compatible, adds validation without breaking existing projects
+
+#### Added
+
+- **scripts/validate-purpose.sh** - Validation script for PURPOSE.md boundaries
+  - Validates <20 content lines (warns at >15)
+  - Checks required structure (Why/What Success sections)
+  - Detects prohibited patterns (constraints, architecture, process language)
+  - Suggests content routing for violations
+  - Integrates with full validation suite (Section 10)
+
+- **specs/3-artifacts/validators/validate-purpose.spec.md** - Spec for validation script
+
+- **dist/prompts/utils/extract-purpose-overflow.md** - Migration utility
+  - Guides extraction of oversized PURPOSE.md content to proper specs
+  - For upgrading existing projects with bloated PURPOSE files
+
+- **specs/3-artifacts/prompts/utils-extract-purpose-overflow.spec.md** - Spec for migration utility
+
+- **dist/tests/structure/test_full_validation.sh Section 10** - PURPOSE.MD BOUNDARY
+  - Validates PURPOSE.md line count in full validation suite
+  - Checks for required sections and forbidden frontmatter
+
+#### Changed
+
+- **dist/standard/metaspecs/purpose.spec.md** (LOW impact)
+  - Added Content Routing Table with decision test
+  - Added common mistakes examples
+  - Clearer guidance on what belongs where
+
+- **dist/prompts/0-define/0c-define-problem.md** (LOW impact)
+  - Added Active Content Routing section
+  - Routes content to correct spec AT CAPTURE TIME
+  - Prevents accumulation then extraction pattern
+
+- **dist/templates/agents/spec-first-enforcement.md** (LOW impact)
+  - Added PURPOSE.md Boundary Enforcement section
+  - Content routing table for agents
+  - Validation script reference
+
+- **AGENTS.md** - Added PURPOSE.md Boundary Enforcement guidance
+
+#### Fixed
+
+- **PURPOSE.md** - Trimmed from 22 to 14 lines (removed extra sections)
+  - Moved "Specification Philosophy" content (already in constitution.spec.md)
+  - Moved "Primary Focus" content (implicit in outcomes)
+
+- **examples/ecommerce-checkout/PURPOSE.md** - Trimmed from 104 to 12 lines
+  - Documentation content already exists in README.md
+
+- **examples/loan-system/PURPOSE.md** - Created missing file (12 lines)
+
+---
+
 ## [3.11.0] - 2025-12-15
 
 ### 🎯 Project-Controlled Context Generation

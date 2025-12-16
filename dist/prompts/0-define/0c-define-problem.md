@@ -55,6 +55,34 @@ Create `PURPOSE.md` at project root that defines why this project exists and wha
 - Are they specific enough to test?
 - Do they trace to the vision?
 
+## Active Content Routing
+
+**Route content to the correct spec AT CAPTURE TIME. Don't accumulate in PURPOSE then extract later.**
+
+When gathering answers, immediately route content that doesn't belong in PURPOSE:
+
+| If Answer Contains... | Route To |
+|----------------------|----------|
+| Regulatory/legal requirements | `specs/1-requirements/strategic/constraints.spec.md` |
+| Specific measurable outcomes | `specs/1-requirements/strategic/outcomes.spec.md` |
+| Technology choices | `specs/2-strategy/architecture.spec.md` |
+| Observable system behaviors | `specs/3-behaviors/[feature].spec.md` |
+| Team processes | `specs/workspace/workflows.spec.md` |
+
+**Decision test:** "Can I explain this in an elevator pitch to a non-technical stakeholder?"
+- YES → Keep in PURPOSE.md
+- NO → Route immediately to appropriate spec
+
+**Example routing:**
+```
+User says: "We need to comply with GDPR and support 1000 concurrent users"
+
+Action:
+- PURPOSE.md: "Privacy-first design" (vision-level)
+- constraints.spec.md: "GDPR compliance required" (regulatory)
+- outcomes.spec.md: "Support 1000 concurrent users" (measurable)
+```
+
 ## Exit Criteria
 
 - [ ] PURPOSE.md exists at project root

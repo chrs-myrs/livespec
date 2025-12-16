@@ -94,6 +94,33 @@ Multiple related files can share one spec (agent decides based on coherence):
 **Occasional bypass:** TodoWrite skipped → Plan mode catches → Pre-commit catches
 **Target:** 90%+ prevented before commit, 10% caught by validation
 
+### PURPOSE.md Boundary Enforcement
+
+**Hard limit: <20 content lines** (target: 10-15 lines)
+
+PURPOSE.md captures vision only. All other content goes directly to proper specs at capture time.
+
+**Agent responsibility:**
+- Route content immediately (don't accumulate then extract)
+- Vision statement (1-3 sentences) → PURPOSE.md
+- Success criteria (3-6 bullets) → PURPOSE.md
+- Everything else → Route to spec immediately
+
+**Content Routing:**
+| Content Type | Correct Location |
+|--------------|-----------------|
+| "Must comply with X" | `specs/1-requirements/strategic/constraints.spec.md` |
+| "Users can do X" | `specs/1-requirements/strategic/outcomes.spec.md` |
+| "Will use X tech" | `specs/2-strategy/architecture.spec.md` |
+| "System does X" | `specs/3-behaviors/[feature].spec.md` |
+| "Team follows X" | `specs/workspace/workflows.spec.md` |
+
+**Decision test:** "Can I explain this in an elevator pitch to a non-technical stakeholder?"
+- YES → PURPOSE.md
+- NO → Route to appropriate spec
+
+**Validation:** `scripts/validate-purpose.sh`
+
 ---
 
 ## Core Principles (In Priority Order)

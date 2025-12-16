@@ -373,6 +373,44 @@ find specs/ -name "*.spec.md" | while read -r spec; do
     done
 done
 
+header "10. PURPOSE.MD BOUNDARY"
+
+# Validate PURPOSE.md line count and content boundaries
+info "Validating PURPOSE.md boundaries..."
+if [ -f "PURPOSE.md" ]; then
+    # Count content lines (excluding blank lines and headers)
+    content_lines=$(grep -v "^$" PURPOSE.md | grep -v "^#" | wc -l)
+
+    if [ "$content_lines" -gt 20 ]; then
+        fail "PURPOSE.md has $content_lines content lines (max 20)"
+    elif [ "$content_lines" -gt 15 ]; then
+        warn "PURPOSE.md has $content_lines content lines (approaching 20 limit)"
+    else
+        pass "PURPOSE.md has $content_lines content lines"
+    fi
+
+    # Check for extra sections beyond Why/What
+    section_count=$(grep -c "^## " PURPOSE.md || true)
+    if [ "$section_count" -gt 2 ]; then
+        warn "PURPOSE.md has $section_count sections (expected 2: 'Why' and 'What Success')"
+    fi
+
+    # Check required structure
+    if ! grep -q "^## Why" PURPOSE.md; then
+        fail "PURPOSE.md missing 'Why [Project] Exists' section"
+    fi
+    if ! grep -qE "^## What Success|^## Success" PURPOSE.md; then
+        fail "PURPOSE.md missing 'What Success Looks Like' section"
+    fi
+
+    # Check no frontmatter
+    if head -1 PURPOSE.md | grep -q "^---"; then
+        fail "PURPOSE.md should not have YAML frontmatter (it's not a spec)"
+    fi
+else
+    info "PURPOSE.md not found - skipping boundary validation"
+fi
+
 header "SUMMARY"
 
 echo ""
