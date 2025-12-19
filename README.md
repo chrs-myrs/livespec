@@ -1,30 +1,72 @@
-# LiveSpec v3.1.0
+# LiveSpec v3.13.0
 
-**Specifications that live with your code**
+**An information architecture that generates context trees for AI agents**
 
-A folder structure and methodology for keeping specifications and code synchronized throughout the development lifecycle. Works with any AI coding agent.
+Not just folders—a system for organizing project intent that AI agents can consume. Specifications stay synchronized with code, and structured context (AGENTS.md) is generated automatically.
 
 ## What is LiveSpec?
 
-LiveSpec is three things:
+LiveSpec is an **information architecture and context generation system**:
 
-1. **A folder structure** - Separates workspace (HOW you build) from product (WHAT you build)
-2. **MSL specification format** - Markdown Specification Language keeps specs small and maintainable
-3. **Five-phase methodology** - DEFINE → DESIGN → BUILD → VERIFY → EVOLVE
+1. **Structured specifications** - Organize intent from PURPOSE → requirements → strategy → behaviors
+2. **Context tree generation** - Specs compile into AGENTS.md for AI agent consumption
+3. **Bidirectional sync** - Specs → Code AND Code → Specs via five-phase methodology
+4. **MSL format** - Markdown Specification Language keeps specs minimal and maintainable
 
-**Not a framework. Not a tool. Just information architecture.**
+**The folder structure is a means. The generated context tree is the end.**
 
-**This repository is a live example:** LiveSpec applied to a non-coding project (itself). See `specs/` for how we specify documentation, prompts, and methodology without writing code.
+**This repository is a live example:** LiveSpec applied to itself. See `specs/` for how we specify documentation, prompts, and methodology—then see how AGENTS.md is generated from those specs.
 
 ## The Problem
 
-Software specifications and code inevitably drift apart. Documentation becomes obsolete. AI agents lack structured context for existing codebases. Manual sync is tedious and often skipped.
+1. **Spec drift** - Specifications and code inevitably diverge
+2. **Context loss** - AI agents lack structured understanding of project intent
+3. **Manual burden** - Keeping docs synchronized is tedious and often skipped
 
 **LiveSpec solves this through:**
 - Bidirectional synchronization (spec-first OR code-first workflows)
 - Minimal specifications (MSL format - just what's essential)
 - Continuous evolution (Phase 4 keeps specs and code aligned)
-- AI-agent friendly structure (clear context, consistent format)
+- **Generated context** (AGENTS.md compiled from specs for AI consumption)
+
+## Core Concepts
+
+Before diving into architecture, understand these three mental models:
+
+### Value Structure (Vertical Traceability)
+
+Intent flows down, implementations trace back up:
+
+```
+PURPOSE.md          → WHY does this exist?
+  ↓
+1-requirements/     → WHAT must we achieve?
+  ↓
+2-strategy/         → HOW will we approach it?
+  ↓
+3-behaviors/        → WHAT does the system do? (observable)
+```
+
+**Why it matters:** When requirements change, you trace down to find affected behaviors. When implementations exist, they trace back up to justify their existence.
+
+### Context Tree (Workspace vs Product)
+
+Two orthogonal concerns that don't mix:
+
+| Concern | Location | Contains | Applies To |
+|---------|----------|----------|------------|
+| **Workspace** | `specs/workspace/` | HOW you build: patterns, workflows, agent behavior | All development |
+| **Product** | `specs/1-*/2-*/3-*/` | WHAT you build: requirements, architecture, behaviors | This project specifically |
+
+**Key insight:** Workspace specs govern ALL your development. Product specs are project-specific deliverables.
+
+### The Three Layers
+
+| Layer | Folder | Driving Question | Owned By |
+|-------|--------|------------------|----------|
+| 1 | `1-requirements/` | What outcomes must we achieve? | Business/Product |
+| 2 | `2-strategy/` | What technical approach will we use? | Architecture |
+| 3 | `3-behaviors/` + `3-contracts/` | What does the system observably do? | Engineering |
 
 ## Architecture
 
@@ -247,7 +289,7 @@ your-project/
 ├── PURPOSE.md              # Why this project exists
 │
 ├── specs/
-│   ├── workspace/             # How you build (portable process)
+│   ├── workspace/             # Operating context
 │   │   ├── taxonomy.spec.md        # Project classification (check FIRST)
 │   │   ├── constitution.spec.md    # Development principles
 │   │   ├── patterns.spec.md        # Code patterns
@@ -279,6 +321,19 @@ your-project/
 │
 └── [your code]             # Your implementation
 ```
+
+## Understanding Workspace Specs
+
+Workspace specs control HOW you build. Customize these after Phase 0 setup, before main development:
+
+| File | Purpose | Example |
+|------|---------|---------|
+| **taxonomy.spec.md** | Project classification—check FIRST for any file placement | `project_type: Software` vs `project_type: Governance` |
+| **constitution.spec.md** | Development principles, AI agent behavior | `principle: "Specs before implementation"` |
+| **patterns.spec.md** | Code patterns, naming conventions, file organization | `naming: kebab-case for files, PascalCase for components` |
+| **workflows.spec.md** | Development processes, commit practices, review requirements | `commits: Conventional Commits format required` |
+
+**When to customize:** After running Phase 0 quick-start, BEFORE starting Phase 1 design work.
 
 ## MSL Format
 
@@ -369,26 +424,25 @@ graph LR
 
 ## Key Features
 
+- ✅ **Context Generation** - Specs compile to AGENTS.md for AI consumption
 - ✅ **AI Agent Agnostic** - Works with Claude, Copilot, Cursor, any agent
 - ✅ **Bidirectional Flow** - Specs → Code AND Code → Specs
 - ✅ **Living Documentation** - Specifications evolve with code
 - ✅ **Minimal Specifications** - MSL format reduces specs by 70%
 - ✅ **No Lock-in** - Just markdown files and folders
-- ✅ **Manual-Friendly** - Can use without AI agents
-- ✅ **Any Language** - Pure information architecture
 
-## Why LiveSpec?
+## Troubleshooting
 
-**The Problem:**
-- Specifications and code inevitably drift apart
-- Documentation becomes outdated
-- AI agents lack context about project intent
+Common mistakes when setting up LiveSpec:
 
-**The Solution:**
-- Clear separation of workspace (HOW) and product (WHAT) specs
-- Minimal specifications that stay maintainable
-- Continuous synchronization through EVOLVE phase
-- Structure that makes AI agents more effective
+| Mistake | Symptom | Fix |
+|---------|---------|-----|
+| **Creating files before checking taxonomy** | Files in wrong locations, agents confused | Always read `specs/workspace/taxonomy.spec.md` FIRST |
+| **Mixing workspace and product concerns** | Workspace specs contain business logic, or vice versa | Workspace = HOW you build (all projects). Product = WHAT you build (this project) |
+| **Skipping Phase 0** | Missing workspace specs, no constitution | Run `0a-quick-start.md` or `0b-customize-workspace.md` |
+| **Forgetting to regenerate AGENTS.md** | AI agents using stale context | Run `prompts/utils/regenerate-contexts.md` after spec changes |
+
+**Quick diagnostic:** If your AI agent seems confused about your project structure, regenerate AGENTS.md first.
 
 ## Works With
 
@@ -412,16 +466,16 @@ graph LR
 
 ## Version
 
-**Current Version: 3.3.0**
+**Current Version: 3.13.0**
 
-LiveSpec v3.3.0 makes spec-first adherence and test-driven development the path of least resistance through structural enforcement, comprehensive guidance, and honest failure analysis:
-- CRITICAL DISTINCTION: Phases vs Layers section in AGENTS.md
-- Pre-flight validation prompt for concept verification
-- Hybrid Pattern A for operational/workspace projects
-- Navigation signposts throughout documentation
-- Completes version synchronization from 3.2.0
+LiveSpec v3.13.0 emphasizes information architecture and context generation:
+- Core identity shift: "information architecture that generates context trees for AI agents"
+- Core Concepts section explaining Value Structure, Context Tree, and Three Layers
+- Workspace Specs section with practical examples
+- Troubleshooting section for common setup mistakes
+- Streamlined problem statement highlighting context loss
 
-[v1 archived →](.archive/v1-2025-01/)
+[Changelog →](CHANGELOG.md) | [v1 archived →](.archive/v1-2025-01/)
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 ---
 criticality: CRITICAL
-failure_mode: Without effective documentation, users cannot adopt LiveSpec and agents cannot assist effectively
+failure_mode: Users create wrong folder structures and misplace specs; AI agents generate incorrect code due to missing context; projects fail to adopt spec-first workflow
 governed-by:
   - .livespec/standard/metaspecs/behavior.spec.md
 satisfies:
@@ -13,37 +13,76 @@ guided-by:
 # Documentation Requirements
 
 ## Requirements
-- [!] LiveSpec documentation enables users and AI agents to quickly understand and adopt methodology, with clear problem statement, architecture visualization, MSL integration, circularity demonstration, AI-powered development explanation, and example of LiveSpec applied to non-coding project (itself).
-  - README starts with "The Problem" section explaining spec drift and manual sync burden
-  - README explains LiveSpec's solution (bidirectional sync, minimal specs, continuous evolution)
-  - Architecture diagram shows initial setup flow with note clarifying it's iterative (not waterfall)
-  - Architecture diagram uses "strategy/" not "ARCH" for technical approach node
-  - Architecture diagram shows "Your Code (AI-generated or manual)" node
-  - Architecture diagram includes legend explaining color-coded flow
-  - Self-documenting diagram shows Framework → Project Specs → Deliverables flow (3 nodes)
-  - Self-documenting diagram distinguishes how LiveSpec documents itself vs target project structure
-  - Self-documenting diagram notes "Framework extends MSL Standard via base.spec.md"
-  - Self-documenting diagram demonstrates complete self-documentation (every deliverable has spec, every spec constrained by metaspec)
-  - Self-documenting diagram shows dogfooding loop (deliverables define the framework)
-  - AI-Powered Development section explains spec-to-code generation before Quick Start
-  - AI section covers Phase 1-2 (specs→code), Phase 4 (code→specs), continuous bidirectional sync
-  - AI section highlights agent-agnostic approach (Claude, Copilot, Cursor)
-  - AI section compares to spec-kit (no CLI vs CLI-based, agent-agnostic vs GitHub-focused)
-  - Continuous evolution diagram shows Phase 4 bidirectional sync cycle
-  - Evolution diagram clarifies design-first AND code-first workflows both work
-  - README links to MSL specification (github.com/chrs-myrs/msl-specification)
-  - README demonstrates LiveSpec is example of methodology applied to non-coding project
-  - README explicitly states "Phases are iterative, not waterfall"
-  - README provides 5-minute quick start for both new and existing projects
-  - README mentions upgrade path for existing .livespec/ installations
-  - docs/quickstart.md provides step-by-step instructions for each phase
-  - Documentation optimized for AI agent consumption (AGENTS.md, llms.txt)
-  - All docs explain distribution model (copy dist/* to .livespec/)
-  - Upgrade utility documented in prompts/utils/README.md
-  - VERSION file exists in dist/ for version tracking
-  - Target audiences addressed: new users, contributors, AI agents
+
+### Core Identity
+- [!] LiveSpec is positioned as an **information architecture and context generation system**, not merely a folder structure.
+  - Primary value: Structured specifications that generate optimized AI agent context (AGENTS.md)
+  - Secondary value: Bidirectional sync between specs and code
+  - README opens with what LiveSpec IS: "An information architecture that generates context trees for AI agents"
+  - README explicitly states: "Not just folders - a system for organizing intent that AI agents can consume"
+  - The folder structure is a MEANS, the context tree (AGENTS.md generation) is the END
+
+### Problem Statement
+- [!] README clearly explains the problem LiveSpec solves.
+  - Spec drift: Specifications and code inevitably diverge
+  - Context loss: AI agents lack structured understanding of project intent
+  - Manual burden: Keeping docs synchronized is tedious and often skipped
+  - LiveSpec's solution: Bidirectional sync, minimal specs, continuous evolution, AND generated context
+
+### Core Concepts (User Mental Model)
+- [!] README includes Core Concepts section BEFORE architecture diagram that explains:
+  - Value Structure (PURPOSE → requirements → strategy → behaviors) with traceability explanation
+  - Context Tree (workspace vs product specs) with clear separation of concerns
+  - The Three Layers (requirements/strategy/behaviors) with their driving questions
+  - Why this matters for AI agents: Structured context enables better assistance
+
+### Architecture Visualization
+- [!] Architecture diagram shows the information flow.
+  - Vertical flow: PURPOSE → requirements → constraints → architecture → behaviors → code
+  - Validation loop: tests validate both specs and code
+  - Workspace separation: development process applies to all
+  - Color coding with legend: Foundation (blue) → Design (yellow) → Implementation (green)
+  - Note clarifying phases are iterative, not waterfall
+
+### Self-Documentation (Dogfooding)
+- [!] README demonstrates LiveSpec applied to itself as proof of concept.
+  - Self-documenting diagram: Framework → Project Specs → Deliverables (3 nodes)
+  - Notes: Framework extends MSL Standard via base.spec.md
+  - Shows dogfooding loop: deliverables define the framework
+  - Distinguishes how LiveSpec documents itself vs how YOU use it
+
+### AI-Powered Development
+- [!] README explains AI agent integration before Quick Start.
+  - Spec-to-code: Phase 1-2 (specs→code), Phase 4 (code→specs)
+  - Context generation: AGENTS.md regenerated from specs
+  - Agent-agnostic: Works with Claude, Copilot, Cursor, any agent
+  - Comparison to alternatives (spec-kit: no CLI vs CLI-based)
+
+### Quick Start
+- [!] README provides clear onboarding paths.
+  - 5-minute quick start for new projects
+  - Existing project path (extract specs from code)
+  - Upgrade path for existing .livespec/ installations
+  - docs/quickstart.md provides detailed phase walkthrough
+
+### Troubleshooting and Common Pitfalls
+- [!] Documentation addresses setup confusion proactively.
+  - Common mistake: Creating files before understanding taxonomy.spec.md
+  - Common mistake: Putting workspace concerns in product specs (or vice versa)
+  - Common mistake: Skipping Phase 0 and jumping to implementation
+  - Common mistake: Not regenerating AGENTS.md after spec changes
+  - Resolution guidance for each pitfall
 
 ## Documentation Structure
+
+**Reading order by user type:**
+
+| User Type | Start Here | Then | Deep Dive |
+|-----------|------------|------|-----------|
+| New to LiveSpec | README.md | docs/quickstart.md | docs/methodology.md |
+| Setting up project | docs/quickstart.md | specs/workspace/taxonomy.spec.md | AGENTS.md |
+| AI Agent | AGENTS.md | (self-contained) | llms.txt (Context7) |
+| Contributor | specs/workspace/ | AGENTS.md | specs/3-behaviors/ |
 
 **Root documentation:**
 - README.md - Primary entry point (architecture, quick start, links)
@@ -58,43 +97,29 @@ guided-by:
 - docs/livespec-conventions.md - LiveSpec-specific conventions
 - docs/validation-patterns.md - Testing and validation approach
 
-## Key Messaging
-
-**README must convey:**
-1. LiveSpec is folder structure + MSL format + 5-phase methodology
-2. Not a framework or tool - just information architecture
-3. Works with any AI agent (Claude, Copilot, Cursor)
-4. This repository is dogfooding example (methodology applied to itself)
-5. No installation required, no dependencies
-
-**Architecture diagram must show:**
-- Vertical flow: PURPOSE → requirements → constraints → architecture → behaviors → code
-- Validation loop: tests validate both specs and code
-- Workspace separation: development process applies to all
-- Color coding: Foundation (blue) → Design (yellow) → Implementation (green)
-
-**Distribution model must explain:**
-- Users copy `dist/*` to `.livespec/` in their projects
-- dist/ contains three components:
-  - standard/ - MSL metaspecs and conventions
-  - prompts/ - 5-phase methodology guidance
-  - templates/ - Spec starter files for bootstrapping projects
-- LiveSpec repo uses `.livespec` symlink to `dist/` for dogfooding
-- Templates are .spec.md.template files users copy and customize
+### Workspace Specs Documentation
+- [!] Each workspace spec must be explained with practical examples, not just definitions.
+  - **taxonomy.spec.md**: Example showing Software vs Governance vs Hybrid classification
+  - **constitution.spec.md**: Example showing principle like "specs before implementation"
+  - **patterns.spec.md**: Example showing naming convention or folder rule
+  - **workflows.spec.md**: Example showing commit process or review requirement
+  - Examples demonstrate WHEN and WHY to customize, not just WHAT each file contains
 
 ## Agent-Specific Documentation
 
-**AGENTS.md requirements:**
-- Single cacheable file <100KB
-- Covers 80% of use cases without fetching additional context
-- Decision tree for which phase/prompt to use
-- MSL format quick reference
-- Essential templates and patterns
-- Regeneratable from source specs
+### AGENTS.md
+- [!] AGENTS.md provides comprehensive, cacheable agent context.
+  - Single file <100KB (cacheable by AI agents)
+  - Covers 80% of use cases without fetching additional context
+  - Decision tree for which phase/prompt to use
+  - MSL format quick reference
+  - Essential templates and patterns
+  - Regeneratable from source specs via prompts/utils/regenerate-contexts.md
 
-**llms.txt requirements:**
-- Context7-compatible format
-- Links to repository and MSL specification
-- 5-phase overview with purpose of each
-- Folder structure pattern
-- Quick references to detailed prompts
+### llms.txt
+- [!] llms.txt enables Context7 integration for remote methodology access.
+  - Context7-compatible format
+  - Links to repository and MSL specification
+  - 5-phase overview with purpose of each
+  - Folder structure pattern
+  - Quick references to detailed prompts

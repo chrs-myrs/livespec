@@ -20,6 +20,93 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [3.13.0] - 2025-12-19
+
+### Documentation: Information Architecture Identity
+
+This release repositions LiveSpec's core identity from "folder structure" to "information architecture and context generation system." The folder structure is the means; the generated context tree (AGENTS.md) is the end.
+
+**Impact**: LOW - Documentation-only, no breaking changes
+
+#### Added
+
+- **README.md** - Core Concepts section (Value Structure, Context Tree, Three Layers)
+- **README.md** - Understanding Workspace Specs section with practical examples
+- **README.md** - Troubleshooting section for common setup mistakes
+- **llms.txt** - Core Concepts summary for Context7 consumption
+- **specs/3-behaviors/documentation.spec.md** - Restructured requirements by concern
+
+#### Changed
+
+- **README.md** - New tagline: "An information architecture that generates context trees for AI agents"
+- **README.md** - "What is LiveSpec?" now emphasizes context generation over folder structure
+- **README.md** - Problem statement now includes "context loss" as key problem
+- **README.md** - Key Features adds "Context Generation" as first feature
+- **llms.txt** - Updated title and description to match new identity
+- **specs/3-behaviors/documentation.spec.md** - Core Identity requirement emphasizes context generation
+
+---
+
+### Workspace Scope: Operating Context (Replaces Portability Test)
+
+This release removes the "portability test" concept for workspace scope validation. The old test asked "Could I use this EXACT spec in ANY project?" - implying workspace specs must be portable across all projects. This was a false dichotomy: workspace specs can be just as bespoke as deliverable specs.
+
+**New model**: workspace/ = **Operating context** (how agents, humans, and workspace interact). The decision test is now simply: "Is this ABOUT the workspace or IN the workspace?"
+
+**Impact**: LOW - Conceptual clarification, no breaking changes to existing projects
+
+#### Changed
+
+- **specs/workspace/taxonomy.spec.md** - Updated workspace scope definition to "operating context"
+- **specs/workspace/folder-organization.spec.md** - Removed portable methodology language, clarified operating context
+- **specs/workspace/patterns.spec.md** - Removed portable methodology references
+- **specs/3-behaviors/validation/workspace-scope-audit.spec.md** (⚠️ LOW impact)
+  - Major rewrite: Changed from "portability audit" to "about vs in" boundary check
+  - New test: "Is this ABOUT the workspace or IN the workspace?"
+  - ABOUT indicators: development principles, operating conventions, agent behaviour rules
+  - IN indicators: product names, technology stacks as requirements, domain terminology
+- **specs/3-behaviors/validation/taxonomy-structure-validation.spec.md** - Updated to operating context framing
+- **specs/3-artifacts/prompts/0a-quick-start.spec.md** - Removed portable methodology language
+- **specs/3-artifacts/prompts/0b-customize-workspace.spec.md** - Removed portable methodology language
+- **specs/3-artifacts/prompts/utils-audit-workspace-scope.spec.md** - Major rewrite for "about vs in" test
+
+- **dist/prompts/0-define/0a-quick-start.md** - Updated workspace explanation
+- **dist/prompts/0-define/0b-customize-workspace.md** - Updated workspace guidance
+- **dist/prompts/0-define/0x-validate-understanding.md** - Updated validation criteria
+- **dist/prompts/4-evolve/4a-detect-drift.md** - Updated workspace scope references
+- **dist/prompts/4-evolve/4d-regenerate-context.md** - Updated workspace test language
+- **dist/prompts/utils/audit-workspace-scope.md** - Major rewrite for "about vs in" approach
+
+- **dist/standard/metaspecs/taxonomy.spec.md** - Updated operating context definition
+- **dist/standard/metaspecs/workspace.spec.md** - Updated requirements for operating context
+- **dist/standard/metaspecs/strategy.spec.md** - Updated workspace boundary description
+- **dist/standard/conventions/folder-structure.spec.md** - Updated workspace test language
+
+- **dist/guides/workspace-scope-clarity.md** - Complete rewrite as "about vs in" guide
+- **dist/scripts/audit-workspace-scope.sh** - Updated test logic and output messages
+
+- **dist/templates/workspace/taxonomy-*.spec.md.template** (all 5 templates) - Updated to operating context framing
+
+- **examples/ecommerce-checkout/specs/workspace/taxonomy.spec.md** - Updated to operating context model
+
+- **AGENTS.md** and **dist/AGENTS.md** - Updated workspace scope guidance
+
+- **docs/livespec-conventions.md** - Updated workspace folder description
+- **README.md** - Updated workspace folder description
+- **specs/README.md** - Updated workspace folder description
+- **ctxt/domains/governance.md** - Updated workspace test references
+- **llms.txt** - Updated workspace folder description
+- **specs/3-behaviors/framework/standard.spec.md** - Updated workspace metaspec description
+- **dist/guides/common-pitfalls.md** - Updated workspace scope prevention advice
+
+#### Removed
+
+- **"Portability test"** concept - No longer used to determine workspace scope
+- **"Could I use this in ANY project?"** question - Replaced by "about vs in" test
+- **"Portable methodology"** language - Replaced by "operating context"
+
+---
+
 ## [3.12.0] - 2025-12-15
 
 ### PURPOSE Boundary Enforcement
