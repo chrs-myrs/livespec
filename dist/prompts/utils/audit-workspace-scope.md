@@ -8,7 +8,7 @@ derives-from:
 
 # Audit Workspace Scope
 
-**Purpose**: Detect product-specific content in workspace/ that violates portability principle ("Could I use this in ANY project?").
+**Purpose**: Detect deliverable content in workspace/ that violates the "about vs in" principle ("Is this ABOUT the workspace or IN it?").
 
 **When to use:**
 - After Phase 0 (DEFINE) workspace setup
@@ -18,8 +18,8 @@ derives-from:
 - User reports workspace/product confusion
 
 **What it audits:**
-1. **Portability test**: Each workspace/ file against "works in ANY project?" criterion
-2. **Product indicators**: Feature names, domain terminology, architecture constraints
+1. **"About vs in" test**: Each workspace/ file against "Is this ABOUT the workspace?" criterion
+2. **Deliverable indicators**: Feature names, domain terminology, architecture constraints
 3. **Taxonomy compliance**: Cross-reference with taxonomy.spec.md Workspace Scope section
 
 ---
@@ -32,7 +32,7 @@ derives-from:
 bash scripts/audit-workspace-scope.sh
 ```
 
-The script checks for product-specific indicators:
+The script checks for deliverable indicators:
 - Organization names (TMP, Acme Corp)
 - Feature requirements (authentication, payment)
 - Architecture constraints (Lambda, React)
@@ -42,10 +42,10 @@ The script checks for product-specific indicators:
 
 For each violation:
 1. Read flagged file section
-2. Apply portability test: "Could React library use this?"
-3. Determine if content is methodology (portable) or product (specific)
+2. Apply "about vs in" test: "Is this ABOUT the workspace or IN it?"
+3. Determine if content is operating context (ABOUT) or deliverable (IN)
 
-### Step 3: Relocate Product-Specific Content
+### Step 3: Relocate Deliverable Content
 
 **Decision matrix:**
 
@@ -73,9 +73,9 @@ Verify `specs/workspace/taxonomy.spec.md` Workspace Scope section accurately lis
 - Type: code, agentic, hybrid
 ```
 
-**Problem**: TMP-specific classification system (product feature)
+**Problem**: TMP-specific classification system (deliverable content)
 **Fix**: Move to `specs/2-strategy/project-classification.spec.md`
-**Test**: "Can React library use TMP taxonomy?" → NO → Not workspace
+**Test**: "Is this ABOUT the workspace?" → NO (it's a product feature) → Not workspace
 
 ### ❌ Architecture Constraints in Workspace
 
@@ -87,7 +87,7 @@ Verify `specs/workspace/taxonomy.spec.md` Workspace Scope section accurately lis
 
 **Problem**: Lambda-specific (architecture constraint)
 **Fix**: Move to `specs/2-strategy/lambda-architecture.spec.md`
-**Test**: "Does container project need Lambda patterns?" → NO → Not workspace
+**Test**: "Is this ABOUT the workspace?" → NO (it's a technical decision) → Not workspace
 
 ### ✅ Valid Workspace Content
 
@@ -97,18 +97,17 @@ Verify `specs/workspace/taxonomy.spec.md` Workspace Scope section accurately lis
 - [!] All development follows spec-first principle
 ```
 
-**Reason**: Spec-first applies to ANY project (portable methodology)
-**Test**: "Can ANY project use spec-first?" → YES → Valid workspace
+**Reason**: Spec-first describes HOW we operate (operating context)
+**Test**: "Is this ABOUT the workspace?" → YES → Valid workspace
 
 ---
 
 ## Expected Outcomes
 
-- All workspace/ files pass portability test
-- Product-specific content relocated appropriately
+- All workspace/ files pass "about vs in" test
+- Deliverable content relocated appropriately
 - taxonomy.spec.md Workspace Scope section accurate
-- Clear workspace/product boundary for agents
-- Methodology reusable in other projects
+- Clear workspace/deliverable boundary for agents
 
 ---
 
@@ -116,6 +115,6 @@ Verify `specs/workspace/taxonomy.spec.md` Workspace Scope section accurately lis
 
 This audit prevents the exact issue found in project-governance where:
 - `taxonomy.spec.md` contained TMP product taxonomy (Nature, Type, Deployment dimensions)
-- Failed portability test ("Works in React library?" → NO)
+- Failed "about vs in" test ("Is this ABOUT the workspace?" → NO)
 - Should have been in `specs/2-strategy/project-classification.spec.md`
 - User reported: "taxonomy doesn't have the content it was designed to hold"

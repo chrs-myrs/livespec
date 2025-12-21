@@ -6,7 +6,7 @@ This folder contains all specifications for LiveSpec v3.3.0.
 
 ## Structure
 
-- **workspace/**: How LiveSpec is developed (portable methodology)
+- **workspace/**: How agents, humans, and workspace interact (operating context)
   - **taxonomy.spec.md**: Project classification - CHECK THIS FIRST
   - constitution.spec.md, patterns.spec.md, workflows.spec.md
 - **1-requirements/**: Strategic and functional requirements

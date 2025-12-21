@@ -78,5 +78,5 @@ Use when:
 What this prompt should NOT do:
 - ❌ Create WHAT-to-build specifications (those belong in specs/3-behaviors/, specs/3-contracts/)
 - ❌ Generate generic templates without project customization
-- ❌ Include implementation-specific patterns (focus on portable methodology)
+- ❌ Include implementation-specific patterns (focus on operating context)
 - ❌ Over-specify details that should be left to implementer judgment

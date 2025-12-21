@@ -16,11 +16,11 @@ governed-by:
   - Primary pattern: specs/ (source) → dist/ or framework/ (distributable) + generated docs
   - Examples: Development methodologies, process frameworks, governance systems, specification languages
 
-  **Workspace Scope** (portable methodology only):
-  - ✅ workspace/constitution.spec.md - Development principles (portable)
-  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
-  - ✅ workspace/workflows.spec.md - Development process (portable)
-  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  **Workspace Scope** (operating context only):
+  - ✅ workspace/constitution.spec.md - Development principles (operating context)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (operating context)
+  - ✅ workspace/workflows.spec.md - Development process (operating context)
+  - ✅ workspace/taxonomy.spec.md - This classification document (operating context)
   - ❌ NOT workspace: Framework-specific patterns or methodology content
     - Examples: "framework-distribution.spec.md", "methodology-structure.spec.md", "adoption-process.spec.md"
     - These define THIS FRAMEWORK's patterns (product strategy/behaviors), not HOW to build any project (methodology)
@@ -44,7 +44,7 @@ governed-by:
 
   **AI agents must**:
   - Check this taxonomy.spec.md FIRST before creating any files
-  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Verify workspace/ additions pass "about vs in" test ("Is this ABOUT the workspace?" → YES = workspace)
   - Keep distributable framework artifacts OUT of specs/ (specs define framework, dist/ distributes it)
   - Place framework architecture in specs/2-strategy/, NOT workspace/
   - Distinguish between framework specifications (specs/) and framework distribution (dist/)
@@ -52,7 +52,7 @@ governed-by:
   - Update this taxonomy when project classification fundamentally changes
 
 ## Validation
-- All workspace/ files are portable methodology (pass "any project" test)
+- All workspace/ files are operating context (pass "about vs in" test)
 - specs/ contains only .spec.md files (framework source, not distribution)
 - Distributable framework clearly separated from specifications
 - Framework architecture placed in appropriate specs/ subdirectories, not workspace/

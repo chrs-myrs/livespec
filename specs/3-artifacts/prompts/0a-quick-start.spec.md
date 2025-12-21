@@ -23,7 +23,7 @@ derives-from:
   - Asks zero questions (applies defaults)
   - Context compression: Moderate (balanced inline/reference)
   - Project domain: Software (produces code)
-  - Workspace scope: Standard portable methodology (constitution, patterns, workflows, context-architecture, taxonomy)
+  - Workspace scope: Standard operating context (constitution, patterns, workflows, context-architecture, taxonomy)
   - Specs boundary: Specifications only (no data/research)
   - Creates specs/workspace/taxonomy.spec.md with Software domain defaults
   - Creates specs/workspace/constitution.spec.md with spec-driven development

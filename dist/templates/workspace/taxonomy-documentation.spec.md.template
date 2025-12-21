@@ -16,11 +16,11 @@ governed-by:
   - Primary pattern: specs/ → docs/ source → build/ or public/ (published output)
   - Examples: Product documentation, API reference, user guides, technical wikis
 
-  **Workspace Scope** (portable methodology only):
-  - ✅ workspace/constitution.spec.md - Development principles (portable)
-  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
-  - ✅ workspace/workflows.spec.md - Development process (portable)
-  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  **Workspace Scope** (operating context only):
+  - ✅ workspace/constitution.spec.md - Development principles (operating context)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (operating context)
+  - ✅ workspace/workflows.spec.md - Development process (operating context)
+  - ✅ workspace/taxonomy.spec.md - This classification document (operating context)
   - ❌ NOT workspace: Documentation structure or content organization
     - Examples: "documentation-structure.spec.md", "api-docs-format.spec.md", "content-guidelines.spec.md"
     - These define HOW THIS PROJECT'S docs are organized (product strategy), not HOW to build any project (methodology)
@@ -41,7 +41,7 @@ governed-by:
 
   **AI agents must**:
   - Check this taxonomy.spec.md FIRST before creating any files
-  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Verify workspace/ additions pass "about vs in" test ("Is this ABOUT the workspace?" → YES = workspace)
   - Keep documentation source and build outputs OUT of specs/ (unless dogfooding)
   - Place doc architecture in specs/2-strategy/, NOT workspace/
   - Distinguish between doc specifications (specs/) and doc content (docs/)
@@ -49,7 +49,7 @@ governed-by:
   - Update this taxonomy when project classification fundamentally changes
 
 ## Validation
-- All workspace/ files are portable methodology (pass "any project" test)
+- All workspace/ files are operating context (pass "about vs in" test)
 - specs/ contains only .spec.md files (no doc content unless dogfooding)
 - Documentation source clearly separated from specifications
 - Doc architecture/structure placed in appropriate specs/ subdirectories, not workspace/

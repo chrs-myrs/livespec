@@ -2,13 +2,12 @@
 
 ## Why LiveSpec Exists
 
-Specifications inevitably drift from reality - code diverges from docs, policies lag behind practice, procedures become outdated. This drift makes documentation obsolete and prevents AI agents from providing effective assistance.
+Code is disposable. Knowledge is not. LiveSpec provides information architecture that makes upper layers (purpose, requirements, strategy, behaviors) the durable assets while code becomes regenerable from specifications.
 
 ## What Success Looks Like
 
-- Specifications remain synchronized with reality throughout evolution
-- AI agents have structured context for effective assistance
-- Documentation stays current without becoming a maintenance burden
-- Works equally well for new projects and existing systems
-- Teams adopt and maintain specifications voluntarily
-- Applies across software development, governance, operations, and planning
+- Upper specification layers capture all essential knowledge
+- Code can be regenerated from specs at any time (technology independence)
+- Workspace specs generate AI agent context (AGENTS.md, context tree)
+- Human owns intention; AI manages specs, code, and alignment
+- Works for new projects and existing systems across any domain

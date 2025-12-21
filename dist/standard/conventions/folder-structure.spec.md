@@ -12,7 +12,7 @@ governed-by:
   - `PURPOSE.md` at root captures project vision and success criteria (free-form, not MSL)
   - `specs/1-requirements/strategic/` contains top-level project definition (outcomes + constraints)
   - `specs/workspace/taxonomy.spec.md` declares project classification (domain, workspace scope, specs boundary) - **AI agents check this FIRST**
-  - `specs/workspace/` contains only development methodology (portable to any project)
+  - `specs/workspace/` contains only operating context (how agents/humans/workspace interact)
   - `specs/3-behaviors/` contains observable system behaviors (user-facing)
   - `specs/2-strategy/` contains product-specific technical decisions and architecture
   - `specs/3-contracts/` contains API/data contracts (optional, only if needed)
@@ -22,7 +22,7 @@ governed-by:
   - `.livespec/` contains LiveSpec methodology (copied from LiveSpec dist/)
   - `.livespec/standard/` contains metaspecs and conventions
   - `.livespec/templates/` contains workspace spec starter files and taxonomy templates
-  - **Decision process**: Check taxonomy.spec.md → Apply classification rules → Use portability test if needed
+  - **Decision process**: Check taxonomy.spec.md → Apply classification rules → Use "about vs in" test if needed
   - AI agents locate context by: taxonomy (classification) → workspace (process) → behaviors (features)
 
 ## Structure
@@ -54,7 +54,7 @@ project/
     │   └── functional/     # Feature-level requirements
     │       └── *.spec.md
     │
-    ├── workspace/          # HOW you build (portable process)
+    ├── workspace/          # HOW you operate (operating context)
     │   ├── taxonomy.spec.md        # Project classification (check FIRST)
     │   ├── constitution.spec.md
     │   ├── patterns.spec.md
@@ -78,7 +78,7 @@ project/
 
 Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 - Declares **Project Domain** (Software, Generation, Planning, Documentation, Governance, Hybrid)
-- Lists **Workspace Scope** explicitly (what's portable vs product-specific)
+- Lists **Workspace Scope** explicitly (what's operating context vs deliverable)
 - Defines **Specs Boundary** ("specs/ = specifications only", no data/research/artifacts)
 
 **If taxonomy unclear or conflicts with intended action, update taxonomy first.**
@@ -88,9 +88,9 @@ Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 - Workspace scope explicitly lists what belongs in workspace/ (check against taxonomy)
 - Specs boundary prevents data/research from entering specs/ folder
 
-**Step 2: Use Portability Test (If Still Unclear)**
-- "Could I copy this exact spec to a different project?" → YES = workspace/, NO = behaviors/strategy/
-- Examples: constitution (YES), job-applications (NO), patterns (YES), api-design (NO)
+**Step 2: Use "About vs In" Test (If Still Unclear)**
+- "Is this ABOUT the workspace or IN the workspace?" → ABOUT = workspace/, IN = behaviors/strategy/
+- Examples: constitution (ABOUT), job-applications (IN), patterns (ABOUT), api-design (IN)
 
 ## Notes
 

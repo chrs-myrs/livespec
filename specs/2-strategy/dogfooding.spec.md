@@ -20,7 +20,7 @@ failure_mode: Without dogfooding validation, LiveSpec could prescribe methodolog
   - tests/ validate LiveSpec follows its own rules
   - Drift detection applied to LiveSpec repository (Phase 4 on ourselves)
   - Changes to methodology trigger spec updates (living documentation)
-  - Repository demonstrates bidirectional sync (specs ↔ deliverables)
+  - Repository demonstrates specification-driven regeneration (specs → deliverables)
   - Dogfooding proves methodology works before recommending to others
 
 ## Rationale
@@ -174,27 +174,27 @@ Commit both together
 - Proves Phase 4 methodology works in practice
 - Tests catch drift automatically (CI/CD integration)
 
-## Bidirectional Sync Demonstration
+## Regeneration Workflow Demonstration
 
-**Spec → Deliverable (design-first):**
+**Spec → Deliverable (design-first, primary path):**
 1. Create behavior spec (e.g., specs/3-artifacts/prompts/utils-upgrade.spec.md)
 2. Define requirements, triggers, outputs, validation criteria
-3. Implement prompt (prompts/utils/upgrade-methodology.md)
-4. Reference spec in prompt frontmatter (spec: ...)
-5. Validate prompt satisfies spec
+3. Generate/implement deliverable from spec (prompts/utils/upgrade-methodology.md)
+4. Reference spec in deliverable frontmatter (spec: ...)
+5. Validate deliverable satisfies spec
 
-**Deliverable → Spec (extract-first):**
-1. Create prompt (rapid prototyping, exploration)
-2. Use 4b-extract-specs.md to document what it does
-3. Create behavior spec from implemented functionality
-4. Add spec reference to prompt frontmatter
-5. Validate alignment
+**Deliverable → Spec (discovery leveling):**
+1. Create deliverable (rapid prototyping, exploration)
+2. Use 4b-extract-specs.md to extract essential knowledge
+3. Level up discoveries to appropriate spec layer
+4. Add spec reference to deliverable frontmatter
+5. Deliverable becomes regenerable from spec
 
-**Both ways work:**
+**Both paths converge:**
 - New features often spec-first (intentional design)
 - Experiments often deliverable-first (discovery)
-- Both converge to synchronized state
-- Demonstrates flexibility users will need
+- Discoveries level up to specs, deliverables become regenerable
+- Demonstrates flexible workflow users need
 
 ## Benefits of Dogfooding
 
@@ -226,6 +226,6 @@ Commit both together
 - Every spec has constrained_by pointing to metaspec
 - tests/ directory validates LiveSpec follows own rules
 - Drift detection applied to LiveSpec repository
-- Repository demonstrates bidirectional sync (examples of both directions)
+- Repository demonstrates specification-driven regeneration (both spec-first and discovery paths)
 - Test suite passes (proves dogfooding successful)
 - No special-case methodology for developing LiveSpec (same as users)

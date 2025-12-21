@@ -1,4 +1,4 @@
-# LiveSpec v3.13.0
+# LiveSpec v4.0.0
 
 **An information architecture that generates context trees for AI agents**
 
@@ -10,7 +10,7 @@ LiveSpec is an **information architecture and context generation system**:
 
 1. **Structured specifications** - Organize intent from PURPOSE → requirements → strategy → behaviors
 2. **Context tree generation** - Specs compile into AGENTS.md for AI agent consumption
-3. **Bidirectional sync** - Specs → Code AND Code → Specs via five-phase methodology
+3. **Specification-driven regeneration** - Code is disposable, specs are durable source of truth
 4. **MSL format** - Markdown Specification Language keeps specs minimal and maintainable
 
 **The folder structure is a means. The generated context tree is the end.**
@@ -24,7 +24,7 @@ LiveSpec is an **information architecture and context generation system**:
 3. **Manual burden** - Keeping docs synchronized is tedious and often skipped
 
 **LiveSpec solves this through:**
-- Bidirectional synchronization (spec-first OR code-first workflows)
+- Specification-driven regeneration (code is regenerable from specs)
 - Minimal specifications (MSL format - just what's essential)
 - Continuous evolution (Phase 4 keeps specs and code aligned)
 - **Generated context** (AGENTS.md compiled from specs for AI consumption)
@@ -70,7 +70,7 @@ Two orthogonal concerns that don't mix:
 
 ## Architecture
 
-**Note:** This shows initial project setup flow. LiveSpec methodology is iterative - Phase 4 (EVOLVE) maintains continuous bidirectional sync between specs and code. See [Five Phases](#the-five-phases) for the complete cycle.
+**Note:** This shows initial project setup flow. LiveSpec methodology is iterative - Phase 4 (EVOLVE) detects regeneration signals and keeps specs current. See [Five Phases](#the-five-phases) for the complete cycle.
 
 ```mermaid
 graph TD
@@ -395,7 +395,7 @@ Keep specs and code synchronized (continuous)
 
 ### Continuous Evolution Cycle
 
-Phase 4 maintains bidirectional sync - the core value of LiveSpec:
+Phase 4 maintains alignment through regeneration signals - the core value of LiveSpec:
 
 ```mermaid
 graph LR
@@ -466,9 +466,9 @@ Common mistakes when setting up LiveSpec:
 
 ## Version
 
-**Current Version: 3.13.0**
+**Current Version: 4.0.0**
 
-LiveSpec v3.13.0 emphasizes information architecture and context generation:
+LiveSpec v4.0.0 introduces disposable code architecture:
 - Core identity shift: "information architecture that generates context trees for AI agents"
 - Core Concepts section explaining Value Structure, Context Tree, and Three Layers
 - Workspace Specs section with practical examples

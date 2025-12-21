@@ -15,41 +15,43 @@ governed-by:
 # LiveSpec Outcomes
 
 ## Requirements
-- [!] LiveSpec must provide methodology for bidirectional specification-code synchronization, support AI-assisted development across any agent, work for both greenfield and brownfield projects, maintain specifications without becoming maintenance burden, and sustain evolution through balanced expansion/contraction forces.
+- [!] LiveSpec must provide information architecture where upper layers are durable assets and code is disposable, support AI-assisted development across any agent, work for both greenfield and brownfield projects, maintain specifications proportional to their durability level, generate AI context from workspace specs, and sustain evolution through balanced expansion/contraction forces.
   - All 6 core requirements satisfied by identified specs
   - Traceability maintained via frontmatter dependencies
   - Changes to requirements trigger cascade review of satisfying specs
 
 ## Core Requirements
 
-### 1. Bidirectional Synchronization
-Support spec-first (design) and code-first (extraction) workflows.
+### 1. Specification-Driven Regeneration
+Upper layers (purpose, requirements, strategy, behaviors) are durable assets; code is always disposable and regenerable from specifications.
 
 **Satisfied by:**
-- specs/2-strategy/architecture.spec.md (dogfooding section)
-- specs/3-artifacts/prompts/4a-detect-drift.spec.md (code→spec detection)
-- specs/3-artifacts/prompts/4b-extract-specs.spec.md (code→spec extraction)
+- specs/2-strategy/architecture.spec.md (two-branch model, disposability)
+- specs/3-behaviors/abstraction-guidance.spec.md (layer placement)
+- specs/3-artifacts/prompts/4a-detect-drift.spec.md (regeneration signals)
 - prompts/1-design/ (spec→code design)
 - prompts/2-build/ (spec→code implementation)
 
 **Validated by:**
-- Users create specs before code (Phase 1-2)
-- Users extract specs from existing code (Phase 4b)
-- Drift detection identifies misalignment (Phase 4a)
+- Specs contain no implementation details (only WHAT/WHY, never HOW)
+- Code can be regenerated from specs without loss of essential knowledge
+- Discoveries during implementation are leveled up to appropriate spec layer
 
-### 2. AI Agent Support
-Provide structured context enabling effective AI assistance.
+### 2. AI Context Generation
+Workspace specs generate AI agent context (AGENTS.md, context tree) enabling effective AI management of the spec-code system.
 
 **Satisfied by:**
-- AGENTS.md (cached reference for AI agents)
-- llms.txt (Context7 integration)
+- specs/workspace/ (source for context generation)
+- AGENTS.md (generated from workspace specs)
+- ctxt/ (context tree generated from workspace)
 - specs/3-behaviors/msl-format.spec.md (consistent format)
-- specs/workspace/ (process guidance)
+- llms.txt (Context7 integration)
 
 **Validated by:**
+- AGENTS.md regenerable from workspace specs
 - Context7 integration functional
-- AI agents successfully execute prompts
-- Users report improved AI assistance quality
+- AI agents successfully manage specs and code
+- Human remains stakeholder, AI manages system
 
 ### 3. Universal Applicability
 Work equally well for new projects and existing codebases.
@@ -64,18 +66,19 @@ Work equally well for new projects and existing codebases.
 - Users adopt LiveSpec for brownfield projects
 - Same methodology works for both
 
-### 4. Minimal Maintenance
-Specifications stay current without significant overhead.
+### 4. Maintenance Proportional to Durability
+Invest maintenance energy proportional to layer durability. Upper layers maintained carefully; code is regenerated not maintained.
 
 **Satisfied by:**
-- specs/3-behaviors/msl-format.spec.md (minimalism)
+- specs/3-behaviors/msl-format.spec.md (minimalism for specs)
+- specs/3-behaviors/abstraction-guidance.spec.md (layer placement)
 - specs/workspace/constitution.spec.md (trust implementers)
-- prompts/4-evolve/ (continuous sync, not big-bang updates)
+- prompts/4-evolve/ (regeneration workflow)
 
 **Validated by:**
 - Specs average <30 lines (MSL compliance)
-- Phase 4 runs quickly (minutes, not hours)
-- Developers voluntarily update specs
+- Code issues trigger regeneration, not patch accumulation
+- Discoveries during implementation level up or stay disposable
 
 ### 5. Voluntary Adoption
 Developers maintain specs because they reduce cognitive load, choosing LiveSpec methodology means accepting AI-guided discipline.
@@ -120,3 +123,5 @@ Methodology prevents bloat through balanced expansion/contraction forces.
 - All 6 core requirements satisfied by identified specs
 - Traceability maintained via frontmatter dependencies
 - Changes to requirements trigger cascade review of satisfying specs
+- Specs contain WHAT/WHY only, never implementation HOW
+- Code regenerable from specs at any time

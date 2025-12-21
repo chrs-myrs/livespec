@@ -1,6 +1,6 @@
 ---
 criticality: IMPORTANT
-failure_mode: Without taxonomy, ecommerce implementation becomes inconsistent and agents confuse checkout logic with portable methodology
+failure_mode: Without taxonomy, ecommerce implementation becomes inconsistent and agents confuse checkout logic with operating context
 applies_to: this_project
 governed-by:
   - .livespec/standard/metaspecs/taxonomy.spec.md
@@ -16,16 +16,16 @@ governed-by:
   - Primary pattern: specs/ define behavior → src/ implements → dist/ contains build artifacts
   - Technology: React/TypeScript web application with backend API integration
 
-  **Workspace Scope** (portable methodology only):
-  - ✅ workspace/constitution.spec.md - Development principles (portable)
-  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
-  - ✅ workspace/workflows.spec.md - Development process (portable)
-  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  **Workspace Scope** (operating context only):
+  - ✅ workspace/constitution.spec.md - Development principles (operating context)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (operating context)
+  - ✅ workspace/workflows.spec.md - Development process (operating context)
+  - ✅ workspace/taxonomy.spec.md - This classification document (operating context)
   - ❌ NOT workspace: E-commerce specific architecture or checkout processes
     - Examples: "checkout-flow.spec.md", "payment-integration.spec.md", "cart-management.spec.md"
-    - These define HOW THIS E-COMMERCE SYSTEM works (product strategy/behaviors), not HOW to build any project (methodology)
+    - These define HOW THIS E-COMMERCE SYSTEM works (product strategy/behaviors), not operating context
     - Correct location: specs/2-strategy/architecture.spec.md (system design) or specs/3-behaviors/ (checkout behaviors)
-    - Test: "Could a documentation project use this exact spec?" → NO → Not workspace
+    - Test: "Is this ABOUT the workspace or IN the workspace?" → IN = Not workspace
 
   **Specs Boundary** (specifications only, no code/data):
   - specs/ contains ONLY .spec.md files defining observable system behavior
@@ -42,7 +42,7 @@ governed-by:
 
   **AI agents must**:
   - Check this taxonomy.spec.md FIRST before creating files
-  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Verify workspace/ additions pass "about vs in" test ("Is this ABOUT the workspace?" → YES = workspace)
   - Keep code, builds, and implementation details OUT of specs/
   - Place e-commerce architecture in specs/2-strategy/, NOT workspace/
   - Place checkout behaviors in specs/3-behaviors/, NOT workspace/
@@ -51,7 +51,7 @@ governed-by:
   - Update this taxonomy when project classification fundamentally changes
 
 ## Validation
-- All workspace/ files are portable methodology (pass "any project" test)
+- All workspace/ files are operating context (pass "about vs in" test)
 - specs/ contains only .spec.md files (no code, configs, or build artifacts)
 - Source code clearly separated from specifications (src/ vs specs/)
 - E-commerce architecture/behaviors placed in appropriate specs/ subdirectories, not workspace/

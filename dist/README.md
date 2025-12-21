@@ -1,8 +1,8 @@
-# LiveSpec v3.8.0
+# LiveSpec v4.0.0
 
 **Specifications that live with your code**
 
-This is the LiveSpec methodology framework distribution. It provides prompts, templates, validation tools, and guides for specification-driven development with bidirectional code↔spec synchronization.
+This is the LiveSpec methodology framework distribution. It provides prompts, templates, validation tools, and guides for specification-driven development where code is regenerable from durable specifications.
 
 ## Quick Start: Installation
 
@@ -248,4 +248,4 @@ Updates propagate automatically: `git submodule update --remote`
 
 ---
 
-*LiveSpec v3.8.0 - Specification-driven development with bidirectional sync*
+*LiveSpec v4.0.0 - Information architecture for disposable code and durable specifications*

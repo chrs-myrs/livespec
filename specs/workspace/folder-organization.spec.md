@@ -4,7 +4,7 @@ satisfies:
 applies_to:
   - all_projects
 criticality: IMPORTANT
-failure_mode: Files placed in wrong locations cause organizational confusion and violate portability principles
+failure_mode: Files placed in wrong locations cause organizational confusion and blur workspace vs deliverable boundaries
 governed-by:
   - .livespec/standard/metaspecs/workspace.spec.md
 derives-from:
@@ -20,15 +20,15 @@ derives-from:
   - Taxonomy declares: Project Domain, Workspace Scope, Specs Boundary
   - Decision tests verify correct placement based on domain
   - All .spec.md files go in specs/ (no data/research/artifacts)
-  - workspace/ contains portable methodology only
+  - workspace/ contains operating context (how agents/humans/workspace interact)
   - strategy/ contains product-specific technical decisions
   - behaviors/ contains observable system outcomes
   - contracts/ contains interface definitions
 
 ## Folder Structure
 
-### specs/workspace/ - Development Process (Portable)
-**Contains:** How we develop ANY project using LiveSpec methodology
+### specs/workspace/ - Operating Context
+**Contains:** How agents, humans, and the workspace interact for THIS project
 
 **Examples:**
 - constitution.spec.md - Governance (MSL minimalism, dogfooding)
@@ -36,7 +36,7 @@ derives-from:
 - workflows.spec.md - Process (when phases run, how to evolve)
 - taxonomy.spec.md - Project classification (domain, scope, boundaries)
 
-**Test:** "Could I copy this spec to a different project?" → YES = workspace
+**Test:** "Is this ABOUT the workspace or IN the workspace?" → ABOUT = workspace
 
 ### specs/1-requirements/ - Strategic and Functional Requirements
 **Contains:** WHY and high-level/specific requirements
@@ -56,7 +56,7 @@ derives-from:
   - security.spec.md - Authentication, authorization, encryption
   - deployment.spec.md - Infrastructure, CI/CD, environments
 
-**Test:** "Could I copy this spec to a different project?" → NO = strategy
+**Test:** "Is this a product-specific technical decision?" → YES = strategy
 
 **Scaling guidance:**
 - Simple projects: Single `strategy/architecture.spec.md` file
@@ -120,12 +120,12 @@ derives-from:
 **Step 0: Check Project Taxonomy (FIRST)**
 Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 - Declares Project Domain (affects interpretation of patterns)
-- Lists Workspace Scope explicitly (portable vs product-specific)
+- Lists Workspace Scope explicitly (what's operating context vs deliverable)
 - Defines Specs Boundary (no data/research in specs/)
 
-**workspace/ test:** "Could I copy this spec to ANY project?"
-- YES → workspace/ (portable process)
-- NO → Check 1-requirements/, 2-strategy/, or 3-behaviors/
+**workspace/ test:** "Is this ABOUT the workspace or IN the workspace?"
+- ABOUT (operating context) → workspace/
+- IN (deliverable) → Check 1-requirements/, 2-strategy/, or 3-behaviors/
 
 **1-requirements/ test:** "Is this a strategic outcome or hard constraint?"
 - YES, strategic → 1-requirements/strategic/ (outcomes, constraints)
@@ -141,12 +141,12 @@ Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 - NO → Re-examine classification
 
 **Common Mistakes:**
-- ❌ "API returns JSON" → NOT workspace (product-specific) → 2-strategy/
-- ❌ "Use 4-space indentation" → NOT 2-strategy/ (not critical) → workspace/ (if it matters)
+- ❌ "API returns JSON" → NOT workspace (product deliverable) → 2-strategy/
+- ❌ "Use 4-space indentation" → NOT 2-strategy/ (operating convention) → workspace/ (if it matters)
 - ❌ "System authenticates users" → NOT 2-strategy/ (observable) → 3-behaviors/
 
 **Correct Examples:**
-- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (applies to any project)
+- ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (operating context)
 - ✅ "API responses must be JSON" → 2-strategy/architecture.spec.md (product-wide decision)
 - ✅ "System authenticates users via OAuth" → 3-behaviors/authentication.spec.md (observable outcome)
 
@@ -232,8 +232,8 @@ Place in `specs/3-behaviors/processes/[process].spec.md`
 
 ## Validation
 - Taxonomy exists and checked first for all file placement decisions
-- workspace/ contains only portable methodology (passes copy test)
-- strategy/ contains only product-specific decisions (fails copy test)
+- workspace/ contains only operating context (passes "about vs in" test)
+- strategy/ contains only product-specific decisions
 - behaviors/ contains only observable outcomes
 - contracts/ contains only interface definitions
 - knowledge/ contains only reference material (not specs)

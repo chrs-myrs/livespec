@@ -16,13 +16,33 @@ Format: `.livespec/standard/registries/issues.spec.md`
 
 **Category:** Process
 
-**Status:** Investigating
+**Status:** Resolved ✓
 
-**Resolution:** Need clearer warnings in generated files, validation that catches edits faster, better guidance about regeneration workflow
+**Resolution:** Read-only file permissions (chmod 444) applied after generation
 
 **Discovered:** Multiple sessions (validation catches this regularly)
 
 **Related:** GAP-005 (need better generated file protection)
+
+**Resolution (2025-12-15):** Structural fix implemented - generated files now made read-only (chmod 444) after generation. User must explicitly `chmod +w` to edit, creating friction that prompts reconsideration. Updated: specs/workspace/generated-files.spec.md, context-builder agent instructions, and regeneration prompts (regenerate-contexts.md, 4d-regenerate-context.md).
+
+---
+
+### ISSUE-005: Installation Script Missing CLAUDE.md Symlink
+
+**What:** install-livespec.sh creates AGENTS.md but doesn't create CLAUDE.md symlink
+
+**Why Problematic:** Claude Code reads CLAUDE.md; without symlink, users must manually create it
+
+**Category:** Tooling
+
+**Status:** Resolved ✓
+
+**Resolution:** Added symlink creation to install script (after AGENTS.md copy)
+
+**Discovered:** 2025-12-18 damp-case feedback
+
+**Resolution (2025-12-21):** Added 5 lines to install-livespec.sh that create CLAUDE.md → AGENTS.md symlink after AGENTS.md installation.
 
 ---
 
@@ -34,13 +54,15 @@ Format: `.livespec/standard/registries/issues.spec.md`
 
 **Category:** Tooling
 
-**Status:** Open
+**Status:** Open (acknowledged limitation)
 
 **Resolution:** Need checklist for updates (source, spec, registry, navigation, predecessors, docs) or automated tool
 
 **Discovered:** 2025-11-13 during prompt reorganization discussion
 
 **Related:** Need cross-reference update automation
+
+**Update (2025-12-15):** Manual checklist approach in use. No automation built. Acceptable workaround since prompt reorganization is infrequent. Consider automation if this becomes more common.
 
 ---
 
@@ -52,13 +74,15 @@ Format: `.livespec/standard/registries/issues.spec.md`
 
 **Category:** Guidance
 
-**Status:** Investigating
+**Status:** Accepted Limitation ✓
 
-**Resolution:** Add active trigger logic to AGENTS.md, make detection unmissable
+**Resolution:** User-initiated via `/livespec:complete-session` slash command
 
 **Discovered:** 2025-11-08 (127K token session feedback)
 
 **Related:** GAP-001 (agent session prompting)
+
+**Resolution (2025-12-15):** Accepted as limitation. Stronger enforcement would compete with more critical guidance (spec-first protocol). Session completion is user-initiated by design. The workflow works well when used (IMP-003 effective). Closing with GAP-001.
 
 ---
 
@@ -70,13 +94,23 @@ Format: `.livespec/standard/registries/issues.spec.md`
 
 **Category:** Documentation
 
-**Status:** Investigating
+**Status:** Resolved ✓
 
 **Resolution:** Create terminology guide, standardize across all docs/prompts, validate term usage
 
 **Discovered:** 2025-11-13 user question about improvement workflows
 
 **Related:** GAP-002 (learning terminology confusion)
+
+**Resolution (2025-12-15):** IMP-001 established clear four-level taxonomy. No terminology confusion reported in 18 feedback files since Nov 13. Closing this issue with GAP-002.
+
+---
+
+## Resolved Issues (Archived 2025-12-15)
+
+- **ISSUE-001:** Generated File Direct Edits → Structural fix (chmod 444 read-only permissions)
+- **ISSUE-003:** Session Completion Not Triggered → Accepted as limitation (user-initiated by design)
+- **ISSUE-004:** Terminology Inconsistency → IMP-001 effective (clear taxonomy)
 
 ---
 

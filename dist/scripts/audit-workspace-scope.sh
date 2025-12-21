@@ -2,15 +2,15 @@
 #
 # Workspace Scope Audit
 #
-# Audits workspace/ directory to ensure all files are portable methodology (not product-specific).
-# Applies portability test: "Could I use this in ANY project?"
+# Audits workspace/ directory to ensure all files are operating context (not deliverables).
+# Applies "about vs in" test: "Is this ABOUT the workspace or IN the workspace?"
 #
 # Usage:
 #   ./scripts/audit-workspace-scope.sh
 #
 # Exit codes:
-#   0 - All workspace files pass portability test
-#   1 - Product-specific content found in workspace/
+#   0 - All workspace files pass "about vs in" test
+#   1 - Deliverable content found in workspace/
 
 set -euo pipefail
 
@@ -20,7 +20,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-# Product-specific indicators (case-insensitive)
+# Deliverable indicators (content that is IN the workspace, not ABOUT it)
 FAIL_PATTERNS=(
     "TMP projects"
     "TMP-specific"
@@ -34,7 +34,7 @@ FAIL_PATTERNS=(
     "user registration"
 )
 
-# Portable methodology indicators
+# Operating context indicators (content that is ABOUT the workspace)
 PASS_PATTERNS=(
     "spec-first"
     "TDD"
@@ -64,7 +64,7 @@ fi
 flagged_file=$(mktemp)
 trap "rm -f $flagged_file" EXIT
 
-echo "Applying portability test: \"Could I use this in ANY project?\""
+echo "Applying \"about vs in\" test: \"Is this ABOUT the workspace or IN it?\""
 echo ""
 
 # Check each file in workspace/
@@ -77,17 +77,17 @@ find specs/workspace/ -name "*.spec.md" -type f | while read -r spec_file; do
     # Read file content (skip frontmatter)
     content=$(sed '/^---$/,/^---$/d' "$spec_file")
 
-    # Check for product-specific indicators
+    # Check for deliverable indicators
     for pattern in "${FAIL_PATTERNS[@]}"; do
         if echo "$content" | grep -qi "$pattern"; then
             violations_found=1
-            echo -e "  ${RED}✗${NC} Found product-specific indicator: \"$pattern\""
+            echo -e "  ${RED}✗${NC} Found deliverable indicator: \"$pattern\""
             echo "$spec_file|$pattern" >> "$flagged_file"
         fi
     done
 
     if [[ $violations_found -eq 0 ]]; then
-        echo -e "  ${GREEN}✓${NC} Passes portability test"
+        echo -e "  ${GREEN}✓${NC} Passes \"about vs in\" test (operating context)"
         files_passed=$((files_passed + 1))
     else
         files_flagged=$((files_flagged + 1))
@@ -110,7 +110,7 @@ echo "Files flagged: $flagged_count"
 echo ""
 
 if [[ $flagged_count -gt 0 ]]; then
-    echo -e "${YELLOW}⚠ WARNING: $flagged_count file(s) contain product-specific content${NC}"
+    echo -e "${YELLOW}⚠ WARNING: $flagged_count file(s) contain deliverable content${NC}"
     echo ""
     echo "Flagged files and violations:"
 
@@ -125,13 +125,13 @@ if [[ $flagged_count -gt 0 ]]; then
 
     echo ""
     echo "Remediation:"
-    echo "  1. Review flagged files for product-specific content"
-    echo "  2. Apply portability test: \"Could I use this in ANY project?\""
-    echo "  3. Move product-specific content to:"
+    echo "  1. Review flagged files for deliverable content"
+    echo "  2. Apply \"about vs in\" test: \"Is this ABOUT the workspace or IN it?\""
+    echo "  3. Move deliverable content to:"
     echo "     - specs/1-requirements/functional/ (feature requirements)"
     echo "     - specs/2-strategy/ (architecture decisions)"
     echo "     - specs/3-behaviors/ (product behaviors)"
-    echo "  4. Keep only portable methodology in workspace/"
+    echo "  4. Keep only operating context in workspace/"
     echo ""
     echo "Example:"
     echo "  ✗ TMP project taxonomy → specs/2-strategy/project-classification.spec.md"
@@ -141,7 +141,7 @@ if [[ $flagged_count -gt 0 ]]; then
     # Exit with warning (0 for now, consider 1 if you want blocking)
     exit 1
 else
-    echo -e "${GREEN}✓ PASS: All workspace files are portable methodology${NC}"
+    echo -e "${GREEN}✓ PASS: All workspace files are operating context${NC}"
     echo ""
     echo "Workspace boundary is clean."
     exit 0

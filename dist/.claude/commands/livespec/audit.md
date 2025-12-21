@@ -24,7 +24,7 @@ Run quality audits on LiveSpec project specifications.
   - `context` - Analyze context compression effectiveness (AGENTS.md size, extraction ratio)
   - `coverage` - Verify all permanent files have specifications (uses check-requires-spec.sh)
   - `workspace-specs` - Detect bloat/redundancy in workspace specs
-  - `workspace-scope` - Verify workspace scope appropriateness (portable vs product-specific)
+  - `workspace-scope` - Verify workspace scope appropriateness (operating context vs deliverable)
   - `all` (default) - Run all 5 audit types sequentially, aggregate results
 
 **Router logic:**

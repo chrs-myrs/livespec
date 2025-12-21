@@ -1,6 +1,7 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 1: Bidirectional Synchronization)
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 1: Specification-Driven Regeneration)
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 2: AI Context Generation)
   - specs/1-requirements/strategic/outcomes.spec.md (Requirement 3: Universal Applicability)
 governed-by:
   - specs/1-requirements/strategic/constraints.spec.md
@@ -12,18 +13,64 @@ failure_mode: Without clear architecture, LiveSpec becomes incoherent collection
 # LiveSpec Architecture
 
 ## Requirements
-- [!] LiveSpec separates specifications into workspace (development process) and prompts (methodology documentation), provides phase-based prompts as methodology source that users copy to .livespec/, includes version tracking for safe upgrades, and supports domain-agnostic abstractions with subfolder organization.
-  - PURPOSE.md exists at root level
-  - specs/workspace/ contains our development methodology
-  - specs/3-artifacts/prompts/ documents what each prompt does
-  - prompts/ contains all 5 phases (0-define through 4-evolve)
-  - templates/ contains workspace templates and domain-specific templates
-  - .livespec/ symlink points to prompts/ (dogfooding)
-  - .livespec-version.template enables version tracking (deprecated - submodules use git tags)
-  - standard/ contains canonical metaspecs (never customized)
+- [!] LiveSpec provides information architecture where upper layers are durable assets and code is disposable. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → code) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, ctxt/).
+  - PURPOSE.md exists at root level (most durable)
+  - specs/workspace/ drives context tree generation
+  - AGENTS.md regenerated from workspace specs
   - behaviors/ and contracts/ abstractions work across all domains
+  - Code is always disposable and regenerable from specs
   - Tests validate our own specs
-  - No user copies specs/ folder (only prompts/)
+
+## Two-Branch Model
+
+```
+SHARED FOUNDATION (most durable)
+┌─────────────────────────────────┐
+│  PURPOSE      - Why this exists │
+│  REQUIREMENTS - What must be true│
+│  STRATEGY     - How we approach │
+└─────────────────────────────────┘
+            ↓ derives into two branches
+    ┌───────────────┴───────────────┐
+    ↓                               ↓
+PRODUCT SPECS                   WORKSPACE SPECS
+┌─────────────────┐             ┌─────────────────┐
+│ CONTRACTS       │             │ How we work     │
+│ BEHAVIORS       │             │ Process rules   │
+└─────────────────┘             └─────────────────┘
+    ↓ generates                     ↓ generates
+┌─────────────────┐             ┌─────────────────┐
+│ ACCEPTANCE TESTS│             │ CONTEXT TREE    │
+│ (semi-durable)  │             │ AGENTS.md, ctxt/│
+└─────────────────┘             └─────────────────┘
+    ↓ validates                     ↓ guides
+┌─────────────────┐             ┌─────────────────┐
+│ CODE + UNIT     │             │ AI AGENT        │
+│ TESTS           │             │ BEHAVIOR        │
+│ (disposable)    │             │ (regenerable)   │
+└─────────────────┘             └─────────────────┘
+```
+
+**Two outputs from the same foundation:**
+- **Product branch**: Specs → Tests → Code (what you build)
+- **Workspace branch**: Specs → Context tree → AI guidance (how you work)
+
+## Progressive Disposability
+
+Lower layers are more disposable than upper layers:
+
+| Layer | Durability | Maintenance Approach |
+|-------|------------|---------------------|
+| PURPOSE | Most durable | Rarely changes |
+| REQUIREMENTS | Very durable | Changes trigger cascade |
+| STRATEGY | Durable | Cross-cutting decisions |
+| CONTRACTS/BEHAVIORS | Moderately durable | Feature-driven changes |
+| WORKSPACE SPECS | Durable | Drives context generation |
+| ACCEPTANCE TESTS | Semi-durable | Survives regeneration |
+| CONTEXT TREE (AGENTS.md) | Regenerable | Generated from workspace |
+| CODE + UNIT TESTS | Disposable | Regenerate, don't maintain |
+
+**Key principle**: Code is always disposable. Essential knowledge lives in specs, not code. When something seems hard to specify, either step back to qualitative (spec) or accept it as implementation detail (disposable).
 
 ## Components
 
@@ -222,15 +269,11 @@ specs/
 
 ## Validation
 
-- PURPOSE.md exists at root level
-- specs/workspace/ contains our development methodology
-- specs/3-artifacts/prompts/ documents what each prompt does
-- prompts/ contains all 5 phases (0-define through 4-evolve) plus utils/
-- standard/ contains canonical metaspecs
-- templates/ contains workspace, governance, and operations templates
-- .livespec-version.template exists (legacy - submodules use git tags)
-- .livespec/ symlink points to prompts/
-- docs/domain-organization.md explains multi-domain patterns
+- PURPOSE.md exists at root level (most durable asset)
+- specs/workspace/ contains process specs that drive context generation
+- AGENTS.md regenerable from workspace specs
+- Two-branch model evident in structure (product + workspace outputs)
 - behaviors/ and contracts/ abstractions work across all domains
+- Code is disposable; specs contain WHAT/WHY only
 - Tests validate our own specs
-- No user copies specs/ folder (only prompts/)
+- Specs contain no implementation details

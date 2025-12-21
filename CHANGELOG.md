@@ -20,6 +20,57 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [4.0.0] - 2025-12-21
+
+### Major: Disposable Code Architecture
+
+This major release fundamentally reframes LiveSpec around **disposable code and durable specifications**. Code is now explicitly treated as regenerable from specs at any time, making upper layers (purpose, requirements, strategy, behaviors) the true assets while code becomes a disposable implementation artifact.
+
+**Impact**: HIGH - Conceptual shift affects how you think about LiveSpec, though existing projects continue working
+
+#### Core Philosophy Changes
+
+- **"Code is disposable. Knowledge is not."** - New core principle
+- **Two-branch model** - Shared foundation derives into:
+  - Product branch: behaviors → tests → code (what you build)
+  - Workspace branch: workspace specs → context tree (how you work)
+- **Progressive disposability** - Lower layers more disposable than upper
+- **Regeneration over refactoring** - Don't fix code, regenerate from specs
+- **Human as stakeholder** - Human owns intention, AI manages specs/code/alignment
+
+#### Added
+
+- **specs/3-behaviors/abstraction-guidance.spec.md** - Three placement tests for discovery leveling
+- **dist/guides/progressive-disposability.md** - Layer durability and regeneration guide
+- **dist/guides/abstraction-guidance.md** - Discovery placement decision framework
+- **AGENTS.md** - Principles #10 (Progressive Disposability) and #11 (Regeneration Over Refactoring)
+- **install-livespec.sh** - CLAUDE.md → AGENTS.md symlink creation
+
+#### Changed
+
+- **PURPOSE.md** - Reframed: "Code is disposable. Knowledge is not."
+- **specs/1-requirements/strategic/outcomes.spec.md** - Requirement 1 now "Specification-Driven Regeneration"
+- **specs/1-requirements/strategic/constraints.spec.md** - Added "Code Disposability" and "Abstraction Purity" constraints
+- **specs/2-strategy/architecture.spec.md** - Two-branch model diagram, progressive disposability table
+- **specs/workspace/constitution.spec.md** - Added disposability and regeneration principles
+- **AGENTS.md** - Summary reframed around information architecture and disposable code
+- **Phase 4 prompts** - Drift detection reframed as "regeneration signal detection"
+
+#### Breaking Conceptual Changes
+
+This release doesn't break existing code but changes how you should think about LiveSpec:
+
+| Old Thinking | New Thinking |
+|--------------|--------------|
+| Prevent specs from drifting | Maintain specs, regenerate code |
+| Code is the deliverable | Specs are the deliverable, code is artifact |
+| Keep code and specs in sync | Level up discoveries to specs |
+| Refactor messy code | Regenerate from specs |
+
+**Upgrading**: No file changes required. Adopt the mindset shift gradually.
+
+---
+
 ## [3.13.0] - 2025-12-19
 
 ### Documentation: Information Architecture Identity

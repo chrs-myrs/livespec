@@ -145,7 +145,17 @@ ls -lh ctxt/utils/*.md
 - Check "When to Load Sub-Agents" section in root AGENTS.md
 - Verify triggers are intuitive keywords users naturally use
 
-### Step 6: Commit
+### Step 6: Make Generated Files Read-Only
+
+**Prevent accidental direct edits**:
+```bash
+chmod 444 AGENTS.md
+chmod 444 ctxt/phases/*.md ctxt/domains/*.md ctxt/utils/*.md
+```
+
+**Why**: Generated files should only be modified by regeneration. Read-only permissions create friction for direct edits, guiding users to edit source specs instead.
+
+### Step 7: Commit
 
 **If generation successful**:
 ```bash

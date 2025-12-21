@@ -16,11 +16,11 @@ governed-by:
   - Primary pattern: research/ → specs/ define analysis → [generated analysis outputs]
   - Examples: Strategic planning tools, decision matrices, pathway analysis, option evaluation
 
-  **Workspace Scope** (portable methodology only):
-  - ✅ workspace/constitution.spec.md - Development principles (portable)
-  - ✅ workspace/patterns.spec.md - Naming and format conventions (portable)
-  - ✅ workspace/workflows.spec.md - Development process (portable)
-  - ✅ workspace/taxonomy.spec.md - This classification document (portable)
+  **Workspace Scope** (operating context only):
+  - ✅ workspace/constitution.spec.md - Development principles (operating context)
+  - ✅ workspace/patterns.spec.md - Naming and format conventions (operating context)
+  - ✅ workspace/workflows.spec.md - Development process (operating context)
+  - ✅ workspace/taxonomy.spec.md - This classification document (operating context)
   - ❌ NOT workspace: Domain-specific planning processes or research methodologies
     - Examples: "pathway-analysis-methodology.spec.md", "stakeholder-research-process.spec.md", "decision-framework.spec.md"
     - These define HOW THIS PROJECT analyzes (domain processes), not HOW to build any project (methodology)
@@ -40,14 +40,14 @@ governed-by:
 
   **AI agents must**:
   - Check this taxonomy.spec.md FIRST before creating any files
-  - Verify workspace/ additions pass portability test ("works in ANY project?" → YES = workspace)
+  - Verify workspace/ additions pass "about vs in" test ("Is this ABOUT the workspace?" → YES = workspace)
   - Keep research, data, and analysis outputs OUT of specs/
   - Place planning-specific processes in specs/3-behaviors/processes/, NOT workspace/
   - Distinguish between analysis specifications (specs/) and analysis results (data/generated/ or generated/)
   - Update this taxonomy when project classification fundamentally changes
 
 ## Validation
-- All workspace/ files are portable methodology (pass "any project" test)
+- All workspace/ files are operating context (pass "about vs in" test)
 - specs/ contains only .spec.md files (no research, data, or analysis results)
 - Research materials clearly separated from specifications
 - Planning processes placed in appropriate specs/ subdirectories, not workspace/

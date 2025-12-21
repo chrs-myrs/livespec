@@ -16,7 +16,7 @@ guided-by:
 
 - [!] System validates that every project's taxonomy.spec.md contains all required sections per the taxonomy metaspec to guide AI agents on file placement and project classification.
   - Validates presence of **Project Domain** section (Software, Documentation, Planning, Generation, Governance, or Hybrid classification)
-  - Validates presence of **Workspace Scope** section (explicit listing of portable vs product-specific content)
+  - Validates presence of **Workspace Scope** section (explicit listing of operating context vs deliverable content)
   - Validates presence of **Specs Boundary** section (declares specs/ contains only specifications)
   - Validates presence of **AI agents must** section (agent obligations)
   - Reports missing sections with specific guidance on what to add
@@ -42,18 +42,18 @@ guided-by:
 Software - Produces TypeScript library for data validation
 
 ## Workspace Scope
-**What IS workspace (portable methodology):**
+**What IS workspace (operating context):**
 - constitution.spec.md - Development principles
 - patterns.spec.md - Naming conventions
 - workflows.spec.md - Development process
 - taxonomy.spec.md - Project classification
 
-**What is NOT workspace (product-specific):**
+**What is NOT workspace (deliverables):**
 - Validation rules are product behavior (3-behaviors/)
 - API design is product strategy (2-strategy/)
 - Feature requirements (1-requirements/)
 
-Test: "Portable to any project?" → YES = workspace/, NO = elsewhere
+Test: "Is this ABOUT the workspace or IN the workspace?" → ABOUT = workspace/, IN = elsewhere
 
 ## Specs Boundary
 specs/ contains ONLY .spec.md files defining system behavior.
@@ -65,7 +65,7 @@ specs/ contains ONLY .spec.md files defining system behavior.
 
 ## AI agents must
 - Check taxonomy.spec.md FIRST before creating files
-- Verify workspace/ additions pass portability test
+- Verify workspace/ additions pass "about vs in" test
 - Keep data/research/outputs OUT of specs/
 ```
 ✅ Contains all four required sections
@@ -84,7 +84,7 @@ This project defines TMP's project classification system:
 ```
 ❌ ERROR: Missing required sections:
   - Project Domain (classify THIS project, not define classification system)
-  - Workspace Scope (what's portable vs product-specific)
+  - Workspace Scope (what's operating context vs deliverable)
   - Specs Boundary (where non-spec content lives)
   - AI agents must (agent obligations)
 
@@ -102,7 +102,7 @@ Reference: dist/standard/metaspecs/taxonomy.spec.md
 **If Workspace Scope section missing:**
 - Validation fails with ERROR
 - Reports: "taxonomy.spec.md missing 'Workspace Scope' section"
-- Suggests: "Add section listing what IS workspace (portable) vs what is NOT (product-specific)"
+- Suggests: "Add section listing what IS workspace (operating context) vs what is NOT (deliverables)"
 - Blocks commit if running in git hook
 - References taxonomy metaspec lines 15-19
 - This was the EXACT issue in project-governance that prompted this validation
@@ -117,7 +117,7 @@ Reference: dist/standard/metaspecs/taxonomy.spec.md
 **If AI agents must section missing:**
 - Validation fails with ERROR
 - Reports: "taxonomy.spec.md missing 'AI agents must' section"
-- Suggests: "Add section listing agent obligations (check taxonomy FIRST, verify workspace portability, etc.)"
+- Suggests: "Add section listing agent obligations (check taxonomy FIRST, verify 'about vs in' test, etc.)"
 - Blocks commit if running in git hook
 - References taxonomy metaspec lines 24-28
 

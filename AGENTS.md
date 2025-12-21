@@ -4,7 +4,7 @@
 
 ## Summary
 
-LiveSpec prevents specifications from drifting from reality. Specs remain synchronized with code/policies/processes throughout evolution. AI agents get structured context for effective assistance. Documentation stays current without becoming a maintenance burden. Works for new projects and existing systems. Applies across software development, governance, operations, and planning.
+LiveSpec provides information architecture where upper layers are durable assets and code is disposable. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → code) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, ctxt/). Code can be regenerated from specs at any time. Works for new projects and existing systems across any domain.
 
 **Primary domain:** Software development, with proven applications in governance, operations, and planning.
 
@@ -168,10 +168,10 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - Innovation happens in unspecified spaces
 
 ### 6. Living Documentation
-- Specs evolve continuously with code
-- Phase 4 (EVOLVE) runs regularly to detect drift
-- Extract new behaviors as they emerge
-- Update specs alongside code changes
+- Specs evolve continuously; code is regenerable from specs
+- Phase 4 (EVOLVE) detects regeneration signals (not just drift)
+- Extract discoveries as they emerge, level them up to appropriate spec layer
+- Update specs; regenerate code when needed
 
 ### 7. Governance Framework Awareness
 - LiveSpec specialized for governance/methodology documentation
@@ -194,6 +194,21 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - New users get current best practice only (no confusion)
 - NOT imposed on projects using LiveSpec (project-specific constraint)
 
+### 10. Progressive Disposability
+- Lower layers are more disposable than upper layers
+- PURPOSE most durable → REQUIREMENTS → STRATEGY → BEHAVIORS → CODE most disposable
+- Code is always disposable and regenerable from specs
+- Essential knowledge lives in specs, not code
+- Maintenance energy invested proportional to layer durability
+- Implementation discoveries level up to appropriate spec layer or stay disposable
+
+### 11. Regeneration Over Refactoring
+- Don't fix code, regenerate it from specs
+- Technical debt can't accumulate in disposable layers
+- "Time to regenerate" is a positive signal, not a failure state
+- TDD bridges the regeneration fidelity gap (acceptance tests survive, unit tests regenerate)
+- Drift detection becomes "regeneration signal", not "sync problem"
+
 ---
 
 ## Folder Organization Decision Tests
@@ -205,7 +220,7 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 ### Step 1: Check Taxonomy (PRIMARY)
 Read `specs/workspace/taxonomy.spec.md` for:
 - **Project Domain:** What type of project (Software/Governance/Planning/Generation/Hybrid)
-- **Workspace Scope:** What's portable methodology vs product-specific
+- **Workspace Scope:** What's operating context vs deliverable
 - **Specs Boundary:** What belongs in specs/ vs elsewhere
 
 ### Step 2: Apply Decision Tests
@@ -386,8 +401,8 @@ specs/
   - ONLY when: Running full validation suite, acceptance testing
   - NOT for: Single validation script execution
 
-- **"Drift", "extract specs", "sync", "evolve", "maintain"** → Load `ctxt/phases/4-evolve.md`
-  - ONLY when: Detecting drift, extracting specs from code, synchronization workflow
+- **"Drift", "regenerate", "extract specs", "evolve", "maintain"** → Load `ctxt/phases/4-evolve.md`
+  - ONLY when: Detecting regeneration signals, extracting specs from code, regeneration workflow
   - NOT for: Reading existing specs, small spec updates
 
 ### Domain Patterns (Load Only for Specialized Contexts)
@@ -402,8 +417,8 @@ specs/
   - ONLY when: Ending session, measuring compliance, analyzing work
   - NOT for: Checking current progress
 
-- **"Detect drift", "check sync", "spec-code alignment"** → Load `ctxt/utils/drift-detection.md`
-  - ONLY when: Running drift detection workflow, spec extraction
+- **"Detect drift", "regeneration signal", "spec-code alignment"** → Load `ctxt/utils/drift-detection.md`
+  - ONLY when: Running regeneration signal detection, spec extraction
   - NOT for: Checking if specs exist
 
 - **"Audit MSL", "check minimalism", "review specs"** → Load `ctxt/utils/msl-audit.md`
@@ -499,17 +514,17 @@ Validate solution meets requirements.
 - `3b-acceptance-review.md` - Stakeholder approval
 
 ### Phase 4: EVOLVE
-Keep specs and code synchronized (continuous).
+Maintain specs; regenerate code when needed (continuous).
 
 **When:** Ongoing throughout development
 **Entry:** System in production or active development
 **Exit:** Continuous (loop back to other phases as needed)
-**Outputs:** Updated specifications, drift reports
+**Outputs:** Updated specifications, regeneration decisions
 
 **Key prompts:**
-- `4a-detect-drift.md` - Identify spec-code misalignment
-- `4b-extract-specs.md` - Generate specs from code
-- `4c-sync-complete.md` - Confirm synchronization
+- `4a-detect-drift.md` - Detect regeneration signals
+- `4b-extract-specs.md` - Level up discoveries to specs
+- `4c-sync-complete.md` - Confirm regeneration complete
 - `4d-regenerate-context.md` - Update AGENTS.md
 - `4e-validate-extractions.md` - Review extracted specs
 
@@ -885,10 +900,10 @@ Bad:  "Button must be exactly 120px wide with #007bff color"
 Good: "Submit button must be clearly visible"
 ```
 
-❌ **Ignoring Drift**
+❌ **Ignoring Regeneration Signals**
 ```
-Bad:  Let specs and code diverge over months
-Good: Run Phase 4 drift detection weekly/before releases
+Bad:  Let specs and code diverge, patching code instead of specs
+Good: Level up discoveries to specs, regenerate code when needed
 ```
 
 ❌ **Wrong Criticality**
@@ -910,14 +925,14 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 - **ctxt/phases/1-design.md** - Phase 1 specialist (architecture, behaviors, contracts)
 - **ctxt/phases/2-build.md** - Phase 2 specialist (TDD workflow, implementation)
 - **ctxt/phases/3-verify.md** - Phase 3 specialist (validation, acceptance)
-- **ctxt/phases/4-evolve.md** - Phase 4 specialist (drift detection, spec extraction)
+- **ctxt/phases/4-evolve.md** - Phase 4 specialist (regeneration signals, spec extraction)
 
 ### Domain Specialists (ctxt/domains/)
 - **ctxt/domains/governance.md** - Governance patterns (methodology development)
 
 ### Utility Specialists (ctxt/utils/)
 - **ctxt/utils/session-completion.md** - Session analysis and learning
-- **ctxt/utils/drift-detection.md** - Spec-code synchronization
+- **ctxt/utils/drift-detection.md** - Regeneration signal detection
 - **ctxt/utils/msl-audit.md** - Minimalism enforcement
 
 ### Conventions (How to Structure)
@@ -937,10 +952,12 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 - **`.livespec/guides/tdd.md`** - TDD workflow
 - **`.livespec/guides/context-positioning.md`** - START/MIDDLE/END pattern
 - **`.livespec/guides/ai-commits.md`** - Commit message format
+- **`.livespec/guides/progressive-disposability.md`** - Layer durability and regeneration
+- **`.livespec/guides/abstraction-guidance.md`** - Discovery placement (spec vs code)
 - **`dist/guides/common-pitfalls.md`** - Real-world failure examples
 
 ---
 
-*Agent configuration for LiveSpec v3.5.2*
+*Agent configuration for LiveSpec v4.0.0*
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*

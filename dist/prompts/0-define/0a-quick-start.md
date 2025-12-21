@@ -79,7 +79,7 @@ Use these defaults (already confirmed Software domain):
 
 **Project Domain**: Software (produces code/executables/libraries)
 
-**Workspace Scope**: Standard portable methodology (constitution, patterns, workflows, taxonomy)
+**Workspace Scope**: Standard operating context (constitution, patterns, workflows, taxonomy)
 
 **Specs Boundary**: specifications only (no data/research in specs/)
 
@@ -106,13 +106,17 @@ This project produces executable code, libraries, or applications.
 
 ## Workspace Scope
 
-**Portable Methodology** (workspace/):
+**Operating Context** (workspace/):
 - ✅ workspace/constitution.spec.md - Development principles
 - ✅ workspace/patterns.spec.md - Conventions (naming, format, structure)
 - ✅ workspace/workflows.spec.md - Development processes
 - ✅ workspace/taxonomy.spec.md - This classification (check FIRST)
 
-**Product-Specific** (NOT workspace/):
+**Test**: "Is this ABOUT the workspace or IN the workspace?"
+- ABOUT (operating context) → workspace/
+- IN (deliverable) → numbered specs
+
+**Deliverables** (NOT workspace/):
 - ❌ Product architecture → specs/2-strategy/architecture.spec.md
 - ❌ Feature behaviors → specs/3-behaviors/[feature].spec.md
 - ❌ API contracts → specs/3-contracts/api/[endpoint].spec.md
@@ -128,7 +132,7 @@ This project produces executable code, libraries, or applications.
 
 ## Validation
 - Taxonomy declares Software domain clearly
-- Workspace scope lists portable methodology explicitly
+- Workspace scope lists operating context explicitly
 - Specs boundary prevents data/research/artifacts in specs/
 - AI agents check this file FIRST before creating files
 ```
@@ -152,18 +156,19 @@ governed-by:
 # Development Constitution
 
 ## Requirements
-- [!] Project follows specification-driven development with MSL minimalism.
-  - All implementations require specifications before code
+- [!] Project follows specification-driven development with progressive disposability.
+  - Upper layers are durable (PURPOSE → REQUIREMENTS → STRATEGY → BEHAVIORS)
+  - Code is always disposable and regenerable from specs
   - Specifications use MSL format (minimal, testable, justifiable)
-  - Living documentation (specs evolve with code)
-  - Continuous drift detection (Phase 4 EVOLVE)
-  - AI agents guided by structured specifications
+  - Workspace specs generate AI context (AGENTS.md, context tree)
+  - Human owns intention; AI manages specs, code, and alignment
+  - Phase 4 (EVOLVE) triggers regeneration when specs change
 
 ## Validation
 - Specs created before implementations
 - All specs follow MSL format
-- Specifications stay synchronized with code
-- Phase 4 (EVOLVE) runs regularly
+- Specs contain WHAT/WHY only, never implementation HOW
+- Code regenerable from specs at any time
 ```
 
 **2. specs/workspace/patterns.spec.md**
@@ -208,17 +213,17 @@ governed-by:
 
 ## Requirements
 - [!] Project follows five-phase workflow (DEFINE → DESIGN → BUILD → VERIFY → EVOLVE).
-  - Phase 0 (DEFINE): Problem, constraints, workspace setup
-  - Phase 1 (DESIGN): Architecture, behaviors, contracts
-  - Phase 2 (BUILD): Implementation, tests
+  - Phase 0 (DEFINE): Problem, constraints, workspace setup (PURPOSE is most durable)
+  - Phase 1 (DESIGN): Architecture, behaviors, contracts (specs before code)
+  - Phase 2 (BUILD): Implementation, tests (TDD - acceptance tests semi-durable, unit tests disposable)
   - Phase 3 (VERIFY): Validation, acceptance
-  - Phase 4 (EVOLVE): Continuous drift detection and sync
-  - Cycling permitted when learning invalidates assumptions
+  - Phase 4 (EVOLVE): Regeneration workflow - code is disposable, regenerate from specs
+  - Discoveries level up to appropriate spec layer or stay disposable
 
 ## Validation
 - Phases followed in natural order for first pass
 - Cycling back when discovering fundamental issues
-- Phase 4 runs continuously in production
+- Phase 4 regenerates code from specs when needed
 ```
 
 **4. specs/workspace/context-architecture.spec.md**
@@ -351,7 +356,7 @@ Created:
 **Defaults chosen for you**:
 - Domain: Software (change taxonomy.spec.md if different)
 - Compression: Moderate (change constitution.spec.md frontmatter if needed)
-- Scope: Standard workspace (portable methodology)
+- Scope: Standard workspace (operating context)
 
 ## Output
 

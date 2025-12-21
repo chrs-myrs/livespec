@@ -25,9 +25,11 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Completion of session learnings workflow (should increase)
 - Health report usage (baseline to establish)
 
-**Decision:** Keep (pending evaluation)
+**Decision:** Keep ✓
 
 **Evaluation Date:** 2025-11-20 (1 week), 2025-12-13 (1 month)
+
+**Outcome (2025-12-15):** Effective - No terminology confusion reported in 18 feedback files post-implementation. ISSUE-004 can be closed.
 
 ---
 
@@ -48,7 +50,7 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Session token counts (should decrease, avg <100K)
 - User-initiated completions (should decrease as agents recommend)
 
-**Decision:** Keep (pending evaluation)
+**Decision:** Accepted as Limitation
 
 **Evaluation Date:** 2025-11-20 (immediate impact), 2025-12-13 (sustained)
 
@@ -56,6 +58,8 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Current proactive detection: ~0% (manual only)
 - Average session tokens: 127K (evidence: 2025-11-08)
 - User-initiated: 100%
+
+**Outcome (2025-12-15):** Ineffective for proactive detection (1/18 sessions). However, stronger enforcement would compete with more critical guidance (spec-first protocol). Decision: Accept session completion as user-initiated by design. The workflow works well when used. GAP-001/ISSUE-003 closed as accepted limitations.
 
 ---
 
@@ -76,11 +80,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - User confusion questions (should decrease)
 - LiveSpec feedback quality (should improve with consistent capture)
 
-**Decision:** Keep (pending evaluation)
+**Decision:** Keep ✓
 
 **Evaluation Date:** 2025-11-20 (1 week), 2025-12-13 (1 month)
 
 **Related:** IMP-001 (part of larger taxonomy improvement)
+
+**Outcome (2025-12-15):** Effective - Sessions that complete properly (Nov 21 choirwick, Nov 29 choirwick) show rich "Session Learnings" and "Improvements Made" sections. The consolidated workflow works when sessions complete.
 
 ---
 
@@ -102,11 +108,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Prevented repetition (do we avoid trying failed approaches?)
 - Strategic improvement quality (better prioritization with registry data?)
 
-**Decision:** Keep (pending evaluation)
+**Decision:** Keep ✓
 
 **Evaluation Date:** 2025-12-13 (1 month - needs time to accumulate data)
 
 **Meta Note:** This improvement tracks itself - effectiveness measured by registry utility
+
+**Outcome (2025-12-15):** Effective - This very analysis proves the value. Pattern detection across 25 compliance records and 18 feedback files identified IMP-002 failure and confirmed IMP-001/003/004 success. Registries enable systematic improvement evaluation.
 
 ---
 

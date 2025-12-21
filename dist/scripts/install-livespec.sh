@@ -235,6 +235,12 @@ main() {
     warning "Bootstrap AGENTS.md not found at $SYMLINK_PATH/AGENTS.md"
   fi
 
+  # Create CLAUDE.md symlink (Claude Code reads CLAUDE.md, we maintain AGENTS.md)
+  if [[ -f "AGENTS.md" && ! -L "CLAUDE.md" ]]; then
+    ln -s AGENTS.md CLAUDE.md
+    success "Created CLAUDE.md → AGENTS.md symlink"
+  fi
+
   # Install slash commands if using Claude Code
   if [[ -d ".claude" ]]; then
     info "Claude Code detected - installing slash commands..."

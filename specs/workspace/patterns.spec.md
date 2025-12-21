@@ -15,7 +15,7 @@ governed-by:
   - All .spec.md files pass MSL format validation
   - Prompt files follow [0-4][a-z]-*.md pattern
   - Each behavior has single dedicated spec file
-  - specs/workspace/ contains only portable development methodology (references product specs)
+  - specs/workspace/ contains only operating context (how agents/humans/workspace interact)
   - specs/2-strategy/ contains cross-cutting technical decisions
   - Specifications declare dependencies via YAML frontmatter
   - Strategy files stay minimal (single file <100 lines, split files <50 lines each)
@@ -132,7 +132,7 @@ Agents must follow standards defined in these strategy specs.
 - Documentation uses British English spellings
 - Prompts follow phase-letter naming ([0-4][a-z]-*.md)
 - One spec per behavior (no monolithic specs >200 lines without split)
-- workspace/ contains portable methodology only
+- workspace/ contains operating context only (passes "about vs in" test)
 - Specifications declare dependencies via frontmatter
 - Pattern detail specs exist and are referenced
 - Context compression level declared and followed

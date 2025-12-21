@@ -72,10 +72,10 @@ Ready to continue?"
 
 ✅ **PASS indicators**:
 - Identifies their project domain correctly
-- For Software: workspace/ = portable development methodology
-- For Hybrid: workspace/ = operational methodology OR portable methodology (depends on primary activity)
+- For Software: workspace/ = operating context (how agents/humans/workspace interact)
+- For Hybrid: workspace/ = operational methodology OR operating context (depends on primary activity)
 - For Governance: workspace/ = framework methodology (demonstrating patterns)
-- Understands portability test or operations vs artifacts split
+- Understands "about vs in" test or operations vs artifacts split
 
 ❌ **FAIL indicators**:
 - "Everything goes in workspace/"
@@ -86,9 +86,9 @@ Ready to continue?"
 **If FAIL**:
 "Let's clarify workspace scope for your project type.
 
-**Decision test**: 'Could I copy this spec to ANY similar project?'
-- YES → workspace/ (portable methodology)
-- NO → numbered folders (product-specific)
+**Decision test**: 'Is this ABOUT the workspace or IN the workspace?'
+- ABOUT (operating context) → workspace/
+- IN (deliverable) → numbered folders
 
 For **Hybrid operational projects** (like techops-workspace):
 - workspace/ = What you DO (operations, protocols, orchestration)

@@ -1,6 +1,6 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 4: Minimal Maintenance)
+  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
   - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 applies_to:
   - all_projects
@@ -14,7 +14,7 @@ governed-by:
 # LiveSpec Development Constitution
 
 ## Requirements
-- [!] LiveSpec development follows nine core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Test-Driven Development (Phase 2 follows TDD discipline, mandatory with escape hatch for trivial scripts), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation), and Clean Evolution (no deprecation or backwards compatibility, evolve forward without legacy baggage).
+- [!] LiveSpec development follows eleven core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Test-Driven Development (Phase 2 follows TDD discipline, mandatory with escape hatch for trivial scripts), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation), Clean Evolution (no deprecation or backwards compatibility, evolve forward without legacy baggage), Progressive Disposability (lower layers more disposable, code always regenerable from specs), and Regeneration Over Refactoring (don't fix code, regenerate it).
   - **Spec-First Always** (Principle #1 - essential):
     - Every deliverable has specification before implementation (code, prompts, templates, documentation, configs)
     - Specification precedes implementation (even for "obvious" deliverables like CHANGELOG, README)
@@ -74,3 +74,16 @@ governed-by:
     - Dogfoods "remain lean" principle (LiveSpec practices what it preaches)
     - **Not imposed on projects using LiveSpec** (projects can handle backwards compatibility as needed)
     - **LiveSpec-specific constraint** (governance framework development philosophy)
+  - **Progressive Disposability** (Principle #9 - essential):
+    - Lower layers are more disposable than upper layers
+    - PURPOSE most durable → REQUIREMENTS → STRATEGY → BEHAVIORS → CODE most disposable
+    - Code is always disposable and regenerable from specs
+    - Essential knowledge lives in specs, not code
+    - Maintenance energy invested proportional to layer durability
+    - Implementation discoveries level up to appropriate spec layer or stay disposable
+  - **Regeneration Over Refactoring** (Principle #10 - essential):
+    - Don't fix code, regenerate it from specs
+    - Technical debt can't accumulate in disposable layers
+    - "Time to regenerate" is a positive signal, not a failure state
+    - TDD bridges the regeneration fidelity gap (acceptance tests survive, unit tests regenerate)
+    - Drift detection becomes "regeneration signal", not "sync problem"

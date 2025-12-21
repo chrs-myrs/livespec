@@ -1,6 +1,6 @@
 # LiveSpec - Information Architecture for AI Agents
 
-LiveSpec is an information architecture and context generation system. Specifications are organized into a structured hierarchy (PURPOSE → requirements → strategy → behaviors) that compiles into AGENTS.md—optimized context for AI agent consumption. Using a five-phase approach (DEFINE → DESIGN → BUILD → VERIFY → EVOLVE), it enables bidirectional sync between specs and implementation. Built on MSL (Markdown Specification Language), LiveSpec works with any AI coding agent.
+LiveSpec is an information architecture and context generation system. Specifications are organized into a structured hierarchy (PURPOSE → requirements → strategy → behaviors) that compiles into AGENTS.md—optimized context for AI agent consumption. Using a five-phase approach (DEFINE → DESIGN → BUILD → VERIFY → EVOLVE), it enables specification-driven regeneration where code is disposable and specs are durable. Built on MSL (Markdown Specification Language), LiveSpec works with any AI coding agent.
 
 **The folder structure is a means. The generated context tree (AGENTS.md) is the end.**
 
@@ -166,7 +166,7 @@ Title, frontmatter, Requirements. Minimal. Testable.
 
 ## Key Features
 
-- **Bidirectional Flow**: Specs → Code AND Code → Specs
+- **Regeneration Flow**: Specs → Code (generate), Code → Specs (level up discoveries)
 - **AI Agent Agnostic**: Works with Claude, Copilot, Cursor, any agent
 - **Phase 4 Drift Detection**: Continuous synchronization prevents staleness
 - **MSL Minimalism**: 70% smaller specifications stay maintainable
@@ -217,12 +217,12 @@ See [specs/workspace/](specs/workspace/) for how LiveSpec itself is built:
 
 See [specs/3-artifacts/prompts/](specs/3-artifacts/prompts/) for what each prompt accomplishes:
 - Each prompt has corresponding .spec.md defining expected behavior
-- Specifications use bidirectional YAML frontmatter linking
+- Specifications use YAML frontmatter linking for traceability
 - All prompts validated against their specifications
 
 ## Topics
 
-Topics: livespec, living-specifications, context-generation, agents-md, spec-sync, ai-development, msl, minimal-specification-language, drift-detection, bidirectional-sync, specifications, requirements, documentation, ai-coding, software-architecture, development-methodology, workspace-specs
+Topics: livespec, living-specifications, context-generation, agents-md, spec-sync, ai-development, msl, minimal-specification-language, regeneration, disposable-code, specifications, requirements, documentation, ai-coding, software-architecture, development-methodology, workspace-specs
 
 ## Using with AI Agents
 
@@ -248,11 +248,11 @@ Copy/paste prompts - they're plain markdown
 
 ## Version and Repository
 
-Version: 3.13.0
-Updated: 2025-12-19
+Version: 4.0.0
+Updated: 2025-12-21
 Repository: https://github.com/chrs-myrs/livespec
 License: MIT
 
 ---
 
-*LiveSpec v3.13.0 - Information architecture that generates context trees for AI agents. Simple. Minimal. Effective.*
+*LiveSpec v4.0.0 - Information architecture where code is disposable and specs are durable. Simple. Minimal. Effective.*

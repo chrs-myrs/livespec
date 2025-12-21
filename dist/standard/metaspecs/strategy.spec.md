@@ -1,6 +1,6 @@
 ---
 criticality: CRITICAL
-failure_mode: Without strategy spec requirements, technical decisions scatter across behavior specs or mix with portable workspace methodology
+failure_mode: Without strategy spec requirements, technical decisions scatter across behavior specs or mix with operating context
 governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
@@ -12,14 +12,14 @@ governed-by:
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
   - Spec located in `specs/2-strategy/` folder (single file) or `specs/2-strategy/*.spec.md` (multiple files)
   - Spec describes HOW this specific product solves its problem technically
-  - Spec is product-specific (NOT portable to other projects)
+  - Spec is a deliverable (IN the workspace, not ABOUT it)
   - Spec includes technical approach, components, interactions
   - Spec does NOT include observable user behaviors (→ behavior specs)
-  - Spec does NOT include portable process methodology (→ workspace specs)
+  - Spec does NOT include operating context (→ workspace specs)
   - Simple projects use single `strategy/architecture.spec.md` file
   - Complex projects split by concern (`integration.spec.md`, `data.spec.md`, `security.spec.md`, `deployment.spec.md`)
   - Each strategy file stays minimal (<100 lines for single file, <50 lines per split file)
-  - Decision test fails: "Could I use this spec in a different project?" → NO (correct)
+  - Decision test: "Is this ABOUT the workspace or IN the workspace?" → IN (deliverable)
 
 ## Notes
 
@@ -37,8 +37,8 @@ governed-by:
 
 **Not strategy requirements:**
 - ❌ "Users can log in" (user behavior → behavior spec)
-- ❌ "All specs follow MSL format" (portable process → workspace spec)
-- ❌ "Code reviewed before merging" (portable workflow → workspace spec)
+- ❌ "All specs follow MSL format" (operating context → workspace spec)
+- ❌ "Code reviewed before merging" (operating context → workspace spec)
 
 **Scaling guidance:**
 - Start with single `architecture.spec.md`

@@ -64,7 +64,7 @@ specs/
 ├── mission/            # High-level project goals
 │   ├── outcomes.spec.md     # What we must achieve
 │   └── constraints.spec.md  # Hard boundaries
-├── workspace/          # Development methodology (portable)
+├── workspace/          # Operating context
 │   ├── constitution.spec.md
 │   ├── patterns.spec.md
 │   └── workflows.spec.md

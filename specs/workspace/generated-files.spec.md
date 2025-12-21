@@ -21,6 +21,14 @@ derives-from:
   - Markers include LiveSpec version used
   - Partial generation supported with section markers
   - Validation detects direct edits to generated content
+- [!] Generated files are made read-only (chmod 444) after generation to create structural friction against direct edits.
+  - Read-only permissions applied after successful generation
+  - User must explicitly unlock (chmod +w) to edit, prompting reconsideration
+  - Applied to AGENTS.md, CLAUDE.md, and all ctxt/*.md files
+- [!] CLAUDE.md MUST be a symlink to AGENTS.md, never a separate file.
+  - Symlink ensures single source of truth
+  - When AGENTS.md regenerates, CLAUDE.md automatically updates
+  - Validation checks symlink integrity (test -L CLAUDE.md)
 
 ## Standard Generation Markers
 
@@ -201,13 +209,15 @@ spec: specs/3-behaviors/getting-started.spec.md
 2. Create generation prompt in `prompts/utils/generate-[feature].md`
 3. Run generation prompt to create output file
 4. Output includes standard generation markers
-5. Commit generated file (if project-specific) or gitignore (if reproducible)
+5. Make generated files read-only: `chmod 444 [generated-file]`
+6. Commit generated file (if project-specific) or gitignore (if reproducible)
 
 **Regeneration:**
 1. Update source specifications
-2. Run generation prompt again
-3. Validate immediately (Use `prompts/utils/validate-project.md`)
-4. Commit updated generated file with sources
+2. Run generation prompt again (will need to unlock files first or regenerator handles this)
+3. Make regenerated files read-only: `chmod 444 [generated-file]`
+4. Validate immediately (Use `prompts/utils/validate-project.md`)
+5. Commit updated generated file with sources
 
 **Validation:**
 1. Check generation timestamp vs file modification time
@@ -216,9 +226,36 @@ spec: specs/3-behaviors/getting-started.spec.md
 
 **Common generated files:**
 - `AGENTS.md` - Agent configuration (from `specs/workspace/*.spec.md` + `PURPOSE.md`)
-- `CLAUDE.md` - Project instructions (from workspace specs)
+- `CLAUDE.md` - **Symlink to AGENTS.md** (NOT a separate file)
 - `prompts/generated/*.md` - Project-specific prompts (from PURPOSE + specs)
 - Documentation (from specs via generation prompts)
+
+## CLAUDE.md Symlink Relationship
+
+**CRITICAL**: `CLAUDE.md` MUST be a symlink to `AGENTS.md`, never a separate file.
+
+```bash
+# Correct relationship
+CLAUDE.md -> AGENTS.md
+```
+
+**Why symlink:**
+- Single source of truth (AGENTS.md)
+- When AGENTS.md regenerates, CLAUDE.md automatically updates
+- Prevents drift between two files with same content
+- Claude Code reads CLAUDE.md; regeneration updates AGENTS.md
+
+**Validation:**
+```bash
+test -L CLAUDE.md && test "$(readlink CLAUDE.md)" = "AGENTS.md" && echo "✓ Valid" || echo "✗ Invalid"
+```
+
+**If broken (CLAUDE.md is regular file):**
+```bash
+rm CLAUDE.md && ln -s AGENTS.md CLAUDE.md
+```
+
+**Common mistake:** Directly editing CLAUDE.md or creating it as a regular file instead of symlink. This causes the two files to drift apart.
 
 **Best practices:**
 - Commit project-specific generated files (customised to project)
@@ -237,3 +274,4 @@ spec: specs/3-behaviors/getting-started.spec.md
 - Manual sections editable in partially generated files
 - Spec/doc bidirectional links maintained
 - Validation catches direct edits to generated content
+- CLAUDE.md is symlink to AGENTS.md (not regular file)

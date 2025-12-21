@@ -21,7 +21,7 @@ LiveSpec produces methodology frameworks for specification-driven development.
 
 **Test**: "Is this about the workspace or in the workspace?"
 
-✅ **workspace/** = ABOUT the workspace (meta-governance, how workspace operates):
+✅ **workspace/** = ABOUT the workspace (operating context):
 - workspace/constitution.spec.md - Development principles
 - workspace/patterns.spec.md - Naming, formatting conventions
 - workspace/workflows.spec.md - 5-phase development process
@@ -35,7 +35,7 @@ LiveSpec produces methodology frameworks for specification-driven development.
 - Agent artifacts → specs/3-artifacts/agents/ (methodology deliverables)
 - Methodology behaviors → specs/3-behaviors/ (drift detection, validation, phase guidance)
 
-**Key insight**: workspace/ governs how the workspace behaves and maintains itself (context building, documentation generation). The artifacts and tools the workspace uses/produces go in 3-artifacts/ and 3-behaviors/.
+**Key insight**: workspace/ defines **operating context** - how agents, humans, and the workspace interact. The artifacts and tools the workspace uses/produces go in 3-artifacts/ and 3-behaviors/. Workspace specs can be bespoke to the project; there's no requirement for them to be "portable to any project".
 
 ## Specs Boundary
 

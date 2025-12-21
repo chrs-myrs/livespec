@@ -1,22 +1,22 @@
 # Workspace Scope Clarity Guide
 
-**Purpose**: Clear guidance on workspace/ vs product boundary to prevent the most common LiveSpec mistake: putting product-specific content in workspace/.
+**Purpose**: Clear guidance on workspace/ vs deliverable boundary to prevent the most common LiveSpec mistake: putting deliverable content in workspace/.
 
 ## The Core Principle
 
-**Workspace = Portable Methodology**
+**Workspace = Operating Context**
 
 ```
-Portability Test: "Could I use this EXACT spec in ANY project?"
-- YES → workspace/ (portable methodology)
-- NO → specs/1-requirements/, 2-strategy/, or 3-behaviors/ (product-specific)
+"About vs In" Test: "Is this ABOUT the workspace or IN the workspace?"
+- ABOUT (operating context) → workspace/
+- IN (deliverable) → specs/1-requirements/, 2-strategy/, or 3-behaviors/
 ```
 
 ## The Confusion
 
 **Common mistake**: "Workspace = how WE work" interpreted as "how we work ON THIS PRODUCT"
 
-**Correct understanding**: "Workspace = how ANYONE works using LiveSpec methodology"
+**Correct understanding**: "Workspace = how agents, humans, and the workspace interact" (operating context)
 
 ### Example of Confusion
 
@@ -24,13 +24,13 @@ Portability Test: "Could I use this EXACT spec in ANY project?"
 ```
 "Our workspace should document OUR taxonomy for classifying OUR projects"
 → Creates specs/workspace/taxonomy.spec.md with TMP project dimensions
-→ VIOLATION: TMP taxonomy is product-specific, not portable methodology
+→ VIOLATION: TMP taxonomy is a product deliverable, not operating context
 ```
 
 **✅ Right thinking**:
 ```
-"Workspace documents the LIVESPEC methodology WE follow"
-→ Creates specs/workspace/taxonomy.spec.md classifying THIS project per LiveSpec framework
+"Workspace documents HOW WE OPERATE in this workspace"
+→ Creates specs/workspace/taxonomy.spec.md classifying THIS project
 → CORRECT: Uses taxonomy metaspec to classify project (Software/Documentation/Governance/etc.)
 ```
 
@@ -50,9 +50,9 @@ This is the exact issue from project-governance that prompted this guide:
 - Language: typescript, javascript, php, python
 ```
 
-**Portability test FAILS**: "Can React library use TMP taxonomy?" → NO
+**"About vs in" test FAILS**: "Is this ABOUT the workspace?" → NO (it's a product feature)
 **Correct location**: `specs/2-strategy/project-classification.spec.md`
-**Why**: This is a PRODUCT FEATURE (how to classify TMP projects), not portable methodology
+**Why**: This is a PRODUCT FEATURE (how to classify TMP projects), not operating context
 
 **Project Taxonomy** (YES workspace):
 ```markdown
@@ -62,18 +62,18 @@ This is the exact issue from project-governance that prompted this guide:
 Governance - Produces methodology frameworks
 
 ## Workspace Scope
-**What IS workspace:**
-- constitution.spec.md - Development principles (portable)
-- patterns.spec.md - Naming conventions (portable)
-- workflows.spec.md - Development process (portable)
+**What IS workspace (operating context):**
+- constitution.spec.md - Development principles
+- patterns.spec.md - Naming conventions
+- workflows.spec.md - Development process
 
-**What is NOT workspace:**
+**What is NOT workspace (deliverables):**
 - TMP taxonomy dimensions → specs/2-strategy/
 - Policy validation system → specs/3-behaviors/
 ```
 
-**Portability test PASSES**: "Can ANY project use this structure?" → YES
-**Why**: This CLASSIFIES the project using LiveSpec framework (portable)
+**"About vs in" test PASSES**: "Is this ABOUT the workspace?" → YES
+**Why**: This CLASSIFIES the project (operating context)
 
 ## Decision Framework
 
@@ -83,36 +83,36 @@ What are you documenting?
 
 | Content | Category |
 |---------|----------|
-| Spec-first principle | Methodology |
-| MSL format requirement | Methodology |
-| Phase 0-4 workflow | Methodology |
-| TDD approach | Methodology |
-| **TMP taxonomy dimensions** | **Product feature** |
-| **Lambda function patterns** | **Architecture constraint** |
-| **Authentication requirements** | **Product requirement** |
+| Spec-first principle | Operating context |
+| MSL format requirement | Operating context |
+| Phase 0-4 workflow | Operating context |
+| TDD approach | Operating context |
+| **TMP taxonomy dimensions** | **Deliverable** |
+| **Lambda function patterns** | **Deliverable** |
+| **Authentication requirements** | **Deliverable** |
 
-### Step 2: Apply Portability Test
+### Step 2: Apply "About vs In" Test
 
-Ask: "Could I copy this spec to a completely different project and use it?"
+Ask: "Is this ABOUT the workspace or IN the workspace?"
 
 **Examples:**
 
 ```markdown
 # Spec: "All development follows spec-first principle"
-Q: Could React library use this?
-A: YES → workspace/constitution.spec.md
+Q: Is this ABOUT the workspace?
+A: YES (describes how we operate) → workspace/constitution.spec.md
 ```
 
 ```markdown
 # Spec: "All Lambda functions use handler pattern"
-Q: Could React library use this?
-A: NO (React doesn't have Lambda functions) → specs/2-strategy/lambda-architecture.spec.md
+Q: Is this ABOUT the workspace?
+A: NO (describes product architecture) → specs/2-strategy/lambda-architecture.spec.md
 ```
 
 ```markdown
 # Spec: "Projects classified by Nature/Type/Deployment"
-Q: Could ANY project use TMP's classification system?
-A: NO (TMP-specific product feature) → specs/2-strategy/project-classification.spec.md
+Q: Is this ABOUT the workspace?
+A: NO (describes a product feature) → specs/2-strategy/project-classification.spec.md
 ```
 
 ### Step 3: Check Against Taxonomy Declaration
@@ -122,7 +122,7 @@ Your `specs/workspace/taxonomy.spec.md` should explicitly list what IS and is NO
 **Verify:**
 1. Is content listed in "What IS workspace" section?
 2. Does it match examples in "What is NOT workspace"?
-3. Does it pass portability test?
+3. Does it pass "about vs in" test?
 
 ## Common Violations and Fixes
 
@@ -134,7 +134,7 @@ Your `specs/workspace/taxonomy.spec.md` should explicitly list what IS and is NO
 Define TMP's project classification dimensions...
 ```
 
-**Why wrong**: TMP taxonomy is a product feature (governance system), not LiveSpec methodology
+**Why wrong**: TMP taxonomy is a product feature (governance system), not operating context
 
 **Fix**:
 - Move to `specs/2-strategy/project-classification.spec.md`
@@ -153,7 +153,7 @@ Define TMP's project classification dimensions...
 
 **Fix**:
 - Move to `specs/2-strategy/lambda-architecture.spec.md`
-- Keep only language-agnostic patterns in workspace/patterns.spec.md
+- Keep only operating conventions in workspace/patterns.spec.md
 
 ### Violation 3: Feature Requirements in Workspace
 
@@ -164,7 +164,7 @@ Define TMP's project classification dimensions...
 - [!] System must authenticate users via OAuth
 ```
 
-**Why wrong**: User authentication is a product feature, not development methodology
+**Why wrong**: User authentication is a product feature, not operating context
 
 **Fix**:
 - Move to `specs/3-behaviors/authentication.spec.md`
@@ -174,44 +174,44 @@ Define TMP's project classification dimensions...
 
 ### Constitution (Development Principles)
 
-**Portable methodology:**
+**Operating context:**
 - Spec-first principle
 - MSL minimalism
 - TDD approach
 - Dogfooding commitment
 - Git workflow standards
 
-**Test**: "Can ANY project follow these principles?" → YES
+**Test**: "Is this ABOUT how we operate?" → YES
 
 ### Patterns (Naming Conventions)
 
-**Portable methodology:**
+**Operating context:**
 - Spec file naming (*.spec.md)
 - Phase-letter naming (0a-, 1b-)
 - Frontmatter format
 - MSL structure requirements
 
-**Test**: "Can ANY project use these patterns?" → YES
+**Test**: "Is this ABOUT how we operate?" → YES
 
 ### Workflows (Development Process)
 
-**Portable methodology:**
+**Operating context:**
 - Phase 0-4 sequence
 - When to extract specs
 - When to detect drift
 - How specs evolve with code
 
-**Test**: "Can ANY project follow this workflow?" → YES
+**Test**: "Is this ABOUT how we operate?" → YES
 
 ### Taxonomy (Project Classification)
 
-**Portable methodology:**
+**Operating context:**
 - Classify THIS project (Software/Documentation/Governance/etc.)
 - List what IS workspace (constitution, patterns, workflows, taxonomy)
 - List what is NOT workspace (product strategy, product behaviors)
 - Specs boundary declaration
 
-**Test**: "Can ANY project use LiveSpec taxonomy metaspec?" → YES
+**Test**: "Is this ABOUT how we operate?" → YES
 
 ## What Does NOT BELONG in Workspace
 
@@ -234,7 +234,7 @@ Define TMP's project classification dimensions...
 - System behaviors
 - Domain-specific processes
 
-## Red Flags (Portability Failures)
+## Red Flags (Deliverable Indicators)
 
 If you see these in workspace/, move them:
 
@@ -253,8 +253,8 @@ bash scripts/audit-workspace-scope.sh
 ```
 
 **Checks:**
-- Each workspace/ file against portability test
-- Product-specific indicators
+- Each workspace/ file against "about vs in" test
+- Deliverable indicators
 - Cross-reference with taxonomy.spec.md declarations
 
 ## Historical Context
@@ -265,8 +265,8 @@ This guide addresses the exact failure mode discovered in project-governance:
 
 **Problem**:
 - This is a PRODUCT FEATURE (governance classification system)
-- Failed portability test ("Can React library use TMP taxonomy?" → NO)
-- Violated workspace principle (not portable methodology)
+- Failed "about vs in" test ("Is this ABOUT the workspace?" → NO)
+- Violated workspace principle (not operating context)
 
 **Should have been**:
 - Product taxonomy → `specs/2-strategy/project-classification.spec.md`
@@ -278,16 +278,51 @@ This guide addresses the exact failure mode discovered in project-governance:
 - **Product taxonomy** (TMP's classification system for TMP projects)
 - **Project taxonomy** (Classifying THIS project using LiveSpec framework)
 
-This is the most common LiveSpec mistake. The portability test prevents it.
+The "about vs in" test prevents this.
+
+## Workspace Specs Drive Agent Context
+
+**Key insight from two-branch model**: Workspace specs generate the context tree (AGENTS.md, ctxt/).
+
+```
+SHARED FOUNDATION (purpose, requirements, strategy)
+            ↓ derives into two branches
+    ┌───────────────┴───────────────┐
+    ↓                               ↓
+PRODUCT SPECS                   WORKSPACE SPECS
+(3-behaviors/, 3-contracts/)    (workspace/)
+    ↓ generates                     ↓ generates
+CODE + TESTS                    CONTEXT TREE
+                                (AGENTS.md, ctxt/)
+                                    ↓ guides
+                                AI AGENT BEHAVIOR
+```
+
+**Workspace specs = source of truth for AI guidance**:
+- constitution.spec.md → Core principles in AGENTS.md
+- patterns.spec.md → Format and naming guidance
+- workflows.spec.md → Phase workflow in AGENTS.md
+- taxonomy.spec.md → Domain classification for context loading
+
+**Regeneration relationship**:
+- Change workspace specs → Regenerate AGENTS.md
+- AGENTS.md content comes FROM workspace specs
+- Don't edit AGENTS.md directly → Update source specs
+
+**This is why workspace scope matters**:
+- Deliverables in workspace/ pollute agent context
+- Operating context in numbered specs/ gets lost
+- Wrong placement = wrong AI guidance
 
 ## Quick Reference
 
-**The Simple Rule**: If you can't copy this spec to a React library, Node.js API, or Python CLI and use it unchanged, it doesn't belong in workspace/.
+**The Simple Rule**: If this is describing WHAT you're building rather than HOW you operate, it doesn't belong in workspace/.
 
-**The workspace/ files** (typically just 4):
+**The workspace/ files** (typically just 4-5):
 1. `constitution.spec.md` - Development principles
 2. `patterns.spec.md` - Naming conventions
 3. `workflows.spec.md` - Development process
 4. `taxonomy.spec.md` - Project classification (per LiveSpec framework)
+5. `context-architecture.spec.md` - What goes in agent context (optional)
 
-Everything else is product-specific and belongs in numbered specs/ directories.
+Everything else is a deliverable and belongs in numbered specs/ directories.

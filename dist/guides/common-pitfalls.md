@@ -404,7 +404,7 @@ generated/                 # Build outputs (dist/, compiled code)
 
 **Prevention**:
 - ✅ **Read specs/workspace/taxonomy.spec.md FIRST**: Before creating any files
-- ✅ **Portability test**: "Could I use this spec in ANY project?" → YES = workspace/
+- ✅ **"About vs in" test**: "Is this ABOUT the workspace or IN the workspace?" → ABOUT = workspace/
 - ✅ **Specs boundary**: No user data in specs/, no research materials, no generated artifacts
 - ✅ **Working files**: Reports, analysis, scratch → var/
 
@@ -414,6 +414,80 @@ If you put files in wrong location:
 2. Update any references/links
 3. Gitignore var/ and generated/ (if not already)
 4. Review taxonomy.spec.md to internalize boundaries
+
+---
+
+## Pitfall 10: Implementation Details in Specs
+
+### Real Example: Performance Numbers in Behavior Specs
+
+**What was done**: Spec said "API must respond in <100ms with 50ms debounce"
+
+**What should have been done**: Spec should say "API must feel responsive" or strategic decision for performance requirements.
+
+**Why this matters**:
+- Implementation details pollute specs
+- Can't regenerate cleanly (different implementations may have different performance characteristics)
+- Specifics become outdated as technology changes
+- Specs become maintenance burden
+
+**Examples of implementation details in specs**:
+| Anti-Pattern | Why Wrong | Fix |
+|--------------|-----------|-----|
+| "Button is 120px wide" | Visual implementation | "Button is prominent" or remove |
+| "Use Redis for caching" in behavior | Technology choice | Move to strategy or remove |
+| "50ms debounce" | Tuning number | "Input feels responsive" |
+| "Use JWT with RS256" | Implementation choice | Move to strategy if cross-cutting |
+| "Array.map() for iteration" | Syntax pattern | Remove entirely |
+
+**Prevention**:
+- ✅ **WHAT/WHY test**: "Does this describe WHAT/WHY or HOW?" → HOW = remove
+- ✅ **Regeneration test**: "Would this need to be preserved after regeneration?" → NO = remove
+- ✅ **Implementation independence**: "Would different implementation solve same way?" → NO = remove
+- ✅ **See dist/guides/abstraction-guidance.md** for complete placement tests
+
+**Recovery**:
+If you find implementation details in specs:
+1. Identify the underlying requirement (WHY does this exist?)
+2. Reframe as qualitative/outcome-focused
+3. If truly cross-cutting, move to strategy
+4. If purely implementation, remove entirely
+
+---
+
+## Pitfall 11: Essential Knowledge Only in Code
+
+### Real Example: Business Rule in Code Comment
+
+**What was done**: Complex validation logic with comment "must comply with regulation X"
+
+**What should have been done**: Constraint in specs/1-requirements/constraints.spec.md
+
+**Why this matters**:
+- Code is disposable - knowledge will be lost on regeneration
+- Comments aren't specs - no validation, no traceability
+- Future AI won't know to include this
+- Creates "archaeology" problem
+
+**Common hiding places for essential knowledge**:
+- Code comments explaining "why"
+- README files with critical requirements
+- Commit messages with business rules
+- Slack/email with stakeholder decisions
+- Mental models never documented
+
+**Prevention**:
+- ✅ **Regeneration survival test**: "Would this need to survive regeneration?" → YES = spec
+- ✅ **Discovery leveling**: When you learn something, level it up immediately
+- ✅ **No "obvious" exceptions**: If it matters, it's a spec
+- ✅ **See dist/guides/progressive-disposability.md** for durability mindset
+
+**Recovery**:
+If you find essential knowledge only in code:
+1. Identify what layer it belongs to (requirement, strategy, behavior)
+2. Create or update appropriate spec
+3. Add to spec requirements section
+4. Keep code comment as implementation detail (can be lost on regeneration)
 
 ---
 
@@ -456,6 +530,14 @@ If you put files in wrong location:
 9. **Thought: "I'll just put this report in specs/"**
    - → Pitfall 9 (Wrong folder)
    - Action: Check taxonomy.spec.md
+
+10. **Thought: "I should document the 100ms timeout in the spec"**
+    - → Pitfall 10 (Implementation details in specs)
+    - Action: Use WHAT/WHY test, see abstraction-guidance.md
+
+11. **Thought: "I'll explain this in a code comment"**
+    - → Pitfall 11 (Essential knowledge only in code)
+    - Action: If important, level up to spec
 
 ---
 

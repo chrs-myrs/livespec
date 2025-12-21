@@ -18,9 +18,11 @@ Format: `.livespec/standard/registries/gaps.spec.md`
 
 **Potential Solution:** Add active trigger logic to AGENTS.md with specific detection criteria and prompts agents should use
 
-**Status:** Planned (part of 2025-11-13 improvement initiative)
+**Status:** Accepted Limitation ✓
 
 **Discovered:** 2025-11-13 during terminology standardization analysis
+
+**Resolution (2025-12-15):** Accepted as limitation. IMP-002 attempted trigger logic but was ineffective (1/18 sessions). Stronger enforcement would compete with more critical guidance (spec-first). Session completion remains user-initiated via `/livespec:complete-session` slash command. When users do complete sessions, the workflow works well (IMP-003 effective). This is acceptable.
 
 ---
 
@@ -34,9 +36,11 @@ Format: `.livespec/standard/registries/gaps.spec.md`
 
 **Potential Solution:** Establish four-level improvement taxonomy with clear terminology and scope
 
-**Status:** Planned (part of 2025-11-13 improvement initiative)
+**Status:** Resolved ✓
 
 **Discovered:** 2025-11-13 user feedback during terminology discussion
+
+**Resolution (2025-12-15):** IMP-001 implemented taxonomy and was effective - no terminology confusion reported in 18 feedback files since Nov 13. Closing this gap.
 
 ---
 
@@ -50,9 +54,11 @@ Format: `.livespec/standard/registries/gaps.spec.md`
 
 **Potential Solution:** Create "Suggest Improvements" prompt that reads feedback files and identifies patterns
 
-**Status:** Planned (part of 2025-11-13 improvement initiative)
+**Status:** Resolved ✓
 
 **Discovered:** 2025-11-13 during improvement taxonomy research
+
+**Resolution (2025-12-15):** `dist/prompts/utils/suggest-improvements.md` prompt created and working. This very analysis used it to read 25 compliance records and 18 feedback files, detecting patterns and evaluating improvement effectiveness. Gap closed.
 
 ---
 
@@ -66,9 +72,20 @@ Format: `.livespec/standard/registries/gaps.spec.md`
 
 **Potential Solution:** Create "Run Health Report" prompt that executes all validations and synthesizes results
 
-**Status:** Planned (part of 2025-11-13 improvement initiative)
+**Status:** Resolved ✓
 
 **Discovered:** 2025-11-13 during improvement taxonomy research
+
+**Resolution (2025-12-15):** `dist/prompts/utils/run-health-report.md` prompt exists and is functional. Also referenced via `/livespec:health-report` slash command. Gap closed.
+
+---
+
+## Resolved Gaps (Archived 2025-12-15)
+
+- **GAP-001:** Agent Session Prompting → Accepted as limitation (user-initiated by design)
+- **GAP-002:** Learning Terminology Confusion → IMP-001 effective
+- **GAP-003:** No Cross-Session Pattern Analysis → suggest-improvements.md implemented
+- **GAP-004:** No Unified Health Dashboard → run-health-report.md implemented
 
 ---
 

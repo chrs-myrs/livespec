@@ -1,6 +1,6 @@
 ---
 criticality: IMPORTANT
-failure_mode: Product-specific content in workspace/ violates portability principle, breaks methodology reuse, confuses agents about workspace vs product boundary
+failure_mode: Product-specific content in workspace/ blurs operating context vs deliverable boundary, confuses agents about workspace purpose
 governed-by:
   - dist/standard/metaspecs/behavior.spec.md
 satisfies:
@@ -14,9 +14,9 @@ guided-by:
 
 ## Requirements
 
-- [!] System audits workspace/ directory to ensure all files are portable methodology (not product-specific content), enforcing clear workspace vs product boundary.
-  - Applies portability test to each workspace/ file: "Could I use this in ANY project?"
-  - Reports files that fail portability test (product-specific content in workspace/)
+- [!] System audits workspace/ directory to ensure all files define operating context (not product deliverables), enforcing the "about vs in" boundary.
+  - Applies "about vs in" test to each workspace/ file: "Is this ABOUT the workspace or IN the workspace?"
+  - Reports files that fail the test (product deliverables in workspace/)
   - Validates workspace/ files against taxonomy.spec.md Workspace Scope declarations
   - Checks for common violations (feature requirements, product behaviors, product strategy in workspace/)
   - Provides remediation guidance (where file should move: 1-requirements/, 2-strategy/, 3-behaviors/)
@@ -26,8 +26,8 @@ guided-by:
 ## Validation
 
 - Audit scans all files in specs/workspace/ directory
-- Audit applies portability test to each file
-- Audit detects product-specific indicators (feature names, product terminology, domain-specific constraints)
+- Audit applies "about vs in" test to each file
+- Audit detects deliverable indicators (feature names, product terminology, API definitions)
 - Audit cross-references with taxonomy.spec.md Workspace Scope section
 - Audit reports violations with specific relocation suggestions
 - Audit output actionable (tells user where to move file)
@@ -35,7 +35,7 @@ guided-by:
 
 ## Examples
 
-**Portable workspace/ file (valid):**
+**Valid workspace/ file (operating context):**
 ```markdown
 # specs/workspace/constitution.spec.md
 ---
@@ -51,13 +51,13 @@ failure_mode: Development becomes inconsistent without core principles
   - MSL format for all specs
   - Behaviors testable and observable
 ```
-✅ **Portability test: PASS**
-- "Spec-first" applies to ANY project
-- MSL format is universal
-- Testable behaviors are universal principle
-- **Verdict**: Properly in workspace/
+✅ **About vs In test: PASS (ABOUT)**
+- "Spec-first" describes HOW we operate
+- MSL format is an operating convention
+- This is meta-governance - ABOUT the workspace
+- **Verdict**: Correctly in workspace/
 
-**Product-specific file in workspace/ (invalid):**
+**Invalid workspace/ file (product deliverable):**
 ```markdown
 # specs/workspace/taxonomy.spec.md
 ---
@@ -72,12 +72,11 @@ criticality: IMPORTANT
   - Type: code, agentic, hybrid
   - Deployment: deployed, internal
   - Runtime: lambda, container, server
-  - Language: typescript, javascript, php, python
 ```
-❌ **Portability test: FAIL**
-- "TMP projects" is organization-specific
-- Taxonomy dimensions are TMP product features
-- Cannot use in non-TMP projects
+❌ **About vs In test: FAIL (IN)**
+- "TMP projects" describes WHAT we deliver, not HOW we operate
+- Taxonomy dimensions are product features
+- This is a deliverable - IN the workspace
 - **Verdict**: Should be in specs/2-strategy/ or specs/3-behaviors/
 - **Remediation**: Move to specs/2-strategy/project-classification.spec.md
 
@@ -91,9 +90,9 @@ criticality: IMPORTANT
   - Shared logic in src/lib/
   - Environment config in .env.lambda
 ```
-❌ **Portability test: FAIL**
-- "Lambda functions" is architecture-specific (not portable to container projects)
-- **Verdict**: Product constraint, not workspace methodology
+❌ **About vs In test: FAIL (IN)**
+- "Lambda functions" describes product architecture, not operating context
+- **Verdict**: Product constraint, not workspace
 - **Remediation**: Move to specs/2-strategy/lambda-architecture.spec.md
 
 ## Failure Scenarios
@@ -103,13 +102,13 @@ criticality: IMPORTANT
 - Identifies: "Feature requirements in workspace/"
 - Example: "User authentication behavior" found in workspace/patterns.spec.md
 - Suggests: "Move to specs/3-behaviors/authentication.spec.md"
-- Rationale: "Workspace = HOW we build, not WHAT we build"
+- Rationale: "Workspace = operating context, not WHAT we build"
 
 **If product-specific taxonomy in workspace/:**
 - Audit reports ERROR
 - Identifies: "Product taxonomy definition in workspace/taxonomy.spec.md"
-- Suggests: "taxonomy.spec.md should classify THIS project using taxonomy metaspec, not define product taxonomies"
-- Remediation: "Move TMP taxonomy dimensions to specs/2-strategy/project-classification.spec.md"
+- Suggests: "taxonomy.spec.md should classify THIS project, not define product taxonomies"
+- Remediation: "Move product taxonomy to specs/2-strategy/project-classification.spec.md"
 - Rationale: "THIS is the exact issue found in project-governance"
 
 **If architecture decisions in workspace/:**
@@ -117,35 +116,38 @@ criticality: IMPORTANT
 - Identifies: "Technology-specific constraints in workspace/"
 - Example: "Lambda-specific patterns" or "React-specific conventions"
 - Suggests: "Move to specs/2-strategy/architecture.spec.md"
-- Rationale: "Architecture is product strategy, not portable methodology"
+- Rationale: "Architecture is product strategy, not operating context"
 
 **If file explicitly included in taxonomy Workspace Scope:**
 - Audit allows file even if borderline
 - Reports: "Explicitly included in taxonomy.spec.md Workspace Scope section"
 - Does not block
-- Suggests: "Verify file still passes portability test"
+- Suggests: "Verify file describes operating context"
 
 ## Implementation Notes
 
-**Portability test indicators:**
+**"About vs In" test indicators:**
 
-**PASS indicators (portable methodology):**
-- "spec-first", "TDD", "MSL format", "phases", "validation"
-- "development principles", "naming conventions", "file patterns"
-- "commit process", "branching strategy", "documentation standards"
-- References to .livespec/, dist/, LiveSpec concepts
+**ABOUT indicators (operating context - valid for workspace/):**
+- Development principles (spec-first, TDD, MSL format)
+- Operating conventions (naming, format, structure)
+- Agent behaviour rules (how agents interact with workspace)
+- Human workflow processes (how humans interact with workspace)
+- Context building rules (AGENTS.md structure, compression)
+- Classification of THIS project (not product taxonomies)
 
-**FAIL indicators (product-specific):**
-- Organization names (TMP, Acme Corp, etc.)
-- Product names or features (authentication, payment processing, data pipeline)
-- Technology stacks (Lambda, React, PostgreSQL) as requirements
+**IN indicators (deliverables - should NOT be in workspace/):**
+- Product names or features (authentication, payment processing)
+- Technology stacks as requirements (Lambda, React, PostgreSQL)
 - Domain terminology (lending, fintech, e-commerce)
 - User-facing features or business logic
+- API definitions or data contracts
+- Organisation-specific taxonomies (TMP, Acme Corp)
 
 **Detection strategy:**
 1. Parse file content
 2. Extract key terms
-3. Check against portability indicators
+3. Check against "about vs in" indicators
 4. Cross-reference taxonomy.spec.md
 5. Calculate confidence score (0-100%)
 6. Report violations >70% confidence as ERROR
@@ -167,8 +169,8 @@ criticality: IMPORTANT
 **Historical context:**
 This audit addresses real failure in project-governance where:
 - taxonomy.spec.md contained TMP product taxonomy (Nature, Type, Deployment dimensions)
-- This is product-specific classification system, not portable methodology
-- Violated portability test ("Could I use TMP taxonomy in a React library?" → NO)
+- This was a product-specific classification system, not operating context
+- Failed the "about vs in" test ("Is TMP taxonomy ABOUT the workspace?" → NO)
 - Should have been in specs/2-strategy/project-classification.spec.md
-- User reported: "taxonomy doesn't have the content it was designed to hold (what is workspace or not)"
+- User reported: "taxonomy doesn't have the content it was designed to hold"
 - Missing Workspace Scope section prevented detection of this violation

@@ -28,7 +28,7 @@ guided-by:
 **Type metaspecs:**
 - base.spec.md - Base requirements for all LiveSpec specs (extends MSL)
 - behavior.spec.md - Observable outcomes and validation criteria
-- workspace.spec.md - Portable development methodology
+- workspace.spec.md - Operating context (agents/humans/workspace interaction)
 - strategy.spec.md - Product-specific technical decisions
 - requirements.spec.md - High-level project requirements
 - constraints.spec.md - Hard boundaries

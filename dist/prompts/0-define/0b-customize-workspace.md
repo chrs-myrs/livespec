@@ -69,7 +69,7 @@ Ask the user:
 3. **"Will this project have domain-specific processes or workflows?"**
    - Examples: job application workflows, deployment procedures, analysis methodologies
    - If YES: "These go in specs/3-behaviors/processes/ or specs/2-strategy/, NOT specs/workspace/"
-   - If NO: "workspace/ will contain only portable methodology (constitution, patterns, workflows, taxonomy)"
+   - If NO: "workspace/ will contain only operating context (constitution, patterns, workflows, taxonomy)"
 
 4. **Select appropriate taxonomy template** from `.livespec/templates/workspace/taxonomy-[domain].spec.md.template`
 
@@ -213,7 +213,7 @@ Using appropriate templates from `dist/templates/workspace/`, create four worksp
    - Configure content focus (behaviors/constraints/patterns balance)
    - References `.livespec/standard/conventions/context-tree.spec.md` for mechanism
 
-Note: taxonomy.spec.md created in Step 3 is also part of workspace/ (portable methodology).
+Note: taxonomy.spec.md created in Step 3 is also part of workspace/ (operating context).
 
 ### Step 5: Explain Context Compression Impact
 

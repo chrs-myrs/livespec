@@ -1,6 +1,6 @@
 ---
 derives-from:
-  - specs/1-requirements/strategic/outcomes.spec.md (Voluntary Adoption, Minimal Maintenance, Bidirectional Synchronization)
+  - specs/1-requirements/strategic/outcomes.spec.md (Voluntary Adoption, Maintenance Proportional to Durability, Specification-Driven Regeneration)
   - specs/1-requirements/functional/five-phases.spec.md (phase definitions)
 governed-by:
   - specs/1-requirements/strategic/constraints.spec.md (Agent Agnostic, Manual Adoption)
@@ -12,7 +12,7 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 # Phase Workflow Strategy
 
 ## Requirements
-- [!] LiveSpec combines waterfall structure (linear first pass 0→1→2→3) with iterative flexibility (cycling back when discovering unknowns) through loose workflow providing guidance without enforcement, with Phase 4 as continuous background process maintaining bidirectional synchronization.
+- [!] LiveSpec combines waterfall structure (linear first pass 0→1→2→3) with iterative flexibility (cycling back when discovering unknowns) through loose workflow providing guidance without enforcement, with Phase 4 as continuous regeneration workflow where code is disposable and specs are source of truth.
   - Five specific phases: DEFINE (0), DESIGN (1), BUILD (TDD) (2), VERIFY (3), EVOLVE (4)
   - Natural linear progression for first pass (waterfall spine)
   - Cycling permitted when learning invalidates assumptions (iterative flexibility)
@@ -44,7 +44,7 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 - Phase 1: Think before building, separate WHAT (behaviors) from HOW (code)
 - Phase 2: Core test-driven implementation guided by specs, tests before code ensures correctness
 - Phase 3: Separate validation mindset from implementation, stakeholder involvement
-- Phase 4: Continuous bidirectional sync (code ↔ specs), unique to LiveSpec
+- Phase 4: Continuous regeneration workflow (specs → code, code is disposable), unique to LiveSpec
 
 ## Hybrid Model: Waterfall Spine + Iterative Cycles
 
@@ -135,9 +135,9 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 - Drift accumulates if not detected continuously
 - Bidirectional sync requires ongoing attention
 
-**Connection to bidirectional sync:**
-- Specs → Code: Phase 1-2 workflow
-- Code → Specs: Phase 4 extraction workflow
+**Connection to regeneration workflow:**
+- Specs → Code: Phase 1-2 workflow (generate implementation)
+- Code → Specs: Phase 4 extraction workflow (level up discoveries)
 - Both directions enabled by Phase 4 continuity
 
 ## "Loose Workflow" Philosophy

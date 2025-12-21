@@ -171,9 +171,9 @@ This single template replaces four previous templates with simplified four-layer
 ## Folder Organization Decision Tests
 [Critical for proper spec placement]
 
-**workspace/ test:** "Could I copy this spec to ANY project?"
-- YES → workspace/ (portable process)
-- NO → Check strategy/ or behaviors/
+**workspace/ test:** "Is this ABOUT the workspace or IN the workspace?"
+- ABOUT (operating context) → workspace/
+- IN (deliverable) → Check strategy/ or behaviors/
 
 **strategy/ test:** "Does this apply across the whole product?"
 - YES → strategy/ (cross-cutting technical decision)
@@ -390,7 +390,18 @@ head -n 10 AGENTS.md  # Verify generated, generator, version fields
   - [ ] Active self-check questions present
   - [ ] Plan review checklist present
 
-### 8. Commit
+### 8. Make Generated Files Read-Only
+
+**Prevent accidental direct edits**:
+```bash
+chmod 444 AGENTS.md
+# If ctxt/ exists:
+chmod 444 ctxt/phases/*.md ctxt/domains/*.md ctxt/utils/*.md 2>/dev/null || true
+```
+
+**Why**: Generated files should only be modified by regeneration. Read-only permissions create friction for direct edits, guiding users to edit source specs instead.
+
+### 9. Commit
 
 **If regeneration changes methodology:**
 ```bash

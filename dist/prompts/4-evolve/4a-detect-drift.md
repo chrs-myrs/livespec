@@ -3,15 +3,26 @@ implements: specs/3-artifacts/prompts/4a-detect-drift.spec.md
 estimated_time: "20-30 minutes"
 ---
 
-# 4a: Detect Drift
+# 4a: Detect Regeneration Signals
 
 **Phase**: EVOLVE
-**Purpose**: Detect when code and specifications have diverged
-**Context**: See `specs/3-behaviors/drift-detection.spec.md` for methodology
+**Purpose**: Detect when code should be regenerated from specifications
+**Context**: Code is disposable. Drift signals regeneration opportunity, not sync problem.
+
+## Core Philosophy
+
+**Drift detection becomes regeneration signal detection**:
+- Drift = Signal that code has accumulated cruft
+- Response = Regenerate from specs (don't patch)
+- Goal = Keep essential knowledge in specs, code disposable
+
+**Discovery leveling**: When detecting drift, ask "Does this belong in specs?"
+- YES → Level up to appropriate spec layer (requirements, strategy, or behaviors)
+- NO → Accept as implementation detail (disposable)
 
 ## Task
 
-Identify semantic differences between specifications and implementation.
+Identify when code no longer matches specs and determine if regeneration is needed.
 
 ## When to Check for Drift
 
@@ -38,8 +49,8 @@ bash scripts/validate-taxonomy-structure.sh
 ```bash
 bash scripts/audit-workspace-scope.sh
 ```
-- Detects product-specific content in workspace/ (portability violations)
-- Flags files that fail "Could I use this in ANY project?" test
+- Detects deliverable content in workspace/ ("about vs in" violations)
+- Flags files that fail "Is this ABOUT the workspace or IN it?" test
 
 **Spec purity detection:**
 ```bash
@@ -267,12 +278,13 @@ When classifying changes, use three-way thinking:
 
 - [ ] All code changes since last check reviewed
 - [ ] All spec changes since last check reviewed
-- [ ] Changes classified (auto-accept, review, manual)
-- [ ] Drift report created
-- [ ] Next actions identified
+- [ ] Changes classified (auto-accept, review, regenerate)
+- [ ] Discoveries leveled up to appropriate spec layer
+- [ ] Regeneration decision made
 
 ## Next Step
 
-Once drift is detected and classified, proceed to:
-- `4b-extract-specs.md` for new behaviors
-- `4c-update-specs.md` for modified behaviors
+Once drift is detected and classified, decide:
+- **Specs need update** → `4b-extract-specs.md` to level up discoveries
+- **Code needs regeneration** → Regenerate from specs (code is disposable)
+- **Both OK** → Continue (drift was implementation detail)

@@ -16,6 +16,23 @@ This is a **bootstrap agent configuration**. Once your workspace specs are estab
 
 ---
 
+## Core Philosophy: Disposable Code, Durable Specs
+
+**LiveSpec's fundamental insight**: Code is disposable. Knowledge is not.
+
+**Two-branch model**: Shared foundation (purpose, requirements, strategy) derives into:
+- **Product branch**: Specs → Tests → Code (what you build)
+- **Workspace branch**: Specs → Context tree → AI guidance (how you work)
+
+**Progressive disposability**: Lower layers are more disposable than upper layers:
+- PURPOSE (most durable) → REQUIREMENTS → STRATEGY → BEHAVIORS → CODE (disposable)
+- Essential knowledge lives in specs, not code
+- Code can be regenerated from specs at any time
+
+**Human as stakeholder**: Human owns intention. AI manages specs, code, and alignment.
+
+---
+
 ## Quick Start for New Projects
 
 **If starting fresh**:
@@ -133,9 +150,9 @@ Only include if answers YES, NO, specific problem, NO respectively.
 
 **Critical for proper spec placement:**
 
-**workspace/ test:** "Could I copy this spec to ANY project?"
-- YES → workspace/ (portable process)
-- NO → Check 1-requirements/, 2-strategy/, or 3-behaviors/
+**workspace/ test:** "Is this ABOUT the workspace or IN the workspace?"
+- ABOUT (operating context) → workspace/
+- IN (deliverable) → Check 1-requirements/, 2-strategy/, or 3-behaviors/
 
 **1-requirements/ test:** "Is this a strategic outcome or hard constraint?"
 - YES, strategic → 1-requirements/strategic/
@@ -182,7 +199,7 @@ your-project/
 **Phase 1: DESIGN** - Architecture, behaviors, contracts
 **Phase 2: BUILD** - Test-driven implementation
 **Phase 3: VERIFY** - Validation testing
-**Phase 4: EVOLVE** - Spec-code synchronization
+**Phase 4: EVOLVE** - Regeneration workflow (code is disposable, regenerate from specs)
 
 **Start with**: Phase 0 (`0a-quick-start.md` or `0b-customize-workspace.md`)
 

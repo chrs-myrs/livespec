@@ -120,18 +120,18 @@ target-project (user's repo):
 
 ### Workspace Scope Test
 
-**"Could I use this spec in ANY project?"**
+**"Is this ABOUT the workspace or IN the workspace?"**
 
-**YES → workspace/ (portable methodology):**
-- constitution.spec.md - Development principles (ANY project can use these)
-- patterns.spec.md - MSL format, naming (ANY project can follow)
-- workflows.spec.md - Spec-first workflow (ANY project can adopt)
+**ABOUT → workspace/ (operating context):**
+- constitution.spec.md - Development principles (operating context)
+- patterns.spec.md - MSL format, naming (operating context)
+- workflows.spec.md - Spec-first workflow (operating context)
 
-**NO → strategy/behaviors/ (framework-specific):**
-- distribution.spec.md - How LiveSpec distributes (specific to frameworks)
-- prompt-behaviors.spec.md - What prompts do (specific to LiveSpec)
+**IN → strategy/behaviors/ (deliverables):**
+- distribution.spec.md - How LiveSpec distributes (deliverable)
+- prompt-behaviors.spec.md - What prompts do (deliverable)
 
-**Special case:** LiveSpec's workspace/ specs ARE demonstrating the framework (dogfooding), but they define HOW LIVESPEC DEVELOPS ITSELF, not the framework being distributed.
+**Special case:** LiveSpec's workspace/ specs ARE demonstrating the framework (dogfooding), but they define HOW LIVESPEC OPERATES, not the framework being distributed.
 
 ### Specs Boundary
 

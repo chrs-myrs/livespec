@@ -1,6 +1,6 @@
 ---
 criticality: CRITICAL
-failure_mode: Without workspace spec requirements, workspace specs become product-specific and lose portability
+failure_mode: Without workspace spec requirements, workspace specs blur operating context vs deliverable boundary
 governed-by:
   - .livespec/standard/metaspecs/base.spec.md
 ---
@@ -8,17 +8,17 @@ governed-by:
 # Workspace Specification Requirements
 
 ## Requirements
-- [!] Workspace specifications define portable development methodology that applies to any project using LiveSpec.
+- [!] Workspace specifications define operating context for how agents, humans, and the workspace interact.
   - Spec follows base.spec.md requirements (MSL + criticality + failure_mode)
   - Spec located in `specs/workspace/` folder
-  - Spec describes HOW to build (process, not product)
-  - Spec is portable (could be copied to different project)
+  - Spec describes HOW we operate (process, not product deliverables)
+  - Spec is ABOUT the workspace (operating context)
   - Spec does NOT include product-specific requirements
   - Spec does NOT include technical implementation details
-  - Spec does NOT reference project-specific features
+  - Spec does NOT reference product features
   - Spec includes `applies_to` frontmatter field (e.g., `all_projects`, `all_ai_agents`)
   - Workspace constitution MAY include `context_compression` frontmatter field (light | moderate | aggressive; default: moderate if unspecified)
-  - Decision test passes: "Could I use this spec in a different project?" → YES
+  - Decision test passes: "Is this ABOUT the workspace or IN the workspace?" → ABOUT
 
 ## Notes
 
@@ -28,17 +28,17 @@ governed-by:
 - `workflows.spec.md` - Development workflows (how to add features, fix bugs)
 
 **Good workspace requirements:**
-- ✅ "All specs follow MSL format" (applies to any project)
-- ✅ "Feature development follows spec → implement → test workflow" (portable process)
-- ✅ "Commits reference relevant spec files" (general practice)
+- ✅ "All specs follow MSL format" (operating convention)
+- ✅ "Feature development follows spec → implement → test workflow" (operating process)
+- ✅ "Commits reference relevant spec files" (operating practice)
 
 **Not workspace requirements:**
-- ❌ "API endpoints use REST" (product-specific → strategy spec)
-- ❌ "Database uses PostgreSQL" (product-specific → strategy spec)
-- ❌ "User authentication required" (product behavior → behavior spec)
+- ❌ "API endpoints use REST" (product deliverable → strategy spec)
+- ❌ "Database uses PostgreSQL" (product deliverable → strategy spec)
+- ❌ "User authentication required" (product deliverable → behavior spec)
 
 **Key distinction:**
-- Workspace = "Here's how we work on ANY project"
-- Strategy = "Here's how THIS project solves its problem"
+- Workspace = "Here's how we operate" (operating context)
+- Strategy = "Here's how THIS project solves its problem" (deliverable)
 
 Workspace specs go in target project's `specs/workspace/` folder.

@@ -7,23 +7,23 @@ governs: All specs/workspace/taxonomy.spec.md files
 # Project Taxonomy Metaspecification
 
 ## Requirements
-- [!] Every project's taxonomy.spec.md declares three classifications to guide AI agents: Project Domain (what type of project), Workspace Scope (what's portable methodology vs product-specific content), and Specs Boundary (specs/ contains only specifications, not data/research/artifacts).
+- [!] Every project's taxonomy.spec.md declares three classifications to guide AI agents: Project Domain (what type of project), Workspace Scope (what's operating context vs deliverable content), and Specs Boundary (specs/ contains only specifications, not data/research/artifacts).
   - **Project Domain** section defines project type
     - One of: Software, Documentation, Planning, Generation, Governance, or Hybrid
     - Brief explanation of what this domain means for THIS specific project
     - Describes primary transformation pattern (e.g., "data → specifications → generated outputs")
   - **Workspace Scope** section explicitly lists workspace/ contents
-    - Lists files that ARE workspace (portable methodology): constitution.spec.md, patterns.spec.md, workflows.spec.md, taxonomy.spec.md
-    - Explicitly states what's NOT workspace (product-specific content) with examples
-    - Includes rationale: "These are product behaviors/strategy, not portable methodology"
-    - Guides agents: "Portable to any project?" test determines workspace membership
+    - Lists files that ARE workspace (operating context): constitution.spec.md, patterns.spec.md, workflows.spec.md, taxonomy.spec.md
+    - Explicitly states what's NOT workspace (deliverable content) with examples
+    - Includes rationale: "These are product behaviors/strategy, not operating context"
+    - Guides agents: "Is this ABOUT the workspace or IN the workspace?" test determines workspace membership
   - **Specs Boundary** section declares specs/ purity
     - Clear statement: "specs/ contains ONLY .spec.md files defining system behavior"
     - Explicit locations for non-spec content: "Source data → data/, Research → research/, Generated artifacts → [location]"
     - Rationale: "specs/ defines WHAT to do, not actual data or outputs"
   - **AI agents must** section lists agent obligations
     - Check taxonomy.spec.md FIRST before creating files
-    - Verify workspace/ additions pass portability test
+    - Verify workspace/ additions pass "about vs in" test
     - Keep data/research/outputs OUT of specs/
     - Update taxonomy when project classification changes
   - Taxonomy reviewed and updated when project fundamentals change
@@ -34,7 +34,7 @@ governs: All specs/workspace/taxonomy.spec.md files
 ### Manual Validation
 - Every LiveSpec project has specs/workspace/taxonomy.spec.md
 - Taxonomy contains all four required sections (Domain, Workspace Scope, Specs Boundary, AI agents must)
-- Workspace scope explicitly lists portable vs product-specific content
+- Workspace scope explicitly lists operating context vs deliverable content
 - Specs boundary clearly separates specifications from data/artifacts
 - AI agents reference taxonomy before file creation decisions
 
@@ -56,8 +56,8 @@ bash scripts/audit-workspace-scope.sh
 ```
 
 **Checks:**
-- Applies portability test to each workspace/ file
-- Detects product-specific indicators (features, organization names, architecture constraints)
+- Applies "about vs in" test to each workspace/ file
+- Detects deliverable indicators (features, organization names, architecture constraints)
 - Reports violations with relocation suggestions
 
 **When to validate:**

@@ -35,7 +35,7 @@ guided-by:
 **constitution.spec.md.template:**
 - Defines project governance principles
 - Placeholder for 3-5 core development principles
-- Examples: MSL minimalism, bidirectional sync, simplicity over features
+- Examples: MSL minimalism, progressive disposability, simplicity over features
 - Validation criteria placeholders
 
 **patterns.spec.md.template:**
