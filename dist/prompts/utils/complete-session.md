@@ -178,7 +178,7 @@ If ANY signal present, proceed with completion analysis.
 
 **Data saved to:** ~/.claude/livespec/compliance/ and ~/.claude/livespec/feedback/
 
-**Next:** Consider committing your work and starting a fresh session for better focus.
+**Next:** Run `/livespec:learn` to apply insights to specs, then start fresh session.
 ```
 
 ### Step 7: Detect Project Metadata
@@ -317,9 +317,9 @@ After showing report and saving files:
 
 ```
 Your work has been analyzed and saved. Consider:
-1. Committing your changes (if ready)
-2. Starting a fresh session for your next task
-3. Benefits: Fresh context, better focus, reduced cognitive load
+1. Run `/livespec:learn` to apply insights to specs (updates workspace, rebuilds context)
+2. Commit your changes (if ready)
+3. Start a fresh session for your next task
 
 Data saved to ~/.claude/livespec/ for future methodology improvements.
 ```

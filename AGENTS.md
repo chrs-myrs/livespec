@@ -857,6 +857,21 @@ guided-by:
 - What went well (2-3 highlights)
 - What could improve (2-3 suggestions)
 
+### Apply Learnings to Specs
+
+**After session completion, recommend:** `/livespec:learn`
+
+This command:
+1. Scans conversation for insights (corrections, clarifications, patterns)
+2. Asks user which learnings to capture (via AskUserQuestion)
+3. Updates appropriate specs (workspace/, 2-strategy/, 3-behaviors/)
+4. Rebuilds context (AGENTS.md) so learnings are immediately available
+
+**Workflow:**
+```
+/livespec:complete-session → /livespec:learn → commit → fresh session
+```
+
 ### Data Saved Globally
 
 **Two files written to `~/.claude/livespec/`:**
