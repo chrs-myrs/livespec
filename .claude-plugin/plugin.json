@@ -1,0 +1,12 @@
+{
+  "name": "livespec",
+  "description": "Information architecture for AI-assisted development. Specs define intent, code is disposable.",
+  "version": "5.0.0",
+  "author": {
+    "name": "Chris Myers"
+  },
+  "homepage": "https://github.com/chrs-myrs/livespec",
+  "repository": "https://github.com/chrs-myrs/livespec",
+  "license": "MIT",
+  "keywords": ["methodology", "specifications", "ai-development", "context-generation"]
+}

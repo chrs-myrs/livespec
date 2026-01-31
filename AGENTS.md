@@ -963,6 +963,6 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references using `
 
 ---
 
-*Agent configuration for LiveSpec v4.0.0*
+*Agent configuration for LiveSpec v5.0.0*
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*

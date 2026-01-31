@@ -1,26 +1,22 @@
 ---
 name: evolve
-description: Spec health, learning capture, context generation, and continuous evolution.
-argument-hint: [health|learn|context|extract]
+description: Spec health, validation, context generation, and continuous evolution
+argument-hint: [health|validate|audit|context|extract]
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
 # LiveSpec Evolution
 
-Manage specification health, capture learnings, and maintain context. Consolidates evolution and context-generation into unified maintenance workflow.
+Manage specification health, run validation, regenerate context, and maintain the spec ecosystem.
 
 ## Usage
 
 - `/livespec:evolve` - Full evolution workflow (health + context if stale)
 - `/livespec:evolve health` - Proactive spec health check
-- `/livespec:evolve learn` - Capture session learnings to specs (Correction-as-Spec)
+- `/livespec:evolve validate` - Run validation checks
+- `/livespec:evolve audit [type]` - Quality audits (msl|scope|coverage)
 - `/livespec:evolve context` - Regenerate AGENTS.md and context tree
 - `/livespec:evolve extract` - Extract specs from unspecified code
-
-**Aliases** (invoke these directly):
-- `/livespec:health-report` - Comprehensive health dashboard
-- `/livespec:rebuild-context` - Same as `evolve context`
-- `/livespec:learn` - Same as `evolve learn`
 
 ## Full Evolution Workflow (Default)
 
@@ -167,83 +163,77 @@ done
 
 ---
 
-## Mode: learn (Correction-as-Spec)
+## Mode: validate
 
-**Purpose:** Transform session corrections and insights into spec updates.
+**Purpose:** Run validation checks and report pass/fail status.
 
-**Invocation:** `/livespec:evolve learn` or `/livespec:learn`
+**Invocation:** `/livespec:evolve validate`
 
-### Learning Capture Flow
+### Validation Checks
 
-**Step 1: Scan Conversation for Insights**
+**1. Cross-Reference Integrity**
+- All `satisfies:`, `guided-by:`, `derives-from:` references point to existing files
+- No circular dependencies
 
-Look for patterns:
+**2. Generated File Protection**
+- AGENTS.md/CLAUDE.md not directly edited (check generated header)
+- Regeneration needed if source specs newer
 
-- **Corrections:** "I initially thought X, but actually Y"
-- **Clarifications:** "No, I meant..." or "To be clear..."
-- **New conventions:** "We should always do X"
-- **Discovered constraints:** "This won't work because..."
+**3. MSL Format Compliance**
+- All specs have required frontmatter
+- Requirements section present with [!] markers
+- Validation criteria defined
 
-**Step 2: Categorize Learnings**
+**4. Folder Structure**
+- specs/ follows taxonomy
+- No misplaced files
 
-| Learning Type | Target Spec |
-|---------------|-------------|
-| Process/Convention | specs/workspace/ |
-| Architectural Decision | specs/strategy/ |
-| Feature Behavior | specs/features/ |
-| Constraint | specs/foundation/constraints.spec.md |
+### Output Format
 
-**Step 3: Present for Confirmation**
-
-Use AskUserQuestion:
 ```
-Session Insights Found:
+Validation Results:
 
-Which should update specs?
-[MultiSelect: true]
+[PASS] Cross-reference integrity (24/24 valid)
+[PASS] Generated file protection (AGENTS.md current)
+[FAIL] MSL format compliance (2 specs missing Validation)
+[PASS] Folder structure correct
 
-- "Always check taxonomy before creating files"
-  → Update specs/workspace/patterns.spec.md
+Overall: 3/4 checks passed
 
-- "API uses JWT tokens, not sessions"
-  → Update specs/strategy/auth.spec.md
-
-- "Add custom learning" (describe something not listed)
+Fix required:
+- specs/features/auth.spec.md: Add ## Validation section
+- specs/features/payment.spec.md: Add ## Validation section
 ```
 
-**Step 4: Apply MSL Gate**
+---
 
-Before adding to spec, verify:
-1. Is this essential? (would specs fail without it?)
-2. Is this WHAT not HOW? (not implementation detail)
-3. What problem does this prevent? (real, not theoretical)
+## Mode: audit [type]
 
-If fails MSL gate: Don't add to spec. Explain why.
+**Purpose:** Deep quality analysis of specific aspects.
 
-**Step 5: Update Specs**
+**Invocation:** `/livespec:evolve audit [msl|scope|coverage]`
 
-For each confirmed learning:
-1. Read target spec
-2. Add requirement with [!] marker
-3. Preserve MSL format
-4. Add to appropriate section
+### audit msl
 
-**Step 6: Rebuild Context**
+Checks MSL minimalism compliance:
+- Requirements are WHAT not HOW
+- No implementation details
+- Essential requirements only
+- Proper criticality levels
 
-After updates:
-```bash
-# Regenerate AGENTS.md to include learnings
-/livespec:rebuild-context
-```
+### audit scope
 
-Report:
-```
-Applied [X] learnings to specs:
-- specs/workspace/patterns.spec.md (added: "Check taxonomy first")
-- specs/strategy/auth.spec.md (clarified: JWT authentication)
+Checks workspace scope clarity:
+- Taxonomy correctly classifies project
+- Specs in correct folders
+- No scope creep
 
-Context rebuilt. Learnings now in AGENTS.md.
-```
+### audit coverage
+
+Checks spec coverage:
+- Code files with/without specs
+- Behaviors specified
+- Contracts defined
 
 ---
 
@@ -251,7 +241,7 @@ Context rebuilt. Learnings now in AGENTS.md.
 
 **Purpose:** Regenerate AGENTS.md and context tree from workspace specifications.
 
-**Invocation:** `/livespec:evolve context` or `/livespec:rebuild-context`
+**Invocation:** `/livespec:evolve context`
 
 ### Context Generation Workflow
 
@@ -310,10 +300,10 @@ Based on compression level:
 generated: [ISO timestamp]
 generator: livespec/evolve
 version: 5.0.0
-note: Generated from PURPOSE.md and specs/workspace/ - to update, use /livespec:rebuild-context
+note: Generated from PURPOSE.md and specs/workspace/ - to update, use /livespec:evolve context
 ---
 
-> **Generated File**: Do not edit directly. Use /livespec:rebuild-context.
+> **Generated File**: Do not edit directly. Use /livespec:evolve context.
 
 # [Project Name] Agent Configuration
 
@@ -435,7 +425,6 @@ Remove confidence markers after review:
 
 For detailed workflows:
 - Health checks: `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/run-health-report.md`
-- Learning capture: `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/learn.md`
 - Context generation: `${CLAUDE_PLUGIN_ROOT}/references/standards/conventions/context-tree.spec.md`
 - Spec extraction: `${CLAUDE_PLUGIN_ROOT}/references/prompts/evolve/4b-extract-specs.md`
 
@@ -445,4 +434,3 @@ After evolution:
 - All specs pass health checks
 - AGENTS.md reflects current workspace specs
 - No orphaned or obsolete specs
-- Run `/livespec:validate` to confirm

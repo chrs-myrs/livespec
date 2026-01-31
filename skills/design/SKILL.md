@@ -1,25 +1,21 @@
 ---
-name: do
-description: Unified spec work - create, update, validate, diagnose specs
-argument-hint: [feature|debug|refine|spec] <target>
+name: design
+description: Create and refine specifications - problem definition (Phase 0) and solution design (Phase 1)
+argument-hint: [feature|debug|refine|workspace|spec] <target>
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
-# LiveSpec Do
+# LiveSpec Design
 
-Unified skill for all spec-related work. Consolidates design and spec-writing into one interface with familiar modes.
+Unified skill for all spec creation and refinement work. Handles problem definition (Phase 0) and solution design (Phase 1).
 
 ## Usage
 
-- `/livespec:do feature <name>` - Create new feature with spec-first discipline
-- `/livespec:do debug <issue>` - Diagnose spec-implementation alignment
-- `/livespec:do refine <spec>` - Update existing specification
-- `/livespec:do spec <type>` - Direct spec creation (behavior|contract|workspace|strategy)
-
-**Aliases** (invoke these directly):
-- `/livespec:feature <name>` - Same as `do feature`
-- `/livespec:debug <issue>` - Same as `do debug`
-- `/livespec:refine <spec>` - Same as `do refine`
+- `/livespec:design feature <name>` - Create new feature with spec-first discipline
+- `/livespec:design debug <issue>` - Diagnose spec-implementation alignment
+- `/livespec:design refine <spec>` - Update existing specification
+- `/livespec:design workspace` - Set up or customize workspace specs
+- `/livespec:design spec <type>` - Direct spec creation (behavior|contract|workspace|strategy)
 
 ## Core Workflow (All Modes)
 
@@ -99,7 +95,7 @@ If updated spec is in `specs/workspace/`:
 
 ```
 This workspace spec affects AGENTS.md context.
-Run /livespec:rebuild-context to update agent guidance.
+Run /livespec:evolve context to update agent guidance.
 ```
 
 ---
@@ -108,7 +104,7 @@ Run /livespec:rebuild-context to update agent guidance.
 
 **Purpose:** Create new feature with full spec-first discipline.
 
-**Invocation:** `/livespec:do feature <name>` or `/livespec:feature <name>`
+**Invocation:** `/livespec:design feature <name>`
 
 **Workflow:**
 
@@ -138,7 +134,7 @@ Run /livespec:rebuild-context to update agent guidance.
 
    Next:
    - Implement with TDD (write tests first)
-   - Run /livespec:validate to check alignment
+   - Run /livespec:evolve validate to check alignment
    ```
 
 ---
@@ -147,7 +143,7 @@ Run /livespec:rebuild-context to update agent guidance.
 
 **Purpose:** Identify spec-implementation gaps and alignment issues.
 
-**Invocation:** `/livespec:do debug <issue>` or `/livespec:debug <issue>`
+**Invocation:** `/livespec:design debug <issue>`
 
 **Workflow:**
 
@@ -192,7 +188,7 @@ Run /livespec:rebuild-context to update agent guidance.
 
 **Purpose:** Update existing specification with new understanding.
 
-**Invocation:** `/livespec:do refine <spec>` or `/livespec:refine <spec>`
+**Invocation:** `/livespec:design refine <spec>`
 
 **Workflow:**
 
@@ -225,11 +221,47 @@ Run /livespec:rebuild-context to update agent guidance.
 
 ---
 
+## Mode: workspace (Setup/Customize)
+
+**Purpose:** Initialize or customize workspace specifications.
+
+**Invocation:** `/livespec:design workspace`
+
+**Workflow:**
+
+1. **Check workspace state:**
+   ```bash
+   ls specs/workspace/*.spec.md 2>/dev/null
+   ls PURPOSE.md 2>/dev/null
+   ```
+
+2. **If new project (no specs/):**
+   - Create folder structure
+   - Create PURPOSE.md
+   - Create initial workspace specs
+
+3. **If existing project:**
+   - Show current workspace specs
+   - Ask what to customize
+
+4. **Workspace specs to manage:**
+   - `specs/workspace/taxonomy.spec.md` - Project type and classification
+   - `specs/workspace/constitution.spec.md` - Enforcement level
+   - `specs/workspace/patterns.spec.md` - Local conventions
+   - `specs/workspace/workflows.spec.md` - Development process
+
+5. **After workspace changes:**
+   ```
+   Workspace updated. Run /livespec:evolve context to rebuild AGENTS.md.
+   ```
+
+---
+
 ## Mode: spec (Direct Creation)
 
 **Purpose:** Create spec of specific type directly.
 
-**Invocation:** `/livespec:do spec <type>` where type is:
+**Invocation:** `/livespec:design spec <type>` where type is:
 - `behavior` - Observable outcome spec (specs/features/)
 - `contract` - Interface spec (specs/interfaces/)
 - `workspace` - Workspace spec (specs/workspace/)
@@ -270,7 +302,7 @@ Run /livespec:rebuild-context to update agent guidance.
 
 3. **Create spec with appropriate template:**
 
-   Use templates from `.livespec/templates/` if available.
+   Use templates from references/standards/ if available.
 
 4. **Validate structure:**
    - Frontmatter complete (criticality, failure_mode)
@@ -370,4 +402,4 @@ After using this skill:
 - Frontmatter includes criticality and failure_mode
 - Requirements have [!] markers
 - Validation criteria are testable
-- Run `/livespec:validate` to confirm
+- Run `/livespec:evolve validate` to confirm

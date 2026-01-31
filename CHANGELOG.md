@@ -20,6 +20,64 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.0.0] - 2026-01-31
+
+### Major: Plugin Architecture Consolidation
+
+This release **consolidates the plugin architecture**, reducing complexity while maintaining full functionality. Commands reduced from 17 to 4 unified commands, skills from 7 to 3, and phases simplified to 3 modes.
+
+**Impact**: HIGH - Breaking changes to command structure, upgrade guide provided
+
+#### Core Changes
+
+- **Commands consolidated**: 17 → 4 unified commands
+  - `/livespec:go` - Intelligent entry point with intent routing
+  - `/livespec:design` - Spec creation and refinement (feature, debug, refine, workspace, spec)
+  - `/livespec:evolve` - Health, validation, context generation (health, validate, audit, context, extract)
+  - `/livespec:learn` - Session completion and learning capture (capture, compliance)
+
+- **Skills consolidated**: 7 → 3 focused skills
+  - `design` - Unified spec work (absorbed init, spec-writing)
+  - `evolve` - Evolution and maintenance (absorbed context-generation)
+  - `learn` - Session completion and learning (new)
+
+- **Phases simplified to modes**: 5 phases → 3 modes
+  - `define` - Problem definition and workspace setup
+  - `design` - Architecture and behavior specification
+  - `evolve` - Health monitoring, learning, context generation
+  - Build/Verify: Implementation concerns, guided but not owned by LiveSpec
+
+- **specs/ folder structure**: Numbered → Semantic
+  - `1-requirements/` → `foundation/`
+  - `2-strategy/` → `strategy/`
+  - `3-behaviors/` → `features/` + `interfaces/`
+
+#### Added
+
+- `commands/go.md` - Intent-routing entry point
+- `commands/learn.md` - Session completion command
+- `skills/learn/SKILL.md` - Learning capture skill
+- `references/guides/upgrade-to-v5.md` - Comprehensive upgrade guide
+
+#### Removed
+
+- 13 individual commands (merged into unified commands)
+- `skills/init/` (absorbed into design workspace mode)
+- `skills/spec-writing/` (absorbed into design)
+- `skills/context-generation/` (absorbed into evolve)
+- Numbered ctxt/phases/ structure (replaced with mode files)
+
+#### Migration
+
+See `references/guides/upgrade-to-v5.md` for:
+1. Removing legacy `.livespec-repo/` git submodule
+2. Removing `.livespec` symlink
+3. Installing v5 plugin
+4. Migrating specs/ folder structure
+5. Updating workspace spec references
+
+---
+
 ## [4.1.0] - 2026-01-30
 
 ### Major: Claude Code Plugin Distribution
