@@ -13,14 +13,14 @@ governed-by:
 ## Requirements
 - [!] LiveSpec development follows specific workflows with spec-first guidance as essential first step: AI agents check for spec existence before implementation, new prompts require behavior specs first, spec changes follow EVOLVE phase workflow, changes validated through real usage before merge, periodic MSL audits maintain minimalism, and documentation updates accompany prompt/spec changes.
   - **Spec-First Guidance Workflow** (essential before implementation):
-    - AI checks: Does `specs/3-behaviors/[deliverable].spec.md` exist for what user wants to implement?
+    - AI checks: Does `specs/features/[deliverable].spec.md` exist for what user wants to implement?
     - If NO: Pause to ensure spec exists first
-    - AI says: "I need a specification before implementing. Let's create specs/3-behaviors/[deliverable].spec.md first using Phase 1 (DESIGN)"
+    - AI says: "I need a specification before implementing. Let's create specs/features/[deliverable].spec.md first using Phase 1 (DESIGN)"
     - AI guides user to appropriate Phase 1 prompt (1a-design-architecture.md, 1b-define-behaviors.md, or 1c-create-contracts.md)
     - If YES: Verify spec has Requirements section with [!] items, Validation criteria, and Failure Mode defined
     - Then proceed to implementation
     - Applies to all deliverables (CHANGELOG, README, configs, templates all need specs)
-  - Every prompt in prompts/ has spec in specs/3-artifacts/prompts/
+  - Every prompt in prompts/ has spec in specs/artifacts/prompts/
   - Git history shows specs created before implementation
   - Pull requests include testing evidence
   - Specifications don't grow larger over time (MSL audits via prompts/utils/audit-workspace-specs.md)
@@ -94,8 +94,8 @@ governed-by:
         3. Verify new sequence maintains workflow logic (setup → problem → outcomes → complexity → research → constraints)
       - **Phase 2: Systematic Updates**
         1. Rename prompt files in dist/prompts/[phase]/
-        2. Update spec frontmatter (specifies: field in specs/3-artifacts/prompts/)
-        3. Update registry (specs/3-artifacts/prompts/registry.spec.md table)
+        2. Update spec frontmatter (specifies: field in specs/artifacts/prompts/)
+        3. Update registry (specs/artifacts/prompts/registry.spec.md table)
         4. Update navigation (dist/prompts/utils/next-steps.md decision tree)
         5. Update predecessor prompts ("Next Step" sections)
         6. Update AGENTS.md references if prompt mentioned

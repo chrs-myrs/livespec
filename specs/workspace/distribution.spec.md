@@ -245,7 +245,7 @@ prompts/generated/       # Real directory with project-specific content
 ## Validation
 - dist/ contains canonical framework source
 - dist/AGENTS.md is bootstrap version (~5KB, instructs generation)
-- Installation methods documented in README and specs/3-behaviors/installation.spec.md
+- Installation methods documented in README and specs/features/installation.spec.md
 - Helper script (scripts/install-livespec.sh) exists and is executable
 - Sparse submodule method only fetches dist/ directory
 - .livespec-repo/ created as git submodule (when using submodule method)

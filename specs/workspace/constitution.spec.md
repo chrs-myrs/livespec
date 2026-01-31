@@ -1,7 +1,7 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
+  - specs/foundation/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
+  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 applies_to:
   - all_projects
 context_compression: moderate
@@ -21,7 +21,7 @@ governed-by:
     - AI agents check for spec existence before implementation
     - AI agents guide users to Phase 1 (DESIGN) if spec missing
     - Familiarity doesn't excuse skipping specification (CHANGELOG mistake in commit 40411e3 demonstrates this)
-    - Every prompt in prompts/ has corresponding spec in specs/3-artifacts/prompts/
+    - Every prompt in prompts/ has corresponding spec in specs/artifacts/prompts/
     - Every behavior has validation criteria and failure mode defined
   - **MSL Minimalism** (Principle #2 - essential):
     - Before adding any requirement, ask four essential questions:
@@ -37,7 +37,7 @@ governed-by:
     - See .livespec/guides/msl-minimalism.md for complete decision framework
   - **Test-Driven Development** (Principle #3 - essential):
     - Phase 2 (BUILD) follows TDD discipline (tests written before implementation)
-    - See specs/2-strategy/testing-approach.spec.md for complete TDD workflow and requirements
+    - See specs/strategy/testing-approach.spec.md for complete TDD workflow and requirements
   - All specs pass MSL test (CRITICAL or IMPORTANT only)
   - Repository uses LiveSpec methodology (specs/ and prompts/ exist)
   - LiveSpec usable with file operations and AI prompts only

@@ -1,6 +1,6 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 6: Sustainable Evolution)
+  - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 applies_to:
   - all_projects
   - agent_context_generation
@@ -13,7 +13,7 @@ governed-by:
   - .livespec/standard/conventions/context-tree.spec.md
   - .livespec/standard/metaspecs/workspace.spec.md
 supports:
-  - specs/3-behaviors/context-generation.spec.md
+  - specs/features/context-generation.spec.md
   - .livespec/prompts/utils/regenerate-contexts.md
 ---
 
@@ -37,7 +37,7 @@ supports:
   - specs/workspace/constitution.spec.md - Development principles
   - specs/workspace/patterns.spec.md - Naming conventions
   - specs/workspace/workflows.spec.md - Phase guidance
-  - Key behaviors from specs/3-behaviors/ (spec-first enforcement, drift detection)
+  - Key behaviors from specs/features/ (spec-first enforcement, drift detection)
 
   Include When Relevant (sub-agent contexts):
   - Phase-specific methodology when agent determines phase work
@@ -46,7 +46,7 @@ supports:
 
   Exclude:
   - Detailed prompt specifications (reference, don't inline)
-  - Implementation details (link to specs/3-artifacts/ instead)
+  - Implementation details (link to specs/artifacts/ instead)
   - Historical/archived content
 
   **LiveSpec Methodology Integration**:
@@ -91,7 +91,7 @@ supports:
   - "audit MSL", "minimalism" → utils/msl-audit.md
 
   **Content Focus** (governance domain balance):
-  - Behaviors: 40% - Methodology behaviors from specs/3-behaviors/
+  - Behaviors: 40% - Methodology behaviors from specs/features/
   - Constraints: 30% - Requirements from specs/1-requirements/
   - Patterns: 30% - Workspace methodology from specs/workspace/
 

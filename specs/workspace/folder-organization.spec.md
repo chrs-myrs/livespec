@@ -1,6 +1,6 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
+  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 applies_to:
   - all_projects
 criticality: IMPORTANT
@@ -45,7 +45,7 @@ derives-from:
 - strategic/ - High-level outcomes and constraints (outcomes.spec.md, constraints.spec.md)
 - functional/ - Specific feature requirements
 
-### specs/2-strategy/ - Technical Approach (Product-Specific)
+### specs/strategy/ - Technical Approach (Product-Specific)
 **Contains:** How we solve THIS SPECIFIC problem technically
 
 **Examples:**
@@ -63,7 +63,7 @@ derives-from:
 - When architecture.spec.md exceeds ~100 lines: Split by concern
 - Each strategy file stays minimal (<50 lines per MSL)
 
-### specs/3-behaviors/ - Observable Outcomes
+### specs/features/ - Observable Outcomes
 **Contains:** What the system must do (user-facing behaviors)
 
 **Subfolders by domain:**
@@ -72,7 +72,7 @@ derives-from:
 - Planning: features/, milestones/
 - Generation: outputs/, transformations/
 
-### specs/3-contracts/ - Interface Definitions
+### specs/interfaces/ - Interface Definitions
 **Contains:** API contracts, data formats (YAML, JSON, OpenAPI)
 
 **Examples:**
@@ -109,7 +109,7 @@ derives-from:
 **Three-layer pattern:**
 - Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
 - Data files: `docs/registries/*.md` (project-specific entries)
-- Governance: `specs/3-behaviors/registry-specs.spec.md` (governs format specs)
+- Governance: `specs/features/registry-specs.spec.md` (governs format specs)
 
 **Test:** "Is this operational record data (not a specification)?" → YES = docs/registries/
 
@@ -216,12 +216,12 @@ specs/
 
 **When specs govern creation of documentation (not system behavior):**
 
-Place in `specs/3-behaviors/processes/[process].spec.md`
+Place in `specs/features/processes/[process].spec.md`
 
 **Examples:**
-- `specs/3-behaviors/processes/investigation.spec.md` - How to document investigations
-- `specs/3-behaviors/processes/refactoring.spec.md` - How to document refactoring decisions
-- `specs/3-behaviors/processes/incident.spec.md` - How to document production incidents
+- `specs/features/processes/investigation.spec.md` - How to document investigations
+- `specs/features/processes/refactoring.spec.md` - How to document refactoring decisions
+- `specs/features/processes/incident.spec.md` - How to document production incidents
 
 **Template:** Use `dist/templates/processes/meta-process.spec.md.template`
 
