@@ -33,6 +33,7 @@ The entry point for LiveSpec. Understands your intent and routes to the appropri
 | "check", "health", "validate", "audit" | `/livespec:evolve` |
 | "context", "rebuild", "regenerate" | `/livespec:evolve context` |
 | "done", "complete", "wrap up", "session" | `/livespec:learn` |
+| "upgrade", "migrate", "update livespec" | `/livespec:upgrade` |
 | "what next", "help", "stuck" | Analyze state, suggest action |
 
 ## When No Intent Detected
@@ -57,3 +58,4 @@ For direct access (power users):
 | `/livespec:design` | Spec creation and refinement |
 | `/livespec:evolve` | Health, validation, context |
 | `/livespec:learn` | Session completion and learning |
+| `/livespec:upgrade` | Migrate to v5 plugin |
