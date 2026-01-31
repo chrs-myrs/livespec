@@ -19,7 +19,7 @@ governed-by:
   - All specs follow 4-section MSL format (MSL minimalism)
   - All content is standard markdown in standard folders (no lock-in)
   - Every spec has testable validation criteria (testable behaviors)
-  - All code is disposable and regenerable from specs (code disposability)
+  - Specifications are durable assets that define the system (spec durability)
   - Specs contain WHAT/WHY only, never implementation HOW (abstraction purity)
 
 ## Agent Agnostic
@@ -45,14 +45,14 @@ Pure information architecture with no proprietary formats. Specs are readable ma
 ### Testable Behaviors
 All behaviors must be observable and verifiable. Every specification includes concrete validation criteria.
 
-### Code Disposability
-All code is disposable and regenerable from specifications. Implementation can be cut off at any point and regrown. Essential knowledge lives in specs, not code.
+### Spec Durability
+Specifications are durable assets that define the system. Upper layers (purpose, requirements, strategy) are most durable; lower layers are derived. Essential knowledge lives in specs.
 
 **Validation criteria:**
-- Code contains no knowledge not derivable from specs
-- Implementation discoveries level up to appropriate spec layer or remain disposable
-- Regeneration from specs produces working code (TDD validates)
-- Technical debt accumulates in disposable layer only
+- Specs contain no implementation details
+- Discoveries level up to appropriate spec layer or remain local
+- Spec hierarchy maintains clear abstraction levels
+- Technical debt cannot accumulate in spec layers
 
 ### Abstraction Purity
 Specifications contain WHAT and WHY, never implementation HOW. Implementation details pollute specs and prevent clean regeneration.
@@ -70,5 +70,5 @@ Specifications contain WHAT and WHY, never implementation HOW. Implementation de
 - All specs follow 4-section MSL format (MSL minimalism)
 - All content is standard markdown in standard folders (no lock-in)
 - Every spec has testable validation criteria (testable behaviors)
-- All code is disposable and regenerable from specs (code disposability)
+- Specifications are durable assets that define the system (spec durability)
 - Specs contain WHAT/WHY only, never implementation HOW (abstraction purity)

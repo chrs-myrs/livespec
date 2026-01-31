@@ -15,17 +15,17 @@ guided-by:
 ## Requirements
 
 - [!] System detects implementation code in specification files to enforce WHAT-not-HOW principle and maintain specification purity.
-  - Scans Requirements (1-requirements/) and Strategy (2-strategy/) specs for code blocks
+  - Scans Requirements (foundation/) and Strategy (2-strategy/) specs for code blocks
   - Identifies executable code patterns (Python, TypeScript, JavaScript, shell scripts, etc.)
   - Distinguishes between illustrative examples (acceptable) vs implementation details (violation)
   - Reports specifications violating WHAT-not-HOW principle
   - Provides guidance on moving code to implementation or simplifying to declarative requirements
-  - Validates Behaviors (3-behaviors/) and Contracts (3-contracts/) may contain interface examples
+  - Validates Behaviors (features/) and Contracts (interfaces/) may contain interface examples
   - Can run during Phase 1 (DESIGN) review or Phase 4 (EVOLVE) drift detection
 
 ## Validation
 
-- Detector scans all .spec.md files in 1-requirements/ and 2-strategy/
+- Detector scans all .spec.md files in foundation/ and 2-strategy/
 - Detector identifies code fence blocks (```language)
 - Detector analyzes block content for executable patterns
 - Detector distinguishes Requirements/Strategy (strict) vs Behaviors/Contracts (lenient)
@@ -86,7 +86,7 @@ Example response structure:
 ```
 ```
 ✅ **ACCEPTABLE**: JSON example in contract spec (shows interface, not implementation)
-- Contracts (3-contracts/) can contain interface examples
+- Contracts (interfaces/) can contain interface examples
 - This shows WHAT the API returns, not HOW it's generated
 
 **Acceptable configuration example:**
@@ -112,7 +112,7 @@ Example tsconfig.json settings:
 
 ## Failure Scenarios
 
-**If executable code in Requirements (1-requirements/):**
+**If executable code in Requirements (foundation/):**
 - Detector reports ERROR (highest severity)
 - Identifies: "Implementation code in requirements specification"
 - Example from project-governance: Python caching code in policy-resolution.spec.md
@@ -134,7 +134,7 @@ Example tsconfig.json settings:
 
 **If interface examples in Contracts:**
 - Detector allows (no report)
-- Contracts (3-contracts/) expected to contain API examples, schemas, interface definitions
+- Contracts (interfaces/) expected to contain API examples, schemas, interface definitions
 - These are declarative specifications of interfaces
 
 **If examples in Notes section:**
@@ -169,10 +169,10 @@ Example tsconfig.json settings:
 7. Report >70% as ERROR, 40-70% as WARNING
 
 **File-type specific rules:**
-- **1-requirements/**: NO executable code (pure WHAT)
+- **foundation/**: NO executable code (pure WHAT)
 - **2-strategy/**: NO executable code (architectural HOW, not implementation HOW)
-- **3-behaviors/**: Lenient (may need algorithm descriptions, but flag procedural code)
-- **3-contracts/**: Allow (interface definitions expected)
+- **features/**: Lenient (may need algorithm descriptions, but flag procedural code)
+- **interfaces/**: Allow (interface definitions expected)
 
 **Remediation suggestions:**
 - "Remove code block and state requirement declaratively"

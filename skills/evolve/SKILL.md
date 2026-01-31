@@ -434,10 +434,10 @@ Remove confidence markers after review:
 ## References
 
 For detailed workflows:
-- Health checks: `${CLAUDE_PLUGIN_ROOT}/references/phase-prompts/utils/run-health-report.md`
-- Learning capture: `${CLAUDE_PLUGIN_ROOT}/references/phase-prompts/utils/learn.md`
+- Health checks: `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/run-health-report.md`
+- Learning capture: `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/learn.md`
 - Context generation: `${CLAUDE_PLUGIN_ROOT}/references/standards/conventions/context-tree.spec.md`
-- Spec extraction: `${CLAUDE_PLUGIN_ROOT}/references/phase-prompts/4-evolve/4b-extract-specs.md`
+- Spec extraction: `${CLAUDE_PLUGIN_ROOT}/references/prompts/evolve/4b-extract-specs.md`
 
 ## Validation
 

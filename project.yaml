@@ -26,3 +26,8 @@ agent:
   context_budget: 100KB
   coverage_target: 80
   verification_mode: active            # active | passive
+
+# UI/Display configuration
+ui:
+  icon: 📋
+  icon_source: manual

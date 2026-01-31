@@ -14,7 +14,7 @@ failure_mode: Without dogfooding validation, LiveSpec could prescribe methodolog
 ## Requirements
 - [!] LiveSpec validates its methodology by using itself to document and develop itself, creating self-referential proof that the framework works in practice through .livespec/ symlink to dist/, comprehensive specs/ structure, tests/ validation suite, and continuous drift detection applied to own codebase.
   - .livespec/ symlink points to dist/ (LiveSpec uses distributed methodology on itself)
-  - specs/ follows standard folder structure (workspace/, 1-requirements/, 2-strategy/, 3-behaviors/, 3-contracts/)
+  - specs/ follows standard folder structure (workspace/, foundation/, 2-strategy/, features/, interfaces/)
   - Every deliverable has defining spec in specs/ (complete circularity)
   - Every spec constrained by metaspec in dist/standard/metaspecs/
   - tests/ validate LiveSpec follows its own rules

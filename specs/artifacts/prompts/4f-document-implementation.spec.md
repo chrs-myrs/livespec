@@ -12,7 +12,7 @@ failure_mode: Without systematic implementation feedback capture, LiveSpec canno
 ## Requirements
 - [!] Prompt guides AI agents to create comprehensive implementation feedback reports that capture methodology adherence, failures, successes, and learnings for continuous framework improvement.
   - Report includes honest analysis of what was skipped and why (overconfidence, efficiency instinct, pattern matching)
-  - Documents critical failures (TDD skipped, UX flows missing, incomplete features, undefined models)
+  - Documents critical failures (spec creation skipped, UX flows missing, incomplete features, undefined models)
   - Captures what worked well (requirements phase, behavior specs, contract phase)
   - Identifies methodology gaps (ambiguous boundaries, redundancy, missing guidance)
   - Quantifies results (files created/updated, test coverage, rework cycles)

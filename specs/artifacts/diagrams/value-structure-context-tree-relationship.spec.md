@@ -26,7 +26,7 @@ guided-by:
 
 - [!] Value Structure hierarchy shows complete traceability chain.
   - Level 1: PURPOSE.md (foundation)
-  - Level 2: specs/1-requirements/ (strategic outcomes, constraints)
+  - Level 2: specs/foundation/ (strategic outcomes, constraints)
   - Level 3: specs/strategy/ (architectural approach)
   - Level 4: specs/features/ + specs/interfaces/ (observable outcomes, interfaces)
   - Level 5: Implementation (code, docs, configs)
@@ -57,9 +57,9 @@ guided-by:
 graph TD
     subgraph VALUE["Value Structure (Project Traceability)"]
         PURPOSE[PURPOSE.md<br/>Why project exists]
-        REQ[specs/1-requirements/<br/>Strategic outcomes]
+        REQ[specs/foundation/<br/>Strategic outcomes]
         STRAT[specs/strategy/<br/>Architectural approach]
-        BEH[specs/features/ + 3-contracts/<br/>Observable outcomes]
+        BEH[specs/features/ + interfaces/<br/>Observable outcomes]
         IMPL[Implementation<br/>Code, docs, configs]
 
         PURPOSE --> REQ

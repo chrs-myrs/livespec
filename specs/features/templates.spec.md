@@ -56,10 +56,10 @@ guided-by:
 
 **Location:** `.livespec/templates/agents/`
 
-**Pre-implementation verification:**
-- Checklist before implementing any deliverable
-- Verifies spec exists, tests exist (if TDD), plan includes methodology steps
-- Guides to Phase 1 (DESIGN) if prerequisites missing
+**Pre-action verification:**
+- Checklist before creating any deliverable
+- Verifies spec exists, plan includes methodology steps
+- Guides to DESIGN mode if prerequisites missing
 
 **No plumbing exception warning:**
 - Prevents "just wiring" categorization trap
@@ -67,13 +67,13 @@ guided-by:
 - Includes real example from LiveSpec's own violation
 
 **Self-check questions:**
-- Questions agents ask themselves before implementing
-- Spec-first check, TDD check, methodology compliance check
+- Questions agents ask themselves before proceeding
+- Spec-first check, methodology compliance check
 - Meta-check for execution mode bypassing methodology
 
 **Plan review checklist:**
 - Methodology compliance verification before user approval
-- Checks for spec creation, test creation, workflow reference
+- Checks for spec creation, validation, workflow reference
 - Reports compliance status to user
 
 **Distribution to target projects:**

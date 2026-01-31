@@ -22,20 +22,19 @@ governed-by:
 
 ## Core Requirements
 
-### 1. Specification-Driven Regeneration
-Upper layers (purpose, requirements, strategy, behaviors) are durable assets; code is always disposable and regenerable from specifications.
+### 1. Specification-Driven Architecture
+Upper layers (purpose, requirements, strategy, behaviors) are durable assets that define the system. Lower layers are derived and regenerable.
 
 **Satisfied by:**
 - specs/strategy/architecture.spec.md (two-branch model, disposability)
 - specs/features/abstraction-guidance.spec.md (layer placement)
-- specs/artifacts/prompts/4a-detect-drift.spec.md (regeneration signals)
-- prompts/1-design/ (spec→code design)
-- prompts/2-build/ (spec→code implementation)
+- specs/features/spec-health.spec.md (spec quality monitoring)
+- prompts/1-design/ (spec architecture design)
 
 **Validated by:**
 - Specs contain no implementation details (only WHAT/WHY, never HOW)
-- Code can be regenerated from specs without loss of essential knowledge
-- Discoveries during implementation are leveled up to appropriate spec layer
+- Spec hierarchy maintains clear abstraction levels
+- Discoveries are leveled up to appropriate spec layer
 
 ### 2. AI Context Generation
 Workspace specs generate AI agent context (AGENTS.md, context tree) enabling effective AI management of the spec-code system.
@@ -50,8 +49,8 @@ Workspace specs generate AI agent context (AGENTS.md, context tree) enabling eff
 **Validated by:**
 - AGENTS.md regenerable from workspace specs
 - Context7 integration functional
-- AI agents successfully manage specs and code
-- Human remains stakeholder, AI manages system
+- AI agents successfully manage spec system
+- Human remains stakeholder, AI manages specs
 
 ### 3. Universal Applicability
 Work equally well for new projects and existing codebases.
@@ -67,18 +66,18 @@ Work equally well for new projects and existing codebases.
 - Same methodology works for both
 
 ### 4. Maintenance Proportional to Durability
-Invest maintenance energy proportional to layer durability. Upper layers maintained carefully; code is regenerated not maintained.
+Invest maintenance energy proportional to layer durability. Upper layers maintained carefully; lower layers evolved or regenerated as needed.
 
 **Satisfied by:**
 - specs/features/msl-format.spec.md (minimalism for specs)
 - specs/features/abstraction-guidance.spec.md (layer placement)
 - specs/workspace/constitution.spec.md (trust implementers)
-- prompts/4-evolve/ (regeneration workflow)
+- prompts/4-evolve/ (spec evolution workflow)
 
 **Validated by:**
 - Specs average <30 lines (MSL compliance)
-- Code issues trigger regeneration, not patch accumulation
-- Discoveries during implementation level up or stay disposable
+- Spec issues addressed at appropriate abstraction level
+- Discoveries level up to appropriate spec layer or remain local
 
 ### 5. Voluntary Adoption
 Developers maintain specs because they reduce cognitive load, choosing LiveSpec methodology means accepting AI-guided discipline.
@@ -124,4 +123,4 @@ Methodology prevents bloat through balanced expansion/contraction forces.
 - Traceability maintained via frontmatter dependencies
 - Changes to requirements trigger cascade review of satisfying specs
 - Specs contain WHAT/WHY only, never implementation HOW
-- Code regenerable from specs at any time
+- Lower layers derivable from upper layers at any time

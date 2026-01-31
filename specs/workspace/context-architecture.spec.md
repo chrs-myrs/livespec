@@ -52,16 +52,13 @@ supports:
   **LiveSpec Methodology Integration**:
 
   Methodology Prompts Referenced:
-  - .livespec/prompts/0-define/ (Phase 0 guidance)
-  - .livespec/prompts/1-design/ (Phase 1 guidance)
-  - .livespec/prompts/2-build/ (Phase 2 guidance)
-  - .livespec/prompts/3-verify/ (Phase 3 guidance)
-  - .livespec/prompts/4-evolve/ (Phase 4 guidance)
+  - .livespec/prompts/0-define/ (Mode 0 guidance)
+  - .livespec/prompts/1-design/ (Mode 1 guidance)
+  - .livespec/prompts/4-evolve/ (Mode 2 guidance)
   - .livespec/prompts/utils/ (utility workflows)
 
   Guides Incorporated:
   - .livespec/guides/msl-minimalism.md (spec writing)
-  - .livespec/guides/tdd.md (test-driven development)
   - .livespec/guides/context-positioning.md (prompt structure)
 
   Compression Level: moderate
@@ -80,19 +77,17 @@ supports:
   6. Reference library navigation
 
   Sub-Agent Triggers (keyword → context mapping):
-  - "new project", "setup", "define" → phases/0-define.md
-  - "design", "architecture", "behaviors" → phases/1-design.md
-  - "implement", "build", "TDD" → phases/2-build.md
-  - "validate", "verify", "acceptance" → phases/3-verify.md
-  - "drift", "extract", "sync", "evolve" → phases/4-evolve.md
+  - "new project", "setup", "define" → modes/0-define.md
+  - "design", "architecture", "behaviors" → modes/1-design.md
+  - "health", "extract", "sync", "evolve" → modes/2-evolve.md
   - "methodology", "dogfooding", "governance" → domains/governance.md
   - "complete session", "measure compliance" → utils/session-completion.md
-  - "detect drift", "spec-code sync" → utils/drift-detection.md
+  - "spec health", "validation" → utils/spec-health.md
   - "audit MSL", "minimalism" → utils/msl-audit.md
 
   **Content Focus** (governance domain balance):
   - Behaviors: 40% - Methodology behaviors from specs/features/
-  - Constraints: 30% - Requirements from specs/1-requirements/
+  - Constraints: 30% - Requirements from specs/foundation/
   - Patterns: 30% - Workspace methodology from specs/workspace/
 
 ## Validation

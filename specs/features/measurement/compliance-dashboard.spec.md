@@ -35,7 +35,6 @@ specifies:
   - Layer-by-layer success rates (L1-L4 individual percentages)
   - Tool efficiency rate (percentage using correct tools)
   - Context efficiency rate (average signal-to-noise ratio across sessions)
-  - TDD adoption rate (from session task analysis)
   - Per-project breakdown (global dashboard only)
 
 ### Trend Analysis
@@ -50,7 +49,7 @@ specifies:
 
 - [!] System compares metrics against defined targets
   - Tier 1 (Critical): Spec-first ≥90%, Pre-commit 100%, MSL 100%
-  - Tier 2 (Important): TDD ≥80%, TodoWrite ≥85%, Tool efficiency ≥75%, Context efficiency ≥60%
+  - Tier 2 (Important): TodoWrite ≥85%, Tool efficiency ≥75%, Context efficiency ≥60%
   - Tier 3 (Desirable): Context nav ≥70%, Task focus ≥75%, Plan mode ≥80%
   - Visual indicators: ✅ (meeting target), ⚠️ (within 5% of target), ❌ (below target)
 
@@ -59,7 +58,6 @@ specifies:
 - [!] System identifies recurring compliance issues
   - TodoWrite skip pattern: Sessions bypassing Layer 1
   - Missing spec path pattern: Plans without specific spec location
-  - TDD escape hatch overuse: Frequency of justified test skips
   - Tool inefficiency pattern: Recurring Bash usage instead of specialized tools
   - Context inefficiency pattern: Signal-to-noise ratio consistently <40%
   - Minimum 3 occurrences to flag as pattern

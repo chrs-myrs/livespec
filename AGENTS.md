@@ -40,7 +40,7 @@ scripts/check-requires-spec.sh path/to/file
 
 Creating new permanent files requires presenting plan with:
 - [ ] TodoWrite item added showing spec creation
-- [ ] Spec creation step (specific path: `specs/3-behaviors/[name].spec.md`)
+- [ ] Spec creation step (specific path: `specs/features/[name].spec.md`)
 - [ ] Validation check passed
 
 **Plan optional for:** Editing existing files, working in var/generated/.archive/
@@ -67,9 +67,9 @@ Creating new permanent files requires presenting plan with:
 ### Flexible Spec Organization
 
 Multiple related files can share one spec (agent decides based on coherence):
-- `specs/3-behaviors/documentation.spec.md` → All README/GUIDE files
-- `specs/3-behaviors/project-config.spec.md` → Config files like .gitignore
-- `specs/3-behaviors/automation.spec.md` → Related maintenance scripts
+- `specs/features/documentation.spec.md` → All README/GUIDE files
+- `specs/features/project-config.spec.md` → Config files like .gitignore
+- `specs/features/automation.spec.md` → Related maintenance scripts
 
 **Test:** "Do these files serve the same observable purpose?"
 - YES → One spec covers them
@@ -109,10 +109,10 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 **Content Routing:**
 | Content Type | Correct Location |
 |--------------|-----------------|
-| "Must comply with X" | `specs/1-requirements/strategic/constraints.spec.md` |
-| "Users can do X" | `specs/1-requirements/strategic/outcomes.spec.md` |
-| "Will use X tech" | `specs/2-strategy/architecture.spec.md` |
-| "System does X" | `specs/3-behaviors/[feature].spec.md` |
+| "Must comply with X" | `specs/foundation/constraints.spec.md` |
+| "Users can do X" | `specs/foundation/outcomes.spec.md` |
+| "Will use X tech" | `specs/strategy/architecture.spec.md` |
+| "System does X" | `specs/features/[feature].spec.md` |
 | "Team follows X" | `specs/workspace/workflows.spec.md` |
 
 **Decision test:** "Can I explain this in an elevator pitch to a non-technical stakeholder?"
@@ -152,7 +152,7 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - Red-Green-Refactor cycle: failing test → passing code → improve design
 - Automated tests required for all non-trivial code
 - Escape hatch for trivial scripts (justification required, documented)
-- Tests map directly to behavior specs (specs/3-behaviors/ → tests → implementation)
+- Tests map directly to behavior specs (specs/features/ → tests → implementation)
 - See `.livespec/guides/tdd.md` for complete workflow
 
 ### 4. Dogfooding
@@ -227,35 +227,34 @@ Read `specs/workspace/taxonomy.spec.md` for:
 
 **workspace/ test:** "Is this ABOUT the workspace or IN the workspace?"
 - ABOUT (meta-governance, how workspace operates) → workspace/
-- IN (deliverables, behaviors) → Check 1-requirements/, 2-strategy/, or Layer 3
+- IN (deliverables, behaviors) → Check foundation/, strategy/, or features/
 
-**1-requirements/ test:** "Is this a strategic outcome or hard constraint?"
-- YES, strategic → 1-requirements/strategic/ (outcomes, constraints)
-- YES, functional → 1-requirements/functional/ (specific feature requirements)
-- NO → Check 2-strategy/ or Layer 3
+**foundation/ test:** "Is this a strategic outcome or hard constraint?"
+- YES → foundation/ (outcomes, constraints)
+- NO → Check strategy/ or features/
 
-**2-strategy/ test:** "Does this apply across the whole product?"
-- YES → 2-strategy/ (cross-cutting technical decision)
-- NO → Check Layer 3 (3-behaviors/, 3-artifacts/, or 3-contracts/)
+**strategy/ test:** "Does this apply across the whole product?"
+- YES → strategy/ (cross-cutting technical decision)
+- NO → Check features/, artifacts/, or interfaces/
 
 **Layer 3 test (three-way split):** "Behavior, artifact, or interface?"
-- "What does the methodology DO?" → 3-behaviors/ (drift detection, validation, phase guidance)
-- "What is the methodology MADE OF?" → 3-artifacts/ (prompts, agents, commands, validators)
-- "What are the standard interfaces?" → 3-contracts/ (format definitions)
+- "What does the methodology DO?" → features/ (drift detection, validation, phase guidance)
+- "What is the methodology MADE OF?" → artifacts/ (prompts, agents, commands, validators)
+- "What are the standard interfaces?" → interfaces/ (format definitions)
 
 ### Step 3: Verify Examples
 
 **Common mistakes:**
-- ❌ "API returns JSON" → NOT workspace (product-specific) → 2-strategy/
-- ❌ "Agent definitions" → NOT workspace (deliverables IN workspace) → 3-artifacts/agents/
-- ❌ "Slash commands" → NOT 3-behaviors/ (artifacts, not behaviors) → 3-artifacts/commands/
-- ❌ "Prompt files" → NOT 3-behaviors/ (artifacts, not behaviors) → 3-artifacts/prompts/
+- ❌ "API returns JSON" → NOT workspace (product-specific) → strategy/
+- ❌ "Agent definitions" → NOT workspace (deliverables IN workspace) → artifacts/agents/
+- ❌ "Slash commands" → NOT features/ (artifacts, not behaviors) → artifacts/commands/
+- ❌ "Prompt files" → NOT features/ (artifacts, not behaviors) → artifacts/prompts/
 
 **Correct examples:**
 - ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (ABOUT workspace)
 - ✅ "AGENTS.md content rules" → workspace/context-structure.spec.md (ABOUT workspace)
-- ✅ "Drift detection behavior" → 3-behaviors/drift-detection.spec.md (methodology behavior)
-- ✅ "Individual prompt specs" → 3-artifacts/prompts/*.spec.md (methodology artifacts)
+- ✅ "Drift detection behavior" → features/drift-detection.spec.md (methodology behavior)
+- ✅ "Individual prompt specs" → artifacts/prompts/*.spec.md (methodology artifacts)
 
 ---
 
@@ -275,17 +274,17 @@ Read `specs/workspace/taxonomy.spec.md` for:
 - **Purpose**: Step-by-step development workflow
 
 **3 Abstraction Layers (Structural Organization)** - WHERE specs live:
-- **Layer 1**: `1-requirements/` (WHY - strategic outcomes, constraints)
-- **Layer 2**: `2-strategy/` (HOW - architectural approach)
-- **Layer 3**: `3-behaviors/` + `3-contracts/` (WHAT - observable behaviors + interfaces)
-- **Location**: `specs/1-requirements/`, `specs/2-strategy/`, etc.
+- **Layer 1**: `foundation/` (WHY - strategic outcomes, constraints)
+- **Layer 2**: `strategy/` (HOW - architectural approach)
+- **Layer 3**: `features/` + `interfaces/` (WHAT - observable behaviors + interfaces)
+- **Location**: `specs/foundation/`, `specs/strategy/`, etc.
 - **Purpose**: Organizing specifications by abstraction level
 
 ### Key Insights
 
 **Not the same thing:**
 - You might write a spec during **Phase 1** (DESIGN workflow)
-- But that spec belongs in **`2-strategy/`** (architectural abstraction layer)
+- But that spec belongs in **`strategy/`** (architectural abstraction layer)
 - The phase describes WHEN you work, the layer describes WHAT you're specifying
 
 **Why layers matter:**
@@ -299,17 +298,17 @@ Read `specs/workspace/taxonomy.spec.md` for:
 
 ## Multi-Domain Organization
 
-**Key insight:** behaviors/ and contracts/ abstractions work across ALL domains. Use subfolders for semantic organization.
+**Key insight:** features/ and interfaces/ abstractions work across ALL domains. Use subfolders for semantic organization.
 
 ### Domain-Agnostic Abstractions
 
-**behaviors/** = Observable outcomes from any perspective:
+**features/** = Observable outcomes from any perspective:
 - Software: "System authenticates users"
 - Governance: "Only authorized entities access resources" (policy)
 - Operations: "Backups complete daily" (service)
 - Planning: "Feature meets success criteria" (requirement)
 
-**contracts/** = Interface definitions of any kind:
+**interfaces/** = Interface definitions of any kind:
 - Software: API contracts (`GET /users/{id}`)
 - Governance: Process contracts (procedures)
 - Operations: Operational contracts (runbooks)
@@ -321,12 +320,12 @@ Read `specs/workspace/taxonomy.spec.md` for:
 ```
 specs/
 ├── workspace/           # How we work
-├── 1-requirements/      # Strategic and functional requirements
-├── 2-strategy/          # Cross-cutting decisions
-├── 3-behaviors/
+├── foundation/          # Strategic outcomes and constraints
+├── strategy/            # Cross-cutting decisions
+├── features/
 │   ├── user-features/  # User-facing behaviors
 │   └── system/         # System behaviors
-└── 3-contracts/
+└── interfaces/
     └── api/v1/         # API contracts
 ```
 
@@ -334,12 +333,12 @@ specs/
 ```
 specs/
 ├── workspace/           # How we work
-├── 1-requirements/      # Strategic and functional requirements
-├── 2-strategy/          # Cross-cutting decisions
-├── 3-behaviors/
+├── foundation/          # Strategic outcomes and constraints
+├── strategy/            # Cross-cutting decisions
+├── features/
 │   ├── prompts/        # Prompt behaviors
 │   └── processes/      # Process behaviors
-└── 3-contracts/
+└── interfaces/
     └── schemas/        # Data format contracts
 ```
 
@@ -347,13 +346,13 @@ specs/
 ```
 specs/
 ├── workspace/             # How we work
-├── 1-requirements/        # Strategic and functional requirements
-├── 2-strategy/            # Cross-cutting (all domains)
-├── 3-behaviors/
+├── foundation/            # Strategic outcomes and constraints
+├── strategy/              # Cross-cutting (all domains)
+├── features/
 │   ├── user-features/    # Software
 │   ├── policies/         # Governance
 │   └── services/         # Operations
-└── 3-contracts/
+└── interfaces/
     ├── api/              # Software
     ├── procedures/       # Governance
     └── runbooks/         # Operations
@@ -379,29 +378,25 @@ specs/
 
 **Examples of tasks that DON'T need sub-agents:**
 - "Fix this spec" → Use AGENTS.md guidance directly
-- "What's in specs/3-behaviors/?" → Read files, no sub-agent needed
+- "What's in specs/features/?" → Read files, no sub-agent needed
 - "Update this requirement" → Edit using MSL format from AGENTS.md
 - "Run validation" → Script paths already in AGENTS.md
 
 ### Phase-Specific Work (Load When Actually Performing Phase Workflow)
 
-- **"New project", "setup", "define problem", "constraints"** → Load `ctxt/phases/0-define.md`
+- **"New project", "setup", "define problem", "constraints"** → Load `ctxt/define.md`
   - ONLY when: Starting brand new project, defining problem space, customizing workspace
   - NOT for: Reading existing PURPOSE.md, understanding constraints
 
-- **"Design", "architecture", "behaviors", "contracts", "UX flow"** → Load `ctxt/phases/1-design.md`
+- **"Design", "architecture", "behaviors", "contracts", "UX flow"** → Load `ctxt/design.md`
   - ONLY when: Creating new architecture, specifying new behaviors, designing contracts
   - NOT for: Reading existing design specs, understanding architecture
 
-- **"Implement", "build", "tests", "TDD", "code"** → Load `ctxt/phases/2-build.md`
-  - ONLY when: Writing tests, implementing from specs, TDD cycle
-  - NOT for: Reading code, understanding implementation
+- **"Implement", "build", "tests", "TDD", "validate", "verify"** → Load `ctxt/evolve.md`
+  - ONLY when: Implementation concerns, validation, TDD cycle
+  - NOT for: Reading code (implementation is disposable)
 
-- **"Validate", "verify", "acceptance", "review"** → Load `ctxt/phases/3-verify.md`
-  - ONLY when: Running full validation suite, acceptance testing
-  - NOT for: Single validation script execution
-
-- **"Drift", "regenerate", "extract specs", "evolve", "maintain"** → Load `ctxt/phases/4-evolve.md`
+- **"Drift", "regenerate", "extract specs", "evolve", "maintain"** → Load `ctxt/evolve.md`
   - ONLY when: Detecting regeneration signals, extracting specs from code, regeneration workflow
   - NOT for: Reading existing specs, small spec updates
 
@@ -413,15 +408,15 @@ specs/
 
 ### Utilities (Load When Running Specialized Workflows)
 
-- **"Complete session", "measure compliance", "analyze session"** → Load `ctxt/utils/session-completion.md`
+- **"Complete session", "measure compliance", "analyze session"** → Load `ctxt/session.md`
   - ONLY when: Ending session, measuring compliance, analyzing work
   - NOT for: Checking current progress
 
-- **"Detect drift", "regeneration signal", "spec-code alignment"** → Load `ctxt/utils/drift-detection.md`
+- **"Detect drift", "regeneration signal", "spec-code alignment"** → Load `ctxt/evolve.md`
   - ONLY when: Running regeneration signal detection, spec extraction
   - NOT for: Checking if specs exist
 
-- **"Audit MSL", "check minimalism", "review specs"** → Load `ctxt/utils/msl-audit.md`
+- **"Audit MSL", "check minimalism", "review specs"** → Load `ctxt/msl-audit.md`
   - ONLY when: Auditing minimalism, reviewing spec quality
   - NOT for: Writing specs (use AGENTS.md MSL guidance)
 
@@ -436,7 +431,7 @@ specs/
 cp -r livespec/dist/ .livespec/
 
 # 2. Create specs structure
-mkdir -p specs/{workspace,1-requirements,2-strategy,3-behaviors,3-contracts}
+mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
 
 # 3. Create PURPOSE.md
 echo "# Project Purpose
@@ -462,7 +457,7 @@ Establish problem space and constraints.
 **When:** Starting new project or documenting existing one
 **Entry:** Project idea or codebase
 **Exit:** Problem, constraints, workspace defined
-**Outputs:** PURPOSE.md, specs/1-requirements/strategic/constraints.spec.md, specs/workspace/
+**Outputs:** PURPOSE.md, specs/foundation/constraints.spec.md, specs/workspace/
 
 **Key prompts:**
 - `0a-quick-start.md` - Zero-question setup (5 min, defaults)
@@ -478,7 +473,7 @@ Design solution architecture.
 **When:** After problem clear, before implementation
 **Entry:** Problem and constraints defined
 **Exit:** Architecture and contracts specified
-**Outputs:** research/flows/ (optional UX flows), specs/2-strategy/architecture.spec.md, specs/3-behaviors/, specs/3-contracts/
+**Outputs:** research/flows/ (optional UX flows), specs/strategy/architecture.spec.md, specs/features/, specs/interfaces/
 
 **Key prompts:**
 - `1a-document-ux-flows.md` - Document user interaction flows (optional for UX-heavy features)
@@ -575,17 +570,15 @@ your-project/
     │   ├── patterns.spec.md
     │   └── workflows.spec.md
     │
-    ├── 1-requirements/     # WHY (strategic/functional requirements)
-    │   ├── strategic/      # High-level outcomes, constraints
-    │   │   ├── outcomes.spec.md
-    │   │   └── constraints.spec.md
-    │   └── functional/     # Specific feature requirements
+    ├── foundation/         # WHY (strategic outcomes and constraints)
+    │   ├── outcomes.spec.md
+    │   └── constraints.spec.md
     │
-    ├── 2-strategy/         # HOW (architectural approach)
+    ├── strategy/           # HOW (architectural approach)
     │   └── architecture.spec.md
     │
-    ├── 3-behaviors/        # WHAT (observable outcomes)
-    └── 3-contracts/        # Interfaces (API/data contracts)
+    ├── features/           # WHAT (observable outcomes)
+    └── interfaces/         # Interfaces (API/data contracts)
 ```
 
 ---
@@ -608,7 +601,7 @@ your-project/
 When renaming or moving prompts/specs, use systematic checklist:
 - [ ] Source file renamed/moved (dist/prompts/ or specs/)
 - [ ] Spec frontmatter (`specifies:` or `implements:` field)
-- [ ] Registry entry (specs/3-artifacts/prompts/registry.spec.md)
+- [ ] Registry entry (specs/artifacts/prompts/registry.spec.md)
 - [ ] Navigation files (dist/prompts/utils/next-steps.md)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
@@ -617,7 +610,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 ### Spec Evolution
 - NO `_old`, `_v2`, `_deprecated`, or `_backup` files
 - Update specs in place (git commit captures change)
-- DELETE obsolete specs: `git rm specs/3-behaviors/old-spec.spec.md`
+- DELETE obsolete specs: `git rm specs/features/old-spec.spec.md`
 - Git history is version control system
 
 ### Dogfooding Validation Workflow
@@ -643,8 +636,8 @@ When renaming or moving prompts/specs, use systematic checklist:
 ### Spec-First Guidance Workflow (Essential Before Implementation)
 
 **AI checks before implementation:**
-1. Does `specs/3-behaviors/[deliverable].spec.md` exist?
-2. If NO → Pause, say: "I need a specification before implementing. Let's create specs/3-behaviors/[deliverable].spec.md first using Phase 1 (DESIGN)"
+1. Does `specs/features/[deliverable].spec.md` exist?
+2. If NO → Pause, say: "I need a specification before implementing. Let's create specs/features/[deliverable].spec.md first using Phase 1 (DESIGN)"
 3. Guide user to appropriate Phase 1 prompt
 4. If YES → Verify spec has Requirements section with [!] items, Validation criteria, Failure Mode
 5. Then proceed to implementation
@@ -710,8 +703,8 @@ Changes flow through distribution mechanism:
 
 **Phase 2: Systematic Updates**
 1. Rename prompt files in dist/prompts/[phase]/
-2. Update spec frontmatter (specifies: field in specs/3-artifacts/prompts/)
-3. Update registry (specs/3-artifacts/prompts/registry.spec.md)
+2. Update spec frontmatter (specifies: field in specs/artifacts/prompts/)
+3. Update registry (specs/artifacts/prompts/registry.spec.md)
 4. Update navigation (dist/prompts/utils/next-steps.md)
 5. Update predecessor prompts ("Next Step" sections)
 6. Update AGENTS.md references if prompt mentioned
@@ -739,12 +732,12 @@ LiveSpec specs form a **dependency graph**, not a hierarchy:
 ```
 PURPOSE.md (Why - Vision)
   ↓ defines
-specs/1-requirements/strategic/outcomes.spec.md (What - High-Level Requirements)
+specs/foundation/outcomes.spec.md (What - High-Level Requirements)
   ↓ derives-from                           ↓ derives-from
-specs/2-strategy/architecture.spec.md ←──────┐
+specs/strategy/architecture.spec.md ←────────┐
   ↓ guided-by (HOW)                          │
   │                                          │
-  ├──→ specs/3-behaviors/*.spec.md ──────────┘
+  ├──→ specs/features/*.spec.md ─────────────┘
   │      ↑ satisfies (WHAT)
   │      │
   └──────┘
@@ -758,12 +751,12 @@ specs/2-strategy/architecture.spec.md ←──────┐
 
 **Example:**
 ```yaml
-# specs/3-behaviors/payment-processing.spec.md
+# specs/features/payment-processing.spec.md
 ---
 satisfies:
-  - specs/1-requirements/functional/transaction-accuracy.spec.md  # WHAT
+  - specs/foundation/transaction-accuracy.spec.md  # WHAT
 guided-by:
-  - specs/2-strategy/api-design.spec.md                          # HOW
+  - specs/strategy/api-design.spec.md              # HOW
 ---
 ```
 
@@ -864,7 +857,7 @@ guided-by:
 This command:
 1. Scans conversation for insights (corrections, clarifications, patterns)
 2. Asks user which learnings to capture (via AskUserQuestion)
-3. Updates appropriate specs (workspace/, 2-strategy/, 3-behaviors/)
+3. Updates appropriate specs (workspace/, strategy/, features/)
 4. Rebuilds context (AGENTS.md) so learnings are immediately available
 
 **Workflow:**
@@ -935,20 +928,17 @@ Good: Only truly critical requirements marked CRITICAL
 
 AGENTS.md provides 80% coverage. For deep detail, fetch these references using `.livespec/` paths or load ctxt/ sub-agents:
 
-### Phase Specialists (ctxt/phases/)
-- **ctxt/phases/0-define.md** - Phase 0 specialist (problem definition, workspace setup)
-- **ctxt/phases/1-design.md** - Phase 1 specialist (architecture, behaviors, contracts)
-- **ctxt/phases/2-build.md** - Phase 2 specialist (TDD workflow, implementation)
-- **ctxt/phases/3-verify.md** - Phase 3 specialist (validation, acceptance)
-- **ctxt/phases/4-evolve.md** - Phase 4 specialist (regeneration signals, spec extraction)
+### Mode Specialists (ctxt/)
+- **ctxt/define.md** - Define mode (problem definition, workspace setup)
+- **ctxt/design.md** - Design mode (architecture, behaviors, contracts)
+- **ctxt/evolve.md** - Evolve mode (implementation, validation, drift, extraction)
 
 ### Domain Specialists (ctxt/domains/)
 - **ctxt/domains/governance.md** - Governance patterns (methodology development)
 
-### Utility Specialists (ctxt/utils/)
-- **ctxt/utils/session-completion.md** - Session analysis and learning
-- **ctxt/utils/drift-detection.md** - Regeneration signal detection
-- **ctxt/utils/msl-audit.md** - Minimalism enforcement
+### Utility Specialists (ctxt/)
+- **ctxt/session.md** - Session analysis and learning
+- **ctxt/msl-audit.md** - Minimalism enforcement
 
 ### Conventions (How to Structure)
 - **`.livespec/standard/conventions/context-compression.spec.md`** - Compression framework

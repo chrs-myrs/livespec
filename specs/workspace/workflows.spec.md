@@ -11,18 +11,17 @@ governed-by:
 # LiveSpec Development Workflows
 
 ## Requirements
-- [!] LiveSpec development follows specific workflows with spec-first guidance as essential first step: AI agents check for spec existence before implementation, new prompts require behavior specs first, spec changes follow EVOLVE phase workflow, changes validated through real usage before merge, periodic MSL audits maintain minimalism, and documentation updates accompany prompt/spec changes.
-  - **Spec-First Guidance Workflow** (essential before implementation):
-    - AI checks: Does `specs/features/[deliverable].spec.md` exist for what user wants to implement?
+- [!] LiveSpec development follows specific workflows with spec-first guidance as essential first step: AI agents check for spec existence before creating deliverables, new prompts require behavior specs first, spec changes follow EVOLVE mode workflow, changes validated through real usage before merge, periodic MSL audits maintain minimalism, and documentation updates accompany prompt/spec changes.
+  - **Spec-First Guidance Workflow** (essential before creating deliverables):
+    - AI checks: Does `specs/features/[deliverable].spec.md` exist for what user wants to create?
     - If NO: Pause to ensure spec exists first
-    - AI says: "I need a specification before implementing. Let's create specs/features/[deliverable].spec.md first using Phase 1 (DESIGN)"
-    - AI guides user to appropriate Phase 1 prompt (1a-design-architecture.md, 1b-define-behaviors.md, or 1c-create-contracts.md)
+    - AI says: "I need a specification before proceeding. Let's create specs/features/[deliverable].spec.md first using DESIGN mode"
+    - AI guides user to appropriate DESIGN mode prompt (1a-design-architecture.md, 1b-define-behaviors.md, or 1c-create-contracts.md)
     - If YES: Verify spec has Requirements section with [!] items, Validation criteria, and Failure Mode defined
-    - Then proceed to implementation
+    - Then proceed with the deliverable
     - Applies to all deliverables (CHANGELOG, README, configs, templates all need specs)
   - Every prompt in prompts/ has spec in specs/artifacts/prompts/
-  - Git history shows specs created before implementation
-  - Pull requests include testing evidence
+  - Git history shows specs created before deliverables
   - Specifications don't grow larger over time (MSL audits via prompts/utils/audit-workspace-specs.md)
   - docs/ reflects current prompts/ and specs/ state
   - **Learning Distribution Workflow** (essential for target project adoption):
@@ -65,45 +64,45 @@ governed-by:
       - Direct edits to generated files (AGENTS.md mistake)
       - Broken spec/doc cross-references (clt-formation mistake)
       - Version drift (v3.0.0 in .livespec-version but v2.4.0 in AGENTS.md)
-  - **Dogfooding Validation Workflow** (essential before committing new features):
-    - Build feature following specs → USE feature in current session → THEN commit
+  - **Dogfooding Validation Workflow** (essential before committing new specs):
+    - Create spec following methodology → USE spec in current session → THEN commit
     - Catches integration issues before release (missing files, incomplete workflows, version drift)
     - Process:
-      1. Build feature according to specifications
-      2. USE the feature in the same session where it was built
-      3. Validate feature works as specified (run through actual workflow)
+      1. Create spec according to methodology
+      2. USE the spec in the same session where it was created
+      3. Validate spec works as specified (run through actual workflow)
       4. Fix any integration gaps discovered during usage
       5. Commit only after successful real-world validation
     - Examples:
-      - Session completion framework: Built feature → ran completion analysis on same session → discovered version drift → fixed before committing
+      - Session completion framework: Created spec → ran completion analysis on same session → discovered version drift → fixed before committing
       - Version tracking: Updated version files → ran regeneration workflow → discovered missing dist/VERSION → added to spec
     - Why this prevents failures:
       - Reveals integration gaps (missing files, incomplete workflows)
       - Validates complete end-to-end functionality
       - Catches issues while context is fresh (easier to fix)
-      - Demonstrates feature actually works (not just passes tests)
+      - Demonstrates spec actually works
     - Validation criteria:
-      - Feature used successfully in building session
+      - Spec used successfully in creating session
       - All integration points validated (file references, workflows, version synchronization)
-      - No manual workarounds needed (feature works as specified)
+      - No manual workarounds needed (spec works as specified)
   - **Prompt Reorganisation Workflow** (when adding prompts between existing ones):
     - When adding new prompts between existing prompts or renumbering:
-      - **Phase 1: Plan Renumbering**
+      - **Step 1: Plan Renumbering**
         1. Identify insertion point in workflow sequence
         2. Determine which existing prompts shift (e.g., 0d→0f, 0e→0d)
         3. Verify new sequence maintains workflow logic (setup → problem → outcomes → complexity → research → constraints)
-      - **Phase 2: Systematic Updates**
-        1. Rename prompt files in dist/prompts/[phase]/
+      - **Step 2: Systematic Updates**
+        1. Rename prompt files in dist/prompts/[mode]/
         2. Update spec frontmatter (specifies: field in specs/artifacts/prompts/)
         3. Update registry (specs/artifacts/prompts/registry.spec.md table)
         4. Update navigation (dist/prompts/utils/next-steps.md decision tree)
         5. Update predecessor prompts ("Next Step" sections)
         6. Update AGENTS.md references if prompt mentioned
-      - **Phase 3: Validation**
+      - **Step 3: Validation**
         1. Run cross-reference validation (prompts/utils/validate-project.md)
         2. Check all references resolve correctly
         3. Verify workflow sequence makes logical sense
-        4. Test prompt discovery (can agents find renamed prompts?)
+        4. Check prompt discovery (can agents find renamed prompts?)
     - Common mistakes:
       - Forgetting spec frontmatter updates (breaks bidirectional linking)
       - Missing next-steps.md references (breaks navigation)

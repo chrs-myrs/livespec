@@ -13,13 +13,13 @@ failure_mode: Without clear architecture, LiveSpec becomes incoherent collection
 # LiveSpec Architecture
 
 ## Requirements
-- [!] LiveSpec provides information architecture where upper layers are durable assets and code is disposable. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → code) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, ctxt/).
+- [!] LiveSpec provides information architecture where upper layers are durable assets and lower layers are derived. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → implementation) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, ctxt/).
   - PURPOSE.md exists at root level (most durable)
   - specs/workspace/ drives context tree generation
   - AGENTS.md regenerated from workspace specs
   - behaviors/ and contracts/ abstractions work across all domains
-  - Code is always disposable and regenerable from specs
-  - Tests validate our own specs
+  - Lower layers are derived from upper layer specs
+  - Validation checks spec consistency and quality
 
 ## Two-Branch Model
 
@@ -38,21 +38,21 @@ PRODUCT SPECS                   WORKSPACE SPECS
 │ CONTRACTS       │             │ How we work     │
 │ BEHAVIORS       │             │ Process rules   │
 └─────────────────┘             └─────────────────┘
-    ↓ generates                     ↓ generates
+    ↓ defines                       ↓ generates
 ┌─────────────────┐             ┌─────────────────┐
-│ ACCEPTANCE TESTS│             │ CONTEXT TREE    │
-│ (semi-durable)  │             │ AGENTS.md, ctxt/│
+│ IMPLEMENTATION  │             │ CONTEXT TREE    │
+│ (derived)       │             │ AGENTS.md, ctxt/│
 └─────────────────┘             └─────────────────┘
-    ↓ validates                     ↓ guides
-┌─────────────────┐             ┌─────────────────┐
-│ CODE + UNIT     │             │ AI AGENT        │
-│ TESTS           │             │ BEHAVIOR        │
-│ (disposable)    │             │ (regenerable)   │
-└─────────────────┘             └─────────────────┘
+                                    ↓ guides
+                                ┌─────────────────┐
+                                │ AI AGENT        │
+                                │ BEHAVIOR        │
+                                │ (regenerable)   │
+                                └─────────────────┘
 ```
 
 **Two outputs from the same foundation:**
-- **Product branch**: Specs → Tests → Code (what you build)
+- **Product branch**: Specs → Implementation (what you build)
 - **Workspace branch**: Specs → Context tree → AI guidance (how you work)
 
 ## Progressive Disposability
@@ -66,11 +66,10 @@ Lower layers are more disposable than upper layers:
 | STRATEGY | Durable | Cross-cutting decisions |
 | CONTRACTS/BEHAVIORS | Moderately durable | Feature-driven changes |
 | WORKSPACE SPECS | Durable | Drives context generation |
-| ACCEPTANCE TESTS | Semi-durable | Survives regeneration |
 | CONTEXT TREE (AGENTS.md) | Regenerable | Generated from workspace |
-| CODE + UNIT TESTS | Disposable | Regenerate, don't maintain |
+| IMPLEMENTATION | Derived | Derives from specs |
 
-**Key principle**: Code is always disposable. Essential knowledge lives in specs, not code. When something seems hard to specify, either step back to qualitative (spec) or accept it as implementation detail (disposable).
+**Key principle**: Upper layers are durable assets. Essential knowledge lives in specs, not derived artifacts. When something seems hard to specify, either step back to qualitative (spec) or accept it as implementation detail (derived).
 
 ## Components
 
@@ -80,10 +79,8 @@ Root-level purpose statement defining why LiveSpec exists and what success looks
 ### prompts/
 Methodology source (users copy this to .livespec/):
 - 0-define/ - Problem definition prompts
-- 1-design/ - Solution design prompts
-- 2-build/ - Implementation prompts
-- 3-verify/ - Validation prompts
-- 4-evolve/ - Synchronization prompts
+- 1-design/ - Spec design prompts
+- 4-evolve/ - Spec evolution prompts
 - utils/ - Utility prompts (upgrade-methodology.md)
 
 ### standard/
@@ -139,11 +136,6 @@ User documentation (not specifications):
 - msl-guide.md - MSL format reference
 - methodology.md - Philosophy and approach
 - domain-organization.md - Multi-domain organization patterns
-
-### tests/
-Validation suite proving specs are correct:
-- prompts/ - Tests for folder structure, MSL format, prompt behaviors
-- run-all-tests.sh - Test runner
 
 ## External Dependencies
 
@@ -205,9 +197,9 @@ specs/
 
 **Solution:** Structural enforcement makes compliance path of least resistance.
 
-**Implementation:**
+**Approach:**
 1. **Templates provide active verification content** (`.livespec/templates/agents/`):
-   - pre-implementation-verification.md - Checklist before implementing
+   - pre-action-verification.md - Checklist before creating specs
    - no-plumbing-exception.md - Warning against "just wiring" categorization
    - self-check-questions.md - Questions agents ask themselves
    - plan-review-checklist.md - Compliance verification before execution
@@ -223,7 +215,7 @@ specs/
    - Validates presence during review
 
 4. **Generated AGENTS.md includes enforcement**:
-   - Pre-implementation checklists visible to agents
+   - Pre-action checklists visible to agents
    - Red flag warnings for common mental traps
    - Self-check triggers during plan creation
    - Compliance reporting requirements
@@ -237,7 +229,7 @@ specs/
 1. **Dogfooding** (LiveSpec uses its own methodology):
    - We maintain PURPOSE.md, specs/workspace/, specs/artifacts/prompts/
    - .livespec/ symlink lets us use prompts/ on ourselves
-   - Tests validate our specs follow our own rules
+   - Validation checks our specs follow our own rules
 
 2. **Distribution** (Users adopting LiveSpec):
    - **Complete adoption** (recommended): `cp -r livespec/dist/ my-project/.livespec/`
@@ -274,6 +266,6 @@ specs/
 - AGENTS.md regenerable from workspace specs
 - Two-branch model evident in structure (product + workspace outputs)
 - behaviors/ and contracts/ abstractions work across all domains
-- Code is disposable; specs contain WHAT/WHY only
-- Tests validate our own specs
+- Specs are durable assets containing WHAT/WHY only
+- Validation checks spec consistency and quality
 - Specs contain no implementation details

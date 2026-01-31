@@ -15,7 +15,7 @@ guided-by:
 - [!] Project build configuration centralizes flags that guide AGENTS.md generation and phased workflow selection.
   - Configuration file named `project.yaml` at project root
   - File contains project identification (name, description, keywords)
-  - File contains LiveSpec methodology decisions (spec_first enforcement, TDD approach, context_compression level)
+  - File contains LiveSpec methodology decisions (spec_first enforcement, context_compression level)
   - File contains project taxonomy (domain, workspace_scope, specs_boundary)
   - File contains agent guidance config (doc_format, context_budget, coverage_target, verification_mode)
   - Configuration is **build-time only** (guides context generation, not runtime behavior)

@@ -48,7 +48,7 @@ guided-by:
     - Backwards compatibility noted (existing copy-based setups continue working)
 
 - [!] Installation script creates complete project structure and bootstrap configuration required for immediate use.
-  - Creates specs/ directory structure: specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
+  - Creates specs/ directory structure: specs/{workspace,foundation/{strategic,functional},strategy,features,interfaces}
   - Copies dist/AGENTS.md to project root as bootstrap agent context
   - Creates minimal PURPOSE.md template if not exists
   - Displays "Next Steps" with Phase 0 command after installation

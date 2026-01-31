@@ -1,7 +1,7 @@
 ---
 derives-from:
-  - specs/foundation/outcomes.spec.md (Voluntary Adoption, Maintenance Proportional to Durability, Specification-Driven Regeneration)
-  - specs/features/five-phases.spec.md (phase definitions)
+  - specs/foundation/outcomes.spec.md (Voluntary Adoption, Maintenance Proportional to Durability, Specification-Driven Architecture)
+  - specs/features/three-modes.spec.md (mode definitions)
 governed-by:
   - specs/foundation/constraints.spec.md (Agent Agnostic, Manual Adoption)
   - .livespec/standard/metaspecs/strategy.spec.md
@@ -9,66 +9,59 @@ criticality: CRITICAL
 failure_mode: Without clear workflow strategy, users follow rigid waterfall (inflexible) or chaotic iteration (no structure), defeating voluntary adoption
 ---
 
-# Phase Workflow Strategy
+# Mode Workflow Strategy
 
 ## Requirements
-- [!] LiveSpec combines waterfall structure (linear first pass 0→1→2→3) with iterative flexibility (cycling back when discovering unknowns) through loose workflow providing guidance without enforcement, with Phase 4 as continuous regeneration workflow where code is disposable and specs are source of truth.
-  - Five specific phases: DEFINE (0), DESIGN (1), BUILD (TDD) (2), VERIFY (3), EVOLVE (4)
+- [!] LiveSpec combines waterfall structure (linear first pass 0→1) with iterative flexibility (cycling back when discovering unknowns) through loose workflow providing guidance without enforcement, with Mode 2 as continuous evolution workflow where specs are source of truth and lower layers are derived.
+  - Three specific modes: DEFINE (0), DESIGN (1), EVOLVE (2)
   - Natural linear progression for first pass (waterfall spine)
   - Cycling permitted when learning invalidates assumptions (iterative flexibility)
   - Entry/exit criteria are guidance not gates (loose workflow, no enforcement)
-  - Phase 4 runs continuously (background process, not one-time stage)
+  - Mode 2 runs continuously (background process, not one-time stage)
   - Decision criteria documented for when to cycle vs proceed
   - AI agents understand structure without rigidity
   - Light methodology (minimal ceremony, voluntary adoption)
 
-## Why Exactly Five Phases
+## Why Exactly Three Modes
 
-**Not three** (too coarse):
-- Jumps from problem to implementation without design
-- Missing DESIGN (ad-hoc architecture) and EVOLVE (one-shot documentation)
+**Not two** (too coarse):
+- Jumps from problem to evolution without design
+- Missing DESIGN (ad-hoc spec architecture)
 
-**Not seven+** (too fine):
-- Each phase adds overhead and context-switch cost
-- More phases = more ceremony = less voluntary adoption
+**Not five+** (too fine):
+- Each mode adds overhead and context-switch cost
+- More modes = more ceremony = less voluntary adoption
+- Implementation phases are out of scope for spec framework
 
-**Five phases chosen** (sweet spot):
+**Three modes chosen** (sweet spot):
 - **0: DEFINE** - WHAT (problem, constraints, process)
 - **1: DESIGN** - HOW (architecture, behaviors, contracts)
-- **2: BUILD (TDD)** - Test-driven implementation (tests first, then code)
-- **3: VERIFY** - Validation (acceptance, correctness)
-- **4: EVOLVE** - Synchronization (continuous drift prevention)
+- **2: EVOLVE** - Synchronization (continuous spec health)
 
 **Rationale**:
-- Phase 0: Separate problem understanding from solution design, establish workspace
-- Phase 1: Think before building, separate WHAT (behaviors) from HOW (code)
-- Phase 2: Core test-driven implementation guided by specs, tests before code ensures correctness
-- Phase 3: Separate validation mindset from implementation, stakeholder involvement
-- Phase 4: Continuous regeneration workflow (specs → code, code is disposable), unique to LiveSpec
+- Mode 0: Separate problem understanding from solution design, establish workspace
+- Mode 1: Think before detailing, separate WHAT (behaviors) from HOW (structure)
+- Mode 2: Continuous evolution workflow (spec health, learning capture), unique to LiveSpec
 
 ## Hybrid Model: Waterfall Spine + Iterative Cycles
 
 ### Waterfall Spine (Linear First Pass)
 
-**Natural progression 0 → 1 → 2 → 3:**
+**Natural progression 0 → 1:**
 
 ```
 0: DEFINE
   ↓ (problem defined, constraints identified)
 1: DESIGN
   ↓ (architecture specified, behaviors documented)
-2: BUILD (TDD)
-  ↓ (tests written first, implementation complete, all tests passing)
-3: VERIFY
-  ↓ (validation complete, acceptance achieved)
-4: EVOLVE (continuous)
+2: EVOLVE (continuous)
 ```
 
 **Why linear first pass works:**
 - Incremental understanding (can't design without problem definition)
-- Logical dependencies (can't build without architecture)
+- Logical dependencies (can't evolve without spec foundation)
 - Cognitive flow (natural progression, reduced context switching)
-- AI agent clarity ("You're in Phase 1" gives clear guidance)
+- AI agent clarity ("You're in Mode 1" gives clear guidance)
 
 **Not enforced waterfall:**
 - No gates, no sign-offs, no formal completion criteria
@@ -84,61 +77,49 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
   ↓
 1: DESIGN      ←──┐
   ↓              │
-2: BUILD (TDD) ───┘ (discovered design flaw)
-  ↓
-3: VERIFY      ───→ 1: DESIGN (requirements incomplete)
+2: EVOLVE    ────┘ (discovered spec flaw)
 ```
 
 **Cycling triggers (examples)**:
 
-**BUILD → DESIGN:**
-- Implementation reveals architectural flaw
-- Performance requirements conflict with design
-- Example: "Can't implement real-time sync with current architecture"
+**EVOLVE → DESIGN:**
+- Spec health check reveals structural issues
+- Behaviors don't match current needs
+- Example: "Specs are too detailed/too abstract for current use"
 
-**BUILD → DEFINE:**
-- Constraint discovered during implementation
+**EVOLVE → DEFINE:**
+- Constraint discovered during evolution
 - Problem definition incomplete
-- Example: "Client needs offline mode, not in original requirements"
+- Example: "Original purpose has evolved"
 
-**VERIFY → DESIGN:**
-- Validation shows missing behaviors
-- Acceptance review reveals gaps
-- Example: "Users need export feature we didn't specify"
-
-**VERIFY → DEFINE:**
-- Fundamental problem misunderstood
-- Stakeholder expectations misaligned
-- Example: "We built X but users needed Y"
-
-**EVOLVE → any earlier phase:**
-- Code evolved beyond specs → update specs (cycle to DESIGN)
-- Specs evolved beyond code → update implementation (cycle to BUILD)
-- New requirements emerged → cycle to DEFINE/DESIGN
+**DESIGN → DEFINE:**
+- Design reveals problem understanding was incomplete
+- Constraints conflict with requirements
+- Example: "Can't satisfy requirements given constraints"
 
 **Intentional not chaotic:**
 - Cycles based on learning (not premature uncertainty)
-- Decision criteria guide when to cycle ("it doesn't work" vs "it might not work")
+- Decision criteria guide when to cycle
 - Flexibility without chaos
 
-### Phase 4: Continuous Background Process
+### Mode 2: Continuous Background Process
 
-**Unlike phases 0-3** (sequential stages):
-- Phase 4 runs continuously once in production
-- Runs parallel to other phases
-- Detects drift ongoing
-- Triggers cycles to earlier phases
+**Unlike modes 0-1** (sequential stages):
+- Mode 2 runs continuously once specs established
+- Runs parallel to other modes
+- Detects spec health issues ongoing
+- Triggers cycles to earlier modes
 
 **Why continuous:**
-- Code changes frequently (features, bugs, refactoring)
-- Specs must stay current (living documentation)
-- Drift accumulates if not detected continuously
-- Bidirectional sync requires ongoing attention
+- Specs change as understanding deepens
+- Spec quality must be maintained (MSL compliance)
+- Issues accumulate if not detected continuously
+- Learning capture requires ongoing attention
 
-**Connection to regeneration workflow:**
-- Specs → Code: Phase 1-2 workflow (generate implementation)
-- Code → Specs: Phase 4 extraction workflow (level up discoveries)
-- Both directions enabled by Phase 4 continuity
+**Connection to spec health workflow:**
+- Mode 1 → Mode 2: Create specs, then maintain them
+- Mode 2 → Mode 1: Learning reveals need for new specs
+- Both directions enabled by Mode 2 continuity
 
 ## "Loose Workflow" Philosophy
 
@@ -147,7 +128,7 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 | Strict (heavyweight) | Loose (LiveSpec) | Chaotic (no structure) |
 |---------------------|------------------|----------------------|
 | Gates require sign-off | Guidelines suggest readiness | No guidance |
-| Cannot proceed without approval | Proceed when ready (self-assessed) | No phases |
+| Cannot proceed without approval | Proceed when ready (self-assessed) | No modes |
 | Formal deliverables required | Deliverables recommended | No deliverables |
 | Process enforced by tooling | Process guided by prompts | No process |
 | High ceremony | Minimal ceremony | No ceremony/structure |
@@ -159,7 +140,7 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 - Minimal overhead (guidance accessible, not burdensome)
 
 **Risk accepted:**
-- Developers might skip phases inappropriately
+- Developers might skip modes inappropriately
 - Mitigated by: AI agent guidance, prompt quality, success patterns
 
 **Benefit gained:**
@@ -171,76 +152,69 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 
 ### Cycle Back When:
 
-**From BUILD to DESIGN:**
-- Implementation complexity exceeds design anticipation
-- Architectural pattern not working
-- Missing behaviors discovered during coding
-- Technology constraints conflict with design
+**From EVOLVE to DESIGN:**
+- Spec complexity exceeds design anticipation
+- Spec structure not working
+- Missing behaviors discovered during evolution
+- Quality constraints conflict with design
 
-**From BUILD to DEFINE:**
+**From EVOLVE to DEFINE:**
 - Discovered constraint invalidates approach
 - Original problem statement incomplete
 - Stakeholder needs changed
 
-**From VERIFY to DESIGN:**
-- Acceptance testing reveals missing functionality
-- Behaviors don't match user expectations
-- Performance requirements not met
-
-**From VERIFY to DEFINE:**
-- Solution solves wrong problem
-- Requirements fundamentally misunderstood
-- Success criteria not achievable
+**From DESIGN to DEFINE:**
+- Design reveals fundamental misunderstanding
+- Requirements incomplete
+- Constraints discovered
 
 ### Keep Moving Forward When:
 
 - Making progress toward exit criteria
 - Issues tractable (can solve without rework)
 - Learning enhances understanding (not invalidates it)
-- Unknowns resolvable within current phase
+- Unknowns resolvable within current mode
 
 **Example distinction:**
-- "This function is complex" → Stay in BUILD (implementation detail)
-- "This architecture can't support requirement" → Cycle to DESIGN (fundamental issue)
+- "This spec is complex" → Stay in EVOLVE (maintenance detail)
+- "This spec structure can't support requirement" → Cycle to DESIGN (fundamental issue)
 
-### Phase 4 Special Case:
+### Mode 2 Special Case:
 
-**Triggered by drift detection** (not blockers):
-- Code changed without spec update → Cycle to DESIGN (extract behaviors)
-- Spec changed without code update → Cycle to BUILD (implement)
+**Triggered by spec health issues** (not blockers):
+- Spec quality degraded → Mode 2 maintenance
 - New requirements emerged → Cycle to DEFINE (update constraints)
-- Production issues → Cycle to VERIFY (re-validate)
+- Learning reveals gaps → Cycle to DESIGN (new specs needed)
 
 ## Connection to AI Agents
 
-**How phases help agents:**
+**How modes help agents:**
 
 **Clarity of intent:**
 - "Use .livespec/1-design/1a-design-architecture.md"
-- Agent knows: Design phase, focus on architecture (not coding yet)
+- Agent knows: Design mode, focus on architecture
 - Constrains solution space
 
 **Progressive context:**
-- Phase 0: Problem space context
-- Phase 1: Solution design context
-- Phase 2: Implementation context
-- Phase 3: Validation context
+- Mode 0: Problem space context
+- Mode 1: Solution design context
+- Mode 2: Spec maintenance context
 - Agent builds understanding incrementally
 
 **Decision support:**
 - "Should I cycle back?" → Agent references decision criteria
-- "What phase am I in?" → Agent checks project state
-- "What's next?" → Agent suggests phase-appropriate actions
+- "What mode am I in?" → Agent checks project state
+- "What's next?" → Agent suggests mode-appropriate actions
 
 **Guidance without rigidity:**
-- Phases give structure (not aimless)
+- Modes give structure (not aimless)
 - Loose workflow gives flexibility (agent adapts)
 - Balance: Enough guidance to be useful, not constraining
 
 ## Light Methodology Approach
 
 **"Light" means:**
-- Minimal prompts per phase (2-5, not 20)
+- Minimal prompts per mode (2-5, not 20)
 - Short prompts (guidance not exhaustive procedures)
 - Quick cycles (minutes to hours, not weeks)
 - Low ceremony (no templates requiring 10 fields)
@@ -254,7 +228,7 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 - No certification or training
 
 **Still structured** (not ad-hoc):
-- Clear phase purposes
+- Clear mode purposes
 - Entry/exit guidance
 - Decision criteria
 - AI agent prompts
@@ -265,13 +239,12 @@ failure_mode: Without clear workflow strategy, users follow rigid waterfall (inf
 - Minimalism maintains low overhead, sustainable long-term
 
 ## Validation
-- Five phases specifically (DEFINE, DESIGN, BUILD (TDD), VERIFY, EVOLVE)
-- Natural linear first pass (0→1→2→3)
+- Three modes specifically (DEFINE, DESIGN, EVOLVE)
+- Natural linear first pass (0→1)
 - Cycling permitted based on learning (decision criteria documented)
 - Entry/exit criteria are guidance not gates (loose workflow)
-- Phase 4 continuous not episodic (ongoing drift detection)
+- Mode 2 continuous not episodic (ongoing spec health)
 - Hybrid model (waterfall spine + iterative cycles)
-- Phase 2 emphasizes TDD (tests before code, mandatory with escape hatch)
 - AI agents understand structure without rigidity
 - Light methodology maintained (minimal ceremony, voluntary adoption)
 - Decision criteria help determine when to cycle vs proceed

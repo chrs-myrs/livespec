@@ -19,7 +19,7 @@ implements: specs/features/validation/workspace-scope-audit.spec.md
   - Scans file content for deliverable indicators (feature names, product terminology, API definitions)
   - Cross-references files against taxonomy declared workspace scope
   - Reports violations with specific line numbers and examples
-  - Suggests relocations (1-requirements/, 2-strategy/, 3-behaviors/)
+  - Suggests relocations (foundation/, 2-strategy/, features/)
   - Generates actionable audit report showing what to move where
   - Preserves operating context while removing deliverables
 

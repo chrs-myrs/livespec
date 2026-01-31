@@ -40,11 +40,11 @@ Intent flows down, implementations trace back up:
 ```
 PURPOSE.md          → WHY does this exist?
   ↓
-1-requirements/     → WHAT must we achieve?
+foundation/         → WHAT must we achieve?
   ↓
-2-strategy/         → HOW will we approach it?
+strategy/           → HOW will we approach it?
   ↓
-3-behaviors/        → WHAT does the system do? (observable)
+features/           → WHAT does the system do? (observable)
 ```
 
 **Why it matters:** When requirements change, you trace down to find affected behaviors. When implementations exist, they trace back up to justify their existence.
@@ -56,7 +56,7 @@ Two orthogonal concerns that don't mix:
 | Concern | Location | Contains | Applies To |
 |---------|----------|----------|------------|
 | **Workspace** | `specs/workspace/` | HOW you build: patterns, workflows, agent behavior | All development |
-| **Product** | `specs/1-*/2-*/3-*/` | WHAT you build: requirements, architecture, behaviors | This project specifically |
+| **Product** | `specs/{foundation,strategy,features,interfaces}/` | WHAT you build: requirements, architecture, behaviors | This project specifically |
 
 **Key insight:** Workspace specs govern ALL your development. Product specs are project-specific deliverables.
 
@@ -64,9 +64,9 @@ Two orthogonal concerns that don't mix:
 
 | Layer | Folder | Driving Question | Owned By |
 |-------|--------|------------------|----------|
-| 1 | `1-requirements/` | What outcomes must we achieve? | Business/Product |
-| 2 | `2-strategy/` | What technical approach will we use? | Architecture |
-| 3 | `3-behaviors/` + `3-contracts/` | What does the system observably do? | Engineering |
+| 1 | `foundation/` | What outcomes must we achieve? | Business/Product |
+| 2 | `strategy/` | What technical approach will we use? | Architecture |
+| 3 | `features/` + `interfaces/` | What does the system observably do? | Engineering |
 
 ## Architecture
 
@@ -76,10 +76,10 @@ Two orthogonal concerns that don't mix:
 graph TD
     %% Main Vertical Flow
     PURPOSE[PURPOSE.md<br/>Why this exists]
-    REQUIREMENTS[1-requirements/<br/>What we must achieve]
-    CONSTRAINTS[1-requirements/<br/>Hard boundaries]
-    STRATEGY[2-strategy/<br/>Technical approach]
-    SPECS[3-behaviors/ + 3-contracts/<br/>What system does]
+    REQUIREMENTS[foundation/<br/>What we must achieve]
+    CONSTRAINTS[foundation/<br/>Hard boundaries]
+    STRATEGY[strategy/<br/>Technical approach]
+    SPECS[features/ + interfaces/<br/>What system does]
     CODE[Your Code<br/>AI-generated or manual]
 
     %% Validation
@@ -172,48 +172,43 @@ Compare to spec-kit: LiveSpec is the no-tooling, agent-agnostic alternative. Sam
 
 Choose your preferred method:
 
-#### Method 1: Sparse Submodule (Recommended)
+#### Method 1: Claude Code Plugin (Recommended)
 
-**Pros:** Auto-updates, no duplication, only fetches dist/
-**Requires:** git 2.25+ or git-partial-submodule tool
+**Pros:** Version management, no file duplication, integrated commands
+**Requires:** Claude Code 1.0.33+
 
 ```bash
-cd your-project
+# Add LiveSpec marketplace
+/plugin marketplace add chrs-myrs/livespec
 
-# Automated installation (RECOMMENDED - handles everything)
-bash <(curl -s https://raw.githubusercontent.com/chrs-myrs/livespec/master/dist/scripts/install-livespec.sh)
+# Install plugin
+/plugin install livespec@livespec
 
-# This script automatically:
-# - Detects and installs using best method (sparse > full > copy)
-# - Creates specs/ directory structure
-# - Installs bootstrap AGENTS.md
-# - Creates PURPOSE.md template
-# - Validates installation
-# - Displays next steps
-
-# Or manually with git-partial-submodule (install: pip install git+https://github.com/Reedbeta/git-partial-submodule)
-git-partial-submodule.py add --sparse-patterns 'dist/*' \
-  https://github.com/chrs-myrs/livespec .livespec-repo
-ln -s .livespec-repo/dist .livespec
-mkdir -p specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
-cp .livespec/AGENTS.md .
-
-# Or manually with native git sparse-checkout (git 2.25+)
-git submodule add https://github.com/chrs-myrs/livespec .livespec-repo
-git -C .livespec-repo sparse-checkout init --cone
-git -C .livespec-repo sparse-checkout set dist
-ln -s .livespec-repo/dist .livespec
-mkdir -p specs/{workspace,1-requirements/{strategic,functional},2-strategy,3-behaviors,3-contracts}
-cp .livespec/AGENTS.md .
-
-# Update later
-git submodule update --remote .livespec-repo
+# Initialize your project
+/livespec:init
 ```
 
-#### Method 2: Directory Copy (Simple)
+**Available commands after installation:**
+- `/livespec:init` - Initialize project with workspace specs
+- `/livespec:design` - Phase 1: Design architecture and behaviors
+- `/livespec:build` - Phase 2: TDD implementation
+- `/livespec:verify` - Phase 3: Validation
+- `/livespec:evolve` - Phase 4: Drift detection and regeneration
+- `/livespec:validate` - Run project validation
+- `/livespec:rebuild-context` - Regenerate AGENTS.md
+- Plus 10 more utility commands
 
-**Pros:** Works everywhere, simple
-**Cons:** Manual updates, duplication
+**Update later:**
+```bash
+/plugin update livespec
+```
+
+[Plugin installation guide →](docs/plugin-installation.md)
+
+#### Method 2: Directory Copy (Legacy)
+
+**Pros:** Works everywhere, no plugin system needed
+**Cons:** Manual updates, file duplication
 
 ```bash
 # Clone LiveSpec
@@ -222,7 +217,13 @@ git clone https://github.com/chrs-myrs/livespec.git
 cd your-project
 
 # Copy methodology to .livespec/ folder
-cp -r ../livespec/dist/* .livespec
+cp -r ../livespec/dist .livespec
+
+# Create project structure
+mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
+
+# Copy bootstrap AGENTS.md
+cp .livespec/AGENTS.md .
 
 # Update later
 cp -r ../livespec/dist/* .livespec/
@@ -249,10 +250,24 @@ cp -r ../livespec/dist/* .livespec/
 
 ### New Project Setup
 
-The install script handles setup automatically. After installation:
+**With Plugin (Recommended):**
 
 ```bash
-# 1. Edit PURPOSE.md (created by install script)
+# Initialize with defaults (5 min)
+/livespec:init
+
+# Or with full customization (20-30 min)
+/livespec:init --full
+
+# Edit PURPOSE.md with your project vision
+# Then regenerate context
+/livespec:rebuild-context
+```
+
+**With Directory Copy:**
+
+```bash
+# 1. Edit PURPOSE.md
 #    Describe why your project exists and what success looks like
 
 # 2. Run Phase 0 to customize workspace
@@ -264,11 +279,19 @@ claude-code "Use .livespec/0-define/0b-customize-workspace.md"  # 30 min, full c
 claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
 ```
 
-**Note:** Install script creates specs/ structure and bootstrap AGENTS.md automatically.
-
 ### Existing Project
 
-After installation:
+**With Plugin:**
+
+```bash
+# Extract specifications from existing code
+/livespec:evolve extract
+
+# Regenerate agent context
+/livespec:rebuild-context
+```
+
+**With Directory Copy:**
 
 ```bash
 # Extract specifications from existing code
@@ -277,8 +300,6 @@ claude-code "Use .livespec/prompts/4-evolve/4b-extract-specs.md to document this
 # Then regenerate agent context
 claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
 ```
-
-**Note:** Install script creates specs/ structure automatically - ready to populate from code.
 
 [Full quickstart guide →](docs/quickstart.md)
 
@@ -294,14 +315,12 @@ your-project/
 │   │   ├── constitution.spec.md    # Development principles
 │   │   ├── patterns.spec.md        # Code patterns
 │   │   └── workflows.spec.md       # Development workflows
-│   ├── 1-requirements/        # WHY and strategic/functional requirements
-│   │   ├── strategic/         # High-level outcomes + constraints
-│   │   │   ├── outcomes.spec.md
-│   │   │   └── constraints.spec.md
-│   │   └── functional/        # Feature-level requirements
-│   ├── 2-strategy/            # HOW technically (product-specific)
-│   ├── 3-behaviors/           # WHAT system does (user-facing)
-│   └── 3-contracts/           # API/data contracts
+│   ├── foundation/            # WHY - strategic outcomes and constraints
+│   │   ├── outcomes.spec.md
+│   │   └── constraints.spec.md
+│   ├── strategy/              # HOW technically (product-specific)
+│   ├── features/              # WHAT system does (user-facing)
+│   └── interfaces/            # API/data contracts
 │
 ├── prompts/                # Symlinks to .livespec/prompts/ (framework)
 │   ├── 0-define/ -> ../dist/prompts/0-define/
@@ -466,16 +485,18 @@ Common mistakes when setting up LiveSpec:
 
 ## Version
 
-**Current Version: 4.0.0**
+**Current Version: 4.1.0**
 
-LiveSpec v4.0.0 introduces disposable code architecture:
-- Core identity shift: "information architecture that generates context trees for AI agents"
-- Core Concepts section explaining Value Structure, Context Tree, and Three Layers
-- Workspace Specs section with practical examples
-- Troubleshooting section for common setup mistakes
-- Streamlined problem statement highlighting context loss
+LiveSpec v4.1.0 introduces Claude Code plugin distribution:
+- **Plugin installation** - `/plugin install livespec` for integrated experience
+- **7 skills** - Phase workflows (init, design, build, verify, evolve) + utilities
+- **13 commands** - All utility operations available via `/livespec:*`
+- **Sub-agents** - Phase-specific context for focused guidance
+- **Legacy support** - `dist/` copy method still works
 
-[Changelog →](CHANGELOG.md) | [v1 archived →](.archive/v1-2025-01/)
+Previous: v4.0.0 introduced disposable code architecture.
+
+[Changelog →](CHANGELOG.md) | [Migration guide →](docs/migration-to-plugin.md)
 
 ## Requirements
 
@@ -492,54 +513,64 @@ livespec/
 ├── PURPOSE.md              # Why LiveSpec exists
 ├── README.md               # This file
 │
-├── dist/                   # DISTRIBUTION (copy this to .livespec/)
-│   ├── prompts/            # 5-phase methodology
-│   │   ├── 0-define/
-│   │   ├── 1-design/
-│   │   ├── 2-build/
-│   │   ├── 3-verify/
-│   │   ├── 4-evolve/
-│   │   └── utils/
-│   ├── standard/           # MSL metaspecs and conventions
-│   │   ├── metaspecs/
-│   │   └── conventions/
-│   └── templates/          # Workspace spec starter files
-│       └── workspace/
+├── .claude-plugin/         # PLUGIN (install via /plugin install)
+│   ├── plugin.json         # Plugin manifest
+│   └── marketplace.json    # Self-hosted marketplace
+│
+├── skills/                 # Plugin skills (phase workflows)
+│   ├── init/SKILL.md
+│   ├── design/SKILL.md
+│   ├── build/SKILL.md
+│   ├── verify/SKILL.md
+│   ├── evolve/SKILL.md
+│   ├── spec-writing/SKILL.md
+│   └── context-generation/SKILL.md
+│
+├── commands/               # Plugin commands (utilities)
+│   ├── validate.md
+│   ├── complete-session.md
+│   └── [11 more...]
+│
+├── agents/                 # Sub-agent definitions
+│   ├── phase-0-define.md
+│   ├── phase-1-design.md
+│   └── [etc...]
+│
+├── references/             # Reference content for plugin
+│   ├── guides/
+│   ├── standards/
+│   └── phase-prompts/
+│
+├── templates/              # Project templates
+│
+├── dist/                   # LEGACY DISTRIBUTION (copy to .livespec/)
+│   ├── prompts/
+│   ├── standard/
+│   └── templates/
 │
 ├── specs/                  # DOGFOODING (LiveSpec's own specs)
-│   ├── mission/            # Why LiveSpec exists (outcomes, constraints)
-│   ├── workspace/          # How we build LiveSpec
-│   ├── behaviors/          # What LiveSpec does
-│   ├── prompts/            # Meta-specs about our prompts
-│   ├── standard/           # Meta-specs about the standard
-│   └── strategy/           # How we solve it technically
+│   ├── workspace/
+│   ├── foundation/
+│   ├── strategy/
+│   └── features/
 │
-├── prompts/                # Symlinks to dist/prompts/ (dogfooding)
-│   ├── 0-define/ -> dist/prompts/0-define/
-│   ├── 1-design/ -> dist/prompts/1-design/
-│   ├── [etc...]
-│   └── generated/          # LiveSpec's generated prompts
-│       ├── self-improve.md
-│       └── internalise-learnings.md
-│
-├── tests/                  # Validation suite
 └── docs/                   # User documentation
 ```
 
-**For Users:** Copy `dist/*` to `.livespec/` in your project
+**For Users:** Use plugin (`/plugin install livespec`) or copy `dist/` to `.livespec/`
 
 **For Contributors:**
 - Read `specs/workspace/` to understand how WE build LiveSpec
-- Check `specs/3-behaviors/prompts/` for what each prompt does
-- Check `specs/3-behaviors/framework/` for the framework structure
+- Check `specs/artifacts/prompts/` for what each prompt does
+- Check `specs/features/` for the framework behaviors
 - We use `.livespec/` (symlinked to `dist/`) for our own development
 
 ## Contributing
 
 Contributions welcome! We dogfood our own methodology:
 - Read [specs/workspace/](specs/workspace/) to understand how WE build LiveSpec
-- Check [specs/3-behaviors/prompts/](specs/3-behaviors/prompts/) for what each prompt does
-- Check [specs/3-behaviors/framework/](specs/3-behaviors/framework/) for the framework structure
+- Check [specs/artifacts/prompts/](specs/artifacts/prompts/) for what each prompt does
+- Check [specs/features/](specs/features/) for the framework behaviors
 - Use `.livespec/` (symlinked to `dist/`) when working on LiveSpec itself
 - Submit PRs following workspace patterns
 
@@ -555,6 +586,6 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**LiveSpec v3.1.0** - Information architecture for AI-first development.
+**LiveSpec v4.1.0** - Information architecture for AI-first development.
 
 Simple. Minimal. Effective.

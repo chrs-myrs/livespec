@@ -49,9 +49,9 @@ Software - Produces TypeScript library for data validation
 - taxonomy.spec.md - Project classification
 
 **What is NOT workspace (deliverables):**
-- Validation rules are product behavior (3-behaviors/)
+- Validation rules are product behavior (features/)
 - API design is product strategy (2-strategy/)
-- Feature requirements (1-requirements/)
+- Feature requirements (foundation/)
 
 Test: "Is this ABOUT the workspace or IN the workspace?" → ABOUT = workspace/, IN = elsewhere
 

@@ -13,24 +13,24 @@ LiveSpec specifications form a dependency graph, not a hierarchy:
 ```
 PURPOSE.md (Why we exist)
   ↓ defines scope
-  ├─→ specs/1-requirements/strategic/outcomes.spec.md (What we must achieve - HLR)
+  ├─→ specs/foundation/outcomes.spec.md (What we must achieve - HLR)
   │     ↓ constrains solution
-  │     ├─→ specs/1-requirements/strategic/constraints.spec.md (Critical boundaries)
+  │     ├─→ specs/foundation/constraints.spec.md (Critical boundaries)
   │     │     ↓ limits options
-  │     │     └─→ specs/2-strategy/architecture.spec.md (How we solve it)
+  │     │     └─→ specs/strategy/architecture.spec.md (How we solve it)
   │     │           ↓ defines approach
-  │     │           ├─→ specs/3-behaviors/prompts/*.spec.md (What each prompt does)
+  │     │           ├─→ specs/artifacts/prompts/*.spec.md (What each prompt does)
   │     │           │     ↓ implements methodology
   │     │           │     └─→ prompts/*.md (Actual prompts)
   │     │           │
-  │     │           └─→ specs/3-behaviors/*.spec.md (Observable outcomes)
+  │     │           └─→ specs/features/*.spec.md (Observable outcomes)
   │     │                 ↓ requires
-  │     │                 ├─→ specs/3-contracts/*.{yaml,json} (Interfaces)
+  │     │                 ├─→ specs/interfaces/*.{yaml,json} (Interfaces)
   │     │                 └─→ src/, lib/, etc. (Code implementation)
   │     │
-  │     └─→ specs/2-strategy/architecture.spec.md (derives from problem)
+  │     └─→ specs/strategy/architecture.spec.md (derives from problem)
   │
-  └─→ specs/1-requirements/strategic/constraints.spec.md (derives from purpose)
+  └─→ specs/foundation/constraints.spec.md (derives from purpose)
 
 Orthogonal (applies to all):
   specs/workspace/
@@ -49,51 +49,51 @@ Orthogonal (applies to all):
 - **Derives from**: Nothing (root)
 - **Constrains**: All other specs
 
-**specs/1-requirements/strategic/outcomes.spec.md**
+**specs/foundation/outcomes.spec.md**
 - **Type**: High-Level Requirements (MSL spec)
 - **Purpose**: What LiveSpec must achieve (strategic objectives)
 - **Derives from**: PURPOSE.md
 - **Constrains**: Solution space
 - **Changeability**: Rare (fundamental requirements)
 
-**specs/1-requirements/strategic/constraints.spec.md**
+**specs/foundation/constraints.spec.md**
 - **Type**: Critical boundaries (MSL spec)
 - **Purpose**: Non-negotiable limits
-- **Derives from**: PURPOSE.md, requirements.spec.md
+- **Derives from**: PURPOSE.md, outcomes.spec.md
 - **Constrains**: All implementations
 - **Changeability**: Rare (core principles)
 
 ### 2. Approach (How We Solve It)
 
-**specs/2-strategy/architecture.spec.md**
+**specs/strategy/architecture.spec.md**
 - **Type**: Design decisions / Policy (MSL spec)
 - **Purpose**: High-level approach and structure
-- **Derives from**: PURPOSE.md, requirements.spec.md
+- **Derives from**: PURPOSE.md, outcomes.spec.md
 - **Constrained by**: constraints.spec.md
 - **Enables**: All implementation specs
 - **Changeability**: Occasional (design evolution)
 
 ### 3. Implementation Specifications
 
-**specs/3-behaviors/prompts/*.spec.md**
+**specs/artifacts/prompts/*.spec.md**
 - **Type**: Meta-specifications (MSL specs)
 - **Purpose**: What each prompt accomplishes
 - **Derives from**: architecture.spec.md
 - **Implements**: methodology
 - **Changeability**: Frequent (methodology evolves)
 
-**specs/3-behaviors/*.spec.md**
+**specs/features/*.spec.md**
 - **Type**: Observable outcomes (MSL specs)
 - **Purpose**: What system must do
 - **Derives from**: architecture.spec.md
-- **Satisfies**: requirements.spec.md
+- **Satisfies**: outcomes.spec.md
 - **Constrained by**: constraints.spec.md
 - **Changeability**: Frequent (features evolve)
 
-**specs/3-contracts/*.{yaml,json}**
+**specs/interfaces/*.{yaml,json}**
 - **Type**: Interface definitions
 - **Purpose**: API/data contracts
-- **Supports**: behaviors/*.spec.md
+- **Supports**: features/*.spec.md
 - **Changeability**: Frequent (interfaces change)
 
 ### 4. Code Implementation
@@ -163,24 +163,24 @@ grep -r "derives_from.*PURPOSE" specs/
 - Do constraints conflict with new direction?
 - Is architecture still aligned?
 
-### When specs/1-requirements/strategic/outcomes.spec.md Changes
+### When specs/foundation/outcomes.spec.md Changes
 
 **Affected specs:**
 ```bash
-grep -r "derives_from.*requirements.spec.md\|satisfies.*requirements.spec.md" specs/
+grep -r "derives_from.*outcomes.spec.md\|satisfies.*outcomes.spec.md" specs/
 ```
 
 **Cascade:**
 1. Check constraints.spec.md → still derive from same requirements?
 2. Check architecture.spec.md → approach still satisfies requirements?
-3. Check all behaviors/ → still satisfy the requirements?
+3. Check all features/ → still satisfy the requirements?
 
 **Detection:**
 - Does architecture satisfy the new requirements?
-- Do behaviors map to new requirements?
+- Do features map to new requirements?
 - Are constraints still relevant?
 
-### When specs/1-requirements/strategic/constraints.spec.md Changes
+### When specs/foundation/constraints.spec.md Changes
 
 **Affected specs:**
 ```bash
@@ -189,7 +189,7 @@ grep -r "constrained_by.*constraints" specs/
 
 **Cascade:**
 1. Check architecture.spec.md → does it violate new constraints?
-2. Check all behaviors/ → do any violate new constraints?
+2. Check all features/ → do any violate new constraints?
 3. Check code → does implementation respect new constraints?
 
 **Detection:**
@@ -197,7 +197,7 @@ grep -r "constrained_by.*constraints" specs/
 - What needs redesign?
 - Is code compliant?
 
-### When specs/2-strategy/architecture.spec.md Changes
+### When specs/strategy/architecture.spec.md Changes
 
 **Affected specs:**
 ```bash
@@ -205,17 +205,17 @@ grep -r "derives_from.*architecture" specs/
 ```
 
 **Cascade:**
-1. Review prompts/*.spec.md → methodology still aligned?
-2. Review behaviors/ → still follow design decisions?
-3. Review contracts/ → interfaces still appropriate?
+1. Review artifacts/prompts/*.spec.md → methodology still aligned?
+2. Review features/ → still follow design decisions?
+3. Review interfaces/ → interfaces still appropriate?
 4. Check workspace/ → process still supports architecture?
 
 **Detection:**
 - Do prompt specs implement new architecture?
-- Do behaviors reflect new design?
+- Do features reflect new design?
 - Is code structure aligned?
 
-### When specs/3-behaviors/*.spec.md Changes
+### When specs/features/*.spec.md Changes
 
 **Affected code:**
 ```bash
@@ -224,14 +224,14 @@ grep -r "derives_from.*architecture" specs/
 ```
 
 **Cascade:**
-1. Trace upward → still satisfies requirements.spec.md?
+1. Trace upward → still satisfies outcomes.spec.md?
 2. Trace upward → still derives from architecture.spec.md?
 3. Trace upward → still respects constraints.spec.md?
-4. Check code → implementation matches new behavior?
+4. Check code → implementation matches new feature spec?
 
 **Detection:**
-- Does behavior change suggest architecture needs update?
-- Are other behaviors affected?
+- Does feature change suggest architecture needs update?
+- Are other features affected?
 - Is code drifted from new spec?
 
 ## Validation Rules
@@ -262,7 +262,7 @@ Every spec must be supported by its children:
 
 ```bash
 # For each parent spec
-PARENT="specs/2-strategy/architecture.spec.md"
+PARENT="specs/strategy/architecture.spec.md"
 
 # Find all children
 grep -r "derives_from.*$(basename $PARENT)" specs/
@@ -303,26 +303,26 @@ done
 ```
 PURPOSE.md
   ↓
-requirements.spec.md (what - HLR)
+foundation/outcomes.spec.md (what - HLR)
   ↓
-architecture.spec.md (how)
+strategy/architecture.spec.md (how)
   ↓
-behaviors/*.spec.md (what - detailed)
+features/*.spec.md (what - detailed)
   ↓
 code (actual)
 ```
 
 **Validation:**
-- Bottom-up: Does code satisfy behaviors which derive from architecture which satisfies requirements which fulfills purpose?
-- Top-down: Does purpose guide requirements which shapes architecture which defines behaviors which code implements?
+- Bottom-up: Does code satisfy features which derive from architecture which satisfies outcomes which fulfills purpose?
+- Top-down: Does purpose guide outcomes which shapes architecture which defines features which code implements?
 
 ### Pattern: Constraints Flow Downward
 
 ```
-constraints.spec.md
+foundation/constraints.spec.md
   ↓ constrains
-  ├─→ architecture.spec.md
-  ├─→ behaviors/*.spec.md
+  ├─→ strategy/architecture.spec.md
+  ├─→ features/*.spec.md
   └─→ code
 ```
 
@@ -352,7 +352,7 @@ workspace/workflows.spec.md     ├─→ Designing architecture.spec.md
 
 ```bash
 # What does this spec depend on?
-grep -A 10 "^---" specs/2-strategy/architecture.spec.md | grep "derives_from\|constrained_by"
+grep -A 10 "^---" specs/strategy/architecture.spec.md | grep "derives_from\|constrained_by"
 
 # What depends on this spec?
 grep -r "derives_from.*architecture.spec.md" specs/
@@ -400,32 +400,32 @@ done
 ### Foundation
 
 ```yaml
-PURPOSE.md → (defines) → specs/1-requirements/strategic/outcomes.spec.md
-PURPOSE.md → (defines) → specs/1-requirements/strategic/constraints.spec.md
-specs/1-requirements/strategic/outcomes.spec.md → (constrains) → specs/2-strategy/architecture.spec.md
-specs/1-requirements/strategic/constraints.spec.md → (limits) → specs/2-strategy/architecture.spec.md
+PURPOSE.md → (defines) → specs/foundation/outcomes.spec.md
+PURPOSE.md → (defines) → specs/foundation/constraints.spec.md
+specs/foundation/outcomes.spec.md → (constrains) → specs/strategy/architecture.spec.md
+specs/foundation/constraints.spec.md → (limits) → specs/strategy/architecture.spec.md
 ```
 
 ### Approach
 
 ```yaml
-specs/2-strategy/architecture.spec.md:
-  derives_from: [PURPOSE.md, specs/1-requirements/strategic/outcomes.spec.md]
-  constrained_by: [specs/1-requirements/strategic/constraints.spec.md]
-  enables: [specs/3-behaviors/prompts/*, specs/3-behaviors/*]
+specs/strategy/architecture.spec.md:
+  derives_from: [PURPOSE.md, specs/foundation/outcomes.spec.md]
+  constrained_by: [specs/foundation/constraints.spec.md]
+  enables: [specs/artifacts/prompts/*, specs/features/*]
 ```
 
 ### Implementation
 
 ```yaml
-specs/3-behaviors/prompts/*.spec.md:
-  derives_from: [specs/2-strategy/architecture.spec.md]
+specs/artifacts/prompts/*.spec.md:
+  derives_from: [specs/strategy/architecture.spec.md]
   implements: [prompts/*.md]
 
-specs/3-behaviors/* (when created):
-  derives_from: [specs/2-strategy/architecture.spec.md]
-  satisfies: [specs/1-requirements/strategic/outcomes.spec.md]
-  constrained_by: [specs/1-requirements/strategic/constraints.spec.md]
+specs/features/* (when created):
+  derives_from: [specs/strategy/architecture.spec.md]
+  satisfies: [specs/foundation/outcomes.spec.md]
+  constrained_by: [specs/foundation/constraints.spec.md]
 ```
 
 ### Process

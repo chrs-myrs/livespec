@@ -38,12 +38,12 @@ derives-from:
 
 **Test:** "Is this ABOUT the workspace or IN the workspace?" → ABOUT = workspace
 
-### specs/1-requirements/ - Strategic and Functional Requirements
-**Contains:** WHY and high-level/specific requirements
+### specs/foundation/ - Strategic Requirements
+**Contains:** WHY - high-level outcomes and hard constraints
 
-**Subdirectories:**
-- strategic/ - High-level outcomes and constraints (outcomes.spec.md, constraints.spec.md)
-- functional/ - Specific feature requirements
+**Examples:**
+- outcomes.spec.md - High-level goals (mission-level)
+- constraints.spec.md - Non-negotiable boundaries
 
 ### specs/strategy/ - Technical Approach (Product-Specific)
 **Contains:** How we solve THIS SPECIFIC problem technically
@@ -109,7 +109,7 @@ derives-from:
 **Three-layer pattern:**
 - Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
 - Data files: `docs/registries/*.md` (project-specific entries)
-- Governance: `specs/features/registry-specs.spec.md` (governs format specs)
+- Governance: `specs/artifacts/registries/registry-specs.spec.md` (governs format specs)
 
 **Test:** "Is this operational record data (not a specification)?" → YES = docs/registries/
 
@@ -125,44 +125,43 @@ Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 
 **workspace/ test:** "Is this ABOUT the workspace or IN the workspace?"
 - ABOUT (operating context) → workspace/
-- IN (deliverable) → Check 1-requirements/, 2-strategy/, or 3-behaviors/
+- IN (deliverable) → Check foundation/, strategy/, or features/
 
-**1-requirements/ test:** "Is this a strategic outcome or hard constraint?"
-- YES, strategic → 1-requirements/strategic/ (outcomes, constraints)
-- YES, functional → 1-requirements/functional/ (specific feature requirements)
-- NO → Check 2-strategy/ or 3-behaviors/
+**foundation/ test:** "Is this a strategic outcome or hard constraint?"
+- YES → foundation/ (outcomes, constraints)
+- NO → Check strategy/ or features/
 
-**2-strategy/ test:** "Does this apply across the whole product?"
-- YES → 2-strategy/ (cross-cutting technical decision)
-- NO → Check 3-behaviors/
+**strategy/ test:** "Does this apply across the whole product?"
+- YES → strategy/ (cross-cutting technical decision)
+- NO → Check features/
 
-**3-behaviors/ test:** "Is this an observable outcome users/system must exhibit?"
-- YES → 3-behaviors/ (what system does)
+**features/ test:** "Is this an observable outcome users/system must exhibit?"
+- YES → features/ (what system does)
 - NO → Re-examine classification
 
 **Common Mistakes:**
-- ❌ "API returns JSON" → NOT workspace (product deliverable) → 2-strategy/
-- ❌ "Use 4-space indentation" → NOT 2-strategy/ (operating convention) → workspace/ (if it matters)
-- ❌ "System authenticates users" → NOT 2-strategy/ (observable) → 3-behaviors/
+- ❌ "API returns JSON" → NOT workspace (product deliverable) → strategy/
+- ❌ "Use 4-space indentation" → NOT strategy/ (operating convention) → workspace/ (if it matters)
+- ❌ "System authenticates users" → NOT strategy/ (observable) → features/
 
 **Correct Examples:**
 - ✅ "Use MSL format for all specs" → workspace/patterns.spec.md (operating context)
-- ✅ "API responses must be JSON" → 2-strategy/architecture.spec.md (product-wide decision)
-- ✅ "System authenticates users via OAuth" → 3-behaviors/authentication.spec.md (observable outcome)
+- ✅ "API responses must be JSON" → strategy/architecture.spec.md (product-wide decision)
+- ✅ "System authenticates users via OAuth" → features/authentication.spec.md (observable outcome)
 
 ## Multi-Domain Organization
 
-**Key insight:** behaviors/ and contracts/ abstractions work across ALL domains. Use subfolders for semantic organization.
+**Key insight:** features/ and interfaces/ abstractions work across ALL domains. Use subfolders for semantic organization.
 
 ### Domain-Agnostic Abstractions
 
-**behaviors/** = Observable outcomes from any perspective:
+**features/** = Observable outcomes from any perspective:
 - Software: "System authenticates users"
 - Governance: "Only authorized entities access resources" (policy)
 - Operations: "Backups complete daily" (service)
 - Planning: "Feature meets success criteria" (requirement)
 
-**contracts/** = Interface definitions of any kind:
+**interfaces/** = Interface definitions of any kind:
 - Software: API contracts (`GET /users/{id}`)
 - Governance: Process contracts (procedures)
 - Operations: Operational contracts (runbooks)
@@ -174,12 +173,12 @@ Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 ```
 specs/
 ├── workspace/           # How we work
-├── 1-requirements/      # Strategic and functional requirements
-├── 2-strategy/          # Cross-cutting decisions
-├── 3-behaviors/
+├── foundation/          # Strategic outcomes and constraints
+├── strategy/            # Cross-cutting decisions
+├── features/
 │   ├── user-features/  # User-facing behaviors
 │   └── system/         # System behaviors
-└── 3-contracts/
+└── interfaces/
     └── api/v1/         # API contracts
 ```
 
@@ -187,12 +186,12 @@ specs/
 ```
 specs/
 ├── workspace/           # How we work
-├── 1-requirements/      # Strategic and functional requirements
-├── 2-strategy/          # Cross-cutting decisions
-├── 3-behaviors/
+├── foundation/          # Strategic outcomes and constraints
+├── strategy/            # Cross-cutting decisions
+├── features/
 │   ├── prompts/        # Prompt behaviors
 │   └── processes/      # Process behaviors
-└── 3-contracts/
+└── interfaces/
     └── schemas/        # Data format contracts
 ```
 
@@ -200,13 +199,13 @@ specs/
 ```
 specs/
 ├── workspace/             # How we work
-├── 1-requirements/        # Strategic and functional requirements
-├── 2-strategy/            # Cross-cutting (all domains)
-├── 3-behaviors/
+├── foundation/            # Strategic outcomes and constraints
+├── strategy/              # Cross-cutting (all domains)
+├── features/
 │   ├── user-features/    # Software
 │   ├── policies/         # Governance
 │   └── services/         # Operations
-└── 3-contracts/
+└── interfaces/
     ├── api/              # Software
     ├── procedures/       # Governance
     └── runbooks/         # Operations

@@ -19,7 +19,7 @@ guided-by:
   - Reports files that fail the test (product deliverables in workspace/)
   - Validates workspace/ files against taxonomy.spec.md Workspace Scope declarations
   - Checks for common violations (feature requirements, product behaviors, product strategy in workspace/)
-  - Provides remediation guidance (where file should move: 1-requirements/, 2-strategy/, 3-behaviors/)
+  - Provides remediation guidance (where file should move: foundation/, 2-strategy/, features/)
   - Can run on-demand or during Phase 4 (EVOLVE) drift detection
   - Respects taxonomy.spec.md explicit inclusions/exclusions
 
@@ -129,7 +129,7 @@ criticality: IMPORTANT
 **"About vs In" test indicators:**
 
 **ABOUT indicators (operating context - valid for workspace/):**
-- Development principles (spec-first, TDD, MSL format)
+- Development principles (spec-first, MSL format)
 - Operating conventions (naming, format, structure)
 - Agent behaviour rules (how agents interact with workspace)
 - Human workflow processes (how humans interact with workspace)

@@ -10,7 +10,7 @@ governed-by:
 
 ## Requirements
 - [!] Prompt validates LiveSpec project structure and methodology compliance, producing actionable error reports with file paths and line numbers for any violations detected.
-  - Validates folder structure matches conventions (workspace/, 1-requirements/, 2-strategy/, 3-behaviors/, 3-contracts/)
+  - Validates folder structure matches conventions (workspace/, foundation/, 2-strategy/, features/, interfaces/)
   - Validates all specs follow MSL format (.spec.md extension, frontmatter, Requirements section)
   - Validates bidirectional links consistency (implements: ↔ specifies:)
   - Validates version consistency across files (.livespec-version, AGENTS.md, README.md, llms.txt)

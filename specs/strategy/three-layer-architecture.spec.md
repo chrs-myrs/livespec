@@ -27,7 +27,7 @@ failure_mode: Without clear layer separation, requirements and implementations m
 See `specs/strategy/layer-definitions.spec.md`
 
 ### Layer 1: Requirements
-- **Location**: `specs/1-requirements/{strategic,functional}/`
+- **Location**: `specs/foundation/`
 - **Purpose**: WHAT must be achieved
 - **Characteristics**: Pre-implementation, solution-independent, stable
 
@@ -111,12 +111,12 @@ guided-by:
 - **Downward**: What strategy guides this implementation?
 - **Impact analysis**: Change requirements → find all implementations that satisfy it (direct, not through strategy)
 
-### Numbered Folders Clarify Conceptual Order
+### Semantic Folders Show Conceptual Order
 
-The numbered folder structure shows conceptual ordering:
-- **1-requirements**: WHAT (first)
-- **2-strategy**: HOW (second, derives from requirements)
-- **3-behaviors/3-contracts**: EXACTLY (third, satisfies requirements + guided-by strategy)
+The folder structure shows conceptual ordering:
+- **foundation/**: WHAT (first - strategic requirements)
+- **strategy/**: HOW (second, derives from requirements)
+- **features/interfaces/**: EXACTLY (third, satisfies requirements + guided-by strategy)
 
 **But NOT a strict pipeline:**
 - Implementations link DIRECTLY to requirements (satisfies)
@@ -171,19 +171,19 @@ This implementation:
 ### Relationship Graph
 
 ```
-requirements/functional/loan-accuracy.spec.md
+foundation/outcomes.spec.md (loan-accuracy requirement)
   ↓ derives-from
 strategy/calculation-approach.spec.md
   ↓ guided-by
-  ├─→ behaviors/interest-calculation.spec.md ─┐
-  ├─→ behaviors/amortization.spec.md          ├─→ satisfies → loan-accuracy
-  └─→ behaviors/payment-schedule.spec.md ─────┘
+  ├─→ features/interest-calculation.spec.md ─┐
+  ├─→ features/amortization.spec.md          ├─→ satisfies → loan-accuracy
+  └─→ features/payment-schedule.spec.md ─────┘
 
-requirements/functional/regulatory-compliance.spec.md
+foundation/outcomes.spec.md (regulatory-compliance requirement)
   ↓ satisfies
-  ├─→ behaviors/interest-calculation.spec.md
-  ├─→ behaviors/late-fee-calculation.spec.md
-  └─→ behaviors/disclosure-generation.spec.md
+  ├─→ features/interest-calculation.spec.md
+  ├─→ features/late-fee-calculation.spec.md
+  └─→ features/disclosure-generation.spec.md
 ```
 
 ## Traceability Workflows
@@ -196,6 +196,7 @@ requirements/functional/regulatory-compliance.spec.md
 ```bash
 grep -r "satisfies:.*$(basename requirement.spec.md)" specs/features/ specs/interfaces/
 ```
+(Note: Foundation specs are referenced, not searched in)
 
 **Use cases**:
 - Requirement changes → find affected implementations
@@ -234,7 +235,7 @@ awk '/^satisfies:/,/^[a-z_-]+:/ {print}' implementation.spec.md | grep "^  -"
 
 **Command**:
 ```bash
-for req in specs/1-requirements/**/*.spec.md; do
+for req in specs/foundation/*.spec.md; do
   grep -r "satisfies:.*$(basename $req)" specs/features/ specs/interfaces/ || echo "Missing: $req"
 done
 ```
@@ -262,9 +263,9 @@ The separation of requirements (WHAT) from strategy (HOW) from implementation (E
 **Scenario**: Rebuild existing service in new technology stack
 
 **Preserved (no changes needed)**:
-1. **Requirements layer** (`specs/1-requirements/`)
+1. **Requirements layer** (`specs/foundation/`)
    - Strategic outcomes (unchanged - business goals constant)
-   - Functional requirements (unchanged - WHAT is constant)
+   - Hard constraints (unchanged - WHAT is constant)
    - Validation criteria (unchanged - same tests prove correctness)
    - Research basis (unchanged - user needs don't change with tech)
 

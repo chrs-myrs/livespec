@@ -32,10 +32,10 @@ LiveSpec (governance project):
 │   ├── patterns.spec.md       # LiveSpec's conventions
 │   └── workflows.spec.md      # LiveSpec's process
 │
-├── specs/2-strategy/          # LiveSpec's architecture
+├── specs/strategy/          # LiveSpec's architecture
 │   └── distribution.spec.md   # How framework reaches users
 │
-└── specs/3-behaviors/         # LiveSpec's prompts as behaviors
+└── specs/features/         # LiveSpec's prompts as behaviors
     └── prompts/*.spec.md      # What each prompt does
 ```
 
@@ -69,7 +69,7 @@ target-project (user's repo):
 
 1. **Meta-level** (specs about the framework):
    ```
-   specs/3-behaviors/prompts/0a-quick-start.spec.md
+   specs/features/prompts/0a-quick-start.spec.md
    → Defines what 0a-quick-start.md prompt does
    ```
 
@@ -181,14 +181,14 @@ target-project (user's repo):
 ```bash
 # Step 1: Create behavior spec FIRST
 Use .livespec/1-design/1c-define-behaviors.md
-# Creates: specs/3-behaviors/prompts/0g-new-prompt.spec.md
+# Creates: specs/features/prompts/0g-new-prompt.spec.md
 
 # Step 2: Implement prompt
 Use .livespec/2-build/2a-implement-from-specs.md
 # Creates: .livespec/prompts/0-define/0g-new-prompt.md
 
 # Step 3: Update registry
-# Edit: specs/3-behaviors/prompts/registry.spec.md
+# Edit: specs/features/prompts/registry.spec.md
 
 # Step 4: Update distribution
 # Copy: .livespec/prompts/0-define/0g-new-prompt.md → dist/prompts/0-define/
@@ -214,7 +214,7 @@ Use .livespec/4-evolve/4d-regenerate-context.md
 # Mandate: "Use spec-first-enforcement template"
 
 # Step 3: Update regeneration prompt
-# Edit: specs/3-behaviors/prompts/4d-regenerate-context.spec.md
+# Edit: specs/features/prompts/4d-regenerate-context.spec.md
 # Require: Include template in AGENTS.md
 
 # Step 4: Regenerate
@@ -235,7 +235,7 @@ cp .livespec/templates/agents/spec-first-enforcement.md dist/templates/agents/
 
 # Step 1: Use LiveSpec's own Phase 1 (DESIGN)
 Use .livespec/1-design/1c-define-behaviors.md
-# Creates: specs/3-behaviors/session-completion.spec.md
+# Creates: specs/features/session-completion.spec.md
 
 # Step 2: Use LiveSpec's own Phase 2 (BUILD)
 Use .livespec/2-build/2b-create-tests.md
@@ -247,7 +247,7 @@ Use .livespec/2-build/2a-implement-from-specs.md
 # Discovers: Version drift bug (dogfooding found gap)
 
 # Step 4: Fix bug before committing
-# Update: specs/3-behaviors/session-completion.spec.md
+# Update: specs/features/session-completion.spec.md
 # Fix: Implementation
 
 # Result: Dogfooding prevented shipping broken feature

@@ -20,7 +20,7 @@ failure_mode: Without clear layer definitions, specs placed incorrectly causing 
 
 ## Layer 1: Requirements (Pre-Implementation)
 
-**Location**: `specs/1-requirements/`
+**Location**: `specs/foundation/`
 
 **Purpose**: Define WHAT must be achieved, independent of solution
 
@@ -28,16 +28,13 @@ failure_mode: Without clear layer definitions, specs placed incorrectly causing 
 - Pre-implementation (written before design)
 - Solution-independent (no HOW)
 - Stable (rarely change)
-- Strategic and functional requirements
+- Strategic outcomes and hard constraints
 
 **Structure**:
 ```
-specs/1-requirements/
-├── strategic/              # Strategic requirements
-│   ├── outcomes.spec.md   # High-level goals (mission-level)
-│   └── constraints.spec.md # Non-negotiable boundaries
-└── functional/            # Functional requirements
-    └── [feature].spec.md  # Feature-level requirements
+specs/foundation/
+├── outcomes.spec.md   # High-level goals (mission-level)
+└── constraints.spec.md # Non-negotiable boundaries
 ```
 
 **Frontmatter**:
@@ -69,7 +66,7 @@ failure_mode: [Business impact]
 ```yaml
 ---
 derives-from:
-  - specs/features/[feature].spec.md
+  - specs/foundation/outcomes.spec.md
 governed-by:
   - specs/foundation/constraints.spec.md
 criticality: CRITICAL|IMPORTANT
@@ -96,9 +93,9 @@ failure_mode: [Technical impact]
 **Structure**:
 ```
 specs/
-├── 3-behaviors/              # Observable behavioral specifications
+├── features/              # Observable behavioral specifications
 │   └── [behavior].spec.md
-└── 3-contracts/              # Interface specifications
+└── interfaces/            # Interface specifications
     ├── api/
     └── data/
 ```
@@ -188,20 +185,20 @@ criticality: CRITICAL
 
 **Change process**: Strategic review, architecture reassessment, full impact analysis
 
-### Functional Requirements (Occasional Changes)
+### Feature Specifications (Frequent Changes)
 
 **Location**: `specs/features/`
 
-**Changeability**: Occasional (feature evolution)
+**Changeability**: Frequent (feature evolution)
 
-**Impact when changed**: Significant (multiple implementations affected)
+**Impact when changed**: Localized to moderate (specific behaviors affected)
 
 **Examples**:
-- New feature requirements
+- New feature behaviors
 - Business rule changes
 - User need evolution
 
-**Change process**: Requirements validation, affected implementations review, cascade updates
+**Change process**: Verify requirements still satisfied, update code, test
 
 ### Strategy (Occasional Changes)
 
@@ -218,20 +215,20 @@ criticality: CRITICAL
 
 **Change process**: Architecture review, guided implementations update, validation
 
-### Implementations (Frequent Changes)
+### Interface Contracts (Occasional Changes)
 
-**Location**: `specs/features/`, `specs/interfaces/`
+**Location**: `specs/interfaces/`
 
-**Changeability**: Frequent (continuous evolution)
+**Changeability**: Occasional (API evolution)
 
-**Impact when changed**: Localized (specific code modules)
+**Impact when changed**: Moderate (consumers may need updates)
 
 **Examples**:
-- Algorithm refinements
-- API contract updates
-- Detailed behavior adjustments
+- API version changes
+- Data format updates
+- New endpoints
 
-**Change process**: Verify requirements still satisfied, update code, test
+**Change process**: Version appropriately, notify consumers, update implementations
 
 ### Research (Evolves with Understanding)
 

@@ -21,7 +21,7 @@ guided-by:
   - Reports missing structures with specification location
   - Distinguishes between planned (future) vs claimed (current) structures
   - Provides remediation guidance (create directory or update spec to mark as planned)
-  - Can run during Phase 2 (BUILD) to catch implementation gaps or Phase 4 (EVOLVE) for drift detection
+  - Can run during EVOLVE mode to catch implementation gaps or EVOLVE mode for drift detection
 
 ## Validation
 
@@ -180,7 +180,7 @@ ls: cannot access 'src/': No such file or directory
 - Read architecture.spec.md first
 - Check all 2-strategy/ specs for path references
 - May check patterns.spec.md for directory organization claims
-- Does not check 3-behaviors/ (behaviors describe outcomes, not structure)
+- Does not check features/ (behaviors describe outcomes, not structure)
 
 **Historical context:**
 This validator addresses issue discovered in project-governance where:

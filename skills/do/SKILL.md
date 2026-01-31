@@ -361,7 +361,7 @@ For detailed guidance:
 - MSL Minimalism: `${CLAUDE_PLUGIN_ROOT}/references/guides/msl-minimalism.md`
 - Behavior specs: `${CLAUDE_PLUGIN_ROOT}/references/standards/metaspecs/behavior.spec.md`
 - Contract specs: `${CLAUDE_PLUGIN_ROOT}/references/standards/metaspecs/contract.spec.md`
-- Architecture design: `${CLAUDE_PLUGIN_ROOT}/references/phase-prompts/1-design/1b-design-architecture.md`
+- Architecture design: `${CLAUDE_PLUGIN_ROOT}/references/prompts/design/1b-design-architecture.md`
 
 ## Validation
 

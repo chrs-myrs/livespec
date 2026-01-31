@@ -20,6 +20,67 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [4.1.0] - 2026-01-30
+
+### Major: Claude Code Plugin Distribution
+
+This release introduces **plugin-based distribution** for Claude Code, providing integrated commands, version management, and eliminates file duplication across projects.
+
+**Impact**: MEDIUM - New installation method (plugin), legacy method (dist/ copy) continues working
+
+#### Added
+
+- **Claude Code Plugin Structure**
+  - `.claude-plugin/plugin.json` - Plugin manifest
+  - `.claude-plugin/marketplace.json` - Self-hosted marketplace
+  - **7 Skills** for phase workflows:
+    - `init` - Project initialization
+    - `design` - Phase 1 architecture and behaviors
+    - `build` - Phase 2 TDD implementation
+    - `verify` - Phase 3 validation
+    - `evolve` - Phase 4 drift detection and regeneration
+    - `spec-writing` - MSL spec creation guidance
+    - `context-generation` - AGENTS.md generation
+  - **13 Commands** for utilities:
+    - `validate`, `complete-session`, `health-report`, `rebuild-context`
+    - `learn`, `audit`, `next-steps`, `suggest-improvements`
+    - `refine-workspace`, `run-spike`, `analyze-failure`, `upgrade`, `measure-session`
+  - **5 Sub-agents** for phase-specific context:
+    - `phase-0-define.md`, `phase-1-design.md`, `phase-2-build.md`
+    - `phase-3-verify.md`, `phase-4-evolve.md`
+
+- **Reference Content** (`references/`)
+  - All guides from `dist/guides/`
+  - All standards from `dist/standard/`
+  - All phase prompts from `dist/prompts/`
+  - Templates from `dist/templates/`
+
+- **Documentation**
+  - `docs/plugin-installation.md` - Plugin setup guide
+  - `docs/migration-to-plugin.md` - Migration from dist/ to plugin
+
+#### Changed
+
+- **README.md** - Plugin installation now primary method
+- **Installation workflow** - `/plugin install livespec` instead of file copy
+
+#### Deprecated
+
+- **dist/ copy method** - Still works but plugin preferred
+- **Manual prompt paths** - Use `/livespec:*` commands instead
+
+#### Migration
+
+Existing users can migrate:
+1. `/plugin marketplace add chrs-myrs/livespec`
+2. `/plugin install livespec@livespec`
+3. `rm -rf .livespec/`
+4. Use `/livespec:*` commands instead of prompt paths
+
+See `docs/migration-to-plugin.md` for detailed steps.
+
+---
+
 ## [4.0.0] - 2025-12-21
 
 ### Major: Disposable Code Architecture

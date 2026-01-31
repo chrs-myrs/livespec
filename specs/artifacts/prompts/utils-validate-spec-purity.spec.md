@@ -14,12 +14,12 @@ implements: specs/features/validation/spec-purity-detection.spec.md
 ## Requirements
 
 - [!] Prompt guides AI agent to detect executable implementation code in specification files, enforcing WHAT-not-HOW principle and maintaining specification purity.
-  - Scans 1-requirements/ and 2-strategy/ specs for code blocks
+  - Scans foundation/ and strategy/ specs for code blocks
   - Identifies executable patterns (Python, TypeScript, JavaScript, bash, etc.)
   - Distinguishes implementation details (violation) from declarative examples (acceptable)
   - Reports specifications containing procedural code
   - Provides simplification guidance (how to state requirement declaratively)
-  - Validates 3-behaviors/ and 3-contracts/ leniently (may contain interface examples)
+  - Validates features/ and interfaces/ leniently (may contain interface examples)
   - Generates actionable purity report with specific fixes
   - Suggests moving code to implementation or Notes section
 
@@ -27,7 +27,7 @@ implements: specs/features/validation/spec-purity-detection.spec.md
 
 Use when:
 - After Phase 1 (DESIGN) to verify specifications are declarative
-- Before Phase 2 (BUILD) to ensure clean spec foundation
+- Before creating deliverables to ensure clean spec foundation
 - During Phase 4 (EVOLVE) drift detection
 - User reports "code in specs which makes no sense"
 - Specifications feel implementation-heavy
@@ -35,7 +35,7 @@ Use when:
 
 ## Prerequisites
 
-- Specification files exist (specs/1-requirements/, specs/strategy/)
+- Specification files exist (specs/foundation/, specs/strategy/)
 - Agent understands WHAT-not-HOW principle
 - MSL format knowledge (Requirements section structure)
 - Git clean state (easy rollback if edits needed)
@@ -52,7 +52,7 @@ Use when:
 
 - Detector correctly identifies executable code patterns
 - Declarative examples (JSON, configs) not falsely flagged
-- Interface examples in 3-contracts/ appropriately allowed
+- Interface examples in interfaces/ appropriately allowed
 - Simplification suggestions preserve requirement intent
 - All violations include specific line references
 - Remediation guidance is actionable
@@ -60,8 +60,8 @@ Use when:
 
 ## Success Criteria
 
-- Requirements (1-requirements/) contain zero executable code
-- Strategy (2-strategy/) contains zero implementation details
+- Requirements (foundation/) contain zero executable code
+- Strategy (strategy/) contains zero implementation details
 - All requirements stated declaratively (WHAT not HOW)
 - Interface examples in contracts preserved
 - Specification intent maintained through simplification

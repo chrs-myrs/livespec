@@ -60,7 +60,7 @@ Once you know it's a spec, determine the layer:
 - Existential changes to why this exists
 - **Rare**: Most discoveries don't change purpose
 
-### → REQUIREMENTS (1-requirements/)
+### → REQUIREMENTS (foundation/)
 Discoveries that reveal hard boundaries:
 - "Must handle edge case X" (discovered through failure)
 - "Must comply with regulation Y" (discovered during review)
@@ -85,7 +85,7 @@ Discoveries about how to work:
 
 **Signal**: About the workspace, not in the workspace. Affects how you build, not what you build. Generates into AGENTS.md and context tree.
 
-### → CONTRACTS (3-contracts/)
+### → CONTRACTS (interfaces/)
 Discoveries about interfaces:
 - "API must accept/return this shape"
 - "External systems expect this protocol"
@@ -93,7 +93,7 @@ Discoveries about interfaces:
 
 **Signal**: Defines boundaries between systems. Changes break integrations.
 
-### → BEHAVIORS (3-behaviors/)
+### → BEHAVIORS (features/)
 Discoveries about observable outcomes:
 - "Users need to be able to do X"
 - "System must respond with Y when Z"
@@ -164,5 +164,5 @@ Agent checks: "Before regenerating, confirm these specs capture what matters:"
 - Specs contain no implementation details (no HOW at code level)
 - Discoveries flow to correct layer automatically
 - Upper layers remain stable while code churns
-- Regeneration produces working code (TDD validates)
+- Specs define system structure
 - Developers (human or AI) don't ask "where does this go?"

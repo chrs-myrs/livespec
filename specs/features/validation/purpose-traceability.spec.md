@@ -25,7 +25,7 @@ failure_mode: Without purpose traceability validation, artifacts exist without b
   ```
   Level 1: PURPOSE.md
       ↓ (why)
-  Level 2: specs/1-requirements/ (strategic outcomes, constraints)
+  Level 2: specs/foundation/ (strategic outcomes, constraints)
       ↓ (derives-from)
   Level 3: specs/strategy/ (architectural approach)
       ↓ (guided-by)
@@ -40,10 +40,10 @@ failure_mode: Without purpose traceability validation, artifacts exist without b
 
 ## Traceability Rules
 - [!] Every spec must establish purpose traceability through frontmatter.
-  - **Specs in 1-requirements/**: `derives-from: PURPOSE.md`
-  - **Specs in 2-strategy/**: `derives-from: [specs/1-requirements/...]`
-  - **Specs in 3-behaviors/**: `satisfies: [specs/1-requirements/...]` AND `guided-by: [specs/strategy/...]` (dual linkage)
-  - **Specs in 3-contracts/**: `satisfies: [specs/features/...]` (parameters link to behaviors)
+  - **Specs in foundation/**: `derives-from: PURPOSE.md`
+  - **Specs in strategy/**: `derives-from: [specs/foundation/...]`
+  - **Specs in features/**: `satisfies: [specs/foundation/...]` AND `guided-by: [specs/strategy/...]` (dual linkage)
+  - **Specs in interfaces/**: `satisfies: [specs/features/...]` (parameters link to behaviors)
   - **Specs in workspace/**: `governed-by: PURPOSE.md` (applies everywhere)
   - At least ONE upstream link required (derives-from, governed-by, satisfies, or guided-by)
 
@@ -94,12 +94,12 @@ implements: specs/features/authentication.spec.md
 ### Documentation Project
 ```yaml
 # PURPOSE.md
-"Document TMP architecture for developer onboarding"
+"Document architecture for developer onboarding"
 
 # specs/foundation/outcomes.spec.md
 derives-from:
   - PURPOSE.md
-"Developers can understand TMP architecture within 2 hours"
+"Developers can understand architecture within 2 hours"
 
 # specs/features/documentation/architecture-docs.spec.md
 satisfies:
@@ -135,18 +135,18 @@ governed-by:
 
 **Validation**: caching.spec.md → ❌ NO PATH TO PURPOSE
 
-**Fix**: Add `satisfies: specs/1-requirements/...` linking to requirement
+**Fix**: Add `satisfies: specs/foundation/...` linking to requirement
 
 ### Broken Chain (Missing Parent)
 ```yaml
 # specs/features/authentication.spec.md
 satisfies:
-  - specs/1-requirements/security.spec.md  # Does not exist!
+  - specs/foundation/security.spec.md  # Does not exist!
 ```
 
-**Validation**: authentication.spec.md → security.spec.md → ❌ FILE NOT FOUND
+**Validation**: authentication.spec.md → specs/foundation/security.spec.md → ❌ FILE NOT FOUND
 
-**Fix**: Create security.spec.md or update reference to existing requirement
+**Fix**: Create specs/foundation/security.spec.md or update reference to existing requirement
 
 ### Implementation Without Spec
 ```yaml
@@ -176,7 +176,7 @@ ERROR: Spec without purpose traceability
 
 ERROR: Broken reference chain
   File: specs/features/authentication.spec.md
-  Satisfies: specs/1-requirements/security.spec.md
+  Satisfies: specs/foundation/security.spec.md
   Issue: Referenced file does not exist
   Fix: Create security.spec.md OR update reference to existing file
 

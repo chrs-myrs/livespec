@@ -20,7 +20,7 @@ governed-by:
     - Fail: User unclear about domain or puts product features in workspace/
     - On fail: Points to Project Taxonomy section and decision tests
   - Question 3: Strategic vs Behavioral Specifications
-    - Pass: User correctly places "API JSON" in 2-strategy/, "OAuth auth" in 3-behaviors/
+    - Pass: User correctly places "API JSON" in 2-strategy/, "OAuth auth" in features/
     - Fail: User guesses wrong or puts both in same folder
     - On fail: Points to Folder Organization Decision Tests
   - Question 4: Generated Artifacts Organization
