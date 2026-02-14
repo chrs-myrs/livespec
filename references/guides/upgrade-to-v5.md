@@ -71,27 +71,31 @@ git config -f .gitmodules --remove-section submodule..livespec-repo 2>/dev/null 
 git add .gitmodules 2>/dev/null || true
 ```
 
-## Step 5: Install LiveSpec v5 Plugin
+## Step 5: Verify Plugin Installation
+
+**If you're running `/livespec:upgrade`, the plugin is already installed. Skip this step.**
+
+Check if the plugin is already available:
+
+```bash
+# Check global plugins
+ls ~/.claude/plugins/livespec 2>/dev/null && echo "INSTALLED: Global plugin"
+
+# Check local plugins
+ls .claude-plugin 2>/dev/null && echo "INSTALLED: Local plugin"
+```
+
+**If neither exists** (manual migration only - not via `/livespec:upgrade`):
 
 ### Option A: Global Plugin (Recommended)
 
-Install once, available to all projects:
-
 ```bash
-# Clone LiveSpec to plugins directory
 git clone https://github.com/chrs-myrs/livespec ~/.claude/plugins/livespec
-
-# Or add as submodule to your dotfiles
-cd ~/.claude
-git submodule add https://github.com/chrs-myrs/livespec plugins/livespec
 ```
 
 ### Option B: Project-Local Plugin
 
-Install per-project:
-
 ```bash
-# From project root
 mkdir -p .claude-plugin
 cp -r /path/to/livespec/.claude-plugin/* .claude-plugin/
 ```
@@ -267,8 +271,8 @@ Replace prompt paths with skill invocations:
 | `.livespec/prompts/0-define/*.md` | `/livespec:design workspace` |
 | `.livespec/prompts/1-design/*.md` | `/livespec:design` |
 | `.livespec/prompts/2-build/*.md` | (implementation guidance only) |
-| `.livespec/prompts/3-verify/*.md` | `/livespec:evolve validate` |
-| `.livespec/prompts/4-evolve/*.md` | `/livespec:evolve` |
+| `.livespec/prompts/3-verify/*.md` | `/livespec:audit validate` |
+| `.livespec/prompts/4-evolve/*.md` | `/livespec:audit` |
 | `.livespec/prompts/utils/*.md` | Various skill modes |
 
 ## Step 8: Update Other References
@@ -295,8 +299,8 @@ grep -r "\.livespec/" . --include="*.md" 2>/dev/null
 | `/livespec:feature` | `/livespec:design feature` |
 | `/livespec:debug` | `/livespec:design debug` |
 | `/livespec:refine` | `/livespec:design refine` |
-| `/livespec:validate` | `/livespec:evolve validate` |
-| `/livespec:rebuild-context` | `/livespec:evolve context` |
+| `/livespec:validate` | `/livespec:audit validate` |
+| `/livespec:rebuild-context` | `/livespec:audit context` |
 | `/livespec:session-review` | `/livespec:learn` |
 
 ## Step 9: Verify Installation
@@ -314,7 +318,7 @@ Test the new commands:
 
 ```bash
 /livespec:design workspace    # Should show workspace setup
-/livespec:evolve health       # Should run health check
+/livespec:audit health       # Should run health check
 /livespec:learn compliance    # Should show compliance scores
 ```
 
@@ -339,7 +343,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"
 |---------|---------|
 | `/livespec` | Entry point - routing based on intent |
 | `/livespec:design` | Create/refine specs (feature, debug, refine, workspace) |
-| `/livespec:evolve` | Health, validation, context generation |
+| `/livespec:audit` | Health, validation, context generation |
 | `/livespec:learn` | Session completion and learning capture |
 
 ## Troubleshooting
@@ -375,7 +379,7 @@ Commands were consolidated in v5. See mapping table above.
 Regenerate context:
 
 ```bash
-/livespec:evolve context
+/livespec:audit context
 ```
 
 ### "Specs have broken cross-references after migration"
@@ -418,5 +422,5 @@ grep -rn "Phase [0-4]\|phase-[0-4]\|0-define\|1-design" specs/workspace/
 ## See Also
 
 - `/livespec:design workspace` - Set up or customize workspace
-- `/livespec:evolve context` - Regenerate AGENTS.md
+- `/livespec:audit context` - Regenerate AGENTS.md
 - `var/debate/2026-01-31-livespec-v5-architecture-debate.md` - Architecture decisions

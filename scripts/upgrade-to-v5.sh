@@ -183,7 +183,15 @@ if $HAS_NUMBERED_SPECS; then
       mv specs/3-behaviors/contracts/* specs/interfaces/ 2>/dev/null || true
       rmdir specs/3-behaviors/contracts 2>/dev/null || true
     fi
+    # Move top-level spec files
     mv specs/3-behaviors/*.spec.md specs/features/ 2>/dev/null || true
+    # Move nested subdirectories (e.g. packing/, models/)
+    for subdir in specs/3-behaviors/*/; do
+      [ -d "$subdir" ] || continue
+      dirname=$(basename "$subdir")
+      mkdir -p "specs/features/$dirname"
+      mv "$subdir"* "specs/features/$dirname/" 2>/dev/null || true
+    done
     find specs/3-behaviors -type d -empty -delete 2>/dev/null || true
     rmdir specs/3-behaviors 2>/dev/null || true
   fi

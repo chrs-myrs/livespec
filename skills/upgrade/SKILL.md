@@ -12,6 +12,15 @@ allowed-tools: Bash, AskUserQuestion
 
 Migrate legacy LiveSpec installations to v5 plugin architecture.
 
+## IMPORTANT: Do NOT Install Plugin
+
+If this skill is running, the plugin is already installed. **Never** attempt to:
+- `git clone` LiveSpec
+- Create `.claude-plugin/` directories
+- Run any plugin installation commands
+
+The upgrade script only removes legacy artifacts and migrates specs.
+
 ## Step 1: Detect Current State
 
 Run the detection script from the project root:
