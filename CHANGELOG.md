@@ -20,6 +20,60 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.2.0] - 2026-02-28
+
+### Plugin Distribution Release
+
+This release adds **project incubation** and **v5 migration tooling** as first-class skills.
+
+**Impact**: LOW - Additive only, no breaking changes
+
+### Added
+
+- **Birth skill**: `/livespec:birth` guides project incubation from idea to initialized LiveSpec workspace
+- **Upgrade skill**: `/livespec:upgrade` migrates legacy LiveSpec installs (submodule/copy) to v5 plugin architecture
+  - Handles nested subfolder migration
+  - Skips plugin install step when already installed
+  - Script-backed for deterministic execution
+
+### Fixed
+
+- Upgrade skill: nested subfolder migration now correctly relocates files
+- Upgrade skill: no longer attempts to reinstall plugin when already present
+
+---
+
+## [5.1.0] - 2026-02-08
+
+### Ambient Architecture Release
+
+This release implements **ambient spec-first behavior** - agents automatically enforce specs without explicit commands.
+
+**Impact**: MEDIUM - New skills added, one skill renamed
+
+### Changed
+
+- **Skill renamed**: `evolve` → `audit` for clarity
+  - `/livespec:evolve` → `/livespec:audit`
+  - Subcommands remain the same: `health`, `validate`, `context`, `extract`
+  - `msl|scope|coverage` audits no longer need `audit` prefix (e.g., `/livespec:audit msl`)
+- **Context file renamed**: `ctxt/evolve.md` → `ctxt/audit.md`
+- **Command file renamed**: `commands/evolve.md` → `commands/audit.md`
+- **Skills expanded**: 3 → 5 skills (go, init, design, audit, learn)
+
+### Added
+
+- **Router skill**: `/livespec:go` routes to appropriate skill based on intent
+- **Init skill**: `/livespec:init` bootstraps new projects with folder structure
+- **Visible spec-check indicator**: `[SPEC-CHECK]` shown when agent verifies spec existence
+- **Ambient spec-first behavior**: Agent automatically checks specs before implementation
+- **Skill behavior guide**: `docs/skill-behavior-guide.md` for testing and validation
+- **Version management spec**: Updated to use plugin.json as source of truth
+- **Release process**: Explicit checklist in version-management.spec.md
+- **Upgrade skill**: Now updates project.yaml version after migration
+
+---
+
 ## [5.0.0] - 2026-01-31
 
 ### Major: Plugin Architecture Consolidation
