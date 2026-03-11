@@ -33,9 +33,9 @@ LiveSpec is not:
 
 LiveSpec uses numbered folders to organize specifications by abstraction level, not by document type:
 
-- **1-requirements/** - Strategic specifications (high-level WHAT the system must achieve)
-- **2-strategy/** - Approach specifications (HOW the solution is architected)
-- **3-behaviors/** - Behavioral specifications (detailed WHAT the system does)
+- **foundation/** - Strategic specifications (high-level WHAT the system must achieve)
+- **strategy/** - Approach specifications (HOW the solution is architected)
+- **features/** - Behavioral specifications (detailed WHAT the system does)
 - **contracts/** - Interface specifications (API/data contracts)
 
 **Key principle**: These are all specifications using MSL format. "Requirements" refers to strategic-level specs, not a different category of document. Everything follows the same MSL structure with title, frontmatter (criticality, failure_mode), and Requirements section.
@@ -86,7 +86,7 @@ This is LiveSpec's core architectural decision.
 
 **Example:**
 ```markdown
-# specs/3-behaviors/user-authentication.spec.md
+# specs/features/user-authentication.spec.md
 
 **Criticality**: CRITICAL
 **Failure Mode**: System unsecured without authentication
@@ -114,8 +114,8 @@ LiveSpec guides development through five phases, not as rigid waterfall but as c
 
 **Outputs:**
 - `PURPOSE.md` - Why does this exist? What success looks like?
-- `specs/1-requirements/strategic/outcomes.spec.md` - What must we achieve?
-- `specs/1-requirements/strategic/constraints.spec.md` - What boundaries exist?
+- `specs/foundation/outcomes.spec.md` - What must we achieve?
+- `specs/foundation/constraints.spec.md` - What boundaries exist?
 - `specs/workspace/*` - How will we work?
 
 **When**: Start of project or major pivot
@@ -128,8 +128,8 @@ LiveSpec guides development through five phases, not as rigid waterfall but as c
 
 **Outputs:**
 - `specs/architecture.md` (or similar) - System structure
-- `specs/3-behaviors/*` - Observable behaviors
-- `specs/3-contracts/*` - API/data contracts
+- `specs/features/*` - Observable behaviors
+- `specs/interfaces/*` - API/data contracts
 
 **When**: After problem is clear, before implementation
 
@@ -225,7 +225,7 @@ Run EVOLVE prompts:
 claude-code "Use .livespec/0-define/0a-quick-start.md"
 
 # With context
-claude-code "Using specs/3-behaviors/authentication.spec.md as reference, implement the login endpoint"
+claude-code "Using specs/features/authentication.spec.md as reference, implement the login endpoint"
 ```
 
 ### Cursor
@@ -242,7 +242,7 @@ claude-code "Using specs/3-behaviors/authentication.spec.md as reference, implem
 ```python
 # In your code file
 # Following .livespec/2-build/2a-implement-from-specs.md
-# Implement user authentication per specs/3-behaviors/authentication.spec.md
+# Implement user authentication per specs/features/authentication.spec.md
 ```
 
 ### Any Agent
@@ -410,15 +410,15 @@ Create one specification per:
 
 **Example:**
 ```
-✅ specs/3-behaviors/user-login.spec.md
-✅ specs/3-behaviors/password-reset.spec.md
-✅ specs/3-contracts/payment-api.spec.md
+✅ specs/features/user-login.spec.md
+✅ specs/features/password-reset.spec.md
+✅ specs/interfaces/payment-api.spec.md
 ```
 
 Not:
 ```
-❌ specs/3-behaviors/authentication.spec.md (too broad - covers multiple features)
-❌ specs/3-behaviors/login-button-styling.spec.md (too granular - implementation detail)
+❌ specs/features/authentication.spec.md (too broad - covers multiple features)
+❌ specs/features/login-button-styling.spec.md (too granular - implementation detail)
 ```
 
 ### When to Split Specifications
@@ -444,10 +444,10 @@ Covers authentication, profile management, permissions, and password policies...
 
 **After Split:**
 ```markdown
-# specs/3-behaviors/user-authentication.spec.md (CRITICAL)
-# specs/3-behaviors/user-profiles.spec.md (IMPORTANT)
-# specs/3-behaviors/user-permissions.spec.md (CRITICAL)
-# specs/3-behaviors/password-policy.spec.md (IMPORTANT)
+# specs/features/user-authentication.spec.md (CRITICAL)
+# specs/features/user-profiles.spec.md (IMPORTANT)
+# specs/features/user-permissions.spec.md (CRITICAL)
+# specs/features/password-policy.spec.md (IMPORTANT)
 ```
 
 ### When to Merge Specifications
@@ -462,16 +462,16 @@ Merge specifications when:
 
 **Example: Before Merge**
 ```markdown
-# specs/3-behaviors/login-form.spec.md (45 lines)
-# specs/3-behaviors/login-validation.spec.md (35 lines)
-# specs/3-behaviors/login-session.spec.md (40 lines)
+# specs/features/login-form.spec.md (45 lines)
+# specs/features/login-validation.spec.md (35 lines)
+# specs/features/login-session.spec.md (40 lines)
 ```
 
 All three always change together, tested together, same criticality.
 
 **After Merge:**
 ```markdown
-# specs/3-behaviors/user-authentication.spec.md (120 lines)
+# specs/features/user-authentication.spec.md (120 lines)
 Covers form, validation, and session in one cohesive spec.
 ```
 
@@ -487,15 +487,15 @@ LiveSpec itself demonstrates good scoping:
 **Why separate?** Different concerns, different update frequencies.
 
 **Prompt Specs (Product):**
-- `specs/3-behaviors/prompts/0a-quick-start.spec.md` - One prompt's behavior
-- `specs/3-behaviors/prompts/0b-define-problem.spec.md` - Another prompt's behavior
+- `specs/features/prompts/0a-quick-start.spec.md` - One prompt's behavior
+- `specs/features/prompts/0b-define-problem.spec.md` - Another prompt's behavior
 
 **Why separate?** Each prompt is independently testable, different failure modes.
 
 **Core Behavior Specs:**
-- `specs/3-behaviors/msl-format.spec.md` - MSL format rules
-- `specs/3-behaviors/folder-structure.spec.md` - Folder organization
-- `specs/3-behaviors/five-phases.spec.md` - Phase progression
+- `specs/features/msl-format.spec.md` - MSL format rules
+- `specs/features/folder-structure.spec.md` - Folder organization
+- `specs/features/five-phases.spec.md` - Phase progression
 
 **Why separate?** Different aspects of methodology, tested differently.
 
@@ -503,23 +503,23 @@ LiveSpec itself demonstrates good scoping:
 
 **Too Granular:**
 ```
-❌ specs/3-behaviors/login-button-color.spec.md
-❌ specs/3-behaviors/password-field-placeholder.spec.md
-❌ specs/3-behaviors/login-error-animation.spec.md
+❌ specs/features/login-button-color.spec.md
+❌ specs/features/password-field-placeholder.spec.md
+❌ specs/features/login-error-animation.spec.md
 ```
 
 **Too Broad:**
 ```
-❌ specs/3-behaviors/entire-application.spec.md
-❌ specs/3-behaviors/all-user-features.spec.md
-❌ specs/3-behaviors/frontend.spec.md
+❌ specs/features/entire-application.spec.md
+❌ specs/features/all-user-features.spec.md
+❌ specs/features/frontend.spec.md
 ```
 
 **Just Right:**
 ```
-✅ specs/3-behaviors/user-authentication.spec.md
-✅ specs/3-behaviors/user-profile-management.spec.md
-✅ specs/3-behaviors/user-permissions.spec.md
+✅ specs/features/user-authentication.spec.md
+✅ specs/features/user-profile-management.spec.md
+✅ specs/features/user-permissions.spec.md
 ```
 
 ### Decision Process

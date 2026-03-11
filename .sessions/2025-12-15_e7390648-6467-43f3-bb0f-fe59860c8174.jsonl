@@ -122,3 +122,22 @@
 {"file":"llms.txt","op":"edit","ts":"2025-12-15T14:05:26Z"}
 {"file":"llms.txt","op":"edit","ts":"2025-12-15T14:05:29Z"}
 {"cmd":"git status","desc":"Check git status","ts":"2025-12-15T14:05:43Z"}
+{"cmd":"git add -A && git status","desc":"Stage all changes","ts":"2025-12-15T14:05:49Z"}
+{"cmd":"git log --oneline -5","desc":"Check recent commits","ts":"2025-12-15T14:05:54Z"}
+{"cmd":"git commit -m \"$(cat <<'EOF'\nRelease v3.10.0: Project-Controlled Context Generation\n\nIntroduces context-architecture.spec.md as the 5th workspace spec, giving\ntarget projects explicit control over ...","desc":"Commit v3.10.0 changes","ts":"2025-12-15T14:06:17Z"}
+{"event":"start","cwd":"/home/chris/projects/livespec","ts":"2025-12-15T14:07:18Z"}
+{"file":"dist/VERSION","op":"edit","ts":"2025-12-15T14:07:31Z"}
+{"file":"CHANGELOG.md","op":"edit","ts":"2025-12-15T14:07:31Z"}
+{"file":"llms.txt","op":"edit","ts":"2025-12-15T14:07:32Z"}
+{"file":"llms.txt","op":"edit","ts":"2025-12-15T14:07:45Z"}
+{"cmd":"git log -1 --format='%h %an <%ae> %s'","desc":"Check last commit authorship","ts":"2025-12-15T14:07:51Z"}
+{"cmd":"git status","desc":"Check current git status","ts":"2025-12-15T14:07:56Z"}
+{"cmd":"git add CHANGELOG.md dist/VERSION llms.txt && git commit --amend -m \"$(cat <<'EOF'\nRelease v3.11.0: Project-Controlled Context Generation\n\nAdds context-architecture.spec.md as the 5th workspace spe...","desc":"Amend commit with v3.11.0 version","ts":"2025-12-15T14:08:10Z"}
+{"cmd":"git tag -a v3.11.0 -m \"Release v3.11.0: Project-Controlled Context Generation\n\nAdds context-architecture.spec.md as the 5th workspace spec,\ngiving target projects explicit control over AGENTS.md co...","desc":"Create v3.11.0 tag","ts":"2025-12-15T14:08:19Z"}
+{"cmd":"git push origin master --tags","desc":"Push release to origin","ts":"2025-12-15T14:08:24Z"}
+{"event":"stop","ts":"2025-12-15T14:08:30Z"}
+{"prompt":"for context7 ownership please push context7.json","ts":"2025-12-15T15:34:26Z"}
+{"cmd":"git status context7.json","desc":"Check context7.json status","ts":"2025-12-15T15:34:33Z"}
+{"cmd":"git add context7.json && git commit -m \"$(cat <<'EOF'\nAdd Context7 ownership verification\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Opus 4.5 <noreply@a...","desc":"Commit context7.json","ts":"2025-12-15T15:35:02Z"}
+{"cmd":"git push origin master","desc":"Push context7.json to origin","ts":"2025-12-15T15:35:11Z"}
+{"event":"stop","ts":"2025-12-15T15:35:18Z"}

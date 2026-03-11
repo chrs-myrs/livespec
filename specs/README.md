@@ -9,12 +9,12 @@ This folder contains all specifications for LiveSpec v3.3.0.
 - **workspace/**: How agents, humans, and workspace interact (operating context)
   - **taxonomy.spec.md**: Project classification - CHECK THIS FIRST
   - constitution.spec.md, patterns.spec.md, workflows.spec.md
-- **1-requirements/**: Strategic and functional requirements
+- **foundation/**: Strategic and functional requirements
   - **strategic/**: High-level outcomes and constraints
   - **functional/**: Feature-level requirements
 - **2-strategy/**: Technical approach and architecture
-- **3-behaviors/**: Observable behaviors (what LiveSpec does)
-- **3-contracts/**: API contracts (currently minimal for governance project)
+- **features/**: Observable behaviors (what LiveSpec does)
+- **interfaces/**: API contracts (currently minimal for governance project)
 
 ## LiveSpec's Taxonomy
 

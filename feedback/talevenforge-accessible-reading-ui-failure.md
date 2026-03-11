@@ -27,9 +27,9 @@ Talevenforge has an existing React website (Phase 3 complete) with a critical ac
 
 3. I then read Phase 1 (DESIGN) prompts and created:
    - specs/2-strategy/accessible-reading-architecture.spec.md
-   - specs/3-behaviors/website/content-text-scaling.spec.md
-   - specs/3-behaviors/website/accessible-story-discovery.spec.md
-   - specs/3-behaviors/website/read-aloud.spec.md
+   - specs/features/website/content-text-scaling.spec.md
+   - specs/features/website/accessible-story-discovery.spec.md
+   - specs/features/website/read-aloud.spec.md
 
 4. User correctly stopped me again: "This is not right, the UX research should be part of the define stage, but you are changing actual implementation."
 
@@ -86,9 +86,9 @@ After user directed me to review `research/reports/accessible-reading-interface.
 I created **implementation specifications** (Phase 1 DESIGN outputs) without the foundational research (Phase 0 DEFINE):
 
 - `specs/2-strategy/accessible-reading-architecture.spec.md` - Assumed architectural decisions without research validation
-- `specs/3-behaviors/website/content-text-scaling.spec.md` - Specified behavior without understanding actual user needs
-- `specs/3-behaviors/website/accessible-story-discovery.spec.md` - Designed interaction patterns based on assumptions
-- `specs/3-behaviors/website/read-aloud.spec.md` - Defined audio behavior without testing with user
+- `specs/features/website/content-text-scaling.spec.md` - Specified behavior without understanding actual user needs
+- `specs/features/website/accessible-story-discovery.spec.md` - Designed interaction patterns based on assumptions
+- `specs/features/website/read-aloud.spec.md` - Defined audio behavior without testing with user
 
 **Problems with these specs:**
 1. **Assumed requirements**: "60px touch targets," "2 taps to story," "no animations >200ms" - where did these come from? Not validated research.
@@ -117,7 +117,7 @@ Current Talevenforge website has accessibility barriers preventing independent u
 ```
 
 **Step 2: Define Outcomes (0c-define-outcomes.md)**
-Create `specs/1-requirements/strategic/accessible-reading-outcomes.spec.md`:
+Create `specs/foundation/accessible-reading-outcomes.spec.md`:
 ```markdown
 ## Requirements
 - [!] Child uses interface independently without frustration
@@ -150,7 +150,7 @@ Create research artifacts:
 - `research/insights/accessibility-pain-points.md` - Findings from observation sessions
 
 **Step 5: Update Requirements Based on Research**
-Refine `specs/1-requirements/strategic/accessible-reading-outcomes.spec.md` with:
+Refine `specs/foundation/accessible-reading-outcomes.spec.md` with:
 ```yaml
 informed-by:
   - research/personas/ashton-reader.md
@@ -233,15 +233,15 @@ requirements:
 ### What Should Be Deleted
 - `docs/ux/*.md` (6 files) - Wrong location, wrong phase, arbitrary structure
 - `specs/2-strategy/accessible-reading-architecture.spec.md` - Premature, not research-informed
-- `specs/3-behaviors/website/content-text-scaling.spec.md` - Premature, not research-informed
-- `specs/3-behaviors/website/accessible-story-discovery.spec.md` - Premature, not research-informed
-- `specs/3-behaviors/website/read-aloud.spec.md` - Premature, not research-informed
+- `specs/features/website/content-text-scaling.spec.md` - Premature, not research-informed
+- `specs/features/website/accessible-story-discovery.spec.md` - Premature, not research-informed
+- `specs/features/website/read-aloud.spec.md` - Premature, not research-informed
 
 ### What Should Exist
 - `PURPOSE.md` (or `docs/accessible-reading-PURPOSE.md` for sub-project)
-- `specs/1-requirements/strategic/accessible-reading-outcomes.spec.md`
-- `specs/1-requirements/strategic/accessible-reading-complexity-assessment.md`
-- `specs/1-requirements/strategic/accessible-reading-research-evaluation.md` (output of 0e)
+- `specs/foundation/accessible-reading-outcomes.spec.md`
+- `specs/foundation/accessible-reading-complexity-assessment.md`
+- `specs/foundation/accessible-reading-research-evaluation.md` (output of 0e)
 - `research/personas/ashton-reader.md` (after observation)
 - `research/flows/current-story-discovery.md` (after analysis)
 - `research/insights/accessibility-pain-points.md` (after testing)

@@ -5,21 +5,21 @@ status: completed
 tags: [docs,spec]
 files_modified:
   - CHANGELOG.md
+  - .claude/agents/context-builder/instructions.md
+  - dist/AGENTS.md
   - dist/customizations.yaml.template
+  - dist/prompts/0-define/0a-quick-start.md
+  - dist/prompts/0-define/0b-customize-workspace.md
   - dist/prompts/2-build/2a-implement-from-specs.md
   - dist/prompts/2-build/2b-create-tests.md
   - dist/prompts/4-evolve/4a-detect-drift.md
   - dist/prompts/utils/audit-context-compression.md
   - dist/prompts/utils/next-steps.md
+  - dist/prompts/utils/regenerate-contexts.md
+  - dist/prompts/utils/run-health-report.md
   - dist/prompts/utils/upgrade-methodology.md
   - dist/standard/conventions/context-compression.spec.md
-  - dist/standard/conventions/naming.spec.md
-  - dist/standard/metaspecs/behavior.spec.md
-  - dist/standard/metaspecs/prompt.spec.md
-  - dist/standard/phase-prerequisites.md
-  - dist/templates/workspace/taxonomy-governance.spec.md.template
-  - dist/VERSION
-  # ... and 14 more files
+  # ... and 31 more files
 ---
 
 # What was accomplished

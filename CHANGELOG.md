@@ -20,6 +20,179 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.2.0] - 2026-02-28
+
+### Plugin Distribution Release
+
+This release adds **project incubation** and **v5 migration tooling** as first-class skills.
+
+**Impact**: LOW - Additive only, no breaking changes
+
+### Added
+
+- **Birth skill**: `/livespec:birth` guides project incubation from idea to initialized LiveSpec workspace
+- **Upgrade skill**: `/livespec:upgrade` migrates legacy LiveSpec installs (submodule/copy) to v5 plugin architecture
+  - Handles nested subfolder migration
+  - Skips plugin install step when already installed
+  - Script-backed for deterministic execution
+
+### Fixed
+
+- Upgrade skill: nested subfolder migration now correctly relocates files
+- Upgrade skill: no longer attempts to reinstall plugin when already present
+
+---
+
+## [5.1.0] - 2026-02-08
+
+### Ambient Architecture Release
+
+This release implements **ambient spec-first behavior** - agents automatically enforce specs without explicit commands.
+
+**Impact**: MEDIUM - New skills added, one skill renamed
+
+### Changed
+
+- **Skill renamed**: `evolve` → `audit` for clarity
+  - `/livespec:evolve` → `/livespec:audit`
+  - Subcommands remain the same: `health`, `validate`, `context`, `extract`
+  - `msl|scope|coverage` audits no longer need `audit` prefix (e.g., `/livespec:audit msl`)
+- **Context file renamed**: `ctxt/evolve.md` → `ctxt/audit.md`
+- **Command file renamed**: `commands/evolve.md` → `commands/audit.md`
+- **Skills expanded**: 3 → 5 skills (go, init, design, audit, learn)
+
+### Added
+
+- **Router skill**: `/livespec:go` routes to appropriate skill based on intent
+- **Init skill**: `/livespec:init` bootstraps new projects with folder structure
+- **Visible spec-check indicator**: `[SPEC-CHECK]` shown when agent verifies spec existence
+- **Ambient spec-first behavior**: Agent automatically checks specs before implementation
+- **Skill behavior guide**: `docs/skill-behavior-guide.md` for testing and validation
+- **Version management spec**: Updated to use plugin.json as source of truth
+- **Release process**: Explicit checklist in version-management.spec.md
+- **Upgrade skill**: Now updates project.yaml version after migration
+
+---
+
+## [5.0.0] - 2026-01-31
+
+### Major: Plugin Architecture Consolidation
+
+This release **consolidates the plugin architecture**, reducing complexity while maintaining full functionality. Commands reduced from 17 to 4 unified commands, skills from 7 to 3, and phases simplified to 3 modes.
+
+**Impact**: HIGH - Breaking changes to command structure, upgrade guide provided
+
+#### Core Changes
+
+- **Commands consolidated**: 17 → 4 unified commands
+  - `/livespec:go` - Intelligent entry point with intent routing
+  - `/livespec:design` - Spec creation and refinement (feature, debug, refine, workspace, spec)
+  - `/livespec:evolve` - Health, validation, context generation (health, validate, audit, context, extract)
+  - `/livespec:learn` - Session completion and learning capture (capture, compliance)
+
+- **Skills consolidated**: 7 → 3 focused skills
+  - `design` - Unified spec work (absorbed init, spec-writing)
+  - `evolve` - Evolution and maintenance (absorbed context-generation)
+  - `learn` - Session completion and learning (new)
+
+- **Phases simplified to modes**: 5 phases → 3 modes
+  - `define` - Problem definition and workspace setup
+  - `design` - Architecture and behavior specification
+  - `evolve` - Health monitoring, learning, context generation
+  - Build/Verify: Implementation concerns, guided but not owned by LiveSpec
+
+- **specs/ folder structure**: Numbered → Semantic
+  - `1-requirements/` → `foundation/`
+  - `2-strategy/` → `strategy/`
+  - `3-behaviors/` → `features/` + `interfaces/`
+
+#### Added
+
+- `commands/go.md` - Intent-routing entry point
+- `commands/learn.md` - Session completion command
+- `skills/learn/SKILL.md` - Learning capture skill
+- `references/guides/upgrade-to-v5.md` - Comprehensive upgrade guide
+
+#### Removed
+
+- 13 individual commands (merged into unified commands)
+- `skills/init/` (absorbed into design workspace mode)
+- `skills/spec-writing/` (absorbed into design)
+- `skills/context-generation/` (absorbed into evolve)
+- Numbered ctxt/phases/ structure (replaced with mode files)
+
+#### Migration
+
+See `references/guides/upgrade-to-v5.md` for:
+1. Removing legacy `.livespec-repo/` git submodule
+2. Removing `.livespec` symlink
+3. Installing v5 plugin
+4. Migrating specs/ folder structure
+5. Updating workspace spec references
+
+---
+
+## [4.1.0] - 2026-01-30
+
+### Major: Claude Code Plugin Distribution
+
+This release introduces **plugin-based distribution** for Claude Code, providing integrated commands, version management, and eliminates file duplication across projects.
+
+**Impact**: MEDIUM - New installation method (plugin), legacy method (dist/ copy) continues working
+
+#### Added
+
+- **Claude Code Plugin Structure**
+  - `.claude-plugin/plugin.json` - Plugin manifest
+  - `.claude-plugin/marketplace.json` - Self-hosted marketplace
+  - **7 Skills** for phase workflows:
+    - `init` - Project initialization
+    - `design` - Phase 1 architecture and behaviors
+    - `build` - Phase 2 TDD implementation
+    - `verify` - Phase 3 validation
+    - `evolve` - Phase 4 drift detection and regeneration
+    - `spec-writing` - MSL spec creation guidance
+    - `context-generation` - AGENTS.md generation
+  - **13 Commands** for utilities:
+    - `validate`, `complete-session`, `health-report`, `rebuild-context`
+    - `learn`, `audit`, `next-steps`, `suggest-improvements`
+    - `refine-workspace`, `run-spike`, `analyze-failure`, `upgrade`, `measure-session`
+  - **5 Sub-agents** for phase-specific context:
+    - `phase-0-define.md`, `phase-1-design.md`, `phase-2-build.md`
+    - `phase-3-verify.md`, `phase-4-evolve.md`
+
+- **Reference Content** (`references/`)
+  - All guides from `dist/guides/`
+  - All standards from `dist/standard/`
+  - All phase prompts from `dist/prompts/`
+  - Templates from `dist/templates/`
+
+- **Documentation**
+  - `docs/plugin-installation.md` - Plugin setup guide
+  - `docs/migration-to-plugin.md` - Migration from dist/ to plugin
+
+#### Changed
+
+- **README.md** - Plugin installation now primary method
+- **Installation workflow** - `/plugin install livespec` instead of file copy
+
+#### Deprecated
+
+- **dist/ copy method** - Still works but plugin preferred
+- **Manual prompt paths** - Use `/livespec:*` commands instead
+
+#### Migration
+
+Existing users can migrate:
+1. `/plugin marketplace add chrs-myrs/livespec`
+2. `/plugin install livespec@livespec`
+3. `rm -rf .livespec/`
+4. Use `/livespec:*` commands instead of prompt paths
+
+See `docs/migration-to-plugin.md` for detailed steps.
+
+---
+
 ## [4.0.0] - 2025-12-21
 
 ### Major: Disposable Code Architecture

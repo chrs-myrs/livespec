@@ -78,7 +78,7 @@ generator: prompts/utils/generate-self-improvement.md
 generated_from:
   - PURPOSE.md
   - specs/workspace/constitution.spec.md
-  - specs/1-requirements/strategic/outcomes.spec.md
+  - specs/foundation/outcomes.spec.md
 ---
 ```
 
@@ -175,12 +175,12 @@ Standard workflow generated from specs/workspace/workflows.spec.md
 
 **Pattern:**
 - Spec references doc: `specifies: docs/pathways/clt-formation.md`
-- Doc references spec: `spec: specs/2-strategy/pathways/partnership/clt-formation.spec.md`
+- Doc references spec: `spec: specs/strategy/pathways/partnership/clt-formation.spec.md`
 
 **Validation:**
 - Spec → Doc (ERROR if doc doesn't exist)
 - Doc → Spec (WARNING if backlink missing)
-- See `specs/3-behaviors/validation/cross-reference-validation.spec.md`
+- See `specs/features/validation/cross-reference-validation.spec.md`
 
 **Example spec frontmatter:**
 ```yaml
@@ -193,7 +193,7 @@ derives-from: PURPOSE.md
 **Example doc frontmatter:**
 ```yaml
 ---
-spec: specs/3-behaviors/getting-started.spec.md
+spec: specs/features/getting-started.spec.md
 ---
 ```
 
@@ -205,7 +205,7 @@ spec: specs/3-behaviors/getting-started.spec.md
 ## Generated File Lifecycle
 
 **Creation:**
-1. Define behavior in `specs/3-behaviors/[feature].spec.md`
+1. Define behavior in `specs/features/[feature].spec.md`
 2. Create generation prompt in `prompts/utils/generate-[feature].md`
 3. Run generation prompt to create output file
 4. Output includes standard generation markers

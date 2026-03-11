@@ -55,29 +55,29 @@ Do you integrate with external service/library?
 │  └─ YES → Just reference external docs, no spec needed
 │
 ├─ Is integration behavior non-obvious or critical?
-│  └─ YES → Create behavior spec in specs/3-behaviors/integrations/
+│  └─ YES → Create behavior spec in specs/features/integrations/
 │
 ├─ Does architecture need to justify dependency choice?
-│  └─ YES → Mention in specs/2-strategy/architecture.spec.md (one line + link)
+│  └─ YES → Mention in specs/strategy/architecture.spec.md (one line + link)
 │
 └─ Is dependency a critical constraint? (contractual, regulatory)
-   └─ YES → Document in specs/1-requirements/strategic/constraints.spec.md
+   └─ YES → Document in specs/foundation/constraints.spec.md
 ```
 
 ## Location Patterns
 
-**specs/3-behaviors/integrations/** - Integration behaviors (rare)
+**specs/features/integrations/** - Integration behaviors (rare)
 - YOUR system's behavior when using external service
 - Only if non-obvious, critical, or has failure modes
 - Links to external documentation, doesn't duplicate it
-- Example: specs/3-behaviors/integrations/auth0-authentication.spec.md
+- Example: specs/features/integrations/auth0-authentication.spec.md
 
-**specs/2-strategy/architecture.spec.md** - Major dependencies (common)
+**specs/strategy/architecture.spec.md** - Major dependencies (common)
 - One-line mention of significant dependencies
 - Link to external documentation
 - Example: "System uses Auth0 (https://auth0.com/docs) for authentication"
 
-**specs/1-requirements/strategic/constraints.spec.md** - Critical dependency constraints (rare)
+**specs/foundation/constraints.spec.md** - Critical dependency constraints (rare)
 - Only if dependency is fundamental business constraint
 - Example: "Must support Auth0 as identity provider" (contractual requirement)
 
@@ -98,7 +98,7 @@ Do you integrate with external service/library?
 
 **External service with good docs** (mention in architecture):
 ```markdown
-# specs/2-strategy/architecture.spec.md
+# specs/strategy/architecture.spec.md
 
 ## External Dependencies
 
@@ -109,7 +109,7 @@ Do you integrate with external service/library?
 
 **Complex integration needing behavior spec:**
 ```markdown
-# specs/3-behaviors/integrations/webhook-processing.spec.md
+# specs/features/integrations/webhook-processing.spec.md
 ---
 criticality: IMPORTANT
 failure_mode: Event confirmations not processed, transactions stuck
@@ -132,7 +132,7 @@ failure_mode: Event confirmations not processed, transactions stuck
 
 **Critical dependency constraint:**
 ```markdown
-# specs/1-requirements/strategic/constraints.spec.md
+# specs/foundation/constraints.spec.md
 
 ## Requirements
 - [!] System must support Auth0 as identity provider
@@ -144,19 +144,19 @@ failure_mode: Event confirmations not processed, transactions stuck
 
 **Duplicating external docs:**
 ```markdown
-❌ specs/3-contracts/auth0-api.yaml
+❌ specs/interfaces/auth0-api.yaml
    (copying Auth0's entire API spec - just link to their docs)
 ```
 
 **Specifying obvious integrations:**
 ```markdown
-❌ specs/3-behaviors/logging-with-winston.spec.md
+❌ specs/features/logging-with-winston.spec.md
    (obvious library usage, no critical behaviors)
 ```
 
 **Over-specifying implementation details:**
 ```markdown
-❌ specs/3-behaviors/http-client-configuration.spec.md
+❌ specs/features/http-client-configuration.spec.md
    (implementation detail, not behavior)
 ```
 

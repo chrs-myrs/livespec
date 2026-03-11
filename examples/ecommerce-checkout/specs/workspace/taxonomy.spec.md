@@ -24,7 +24,7 @@ governed-by:
   - ❌ NOT workspace: E-commerce specific architecture or checkout processes
     - Examples: "checkout-flow.spec.md", "payment-integration.spec.md", "cart-management.spec.md"
     - These define HOW THIS E-COMMERCE SYSTEM works (product strategy/behaviors), not operating context
-    - Correct location: specs/2-strategy/architecture.spec.md (system design) or specs/3-behaviors/ (checkout behaviors)
+    - Correct location: specs/strategy/architecture.spec.md (system design) or specs/features/ (checkout behaviors)
     - Test: "Is this ABOUT the workspace or IN the workspace?" → IN = Not workspace
 
   **Specs Boundary** (specifications only, no code/data):
@@ -38,14 +38,14 @@ governed-by:
     - Transient work → var/ folder (gitignored)
   - specs/ defines WHAT checkout system does (cart management, payment processing, order confirmation)
   - specs/ NEVER contains actual code, build outputs, or test implementations
-  - Example: ✅ specs/3-behaviors/cart-management.spec.md (defines cart behavior), ❌ src/components/Cart.tsx (actual implementation)
+  - Example: ✅ specs/features/cart-management.spec.md (defines cart behavior), ❌ src/components/Cart.tsx (actual implementation)
 
   **AI agents must**:
   - Check this taxonomy.spec.md FIRST before creating files
   - Verify workspace/ additions pass "about vs in" test ("Is this ABOUT the workspace?" → YES = workspace)
   - Keep code, builds, and implementation details OUT of specs/
-  - Place e-commerce architecture in specs/2-strategy/, NOT workspace/
-  - Place checkout behaviors in specs/3-behaviors/, NOT workspace/
+  - Place e-commerce architecture in specs/strategy/, NOT workspace/
+  - Place checkout behaviors in specs/features/, NOT workspace/
   - Follow React/TypeScript conventions for code organization (src/components/, src/hooks/, src/utils/)
   - Follow build tool conventions for artifact locations (dist/, build/)
   - Update this taxonomy when project classification fundamentally changes

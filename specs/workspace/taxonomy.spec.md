@@ -27,15 +27,16 @@ LiveSpec produces methodology frameworks for specification-driven development.
 - workspace/workflows.spec.md - 5-phase development process
 - workspace/taxonomy.spec.md - Classification rules (this document)
 - workspace/context-compression.spec.md - Context optimization strategy
-- workspace/context-structure.spec.md - Rules for AGENTS.md content, ctxt/ tree structure
+- workspace/context-architecture.spec.md - Rules for AGENTS.md content, ctxt/ tree structure
 
 ❌ **NOT workspace** (deliverables and behaviors IN the workspace):
-- Framework architecture → specs/2-strategy/ (cross-cutting decisions)
-- Prompt artifacts → specs/3-artifacts/prompts/ (methodology deliverables)
-- Agent artifacts → specs/3-artifacts/agents/ (methodology deliverables)
-- Methodology behaviors → specs/3-behaviors/ (drift detection, validation, phase guidance)
+- Framework architecture → specs/strategy/ (cross-cutting decisions)
+- Prompt artifacts → specs/artifacts/prompts/ (methodology deliverables)
+- Agent artifacts → specs/artifacts/agents/ (methodology deliverables)
+- Methodology behaviors → specs/features/ (drift detection, validation, phase guidance)
+- Format contracts → specs/interfaces/ (MSL syntax, AGENTS.md format, discovery)
 
-**Key insight**: workspace/ defines **operating context** - how agents, humans, and the workspace interact. The artifacts and tools the workspace uses/produces go in 3-artifacts/ and 3-behaviors/. Workspace specs can be bespoke to the project; there's no requirement for them to be "portable to any project".
+**Key insight**: workspace/ defines **operating context** - how agents, humans, and the workspace interact. The artifacts and tools the workspace uses/produces go elsewhere. Workspace specs can be bespoke to the project; there's no requirement for them to be "portable to any project".
 
 ## Specs Boundary
 
@@ -57,46 +58,80 @@ LiveSpec produces methodology frameworks for specification-driven development.
 **Dogfooding principle**: Framework development follows same specs/ → implementation pattern it prescribes.
 
 **Example**:
-- ✅ specs/3-artifacts/prompts/0a-quick-start.spec.md (defines prompt artifact)
+- ✅ specs/artifacts/prompts/0a-quick-start.spec.md (defines prompt artifact)
 - ❌ dist/prompts/0-define/0a-quick-start.md (distributable prompt implementation)
 
-## Layer 3 Structure (Behaviors vs Artifacts vs Contracts)
+## Specs Folder Structure
 
-**For governance/methodology projects like LiveSpec**, Layer 3 uses a three-way split:
+**For governance/methodology projects like LiveSpec**, specs/ uses five top-level categories:
 
-**3-behaviors/** = Observable behaviors of the methodology
-- *"What does the methodology DO?"*
-- Examples: drift-detection.spec.md, phase-guidance.spec.md, validation/*, session-completion.spec.md
-- These define HOW the methodology guides and assists development
+### foundation/
+*"Why does this exist? What must it achieve?"*
+- Strategic outcomes (what success looks like)
+- Hard constraints (non-negotiable boundaries)
+- Examples: outcomes.spec.md, constraints.spec.md
 
-**3-artifacts/** = Components that make up the methodology
-- *"What is the methodology MADE OF?"*
-- Examples: prompts/*, agents/*, commands/*, validators/*
-- These are deliverable artifacts (files we build and distribute)
+### strategy/
+*"What cross-cutting decisions apply everywhere?"*
+- Architectural approach
+- AI discoverability strategy
+- Phase workflow design
+- Examples: architecture.spec.md, ai-discoverability.spec.md, phase-workflow.spec.md
 
-**3-contracts/** = Interfaces and format definitions
-- *"What are the standard interfaces?"*
-- Examples: prompt-structure.spec.md, agent-interface.spec.md, msl-format.spec.md
-- These define contracts that artifacts and behaviors must follow
+### features/
+*"What observable behaviors does the methodology exhibit?"*
+- Drift detection behavior
+- Context generation behavior
+- Validation behaviors
+- Session completion behavior
+- Examples: context-generation.spec.md, validation/*.spec.md, improvement-analysis.spec.md
 
-**Simple three-way test**:
-1. "Does this describe behavior of the methodology?" → 3-behaviors/
-2. "Does this describe an artifact we build?" → 3-artifacts/
-3. "Does this describe an interface/format?" → 3-contracts/
+### artifacts/
+*"What things does the methodology produce?"*
+- Prompt definitions
+- Agent definitions
+- Command definitions
+- Validator definitions
+- Examples: prompts/*.spec.md, agents/*.spec.md, commands/*.spec.md
 
-**Note**: Software projects may use different Layer 3 organization (e.g., behaviors/ for user features, contracts/ for APIs, no artifacts/ needed).
+### interfaces/
+*"What contracts must implementations follow?"*
+- Format definitions (MSL syntax, prompt structure)
+- Context contracts (AGENTS.md format)
+- Distribution contracts (dist/ package structure)
+- Discovery interfaces (llms.txt, Context7)
+- Examples: formats/msl-syntax.spec.md, context/agents-md.spec.md, discovery/llms-txt.spec.md
+
+### workspace/ (orthogonal)
+*"How do we work?"*
+- Operating context (constitution, patterns, workflows)
+- Not product specs - process specs
+- Applies to all other categories
+
+## Decision Tests
+
+**Five-way classification for specs/**:
+
+1. "Is this a strategic outcome or hard constraint?" → **foundation/**
+2. "Does this apply across the whole product?" → **strategy/**
+3. "Does this describe observable methodology behavior?" → **features/**
+4. "Does this describe something we build and distribute?" → **artifacts/**
+5. "Does this define a format, contract, or discovery interface?" → **interfaces/**
+
+**Orthogonal test**: "Is this ABOUT how we work?" → **workspace/** (in addition to above)
 
 ## AI agents must
 
 Before creating ANY file, agents must:
 - ✅ Check this taxonomy.spec.md FIRST
 - ✅ Use "about vs in" test for workspace/ ("Is this ABOUT the workspace?" → YES = workspace/)
-- ✅ Use three-way Layer 3 test (behavior/artifact/contract) for specs/3-*/ placement
+- ✅ Use five-way test for specs/ placement (foundation/strategy/features/artifacts/interfaces)
 - ✅ Keep distributable framework OUT of specs/ (specs define, dist/ distributes)
-- ✅ Place framework architecture in specs/2-strategy/, NOT workspace/
-- ✅ Place prompt artifacts in specs/3-artifacts/prompts/, NOT workspace/ or 3-behaviors/
-- ✅ Place agent artifacts in specs/3-artifacts/agents/, NOT workspace/ or 3-behaviors/
-- ✅ Place methodology behaviors in specs/3-behaviors/ (drift detection, validation, etc.)
+- ✅ Place framework architecture in specs/strategy/, NOT workspace/
+- ✅ Place prompt artifacts in specs/artifacts/prompts/, NOT workspace/ or features/
+- ✅ Place agent artifacts in specs/artifacts/agents/, NOT workspace/ or features/
+- ✅ Place methodology behaviors in specs/features/ (drift detection, validation, etc.)
+- ✅ Place format contracts in specs/interfaces/, NOT features/ or artifacts/
 - ✅ Distinguish between framework specifications (specs/) and framework distribution (dist/)
 - ✅ Understand dogfooding: specs/ governs LiveSpec's own development using LiveSpec methodology
 - ✅ Generated files (AGENTS.md, prompts/generated/*) include standard markers showing sources
@@ -105,10 +140,10 @@ Before creating ANY file, agents must:
 ## Requirements
 
 - [!] Taxonomy structure validates via automated checks.
-  - All five section headings present (Project Domain, Workspace Scope, Specs Boundary, Layer 3 Structure, AI agents must)
+  - All section headings present (Project Domain, Workspace Scope, Specs Boundary, Specs Folder Structure, Decision Tests, AI agents must)
   - Domain classification declared
   - Workspace scope explicitly defined with "about vs in" test
-  - Layer 3 split explained (behaviors/artifacts/contracts)
+  - Five-way split explained (foundation/strategy/features/artifacts/interfaces)
   - Specs boundary clearly stated with artifact locations
   - Agent obligations documented as checklist
 
@@ -117,10 +152,10 @@ Before creating ANY file, agents must:
 - All workspace/ files pass "about the workspace" test (meta-governance only)
 - specs/ contains only .spec.md files (framework source, not distribution)
 - Distributable framework clearly separated in dist/ folder
-- Framework architecture placed in specs/2-strategy/, not workspace/
-- Prompt artifacts placed in specs/3-artifacts/prompts/, not workspace/ or 3-behaviors/
-- Agent artifacts placed in specs/3-artifacts/agents/, not workspace/ or 3-behaviors/
-- Methodology behaviors placed in specs/3-behaviors/, not 3-artifacts/
-- Layer 3 follows three-way split (behaviors/artifacts/contracts)
+- Framework architecture placed in specs/strategy/, not workspace/
+- Prompt artifacts placed in specs/artifacts/prompts/, not workspace/ or features/
+- Agent artifacts placed in specs/artifacts/agents/, not workspace/ or features/
+- Methodology behaviors placed in specs/features/, not artifacts/
+- Format contracts placed in specs/interfaces/, not features/ or artifacts/
 - Dogfooding validated: LiveSpec uses its own Phase 0-4 methodology
 - Distribution pattern followed: specs/ → dist/ (users copy dist/ to their .livespec/)

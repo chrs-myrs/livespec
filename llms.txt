@@ -6,7 +6,7 @@ LiveSpec is an information architecture and context generation system. Specifica
 
 ## Core Concepts
 
-**Value Structure:** PURPOSE → 1-requirements/ → 2-strategy/ → 3-behaviors/ (intent flows down, implementations trace up)
+**Value Structure:** PURPOSE → foundation/ → strategy/ → features/ (intent flows down, implementations trace up)
 
 **Context Tree:** Workspace specs (HOW you build, applies to all) vs Product specs (WHAT you build, project-specific)
 
@@ -69,12 +69,12 @@ your-project/
     │   ├── patterns.spec.md
     │   ├── workflows.spec.md
     │   └── taxonomy.spec.md
-    ├── 1-requirements/     # WHY - Strategic and functional requirements
+    ├── foundation/     # WHY - Strategic and functional requirements
     │   ├── strategic/
     │   └── functional/
-    ├── 2-strategy/         # HOW - Architectural approach
-    ├── 3-behaviors/        # WHAT - Observable behaviors
-    └── 3-contracts/        # WHAT - API/data contracts
+    ├── strategy/         # HOW - Architectural approach
+    ├── features/        # WHAT - Observable behaviors
+    └── interfaces/        # WHAT - API/data contracts
 ```
 
 ## Examples
@@ -179,7 +179,7 @@ Use cascade impact analysis to find affected specs:
 
 ```bash
 # Find implementations affected by requirement change
-grep -r "satisfies:.*changed-requirement.spec.md" specs/3-behaviors/
+grep -r "satisfies:.*changed-requirement.spec.md" specs/features/
 ```
 
 **Decision framework:**
@@ -194,8 +194,8 @@ See [loan-system example](examples/loan-system/) for detailed cascade analysis w
 For concerns spanning multiple modules (auth, logging, error handling):
 
 - **Behavior spec**: WHAT it does (e.g., "System authenticates users via OAuth")
-- **Strategy spec**: HOW approach applies broadly (e.g., `2-strategy/security-approach.spec.md`)
-- **Contract spec**: Interface definition (e.g., `3-contracts/auth-api.spec.md`)
+- **Strategy spec**: HOW approach applies broadly (e.g., `strategy/security-approach.spec.md`)
+- **Contract spec**: Interface definition (e.g., `interfaces/auth-api.spec.md`)
 
 See [behavior-contract-boundary.md](guides/behavior-contract-boundary.md) and [auth-system example](examples/auth-system/).
 
@@ -215,7 +215,7 @@ See [specs/workspace/](specs/workspace/) for how LiveSpec itself is built:
 
 ## Prompt Specifications
 
-See [specs/3-artifacts/prompts/](specs/3-artifacts/prompts/) for what each prompt accomplishes:
+See [specs/artifacts/prompts/](specs/artifacts/prompts/) for what each prompt accomplishes:
 - Each prompt has corresponding .spec.md defining expected behavior
 - Specifications use YAML frontmatter linking for traceability
 - All prompts validated against their specifications

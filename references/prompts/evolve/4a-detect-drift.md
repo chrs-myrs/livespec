@@ -1,0 +1,290 @@
+---
+implements: specs/artifacts/prompts/4a-detect-drift.spec.md
+estimated_time: "20-30 minutes"
+---
+
+# 4a: Detect Regeneration Signals
+
+**Phase**: EVOLVE
+**Purpose**: Detect when code should be regenerated from specifications
+**Context**: Code is disposable. Drift signals regeneration opportunity, not sync problem.
+
+## Core Philosophy
+
+**Drift detection becomes regeneration signal detection**:
+- Drift = Signal that code has accumulated cruft
+- Response = Regenerate from specs (don't patch)
+- Goal = Keep essential knowledge in specs, code disposable
+
+**Discovery leveling**: When detecting drift, ask "Does this belong in specs?"
+- YES → Level up to appropriate spec layer (requirements, strategy, or behaviors)
+- NO → Accept as implementation detail (disposable)
+
+## Task
+
+Identify when code no longer matches specs and determine if regeneration is needed.
+
+## When to Check for Drift
+
+Run drift detection:
+- **After code changes**: When implementation is modified
+- **After spec changes**: When requirements are updated
+- **Periodically**: Weekly or before releases
+- **Before major work**: To ensure clean starting point
+
+## Drift Detection Process
+
+### 0. Run Structural Validations (New)
+
+Before checking code/spec drift, validate structural integrity:
+
+**Taxonomy structure validation:**
+```bash
+bash scripts/validate-taxonomy-structure.sh
+```
+- Ensures taxonomy.spec.md has all required sections (Project Domain, Workspace Scope, Specs Boundary, AI agents must)
+- Prevents agent confusion about file placement
+
+**Workspace scope audit:**
+```bash
+bash scripts/audit-workspace-scope.sh
+```
+- Detects deliverable content in workspace/ ("about vs in" violations)
+- Flags files that fail "Is this ABOUT the workspace or IN it?" test
+
+**Spec purity detection:**
+```bash
+bash scripts/detect-code-in-specs.sh
+```
+- Finds executable implementation code in requirements/strategy specs
+- Enforces WHAT-not-HOW principle (MSL purity)
+
+**Architecture alignment:**
+```bash
+bash scripts/validate-architecture-alignment.sh
+```
+- Verifies directory structures mentioned in architecture specs actually exist
+- Detects spec-reality misalignment (specs describing non-existent structures)
+
+**Fix violations before proceeding** - Structural issues cause false drift signals.
+
+### 1. Identify Changes
+
+**Since Last Check:**
+```bash
+# What code changed?
+git log --since="last-check" --name-only src/
+
+# What specs changed?
+git log --since="last-check" --name-only specs/
+```
+
+**Focus Areas:**
+- Files modified in implementation
+- Related specification files
+- Contract changes
+- Test modifications
+
+### 2. Semantic Analysis
+
+For each changed area, use semantic understanding (not text diff):
+
+**Tools to Consider:**
+- **SemanticDiff**: Structural code comparison
+- **oasdiff**: OpenAPI contract drift
+- **Language-specific**: AST analyzers for your language
+
+**Questions to Ask:**
+- Did the behavior change or just the implementation?
+- Are contracts still satisfied?
+- Do tests still validate specs?
+- Are there new behaviors not specified?
+
+### 3. Classify Changes
+
+Use the 70-80-10 pattern from `specs/features/drift-detection.spec.md`:
+
+#### Auto-Accept (70-80%)
+Changes that DON'T affect specs:
+- ✅ Refactoring (same behavior, different code)
+- ✅ Formatting and style changes
+- ✅ Performance optimizations (behavior unchanged)
+- ✅ Internal implementation improvements
+- ✅ Non-breaking additions
+
+#### Review Needed (10-20%)
+Changes that MIGHT affect specs:
+- ⚠️ Behavior modifications
+- ⚠️ New features added
+- ⚠️ Contract changes
+- ⚠️ Performance characteristic changes
+- ⚠️ Error handling changes
+
+#### Manual Resolution (5-10%)
+Changes requiring human decision:
+- 🔴 Breaking changes
+- 🔴 Conflicting requirements
+- 🔴 Removed features
+- 🔴 Ambiguous intent
+- 🔴 Multi-spec impacts
+
+### 4. Trace Impact
+
+When specifications change, trace dependencies to detect cascading effects:
+
+**Check Frontmatter Dependencies:**
+```bash
+# What does this spec derive from?
+grep -A 5 "^---" specs/changed-spec.spec.md | grep "derives_from\|constrained_by\|satisfies"
+
+# What derives from this spec?
+grep -r "derives_from.*$(basename $CHANGED_SPEC)" specs/
+```
+
+**Upward Trace (Validation):**
+
+Verify the change still aligns with parent specs:
+
+```markdown
+Changed: specs/strategy/architecture.spec.md
+
+Upward validation:
+  ✓ Still satisfies PURPOSE.md goal
+  ✓ Still respects specs/foundation/constraints.spec.md
+  ⚠️ May not fully align with specs/foundation/outcomes.spec.md anymore
+
+Action: Review outcomes.spec.md alignment
+```
+
+**Downward Trace (Propagation):**
+
+Identify child specs that may need updates:
+
+```markdown
+Changed: specs/strategy/architecture.spec.md
+
+Downward propagation:
+  - specs/artifacts/prompts/0a-quick-start.spec.md (derives from architecture)
+  - specs/artifacts/prompts/1a-design-architecture.spec.md (derives from architecture)
+  - All prompts/*/  (implementation may need updates)
+
+Action: Review each child spec for alignment
+```
+
+**Horizontal Trace (Process):**
+
+Check if workspace specs need updates:
+
+```markdown
+Changed: specs/strategy/architecture.spec.md (now uses 6 phases instead of 5)
+
+Horizontal impacts:
+  - specs/workspace/workflows.spec.md (may reference 5-phase model)
+  - specs/workspace/patterns.spec.md (folder structure may change)
+
+Action: Update workspace specs to reflect new structure
+```
+
+**Common Impact Patterns:**
+
+| Changed Spec | Upward Check | Downward Check |
+|--------------|--------------|----------------|
+| **PURPOSE.md** | None (root) | foundation/outcomes.spec.md, foundation/constraints.spec.md |
+| **foundation/outcomes.spec.md** | PURPOSE.md | strategy/architecture.spec.md, all features/ |
+| **foundation/constraints.spec.md** | PURPOSE.md | strategy/architecture.spec.md, all features/ |
+| **strategy/architecture.spec.md** | PURPOSE.md, foundation/outcomes.spec.md, foundation/constraints.spec.md | All prompts/, all features/ |
+| **features/*.spec.md** | strategy/architecture.spec.md, foundation/outcomes.spec.md | Code implementation |
+
+**Detection Questions:**
+
+1. **Does this change violate a constraint?**
+   - Check all specs in `constrained_by` frontmatter
+   - Validate against constraint validation criteria
+
+2. **Does this change break parent alignment?**
+   - Check all specs in `derives_from` frontmatter
+   - Verify derivation still makes sense
+
+3. **Do child specs need updates?**
+   - Find all specs that derive from changed spec
+   - Review each for continued alignment
+
+4. **Is code now misaligned?**
+   - If behavior spec changed, check implementation
+   - If architecture changed, check structure
+
+## Create Drift Report
+
+Document findings in `drift-report.md`:
+
+```markdown
+# Drift Detection Report
+
+**Date**: 2025-01-10
+**Since**: 2025-01-03
+**Status**: ✅ CLEAN | ⚠️ MINOR DRIFT | 🔴 MAJOR DRIFT
+
+## Changes Detected
+
+### Auto-Accepted (No Spec Changes)
+- Refactored authentication module (same behavior)
+- Updated dependencies
+- Fixed formatting issues
+
+### Requiring Review
+1. **New behavior: Password reset via email**
+   - **Code**: Added password reset endpoint
+   - **Spec**: No specification exists
+   - **Action**: Extract new spec (4b-extract-specs.md)
+
+2. **Modified behavior: CSV export includes timestamps**
+   - **Code**: Added timestamp column to CSV export
+   - **Spec**: specs/features/data-export.spec.md doesn't mention timestamps
+   - **Action**: Update spec to include timestamp behavior
+
+### Requiring Manual Resolution
+1. **Conflicting change: API response format**
+   - **Code**: Changed response from array to paginated object
+   - **Spec**: specs/interfaces/api/users-api.yaml specifies array
+   - **Conflict**: Breaking change not documented
+   - **Decision Needed**: Revert code or version API?
+
+## Summary
+- Auto-accepted: 15 changes
+- Review needed: 2 changes
+- Manual resolution: 1 change
+
+## Next Steps
+1. Extract spec for password reset (4b)
+2. Update data-export spec for timestamps
+3. Resolve API pagination conflict (stakeholder input)
+```
+
+## Decision Framework
+
+When classifying changes, use three-way thinking:
+
+**Base → Code → Spec:**
+- **Base**: What was the original intent?
+- **Code**: What does the implementation do now?
+- **Spec**: What does the specification say?
+
+**Resolution:**
+- If code matches intent but spec unclear → Clarify spec
+- If code diverged from intent → Fix code or update spec
+- If both evolved independently → Merge or choose one
+
+## Exit Criteria
+
+- [ ] All code changes since last check reviewed
+- [ ] All spec changes since last check reviewed
+- [ ] Changes classified (auto-accept, review, regenerate)
+- [ ] Discoveries leveled up to appropriate spec layer
+- [ ] Regeneration decision made
+
+## Next Step
+
+Once drift is detected and classified, decide:
+- **Specs need update** → `4b-extract-specs.md` to level up discoveries
+- **Code needs regeneration** → Regenerate from specs (code is disposable)
+- **Both OK** → Continue (drift was implementation detail)

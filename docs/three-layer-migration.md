@@ -59,13 +59,13 @@ tree specs/requirements/
 
 ```bash
 # If you have mission/outcomes.spec.md
-mv specs/1-requirements/strategic/outcomes.spec.md specs/requirements/strategic/outcomes.spec.md
+mv specs/foundation/outcomes.spec.md specs/requirements/strategic/outcomes.spec.md
 
 # If you have mission/constraints.spec.md
-mv specs/1-requirements/strategic/constraints.spec.md specs/requirements/strategic/constraints.spec.md
+mv specs/foundation/constraints.spec.md specs/requirements/strategic/constraints.spec.md
 
 # Move any other mission/ files
-mv specs/1-requirements/strategic/*.spec.md specs/requirements/strategic/
+mv specs/foundation/*.spec.md specs/requirements/strategic/
 
 # Remove empty mission/ directory
 rmdir specs/mission
@@ -75,7 +75,7 @@ rmdir specs/mission
 
 ```bash
 # Update derives-from references
-find specs/ -name "*.spec.md" -exec sed -i 's|specs/1-requirements/strategic/|specs/requirements/strategic/|g' {} \;
+find specs/ -name "*.spec.md" -exec sed -i 's|specs/foundation/|specs/requirements/strategic/|g' {} \;
 
 # Verify changes
 grep -r "mission/" specs/
@@ -103,7 +103,7 @@ grep -r "mission/" specs/
 
 ```bash
 # List all behavior specs
-ls specs/3-behaviors/*.spec.md > /tmp/behavior-specs.txt
+ls specs/features/*.spec.md > /tmp/behavior-specs.txt
 
 # Review and classify each
 vim /tmp/behavior-specs.txt
@@ -117,8 +117,8 @@ vim /tmp/behavior-specs.txt
 ```bash
 # For each spec marked REQ: in your classification
 # Example:
-mv specs/3-behaviors/authentication.spec.md specs/requirements/functional/authentication.spec.md
-mv specs/3-behaviors/loan-accuracy.spec.md specs/requirements/functional/loan-accuracy.spec.md
+mv specs/features/authentication.spec.md specs/requirements/functional/authentication.spec.md
+mv specs/features/loan-accuracy.spec.md specs/requirements/functional/loan-accuracy.spec.md
 
 # Keep implementation specs in behaviors/
 # (Specs marked IMPL: stay in behaviors/)
@@ -195,7 +195,7 @@ failure_mode: Incorrect calculations
 
 ```bash
 # Example: Create calculation-approach.spec.md
-vim specs/2-strategy/calculation-approach.spec.md
+vim specs/strategy/calculation-approach.spec.md
 ```
 
 **Template:**
@@ -251,14 +251,14 @@ tree specs/
 
 ```bash
 # Check all implementation specs have satisfies: field
-for spec in specs/3-behaviors/*.spec.md; do
+for spec in specs/features/*.spec.md; do
   if ! grep -q "^satisfies:" "$spec"; then
     echo "Missing satisfies: $spec"
   fi
 done
 
 # Check all strategy specs have derives-from: field
-for spec in specs/2-strategy/*.spec.md; do
+for spec in specs/strategy/*.spec.md; do
   if ! grep -q "^derives-from:" "$spec"; then
     echo "Missing derives-from: $spec"
   fi
@@ -306,13 +306,13 @@ chmod +x scripts/traceability/*.sh
 
 ```markdown
 # Before
-specs/1-requirements/strategic/outcomes.spec.md
-specs/3-behaviors/authentication.spec.md
+specs/foundation/outcomes.spec.md
+specs/features/authentication.spec.md
 
 # After
 specs/requirements/strategic/outcomes.spec.md
 specs/requirements/functional/authentication.spec.md
-specs/3-behaviors/oauth-authentication.spec.md
+specs/features/oauth-authentication.spec.md
 ```
 
 **Update CHANGELOG:**
@@ -406,7 +406,7 @@ chmod +x scripts/traceability/validate-research-links.sh
 cp /path/to/livespec/dist/prompts/0-define/0e-evaluate-research-needs.md .livespec/0-define/
 
 # Copy research evaluation spec
-cp /path/to/livespec/specs/3-behaviors/prompts/0e-evaluate-research-needs.spec.md specs/3-behaviors/prompts/
+cp /path/to/livespec/specs/features/prompts/0e-evaluate-research-needs.spec.md specs/features/prompts/
 ```
 
 ### Step R5: Migrate Existing Research Artifacts
@@ -718,7 +718,7 @@ guided-by:
 **Solution:**
 ```bash
 # Check one implementation spec
-cat specs/3-behaviors/your-spec.spec.md | head -20
+cat specs/features/your-spec.spec.md | head -20
 
 # Should show:
 # ---
@@ -736,7 +736,7 @@ cat specs/3-behaviors/your-spec.spec.md | head -20
 **Solution:**
 ```bash
 # Verify frontmatter paths exist
-grep -r "satisfies:" specs/3-behaviors/ | while read line; do
+grep -r "satisfies:" specs/features/ | while read line; do
   FILE=$(echo "$line" | cut -d: -f1)
   REQ=$(echo "$line" | cut -d: -f3- | tr -d ' -')
   if [ -f "specs/$REQ" ]; then
@@ -754,8 +754,8 @@ done
 **Solution:**
 ```bash
 # Update test files
-find tests/ -name "*.test.*" -exec sed -i 's|specs/1-requirements/strategic/|specs/requirements/strategic/|g' {} \;
-find tests/ -name "*.test.*" -exec sed -i 's|specs/3-behaviors/\([^/]*\).spec.md|specs/requirements/functional/\1.spec.md|g' {} \;
+find tests/ -name "*.test.*" -exec sed -i 's|specs/foundation/|specs/requirements/strategic/|g' {} \;
+find tests/ -name "*.test.*" -exec sed -i 's|specs/features/\([^/]*\).spec.md|specs/requirements/functional/\1.spec.md|g' {} \;
 
 # Verify tests pass
 npm test  # or your test command
@@ -811,7 +811,7 @@ After successful migration:
 
 ## See Also
 
-- [Three-Layer Architecture Spec](../specs/2-strategy/three-layer-architecture.spec.md)
+- [Three-Layer Architecture Spec](../specs/strategy/three-layer-architecture.spec.md)
 - [Loan System Example](../examples/loan-system/) - Three-layer without research
 - [E-Commerce Checkout Example](../examples/ecommerce-checkout/) - Complete example with research integration
 - [Traceability Tools README](../scripts/traceability/README.md)

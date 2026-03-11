@@ -1,7 +1,7 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 6: Sustainable Evolution)
+  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
+  - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 applies_to:
   - all_ai_agents
   - AGENTS.md
@@ -33,7 +33,7 @@ governed-by:
   - **Benefits**: Better focus (specialized contexts), reduced overload (load what's needed), improved signal-to-noise (60% vs 20%)
 
 - [!] LiveSpec AGENTS.md content generated from project specifications
-  - **Sources**: PURPOSE.md, workspace/*.spec.md, 1-requirements/strategic/*.spec.md, 2-strategy/architecture.spec.md
+  - **Sources**: PURPOSE.md, workspace/*.spec.md, foundation/*.spec.md, 2-strategy/architecture.spec.md
   - **Content structure**: Optimized for context positioning (START/MIDDLE/END) per `.livespec/guides/context-positioning.md`
   - **Compression**: Moderate level (balanced inline/reference) per workspace/constitution.spec.md
   - **No frontmatter**: Clean context for agents (convention requirement)

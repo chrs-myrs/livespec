@@ -16,20 +16,20 @@ Traditional documentation struggles with cross-cutting concerns because they don
 
 ```
 specs/
-├── 1-requirements/              # Layer 1: WHAT must be achieved
+├── foundation/              # Layer 1: WHAT must be achieved
 │   ├── strategic/
 │   │   └── outcomes.spec.md     # High-level security goals
 │   └── functional/
 │       ├── authentication.spec.md    # Authentication requirements
 │       └── authorization.spec.md     # Access control requirements
-├── 2-strategy/                  # Layer 2: HOW to approach
+├── strategy/                  # Layer 2: HOW to approach
 │   └── security-approach.spec.md     # Cross-cutting security decisions
-├── 3-behaviors/                 # Layer 3: EXACTLY what happens
+├── features/                 # Layer 3: EXACTLY what happens
 │   ├── user-login.spec.md            # Login flow behavior
 │   ├── session-management.spec.md    # Session lifecycle
 │   ├── role-authorization.spec.md    # RBAC behavior
 │   └── password-reset.spec.md        # Password reset flow
-└── 3-contracts/                 # Interface definitions
+└── interfaces/                 # Interface definitions
     └── auth-api.spec.md              # Auth API contract
 ```
 
@@ -59,11 +59,11 @@ specs/
 
 ```bash
 # Find all behaviors affected by authentication requirement change
-grep -r "satisfies:.*authentication.spec.md" specs/3-behaviors/
+grep -r "satisfies:.*authentication.spec.md" specs/features/
 
 # Results:
-# specs/3-behaviors/user-login.spec.md
-# specs/3-behaviors/session-management.spec.md
+# specs/features/user-login.spec.md
+# specs/features/session-management.spec.md
 ```
 
 Both behavior specs need review when authentication requirements change.
@@ -72,13 +72,13 @@ Both behavior specs need review when authentication requirements change.
 
 ```bash
 # Find all behaviors guided by security strategy
-grep -r "guided-by:.*security-approach.spec.md" specs/3-behaviors/
+grep -r "guided-by:.*security-approach.spec.md" specs/features/
 
 # Results:
-# specs/3-behaviors/user-login.spec.md
-# specs/3-behaviors/session-management.spec.md
-# specs/3-behaviors/role-authorization.spec.md
-# specs/3-behaviors/password-reset.spec.md
+# specs/features/user-login.spec.md
+# specs/features/session-management.spec.md
+# specs/features/role-authorization.spec.md
+# specs/features/password-reset.spec.md
 ```
 
 All four behavior specs need review when security strategy changes.
@@ -87,12 +87,12 @@ All four behavior specs need review when security strategy changes.
 
 ### Behavior vs Contract Distinction
 
-**Behaviors** (specs/3-behaviors/):
+**Behaviors** (specs/features/):
 - "System authenticates users via credentials" - Observable outcome
 - "Session expires after inactivity" - Observable outcome
 - "Unauthorized access returns 401" - Observable outcome
 
-**Contracts** (specs/3-contracts/):
+**Contracts** (specs/interfaces/):
 - `POST /auth/login` with JSON schema - Interface definition
 - `POST /auth/logout` request format - Interface definition
 - `GET /auth/me` response structure - Interface definition

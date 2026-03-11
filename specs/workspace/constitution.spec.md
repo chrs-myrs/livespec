@@ -1,7 +1,7 @@
 ---
 satisfies:
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
-  - specs/1-requirements/strategic/outcomes.spec.md (Requirement 5: Voluntary Adoption)
+  - specs/foundation/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
+  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 applies_to:
   - all_projects
 context_compression: moderate
@@ -14,14 +14,14 @@ governed-by:
 # LiveSpec Development Constitution
 
 ## Requirements
-- [!] LiveSpec development follows eleven core principles (in priority order): Specs Before Implementation (ALWAYS - every deliverable requires specification before implementation, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Test-Driven Development (Phase 2 follows TDD discipline, mandatory with escape hatch for trivial scripts), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation), Clean Evolution (no deprecation or backwards compatibility, evolve forward without legacy baggage), Progressive Disposability (lower layers more disposable, code always regenerable from specs), and Regeneration Over Refactoring (don't fix code, regenerate it).
+- [!] LiveSpec development follows ten core principles (in priority order): Specs Before Deliverables (ALWAYS - every deliverable requires specification first, AI agents guide this), MSL Minimalism (specs justify existence through decision framework), Dogfooding (uses own methodology), Simplicity Over Features (no custom tooling), Living Documentation (specs evolve continuously), Governance Framework Awareness (acknowledges specialized domain, patterns may not generalize), Active Agent Guidance (agents have concise definitive context with active verification prompts, not passive documentation), Clean Evolution (no deprecation or backwards compatibility, evolve forward without legacy baggage), Progressive Disposability (upper layers more durable, lower layers derived), and Spec Health (maintain spec quality through validation and evolution).
   - **Spec-First Always** (Principle #1 - essential):
-    - Every deliverable has specification before implementation (code, prompts, templates, documentation, configs)
-    - Specification precedes implementation (even for "obvious" deliverables like CHANGELOG, README)
-    - AI agents check for spec existence before implementation
-    - AI agents guide users to Phase 1 (DESIGN) if spec missing
+    - Every deliverable has specification before creation (prompts, templates, documentation, configs)
+    - Specification precedes deliverable (even for "obvious" deliverables like CHANGELOG, README)
+    - AI agents check for spec existence before proceeding
+    - AI agents guide users to DESIGN mode if spec missing
     - Familiarity doesn't excuse skipping specification (CHANGELOG mistake in commit 40411e3 demonstrates this)
-    - Every prompt in prompts/ has corresponding spec in specs/3-artifacts/prompts/
+    - Every prompt in prompts/ has corresponding spec in specs/artifacts/prompts/
     - Every behavior has validation criteria and failure mode defined
   - **MSL Minimalism** (Principle #2 - essential):
     - Before adding any requirement, ask four essential questions:
@@ -31,27 +31,24 @@ governed-by:
       4. **Could this be inferred or conventional?** Standard practice? → Omit
     - Start minimal, add only when proven necessary
     - Trust implementers to make reasonable decisions
-    - Precision hierarchy: Outcome → Behavioral → Interface → Implementation (default to highest level)
+    - Precision hierarchy: Outcome → Behavioral → Interface (default to highest level)
     - Requirement justification: Critical (always) > Important (usually) > Useful (rarely) > Nice (never)
     - Hierarchical minimalism: Abstract common requirements to parent specs
     - See .livespec/guides/msl-minimalism.md for complete decision framework
-  - **Test-Driven Development** (Principle #3 - essential):
-    - Phase 2 (BUILD) follows TDD discipline (tests written before implementation)
-    - See specs/2-strategy/testing-approach.spec.md for complete TDD workflow and requirements
   - All specs pass MSL test (CRITICAL or IMPORTANT only)
   - Repository uses LiveSpec methodology (specs/ and prompts/ exist)
   - LiveSpec usable with file operations and AI prompts only
-  - Spec drift detected and resolved through Phase 4
+  - Spec health monitored and resolved through EVOLVE mode
   - LiveSpec recognized as governance framework (specs about methodology itself)
   - Extensions documented as domain-specific, not universal patterns
-  - All LiveSpec artifacts are specifications at different abstraction levels (strategic specs in 1-requirements/, approach specs in 2-strategy/, behavioral specs in 3-behaviors/)
-  - **Active Agent Guidance** (Principle #7 - essential):
+  - All LiveSpec artifacts are specifications at different abstraction levels (strategic specs in foundation/, approach specs in 2-strategy/, behavioral specs in features/)
+  - **Active Agent Guidance** (Principle #6 - essential):
     - AGENTS.md is definitive cacheable agent context (<100KB)
     - 80/20 coverage (agents handle 80% of cases without fetching additional context)
     - Includes ACTIVE verification prompts (not passive documentation):
-      - Pre-implementation verification checklist
+      - Pre-action verification checklist
       - "No plumbing exception" warning (all behavior changes need specs)
-      - Active self-check questions agents ask before implementing
+      - Active self-check questions agents ask before creating specs
       - Plan review for methodology compliance
     - Context positioning optimized (START 30-40%, MIDDLE 40%, END 20-30%)
     - Clear pointers to extended context (when to fetch full prompts)
@@ -65,7 +62,7 @@ governed-by:
       - Balanced inline/reference approach (critical inline, details referenced)
       - Configurable: Light (verbose) | Moderate (balanced) | Aggressive (dense)
       - Framework: `.livespec/standard/conventions/context-compression.spec.md`
-  - **Clean Evolution** (Principle #8 - LiveSpec project only):
+  - **Clean Evolution** (Principle #7 - LiveSpec project only):
     - LiveSpec itself evolves without backwards compatibility or deprecation cycles
     - Old patterns deleted, not deprecated (no .deprecated files, no legacy code paths)
     - Users on old versions use their copied dist/ (already have it, not broken)
@@ -74,16 +71,14 @@ governed-by:
     - Dogfoods "remain lean" principle (LiveSpec practices what it preaches)
     - **Not imposed on projects using LiveSpec** (projects can handle backwards compatibility as needed)
     - **LiveSpec-specific constraint** (governance framework development philosophy)
-  - **Progressive Disposability** (Principle #9 - essential):
-    - Lower layers are more disposable than upper layers
-    - PURPOSE most durable → REQUIREMENTS → STRATEGY → BEHAVIORS → CODE most disposable
-    - Code is always disposable and regenerable from specs
-    - Essential knowledge lives in specs, not code
+  - **Progressive Disposability** (Principle #8 - essential):
+    - Upper layers are more durable than lower layers
+    - PURPOSE most durable → REQUIREMENTS → STRATEGY → BEHAVIORS → derived artifacts most volatile
+    - Essential knowledge lives in specs, not derived artifacts
     - Maintenance energy invested proportional to layer durability
-    - Implementation discoveries level up to appropriate spec layer or stay disposable
-  - **Regeneration Over Refactoring** (Principle #10 - essential):
-    - Don't fix code, regenerate it from specs
-    - Technical debt can't accumulate in disposable layers
-    - "Time to regenerate" is a positive signal, not a failure state
-    - TDD bridges the regeneration fidelity gap (acceptance tests survive, unit tests regenerate)
-    - Drift detection becomes "regeneration signal", not "sync problem"
+    - Discoveries level up to appropriate spec layer or remain local
+  - **Spec Health** (Principle #9 - essential):
+    - Maintain spec quality through validation and evolution
+    - "Time to refine specs" is a positive signal, not a failure state
+    - Spec health detection identifies issues early
+    - EVOLVE mode runs continuously to maintain spec quality

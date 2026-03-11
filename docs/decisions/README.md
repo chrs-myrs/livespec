@@ -105,13 +105,13 @@ Proposed → Accepted → [Deprecated | Superseded]
 - **ADR**: "ADR-0002: Use tools instead of resources for discovery"
   - Why: Better user feedback, parameter support
   - Context: MCP protocol offers both approaches
-- **Spec**: `specs/3-behaviors/user-discovery.spec.md`
+- **Spec**: `specs/features/user-discovery.spec.md`
   - What: System lists users with filtering
   - Observable: Returns user list with IDs and names
 
 **Cross-References:**
 ```yaml
-# In specs/3-behaviors/user-discovery.spec.md
+# In specs/features/user-discovery.spec.md
 ---
 informed-by:
   - docs/decisions/ADR-0002-discovery-as-tools.md

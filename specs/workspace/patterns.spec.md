@@ -16,7 +16,7 @@ governed-by:
   - Prompt files follow [0-4][a-z]-*.md pattern
   - Each behavior has single dedicated spec file
   - specs/workspace/ contains only operating context (how agents/humans/workspace interact)
-  - specs/2-strategy/ contains cross-cutting technical decisions
+  - specs/strategy/ contains cross-cutting technical decisions
   - Specifications declare dependencies via YAML frontmatter
   - Strategy files stay minimal (single file <100 lines, split files <50 lines each)
   - AGENTS.md references specs/workspace/workspace-agent.spec.md in frontmatter
@@ -28,16 +28,11 @@ governed-by:
 
 Workspace patterns reference cross-cutting development standards defined in strategy layer:
 
-- **Markdown and Documentation Standards**: See specs/2-strategy/markdown-standards.spec.md
+- **Markdown and Documentation Standards**: See specs/strategy/markdown-standards.spec.md
   - MSL format requirements (title, frontmatter, Requirements section)
   - British English for user documentation, American English for code
-  - Architecture documentation pattern (implementation + strategic benefits)
+  - Architecture documentation pattern (approach + strategic benefits)
   - Confidence markers for extracted specs
-
-- **Testing Approach**: See specs/2-strategy/testing-approach.spec.md
-  - TDD discipline (Red-Green-Refactor cycle)
-  - Test-first development workflow
-  - Escape hatch rules for trivial scripts
 
 Agents must follow standards defined in these strategy specs.
 
@@ -46,8 +41,8 @@ Agents must follow standards defined in these strategy specs.
 **Core patterns covered in depth by specialized specs:**
 
 ### Abstraction Layers Architecture
-**See:** `specs/2-strategy/layer-definitions.spec.md` (257 lines)
-- **CRITICAL**: Three abstraction layers (1-requirements/, 2-strategy/, 3-behaviors/) vs five phases (0-4)
+**See:** `specs/strategy/layer-definitions.spec.md` (257 lines)
+- **CRITICAL**: Three abstraction layers (foundation/, 2-strategy/, features/) vs five phases (0-4)
 - Layer characteristics (changeability, frontmatter, cross-references)
 - Dual linkage pattern (satisfies requirements + guided-by strategy)
 - Technology-agnostic requirements enabling rapid rebuild
@@ -55,7 +50,7 @@ Agents must follow standards defined in these strategy specs.
 
 ### Folder Organization
 **See:** `specs/workspace/folder-organization.spec.md`
-- Folder structure (workspace/, 1-requirements/, 2-strategy/, 3-behaviors/, 3-contracts/, knowledge/)
+- Folder structure (workspace/, foundation/, 2-strategy/, features/, interfaces/, knowledge/)
 - Folder decision tests (workspace test, strategy test, behaviors test)
 - Multi-domain organization (Software, Governance, Planning, Generation domains)
 - Meta-process specs location
@@ -105,7 +100,7 @@ Agents must follow standards defined in these strategy specs.
 - Git history is the version control system
 
 **When spec becomes obsolete:**
-- DELETE the spec file: `git rm specs/3-behaviors/old-spec.spec.md`
+- DELETE the spec file: `git rm specs/features/old-spec.spec.md`
 - Remove references from other specs
 - Commit with clear explanation
 
