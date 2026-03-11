@@ -8,8 +8,7 @@
       "name": "livespec",
       "source": "./",
       "description": "Information architecture for AI-assisted development. Upper layers are durable assets, code is disposable.",
-      "version": "5.0.0",
-      "branch": "v5"
+      "version": "5.0.0"
     }
   ]
 }
