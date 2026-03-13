@@ -299,7 +299,7 @@ Based on compression level:
 ---
 generated: [ISO timestamp]
 generator: livespec/evolve
-version: 5.0.0
+version: 5.2.0
 note: Generated from PURPOSE.md and specs/workspace/ - to update, use /livespec:evolve context
 ---
 
