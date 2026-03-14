@@ -245,103 +245,24 @@ Checks spec coverage:
 
 ### Context Generation Workflow
 
-**Step 1: Gather Sources**
+**IMPORTANT:** Delegate this work to the `context-builder` agent. Context generation reads many large source files and produces substantial output — running it inline wastes the session's context window.
 
-Read workspace specifications:
-- PURPOSE.md
-- specs/workspace/constitution.spec.md
-- specs/workspace/patterns.spec.md
-- specs/workspace/workflows.spec.md
-- specs/workspace/taxonomy.spec.md
+**Step 1:** Launch the `context-builder` agent using the Agent tool:
+- The agent reads all workspace specs, PURPOSE.md, and project.yaml
+- It generates AGENTS.md + all ctxt/ sub-agents
+- It validates sizes and structure
+- It returns a structured report
 
-**Step 2: Check Configuration**
-
-Read `project.yaml` for:
-- `context_compression`: light | moderate | aggressive
-- `doc_format`: AGENTS.md | CLAUDE.md
-- `context_budget`: target size in KB
-
-Defaults: moderate compression, AGENTS.md format, 40KB budget
-
-**Step 3: Structure Content**
-
-Apply START/MIDDLE/END positioning:
-
-**START (30-40%)** - Critical rules, read first:
-- Spec-first enforcement
-- Core principles
-- Critical constraints
-
-**MIDDLE (40%)** - Details and examples:
-- Phase workflows
-- MSL format reference
-- Decision trees
-- Folder organization
-
-**END (20-30%)** - References:
-- Prompt registry
-- When to fetch full context
-- Current priorities
-
-**Step 4: Apply Compression**
-
-Based on compression level:
-
-| Level | Inline | References | Target |
-|-------|--------|------------|--------|
-| Light | Full examples | Minimal | 80-100KB |
-| Moderate | Key examples | Strategic | 50-70KB |
-| Aggressive | Minimal | Heavy | 30-50KB |
-
-**Step 5: Generate File**
-
-```markdown
----
-generated: [ISO timestamp]
-generator: livespec/evolve
-version: 5.2.1
-note: Generated from PURPOSE.md and specs/workspace/ - to update, use /livespec:evolve context
----
-
-> **Generated File**: Do not edit directly. Use /livespec:evolve context.
-
-# [Project Name] Agent Configuration
-
-## Summary
-[From PURPOSE.md]
-
----
-
-[START SECTION - Critical Rules]
-
-[MIDDLE SECTION - Details]
-
-[END SECTION - References]
-
----
-
-*Agent configuration for [Project] v[version]*
-```
-
-**Step 6: Validate**
-
-```bash
-# Size check
-wc -c AGENTS.md
-
-# Structure check
-grep "^## " AGENTS.md
-
-# Verify under budget
-```
-
-Report:
+**Step 2:** Review the agent's report and relay results to the user:
 ```
 Context regenerated:
 - AGENTS.md: [size]KB ([compression] compression)
-- Sections: [count]
-- Last source update: [timestamp]
+- Sub-agents: [count] files ([total]KB)
+- Total: [total]KB
+- Version: v[version]
 ```
+
+**Step 3:** If the user is satisfied, suggest committing the regenerated files.
 
 ---
 
