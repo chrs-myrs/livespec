@@ -18,6 +18,18 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Added
+
+- **Context-builder agent**: Dedicated sub-agent for AGENTS.md and ctxt/ regeneration — keeps parent session context clean
+- **`/release` command**: Local slash command automating version increment, changelog finalisation, commit, push, and tagging
+- **`.claude/` tracked in git**: Local commands, hooks, and agents are now committed (`.sessions/` remains ignored)
+
+### Fixed
+
+- Removed firecrawl MCP server (`.mcp.json` deleted)
+- Fixed stale version references across project.yaml (5.2.0), README.md (4.1.0), and 4 other files (5.0.0)
+- Updated `/livespec:evolve context` mode to delegate to context-builder agent instead of running inline
+
 ---
 
 ## [5.2.0] - 2026-02-28
