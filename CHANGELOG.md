@@ -18,6 +18,10 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.3.0] - 2026-03-14
+
 ### Added
 
 - **Context-builder agent**: Dedicated sub-agent for AGENTS.md and ctxt/ regeneration — keeps parent session context clean
