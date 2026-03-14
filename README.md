@@ -485,12 +485,12 @@ Common mistakes when setting up LiveSpec:
 
 ## Version
 
-**Current Version: 4.1.0**
+**Current Version: 5.2.1**
 
-LiveSpec v4.1.0 introduces Claude Code plugin distribution:
+LiveSpec v5 is distributed as a Claude Code plugin:
 - **Plugin installation** - `/plugin install livespec` for integrated experience
-- **7 skills** - Phase workflows (init, design, build, verify, evolve) + utilities
-- **13 commands** - All utility operations available via `/livespec:*`
+- **6 skills** - Design, evolve, learn, birth, upgrade, go
+- **Slash commands** - All utility operations available via `/livespec:*`
 - **Sub-agents** - Phase-specific context for focused guidance
 - **Legacy support** - `dist/` copy method still works
 
