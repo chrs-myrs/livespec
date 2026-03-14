@@ -4,6 +4,7 @@ plan/
 .scratch/
 var/
 .archive/
+.sessions/
 research/
 
 # Generated content
@@ -11,7 +12,6 @@ generated/
 !prompts/generated/
 
 # Tool-specific
-.claude/
 !dist/.claude/
 .livespec/
 .livespec-repo/
