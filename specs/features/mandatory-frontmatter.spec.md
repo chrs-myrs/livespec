@@ -12,7 +12,7 @@ guided-by:
   - specs/strategy/ai-discoverability.spec.md
   - specs/workspace/patterns.spec.md
 derives-from:
-  - docs/registries/improvements.md (IMP-005)
+  - registries/improvements.md (IMP-005)
   - research/reports/knowledge-store-audit-findings.md
 ---
 

@@ -12,7 +12,7 @@ guided-by:
   - specs/strategy/ai-discoverability.spec.md
   - specs/workspace/patterns.spec.md
 derives-from:
-  - docs/registries/improvements.md (IMP-008)
+  - registries/improvements.md (IMP-008)
 ---
 
 # Standardised Registry Format
@@ -42,7 +42,7 @@ derives-from:
 
 ## Validation
 
-- [ ] All registry files in `docs/registries/` have YAML frontmatter
+- [ ] All registry files in `registries/` have YAML frontmatter
 - [ ] Frontmatter includes store, registry_type, schema_version, last_reviewed, entry_count
 - [ ] Entry identifiers are unique within each registry
 - [ ] Status values match controlled vocabulary

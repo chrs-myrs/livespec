@@ -79,14 +79,14 @@ Read all three registry data files:
 
 ```bash
 # Count open vs resolved items
-cat docs/registries/gaps.md | grep -E "^### GAP-" | wc -l
-cat docs/registries/gaps.md | grep "Status: resolved" | wc -l
+cat registries/gaps.md | grep -E "^### GAP-" | wc -l
+cat registries/gaps.md | grep "Status: resolved" | wc -l
 
-cat docs/registries/issues.md | grep -E "^### ISSUE-" | wc -l
-cat docs/registries/issues.md | grep "Status: resolved" | wc -l
+cat registries/issues.md | grep -E "^### ISSUE-" | wc -l
+cat registries/issues.md | grep "Status: resolved" | wc -l
 
-cat docs/registries/improvements.md | grep -E "^### IMP-" | wc -l
-cat docs/registries/improvements.md | grep "Decision: keep" | wc -l
+cat registries/improvements.md | grep -E "^### IMP-" | wc -l
+cat registries/improvements.md | grep "Decision: keep" | wc -l
 ```
 
 **Registry health indicators:**

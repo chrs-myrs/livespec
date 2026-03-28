@@ -21,13 +21,13 @@ Read the three registry data files to understand current state:
 
 ```bash
 # Read gaps registry
-cat docs/registries/gaps.md
+cat registries/gaps.md
 
 # Read issues registry
-cat docs/registries/issues.md
+cat registries/issues.md
 
 # Read improvements registry
-cat docs/registries/improvements.md
+cat registries/improvements.md
 ```
 
 **Extract:**

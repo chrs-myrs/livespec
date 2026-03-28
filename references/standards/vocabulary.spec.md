@@ -8,7 +8,7 @@ governed-by: []
 specifies:
   - references/standards/metaspecs/base.spec.md
 derives-from:
-  - docs/registries/improvements.md (IMP-006)
+  - registries/improvements.md (IMP-006)
 ---
 
 # LiveSpec Vocabulary

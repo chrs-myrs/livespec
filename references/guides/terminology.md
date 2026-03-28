@@ -59,7 +59,7 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 **Uses:** Three registries:
 - Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
-- Data files: `docs/registries/*.md` (actual entries: gaps, issues, improvements)
+- Data files: `registries/*.md` (actual entries: gaps, issues, improvements)
 
 **What it does:**
 - Reads all registries + recent session feedback
@@ -166,13 +166,13 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 **Definition:** A structured tracking system with separate format specs and data files.
 
 **Use for:**
-- Gaps tracking (`docs/registries/gaps.md`)
-- Issues tracking (`docs/registries/issues.md`)
-- Improvements tracking (`docs/registries/improvements.md`)
+- Gaps tracking (`registries/gaps.md`)
+- Issues tracking (`registries/issues.md`)
+- Improvements tracking (`registries/improvements.md`)
 
 **Structure:**
 - Format specs in `.livespec/standard/registries/*.spec.md` (defines entry structure)
-- Data files in `docs/registries/*.md` (actual entries)
+- Data files in `registries/*.md` (actual entries)
 - Each entry: ID, description, status, metadata
 - Updated by prompts (capture session learnings, suggest improvements)
 - Reviewed periodically (suggest improvements workflow)

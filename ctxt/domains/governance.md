@@ -123,7 +123,7 @@ satisfies:
 guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
-  - docs/registries/improvements.md (IMP-NNN)  # if derived from registry
+  - registries/improvements.md (IMP-NNN)  # if derived from registry
 ---
 ```
 

@@ -126,12 +126,12 @@ dist/standard/registries/improvements.spec.md
   +--> defines format for:
   |
 DATA (project-specific, not distributed)
-docs/registries/gaps.md
-docs/registries/issues.md
-docs/registries/improvements.md
+registries/gaps.md
+registries/issues.md
+registries/improvements.md
 ```
 
 Target projects:
 1. Copy `dist/` to `.livespec/` (gets format specs)
-2. Create `docs/registries/*.md` files (project's own data)
+2. Create `registries/*.md` files (project's own data)
 3. Follow format defined in `.livespec/standard/registries/*.spec.md`
