@@ -3,135 +3,73 @@ type: behavior
 category: features
 fidelity: behavioral
 criticality: IMPORTANT
-failure_mode: Target projects lack guidance on registry format, inconsistent tracking across projects, methodology gaps invisible
-governed-by: []
+failure_mode: Without registry lifecycle management, registries accumulate resolved items, become unreadable backlogs, and lose their purpose as active tracking tools
+governed-by:
+  - specs/foundation/constraints.spec.md
 satisfies:
-  - specs/foundation/outcomes.spec.md
+  - specs/foundation/outcomes.spec.md (Requirement 4: Sustainable methodology)
 guided-by:
+  - specs/strategy/ai-discoverability.spec.md
   - specs/workspace/patterns.spec.md
-specifies: []
+derives-from:
+  - registries/improvements.md (IMP-008)
 ---
 
-# Registry Format Specifications
-
-Governs the distributed registry format specs that target projects copy from `dist/standard/registries/`.
+# Registry Management
 
 ## Requirements
 
-### Common Registry Format
+### Registries Are Active Backlogs
 
-- [!] All registry specs MUST use MSL format with consistent structure
-  - Frontmatter: criticality, failure_mode
-  - Requirements section defining entry structure
-  - Validation section with testable checks
-  - Failure Mode section explaining consequences
+- [!] Registries contain only open/pending items. Resolved, implemented, or accepted-as-limitation items are removed when their status changes.
+  - Git history is the archive — no separate archive files or sections
+  - A completed summary line may be retained (ID, date, one-line outcome) for sequence continuity
+  - entry_count in frontmatter reflects only active items
+  - last_reviewed date updated when items are added, resolved, or reviewed
 
-- [!] All registry entry formats MUST include common fields
-  - Entry ID: `[TYPE]-[NNN]` pattern (e.g., GAP-001, ISSUE-001, IMP-001)
-  - Status field with defined transitions
+### Registry Frontmatter Schema
+
+- [!] All registry files carry consistent YAML frontmatter.
+  - `store: registry` — identifies the file as a registry
+  - `registry_type` — classifies the registry (gaps, issues, improvements)
+  - `schema_version` — format version (integer, starting at 1)
+  - `last_reviewed` — ISO date of last human review
+  - `entry_count` — current number of active entries
+
+### Entry Structure
+
+- [!] All entries follow a consistent structure per registry type.
+  - Unique identifier: `[TYPE]-[NNN]` (e.g., GAP-001, ISSUE-001, IMP-001)
+  - Status field from controlled vocabulary (see `references/standards/vocabulary.spec.md`)
   - Discovery/implementation date
-  - Category for grouping related entries
+  - Sequence numbers are never reused (next entry increments from highest historical ID)
 
-- [!] All registries MUST define maintenance workflows
-  - Update triggers (when to add entries)
-  - Review triggers (when to analyze patterns)
-  - Archival policy (when/how to archive resolved items)
+### Resolution Process
 
-### Gap Registry Spec (gaps.spec.md)
+- When an item is resolved, implemented, or accepted as limitation:
+  1. Update the item's status to its terminal state
+  2. Commit with the resolution details in the commit message
+  3. Remove the full entry from the registry file
+  4. Optionally retain a one-line summary in a "Completed" section
+  5. Decrement entry_count and update last_reviewed
 
-- [!] Gap entries MUST track methodology gaps
-  - Fields: Description, Impact (CRITICAL/HIGH/MEDIUM/LOW), Frequency, Potential Solution, Status, Discovered
-  - Status values: identified, investigating, planned, resolved
-  - Categories: process, tooling, documentation, guidance
+### Registry Types
 
-- [!] Gap entries MUST be actionable
-  - Description states what is missing or inadequate
-  - Impact quantifies cost (severity + frequency)
-  - Potential solution proposes concrete improvement
+**Gaps** — methodology gaps (what's missing)
+- Fields: Description, Impact, Frequency, Potential Solution, Status
+- Terminal states: Resolved, Accepted Limitation
 
-### Issue Registry Spec (issues.spec.md)
+**Issues** — problems encountered (what's broken)
+- Fields: What, Why Problematic, Category, Status, Resolution
+- Terminal states: Resolved, Accepted Limitation
 
-- [!] Issue entries MUST track problems encountered
-  - Fields: What (observable behavior), Why Problematic, Category, Status, Resolution, Discovered
-  - Status values: open, investigating, resolved, wontfix
-  - Categories: tooling, process, documentation, validation, guidance
-
-- [!] Issue entries MUST be specific and reproducible
-  - Description states observable problem behavior
-  - Resolution records what fixed it (if resolved)
-  - Related issues linkable for pattern detection
-
-### Improvement Registry Spec (improvements.spec.md)
-
-- [!] Improvement entries MUST track experiments and outcomes
-  - Fields: Changed, Hypothesis, Category, Implemented, Outcome, Evidence, Decision
-  - Status values: proposed, implemented, evaluating, effective, ineffective, mixed
-  - Decision values: keep, revert, iterate
-
-- [!] Improvement entries MUST support learning from experiments
-  - Hypothesis states expected benefit
-  - Outcome describes actual impact with evidence
-  - Ineffective improvements retained to prevent repetition
+**Improvements** — experiments and outcomes (what we're trying)
+- Fields: Changed, Hypothesis, Category, Implemented, Decision
+- Terminal states: Implemented, Accepted as Limitation
 
 ## Validation
 
-**Distributed specs exist:**
-```bash
-ls dist/standard/registries/{gaps,issues,improvements}.spec.md
-```
-
-**All specs have required sections:**
-```bash
-for spec in dist/standard/registries/*.spec.md; do
-  grep -q "## Requirements" "$spec" && \
-  grep -q "## Validation" "$spec" && \
-  grep -q "## Failure Mode" "$spec" || \
-  echo "Missing section in $spec"
-done
-```
-
-**Entry ID format defined:**
-```bash
-for spec in dist/standard/registries/*.spec.md; do
-  grep -q "\[TYPE\]-\[NNN\]" "$spec" || \
-  grep -qE "(GAP|ISSUE|IMP)-[0-9]{3}" "$spec" || \
-  echo "Missing ID format in $spec"
-done
-```
-
-## Failure Mode
-
-Without registry format specifications:
-- Target projects create inconsistent registries (no standard format)
-- Entry quality varies wildly (no validation criteria)
-- No maintenance guidance (registries become stale)
-- Pattern detection impossible across projects (incompatible formats)
-- LiveSpec methodology improvements invisible (no tracking mechanism)
-
----
-
-## Three-Layer Registry Pattern
-
-```
-GOVERNANCE (this spec)
-specs/features/registry-specs.spec.md
-  |
-  +--> specifies format for:
-  |
-DISTRIBUTION (what target projects copy)
-dist/standard/registries/gaps.spec.md
-dist/standard/registries/issues.spec.md
-dist/standard/registries/improvements.spec.md
-  |
-  +--> defines format for:
-  |
-DATA (project-specific, not distributed)
-registries/gaps.md
-registries/issues.md
-registries/improvements.md
-```
-
-Target projects:
-1. Copy `dist/` to `.livespec/` (gets format specs)
-2. Create `registries/*.md` files (project's own data)
-3. Follow format defined in `.livespec/standard/registries/*.spec.md`
+- [ ] No registry contains entries with terminal status values
+- [ ] entry_count matches actual active entries
+- [ ] Sequence numbers are unique and never reused
+- [ ] last_reviewed is within the last 30 days
