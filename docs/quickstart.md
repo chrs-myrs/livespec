@@ -13,30 +13,23 @@ LiveSpec is a folder structure and methodology for keeping specifications and co
 
 ## Installation
 
-### Option 1: Clone and Copy
+### Option 1: Claude Code Plugin (Recommended)
 
 ```bash
-# Clone LiveSpec
-git clone https://github.com/chrs-myrs/livespec.git
-
-# Copy distribution to .livespec/ folder
-cp -r livespec/dist/* your-project/.livespec
-
-# Create specs structure
-mkdir -p your-project/specs/{workspace,foundation,strategy,features,interfaces}
+cd your-project
+claude /install-plugin https://github.com/chrs-myrs/livespec
 ```
+
+The plugin provides skills (`/livespec:go`, `/livespec:design`, `/livespec:evolve`) and agent context automatically.
 
 ### Option 2: Manual Setup
 
 ```bash
 cd your-project
 
-# Copy LiveSpec methodology
-git clone https://github.com/chrs-myrs/livespec.git /tmp/livespec
-cp -r /tmp/livespec/dist/* .livespec
-
 # Create specs structure
-mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
+mkdir -p specs/{workspace,foundation,strategy,features,interfaces,artifacts}
+mkdir -p registries
 ```
 
 ## Quick Start: New Project
@@ -109,11 +102,11 @@ claude-code "Use .livespec/4-evolve/4a-detect-drift.md"
 ### Step 1: Setup Structure
 
 ```bash
-# Copy LiveSpec methodology
-cp -r livespec/dist/* .livespec
+# Install plugin
+claude /install-plugin https://github.com/chrs-myrs/livespec
 
 # Create specs folders
-mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
+mkdir -p specs/{workspace,foundation,strategy,features,interfaces,artifacts}
 ```
 
 ### Step 2: Extract Specifications

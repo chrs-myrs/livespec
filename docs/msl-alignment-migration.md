@@ -1,7 +1,7 @@
 # MSL Alignment Migration Guide
 
-**Version**: 2.2.0
-**Status**: Breaking change - clean cutover to MSL field names
+**Version**: Historical (originally v2.2.0, now superseded by v5.4.0 frontmatter schema)
+**Status**: Completed — field names aligned. See `references/standards/vocabulary.spec.md` for current field definitions.
 
 ## Summary
 
@@ -117,10 +117,12 @@ derives_from: PURPOSE.md
 constrained_by: .livespec/standard/metaspecs/behavior.spec.md
 ---
 
-# After
+# After (v5.4.0+: type implies metaspec, governed-by is content-only)
 ---
+type: behavior
 derives-from: PURPOSE.md
-governed-by: .livespec/standard/metaspecs/behavior.spec.md
+governed-by:
+  - specs/foundation/constraints.spec.md
 ---
 ```
 

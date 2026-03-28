@@ -886,7 +886,7 @@ Answer: "Developers must integrate our API successfully"
 ---
 
 **See also**:
-- `dist/standard/metaspecs/taxonomy.spec.md` - Documentation project example
-- `dist/guides/spec-decision-framework.md` - "Does this need a spec?" (YES)
-- `dist/guides/msl-minimalism.md` - Full MSL framework
-- `dist/guides/frontmatter-relationships.md` - How to link specs
+- `references/standards/metaspecs/taxonomy.spec.md` - Documentation project example
+- `references/guides/spec-decision-framework.md` - "Does this need a spec?" (YES)
+- `references/guides/msl-minimalism.md` - Full MSL framework
+- `references/guides/frontmatter-relationships.md` - How to link specs

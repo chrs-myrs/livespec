@@ -1,4 +1,4 @@
-# LiveSpec v4.0.0
+# LiveSpec v5
 
 **An information architecture that generates context trees for AI agents**
 
@@ -143,7 +143,7 @@ graph TD
 
 **Complete chain verified:**
 - Framework extends [MSL Standard](https://github.com/chrs-myrs/msl-specification) via base.spec.md
-- Every spec has `governed-by:` pointing to a metaspec
+- Every spec has mandatory frontmatter (`type`, `category`, `fidelity`, `criticality`, `failure_mode`, `governed-by`)
 - Every deliverable has a spec in `specs/` describing it
 - LiveSpec dogfoods itself: the framework is specified using the framework
 
@@ -309,34 +309,24 @@ claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
 your-project/
 ├── PURPOSE.md              # Why this project exists
 │
-├── specs/
-│   ├── workspace/             # Operating context
+├── specs/                  # All specifications (mandatory frontmatter)
+│   ├── workspace/             # Operating context (HOW you work)
 │   │   ├── taxonomy.spec.md        # Project classification (check FIRST)
 │   │   ├── constitution.spec.md    # Development principles
 │   │   ├── patterns.spec.md        # Code patterns
 │   │   └── workflows.spec.md       # Development workflows
-│   ├── foundation/            # WHY - strategic outcomes and constraints
+│   ├── foundation/            # WHY — strategic outcomes and constraints
 │   │   ├── outcomes.spec.md
 │   │   └── constraints.spec.md
-│   ├── strategy/              # HOW technically (product-specific)
-│   ├── features/              # WHAT system does (user-facing)
-│   └── interfaces/            # API/data contracts
+│   ├── strategy/              # HOW — cross-cutting technical decisions
+│   ├── features/              # WHAT — observable behaviours
+│   ├── interfaces/            # Contracts — API/data formats
+│   └── artifacts/             # Deliverable specifications
 │
-├── prompts/                # Symlinks to .livespec/prompts/ (framework)
-│   ├── 0-define/ -> ../dist/prompts/0-define/
-│   ├── 1-design/ -> ../dist/prompts/1-design/
-│   ├── 2-build/ -> ../dist/prompts/2-build/
-│   ├── 3-verify/ -> ../dist/prompts/3-verify/
-│   ├── 4-evolve/ -> ../dist/prompts/4-evolve/
-│   ├── utils/ -> ../dist/prompts/utils/
-│   └── generated/          # Project-specific generated prompts (committed)
-│       ├── self-improve.md
-│       └── internalise-learnings.md
+├── registries/             # Active backlogs (gaps, issues, improvements)
 │
-├── .livespec/              # LiveSpec methodology (copied from dist/, gitignored)
-│   ├── prompts/            # Canonical framework prompts
-│   ├── standard/           # MSL metaspecs and conventions
-│   └── templates/          # Workspace spec starter files
+├── AGENTS.md               # Generated agent context (from workspace specs)
+├── CLAUDE.md               # Generated (symlink or copy of AGENTS.md)
 │
 └── [your code]             # Your implementation
 ```
@@ -494,7 +484,7 @@ LiveSpec v5 is distributed as a Claude Code plugin:
 - **Sub-agents** - Phase-specific context for focused guidance
 - **Legacy support** - `dist/` copy method still works
 
-Previous: v4.0.0 introduced disposable code architecture.
+Previous: v4 introduced disposable code architecture, v5 added plugin distribution and mandatory frontmatter.
 
 [Changelog →](CHANGELOG.md) | [Migration guide →](docs/migration-to-plugin.md)
 
@@ -586,6 +576,6 @@ MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**LiveSpec v4.1.0** - Information architecture for AI-first development.
+**LiveSpec v5** — Information architecture for AI-first development.
 
 Simple. Minimal. Effective.

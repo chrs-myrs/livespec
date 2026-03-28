@@ -47,7 +47,7 @@ Guides provide deep-dive references for AI agents:
 - Optional guides available for advanced features
 
 **For users:**
-Guides are distributed as part of LiveSpec methodology (in dist/ folder, copied to .livespec/).
+Guides are distributed as part of the LiveSpec plugin.
 
 ---
 

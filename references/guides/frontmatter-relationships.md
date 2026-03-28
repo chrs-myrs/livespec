@@ -104,10 +104,12 @@ governed-by:
 **Example**:
 ```yaml
 # specs/features/authentication.spec.md
+type: behavior          # implies behavior.spec.md metaspec (format governance)
 governed-by:
-  - specs/workspace/constitution.spec.md
-  - dist/standard/metaspecs/behavior.spec.md
+  - specs/foundation/constraints.spec.md   # content governance only
 ```
+
+> **Note (v5.4.0):** `governed-by` is content governance only. The `type` field implies the metaspec template — never put metaspec paths in `governed-by`.
 
 ### 3. `satisfies:` (Implementation of Requirement)
 
@@ -181,7 +183,7 @@ specifies:
 
 # Prompt spec specifies prompt file
 specifies:
-  - dist/prompts/0-define/0a-quick-start.md
+  - references/prompts/define/0a-quick-start.md
 ```
 
 **Think**: "This spec defines the requirements for..."
@@ -480,7 +482,7 @@ bash tests/structure/test_full_validation.sh
 ## Further Reading
 
 - **PURPOSE.md** - Foundation of all relationships
-- **dist/guides/spec-decision-framework.md** - When to create specs
+- **references/standards/vocabulary.spec.md** - All controlled vocabulary values
 - **specs/strategy/three-layer-architecture.spec.md** - Dual linkage explained
 - **specs/workspace/patterns.spec.md** - Frontmatter conventions
 

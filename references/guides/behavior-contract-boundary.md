@@ -722,10 +722,10 @@ See specs/features/domain-models/threading-model.spec.md
 
 - **specs/features/validation/contract-completeness.spec.md** - Validation rules for behavior links
 - **scripts/check-contract-completeness.sh** - Automated completeness checking
-- **dist/guides/common-pitfalls.md** - Real examples of boundary violations (Pitfall #7)
-- **dist/standard/metaspecs/behavior.spec.md** - Template for behavior specs
-- **dist/standard/metaspecs/contract.spec.md** - Template for contract specs
-- **dist/standard/metaspecs/domain-model.spec.md** - Template for domain concepts
+- **references/guides/common-pitfalls.md** - Real examples of boundary violations (Pitfall #7)
+- **references/standards/metaspecs/behavior.spec.md** - Template for behavior specs
+- **references/standards/metaspecs/contract.spec.md** - Template for contract specs
+- **references/standards/metaspecs/domain-model.spec.md** - Template for domain concepts
 
 ---
 

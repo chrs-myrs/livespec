@@ -2,7 +2,7 @@
 
 **Purpose**: Prevent recurring mistakes through honest failure analysis and pattern recognition.
 
-**Based on**: Real implementation experiences documented through dist/templates/reports/implementation-report.md.template
+**Based on**: Real implementation experiences documented through references/templates/reports/implementation-report.md.template
 
 ---
 
@@ -191,7 +191,7 @@ If you discover domain-specific gaps after implementation:
 - ✅ **Prompts reordered**: 2b-create-tests.md BEFORE 2a-implement-from-specs.md
 - ✅ **Escape hatch scoring**: ≥8/10 points required to skip TDD
 
-**Escape hatch criteria** (from dist/guides/tdd.md):
+**Escape hatch criteria** (from references/guides/tdd.md):
 ```
 ✓ Trivial script (no logic/conditionals/loops) [2 points]
 ✓ Throw-away/experimental code [2 points]
@@ -444,7 +444,7 @@ If you put files in wrong location:
 - ✅ **WHAT/WHY test**: "Does this describe WHAT/WHY or HOW?" → HOW = remove
 - ✅ **Regeneration test**: "Would this need to be preserved after regeneration?" → NO = remove
 - ✅ **Implementation independence**: "Would different implementation solve same way?" → NO = remove
-- ✅ **See dist/guides/abstraction-guidance.md** for complete placement tests
+- ✅ **See references/guides/abstraction-guidance.md** for complete placement tests
 
 **Recovery**:
 If you find implementation details in specs:
@@ -480,7 +480,7 @@ If you find implementation details in specs:
 - ✅ **Regeneration survival test**: "Would this need to survive regeneration?" → YES = spec
 - ✅ **Discovery leveling**: When you learn something, level it up immediately
 - ✅ **No "obvious" exceptions**: If it matters, it's a spec
-- ✅ **See dist/guides/progressive-disposability.md** for durability mindset
+- ✅ **See references/guides/progressive-disposability.md** for durability mindset
 
 **Recovery**:
 If you find essential knowledge only in code:
@@ -619,10 +619,10 @@ If you find essential knowledge only in code:
 
 ## Further Reading
 
-- **dist/templates/reports/implementation-report.md.template** - Full report template with cognitive bias sections
-- **dist/prompts/4-evolve/4f-document-implementation.md** - Prompt for creating honest implementation reports
+- **references/templates/reports/implementation-report.md.template** - Full report template with cognitive bias sections
+- **references/prompts/4-evolve/4f-document-implementation.md** - Prompt for creating honest implementation reports
 - **specs/workspace/constitution.spec.md** - Core principles including spec-first enforcement
-- **dist/guides/tdd.md** - TDD guide with mandatory-by-default approach
+- **references/guides/tdd.md** - TDD guide with mandatory-by-default approach
 - **.livespec/standard/metaspecs/domain-model.spec.md** - Template for domain model specs
 
 ---

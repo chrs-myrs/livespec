@@ -395,7 +395,7 @@ Use `.livespec/prompts/utils/audit-context-compression.md` to:
 - Identify optimization opportunities
 - Migrate between compression levels
 
-**Framework reference**: `dist/standard/conventions/context-compression.spec.md`
+**Framework reference**: `references/standards/conventions/context-compression.spec.md`
 
 ## Spec Granularity
 

@@ -505,7 +505,7 @@ Write spec (10 min)
 ## Further Reading
 
 - **PURPOSE.md** - Foundation of Value Structure
-- **dist/guides/frontmatter-relationships.md** - How to link specs
+- **references/guides/frontmatter-relationships.md** - How to link specs
 - **specs/workspace/patterns.spec.md** - Naming conventions
 - **scripts/validate-value-structure.sh** - Automated hierarchy validation
 

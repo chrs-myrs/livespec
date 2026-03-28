@@ -16,7 +16,7 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 **Scope:** Current session → project specs (workspace + behaviors)
 
-**Tool:** `dist/prompts/utils/complete-session.md`
+**Tool:** `references/prompts/utils/complete-session.md`
 
 **What it does:**
 - Analyzes process compliance (0-8 points)
@@ -39,8 +39,8 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 **Scope:** AGENTS.md structure, ctxt/ hierarchy, compression strategy
 
 **Tools:**
-- `dist/prompts/utils/regenerate-contexts.md` - Regenerate context tree
-- `dist/prompts/utils/reorganize-workspace.md` - Optimize structure based on usage
+- `references/prompts/utils/regenerate-contexts.md` - Regenerate context tree
+- `references/prompts/utils/reorganize-workspace.md` - Optimize structure based on usage
 
 **What it does:**
 - Analyzes context usage patterns (which sections loaded most?)
@@ -55,7 +55,7 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 **Scope:** Value structure, methodology gaps, prioritization
 
-**Tool:** `dist/prompts/utils/suggest-improvements.md`
+**Tool:** `references/prompts/utils/suggest-improvements.md`
 
 **Uses:** Three registries:
 - Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
@@ -75,7 +75,7 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 **Scope:** Overall project state (validations + metrics + trends)
 
-**Tool:** `dist/prompts/utils/run-health-report.md`
+**Tool:** `references/prompts/utils/run-health-report.md`
 
 **What it does:**
 - Runs all 8 validation scripts
