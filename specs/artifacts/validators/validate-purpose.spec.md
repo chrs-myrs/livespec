@@ -7,7 +7,7 @@ failure_mode: Without PURPOSE.md boundary validation, documents expand beyond mi
 governed-by:
   - specs/strategy/validation.spec.md
 specifies: []
-implements: scripts/validate-purpose.sh
+implements: 
 ---
 
 # PURPOSE.md Boundary Validator

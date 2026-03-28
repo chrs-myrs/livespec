@@ -12,12 +12,8 @@ guided-by:
 derives-from:
   - specs/workspace/constitution.spec.md
   - specs/features/measurement/agent-compliance.spec.md
-supports:
-  - Process improvement decisions
-  - Agent performance comparison
-  - Methodology effectiveness validation
-specifies:
-  - scripts/generate-compliance-dashboard.sh
+supports: []
+specifies: []
 ---
 
 # Compliance Dashboard

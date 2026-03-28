@@ -4,13 +4,10 @@ category: features
 fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Implementation code in specifications violates WHAT-not-HOW principle, creates maintenance burden, confuses specification purpose
-governed-by:
-  - dist/standard/metaspecs/behavior.spec.md
-satisfies:
-  - specs/features/msl-compliance.spec.md
+governed-by: []
+satisfies: []
 guided-by:
   - specs/strategy/validation.spec.md
-  - specs/strategy/msl-minimalism.spec.md
 ---
 
 # Spec Purity Detection

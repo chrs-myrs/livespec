@@ -9,8 +9,7 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/patterns.spec.md
-specifies:
-  - dist/prompts/utils/suggest-improvements.md
+specifies: []
 ---
 
 # Strategic Improvement Analysis

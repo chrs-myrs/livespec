@@ -4,10 +4,8 @@ category: features
 fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Incomplete taxonomy specs leave agents without guidance on file placement, workspace scope, and specs boundary decisions
-governed-by:
-  - dist/standard/metaspecs/behavior.spec.md
-satisfies:
-  - specs/features/workspace-governance.spec.md
+governed-by: []
+satisfies: []
 guided-by:
   - specs/strategy/validation.spec.md
   - specs/strategy/dogfooding.spec.md

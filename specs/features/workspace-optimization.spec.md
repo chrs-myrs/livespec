@@ -9,8 +9,7 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/context-architecture.spec.md
-specifies:
-  - dist/prompts/utils/reorganize-workspace.md
+specifies: []
 ---
 
 # Workspace Context Optimization

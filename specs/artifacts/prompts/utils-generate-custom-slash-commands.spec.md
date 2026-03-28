@@ -6,7 +6,7 @@ criticality: IMPORTANT
 failure_mode: Custom slash commands not generated properly, LiveSpec utilities not properly customized, command variations not available
 governed-by:
   - specs/workspace/patterns.spec.md
-specifies: dist/prompts/utils/generate-custom-slash-commands.md
+specifies: []
 implements: specs/artifacts/commands/generation.spec.md
 ---
 

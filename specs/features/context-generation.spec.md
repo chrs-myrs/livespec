@@ -9,13 +9,11 @@ satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
   - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 guided-by:
-  - .livespec/standard/conventions/context-tree.spec.md
   - specs/strategy/architecture.spec.md
   - specs/strategy/ai-discoverability.spec.md
 derives-from:
   - specs/workspace/context-architecture.spec.md
 supports:
-  - .livespec/prompts/utils/regenerate-contexts.md
   - .claude/agents/context-builder/instructions.md
 ---
 

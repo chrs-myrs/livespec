@@ -5,8 +5,7 @@ fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Broken cross-references cause spec/doc drift, lost traceability, and methodology violations
 governed-by: []
-satisfies:
-  - specs/features/drift-detection.spec.md
+satisfies: []
 guided-by:
   - specs/strategy/validation.spec.md
   - specs/strategy/dogfooding.spec.md

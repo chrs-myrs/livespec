@@ -4,8 +4,7 @@ category: workspace
 fidelity: process
 criticality: CRITICAL
 failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
-governed-by:
-  - .livespec/guides/context-positioning.md
+governed-by: []
 applies_to:
   - all_ai_agents
   - AGENTS.md
@@ -17,9 +16,7 @@ derives-from:
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
   - specs/workspace/context-architecture.spec.md
-supports:
-  - prompts/4-evolve/4d-regenerate-context.md
-  - .livespec/prompts/utils/regenerate-contexts.md
+supports: []
 ---
 
 # Agent Configuration Structure

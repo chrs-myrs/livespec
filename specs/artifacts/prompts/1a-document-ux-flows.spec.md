@@ -6,7 +6,7 @@ criticality: IMPORTANT
 failure_mode: Without UX flow documentation, agents jump from requirements to tool contracts, missing complete user journey understanding and interaction patterns
 governed-by:
   - specs/workspace/constitution.spec.md
-specifies: dist/prompts/1-design/1a-document-ux-flows.md
+specifies: []
 ---
 
 # Document UX Flows

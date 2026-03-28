@@ -6,12 +6,12 @@ criticality: IMPORTANT
 failure_mode: Without spike guidance, teams waste time on full implementations for unvalidated approaches or skip exploration leading to costly architectural mistakes
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
 derives-from:
   - specs/workspace/workflows.spec.md
-specifies: dist/prompts/utils/run-spike.md
+specifies: []
 ---
 
 # Run Spike Discovery Prompt

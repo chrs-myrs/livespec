@@ -7,7 +7,7 @@ failure_mode: Without agent spec requirements, agent specs lack essential struct
 governed-by: []
 specifies: []
 extends:
-  - .livespec/standard/metaspecs/behavior.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 ---
 
 # Agent Specification Requirements

@@ -9,9 +9,7 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/patterns.spec.md
-specifies:
-  - dist/.claude/commands/livespec/*.md (distributed commands)
-  - dist/prompts/utils/generate-custom-slash-commands.md (customization prompt)
+specifies: []
 ---
 
 # Slash Command Distribution and Customization

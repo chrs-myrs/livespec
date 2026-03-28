@@ -7,14 +7,14 @@ failure_mode: Agent contexts become stale or monolithic AGENTS.md remains, agent
 governed-by: []
 satisfies:
   - specs/features/context-generation.spec.md
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
   - specs/strategy/ai-discoverability.spec.md
 derives-from:
   - specs/workspace/context-architecture.spec.md
   - specs/workspace/workflows.spec.md
-specifies: .livespec/prompts/utils/regenerate-contexts.md
+specifies: []
 ---
 
 # Prompt Behavior: Regenerate Agent Contexts

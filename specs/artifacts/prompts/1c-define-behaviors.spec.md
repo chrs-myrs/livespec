@@ -6,10 +6,10 @@ criticality: CRITICAL
 failure_mode: Implementation lacks observable behavior specifications
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/1-design/1b-define-behaviors.md
+specifies: []
 ---
 
 # Prompt Behavior: Define Behaviors

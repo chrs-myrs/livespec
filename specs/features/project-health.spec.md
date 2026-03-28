@@ -9,8 +9,7 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/patterns.spec.md
-specifies:
-  - dist/prompts/utils/run-health-report.md
+specifies: []
 ---
 
 # Project Health Assessment

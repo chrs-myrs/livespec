@@ -7,7 +7,7 @@ failure_mode: Without quick-start, new users face high cognitive load and long s
 governed-by: []
 derives-from:
   - specs/artifacts/prompts/0a-quick-start.spec.md
-specifies: dist/prompts/0-define/0a-quick-start.md
+specifies: []
 ---
 
 # Prompt Behavior: Quick Start

@@ -10,13 +10,8 @@ satisfies:
 guided-by: []
 derives-from:
   - specs/workspace/constitution.spec.md
-supports:
-  - Continuous methodology improvement
-  - Agent performance tracking
-  - Context optimization
-  - Session hygiene (fresh context per task)
-specifies:
-  - dist/prompts/utils/complete-session.md
+supports: []
+specifies: []
 ---
 
 # Session Completion Analysis

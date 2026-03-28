@@ -7,7 +7,7 @@ failure_mode: Without prompt spec requirements, prompt specs lack essential stru
 governed-by: []
 specifies: []
 extends:
-  - .livespec/standard/metaspecs/behavior.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 ---
 
 # Prompt Specification Requirements

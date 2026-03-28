@@ -11,7 +11,7 @@ guided-by:
   - specs/strategy/phase-workflow.spec.md
 derives-from:
   - specs/workspace/workflows.spec.md
-specifies: dist/prompts/utils/generate-feedback-report.md
+specifies: []
 ---
 
 # Generate Feedback Report Utility Prompt

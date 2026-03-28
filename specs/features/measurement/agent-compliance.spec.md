@@ -11,13 +11,8 @@ guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
   - specs/workspace/constitution.spec.md
-supports:
-  - Continuous process improvement
-  - Agent performance comparison
-  - Compliance trend analysis
-specifies:
-  - scripts/measure-agent-compliance.sh
-  - dist/prompts/utils/measure-session-compliance.md
+supports: []
+specifies: []
 ---
 
 # Agent Compliance Measurement

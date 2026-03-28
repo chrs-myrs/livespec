@@ -4,10 +4,8 @@ category: features
 fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Specifications describing non-existent structures create false documentation, mislead developers, and violate spec-reality synchronization
-governed-by:
-  - dist/standard/metaspecs/behavior.spec.md
-satisfies:
-  - specs/features/drift-detection.spec.md
+governed-by: []
+satisfies: []
 guided-by:
   - specs/strategy/validation.spec.md
   - specs/strategy/dogfooding.spec.md

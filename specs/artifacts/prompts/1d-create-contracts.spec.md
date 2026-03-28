@@ -6,10 +6,10 @@ criticality: IMPORTANT
 failure_mode: External interfaces lack formal specifications
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/1-design/1c-create-contracts.md
+specifies: []
 ---
 
 # Prompt Behavior: Create Contracts

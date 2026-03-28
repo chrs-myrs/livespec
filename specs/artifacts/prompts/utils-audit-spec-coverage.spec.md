@@ -6,7 +6,7 @@ criticality: IMPORTANT
 failure_mode: Without coverage audit, permanent files lack specifications and implementation proceeds without clear requirements
 governed-by:
   - specs/workspace/patterns.spec.md
-specifies: dist/prompts/utils/audit-spec-coverage.md
+specifies: []
 implements: specs/artifacts/commands/generation.spec.md
 ---
 

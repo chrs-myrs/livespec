@@ -11,7 +11,7 @@ guided-by:
   - specs/strategy/phase-workflow.spec.md
 derives-from:
   - specs/workspace/workflows.spec.md
-specifies: dist/prompts/utils/analyze-failure.md
+specifies: []
 ---
 
 # Analyze Failure Utility Prompt

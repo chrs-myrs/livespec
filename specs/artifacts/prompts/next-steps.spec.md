@@ -12,7 +12,7 @@ guided-by:
 derives-from:
   - specs/workspace/workflows.spec.md
   - specs/features/three-modes.spec.md
-specifies: dist/prompts/utils/next-steps.md
+specifies: []
 ---
 
 # Next Steps Workflow Orchestrator Prompt

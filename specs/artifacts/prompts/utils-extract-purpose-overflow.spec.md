@@ -5,7 +5,7 @@ fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Existing projects cannot migrate oversized PURPOSE.md files without guidance
 governed-by: []
-specifies: dist/prompts/utils/extract-purpose-overflow.md
+specifies: []
 ---
 
 # Extract PURPOSE Overflow Prompt

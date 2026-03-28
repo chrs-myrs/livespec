@@ -4,10 +4,8 @@ category: features
 fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Product-specific content in workspace/ blurs operating context vs deliverable boundary, confuses agents about workspace purpose
-governed-by:
-  - dist/standard/metaspecs/behavior.spec.md
-satisfies:
-  - specs/features/workspace-governance.spec.md
+governed-by: []
+satisfies: []
 guided-by:
   - specs/strategy/validation.spec.md
   - specs/strategy/dogfooding.spec.md

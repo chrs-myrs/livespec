@@ -6,7 +6,6 @@ criticality: IMPORTANT
 failure_mode: Without completeness validation, contract parameters are defined without corresponding behavior specs, leading to incomplete implementations
 governed-by:
   - specs/workspace/constitution.spec.md
-  - dist/standard/metaspecs/behavior.spec.md
 satisfies: []
 guided-by: []
 ---

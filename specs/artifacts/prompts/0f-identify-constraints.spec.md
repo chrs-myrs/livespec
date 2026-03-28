@@ -6,10 +6,10 @@ criticality: CRITICAL
 failure_mode: Projects violate boundaries that should have been identified upfront
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/0-define/0f-identify-constraints.md
+specifies: []
 ---
 
 # Prompt Behavior: Identify Constraints

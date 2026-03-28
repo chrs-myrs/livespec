@@ -4,9 +4,8 @@ category: artifacts
 fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without minimalism audit, specs accumulate bloat through over-specification, HOW violations, and non-essential requirements
-governed-by:
-  - .livespec/guides/msl-minimalism.md
-specifies: dist/prompts/utils/audit-msl-minimalism.md
+governed-by: []
+specifies: []
 implements: specs/artifacts/commands/generation.spec.md
 ---
 

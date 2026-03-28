@@ -6,10 +6,10 @@ criticality: CRITICAL
 failure_mode: Implementation lacks architectural guidance
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/1-design/1a-design-architecture.md
+specifies: []
 ---
 
 # Prompt Behavior: Design Architecture

@@ -7,11 +7,11 @@ failure_mode: Projects use suboptimal defaults when customization would better m
 governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
   - specs/strategy/phase-workflow.spec.md
-specifies: dist/prompts/0-define/0b-customize-workspace.md
+specifies: []
 ---
 
 # Prompt Behavior: Customize Workspace

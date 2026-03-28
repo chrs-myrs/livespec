@@ -6,11 +6,10 @@ criticality: CRITICAL
 failure_mode: Cannot confirm specs and code are synchronized
 governed-by: []
 satisfies:
-  - specs/features/drift-detection.spec.md
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/4-evolve/4c-sync-complete.md
+specifies: []
 ---
 
 # Prompt Behavior: Synchronisation Complete

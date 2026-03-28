@@ -11,8 +11,7 @@ applies_to:
 derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/workflows.spec.md
-supports:
-  - all_development_activities
+supports: []
 ---
 
 # LiveSpec Agent Integration

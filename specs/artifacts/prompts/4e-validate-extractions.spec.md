@@ -6,14 +6,13 @@ criticality: IMPORTANT
 failure_mode: Low-confidence extractions remain unvalidated, specs diverge from implementation reality, extraction errors propagate
 governed-by: []
 satisfies:
-  - specs/features/drift-detection.spec.md
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
 derives-from:
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
-specifies: prompts/4-evolve/4e-validate-extractions.md
+specifies: []
 ---
 
 # Prompt Behavior: Validate Extracted Specifications

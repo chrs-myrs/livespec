@@ -15,7 +15,6 @@ derives-from:
   - specs/workspace/taxonomy.spec.md
 supports:
   - specs/features/context-generation.spec.md
-  - .livespec/prompts/utils/regenerate-contexts.md
 ---
 
 # Context Architecture

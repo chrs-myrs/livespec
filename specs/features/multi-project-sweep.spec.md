@@ -10,7 +10,6 @@ satisfies:
 guided-by:
   - specs/strategy/architecture.spec.md
   - specs/workspace/workflows.spec.md
-  - specs/features/audit-report-provenance.spec.md
 ---
 
 # Multi-Project Sweep

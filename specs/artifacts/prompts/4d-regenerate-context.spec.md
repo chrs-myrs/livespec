@@ -6,14 +6,14 @@ criticality: IMPORTANT
 failure_mode: AGENTS.md becomes stale, agents lack current methodology context, users must repeatedly explain LiveSpec process
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
   - specs/strategy/ai-discoverability.spec.md
 derives-from:
   - specs/workspace/workspace-agent.spec.md
   - specs/workspace/workflows.spec.md
-specifies: prompts/4-evolve/4d-regenerate-context.md
+specifies: []
 ---
 
 # Prompt Behavior: Regenerate Context Tree

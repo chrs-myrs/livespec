@@ -5,7 +5,7 @@ fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without audit specification, context compression measurement is undefined and compression level migration is unreliable
 governed-by: []
-specifies: dist/prompts/utils/audit-context-compression.md
+specifies: []
 ---
 
 # Prompt Behavior: Audit Context Compression

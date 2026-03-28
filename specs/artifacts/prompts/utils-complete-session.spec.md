@@ -12,8 +12,7 @@ guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
   - specs/features/session-completion.spec.md
-specifies:
-  - dist/prompts/utils/complete-session.md
+specifies: []
 ---
 
 # Complete Session Prompt

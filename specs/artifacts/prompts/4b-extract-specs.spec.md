@@ -7,11 +7,10 @@ failure_mode: New behaviors remain undocumented
 governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
-  - specs/features/drift-detection.spec.md
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/4-evolve/4b-extract-specs.md
+specifies: []
 ---
 
 # Prompt Behavior: Extract Specifications

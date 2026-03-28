@@ -6,7 +6,6 @@ criticality: CRITICAL
 failure_mode: Without purpose traceability validation, artifacts exist without business justification, breaking the Value Structure from PURPOSE → requirements → implementation
 governed-by:
   - specs/workspace/constitution.spec.md
-  - dist/standard/metaspecs/behavior.spec.md
 satisfies: []
 guided-by: []
 ---

@@ -7,7 +7,7 @@ failure_mode: Workspace specs grow unchecked, creating context window bloat and 
 governed-by: []
 satisfies:
   - specs/workspace/workflows.spec.md
-specifies: prompts/utils/audit-workspace-specs.md
+specifies: []
 ---
 
 # Prompt Behavior: Audit Workspace Specs

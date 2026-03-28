@@ -6,7 +6,7 @@ criticality: IMPORTANT
 failure_mode: Strategic improvement prompt unclear or incomplete, improvements made without proper data analysis, prioritization incorrect
 governed-by:
   - specs/workspace/patterns.spec.md
-specifies: dist/prompts/utils/suggest-improvements.md
+specifies: []
 implements: specs/features/improvement-analysis.spec.md
 ---
 

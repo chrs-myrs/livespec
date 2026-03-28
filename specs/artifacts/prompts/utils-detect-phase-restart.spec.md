@@ -5,7 +5,7 @@ fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: AI agents jump to wrong phase for sub-features, skip necessary research/definition
 governed-by: []
-specifies: prompts/utils/detect-phase-restart.md
+specifies: []
 informed-by:
   - feedback/talevenforge-accessible-reading-ui-failure.md
 ---

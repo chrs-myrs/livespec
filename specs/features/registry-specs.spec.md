@@ -9,10 +9,7 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/patterns.spec.md
-specifies:
-  - dist/standard/registries/gaps.spec.md
-  - dist/standard/registries/issues.spec.md
-  - dist/standard/registries/improvements.spec.md
+specifies: []
 ---
 
 # Registry Format Specifications

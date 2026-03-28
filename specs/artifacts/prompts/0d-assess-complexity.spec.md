@@ -6,10 +6,10 @@ criticality: IMPORTANT
 failure_mode: Projects launched without realistic timeline expectations, leading to missed deadlines and poor planning
 governed-by: []
 satisfies:
-  - specs/features/five-phases.spec.md
+  - specs/strategy/phase-workflow.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
-specifies: prompts/0-define/0d-assess-complexity.md
+specifies: []
 ---
 
 # Prompt Behavior: Assess Complexity

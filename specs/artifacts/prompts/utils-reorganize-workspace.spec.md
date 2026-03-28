@@ -6,7 +6,7 @@ criticality: IMPORTANT
 failure_mode: Workspace reorganization prompt unclear, usage patterns ignored, moves unjustified, extractions inappropriate, implementation incomplete
 governed-by:
   - specs/workspace/patterns.spec.md
-specifies: dist/prompts/utils/reorganize-workspace.md
+specifies: []
 implements: specs/features/workspace-optimization.spec.md
 ---
 
