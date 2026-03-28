@@ -1,8 +1,14 @@
+---
+store: registry
+registry_type: issues
+schema_version: 1
+last_reviewed: 2026-03-28
+entry_count: 5
+---
+
 # Issue Registry
 
 Tracks problems encountered during LiveSpec usage.
-
-Format: `.livespec/standard/registries/issues.spec.md`
 
 ---
 

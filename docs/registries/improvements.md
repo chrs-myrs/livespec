@@ -1,8 +1,14 @@
+---
+store: registry
+registry_type: improvements
+schema_version: 1
+last_reviewed: 2026-03-28
+entry_count: 9
+---
+
 # Improvement Registry
 
 Tracks improvement experiments and their outcomes.
-
-Format: `.livespec/standard/registries/improvements.spec.md`
 
 ---
 
@@ -182,13 +188,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 
 ### IMP-007: Distributed Cross-References in Spec Frontmatter
 
-**Changed:** (Proposed) Each spec carries `governed-by`, `derives-from`, and `specifies` in frontmatter. The taxonomy mapping table becomes a derived view of these distributed references, not the source of truth.
+**Changed:** Every spec now carries relationship metadata in frontmatter (governed-by, satisfies, guided-by, derives-from, supports, specifies). Taxonomy.spec.md is a classification guide, not a traceability source — the distributed references in individual specs are the source of truth.
 
 **Hypothesis:** Centralised traceability (a mapping table in taxonomy.spec.md) breaks when specs are read individually. Distributed metadata (each spec declares its own relationships) enables automated graph traversal and reverse lookups without parsing prose.
 
 **Category:** Traceability
 
-**Implemented:** Not yet
+**Implemented:** 2026-03-28 (subsumed by IMP-005)
 
 **Evidence:**
 - affiliate-api-v2 audit: A4 = 3/5 (references exist but not machine-parseable), B5 = 3/5 (no reverse traceability)
@@ -197,19 +203,25 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Projected impact: +2 points on static audit
 - Source: `research/reports/knowledge-store-audit-findings.md`
 
-**Decision:** Pending
+**Decision:** Implemented ✓ (subsumed by IMP-005)
+
+**Implementation Details:**
+- All 118 specs carry per-category mandatory relationship fields in frontmatter
+- Taxonomy.spec.md contains no centralised mapping table — only classification guidance
+- Relationship field direction semantics documented in vocabulary.spec.md (IMP-006)
+- Validation enforces governed-by as content-only (no metaspec paths)
 
 ---
 
 ### IMP-008: Standardised Registry Format
 
-**Changed:** (Proposed) All registries (decisions, debt, known-issues, data-protection-risks) use the same YAML frontmatter schema: `store: registry`, `type: <registry-type>`, `schema_version`, `last_reviewed`, `entries[]`
+**Changed:** All registries now carry consistent YAML frontmatter: `store: registry`, `registry_type`, `schema_version`, `last_reviewed`, `entry_count`. Entries remain as markdown sections for human readability.
 
 **Hypothesis:** Inconsistent registry formats (2/4 with YAML frontmatter, 2/4 without) reduce structural consistency and prevent automated registry aggregation.
 
 **Category:** Structure
 
-**Implemented:** Not yet
+**Implemented:** 2026-03-28
 
 **Evidence:**
 - affiliate-api-v2 audit: A5 = 2/5 (varied structures within types)
@@ -217,7 +229,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Projected impact: +2 points on static audit
 - Source: `research/reports/knowledge-store-audit-findings.md`
 
-**Decision:** Pending
+**Decision:** Implemented ✓
+
+**Implementation Details:**
+- All 3 LiveSpec registries (gaps, issues, improvements) now have YAML frontmatter
+- Schema: store, registry_type, schema_version, last_reviewed, entry_count
+- Behaviour spec: `specs/features/standardised-registries.spec.md`
+- Registry vocabularies documented in `references/standards/vocabulary.spec.md`
 
 ---
 
