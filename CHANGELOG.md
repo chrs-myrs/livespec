@@ -20,6 +20,14 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.4.1] - 2026-03-28
+
+### Fixed
+
+- **110 broken cross-references** across 63 specs — stale dist/, .livespec/, and prompts/ paths removed, five-phases.spec.md remapped to phase-workflow.spec.md, 6 missing spec targets cleaned up
+
+---
+
 ## [5.4.0] - 2026-03-28
 
 ### Added

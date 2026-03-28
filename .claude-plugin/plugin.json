@@ -1,7 +1,7 @@
 {
   "name": "livespec",
   "description": "Information architecture for AI-assisted development. Specs define intent, code is disposable.",
-  "version": "5.4.0",
+  "version": "5.4.1",
   "author": {
     "name": "Chris Myers"
   },

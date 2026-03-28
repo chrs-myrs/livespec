@@ -6,7 +6,7 @@ project:
 
 # LiveSpec methodology configuration
 livespec:
-  version: 5.4.0
+  version: 5.4.1
 
   # Core methodology decisions (guides context generation)
   methodology:

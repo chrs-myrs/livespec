@@ -196,5 +196,5 @@ Fresh session             # Better context
 
 ---
 
-*Session completion specialist for LiveSpec v5.4.0*
+*Session completion specialist for LiveSpec v5.4.1*
 *Parent: AGENTS.md*
