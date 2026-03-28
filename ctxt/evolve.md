@@ -248,6 +248,7 @@ prompts/utils/validate-project.md  # cross-references
 - Audit skill: `/livespec:audit`
 - Learn skill: `/livespec:learn`
 - Frontmatter validation: `scripts/validate-frontmatter.sh`
+- Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
 - Parent context: AGENTS.md
 

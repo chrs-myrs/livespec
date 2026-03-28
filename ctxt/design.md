@@ -222,6 +222,7 @@ specs/artifacts/prompts/4d-regenerate-context.spec.md
 
 - Design skill: `/livespec:design`
 - Parent context: AGENTS.md
+- Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
 - Behavior metaspec: `.livespec/standard/metaspecs/behavior.spec.md`
 - Contract metaspec: `.livespec/standard/metaspecs/contract.spec.md`

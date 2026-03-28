@@ -302,6 +302,7 @@ prompts/utils/validate-project.md
 
 - Audit skill: `/livespec:audit`
 - Learn skill: `/livespec:learn`
+- Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Frontmatter spec: `specs/features/mandatory-frontmatter.spec.md`
 - Frontmatter script: `scripts/validate-frontmatter.sh`
 - Parent context: AGENTS.md

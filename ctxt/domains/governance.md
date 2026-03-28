@@ -308,6 +308,7 @@ scripts/validate-frontmatter.sh  # must exit 0
 ## Reference Library
 
 - Parent: AGENTS.md (root context)
+- Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Taxonomy: `specs/workspace/taxonomy.spec.md` (project classification)
 - Distribution: `specs/workspace/distribution.spec.md` (framework patterns)
 - Mandatory frontmatter: `specs/features/mandatory-frontmatter.spec.md`

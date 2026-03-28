@@ -477,16 +477,21 @@ specifies:              # artifacts — path to deliverable
 |------|----------|---------|
 | `outcomes` | foundation | outcomes metaspec |
 | `constraints` | foundation | constraints metaspec |
+| `purpose` | foundation | purpose metaspec |
 | `strategy` | strategy | strategy metaspec |
 | `behavior` | features | behavior metaspec |
-| `taxonomy` | features | taxonomy metaspec |
+| `domain-model` | varies | domain-model metaspec |
 | `contract` | interfaces | contract metaspec |
+| `taxonomy` | workspace | taxonomy metaspec |
 | `workspace` | workspace | workspace metaspec |
 | `prompt` | artifacts | prompt metaspec |
 | `agent` | artifacts | agent metaspec |
-| `validator` | artifacts | validator metaspec |
-| `command` | artifacts | command metaspec |
-| `registry` | artifacts | registry metaspec |
+| `validator` | artifacts | (base) |
+| `command` | artifacts | (base) |
+| `diagram` | artifacts | (base) |
+| `registry` | artifacts | (base) |
+
+**Full vocabulary:** See `references/standards/vocabulary.spec.md` for all controlled terms with descriptions and usage context.
 
 **governed-by semantics:** References content governance only (higher-level specs constraining WHAT this spec can say). Metaspec template is implied by `type` — do NOT add metaspec paths to governed-by.
 
@@ -511,6 +516,8 @@ specifies:              # artifacts — path to deliverable
   - [Testable criterion 1]
   - [Testable criterion 2]
 ```
+
+**Controlled vocabulary:** `references/standards/vocabulary.spec.md` — canonical definitions for all type values, category values, fidelity levels, relationship fields, phase/layer vocabulary, and registry vocabularies. Check here when unsure of correct term usage.
 
 **Validate frontmatter:** `scripts/validate-frontmatter.sh`
 
@@ -652,15 +659,39 @@ specs/strategy/architecture.spec.md    (derives-from)
 
 ### Frontmatter Relationship Fields (hyphenated form required)
 
-| Field | Direction | Meaning |
-|-------|-----------|---------|
-| `derives-from` | up | Parent specs this is based on |
-| `governed-by` | content only | Higher-level specs constraining WHAT |
-| `satisfies` | vertical | Requirements this fulfills (WHAT) |
-| `guided-by` | horizontal | Strategies guiding this spec (HOW) |
-| `supports` | down | What this spec enables |
-| `applies_to` | scope | Governance scope (workspace only) |
-| `specifies` | artifact | Path to deliverable (artifacts only) |
+**Upward (pointing to more abstract/durable specs):**
+
+| Field | Meaning |
+|-------|---------|
+| `governed-by` | Content governance — specs constraining WHAT this spec can say |
+| `satisfies` | Requirements this fulfills (WHAT business value) |
+| `guided-by` | Strategies informing approach (HOW) |
+
+**Backward (pointing to prior/source specs):**
+
+| Field | Meaning |
+|-------|---------|
+| `derives-from` | Based on or evolved from another spec |
+| `extends` | Extends a metaspec template |
+| `informed-by` | Sourced from external research or standard |
+| `supersedes` | Replaces an older spec |
+
+**Downward (pointing to implementations):**
+
+| Field | Meaning |
+|-------|---------|
+| `specifies` | Path to deliverable this spec governs (artifacts only) |
+| `implements` | Realises a behaviour in code or configuration |
+| `supports` | Enables or makes possible |
+
+**Scope:**
+
+| Field | Meaning |
+|-------|---------|
+| `applies_to` | Governance scope (workspace specs only) |
+| `updated-by` | Agent or process that modifies this spec |
+
+**Full vocabulary:** `references/standards/vocabulary.spec.md` — all fields with direction semantics and common usage.
 
 **Field naming:** All relationship fields use hyphenated form. `derives-from` not `derives_from`. Validation rejects underscore variants.
 
@@ -770,6 +801,7 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **ctxt/msl-audit.md** - Minimalism enforcement
 
 ### Conventions (How to Structure)
+- **`references/standards/vocabulary.spec.md`** - Canonical controlled vocabulary (type values, fidelity levels, relationship fields, phases, layers)
 - **`references/standards/metaspecs/base.spec.md`** - Base frontmatter schema
 - **`.livespec/standard/conventions/context-compression.spec.md`** - Compression framework
 - **`.livespec/standard/conventions/folder-structure.spec.md`** - Folder organization
