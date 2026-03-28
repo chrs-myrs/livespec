@@ -254,5 +254,5 @@ prompts/utils/validate-project.md  # cross-references
 
 ---
 
-*Evolve mode specialist for LiveSpec v5.3.0*
+*Evolve mode specialist for LiveSpec v5.4.0*
 *Parent: AGENTS.md*

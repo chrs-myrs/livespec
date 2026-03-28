@@ -20,6 +20,37 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.4.0] - 2026-03-28
+
+### Added
+
+- **Mandatory spec frontmatter (IMP-005)**: All 119 specs carry six mandatory fields — `type`, `category`, `fidelity`, `criticality`, `failure_mode`, `governed-by` — plus per-category mandatory fields (workspace: `applies_to`, features: `satisfies` + `guided-by`, etc.)
+- **Vocabulary spec (IMP-006)**: `references/standards/vocabulary.spec.md` documents all controlled terms across 6 domains (frontmatter values, relationship fields, phases, layers, registries, markers) with a documented extension mechanism for domain-specific values
+- **Frontmatter validation**: `scripts/validate-frontmatter.sh` enforces IMP-005 compliance in pre-commit hook — checks base fields, per-category fields, type/category/fidelity values, and governed-by semantics
+- **Standardised registry format (IMP-008)**: All registries carry consistent YAML frontmatter (`store`, `registry_type`, `schema_version`, `last_reviewed`, `entry_count`)
+
+### Changed
+
+- **governed-by semantics**: Now content governance only — `type` field implies metaspec template (format governance), removing dual-purpose ambiguity ⚠️ HIGH
+- **Base metaspec**: Updated with type values, governed-by semantics, per-category mandatory fields, fidelity defaults, and field naming rules
+- **All 12 type-specific metaspecs**: Updated with new mandatory field requirements
+- **Context tree regenerated**: AGENTS.md (31.5KB) and 7 sub-agents reflect new frontmatter schema, vocabulary reference, and directional relationship field groups
+
+### Fixed
+
+- **Field naming inconsistency**: Normalised `derives_from` (underscore) to `derives-from` (hyphen) across ~7 specs
+- **Syncthing conflict files**: Removed 22 sync-conflict files, added `*sync-conflict*` to `.gitignore`
+
+### Closed
+
+- **IMP-005**: Mandatory Spec Frontmatter — Implemented
+- **IMP-006**: Vocabulary Spec as Standard Deliverable — Implemented
+- **IMP-007**: Distributed Cross-References — Subsumed by IMP-005
+- **IMP-008**: Standardised Registry Format — Implemented
+- **IMP-009**: Fidelity Level as Spec Metadata — Subsumed by IMP-005
+
+---
+
 ## [5.3.0] - 2026-03-14
 
 ### Added
