@@ -16,6 +16,9 @@ generated/
 .livespec/
 .livespec-repo/
 
+# Syncthing conflict files
+*sync-conflict*
+
 # OS files
 .DS_Store
 Thumbs.db
