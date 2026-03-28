@@ -1,10 +1,15 @@
 ---
+type: diagram
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without clear visualization, users conflate value structure (project traceability) with context tree (agent guidance), leading to confusion about workspace specs' dual role
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+specifies: []
 ---
 
 # Value Structure and Context Tree Relationship Diagram

@@ -1,9 +1,11 @@
 ---
-specifies: prompts/utils/detect-phase-restart.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: AI agents jump to wrong phase for sub-features, skip necessary research/definition
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
+specifies: prompts/utils/detect-phase-restart.md
 informed-by:
   - feedback/talevenforge-accessible-reading-ui-failure.md
 ---

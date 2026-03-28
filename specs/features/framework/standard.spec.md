@@ -1,8 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without documented framework structure, users cannot understand what LiveSpec provides or how to use it correctly
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

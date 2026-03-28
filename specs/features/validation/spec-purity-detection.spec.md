@@ -1,4 +1,7 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Implementation code in specifications violates WHAT-not-HOW principle, creates maintenance burden, confuses specification purpose
 governed-by:

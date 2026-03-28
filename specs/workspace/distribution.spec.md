@@ -1,10 +1,12 @@
 ---
-applies_to:
-  - livespec_projects
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Distribution pattern unclear causes duplication and drift between canonical and project copies
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
+governed-by: []
+applies_to:
+  - livespec_projects
 derives-from:
   - specs/workspace/patterns.spec.md
 ---

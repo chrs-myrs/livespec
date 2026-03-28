@@ -1,6 +1,10 @@
 ---
+type: command
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: LiveSpec utilities not discoverable via slash commands, users must manually navigate .livespec/ structure, reduced productivity
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

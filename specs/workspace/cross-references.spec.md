@@ -1,10 +1,12 @@
 ---
-applies_to:
-  - all_projects
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Broken cross-references prevent navigation between prompts and specs, breaking traceability
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
+governed-by: []
+applies_to:
+  - all_projects
 derives-from:
   - specs/workspace/patterns.spec.md
 ---

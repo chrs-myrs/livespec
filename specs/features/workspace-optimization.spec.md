@@ -1,6 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Context organization static despite usage patterns, frequently-used content buried, rarely-used content takes prime space, context efficiency degrades over time
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

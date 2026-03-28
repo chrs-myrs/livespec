@@ -1,14 +1,16 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: Wrong abstraction placement causes specs polluted with implementation details (can't regenerate cleanly) or important requirements lost in code (lost on regeneration)
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 1: Specification-Driven Regeneration)
   - specs/foundation/constraints.spec.md (Code Disposability)
   - specs/foundation/constraints.spec.md (Abstraction Purity)
 guided-by:
   - specs/strategy/architecture.spec.md
-criticality: CRITICAL
-failure_mode: Wrong abstraction placement causes specs polluted with implementation details (can't regenerate cleanly) or important requirements lost in code (lost on regeneration)
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
 ---
 
 # Abstraction Guidance

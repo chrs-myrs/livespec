@@ -1,16 +1,18 @@
 ---
-specifies: dist/prompts/utils/next-steps.md
-derives-from:
-  - specs/workspace/workflows.spec.md
-  - specs/features/three-modes.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without workflow orchestration guidance, users become lost in methodology and abandon adoption when unsure of next steps
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/ai-discoverability.spec.md
+derives-from:
+  - specs/workspace/workflows.spec.md
+  - specs/features/three-modes.spec.md
+specifies: dist/prompts/utils/next-steps.md
 ---
 
 # Next Steps Workflow Orchestrator Prompt

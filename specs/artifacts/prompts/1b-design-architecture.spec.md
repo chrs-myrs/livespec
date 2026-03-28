@@ -1,13 +1,15 @@
 ---
-specifies: prompts/1-design/1a-design-architecture.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Implementation lacks architectural guidance
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/1-design/1a-design-architecture.md
 ---
 
 # Prompt Behavior: Design Architecture

@@ -1,13 +1,15 @@
 ---
-specifies: prompts/0-define/0d-assess-complexity.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Projects launched without realistic timeline expectations, leading to missed deadlines and poor planning
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/0-define/0d-assess-complexity.md
 ---
 
 # Prompt Behavior: Assess Complexity

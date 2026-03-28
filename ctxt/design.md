@@ -1,5 +1,7 @@
 # DESIGN Mode
 
+> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+
 Sub-agent context for architecture, behaviors, and contracts.
 
 ## Summary
@@ -23,9 +25,24 @@ Design mode translates strategic outcomes into concrete specifications. This mod
 
 ### Step 1: Design Architecture
 
-**Skill:** `/livespec:do spec strategy`
+**Skill:** `/livespec:design spec strategy`
 
 **Creates:** `specs/strategy/architecture.spec.md`
+
+**Frontmatter template:**
+```yaml
+---
+type: strategy
+category: strategy
+fidelity: decisions-only
+criticality: CRITICAL
+failure_mode: Implementation lacks architectural guidance
+governed-by: []
+derives-from:
+  - specs/foundation/outcomes.spec.md
+  - specs/foundation/constraints.spec.md
+---
+```
 
 **Captures:**
 - High-level system structure
@@ -35,44 +52,41 @@ Design mode translates strategic outcomes into concrete specifications. This mod
 
 **Key principle:** Specify approach (HOW at strategic level), not implementation details.
 
-**Example:**
-```markdown
----
-criticality: CRITICAL
-failure_mode: Implementation lacks architectural guidance
----
-
-# System Architecture
-
-## Requirements
-
-- [!] System uses microservices for independent scaling.
-  - User service handles authentication
-  - Order service handles transactions
-  - Services communicate via message queue
-```
-
 ### Step 2: Define Behaviors
 
-**Skill:** `/livespec:do feature <name>` or `/livespec:do spec behavior`
+**Skill:** `/livespec:design feature <name>`
 
 **Creates:** Multiple specs in `specs/features/`
 
-**Captures:**
-- Observable outcomes system must exhibit
-- User-facing features
-- System behaviors
-- Error handling
+**Frontmatter template:**
+```yaml
+---
+type: behavior
+category: features
+fidelity: behavioral
+criticality: IMPORTANT
+failure_mode: [Concrete description of user impact]
+governed-by: []
+satisfies:
+  - specs/foundation/outcomes.spec.md (Requirement N: Name)
+guided-by:
+  - specs/strategy/architecture.spec.md
+---
+```
 
 **Key principle:** Specify WHAT system does (outcomes), not HOW.
 
 **Example:**
 ```markdown
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Users cannot authenticate
+governed-by: []
 satisfies:
-  - specs/foundation/outcomes.spec.md
+  - specs/foundation/outcomes.spec.md (Requirement 1: Security)
 guided-by:
   - specs/strategy/architecture.spec.md
 ---
@@ -89,46 +103,37 @@ guided-by:
 
 ### Step 3: Create Contracts
 
-**Skill:** `/livespec:do spec contract`
+**Skill:** `/livespec:design spec contract`
 
 **Creates:** Multiple specs in `specs/interfaces/`
 
-**Captures:**
-- API endpoint definitions
-- Data schemas
-- Integration contracts
-- Message formats
-
-**Key principle:** Specify interface precisely (contracts must be exact).
-
-**Example:**
-```markdown
+**Frontmatter template:**
+```yaml
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Integration fails without contract
+governed-by: []
+supports:
+  - specs/features/[feature].spec.md
 ---
-
-# Auth API Contract
-
-## Requirements
-
-- [!] POST /auth/login accepts credentials and returns token.
-  - Request: {email: string, password: string}
-  - Response: {token: string, expires: number}
-  - Error: 401 with {error: string}
 ```
+
+**Key principle:** Specify interface precisely (contracts must be exact).
 
 ## Dual Linkage Pattern
 
 Behavior specs have **two relationships**:
 
-**satisfies** (vertical - WHAT business value):
+**satisfies** (vertical — WHAT business value):
 ```yaml
 satisfies:
-  - specs/foundation/security-outcomes.spec.md
+  - specs/foundation/security-outcomes.spec.md (Requirement 2: Auth)
 ```
 
-**guided-by** (horizontal - HOW implemented):
+**guided-by** (horizontal — HOW implemented):
 ```yaml
 guided-by:
   - specs/strategy/oauth-architecture.spec.md
@@ -138,6 +143,18 @@ guided-by:
 - Enables rapid rebuild (same requirements, different strategy)
 - Technology-agnostic requirements
 - Clear traceability
+
+## Frontmatter Checklist for New Specs
+
+Before creating any spec during design:
+- [ ] `type` is from allowed values (behavior, contract, strategy, etc.)
+- [ ] `category` matches the directory you're placing it in
+- [ ] `fidelity` set (behavioral for features, full-detail for interfaces, decisions-only for strategy)
+- [ ] `criticality` is CRITICAL or IMPORTANT (not "USEFUL" — that's MSL non-spec territory)
+- [ ] `failure_mode` is concrete, one sentence, describes real impact
+- [ ] `governed-by` contains only content governance specs (NOT metaspec paths)
+- [ ] Per-category fields present (features: satisfies + guided-by; strategy: derives-from; interfaces: supports)
+- [ ] All field names hyphenated (`derives-from`, `guided-by`) — never underscored
 
 ## Decision Points
 
@@ -185,14 +202,31 @@ specs/interfaces/events/order-events.spec.md
   → "OrderCreated: {order_id, items[], total}"
 ```
 
+### Governance/Methodology Pattern (LiveSpec-style)
+
+```
+specs/strategy/architecture.spec.md
+  → "Two-branch model, specs drive everything"
+
+specs/features/context-generation.spec.md
+  → "Agent context tree generated from workspace specs"
+  satisfies: foundation/outcomes.spec.md
+  guided-by: strategy/architecture.spec.md
+
+specs/artifacts/prompts/4d-regenerate-context.spec.md
+  → "Prompt generates AGENTS.md + ctxt/ tree"
+  specifies: dist/prompts/4-evolve/4d-regenerate-context.md
+```
+
 ## References
 
-- Do skill: `/livespec:do`
+- Design skill: `/livespec:design`
 - Parent context: AGENTS.md
-- Metaspecs: `.livespec/standard/metaspecs/behavior.spec.md`, `.livespec/standard/metaspecs/contract.spec.md`
-- Behavior-contract boundary: `.livespec/guides/behavior-contract-boundary.md`
+- Base metaspec: `references/standards/metaspecs/base.spec.md`
+- Behavior metaspec: `.livespec/standard/metaspecs/behavior.spec.md`
+- Contract metaspec: `.livespec/standard/metaspecs/contract.spec.md`
 
 ---
 
-*Design mode specialist for LiveSpec*
+*Design mode specialist for LiveSpec v5.3.0*
 *Parent: AGENTS.md*

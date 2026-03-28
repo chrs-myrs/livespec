@@ -1,10 +1,12 @@
 # Governance Domain Patterns
 
-⚠️ **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+
+Sub-agent context for governance domain projects and methodology development.
 
 ## Summary
 
-Governance domain projects produce methodology frameworks, policies, procedures, and process documentation. LiveSpec itself is a governance project—it develops specifications about specification-driven development.
+Governance domain projects produce methodology frameworks, policies, procedures, and process documentation. LiveSpec itself is a governance project — it develops specifications about specification-driven development.
 
 **Key characteristic:** Outputs are guidance for other projects, not user-facing products.
 
@@ -18,12 +20,6 @@ Governance domain projects produce methodology frameworks, policies, procedures,
 - Policies are written following the policy-writing framework
 - Procedures are documented following the procedure-documentation process
 
-**Why it matters:**
-- Validates methodology works in practice
-- Identifies gaps and pain points
-- Demonstrates patterns for users
-- Builds credibility ("we use this ourselves")
-
 **Implementation:**
 ```
 LiveSpec (governance project):
@@ -32,11 +28,16 @@ LiveSpec (governance project):
 │   ├── patterns.spec.md       # LiveSpec's conventions
 │   └── workflows.spec.md      # LiveSpec's process
 │
-├── specs/strategy/          # LiveSpec's architecture
+├── specs/strategy/            # LiveSpec's architecture
 │   └── distribution.spec.md   # How framework reaches users
 │
-└── specs/features/         # LiveSpec's prompts as behaviors
-    └── prompts/*.spec.md      # What each prompt does
+├── specs/features/            # LiveSpec's methodology behaviors
+│   ├── context-generation.spec.md
+│   ├── mandatory-frontmatter.spec.md
+│   └── ...
+│
+└── specs/artifacts/           # LiveSpec's deliverables (prompts, agents)
+    └── prompts/*.spec.md
 ```
 
 ### Framework Distribution Pattern
@@ -61,7 +62,7 @@ target-project (user's repo):
     └── ...
 ```
 
-**Key insight:** `specs/` governs LiveSpec's development, `dist/` is distributed product.
+**Key insight:** `specs/` governs LiveSpec's development, `dist/` is the distributed product.
 
 ### Specs About Specs Pattern
 
@@ -69,21 +70,80 @@ target-project (user's repo):
 
 1. **Meta-level** (specs about the framework):
    ```
-   specs/features/prompts/0a-quick-start.spec.md
-   → Defines what 0a-quick-start.md prompt does
+   specs/features/context-generation.spec.md
+   → Defines what context generation does as a behavior
    ```
 
-2. **Metaspec level** (templates for specs):
+2. **Artifact-level** (specs about specific deliverables):
    ```
-   .livespec/standard/metaspecs/behavior.spec.md
-   → Defines structure of ALL behavior specs
+   specs/artifacts/prompts/4d-regenerate-context.spec.md
+   → Defines what 4d-regenerate-context.md prompt does
    ```
 
-**Avoid confusion:** Metaspecs are templates, not instances.
+3. **Metaspec level** (templates for specs, in references/):
+   ```
+   references/standards/metaspecs/base.spec.md
+   → Defines structure required of ALL specs (IMP-005)
+   ```
+
+**Avoid confusion:** Metaspecs are templates, not instances. They live in `references/standards/` not `specs/`.
+
+### Taxonomy for Governance Projects
+
+Governance taxonomy (`specs/workspace/taxonomy.spec.md`) declares:
+
+```yaml
+domain: governance
+workspace_scope: [constitution, patterns, workflows, taxonomy]
+specs_boundary: specifications_only
+```
+
+**Five-way classification for specs/:**
+1. "Is this a strategic outcome or hard constraint?" → **foundation/**
+2. "Does this apply across the whole product?" → **strategy/**
+3. "Does this describe observable methodology behavior?" → **features/**
+4. "Does this describe something we build and distribute?" → **artifacts/**
+5. "Does this define a format, contract, or discovery interface?" → **interfaces/**
+
+**Orthogonal:** "Is this ABOUT how we work?" → **workspace/**
+
+### Governance Frontmatter Patterns
+
+**Policy/behavior specs in governance projects:**
+```yaml
+---
+type: behavior
+category: features
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: Without this, the methodology exhibits observable failure
+governed-by: []
+satisfies:
+  - specs/foundation/outcomes.spec.md (Requirement N: Name)
+guided-by:
+  - specs/strategy/architecture.spec.md
+derives-from:
+  - docs/registries/improvements.md (IMP-NNN)  # if derived from registry
+---
+```
+
+**Artifact specs in governance projects:**
+```yaml
+---
+type: prompt
+category: artifacts
+fidelity: behavioral
+criticality: IMPORTANT
+failure_mode: Without spec, prompt implementation lacks requirements
+governed-by: []
+specifies:
+  - dist/prompts/0-define/0a-quick-start.md
+---
+```
 
 ### Learning Distribution Pattern
 
-**When governance project learns something (e.g., violation detected):**
+**When governance project learns something:**
 
 1. **Capture learning in template:**
    ```
@@ -114,7 +174,7 @@ target-project (user's repo):
    → Target projects receive improvement automatically
    ```
 
-**Result:** Learnings flow from violations → templates → specs → prompts → AGENTS.md → dist/ → target projects
+**Result:** Learnings flow: violations → templates → specs → prompts → AGENTS.md → dist/ → target projects
 
 ## Folder Organization (Governance Projects)
 
@@ -123,56 +183,38 @@ target-project (user's repo):
 **"Is this ABOUT the workspace or IN the workspace?"**
 
 **ABOUT → workspace/ (operating context):**
-- constitution.spec.md - Development principles (operating context)
-- patterns.spec.md - MSL format, naming (operating context)
-- workflows.spec.md - Spec-first workflow (operating context)
+- constitution.spec.md — Development principles
+- patterns.spec.md — MSL format, naming
+- workflows.spec.md — Spec-first workflow
+- taxonomy.spec.md — Project classification
 
-**IN → strategy/behaviors/ (deliverables):**
-- distribution.spec.md - How LiveSpec distributes (deliverable)
-- prompt-behaviors.spec.md - What prompts do (deliverable)
-
-**Special case:** LiveSpec's workspace/ specs ARE demonstrating the framework (dogfooding), but they define HOW LIVESPEC OPERATES, not the framework being distributed.
+**IN → appropriate layer (deliverables):**
+- distribution.spec.md — How LiveSpec distributes → strategy/
+- context-generation.spec.md — What context generation does → features/
+- 0a-quick-start.spec.md — What prompt does → artifacts/prompts/
 
 ### Specs Boundary
 
 **specs/ = specifications only (not distributable framework)**
 
-**Inside specs/:**
-- Behavior specs (what prompts do)
-- Strategy specs (framework architecture)
-- Requirements (framework outcomes)
-
-**Outside specs/:**
-- dist/ (distributable framework - what users copy)
-- AGENTS.md (generated configuration)
-- tests/ (validation)
-- examples/ (demonstration)
-
 **Test:** "Is this defining WHAT framework does, or IS this the framework itself?"
-- Defining WHAT → specs/
-- IS the framework → dist/
+- Defining WHAT → specs/ (specifications)
+- IS the framework → dist/ (distributable product)
 
 ## Common Behaviors (Governance Domain)
 
-### Policy Development
-- Policy drafts follow policy-writing framework
-- Policies have specifications (intended outcomes)
-- Policy effectiveness measured against specs
-
-### Procedure Documentation
-- Procedures follow procedure-documentation template
-- Procedures have contracts (exact steps)
-- Procedure compliance validated
-
-### Framework Development
-- Framework has specifications (behaviors, prompts, guides)
-- Framework dogfoods its own methodology
-- Framework distribution follows distribution spec
-
 ### Methodology Evolution
+
 - Learnings captured in templates
 - Violations trigger methodology updates
 - Changes flow through distribution mechanism
+- IMP-NNN registry entries track improvements
+
+### Framework Development
+
+- Framework has specifications (behaviors, prompts, guides)
+- Framework dogfoods its own methodology
+- Framework distribution follows distribution spec
 
 ## Examples
 
@@ -182,112 +224,96 @@ target-project (user's repo):
 # Step 1: Create behavior spec FIRST
 Use .livespec/1-design/1c-define-behaviors.md
 # Creates: specs/features/prompts/0g-new-prompt.spec.md
+# Full frontmatter with type: behavior, satisfies, guided-by
 
-# Step 2: Implement prompt
+# Step 2: Create artifact spec
+# Creates: specs/artifacts/prompts/0g-new-prompt.spec.md
+# Full frontmatter with type: prompt, specifies: dist/prompts/...
+
+# Step 3: Implement prompt
 Use .livespec/2-build/2a-implement-from-specs.md
-# Creates: .livespec/prompts/0-define/0g-new-prompt.md
+# Creates: dist/prompts/0-define/0g-new-prompt.md
 
-# Step 3: Update registry
-# Edit: specs/features/prompts/registry.spec.md
-
-# Step 4: Update distribution
-# Copy: .livespec/prompts/0-define/0g-new-prompt.md → dist/prompts/0-define/
+# Step 4: Update registry
+# Edit: specs/artifacts/prompts/registry.spec.md
 
 # Step 5: Regenerate agents
 Use .livespec/4-evolve/4d-regenerate-context.md
 # Updates: AGENTS.md (references new prompt)
-
-# Result: New prompt distributed to target projects
 ```
 
-### Example 2: Capturing Violation Learning
+### Example 2: Capturing Violation Learning (IMP-005 pattern)
 
 ```bash
-# Violation detected: Agent skipped spec-first check
+# Violation detected: Specs not machine-navigable, missing type field
 
-# Step 1: Create template
-# Write: .livespec/templates/agents/spec-first-enforcement.md
-# Contains: Reusable verification checklist
+# Step 1: Create feature spec
+# Write: specs/features/mandatory-frontmatter.spec.md
+# type: behavior, satisfies: outcomes, guided-by: strategy
 
-# Step 2: Update workflow spec
-# Edit: specs/workspace/workflows.spec.md
-# Mandate: "Use spec-first-enforcement template"
+# Step 2: Update base metaspec
+# Edit: references/standards/metaspecs/base.spec.md
+# Add: mandatory fields documentation
 
-# Step 3: Update regeneration prompt
-# Edit: specs/features/prompts/4d-regenerate-context.spec.md
-# Require: Include template in AGENTS.md
+# Step 3: Create validation script
+# Write: scripts/validate-frontmatter.sh
+# Spec: specs/artifacts/validator-frontmatter.spec.md
 
-# Step 4: Regenerate
+# Step 4: Regenerate AGENTS.md (includes new guidance)
 Use .livespec/4-evolve/4d-regenerate-context.md
-# AGENTS.md now has spec-first enforcement inline
 
-# Step 5: Copy to dist/
-cp AGENTS.md dist/AGENTS.md
-cp .livespec/templates/agents/spec-first-enforcement.md dist/templates/agents/
+# Step 5: Update dist/ templates
+cp references/standards/metaspecs/base.spec.md dist/standard/metaspecs/
 
-# Result: Target projects get improved methodology automatically
+# Result: Target projects get mandatory frontmatter requirement
 ```
 
 ### Example 3: Dogfooding Validation
 
 ```bash
-# Build new feature (e.g., session completion)
+# Build new feature (e.g., mandatory frontmatter)
 
 # Step 1: Use LiveSpec's own Phase 1 (DESIGN)
 Use .livespec/1-design/1c-define-behaviors.md
-# Creates: specs/features/session-completion.spec.md
+# Creates: specs/features/mandatory-frontmatter.spec.md
+# (Meta-irony: spec for specs must itself have correct frontmatter)
 
-# Step 2: Use LiveSpec's own Phase 2 (BUILD)
-Use .livespec/2-build/2b-create-tests.md
-Use .livespec/2-build/2a-implement-from-specs.md
-# Creates: tests + implementation
+# Step 2: Migrate all existing specs
+scripts/validate-frontmatter.sh  # finds violations
+# Fix all specs to comply
 
-# Step 3: USE THE FEATURE in current session
-# Run: .livespec/prompts/utils/complete-session.md
-# Discovers: Version drift bug (dogfooding found gap)
+# Step 3: USE the validation in current session
+scripts/validate-frontmatter.sh  # must exit 0
 
-# Step 4: Fix bug before committing
-# Update: specs/features/session-completion.spec.md
-# Fix: Implementation
-
-# Result: Dogfooding prevented shipping broken feature
+# Step 4: Commit only after validation passes
 ```
 
 ## Decision Points
 
 **Is this workspace/ or strategy/?**
-- Test: "Could ANY project use this?" → YES = workspace/
-- Example: "Use MSL format" → workspace/ (anyone can use)
-- Example: "Distribute via dist/" → strategy/ (framework-specific)
+- Test: "Is this ABOUT how we operate?" → YES = workspace/
+- Example: "Use MSL format" → workspace/ (operating convention)
+- Example: "Distribute via dist/" → strategy/ (framework architecture)
 
-**Is this specs/ or dist/?**
-- Test: "Is this defining framework or IS the framework?"
-- Defining → specs/ (specifications)
-- IS → dist/ (distributable product)
+**Is this features/ or artifacts/?**
+- Test: "Does this describe what the methodology DOES?" → YES = features/
+- Test: "Does this describe something we BUILD?" → YES = artifacts/
+- Example: "Context generation behavior" → features/
+- Example: "Regenerate-context prompt" → artifacts/prompts/
 
 **Should I dogfood this?**
 - YES if: Governance project (always dogfood)
-- Validates methodology works
-- Demonstrates patterns
-- Builds credibility
-
-**When do learnings reach target projects?**
-- Template created → Spec updated → Prompt updated → AGENTS.md regenerated → Copied to dist/
-- Target projects copy dist/ → They get improvements
+- Validates methodology works, demonstrates patterns
 
 ## Reference Library
 
-**For detailed guidance:**
 - Parent: AGENTS.md (root context)
-- Taxonomy: specs/workspace/taxonomy.spec.md (project classification)
-- Distribution: specs/workspace/distribution.spec.md (framework patterns)
-- Workflows: specs/workspace/workflows.spec.md (learning distribution)
-
-**Cross-references:**
-- Phase 0-4: Apply to governance projects (dogfooding)
-- Constitution: specs/workspace/constitution.spec.md (dogfooding principle)
+- Taxonomy: `specs/workspace/taxonomy.spec.md` (project classification)
+- Distribution: `specs/workspace/distribution.spec.md` (framework patterns)
+- Mandatory frontmatter: `specs/features/mandatory-frontmatter.spec.md`
+- Base metaspec: `references/standards/metaspecs/base.spec.md`
 
 ---
 
-*Governance domain specialist for LiveSpec*
+*Governance domain specialist for LiveSpec v5.3.0*
 *Parent: AGENTS.md*

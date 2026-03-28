@@ -1,17 +1,18 @@
 ---
-satisfies:
-  - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
+type: workspace
+category: workspace
+fidelity: process
+criticality: CRITICAL
+failure_mode: Without context architecture, agents receive inappropriate or bloated context leading to focus inefficiency
+governed-by: []
 applies_to:
   - all_projects
   - agent_context_generation
-criticality: CRITICAL
-failure_mode: Without context architecture, agents receive inappropriate or bloated context leading to focus inefficiency
+satisfies:
+  - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/taxonomy.spec.md
-governed-by:
-  - .livespec/standard/conventions/context-tree.spec.md
-  - .livespec/standard/metaspecs/workspace.spec.md
 supports:
   - specs/features/context-generation.spec.md
   - .livespec/prompts/utils/regenerate-contexts.md

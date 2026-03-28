@@ -1,8 +1,12 @@
 ---
+type: behavior
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without behavior spec requirements, behavioral specs become implementation details rather than observable outcomes
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Behavior Specification Requirements

@@ -1,4 +1,7 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Product-specific content in workspace/ blurs operating context vs deliverable boundary, confuses agents about workspace purpose
 governed-by:

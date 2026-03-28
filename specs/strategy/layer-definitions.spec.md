@@ -1,10 +1,12 @@
 ---
-derives-from:
-  - specs/strategy/three-layer-architecture.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/strategy.spec.md
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: IMPORTANT
 failure_mode: Without clear layer definitions, specs placed incorrectly causing organizational confusion
+governed-by: []
+derives-from:
+  - specs/strategy/three-layer-architecture.spec.md
 ---
 
 # Three-Layer Definitions and Structure

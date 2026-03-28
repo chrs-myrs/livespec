@@ -1,8 +1,10 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Without consistent prompt structure, AI agents can't reliably execute prompts, reducing methodology effectiveness
-governed-by:
-  - .livespec/standard/metaspecs/contract.spec.md
+governed-by: []
 supports:
   - specs/artifacts/prompts/
 ---

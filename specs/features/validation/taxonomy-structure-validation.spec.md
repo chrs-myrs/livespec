@@ -1,4 +1,7 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Incomplete taxonomy specs leave agents without guidance on file placement, workspace scope, and specs boundary decisions
 governed-by:

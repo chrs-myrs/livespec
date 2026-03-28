@@ -1,11 +1,13 @@
 ---
-specifies: prompts/utils/audit-workspace-specs.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Workspace specs grow unchecked, creating context window bloat and reduced clarity
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/workspace/workflows.spec.md
+specifies: prompts/utils/audit-workspace-specs.md
 ---
 
 # Prompt Behavior: Audit Workspace Specs

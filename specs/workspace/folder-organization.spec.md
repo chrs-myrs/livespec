@@ -1,12 +1,14 @@
 ---
-satisfies:
-  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
-applies_to:
-  - all_projects
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Files placed in wrong locations cause organizational confusion and blur workspace vs deliverable boundaries
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
+governed-by: []
+applies_to:
+  - all_projects
+satisfies:
+  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 derives-from:
   - specs/workspace/patterns.spec.md
 ---

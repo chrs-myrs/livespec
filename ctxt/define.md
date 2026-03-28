@@ -1,5 +1,7 @@
 # DEFINE Mode
 
+> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+
 Sub-agent context for problem definition and workspace setup.
 
 ## Summary
@@ -53,25 +55,70 @@ Use `/livespec:init --full`:
 ```
 
 **specs/foundation/outcomes.spec.md:**
+```yaml
+---
+type: outcomes
+category: foundation
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: Without clear outcomes, project lacks cohesive direction
+governed-by: []
+derives-from:
+  - PURPOSE.md
+supports:
+  - specs/strategy/architecture.spec.md
+---
+```
 - Strategic success criteria
 - High-level requirements (not features)
 - Measurable outcomes
 
 **specs/foundation/constraints.spec.md:**
+```yaml
+---
+type: constraints
+category: foundation
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: Violating constraints makes project unusable or defeats its purpose
+governed-by: []
+derives-from:
+  - PURPOSE.md
+  - specs/foundation/outcomes.spec.md
+supports:
+  - specs/strategy/architecture.spec.md
+---
+```
 - Hard boundaries (technical, legal, organizational)
 - Non-negotiable requirements
 - Compliance mandates
 
 **specs/workspace/:**
-- constitution.spec.md - Development principles
-- patterns.spec.md - Conventions
-- workflows.spec.md - Development processes
-- taxonomy.spec.md - Project classification
+- constitution.spec.md — Development principles
+- patterns.spec.md — Conventions
+- workflows.spec.md — Development processes
+- taxonomy.spec.md — Project classification
+
+### Workspace Frontmatter Template
+
+Workspace specs require `applies_to` field:
+```yaml
+---
+type: workspace
+category: workspace
+fidelity: process
+criticality: IMPORTANT
+failure_mode: [Concrete failure description]
+governed-by: []
+applies_to:
+  - all_projects
+---
+```
 
 ## Decision Points
 
 **Should I skip Define mode?**
-- YES if: Extracting from existing codebase (use `/livespec:evolve extract`)
+- YES if: Extracting from existing codebase (use `/livespec:audit extract`)
 - NO if: Starting new project (need foundation)
 
 **Quick start or full customization?**
@@ -90,7 +137,7 @@ Use `/livespec:init --full`:
 ```bash
 /livespec:init           # 5 min setup
 # Edit PURPOSE.md        # 5 min
-/livespec:do design      # Move to design mode
+/livespec:design         # Move to design mode
 ```
 
 Total: 10 minutes to working specs
@@ -101,7 +148,7 @@ Total: 10 minutes to working specs
 /livespec:init --full    # 20-30 min interactive
 # Workshop PURPOSE.md    # Team discussion
 # Document constraints   # From team input
-/livespec:rebuild-context
+/livespec:audit context  # Rebuild context
 ```
 
 Total: 1-2 hours, entire team aligned
@@ -110,18 +157,35 @@ Total: 1-2 hours, entire team aligned
 
 Skip Define mode entirely:
 ```bash
-/livespec:evolve extract  # Extract specs from code
+/livespec:audit extract  # Extract specs from code
 # Validate extractions
 # Customize workspace specs
 ```
+
+## Taxonomy Decisions
+
+During Define mode, establish taxonomy (`specs/workspace/taxonomy.spec.md`):
+
+**Domain options:**
+- `software` — User-facing application or service
+- `governance` — Methodology frameworks, policies, procedures
+- `generation` — AI/automation pipelines
+- `planning` — Project management, roadmaps
+- `documentation` — Knowledge management
+- `hybrid` — Multiple domains
+
+**Key taxonomy outputs:**
+- Project Domain (affects how features/ is organized)
+- Workspace Scope (what's operating context vs deliverable)
+- Specs Boundary (what belongs in specs/ vs dist/)
 
 ## References
 
 - Init skill: `/livespec:init`
 - Parent context: AGENTS.md
-- Metaspecs: `.livespec/standard/metaspecs/outcomes.spec.md`, `.livespec/standard/metaspecs/constraints.spec.md`
+- Metaspecs: `references/standards/metaspecs/base.spec.md`
 
 ---
 
-*Define mode specialist for LiveSpec*
+*Define mode specialist for LiveSpec v5.3.0*
 *Parent: AGENTS.md*

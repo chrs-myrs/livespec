@@ -1,15 +1,17 @@
 ---
-specifies: dist/prompts/utils/generate-feedback-report.md
-derives-from:
-  - specs/workspace/workflows.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without feedback mechanism, LiveSpec maintainers cannot understand real-world usage patterns, pain points, and successes, preventing methodology improvements
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+derives-from:
+  - specs/workspace/workflows.spec.md
+specifies: dist/prompts/utils/generate-feedback-report.md
 ---
 
 # Generate Feedback Report Utility Prompt

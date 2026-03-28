@@ -1,15 +1,17 @@
 ---
-specifies: dist/prompts/utils/run-spike.md
-derives-from:
-  - specs/workspace/workflows.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without spike guidance, teams waste time on full implementations for unvalidated approaches or skip exploration leading to costly architectural mistakes
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+derives-from:
+  - specs/workspace/workflows.spec.md
+specifies: dist/prompts/utils/run-spike.md
 ---
 
 # Run Spike Discovery Prompt

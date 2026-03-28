@@ -1,8 +1,10 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: CRITICAL
 failure_mode: Without consistent MSL format, specs become inconsistent, validation fails, and AI agents can't reliably parse requirements
-governed-by:
-  - .livespec/standard/metaspecs/contract.spec.md
+governed-by: []
 supports:
   - specs/features/validation/
   - specs/artifacts/prompts/

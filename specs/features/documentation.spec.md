@@ -1,8 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Users create wrong folder structures and misplace specs; AI agents generate incorrect code due to missing context; projects fail to adopt spec-first workflow
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (voluntary adoption, AI agent support)
 guided-by:

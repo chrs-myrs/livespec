@@ -1,15 +1,17 @@
 ---
-specifies: dist/prompts/0-define/0b-customize-workspace.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Projects use suboptimal defaults when customization would better match needs
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
   - specs/strategy/phase-workflow.spec.md
+specifies: dist/prompts/0-define/0b-customize-workspace.md
 ---
 
 # Prompt Behavior: Customize Workspace

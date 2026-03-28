@@ -1,9 +1,14 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Sessions continue indefinitely without analysis, missing learning opportunities and context optimization
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution - feedback loop)
-derives_from:
+guided-by: []
+derives-from:
   - specs/workspace/constitution.spec.md
 supports:
   - Continuous methodology improvement

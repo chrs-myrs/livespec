@@ -1,8 +1,12 @@
 ---
+type: purpose
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without clear purpose, projects lack vision and success criteria
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Purpose Document Requirements

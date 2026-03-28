@@ -1,9 +1,11 @@
 ---
+type: taxonomy
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Without taxonomy, LiveSpec development becomes inconsistent and agents confuse framework distribution with specifications
+governed-by: []
 applies_to: this_project
-governed-by:
-  - .livespec/standard/metaspecs/taxonomy.spec.md
 ---
 
 # LiveSpec Project Taxonomy

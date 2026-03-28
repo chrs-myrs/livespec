@@ -1,10 +1,14 @@
 ---
+type: validator
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without link-based visualization, developers cannot understand the actual contextual relationships and how agent context expands through document references
 governed-by:
   - specs/workspace/patterns.spec.md
 satisfies:
   - specs/workspace/context-architecture.spec.md
+specifies: []
 ---
 
 # Context Tree Visualizer

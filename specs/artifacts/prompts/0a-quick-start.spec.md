@@ -1,11 +1,13 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without quick-start, new users face high cognitive load and long setup time, reducing adoption
-specifies: dist/prompts/0-define/0a-quick-start.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 derives-from:
   - specs/artifacts/prompts/0a-quick-start.spec.md
+specifies: dist/prompts/0-define/0a-quick-start.md
 ---
 
 # Prompt Behavior: Quick Start

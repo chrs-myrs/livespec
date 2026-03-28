@@ -1,15 +1,17 @@
 ---
-specifies: dist/prompts/utils/analyze-failure.md
-derives-from:
-  - specs/workspace/workflows.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without failure analysis guidance, users cannot diagnose and recover from LiveSpec adoption failures, losing investment and trust in methodology
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+derives-from:
+  - specs/workspace/workflows.spec.md
+specifies: dist/prompts/utils/analyze-failure.md
 ---
 
 # Analyze Failure Utility Prompt

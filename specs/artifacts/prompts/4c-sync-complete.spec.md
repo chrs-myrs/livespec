@@ -1,14 +1,16 @@
 ---
-specifies: prompts/4-evolve/4c-sync-complete.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Cannot confirm specs and code are synchronized
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/drift-detection.spec.md
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/4-evolve/4c-sync-complete.md
 ---
 
 # Prompt Behavior: Synchronisation Complete

@@ -1,8 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Broken cross-references cause spec/doc drift, lost traceability, and methodology violations
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/features/drift-detection.spec.md
 guided-by:

@@ -1,8 +1,10 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: CRITICAL
 failure_mode: Without consistent AGENTS.md format, AI agents receive malformed context, reducing effectiveness and causing methodology violations
-governed-by:
-  - .livespec/standard/metaspecs/contract.spec.md
+governed-by: []
 derives-from:
   - specs/features/context-generation.spec.md
 supports:

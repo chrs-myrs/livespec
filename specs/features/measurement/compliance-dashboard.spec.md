@@ -1,15 +1,17 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Cannot track compliance trends over time, missing systemic issues and improvement opportunities
-derives_from:
-  - specs/workspace/constitution.spec.md
-  - specs/features/measurement/agent-compliance.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/workspace/constitution.spec.md
+  - specs/features/measurement/agent-compliance.spec.md
 supports:
   - Process improvement decisions
   - Agent performance comparison

@@ -1,11 +1,13 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Strategic improvement prompt unclear or incomplete, improvements made without proper data analysis, prioritization incorrect
+governed-by:
+  - specs/workspace/patterns.spec.md
 specifies: dist/prompts/utils/suggest-improvements.md
 implements: specs/features/improvement-analysis.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
-  - specs/workspace/patterns.spec.md
 ---
 
 # Utility Prompt: Suggest Improvements

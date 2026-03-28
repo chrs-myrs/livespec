@@ -1,12 +1,14 @@
 ---
+type: strategy
+category: strategy
+fidelity: decisions-only
+criticality: CRITICAL
+failure_mode: Without dogfooding validation, LiveSpec could prescribe methodology that doesn't work in practice, undermining credibility and voluntary adoption
+governed-by:
+  - specs/foundation/constraints.spec.md (Testable Behaviors, No Framework Lock-in)
 derives-from:
   - specs/foundation/outcomes.spec.md (Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
-governed-by:
-  - specs/foundation/constraints.spec.md (Testable Behaviors, No Framework Lock-in)
-  - .livespec/standard/metaspecs/strategy.spec.md
-criticality: CRITICAL
-failure_mode: Without dogfooding validation, LiveSpec could prescribe methodology that doesn't work in practice, undermining credibility and voluntary adoption
 ---
 
 # Dogfooding Strategy

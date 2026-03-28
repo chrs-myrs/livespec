@@ -1,11 +1,13 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
+criticality: IMPORTANT
+failure_mode: Without compression strategy, AGENTS.md bloats, context budget wasted, agent efficiency decreases
+governed-by: []
 applies_to:
   - all_projects
   - all_specifications
-criticality: IMPORTANT
-failure_mode: Without compression strategy, AGENTS.md bloats, context budget wasted, agent efficiency decreases
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
 derives-from:
   - specs/workspace/constitution.spec.md
 ---

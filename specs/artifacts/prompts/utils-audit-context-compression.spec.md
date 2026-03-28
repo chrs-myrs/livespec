@@ -1,9 +1,11 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without audit specification, context compression measurement is undefined and compression level migration is unreliable
+governed-by: []
 specifies: dist/prompts/utils/audit-context-compression.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
 ---
 
 # Prompt Behavior: Audit Context Compression

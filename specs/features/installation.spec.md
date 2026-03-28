@@ -1,8 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Users unable to install LiveSpec properly, leading to manual errors, version drift, and adoption barriers
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
   - specs/foundation/outcomes.spec.md (Requirement 4: Minimal Maintenance)

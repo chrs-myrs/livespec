@@ -1,6 +1,12 @@
 ---
+type: taxonomy
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without taxonomy metaspec, projects lack consistent classification guidance and agents cannot determine correct file placement
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 governs: All specs/workspace/taxonomy.spec.md files
 ---
 

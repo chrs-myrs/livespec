@@ -1,13 +1,15 @@
 ---
-specifies: prompts/0-define/0c-define-outcomes.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Projects lack high-level requirements, leading to disconnected features
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/0-define/0c-define-outcomes.md
 ---
 
 # Prompt Behavior: Define Outcomes

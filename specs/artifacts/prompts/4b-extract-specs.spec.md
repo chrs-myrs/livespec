@@ -1,15 +1,17 @@
 ---
-specifies: prompts/4-evolve/4b-extract-specs.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: New behaviors remain undocumented
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
   - specs/features/drift-detection.spec.md
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/4-evolve/4b-extract-specs.md
 ---
 
 # Prompt Behavior: Extract Specifications

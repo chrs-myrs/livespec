@@ -1,6 +1,12 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: No structured path for incubating and extracting child projects
+governed-by: []
+satisfies: []
+guided-by: []
 ---
 
 # Project Birthing

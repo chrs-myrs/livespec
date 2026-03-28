@@ -1,10 +1,13 @@
 ---
-type: metaspec
+type: domain-model
+category: artifacts
+fidelity: behavioral
 purpose: Define quality criteria for domain model specifications
 applies_to: specs/features/models/*.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 criticality: IMPORTANT
 failure_mode: Without explicit domain models, core concepts remain implicit assumptions leading to implementation inconsistencies and edge case bugs
 ---

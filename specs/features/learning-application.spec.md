@@ -1,6 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Session insights lost, specs become stale, repeated mistakes across sessions
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

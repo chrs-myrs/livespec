@@ -1,13 +1,16 @@
 ---
+type: strategy
+category: strategy
+fidelity: decisions-only
+criticality: CRITICAL
+failure_mode: Without clear architecture, LiveSpec becomes incoherent collection of files
+governed-by:
+  - specs/foundation/constraints.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 1: Specification-Driven Regeneration)
   - specs/foundation/outcomes.spec.md (Requirement 2: AI Context Generation)
   - specs/foundation/outcomes.spec.md (Requirement 3: Universal Applicability)
-governed-by:
-  - specs/foundation/constraints.spec.md
-  - .livespec/standard/metaspecs/strategy.spec.md
-criticality: CRITICAL
-failure_mode: Without clear architecture, LiveSpec becomes incoherent collection of files
+derives-from: []
 ---
 
 # LiveSpec Architecture

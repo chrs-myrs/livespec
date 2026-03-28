@@ -1,11 +1,14 @@
 ---
-specifies: dist/prompts/utils/validate-spec-purity.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Implementation code accumulates in specifications violating WHAT-not-HOW principle and creating maintenance burden
 governed-by:
   - dist/standard/metaspecs/prompt.spec.md
 satisfies:
   - specs/features/msl-compliance.spec.md
+specifies: dist/prompts/utils/validate-spec-purity.md
 implements: specs/features/validation/spec-purity-detection.spec.md
 ---
 

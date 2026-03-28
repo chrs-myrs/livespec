@@ -1,11 +1,13 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without coverage audit, permanent files lack specifications and implementation proceeds without clear requirements
+governed-by:
+  - specs/workspace/patterns.spec.md
 specifies: dist/prompts/utils/audit-spec-coverage.md
 implements: specs/artifacts/commands/generation.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
-  - specs/workspace/patterns.spec.md
 ---
 
 # Prompt Behavior: Audit Spec Coverage

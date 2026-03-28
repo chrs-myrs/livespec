@@ -1,4 +1,7 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Specifications describing non-existent structures create false documentation, mislead developers, and violate spec-reality synchronization
 governed-by:

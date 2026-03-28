@@ -1,11 +1,13 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
+criticality: IMPORTANT
+failure_mode: Inconsistent patterns make LiveSpec harder to understand and maintain
+governed-by: []
 applies_to:
   - all_projects
   - all_specifications
-criticality: IMPORTANT
-failure_mode: Inconsistent patterns make LiveSpec harder to understand and maintain
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Development Patterns

@@ -1,8 +1,10 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Without llms.txt, AI tools cannot discover LiveSpec methodology content, reducing adoption
-governed-by:
-  - .livespec/standard/metaspecs/contract.spec.md
+governed-by: []
 supports:
   - specs/strategy/ai-discoverability.spec.md
 ---

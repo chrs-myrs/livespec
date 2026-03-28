@@ -1,5 +1,7 @@
 # Session Completion
 
+> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+
 Sub-agent context for session analysis and compliance measurement.
 
 ## Summary
@@ -14,29 +16,29 @@ Session completion analyzes agent compliance and context efficiency to maintain 
 - Natural stopping point (ready to commit, switching tasks)
 - User appears stuck (repeated attempts, no progress)
 
-**Invoke:** `/livespec:session-review`
+**Invoke:** `/livespec:learn`
 
 ## Session Analysis Workflow
 
 ### Step 1: Analyze Process Compliance (0-8 points)
 
-**Layer 1 - TodoWrite Gate (0-2 points):**
+**Layer 1 — TodoWrite Gate (0-2 points):**
 - 2: Used TodoWrite before creating all permanent files
 - 1: Used TodoWrite for some files
 - 0: Skipped TodoWrite gate
 
-**Layer 2 - Validation Check (0-2 points):**
-- 2: Ran validation checks before creating files
+**Layer 2 — Validation Check (0-2 points):**
+- 2: Ran validation checks before creating files (including `scripts/validate-frontmatter.sh`)
 - 1: Ran checks for some files
 - 0: Skipped validation checks
 
-**Layer 3 - Plan Mode (0-3 points):**
+**Layer 3 — Plan Mode (0-3 points):**
 - 3: Presented plan for all new permanent files
 - 2: Presented plan for most files
 - 1: Presented plan occasionally
 - 0: Never presented plans
 
-**Layer 4 - Pre-commit Hook (0-1 point):**
+**Layer 4 — Pre-commit Hook (0-1 point):**
 - 1: Pre-commit validation passed
 - 0: Pre-commit failed
 
@@ -73,14 +75,25 @@ Total sections = all sections in loaded context
 Ratio = (sections used / total sections) × 100%
 ```
 
-### Step 4: Identify Methodology Gaps
+### Step 4: Check Spec Quality
+
+When reviewing session work, verify any new/edited specs have:
+- [ ] All six mandatory base fields (type, category, fidelity, criticality, failure_mode, governed-by)
+- [ ] Correct `type` value (see allowed set in AGENTS.md)
+- [ ] `category` matches directory
+- [ ] `governed-by` contains only content governance (no metaspec paths)
+- [ ] Per-category mandatory fields (features: satisfies+guided-by, workspace: applies_to, etc.)
+- [ ] All relationship field names hyphenated (not underscored)
+
+### Step 5: Identify Methodology Gaps
 
 Look for:
 - What didn't work well (2-3 specific issues)
 - Why violations occurred (root causes)
 - How to prevent in future (improvements)
+- Frontmatter mistakes made and corrected
 
-### Step 5: Show Report (≤15 lines)
+### Step 6: Show Report (≤15 lines)
 
 ```
 Session Completion: [Task Name]
@@ -90,6 +103,7 @@ Accomplishments:
 - [Key deliverables]
 
 Compliance: X/8 process, Y/13 focus (Z% overall)
+Spec quality: [frontmatter compliant? Yes/No — N issues]
 
 What Went Well:
 - [2-3 highlights]
@@ -100,7 +114,7 @@ What Could Improve:
 Data saved to ~/.claude/livespec/
 ```
 
-### Step 6: Save Data Globally
+### Step 7: Save Data Globally
 
 **Compliance data:**
 `~/.claude/livespec/compliance/YYYY-MM-DD-HHMMSS-projectname.json`
@@ -114,19 +128,17 @@ Data saved to ~/.claude/livespec/
 |-------|---------|-------|-------------|
 | Perfect | 8/8 | 11+ | All enforcement followed |
 | Good | 6-7 | 8+ | Most enforcement followed |
-| Fair | 4-5 | - | Some enforcement followed |
-| Poor | 0-3 | - | Enforcement bypassed |
+| Fair | 4-5 | — | Some enforcement followed |
+| Poor | 0-3 | — | Enforcement bypassed |
 
 ## Post-Session Flow
 
 ```
-/livespec:session-review  # Analyze session
-         ↓
 /livespec:learn           # Capture insights to specs
          ↓
-git commit                 # Save work
+git commit                # Save work
          ↓
-Fresh session              # Better context
+Fresh session             # Better context
 ```
 
 ## Data Format
@@ -149,6 +161,11 @@ Fresh session              # Better context
     "signal_to_noise": 33,
     "sections_loaded": 18,
     "sections_used": 6
+  },
+  "spec_quality": {
+    "frontmatter_compliant": true,
+    "issues_found": 0,
+    "issues_fixed": 0
   }
 }
 ```
@@ -160,24 +177,24 @@ Fresh session              # Better context
 
 ## What Didn't Work Well
 - TodoWrite gate bypassed for 2/5 files
-- Context loaded late
+- governed-by had metaspec path (corrected)
 
 ## Methodology Gaps
 - Spec-first enforcement not obvious enough
-- TodoWrite requirement unclear
+- Frontmatter per-category fields unclear
 
 ## Improvement Suggestions
 - Move Spec-First Protocol to START section
-- Add TodoWrite reminder to file creation
+- Add frontmatter checklist to design mode
 ```
 
 ## References
 
-- Session review command: `/livespec:session-review`
-- Learn command: `/livespec:learn`
+- Learn skill: `/livespec:learn`
+- Frontmatter validation: `scripts/validate-frontmatter.sh`
 - Parent context: AGENTS.md
 
 ---
 
-*Session completion specialist for LiveSpec*
+*Session completion specialist for LiveSpec v5.3.0*
 *Parent: AGENTS.md*

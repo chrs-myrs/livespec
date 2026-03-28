@@ -1,13 +1,15 @@
 ---
+type: constraints
+category: foundation
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: Violating these constraints makes LiveSpec unusable or defeats its purpose
+governed-by: []
 derives-from:
   - PURPOSE.md
   - specs/foundation/outcomes.spec.md
 supports:
   - specs/strategy/architecture.spec.md
-criticality: CRITICAL
-failure_mode: Violating these constraints makes LiveSpec unusable or defeats its purpose
-governed-by:
-  - .livespec/standard/metaspecs/constraints.spec.md
 ---
 
 # LiveSpec Constraints

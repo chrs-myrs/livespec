@@ -1,6 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Strategic improvements made without data, repeat failed approaches, no prioritization of high-impact changes
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

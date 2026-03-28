@@ -1,14 +1,16 @@
 ---
-specifies: dist/prompts/0-define/0c-define-problem.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Projects lack clear purpose and vision, leading to misaligned solutions
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: dist/prompts/0-define/0c-define-problem.md
 ---
 
 # Prompt Behavior: Define Purpose

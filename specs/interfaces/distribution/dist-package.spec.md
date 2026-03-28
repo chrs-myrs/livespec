@@ -1,8 +1,10 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Without consistent dist package structure, target projects receive incomplete or malformed LiveSpec installations
-governed-by:
-  - .livespec/standard/metaspecs/contract.spec.md
+governed-by: []
 supports:
   - specs/features/context-generation.spec.md
 ---

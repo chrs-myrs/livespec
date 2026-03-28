@@ -1,10 +1,12 @@
 ---
-specifies: dist/prompts/4-evolve/4f-document-implementation.md
-governed-by:
-  - specs/workspace/constitution.spec.md
-  - .livespec/standard/metaspecs/prompt.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without systematic implementation feedback capture, LiveSpec cannot learn from real-world usage patterns and methodology failures
+governed-by:
+  - specs/workspace/constitution.spec.md
+specifies: dist/prompts/4-evolve/4f-document-implementation.md
 ---
 
 # Document Implementation Feedback

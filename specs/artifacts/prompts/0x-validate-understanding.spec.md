@@ -1,9 +1,11 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without conceptual validation, users make organizational mistakes requiring costly restructuring
+governed-by: []
 specifies: dist/prompts/0-define/0x-validate-understanding.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
 ---
 
 # Prompt Behavior: Validate Understanding

@@ -1,6 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Project health unknown, problems accumulate unnoticed, no unified view of system state, reactive rather than proactive maintenance
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

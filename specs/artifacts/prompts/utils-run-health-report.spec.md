@@ -1,11 +1,13 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Health report prompt unclear, validations missed, status thresholds wrong, remediation plans vague or missing
+governed-by:
+  - specs/workspace/patterns.spec.md
 specifies: dist/prompts/utils/run-health-report.md
 implements: specs/features/project-health.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
-  - specs/workspace/patterns.spec.md
 ---
 
 # Utility Prompt: Run Health Report

@@ -1,8 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without centralized build configuration, context generation and phased workflows lack consistency
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:

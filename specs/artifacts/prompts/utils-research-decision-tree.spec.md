@@ -1,9 +1,11 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without decision tree specification, research workflow guidance is undefined and Phase 0e evaluation becomes inconsistent
+governed-by: []
 specifies: dist/prompts/utils/research-decision-tree.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
 ---
 
 # Prompt Behavior: Research Decision Tree

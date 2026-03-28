@@ -1,6 +1,10 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without valid agent context tree, agents lack specialized guidance, suffer from context overload, and cannot proactively load phase/domain/utility contexts, reducing focus efficiency and methodology adoption
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
   - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
@@ -10,8 +14,6 @@ guided-by:
   - specs/strategy/ai-discoverability.spec.md
 derives-from:
   - specs/workspace/context-architecture.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
 supports:
   - .livespec/prompts/utils/regenerate-contexts.md
   - .claude/agents/context-builder/instructions.md

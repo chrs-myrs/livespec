@@ -1,11 +1,13 @@
 ---
-derives-from:
-  - specs/foundation/outcomes.spec.md (AI Agent Support, Voluntary Adoption)
-governed-by:
-  - specs/foundation/constraints.spec.md (Agent Agnostic, No Framework Lock-in, Manual Adoption)
-  - .livespec/standard/metaspecs/strategy.spec.md
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: CRITICAL
 failure_mode: Without effective AI discoverability, agents cannot assist users and voluntary adoption fails
+governed-by:
+  - specs/foundation/constraints.spec.md (Agent Agnostic, No Framework Lock-in, Manual Adoption)
+derives-from:
+  - specs/foundation/outcomes.spec.md (AI Agent Support, Voluntary Adoption)
 ---
 
 # AI Discoverability Strategy

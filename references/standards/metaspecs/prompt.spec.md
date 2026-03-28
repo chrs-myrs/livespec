@@ -1,10 +1,14 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without prompt spec requirements, prompt specs lack essential structure for guiding AI agents
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/behavior.spec.md
 extends:
-  - .livespec/standard/metaspecs/behavior.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 ---
 
 # Prompt Specification Requirements

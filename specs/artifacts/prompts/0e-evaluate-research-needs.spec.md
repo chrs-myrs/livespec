@@ -1,13 +1,15 @@
 ---
-specifies: prompts/0-define/0e-evaluate-research-needs.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Requirements based on assumptions rather than evidence, leading to misaligned features and wasted development effort
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/0-define/0e-evaluate-research-needs.md
 ---
 
 # Prompt Behavior: Evaluate Research Needs

@@ -1,17 +1,19 @@
 ---
-specifies: prompts/4-evolve/4e-validate-extractions.md
-derives-from:
-  - specs/workspace/patterns.spec.md
-  - specs/workspace/workflows.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Low-confidence extractions remain unvalidated, specs diverge from implementation reality, extraction errors propagate
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/drift-detection.spec.md
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+derives-from:
+  - specs/workspace/patterns.spec.md
+  - specs/workspace/workflows.spec.md
+specifies: prompts/4-evolve/4e-validate-extractions.md
 ---
 
 # Prompt Behavior: Validate Extracted Specifications

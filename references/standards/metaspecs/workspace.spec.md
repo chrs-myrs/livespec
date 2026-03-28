@@ -1,8 +1,12 @@
 ---
+type: workspace
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without workspace spec requirements, workspace specs blur operating context vs deliverable boundary
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Workspace Specification Requirements

@@ -1,14 +1,17 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Session compliance measurement produces inaccurate scores or unclear recommendations
-derives_from:
-  - specs/features/measurement/agent-compliance.spec.md
-governed_by:
+governed-by:
   - specs/workspace/constitution.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/features/measurement/agent-compliance.spec.md
 specifies:
   - dist/prompts/utils/measure-session-compliance.md
 ---

@@ -1,13 +1,15 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: CRITICAL
 failure_mode: Without consistent version management, documentation and version files drift, causing confusion about current release state and breaking version-dependent workflows
+governed-by: []
 applies_to:
   - .livespec-version
   - AGENTS.md
   - dist/VERSION
   - CHANGELOG.md
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # Version Management

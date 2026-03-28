@@ -1,8 +1,12 @@
 ---
+type: strategy
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without strategy spec requirements, technical decisions scatter across behavior specs or mix with operating context
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Strategy Specification Requirements

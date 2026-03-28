@@ -1,12 +1,14 @@
 ---
+type: strategy
+category: strategy
+fidelity: decisions-only
+criticality: CRITICAL
+failure_mode: Without clear workflow strategy, users follow rigid waterfall (inflexible) or chaotic iteration (no structure), defeating voluntary adoption
+governed-by:
+  - specs/foundation/constraints.spec.md (Agent Agnostic, Manual Adoption)
 derives-from:
   - specs/foundation/outcomes.spec.md (Voluntary Adoption, Maintenance Proportional to Durability, Specification-Driven Architecture)
   - specs/features/three-modes.spec.md (mode definitions)
-governed-by:
-  - specs/foundation/constraints.spec.md (Agent Agnostic, Manual Adoption)
-  - .livespec/standard/metaspecs/strategy.spec.md
-criticality: CRITICAL
-failure_mode: Without clear workflow strategy, users follow rigid waterfall (inflexible) or chaotic iteration (no structure), defeating voluntary adoption
 ---
 
 # Mode Workflow Strategy

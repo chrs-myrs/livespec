@@ -1,14 +1,16 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Cannot measure agent adherence to spec-first protocol, leading to undetected process bypasses
-derives_from:
-  - specs/workspace/constitution.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/workspace/constitution.spec.md
 supports:
   - Continuous process improvement
   - Agent performance comparison

@@ -1,10 +1,12 @@
 ---
-applies_to:
-  - all_projects
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Without generation markers, users and AI agents directly edit generated files causing source-of-truth drift
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
+governed-by: []
+applies_to:
+  - all_projects
 derives-from:
   - specs/workspace/patterns.spec.md
 ---

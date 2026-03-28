@@ -1,15 +1,16 @@
 ---
+type: agent
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Context builder agent produces invalid tree structure, incomplete content, or violates size budgets, resulting in broken agent guidance
-derives_from:
-  - specs/features/context-generation.spec.md
-governed_by:
-  - .livespec/standard/conventions/context-tree.spec.md
-  - .livespec/standard/metaspecs/agent.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/features/context-generation.spec.md
 specifies:
   - .claude/agents/context-builder/instructions.md
 ---

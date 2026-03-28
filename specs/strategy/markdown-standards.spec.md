@@ -1,8 +1,13 @@
 ---
-guided-by:
-  - specs/workspace/constitution.spec.md
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: IMPORTANT
 failure_mode: Without consistent markdown standards, specifications become harder to understand and maintain, reducing AI discoverability
+governed-by: []
+guided-by:
+  - specs/workspace/constitution.spec.md
+derives-from: []
 ---
 
 # LiveSpec Markdown and Documentation Standards

@@ -1,10 +1,13 @@
 ---
+type: validator
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without PURPOSE.md boundary validation, documents expand beyond minimal vision statements
-implements: scripts/validate-purpose.sh
 governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
   - specs/strategy/validation.spec.md
+specifies: []
+implements: scripts/validate-purpose.sh
 ---
 
 # PURPOSE.md Boundary Validator

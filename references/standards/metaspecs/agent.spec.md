@@ -1,10 +1,14 @@
 ---
+type: agent
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without agent spec requirements, agent specs lack essential structure for guiding AI agent implementations
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/behavior.spec.md
 extends:
-  - .livespec/standard/metaspecs/behavior.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 ---
 
 # Agent Specification Requirements

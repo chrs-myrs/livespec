@@ -1,14 +1,18 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Target projects lack guidance on registry format, inconsistent tracking across projects, methodology gaps invisible
-specifies:
-  - dist/standard/registries/gaps.spec.md
-  - dist/standard/registries/issues.spec.md
-  - dist/standard/registries/improvements.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/patterns.spec.md
+specifies:
+  - dist/standard/registries/gaps.spec.md
+  - dist/standard/registries/issues.spec.md
+  - dist/standard/registries/improvements.spec.md
 ---
 
 # Registry Format Specifications

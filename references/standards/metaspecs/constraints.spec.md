@@ -1,8 +1,12 @@
 ---
+type: constraints
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without constraint spec rules, hard boundaries become vague requirements or mix with preferences
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Constraints Specification Requirements

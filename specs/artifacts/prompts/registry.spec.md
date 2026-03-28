@@ -1,16 +1,19 @@
 ---
-derives-from:
-  - specs/features/three-modes.spec.md
-  - specs/workspace/workflows.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without prompt registry, users and AI agents cannot navigate methodology or understand prompt relationships
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/ai-discoverability.spec.md
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/features/three-modes.spec.md
+  - specs/workspace/workflows.spec.md
+specifies: []
 ---
 
 # Prompt Registry

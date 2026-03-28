@@ -1,13 +1,16 @@
 ---
+type: validator
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Agents cannot validate spec requirements before file creation, reducing enforcement effectiveness
-implements: scripts/check-requires-spec.sh
-derives-from:
-  - specs/features/validation/spec-purity-detection.spec.md
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+governed-by: []
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/features/validation/spec-purity-detection.spec.md
+specifies: []
+implements: scripts/check-requires-spec.sh
 ---
 
 # Spec Requirement Validation Tool

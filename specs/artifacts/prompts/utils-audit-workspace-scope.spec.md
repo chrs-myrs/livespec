@@ -1,11 +1,14 @@
 ---
-specifies: dist/prompts/utils/audit-workspace-scope.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Product-specific content accumulates in workspace/ blurring operating context vs deliverable boundary
 governed-by:
   - dist/standard/metaspecs/prompt.spec.md
 satisfies:
   - specs/features/workspace-governance.spec.md
+specifies: dist/prompts/utils/audit-workspace-scope.md
 implements: specs/features/validation/workspace-scope-audit.spec.md
 ---
 

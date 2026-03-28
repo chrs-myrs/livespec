@@ -1,11 +1,13 @@
 ---
-derives-from:
-  - specs/foundation/outcomes.spec.md
-governed-by:
-  - specs/foundation/constraints.spec.md
-  - .livespec/standard/metaspecs/strategy.spec.md
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: CRITICAL
 failure_mode: Without clear layer separation, requirements and implementations mix, preventing traceability and cascade analysis
+governed-by:
+  - specs/foundation/constraints.spec.md
+derives-from:
+  - specs/foundation/outcomes.spec.md
 ---
 
 # Three-Layer Architecture Pattern

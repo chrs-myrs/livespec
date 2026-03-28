@@ -1,13 +1,15 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without structured changelog, users cannot understand version changes or assess upgrade impact, leading to confusion about what improved
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
-  - .livespec/standard/metaspecs/behavior.spec.md
-notes: |
-  This spec was created retrospectively after CHANGELOG.md was implemented.
-  Demonstrates the importance of spec-first even for "obvious" deliverables.
-  See commit 40411e3 (CHANGELOG implementation) vs this spec (specification).
+governed-by: []
+satisfies: []
+guided-by: []
+notes: This spec was created retrospectively after CHANGELOG.md was implemented.
+Demonstrates the importance of spec-first even for "obvious" deliverables.
+See commit 40411e3 (CHANGELOG implementation) vs this spec (specification).
 ---
 
 # CHANGELOG Behavior

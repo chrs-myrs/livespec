@@ -1,8 +1,10 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Without Context7 integration, AI agents using Context7 MCP cannot access LiveSpec documentation effectively
-governed-by:
-  - .livespec/standard/metaspecs/contract.spec.md
+governed-by: []
 supports:
   - specs/strategy/ai-discoverability.spec.md
 ---

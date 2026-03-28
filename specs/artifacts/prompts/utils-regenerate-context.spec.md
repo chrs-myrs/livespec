@@ -1,19 +1,20 @@
 ---
-specifies: .livespec/prompts/utils/regenerate-contexts.md
-derives-from:
-  - specs/workspace/context-architecture.spec.md
-  - specs/workspace/workflows.spec.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Agent contexts become stale or monolithic AGENTS.md remains, agents suffer from context overload and lack specialized guidance
-governed-by:
-  - .livespec/standard/conventions/context-tree.spec.md
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/context-generation.spec.md
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
   - specs/strategy/ai-discoverability.spec.md
+derives-from:
+  - specs/workspace/context-architecture.spec.md
+  - specs/workspace/workflows.spec.md
+specifies: .livespec/prompts/utils/regenerate-contexts.md
 ---
 
 # Prompt Behavior: Regenerate Agent Contexts

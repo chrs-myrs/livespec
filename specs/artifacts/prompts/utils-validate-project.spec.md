@@ -1,9 +1,11 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without validation specification, validate-project behavior is undefined and cannot be verified
+governed-by: []
 specifies: dist/prompts/utils/validate-project.md
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
 ---
 
 # Prompt Behavior: Validate Project

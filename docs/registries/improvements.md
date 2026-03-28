@@ -118,6 +118,119 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 
 ---
 
+### IMP-005: Mandatory Spec Frontmatter
+
+**Changed:** Added mandatory YAML frontmatter to base metaspec: type (subtype classification implying metaspec template), category (directory-level), fidelity (detail level), criticality, failure_mode, governed-by (content governance only). Per-category mandatory fields added. governed-by semantics changed from dual-purpose to content-only (type implies format governance).
+
+**Hypothesis:** Specs without frontmatter score 1/5 on machine-readability (B1) and 1/5 on frontmatter completeness (A1) in knowledge store audits. Adding structured frontmatter will make specs self-describing and machine-navigable without relying on AGENTS.md or taxonomy.spec.md as intermediaries.
+
+**Category:** Structure
+
+**Implemented:** 2026-03-28
+
+**Evidence:**
+- Audit of affiliate-api-v2 (LiveSpec v5 project): 61/100 overall (C grade)
+- Hand-built stores with frontmatter conventions: 84/100 (B+ grade)
+- 23-point gap driven primarily by A1 (1/5) and B1 (1/5)
+- Projected impact: +6 points on static audit
+- Source: `research/reports/knowledge-store-audit-findings.md`
+
+**Decision:** Implemented ✓
+
+**Implementation Details:**
+- 117 spec files transformed with new frontmatter schema
+- Validation script: `scripts/validate-frontmatter.sh` (0 errors, 0 warnings)
+- Base metaspec updated: `references/standards/metaspecs/base.spec.md`
+- All 12 type-specific metaspecs updated
+- Spec: `specs/features/mandatory-frontmatter.spec.md`
+- Plan: `var/seek/20260328-134249-imp005-mandatory-frontmatter/SUMMARY.md`
+
+**Evaluation Date:** 2026-04-11 (2 weeks), 2026-04-28 (1 month)
+
+---
+
+### IMP-006: Vocabulary Spec as Standard Deliverable
+
+**Changed:** (Proposed) Create a vocabulary-spec template that every LiveSpec project generates during scaffolding, defining: spec categories, fidelity levels, criticality levels, registry severity/status values
+
+**Hypothesis:** Projects using controlled vocabularies without definitions achieve 70-80% correct usage; projects with full vocabulary specs achieve 100%. LiveSpec currently scores 0/5 on vocabulary definition (B6) because no vocabulary documentation exists as a standard deliverable.
+
+**Category:** Structure
+
+**Implemented:** Not yet
+
+**Evidence:**
+- R2 Experiment 4B: Vocab spec 20/20 vs examples 16/20 vs teaching 14/20
+- Discriminating dimension: reliability reasoning (source vs conduit distinctions require full definitions)
+- affiliate-api-v2 audit: B6 = 0/5 (no vocabulary documentation)
+- Projected impact: +4 points on static audit
+- Source: `research/reports/knowledge-store-audit-findings.md`
+
+**Decision:** Pending
+
+---
+
+### IMP-007: Distributed Cross-References in Spec Frontmatter
+
+**Changed:** (Proposed) Each spec carries `governed-by`, `derives-from`, and `specifies` in frontmatter. The taxonomy mapping table becomes a derived view of these distributed references, not the source of truth.
+
+**Hypothesis:** Centralised traceability (a mapping table in taxonomy.spec.md) breaks when specs are read individually. Distributed metadata (each spec declares its own relationships) enables automated graph traversal and reverse lookups without parsing prose.
+
+**Category:** Traceability
+
+**Implemented:** Not yet
+
+**Evidence:**
+- affiliate-api-v2 audit: A4 = 3/5 (references exist but not machine-parseable), B5 = 3/5 (no reverse traceability)
+- Referenced traceability-matrix.md doesn't exist in the audited project
+- Hand-built stores (clark-v-mauro) with distributed references: B5 = 5/5
+- Projected impact: +2 points on static audit
+- Source: `research/reports/knowledge-store-audit-findings.md`
+
+**Decision:** Pending
+
+---
+
+### IMP-008: Standardised Registry Format
+
+**Changed:** (Proposed) All registries (decisions, debt, known-issues, data-protection-risks) use the same YAML frontmatter schema: `store: registry`, `type: <registry-type>`, `schema_version`, `last_reviewed`, `entries[]`
+
+**Hypothesis:** Inconsistent registry formats (2/4 with YAML frontmatter, 2/4 without) reduce structural consistency and prevent automated registry aggregation.
+
+**Category:** Structure
+
+**Implemented:** Not yet
+
+**Evidence:**
+- affiliate-api-v2 audit: A5 = 2/5 (varied structures within types)
+- decisions.md and debt.md have YAML frontmatter; known-issues.md and data-protection-risks.md don't
+- Projected impact: +2 points on static audit
+- Source: `research/reports/knowledge-store-audit-findings.md`
+
+**Decision:** Pending
+
+---
+
+### IMP-009: Fidelity Level as Spec Metadata
+
+**Changed:** (Proposed) Each spec carries its fidelity level in frontmatter (`fidelity: full-detail | behavioral | decisions-only | process`) rather than relying on constitution.spec.md prose guidance
+
+**Hypothesis:** When fidelity levels are only in the constitution, agents reading a single spec cannot know what level of detail is expected without reading the constitution first. Metadata-level fidelity enables automated enforcement and self-describing specs.
+
+**Category:** Governance
+
+**Implemented:** Not yet
+
+**Evidence:**
+- affiliate-api-v2 audit: B7 = 2/5 (implicit gradient, not metadata)
+- Constitution.spec.md defines fidelity per category but it's not enforced by frontmatter
+- Projected impact: +2 points on static audit
+- Source: `research/reports/knowledge-store-audit-findings.md`
+
+**Decision:** Pending
+
+---
+
 ## Evaluation Guidelines
 
 ### Immediate Impact (1 week)

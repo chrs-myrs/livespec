@@ -1,10 +1,17 @@
 ---
-satisfies:
-  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
-  - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
+type: workspace
+category: workspace
+fidelity: process
+criticality: CRITICAL
+failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
+governed-by:
+  - .livespec/guides/context-positioning.md
 applies_to:
   - all_ai_agents
   - AGENTS.md
+satisfies:
+  - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
+  - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
 derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
@@ -13,12 +20,6 @@ derives-from:
 supports:
   - prompts/4-evolve/4d-regenerate-context.md
   - .livespec/prompts/utils/regenerate-contexts.md
-criticality: CRITICAL
-failure_mode: Agents lack persistent context, forcing users to manually explain LiveSpec methodology each session, defeating voluntary adoption model
-governed-by:
-  - .livespec/standard/conventions/context-tree.spec.md
-  - .livespec/guides/context-positioning.md
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # Agent Configuration Structure

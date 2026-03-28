@@ -1,188 +1,202 @@
 # EVOLVE Mode
 
-Sub-agent context for spec health, learning capture, and drift detection.
+> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+
+Sub-agent context for implementation, TDD, validation, and regeneration.
 
 ## Summary
 
-Evolve mode maintains specification health through continuous evolution. This mode detects when specs and reality diverge, extracts learnings from sessions, and keeps context current. Consolidates drift detection into unified health management.
+Evolve mode handles implementation concerns: building from specs using TDD, validating against specifications, and detecting when specs need regeneration. Covers the full cycle from tests-first through spec extraction.
 
 ## When to Use
 
 **Entry conditions:**
-- System in production OR active development
-- Specs and code exist (can drift)
-- Session complete with learnings to capture
+- Design complete (specs in features/, strategy/, interfaces/)
+- Implementation needed (Phase 2 BUILD)
+- Validation needed (Phase 3 VERIFY)
+- Regeneration signals detected (Phase 4 EVOLVE)
 
-**Frequency:**
-- Health checks: Weekly (minimum) or before releases
-- Learning capture: End of each session
-- Context rebuild: When workspace specs change
+## Phase 2: BUILD (TDD)
 
-## Health Detection
+### TDD Discipline
 
-### Spec-Code Drift
+**Mandatory by default.** Escape hatch for trivial scripts with documented justification.
 
-**Implementations without specs:**
+**Red-Green-Refactor cycle:**
+1. Write failing test (RED) — test maps to spec requirement
+2. Write minimal code to pass (GREEN) — no more than needed
+3. Refactor while tests pass — improve design
+
+**Prompts:**
+- `2b-create-tests.md` — Write failing tests FIRST
+- `2a-implement-from-specs.md` — Make tests pass
+
+### Tests Map to Specs
+
+```
+specs/features/authentication.spec.md
+  Requirement: "Users can authenticate with email and password"
+    → tests/test_auth.py::test_valid_credentials_grant_access
+    → tests/test_auth.py::test_invalid_credentials_show_error
+```
+
+**Test structure mirrors spec structure.** When a spec changes, find corresponding tests first.
+
+### Implementation Checklist
+
+Before implementing any feature:
+- [ ] Spec exists with [!] requirements
+- [ ] Spec has full frontmatter (type, category, fidelity, criticality, failure_mode, governed-by + per-category fields)
+- [ ] Failing tests written (TDD)
+- [ ] Tests reference spec requirements in docstrings/comments
+
+## Phase 3: VERIFY
+
+### Validation Against Specs
+
+**Run validation at key checkpoints:**
+```bash
+# Frontmatter compliance (IMP-005)
+scripts/validate-frontmatter.sh
+
+# Cross-reference integrity
+prompts/utils/validate-project.md
+
+# Purpose boundary check
+scripts/validate-purpose.sh
+```
+
+**Severity levels:**
+- ERROR: Must fix before committing
+  - Missing mandatory frontmatter fields
+  - Wrong type/category values
+  - Underscore field names (use hyphens)
+  - Broken cross-references
+  - governed-by containing metaspec paths
+- WARNING: Should fix soon
+  - Missing backlinks, stale generated files
+
+### Acceptance Review
+
+After tests pass:
+- Verify behaviors match specs (not just tests)
+- Check edge cases documented in specs
+- Validate frontmatter still accurate (governed-by content-only, type correct)
+
+## Phase 4: EVOLVE — Regeneration Signals
+
+### Detecting Regeneration Signals
+
+**Not "drift" — these are signals that regeneration time has come:**
+
+**Code without specs:**
 ```
 Found: src/api/new-endpoint.py
 Missing: specs/features/new-endpoint.spec.md
 
-Action: /livespec:evolve extract
+Signal: Extract spec from implementation
+Action: /livespec:audit extract
 ```
 
-**Specs without implementations:**
+**Spec without implementation:**
 ```
 Found: specs/features/obsolete-feature.spec.md
-Missing: Implementation (deleted but spec remains)
+Missing: Implementation (deleted)
 
+Signal: Remove stale spec
 Action: git rm specs/features/obsolete-feature.spec.md
 ```
 
-**Behaviors changed without spec updates:**
+**Behavior changed without spec update:**
 ```
 Found: src/auth/oauth.py (flow changed)
 Outdated: specs/features/authentication.spec.md
 
-Action: /livespec:refine specs/features/authentication.spec.md
+Signal: Update spec to reflect reality
+Action: /livespec:design refine specs/features/authentication.spec.md
 ```
-
-### Structural Drift
-
-**Broken cross-references:**
-```
-specs/features/auth.spec.md
-  → guided-by: specs/strategy/old-arch.spec.md (missing!)
-
-Action: Update frontmatter with correct path
-```
-
-**Generated files edited directly:**
-```
-AGENTS.md modified by hand
-
-Action: Revert, run /livespec:rebuild-context
-```
-
-### Context Drift
 
 **AGENTS.md stale:**
 ```bash
-# Check if workspace specs newer than AGENTS.md
 for spec in specs/workspace/*.spec.md; do
   if [ "$spec" -nt "AGENTS.md" ]; then
     echo "STALE: AGENTS.md older than $spec"
   fi
 done
+
+Signal: Context needs rebuilding
+Action: /livespec:audit context
 ```
 
-**Action:** `/livespec:rebuild-context`
+### Spec Extraction (Brownfield)
 
-## Learning Capture (Correction-as-Spec)
-
-### Session Insight Patterns
-
-**Corrections made:**
-- "I initially thought X, but actually it's Y"
-- Mistaken assumptions corrected
-- Wrong approaches abandoned
-
-**User clarifications:**
-- "No, I meant..."
-- Requirements refined during discussion
-- Scope adjusted based on feedback
-
-**Patterns emerged:**
-- Same problem hit multiple times
-- New conventions established
-- "We should always do X" statements
-
-### Learning → Spec Flow
+When extracting specs from existing code:
 
 ```
-Session insight detected
+Implementation exists → Extract WHAT, not HOW
          ↓
-Categorize (workspace/strategy/features)
+Draft spec with confidence markers
          ↓
-Present options to user (AskUserQuestion)
+Apply MSL gate (essential? not HOW?)
          ↓
-Apply MSL gate (essential? not HOW? proven problem?)
+Apply full frontmatter schema (IMP-005)
          ↓
-Update target spec
+Review with user
          ↓
-Rebuild context
+Promote to active spec
 ```
 
-### Learning Routing
-
-| Learning Type | Target Location |
-|---------------|-----------------|
-| Process/Convention | specs/workspace/ |
-| Architectural Decision | specs/strategy/ |
-| Feature Behavior | specs/features/ |
-| Hard Constraint | specs/foundation/constraints.spec.md |
-
-## Health Report Format
-
+**Confidence markers for extracted specs:**
 ```markdown
-# Spec Health Report
-
-**Date:** YYYY-MM-DD
-**Overall Health:** [GREEN/YELLOW/RED] XX%
-
-## Structural Health (X/Y passing)
-- [PASS] All specs have frontmatter
-- [FAIL] 3 specs missing Validation section
-
-## Cross-Reference Health (X/Y valid)
-- [PASS] All satisfies: references valid
-- [FAIL] 1 broken guided-by: reference
-
-## MSL Compliance (X/Y minimal)
-- [PASS] Most specs under 100 lines
-- [WARN] 2 specs may have implementation details
-
-## Remediation
-
-1. Fix missing Validation sections
-2. Update broken reference
-3. Consider extracting specs for unspecified code
+- [!] System authenticates users [extracted from oauth.py, confidence: high]
+  - Valid credentials return JWT [extracted]
+  - Tokens expire after 24h [inferred from code]
 ```
 
-## Remediation Strategies
+### Regeneration Workflow
 
-### Code without specs
-
-```bash
-/livespec:evolve extract
-# Creates spec with confidence markers
-# Validate and promote
+```
+1. Detect signal (code/spec/context mismatch)
+2. Decide: Update spec OR regenerate code
+   - Spec was right, code wrong → Revert code
+   - Code is right, spec outdated → Update spec
+3. Validate spec has correct frontmatter
+4. Regenerate if context changed
+5. Commit after validation passes
 ```
 
-### Spec without code
+## Frontmatter When Extracting Specs
 
-```bash
-# Verify truly obsolete
-git log --all --full-history -- specs/features/obsolete.spec.md
+When extracting from existing code, use correct per-category fields:
 
-# Delete if confirmed
-git rm specs/features/obsolete.spec.md
+**For features (most common extraction target):**
+```yaml
+---
+type: behavior
+category: features
+fidelity: behavioral
+criticality: IMPORTANT
+failure_mode: [What breaks for users without this]
+governed-by: []
+satisfies:
+  - specs/foundation/outcomes.spec.md (Requirement N: Name)
+guided-by:
+  - specs/strategy/architecture.spec.md
+---
 ```
 
-### Behavior changed without spec update
-
-```bash
-# Option A: Spec was correct, code wrong
-# Revert code to match spec
-
-# Option B: Code is correct, spec outdated
-/livespec:refine specs/features/<spec>.spec.md
-```
-
-### Stale context
-
-```bash
-/livespec:rebuild-context
-# Regenerates AGENTS.md from workspace specs
+**For strategy (architectural decisions found in code):**
+```yaml
+---
+type: strategy
+category: strategy
+fidelity: decisions-only
+criticality: IMPORTANT
+failure_mode: [Architectural gap description]
+governed-by: []
+derives-from:
+  - specs/foundation/constraints.spec.md
+---
 ```
 
 ## Continuous Evolution Pattern
@@ -190,38 +204,39 @@ git rm specs/features/obsolete.spec.md
 ### Weekly Maintenance
 
 ```bash
-# Monday: Check health
-/livespec:evolve health
+# Check spec health
+/livespec:audit health
 
 # Triage:
 # - CRITICAL: Fix immediately
 # - IMPORTANT: Fix this week
 # - MINOR: Backlog
 
-# Friday: Confirm sync
-/livespec:validate
+# Confirm frontmatter compliance
+scripts/validate-frontmatter.sh
+
+# Confirm sync
+/livespec:audit validate
 ```
 
 ### Pre-Release Validation
 
 ```bash
-# Detect drift
-/livespec:evolve health
+# All validations must pass
+scripts/validate-frontmatter.sh  # frontmatter compliance
+prompts/utils/validate-project.md  # cross-references
 
 # Must be zero issues for release:
-# ✅ All drift resolved → Proceed
-# ❌ Drift exists → Fix first
+# All drift resolved → Proceed
+# Drift exists → Fix first
 
-# Rebuild context
-/livespec:rebuild-context
+# Rebuild context if workspace specs changed
+/livespec:audit context
 ```
 
 ### Session End
 
 ```bash
-# Complete session
-/livespec:session-review
-
 # Capture learnings
 /livespec:learn
 
@@ -230,12 +245,13 @@ git rm specs/features/obsolete.spec.md
 
 ## References
 
-- Evolve skill: `/livespec:evolve`
-- Health command: `/livespec:health-report`
-- Learn command: `/livespec:learn`
+- Audit skill: `/livespec:audit`
+- Learn skill: `/livespec:learn`
+- Frontmatter validation: `scripts/validate-frontmatter.sh`
+- Base metaspec: `references/standards/metaspecs/base.spec.md`
 - Parent context: AGENTS.md
 
 ---
 
-*Evolve mode specialist for LiveSpec*
+*Evolve mode specialist for LiveSpec v5.3.0*
 *Parent: AGENTS.md*

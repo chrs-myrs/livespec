@@ -1,11 +1,13 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
+criticality: IMPORTANT
+failure_mode: Without clear workflows, contributors don't know how to evolve LiveSpec properly
+governed-by: []
 applies_to:
   - all_projects
   - livespec_development
-criticality: IMPORTANT
-failure_mode: Without clear workflows, contributors don't know how to evolve LiveSpec properly
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Development Workflows

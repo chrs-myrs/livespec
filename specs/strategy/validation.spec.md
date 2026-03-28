@@ -1,12 +1,14 @@
 ---
+type: strategy
+category: strategy
+fidelity: decisions-only
+criticality: CRITICAL
+failure_mode: Without validation strategy, LiveSpec cannot verify it follows own rules, undermining dogfooding and risking spec-implementation drift
+governed-by:
+  - specs/foundation/constraints.spec.md (Testable Behaviors, No Framework Lock-in, Manual Adoption)
 derives-from:
   - specs/foundation/outcomes.spec.md (Minimal Maintenance, Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
-governed-by:
-  - specs/foundation/constraints.spec.md (Testable Behaviors, No Framework Lock-in, Manual Adoption)
-  - .livespec/standard/metaspecs/strategy.spec.md
-criticality: CRITICAL
-failure_mode: Without validation strategy, LiveSpec cannot verify it follows own rules, undermining dogfooding and risking spec-implementation drift
 ---
 
 # Validation Strategy

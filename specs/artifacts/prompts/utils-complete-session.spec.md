@@ -1,14 +1,17 @@
 ---
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Session completion prompt produces inaccurate analysis or unclear guidance
-derives_from:
-  - specs/features/session-completion.spec.md
-governed_by:
+governed-by:
   - specs/workspace/constitution.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/features/session-completion.spec.md
 specifies:
   - dist/prompts/utils/complete-session.md
 ---

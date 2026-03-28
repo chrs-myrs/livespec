@@ -1,14 +1,16 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without template management, users struggle to bootstrap specs, agents lack reusable verification content, and key processes become embedded in prompts instead of manageable templates
-governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
-derives-from:
-  - specs/workspace/patterns.spec.md (template architecture pattern)
+governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (minimal maintenance, voluntary adoption)
 guided-by:
   - specs/strategy/architecture.spec.md
+derives-from:
+  - specs/workspace/patterns.spec.md (template architecture pattern)
 ---
 
 # Template Management

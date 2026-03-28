@@ -1,8 +1,12 @@
 ---
+type: outcomes
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without outcomes spec rules, high-level requirements become detailed behaviors or mix with constraints
-governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+governed-by: []
+derives-from:
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Outcomes Specification Requirements

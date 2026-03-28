@@ -1,13 +1,15 @@
 ---
-specifies: prompts/1-design/1b-define-behaviors.md
+type: prompt
+category: artifacts
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Implementation lacks observable behavior specifications
-governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+governed-by: []
 satisfies:
   - specs/features/five-phases.spec.md
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+specifies: prompts/1-design/1b-define-behaviors.md
 ---
 
 # Prompt Behavior: Define Behaviors

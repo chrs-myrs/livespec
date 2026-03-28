@@ -1,4 +1,10 @@
 ---
+type: outcomes
+category: foundation
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: Without clear outcomes, LiveSpec lacks cohesive direction and becomes disconnected collection of features
+governed-by: []
 derives-from:
   - PURPOSE.md
 supports:
@@ -6,10 +12,6 @@ supports:
   - specs/strategy/architecture.spec.md
   - specs/workspace/
   - specs/artifacts/prompts/
-criticality: CRITICAL
-failure_mode: Without clear outcomes, LiveSpec lacks cohesive direction and becomes disconnected collection of features
-governed-by:
-  - .livespec/standard/metaspecs/outcomes.spec.md
 ---
 
 # LiveSpec Outcomes

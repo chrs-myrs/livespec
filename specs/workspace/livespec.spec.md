@@ -1,4 +1,10 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
+criticality: CRITICAL
+failure_mode: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
+governed-by: []
 applies_to:
   - all_ai_agents
   - livespec_integration
@@ -7,10 +13,6 @@ derives-from:
   - specs/workspace/workflows.spec.md
 supports:
   - all_development_activities
-criticality: CRITICAL
-failure_mode: Agents work against LiveSpec methodology instead of with it, requiring constant user correction and defeating voluntary adoption
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Agent Integration

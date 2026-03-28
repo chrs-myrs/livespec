@@ -1,14 +1,16 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
+criticality: CRITICAL
+failure_mode: Without governance principles, LiveSpec development becomes inconsistent and violates its own philosophy
+governed-by: []
+applies_to:
+  - all_projects
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
   - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
-applies_to:
-  - all_projects
 context_compression: moderate
-criticality: CRITICAL
-failure_mode: Without governance principles, LiveSpec development becomes inconsistent and violates its own philosophy
-governed-by:
-  - .livespec/standard/metaspecs/workspace.spec.md
 ---
 
 # LiveSpec Development Constitution
