@@ -20,6 +20,25 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.4.2] - 2026-03-28
+
+### Added
+
+- **Cross-reference validation**: `scripts/validate-crossrefs.sh` checks all 264 relationship field targets exist on disk, integrated into pre-commit hook
+- **Registry lifecycle spec**: Registries are active backlogs — resolved items automatically removed, git history is the archive
+
+### Changed
+
+- **Registries moved**: `docs/registries/` → `registries/` at project root
+- **Registry cleanup**: All resolved items removed from gaps, issues, and improvements registries
+- **Registry specs consolidated**: Merged `standardised-registries.spec.md` into `registry-specs.spec.md`
+
+### Fixed
+
+- **ISSUE-002 closed**: Cross-reference breaks during reorganisation now caught by pre-commit validation
+
+---
+
 ## [5.4.1] - 2026-03-28
 
 ### Fixed

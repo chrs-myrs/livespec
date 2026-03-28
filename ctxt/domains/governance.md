@@ -316,5 +316,5 @@ scripts/validate-frontmatter.sh  # must exit 0
 
 ---
 
-*Governance domain specialist for LiveSpec v5.4.1*
+*Governance domain specialist for LiveSpec v5.4.2*
 *Parent: AGENTS.md*
