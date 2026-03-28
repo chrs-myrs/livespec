@@ -151,13 +151,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 
 ### IMP-006: Vocabulary Spec as Standard Deliverable
 
-**Changed:** (Proposed) Create a vocabulary-spec template that every LiveSpec project generates during scaffolding, defining: spec categories, fidelity levels, criticality levels, registry severity/status values
+**Changed:** Created `references/standards/vocabulary.spec.md` documenting all controlled terms: frontmatter field values (type, category, fidelity, criticality), relationship fields with direction semantics, phase and layer vocabularies, registry vocabularies, requirement markers, and a documented extension mechanism for domain-specific values.
 
 **Hypothesis:** Projects using controlled vocabularies without definitions achieve 70-80% correct usage; projects with full vocabulary specs achieve 100%. LiveSpec currently scores 0/5 on vocabulary definition (B6) because no vocabulary documentation exists as a standard deliverable.
 
 **Category:** Structure
 
-**Implemented:** Not yet
+**Implemented:** 2026-03-28
 
 **Evidence:**
 - R2 Experiment 4B: Vocab spec 20/20 vs examples 16/20 vs teaching 14/20
@@ -166,7 +166,17 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Projected impact: +4 points on static audit
 - Source: `research/reports/knowledge-store-audit-findings.md`
 
-**Decision:** Pending
+**Decision:** Implemented ✓
+
+**Implementation Details:**
+- Vocabulary spec: `references/standards/vocabulary.spec.md`
+- Behavior spec: `specs/features/vocabulary-deliverable.spec.md`
+- Covers 6 vocabulary domains: frontmatter values, relationships, phases, layers, registries, markers
+- Extension mechanism documented with governance domain example
+- Validation script references vocabulary spec as canonical source
+- Plan: `var/seek/20260328-225500-imp006-vocabulary-spec/SUMMARY.md`
+
+**Evaluation Date:** 2026-04-11 (2 weeks), 2026-04-28 (1 month)
 
 ---
 
@@ -213,13 +223,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 
 ### IMP-009: Fidelity Level as Spec Metadata
 
-**Changed:** (Proposed) Each spec carries its fidelity level in frontmatter (`fidelity: full-detail | behavioral | decisions-only | process`) rather than relying on constitution.spec.md prose guidance
+**Changed:** Each spec now carries `fidelity: full-detail | behavioral | decisions-only | process` in frontmatter, with category-specific defaults and validation.
 
 **Hypothesis:** When fidelity levels are only in the constitution, agents reading a single spec cannot know what level of detail is expected without reading the constitution first. Metadata-level fidelity enables automated enforcement and self-describing specs.
 
 **Category:** Governance
 
-**Implemented:** Not yet
+**Implemented:** 2026-03-28 (as part of IMP-005)
 
 **Evidence:**
 - affiliate-api-v2 audit: B7 = 2/5 (implicit gradient, not metadata)
@@ -227,7 +237,13 @@ Format: `.livespec/standard/registries/improvements.spec.md`
 - Projected impact: +2 points on static audit
 - Source: `research/reports/knowledge-store-audit-findings.md`
 
-**Decision:** Pending
+**Decision:** Implemented ✓ (subsumed by IMP-005)
+
+**Implementation Details:**
+- All 117 specs carry `fidelity` field with appropriate value
+- Category defaults: interfaces→full-detail, features→behavioral, strategy→decisions-only, workspace→process
+- Validated by `scripts/validate-frontmatter.sh`
+- Fidelity values documented in `references/standards/vocabulary.spec.md` (IMP-006)
 
 ---
 

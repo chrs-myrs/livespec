@@ -14,7 +14,7 @@ ERRORS=0
 WARNINGS=0
 CHECKED=0
 
-# Allowed values
+# Allowed values (canonical source: references/standards/vocabulary.spec.md)
 VALID_TYPES="outcomes constraints strategy behavior contract workspace taxonomy prompt agent validator diagram command registry domain-model purpose"
 VALID_CATEGORIES="workspace foundation strategy features interfaces artifacts"
 VALID_FIDELITY="full-detail behavioral decisions-only process"
