@@ -309,5 +309,5 @@ prompts/utils/validate-project.md
 
 ---
 
-*Audit mode specialist for LiveSpec v5.4.2*
+*Audit mode specialist for LiveSpec v5.5.0*
 *Parent: AGENTS.md*

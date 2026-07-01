@@ -20,6 +20,24 @@ See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
 
 ---
 
+## [5.5.0] - 2026-07-01
+
+### Added
+
+- **Incremental context update mode**: `/livespec:audit context` classifies each regeneration as MINOR (scoped patch to the affected file only) or FULL (whole-tree rebuild), reports its classification and reasoning, and proceeds without a confirmation gate — avoids a full 10-15 minute regeneration for a one-line spec edit ⚠️ MEDIUM
+- **Spec → Generated File Map**: `specs/workspace/context-architecture.spec.md` documents which generated file each workspace spec feeds, and which changes are structural (force FULL regeneration)
+
+### Fixed
+
+- **ctxt/phases/ + ctxt/utils/ structural drift**: Three specs and two duplicate agent-definition files described a tree structure (`ctxt/phases/*.md`, `ctxt/utils/*.md`) that was never actually built; corrected to describe the real flat `ctxt/` layout (`define.md`, `design.md`, `evolve.md`, `session.md`, `msl-audit.md`, `audit.md`, `domains/governance.md`)
+- **Stale `specifies:`/`supports:` pointers**: `specs/features/context-generation.spec.md`, `specs/artifacts/agents/context-builder.spec.md`, and both `agent.spec.md` metaspecs now point at the real `agents/context-builder.md` instead of the deleted `.claude/agents/context-builder/instructions.md`
+
+### Removed
+
+- **Orphaned duplicate agent files**: `agents/context-builder/AGENT.md` and `.claude/agents/context-builder/instructions.md` — both untracked, both described the never-built `ctxt/phases/`+`ctxt/utils/` structure, both superseded by `agents/context-builder.md`
+
+---
+
 ## [5.4.2] - 2026-03-28
 
 ### Added

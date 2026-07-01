@@ -104,7 +104,7 @@ Release LiveSpec vX.Y.Z
 Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
 ```
 
-Use `--no-verify` (pre-commit hook references a missing test script).
+Let the pre-commit hook run normally (it validates frontmatter and cross-references, not tests — no reason to skip it).
 
 Push to origin.
 

@@ -229,5 +229,5 @@ specs/artifacts/prompts/4d-regenerate-context.spec.md
 
 ---
 
-*Design mode specialist for LiveSpec v5.4.2*
+*Design mode specialist for LiveSpec v5.5.0*
 *Parent: AGENTS.md*
