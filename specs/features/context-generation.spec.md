@@ -3,7 +3,7 @@ type: behavior
 category: features
 fidelity: behavioral
 criticality: CRITICAL
-failure_mode: Without valid agent context tree, agents lack specialized guidance, suffer from context overload, and cannot proactively load phase/domain/utility contexts, reducing focus efficiency and methodology adoption
+failure_mode: Without valid agent context tree, agents lack specialized guidance, suffer from context overload, and cannot proactively load domain/utility contexts, reducing focus efficiency and methodology adoption
 governed-by: []
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 6: Sustainable Evolution)
@@ -14,7 +14,7 @@ guided-by:
 derives-from:
   - specs/workspace/context-architecture.spec.md
 supports:
-  - .claude/agents/context-builder/instructions.md
+  - agents/context-builder.md
 ---
 
 # Agent Context Tree Generation
@@ -23,13 +23,12 @@ supports:
 
 ### Context Tree Structure Generation
 
-- [!] Agent context tree is successfully generated from workspace specifications, producing hierarchical structure that enables proactive specialized loading
+- [!] Agent context tree is successfully generated from workspace specifications, producing a flat structure that enables proactive specialized loading
   - **Universal mechanism**: See `.livespec/standard/conventions/context-tree.spec.md` for context tree pattern
-  - Root AGENTS.md generated (20-30KB, no frontmatter, routing to sub-agents)
-  - Phase specialists generated (ctxt/phases/0-define through 4-evolve, 8-12KB each)
-  - Domain specialists generated (ctxt/domains/, 6-10KB each, based on taxonomy)
-  - Utility specialists generated (ctxt/utils/session-completion, drift-detection, msl-audit, 6-10KB each)
-  - Total tree size <150KB, typical loaded context <50KB (root + 1-2 sub-agents)
+  - Root AGENTS.md generated (30-40KB, no frontmatter, routing to sub-agents)
+  - Sub-agents generated in ctxt/ — define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (4-10KB each, flat, no phases/ or utils/ subfolders)
+  - Domain specialists generated (ctxt/domains/, 4-10KB each, based on taxonomy)
+  - Total tree size <100KB, typical loaded context well within that (root + 1-2 sub-agents)
   - All generated files have clean context (no frontmatter, inline edit warnings only)
 
 ### Source Validation
@@ -39,7 +38,7 @@ supports:
   - context-architecture.spec.md is REQUIRED (provides content sources and structure)
   - PURPOSE.md verified (project vision)
   - Templates verified (.livespec/templates/agents/)
-  - Context builder agent verified (.claude/agents/context-builder/)
+  - Context builder agent verified (agents/context-builder.md)
   - Clear error messages if prerequisites missing, especially context-architecture.spec.md
   - Guidance provided to resolve missing prerequisites (e.g., "Run Phase 0 first")
 
@@ -75,11 +74,9 @@ supports:
 ### Size Budget Enforcement
 
 - [!] Generated files respect size budgets to optimize context window efficiency
-  - Root AGENTS.md: 20-30KB (compressed from typical 50-60KB monolithic)
-  - Phase sub-agents: 8-12KB each
-  - Domain sub-agents: 6-10KB each
-  - Utility sub-agents: 6-10KB each
-  - Maximum loaded context: <65KB (root + multiple sub-agents)
+  - Root AGENTS.md: 30-40KB (compressed from typical 50-60KB monolithic)
+  - Each ctxt/ sub-agent: 4-10KB
+  - Total tree: <100KB
   - Size violations detected and reported during generation
 
 ### Regeneration Governance
@@ -89,8 +86,26 @@ supports:
   - Edit warnings instruct regeneration via .livespec/prompts/utils/regenerate-contexts.md
   - Regeneration reads workspace specs as source of truth
   - Workspace spec changes trigger regeneration need
-  - Context builder agent (.claude/agents/context-builder/) performs generation
-  - Generation isolated from parent session (via Task tool sub-agent)
+  - Context builder agent (agents/context-builder.md) performs generation
+  - Generation isolated from parent session (runs as a dedicated sub-agent)
+
+### Incremental Update Mode
+
+- [!] Context generation classifies each regeneration request as MINOR (scoped patch) or FULL (whole-tree rebuild) and defaults to acting on that classification without a confirmation gate
+  - Diffs workspace specs and PURPOSE.md against the last generation (git history) to determine what changed
+  - Consults `specs/workspace/context-architecture.spec.md` Spec → Generated File Map to find the target file(s) for each change
+  - Classifies **MINOR** when every changed spec maps to existing content in a single target file/section, and none of the changes are marked "Structural" in the map
+  - Classifies **FULL** when any changed spec is marked "Structural" in the map, a workspace spec was added or removed, multiple unrelated targets are touched at once, or the mapping is unclear
+  - On ambiguity or low confidence in a clean mapping, defaults to FULL rather than guessing at a narrow patch that might miss something
+  - States the classification and a one-line reason in its report either way; this is judgement, not a rigid rule — the user can always request the other path explicitly (e.g. "full regenerate")
+  - MINOR path: context-builder is invoked with a scope limited to the mapped target file(s) — see Scoped Generation below
+  - FULL path: behaves exactly as whole-tree generation always has
+
+- [!] Scoped generation regenerates and validates only the target file(s) identified by the classification, leaving the rest of the tree untouched
+  - Only the mapped file(s) are read, rewritten, and size-validated
+  - Files outside the scope are not opened or touched
+  - Report explicitly labels the run "scoped update: [files]" so it's clear less than the full tree ran
+  - Same edit-warning and footer conventions as full generation apply to touched files
 
 ### Distribution Pattern
 
@@ -103,15 +118,14 @@ supports:
 ## Validation
 
 ### Structure Validation
-- [ ] Root AGENTS.md exists (20-30KB)
+- [ ] Root AGENTS.md exists (30-40KB)
 - [ ] Root AGENTS.md has NO frontmatter (clean context)
 - [ ] Root AGENTS.md has inline edit warning (not in frontmatter)
 - [ ] Root AGENTS.md has "When to Load Sub-Agents" section (routing decision tree)
 - [ ] Root AGENTS.md contains NO references to specs/workspace/*.spec.md (content inlined)
-- [ ] ctxt/phases/ directory contains exactly 5 files (0-define through 4-evolve)
+- [ ] ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
 - [ ] ctxt/domains/ directory contains domain-specific files based on taxonomy
-- [ ] ctxt/utils/ directory contains exactly 3 files (session-completion, drift-detection, msl-audit)
-- [ ] Total tree size <150KB
+- [ ] Total tree size <100KB
 
 ### Content Validation (spot-check 2-3 sub-agents)
 - [ ] Sub-agents have NO frontmatter (clean context)
@@ -145,12 +159,16 @@ supports:
 - [ ] Content focus balance achieved (behaviors/constraints/patterns)
 
 ### Size Budget Validation
-- [ ] Root AGENTS.md: 20-30KB
-- [ ] Each phase sub-agent: 8-12KB
-- [ ] Each domain sub-agent: 6-10KB
-- [ ] Each utility sub-agent: 6-10KB
-- [ ] Typical loaded context <50KB (root + 1-2 sub-agents)
-- [ ] Maximum loaded context <65KB (root + multiple sub-agents)
+- [ ] Root AGENTS.md: 30-40KB
+- [ ] Each ctxt/ sub-agent (including domain files): 4-10KB
+- [ ] Total tree: <100KB
+
+### Incremental Update Validation
+- [ ] Classification (MINOR/FULL) and its reasoning appear in the generation report
+- [ ] MINOR only fires when no changed spec is marked "Structural" in the Spec → Generated File Map
+- [ ] FULL fires automatically on any Structural change, added/removed spec, or unclear mapping
+- [ ] Scoped runs only read/write/validate the mapped target file(s), never the rest of the tree
+- [ ] No confirmation gate blocks either path — classification is reported, not asked
 
 ### Distribution Validation
 - [ ] dist/AGENTS.md is bootstrap (~5KB, not full tree)

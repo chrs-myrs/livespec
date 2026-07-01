@@ -12,7 +12,7 @@ guided-by:
 derives-from:
   - specs/features/context-generation.spec.md
 specifies:
-  - .claude/agents/context-builder/instructions.md
+  - agents/context-builder.md
 ---
 
 # Context Builder Agent
@@ -30,6 +30,14 @@ specifies:
   - Clear error messages identifying missing files, especially context-architecture.spec.md
   - Stops immediately if required files missing (no partial generation)
   - Provides guidance to resolve missing files (e.g., "Run Phase 0 first")
+
+### Scope Determination
+
+- [!] Agent accepts a scope parameter (`full` or a specific target file list) and honours it throughout generation
+  - `full`: behaves exactly as whole-tree generation always has (all remaining requirements apply to every generated file)
+  - Scoped (file list): only reads, rewrites, and size-validates the listed file(s) — no other generated file is opened or touched
+  - Scope is determined by the caller (per `specs/features/context-generation.spec.md` Incremental Update Mode) using `specs/workspace/context-architecture.spec.md` Spec → Generated File Map; the agent trusts the scope it's given rather than re-deriving it
+  - Final report states which mode ran (`full` vs `scoped: [files]`) so it's unambiguous how much of the tree changed
 
 ### Source Content Extraction
 
@@ -59,19 +67,19 @@ specifies:
   - NO external references to specs/workspace/*.spec.md (content extracted inline)
   - Applies compression level from configuration
 
-### Phase Sub-Agent Generation
+### Sub-Agent Generation
 
-- [!] Agent generates exactly 5 phase sub-agents in ctxt/phases/
-  - Files: 0-define.md, 1-design.md, 2-build.md, 3-verify.md, 4-evolve.md
-  - Target size per file: 10-15KB
+- [!] Agent generates a flat set of sub-agents in ctxt/ — no phases/ or utils/ subfolders
+  - Files: define.md (Phase 0), design.md (Phase 1), evolve.md (implement/verify/evolve combined), session.md (session completion), msl-audit.md (MSL minimalism), audit.md (spec health/validation)
+  - Target size per file: 4-10KB
   - NO frontmatter (clean context)
   - Inline edit warning at top
-  - Phase-specific methodology content
+  - Specialist-specific methodology content
   - Load triggers matching natural user language
-  - References to .livespec/prompts/[phase]/*.md
-  - Examples and patterns for phase
+  - References to relevant `.livespec/prompts/` and feature specs
+  - Examples and patterns for the specialist's scope
   - Reference Library section linking to detailed specs
-  - Footer: "Phase [N] specialist for [Project Name] / Parent: AGENTS.md"
+  - Footer: "[Specialist] for [Project Name] / Parent: AGENTS.md"
 
 ### Domain Sub-Agent Generation
 
@@ -80,26 +88,13 @@ specifies:
   - Governance domain → ctxt/domains/governance.md
   - Software domain → ctxt/domains/software.md
   - Hybrid domain → Multiple domain files as needed
-  - Target size per file: 8-12KB
+  - Target size per file: 4-10KB
   - NO frontmatter (clean context)
   - Inline edit warning at top
   - Domain-specific patterns and examples
   - Folder organization guidance for domain
   - Load triggers for domain-specific work
   - Footer: "[Domain] specialist for [Project Name] / Parent: AGENTS.md"
-
-### Utility Sub-Agent Generation
-
-- [!] Agent generates exactly 3 utility sub-agents in ctxt/utils/
-  - Files: session-completion.md, drift-detection.md, msl-audit.md
-  - Target size per file: 8-12KB
-  - NO frontmatter (clean context)
-  - Inline edit warning at top
-  - Utility-specific workflow guidance
-  - Load triggers matching utility use cases
-  - References to related .livespec/ prompts/guides
-  - Examples and patterns
-  - Footer: "[Utility] specialist for [Project Name] / Parent: AGENTS.md"
 
 ### Compression Application
 
@@ -115,12 +110,9 @@ specifies:
 ### Size Budget Enforcement
 
 - [!] Agent validates generated file sizes and reports violations
-  - Root AGENTS.md: 20-30KB (strict)
-  - Phase sub-agents: 8-12KB each (strict)
-  - Domain sub-agents: 6-10KB each (strict)
-  - Utility sub-agents: 6-10KB each (strict)
-  - Total tree: <150KB (validation)
-  - Typical loaded: <50KB (root + 1-2 sub-agents)
+  - Root AGENTS.md: 30-40KB (strict)
+  - Each ctxt/ sub-agent, including domain files: 4-10KB (strict)
+  - Total tree: <100KB (validation)
   - Uses wc -c for byte count validation
   - Reports size violations with file paths and actual sizes
   - Provides guidance if sizes exceeded (adjust compression, review content)
@@ -132,9 +124,8 @@ specifies:
   - Verifies root has NO frontmatter (grep check)
   - Verifies root has inline edit warning
   - Verifies root has "When to Load Sub-Agents" section
-  - Verifies ctxt/phases/ contains exactly 5 files
+  - Verifies ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
   - Verifies ctxt/domains/ contains expected files based on taxonomy
-  - Verifies ctxt/utils/ contains exactly 3 files
   - Spot-checks 2-3 sub-agents for NO frontmatter
   - Spot-checks sub-agents have inline edit warnings
   - Reports validation results with pass/fail per check
@@ -144,11 +135,10 @@ specifies:
 - [!] Agent provides comprehensive generation report to calling session
   - Lists all generated files with sizes
   - Root AGENTS.md size (target: 30-40KB)
-  - Phase sub-agents: 5 files with individual sizes
+  - ctxt/ sub-agents: 6 files with individual sizes
   - Domain sub-agents: Count and sizes
-  - Utility sub-agents: 3 files with sizes
   - Total context tree size
-  - Typical loaded context size (root + 1 phase)
+  - Typical loaded context size (root + 1-2 sub-agents)
   - Compression level used
   - LiveSpec version
   - Validation results (all checks pass/fail)
@@ -173,6 +163,11 @@ specifies:
 - [ ] Agent stops with clear error if prerequisites missing
 - [ ] Agent provides guidance to resolve missing files
 
+### Scope Determination
+- [ ] Agent accepts and honours a `full` or scoped-file-list parameter
+- [ ] Scoped runs only read/write/validate the listed file(s)
+- [ ] Report states which mode ran (`full` vs `scoped: [files]`)
+
 ### Content Extraction
 - [ ] Agent reads all workspace specs completely
 - [ ] Agent extracts constitution principles correctly
@@ -183,7 +178,7 @@ specifies:
 
 ### Root AGENTS.md Generation
 - [ ] Root file generated with correct structure
-- [ ] Root size 20-30KB (within budget)
+- [ ] Root size 30-40KB (within budget)
 - [ ] Root has NO frontmatter
 - [ ] Root has inline edit warning at top
 - [ ] Root inlines spec-first enforcement template
@@ -194,12 +189,11 @@ specifies:
 - [ ] Root has Reference Library section
 
 ### Sub-Agent Generation
-- [ ] Exactly 5 phase sub-agents generated in ctxt/phases/
+- [ ] ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
 - [ ] Domain sub-agents generated based on taxonomy
-- [ ] Exactly 3 utility sub-agents generated in ctxt/utils/
 - [ ] All sub-agents have NO frontmatter
 - [ ] All sub-agents have inline edit warning at top
-- [ ] All sub-agents within size budgets (8-12KB phases, 6-10KB domains/utils)
+- [ ] All sub-agents within size budget (4-10KB each)
 - [ ] All sub-agents have load triggers
 - [ ] All sub-agents reference parent AGENTS.md in footer
 
@@ -208,8 +202,7 @@ specifies:
 - [ ] Compression applied consistently across all files
 - [ ] Size validation performed using wc -c
 - [ ] Size violations detected and reported
-- [ ] Total tree <150KB
-- [ ] Typical loaded context <50KB
+- [ ] Total tree <100KB
 
 ### Validation and Reporting
 - [ ] Structure validation performed before reporting

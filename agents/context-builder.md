@@ -37,7 +37,19 @@ Generate the complete agent context tree:
 1. Root `AGENTS.md` (compressed, routing hub)
 2. `ctxt/` sub-agents (phase specialists, domain specialists, utility specialists)
 
+## Scope
+
+You may be invoked with a scope:
+- **`full`** (default) — regenerate and validate every file below
+- **`scoped: [file, file, ...]`** — regenerate and validate ONLY the listed file(s); do not open, read, or touch any other generated file
+
+Trust the scope you're given — don't re-derive it. The caller (`/livespec:audit context`) already classified the change using the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md` (which source spec changed, and whether that change is "Structural" — i.e. forces `full`).
+
 ## Step 1: Read Sources
+
+**Scoped runs**: read only the source spec(s) that map to your target file(s) per the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`, plus `PURPOSE.md` and `project.yaml` for baseline config. Skip everything else.
+
+**Full runs**: read everything below.
 
 Read these files to understand the project:
 
@@ -63,13 +75,18 @@ Read these files to understand the project:
 
 ## Step 2: Read Existing Context Tree
 
-Read the current AGENTS.md and all ctxt/ files to understand the established structure, section ordering, and content patterns. Preserve the structure unless specs have changed to warrant restructuring.
+**Full**: read the current AGENTS.md and all ctxt/ files to understand the established structure, section ordering, and content patterns. Preserve the structure unless specs have changed to warrant restructuring.
+
+**Scoped**: read only the current version of your target file(s), to edit in place rather than rewrite from scratch.
 
 ## Step 3: Generate Root AGENTS.md
 
+**Full**: rewrite the whole file as described below.
+**Scoped** (only if AGENTS.md is a target): edit just the mapped section(s) in place — do not touch the rest of the file.
+
 **Target size:** 30-40KB total inline content.
 **Format:** NO frontmatter. Start with `# [Project Name] Agent Configuration`.
-**First line after title:** `Generated file` warning pointing to regeneration method.
+**First line after title:** `> **Generated file** - Do not edit directly. Regenerate using /livespec:audit context`
 
 **Section ordering (from context-architecture.spec.md):**
 1. Summary (from PURPOSE.md, 10 lines max)
@@ -103,14 +120,17 @@ Read the current AGENTS.md and all ctxt/ files to understand the established str
 
 ## Step 4: Generate ctxt/ Sub-Agents
 
+**Full**: generate every file below. **Scoped**: generate only the file(s) named in scope — do not open or overwrite untargeted files.
+
 Read context-architecture.spec.md for the definitive list of sub-agents and their triggers.
 
-**Current structure:**
+**Current structure (flat — no phases/ or utils/ subfolders):**
 - `ctxt/define.md` — Phase 0 specialist
 - `ctxt/design.md` — Phase 1 specialist
 - `ctxt/evolve.md` — Implementation, validation, drift, extraction
 - `ctxt/session.md` — Session completion and compliance
 - `ctxt/msl-audit.md` — MSL minimalism enforcement
+- `ctxt/audit.md` — Spec health, validation, context generation
 - `ctxt/domains/governance.md` — Governance domain patterns
 
 **Each sub-agent:**
@@ -121,11 +141,13 @@ Read context-architecture.spec.md for the definitive list of sub-agents and thei
 - Contains load triggers matching AGENTS.md routing table
 
 **Content sources per sub-agent:**
-- Phase specialists: corresponding `.livespec/prompts/[phase]/` + relevant specs
+- Phase/workflow specialists (define, design, evolve): corresponding `.livespec/prompts/[phase]/` + relevant specs
 - Domain specialists: domain-specific specs and patterns
-- Utility specialists: relevant feature specs and guides
+- Utility specialists (session, msl-audit, audit): relevant feature specs and guides
 
 ## Step 5: Validate
+
+**Full**: check every generated file. **Scoped**: check only the target file(s) against their own budget — do not open files outside scope.
 
 After generating all files:
 
@@ -152,10 +174,10 @@ head -1 AGENTS.md  # Should NOT be "---"
 
 ## Step 6: Report
 
-Return a structured report to the parent session:
+**Full** — return a structured report to the parent session:
 
 ```
-Context tree regenerated:
+Context tree regenerated (mode: full):
 - AGENTS.md: [size]KB ([compression] compression)
 - Sub-agents: [count] files ([total]KB)
   - ctxt/define.md: [size]KB
@@ -163,9 +185,18 @@ Context tree regenerated:
   - ctxt/evolve.md: [size]KB
   - ctxt/session.md: [size]KB
   - ctxt/msl-audit.md: [size]KB
+  - ctxt/audit.md: [size]KB
   - ctxt/domains/governance.md: [size]KB
 - Total: [total]KB
 - Version: v[version]
+```
+
+**Scoped** — report only what actually changed:
+
+```
+Scoped update complete (mode: scoped: [files]):
+- [file]: [size]KB — [one-line reason for the classification]
+Rest of tree untouched.
 ```
 
 ## Key Principles

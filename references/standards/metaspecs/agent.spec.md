@@ -19,7 +19,7 @@ extends:
   - Spec follows behavior.spec.md requirements (observable outcomes, validation criteria)
   - Spec located in `specs/artifacts/agents/` folder
   - Spec uses `specifies:` frontmatter field pointing to actual agent instructions file path
-  - File name matches agent directory name (e.g., `context-builder.spec.md` specifies `.claude/agents/context-builder/instructions.md`)
+  - File name matches the agent's file name (e.g., `context-builder.spec.md` specifies `agents/context-builder.md`)
 
   **Essential sections (required):**
   - **Prerequisites Validation requirement**: Spec requires agent validate all required inputs/files exist before starting work
