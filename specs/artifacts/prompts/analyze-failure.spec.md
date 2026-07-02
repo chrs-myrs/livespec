@@ -51,7 +51,7 @@ specifies: []
 
 ## Validation
 
-- Prompt exists at dist/prompts/utils/analyze-failure.md
+- Prompt exists at references/prompts/utils/analyze-failure.md
 - Prompt has spec: frontmatter reference
 - Four failure types documented (abandonment, over-specification, wrong process, no enforcement)
 - Recovery plan has three timeframes (week, month, quarter)

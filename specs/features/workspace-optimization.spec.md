@@ -41,7 +41,7 @@ specifies: []
   - Patterns repeated 3+ times (template candidates)
   - Long inline examples (could be templates)
   - Verification checklists (standardize)
-  - Decision matrices (extract to .livespec/templates/)
+  - Decision matrices (extract to `templates/`)
   - Calculate savings from extraction
 
 - [!] Agent proposes section repositioning
@@ -52,7 +52,7 @@ specifies: []
   - "For more info" pointers → END
 
 - [!] Agent proposes content extractions
-  - Specific template paths (.livespec/templates/agents/)
+  - Specific template paths (`templates/agents/`)
   - Current location and repetition count
   - Usage pattern (how it's referenced)
   - Estimated savings (characters/KB)
@@ -81,9 +81,9 @@ specifies: []
   - Cancel (keep current)
 
 - [!] Agent implements approved reorganization
-  - Creates extraction templates in .livespec/templates/agents/
+  - Creates extraction templates in `templates/agents/`
   - Updates AGENTS.md (moves sections, adds references)
-  - Regenerates context tree (uses regenerate-contexts.md)
+  - Regenerates context tree (via `/livespec:audit context`)
   - Validates (file sizes, cross-references)
   - Recommends monitoring (track next 5 sessions)
 

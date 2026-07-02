@@ -169,7 +169,7 @@ grep -r "^generated:" . --include="*.md" -l  # Frontmatter style
 1. **Extract metadata:**
    - Generation timestamp: `Generated: 2025-10-12T10:30:00Z`
    - Source files: Listed in header
-   - Generator: `Generator: prompts/4-evolve/4d-regenerate-context.md`
+   - Generator: `Generator: /livespec:evolve`
 
 2. **Compare timestamps:**
    ```bash
@@ -209,14 +209,14 @@ grep -r "^generated:" . --include="*.md" -l  # Frontmatter style
   **Fix:**
   1. Revert AGENTS.md to last generated version: `git checkout AGENTS.md`
   2. Edit source specifications in specs/workspace/
-  3. Regenerate: Use prompts/4-evolve/4d-regenerate-context.md
+  3. Regenerate: Use `/livespec:evolve`
 
 ### ⚠️ WARNINGS (regeneration needed)
-- **dist/AGENTS.md**
+- **AGENTS.md**
   - Generated: 2025-10-12T10:30:00Z
   - Sources changed:
     - specs/workspace/patterns.spec.md (modified: 2025-10-12 14:00:00)
-  - Regenerate: Use prompts/4-evolve/4d-regenerate-context.md
+  - Regenerate: Use `/livespec:evolve`
 ```
 
 ### Phase 3: Partial Generation Validation
@@ -429,7 +429,7 @@ echo "✅ Validation passed"
 **After regenerating AGENTS.md:**
 ```bash
 # 1. Regenerate
-# Use prompts/4-evolve/4d-regenerate-context.md
+# Use /livespec:evolve
 
 # 2. Validate immediately
 # Use prompts/utils/validate-project.md

@@ -15,7 +15,7 @@ applies_to: this_project
 LiveSpec produces methodology frameworks for specification-driven development.
 
 **Domain classification**: Governance
-- Primary pattern: specs/ (source) → dist/ (distributable framework) + AGENTS.md (generated)
+- Primary pattern: specs/ (source) → skills/commands/agents/templates/references (distributable plugin) + AGENTS.md (generated)
 - Dogfooding: LiveSpec uses its own methodology to develop itself
 - Framework is about HOW to build other projects, not a software product itself
 
@@ -45,7 +45,7 @@ LiveSpec produces methodology frameworks for specification-driven development.
 **specs/ contains ONLY .spec.md files** defining framework behavior.
 
 **Framework artifacts live OUTSIDE specs/**:
-- Distributable framework → `dist/` (prompts, templates, metaspecs, guides - what users copy)
+- Distributable framework → `skills/`, `commands/`, `agents/`, `templates/`, `references/` (what the plugin installs)
 - Generated configuration → `AGENTS.md`, `CLAUDE.md` (generated from specs/workspace/)
 - Project-specific prompts → `prompts/generated/` (generated, committed - tailored to LiveSpec)
 - Examples → `examples/` (demonstration projects)
@@ -55,13 +55,13 @@ LiveSpec produces methodology frameworks for specification-driven development.
 **Key distinctions**:
 - specs/ defines WHAT the framework does (requirements, behaviors, prompt contracts)
 - specs/ IS source of truth but NOT the distributed product
-- dist/ IS the framework users receive (copied to their projects as .livespec/)
+- skills/commands/agents/templates/references ARE the framework users receive, installed as a Claude Code plugin (`/plugin install livespec@livespec`), not copied into a `.livespec/` directory
 
 **Dogfooding principle**: Framework development follows same specs/ → implementation pattern it prescribes.
 
 **Example**:
 - ✅ specs/artifacts/prompts/0a-quick-start.spec.md (defines prompt artifact)
-- ❌ dist/prompts/0-define/0a-quick-start.md (distributable prompt implementation)
+- ❌ skills/init/SKILL.md (distributable skill implementation)
 
 ## Specs Folder Structure
 
@@ -100,7 +100,7 @@ LiveSpec produces methodology frameworks for specification-driven development.
 *"What contracts must implementations follow?"*
 - Format definitions (MSL syntax, prompt structure)
 - Context contracts (AGENTS.md format)
-- Distribution contracts (dist/ package structure)
+- Distribution contracts (plugin package structure: skills/, commands/, agents/)
 - Discovery interfaces (llms.txt, Context7)
 - Examples: formats/msl-syntax.spec.md, context/agents-md.spec.md, discovery/llms-txt.spec.md
 
@@ -128,13 +128,13 @@ Before creating ANY file, agents must:
 - ✅ Check this taxonomy.spec.md FIRST
 - ✅ Use "about vs in" test for workspace/ ("Is this ABOUT the workspace?" → YES = workspace/)
 - ✅ Use five-way test for specs/ placement (foundation/strategy/features/artifacts/interfaces)
-- ✅ Keep distributable framework OUT of specs/ (specs define, dist/ distributes)
+- ✅ Keep distributable framework OUT of specs/ (specs define, skills/commands/agents/templates/references distribute)
 - ✅ Place framework architecture in specs/strategy/, NOT workspace/
 - ✅ Place prompt artifacts in specs/artifacts/prompts/, NOT workspace/ or features/
 - ✅ Place agent artifacts in specs/artifacts/agents/, NOT workspace/ or features/
 - ✅ Place methodology behaviors in specs/features/ (drift detection, validation, etc.)
 - ✅ Place format contracts in specs/interfaces/, NOT features/ or artifacts/
-- ✅ Distinguish between framework specifications (specs/) and framework distribution (dist/)
+- ✅ Distinguish between framework specifications (specs/) and framework distribution (skills/commands/agents/templates/references)
 - ✅ Understand dogfooding: specs/ governs LiveSpec's own development using LiveSpec methodology
 - ✅ Generated files (AGENTS.md, prompts/generated/*) include standard markers showing sources
 - ✅ Update this taxonomy when LiveSpec's project classification fundamentally changes
@@ -153,11 +153,11 @@ Before creating ANY file, agents must:
 
 - All workspace/ files pass "about the workspace" test (meta-governance only)
 - specs/ contains only .spec.md files (framework source, not distribution)
-- Distributable framework clearly separated in dist/ folder
+- Distributable framework clearly separated in skills/, commands/, agents/, templates/, references/
 - Framework architecture placed in specs/strategy/, not workspace/
 - Prompt artifacts placed in specs/artifacts/prompts/, not workspace/ or features/
 - Agent artifacts placed in specs/artifacts/agents/, not workspace/ or features/
 - Methodology behaviors placed in specs/features/, not artifacts/
 - Format contracts placed in specs/interfaces/, not features/ or artifacts/
 - Dogfooding validated: LiveSpec uses its own Phase 0-4 methodology
-- Distribution pattern followed: specs/ → dist/ (users copy dist/ to their .livespec/)
+- Distribution pattern followed: specs/ → skills/commands/agents/templates/references (users install the plugin, no file copying)

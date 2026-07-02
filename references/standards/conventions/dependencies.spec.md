@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Without dependency tracking, specification relationships become implicit and unverifiable
 governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Dependency Convention
@@ -40,7 +40,7 @@ Boundaries and limits this specification must respect.
 ```yaml
 governed-by:
   - specs/constraints.spec.md
-  - .livespec/standard/metaspecs/behavior.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 ```
 
 ### satisfies
@@ -75,7 +75,7 @@ What this specification enables or makes possible.
 **Example:**
 ```yaml
 supports:
-  - prompts/4-evolve/4d-regenerate-context.md
+  - agents/context-builder.md
   - specs/features/drift-detection.spec.md
 ```
 

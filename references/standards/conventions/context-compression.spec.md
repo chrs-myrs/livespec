@@ -2,7 +2,7 @@
 criticality: IMPORTANT
 failure_mode: Without context compression guidance, projects produce inefficient agent guidance that either overwhelms with detail or lacks necessary structure
 governed-by:
-  - .livespec/standard/metaspecs/convention.spec.md
+  - references/standards/metaspecs/base.spec.md
 applies_to:
   - workspace/constitution.spec.md
   - AGENTS.md
@@ -115,7 +115,7 @@ applies_to:
 ## Usage Patterns
 
 ### During Project Setup
-Use `.livespec/0-define/0a-quick-start.md`:
+Use `/livespec:init`:
 1. Ask about primary agent(s) and context capabilities
 2. Ask about usage pattern (exploratory vs production)
 3. Recommend compression level based on answers
@@ -129,7 +129,7 @@ Context compression force influences:
 - Cache boundary decisions (what to load once vs repeatedly)
 
 ### During Evolution
-Use `.livespec/prompts/utils/audit-context-compression.md`:
+Use `references/prompts/utils/audit-context-compression.md`:
 - Measure actual compression (extraction ratio, reference depth)
 - Compare to declared level
 - Identify optimization opportunities
@@ -241,18 +241,18 @@ grep -c "See:" specs/workspace/constitution.spec.md
 **After (Aggressive, 38 lines)**:
 ```markdown
 ## Requirements
-- Specs Before Implementation (See: `.livespec/templates/agents/spec-first-verification.md`)
-- MSL Minimalism (See: `.livespec/guides/msl-minimalism.md`)
-- Living Documentation (See: `.livespec/4-evolve/*.md`)
+- Specs Before Implementation (See: `templates/agents/spec-first-enforcement.md`)
+- MSL Minimalism (See: `references/guides/msl-minimalism.md`)
+- Living Documentation (See: `references/prompts/evolve/*.md`)
 - Context Compression
   - Rules inline, details extracted
-  - Heavy template reuse (`.livespec/templates/agents/`)
+  - Heavy template reuse (`templates/agents/`)
   - Deep reference hierarchies
   - Cache-optimized boundaries
 
 ## Pre-Implementation Verification
 [Essential checklist only]
-*Full details*: `.livespec/templates/agents/pre-implementation-verification.md`
+*Full details*: `templates/agents/spec-first-enforcement.md`
 ```
 
 **Result**: 82 → 38 lines (54% reduction), extraction ratio = 54%, achieved Aggressive target (>70% when including referenced content).
@@ -263,7 +263,7 @@ grep -c "See:" specs/workspace/constitution.spec.md
 
 **Scenario**: Pre-implementation verification checklist
 
-**Decision**: Extract to `.livespec/templates/agents/pre-implementation-verification.md`
+**Decision**: Extract to `templates/agents/spec-first-enforcement.md`
 
 **Reasoning**:
 - Reused in multiple contexts (AGENTS.md, individual prompts)

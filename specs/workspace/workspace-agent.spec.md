@@ -24,15 +24,15 @@ supports: []
 ## Requirements
 
 - [!] LiveSpec AGENTS.md provides AI agents with methodology context following context tree convention
-  - **Context tree pattern**: Root AGENTS.md + ctxt/ sub-agents (see `.livespec/standard/conventions/context-tree.spec.md`)
+  - **Context tree pattern**: Root AGENTS.md + ctxt/ sub-agents (see `references/standards/conventions/context-tree.spec.md`)
   - **Evolution**: Monolithic (50-60KB) → Hierarchical tree (root 30-40KB + ctxt/)
   - **Generation**: Use `/livespec:audit context` to build tree
-  - **Distribution**: dist/AGENTS.md is bootstrap (~5KB), instructs generation after Phase 0
+  - **Distribution**: Installed via `/plugin install livespec@livespec`; AGENTS.md is generated in the target project after Phase 0 (no file copying)
   - **Benefits**: Better focus (specialized contexts), reduced overload (load what's needed), improved signal-to-noise (60% vs 20%)
 
 - [!] LiveSpec AGENTS.md content generated from project specifications
   - **Sources**: PURPOSE.md, workspace/*.spec.md, foundation/*.spec.md, 2-strategy/architecture.spec.md
-  - **Content structure**: Optimized for context positioning (START/MIDDLE/END) per `.livespec/guides/context-positioning.md`
+  - **Content structure**: Optimized for context positioning (START/MIDDLE/END) per `references/guides/context-positioning.md`
   - **Compression**: Moderate level (balanced inline/reference) per workspace/constitution.spec.md
   - **No frontmatter**: Clean context for agents (convention requirement)
   - **Inline edit warning**: Instructs regeneration (not separate section - clean context)
@@ -52,7 +52,7 @@ supports: []
   - **Status levels**: ⚠️ CRITICAL (max 3) | ## Important (recommended) | ## Optional (nice-to-have)
 
 - [!] LiveSpec AGENTS.md incorporates specialized structural enforcement templates
-  - **Spec-first enforcement**: From `.livespec/templates/agents/spec-first-enforcement.md`
+  - **Spec-first enforcement**: From `templates/agents/spec-first-enforcement.md`
   - **Template insertion**: Full content inline during generation (not reference - critical for adoption)
   - **Four-layer enforcement**: TodoWrite gate, validation tool, plan mode, permanent file test
   - **Target**: 90%+ compliance before commit, pre-commit hook catches 10%

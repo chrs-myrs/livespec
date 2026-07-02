@@ -48,12 +48,12 @@ supports: []
 - ✅ "Component state persists across re-renders" (WHAT)
 
 **4. Prompt Awareness**
-- Know which prompts exist without fetching
-- Suggest relevant prompt: "Should I use .livespec/1-design/1b-define-behaviors.md?"
-- Fetch full prompt only when user approves or implementation starts
+- Know which skills/commands exist without fetching
+- Suggest relevant command: "Should I use /livespec:design feature?"
+- Invoke the skill only when user approves or implementation starts
 
 **5. Drift Prevention**
-- Suggest Phase 4a drift detection before implementing features
+- Suggest `/livespec:audit` drift detection before implementing features
 - Update behavior specs alongside code changes
 - Maintain frontmatter traceability when specs change
 

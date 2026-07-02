@@ -21,7 +21,7 @@ Complete the specified task with clear deliverables.
 
 ## Validation
 
-- Prompt exists at dist/prompts/utils/run-spike.md
+- Prompt exists at references/prompts/utils/run-spike.md
 - Prompt has spec: frontmatter reference
 - Spike charter template includes question, time box, success criteria, out of scope
 - Report template comprehensive (answer, findings, measurements, recommendations)

@@ -24,7 +24,7 @@ derives-from:
   - Compression drives template extraction, AGENTS.md sizing, reference depth
   - Audit tool measures declared vs actual compression alignment
   - Migration path for changing compression levels
-  - Framework reference in `.livespec/standard/conventions/context-compression.spec.md`
+  - Framework reference in `references/standards/conventions/context-compression.spec.md`
 
 ## Compression Level Characteristics
 
@@ -92,7 +92,7 @@ derives-from:
 Context compression **actively drives** these decisions:
 
 **Template Extraction:**
-- When to create `.livespec/templates/agents/*.md`
+- When to create `templates/agents/*.md`
 - What content belongs in templates vs inline
 - Template granularity and reuse patterns
 
@@ -120,7 +120,7 @@ Context compression **actively drives** these decisions:
 
 ### Measuring Compression
 
-**Use:** `.livespec/prompts/utils/audit-context-compression.md`
+**Use:** `/livespec:audit context` (compression alignment is part of the context audit)
 
 **Metrics:**
 - Extraction ratio (template lines / total guidance lines)
@@ -140,7 +140,7 @@ Context compression **actively drives** these decisions:
 2. Reorganize content:
    - **To higher compression:** Extract items to templates, update references
    - **To lower compression:** Inline templates, remove unnecessary references
-3. Regenerate AGENTS.md: `.livespec/4-evolve/4d-regenerate-context.md`
+3. Regenerate AGENTS.md: `/livespec:audit context`
 4. Validate structure matches new declared level
 5. Monitor next 5 sessions for effectiveness
 
@@ -171,6 +171,6 @@ These are complementary forces:
 - Level appropriate for project usage patterns and agent capabilities
 - Extraction/inline decisions follow framework for declared level
 - AGENTS.md size within target for compression level (light: any, moderate: <100KB, aggressive: <50KB)
-- Audit tool available at `.livespec/prompts/utils/audit-context-compression.md`
+- Audit tool available via `/livespec:audit context`
 - Migration path documented and tested
-- Framework reference exists at `.livespec/standard/conventions/context-compression.spec.md`
+- Framework reference exists at `references/standards/conventions/context-compression.spec.md`

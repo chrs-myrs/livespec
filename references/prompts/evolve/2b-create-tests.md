@@ -24,8 +24,8 @@ You're in Phase 2 (BUILD - TDD), creating tests that verify behavior specificati
 - [ ] `specs/workspace/workflows.spec.md` - Testing approach and patterns
 
 **If ANY is missing → STOP:**
-- Missing specs/features/ → "Use `.livespec/1-design/1b-define-behaviors.md` to create behavior specs first"
-- Missing workspace workflows → "Use `.livespec/0-define/0a-quick-start.md` to define testing patterns first"
+- Missing specs/features/ → "Use `/livespec:design` to create behavior specs first"
+- Missing workspace workflows → "Use `/livespec:design` to define testing patterns first"
 
 **Only proceed when specifications exist.** Tests validate specs - can't test without them.
 

@@ -20,7 +20,7 @@ This folder contains all specifications for LiveSpec v3.3.0.
 
 LiveSpec is a **Governance domain** project:
 - Produces methodology frameworks (not software products)
-- Pattern: specs/ (source) → dist/ (distributable framework)
+- Pattern: specs/ (source) → skills/agents/commands/references/templates (distributed as a Claude Code plugin)
 - Dogfooding: LiveSpec uses its own methodology
 
 ## Format

@@ -166,7 +166,7 @@ criticality: CRITICAL
 
 **Example**: "7/10 users frustrated by checkout length (avg 8.5 min), 4/10 considered abandoning"
 
-**Quality guidance**: `.livespec/standard/metaspecs/research/[artifact-type].metaspec.md`
+**Quality guidance**: `references/standards/metaspecs/research/[artifact-type].metaspec.md`
 
 **Traceability tools**: `find-research-basis.sh`, `find-requirements-from-research.sh`, `validate-research-links.sh`
 

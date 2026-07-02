@@ -24,9 +24,9 @@ specifies:
 - [!] Agent validates all required source files exist before starting generation
   - Core sources: PURPOSE.md, specs/workspace/*.spec.md (constitution, patterns, workflows, context-architecture)
   - context-architecture.spec.md is REQUIRED (provides content sources and structure)
-  - Templates: .livespec/templates/agents/spec-first-enforcement.md
+  - Templates: templates/agents/spec-first-enforcement.md
   - Optional sources: specs/workspace/taxonomy.spec.md, specs/strategy/architecture.spec.md
-  - VERSION or dist/VERSION for version information
+  - .claude-plugin/plugin.json for version information
   - Clear error messages identifying missing files, especially context-architecture.spec.md
   - Stops immediately if required files missing (no partial generation)
   - Provides guidance to resolve missing files (e.g., "Run Phase 0 first")
@@ -57,13 +57,13 @@ specifies:
   - Target size: 30-40KB complete inline content
   - NO frontmatter (clean context for agents)
   - Inline edit warning at top (not in frontmatter)
-  - Inlines spec-first enforcement template from .livespec/templates/agents/
+  - Inlines spec-first enforcement template from templates/agents/
   - Inlines core principles compressed from constitution
   - Inlines folder organization tests from taxonomy
   - Includes "When to Load Sub-Agents" section (routing decision tree)
   - Includes Quick Start (80% of cases - Phase 0 bash commands)
   - Includes MSL format quick reference
-  - Includes Reference Library (navigation to ctxt/ and .livespec/)
+  - Includes Reference Library (navigation to ctxt/ and references/)
   - NO external references to specs/workspace/*.spec.md (content extracted inline)
   - Applies compression level from configuration
 
@@ -76,7 +76,7 @@ specifies:
   - Inline edit warning at top
   - Specialist-specific methodology content
   - Load triggers matching natural user language
-  - References to relevant `.livespec/prompts/` and feature specs
+  - References to relevant `references/prompts/` and feature specs
   - Examples and patterns for the specialist's scope
   - Reference Library section linking to detailed specs
   - Footer: "[Specialist] for [Project Name] / Parent: AGENTS.md"
@@ -159,7 +159,7 @@ specifies:
 ### Prerequisites Validation
 - [ ] Agent checks for PURPOSE.md existence
 - [ ] Agent checks for specs/workspace/*.spec.md existence
-- [ ] Agent checks for .livespec/templates/agents/ existence
+- [ ] Agent checks for templates/agents/ existence
 - [ ] Agent stops with clear error if prerequisites missing
 - [ ] Agent provides guidance to resolve missing files
 

@@ -19,7 +19,7 @@ Use this prompt when:
 
 - Project has workspace/ specifications
 - AGENTS.md exists (if project uses it)
-- Understanding of context compression levels (See: `dist/standard/conventions/context-compression.spec.md`)
+- Understanding of context compression levels (See: `references/standards/conventions/context-compression.spec.md`)
 
 ## Task
 
@@ -45,7 +45,7 @@ templates_content_lines / (inline_content_lines + templates_content_lines) × 10
 
 Count:
 - Inline: Content in AGENTS.md, workspace/*.spec.md
-- Templates: Content in `.livespec/templates/agents/*.md`, `.livespec/templates/workspace/*.md`
+- Templates: Content in `templates/agents/*.md`, `templates/workspace/*.md`
 
 **Reference Depth** (average hops to reach information):
 - Depth 0: Inline in AGENTS.md or workspace spec
@@ -133,7 +133,7 @@ If recommending compression level change, provide migration plan:
 2. **Reorganize content**:
    - Moving to higher compression: Extract specific items to templates, update references
    - Moving to lower compression: Inline specific templates, remove unnecessary references
-3. **Regenerate AGENTS.md** with new compression level (use `.livespec/4-evolve/4d-regenerate-context.md`)
+3. **Regenerate AGENTS.md** with new compression level (use `/livespec:evolve`)
 4. **Validate** that structure matches new declared level
 5. **Commit** with clear explanation of compression change
 
@@ -199,6 +199,6 @@ Structure:
 
 ## Related Prompts
 
-- `.livespec/standard/conventions/context-compression.spec.md` - Framework definition
-- `.livespec/4-evolve/4d-regenerate-context.md` - Regenerate AGENTS.md with compression awareness
-- `.livespec/0-define/0a-quick-start.md` - Initial compression level selection
+- `references/standards/conventions/context-compression.spec.md` - Framework definition
+- `/livespec:evolve` - Regenerate AGENTS.md with compression awareness
+- `/livespec:design` - Initial compression level selection

@@ -91,10 +91,9 @@ derives-from:
 - specs/features/ contains observable behaviors
 - specs/strategy/ contains technical decisions
 - PURPOSE.md exists at root
-- dist/ contains deliverables
-- .livespec/ symlink points to dist/
+- skills/, agents/, commands/ contain deliverables
 
-**Spec:** specs/features/folder-structure.spec.md (via dist/standard/conventions/)
+**Spec:** specs/features/folder-structure.spec.md (via references/standards/conventions/)
 
 **Example checks:**
 ```bash
@@ -103,8 +102,8 @@ derives-from:
 [ -f "specs/workspace/patterns.spec.md" ]
 [ -f "specs/workspace/workflows.spec.md" ]
 
-# Validation: .livespec/ is symlink to dist/
-[ -L ".livespec" ] && [ "$(readlink .livespec)" = "dist" ]
+# Validation: skills/ contains SKILL.md files
+[ -f "skills/audit/SKILL.md" ]
 ```
 
 ### 2. MSL Format Compliance (tests/prompts/test_msl_format.sh)
@@ -117,7 +116,7 @@ derives-from:
 - Requirements use [!] marker for critical items
 - Title exists (# Heading)
 
-**Spec:** dist/standard/metaspecs/base.spec.md
+**Spec:** references/standards/metaspecs/base.spec.md
 
 **Example checks:**
 ```bash
@@ -156,12 +155,12 @@ done
 
 **Validates:**
 - Behavior specs use .spec.md extension
-- Prompts use phase-letter pattern (0a-, 1b-, etc.)
+- Skills use `skills/<name>/SKILL.md` layout
 - Workspace specs follow kebab-case naming
 - No spaces in filenames
 - Lowercase preferred
 
-**Spec:** dist/standard/conventions/naming.spec.md
+**Spec:** references/standards/conventions/naming.spec.md
 
 **Example checks:**
 ```bash
@@ -170,28 +169,28 @@ for spec in specs/features/*.spec.md; do
   [[ "$spec" =~ \.spec\.md$ ]] || FAIL
 done
 
-# Prompts match phase-letter pattern
-for prompt in dist/prompts/[0-4]-*/*.md; do
-  basename "$prompt" | grep -qE "^[0-4][a-z]-" || FAIL
+# Skills match skills/<name>/SKILL.md pattern
+for skill_dir in skills/*/; do
+  [ -f "${skill_dir}SKILL.md" ] || FAIL
 done
 ```
 
-### 5. Prompt Alignment Tests (tests/prompts/test_prompt_behaviors.sh)
+### 5. Skill Alignment Tests (tests/prompts/test_prompt_behaviors.sh)
 
 **Validates:**
-- Prompts have spec: frontmatter pointing to defining spec
+- Skills/commands have frontmatter pointing to defining spec (or specs reference the deliverable via `specifies:`)
 - Referenced spec files exist
-- Spec file contains behavior definition for prompt
+- Spec file contains behavior definition for skill
 
-**Spec:** specs/workspace/patterns.spec.md (spec ↔ prompt alignment)
+**Spec:** specs/workspace/patterns.spec.md (spec ↔ skill alignment)
 
 **Example checks:**
 ```bash
-# Extract spec reference from prompt frontmatter
-SPEC_REF=$(sed -n '/^spec:/s/^spec: //p' "$prompt")
+# Extract spec reference from artifact spec frontmatter
+SPEC_REF=$(sed -n '/^specifies:/s/^specifies: //p' "$spec_file")
 
-# Validate spec exists
-[ -f "$SPEC_REF" ] || echo "FAIL - $prompt references missing spec"
+# Validate deliverable exists
+[ -f "$SPEC_REF" ] || echo "FAIL - $spec_file references missing deliverable"
 ```
 
 ### 6. Full Validation (tests/structure/test_full_validation.sh)
@@ -200,7 +199,7 @@ SPEC_REF=$(sed -n '/^spec:/s/^spec: //p' "$prompt")
 - Circularity: Every spec has constrained_by
 - Completeness: Every deliverable has defining spec
 - Consistency: No orphaned specs or deliverables
-- Metaspecs: All metaspecs exist in dist/standard/metaspecs/
+- Metaspecs: All metaspecs exist in references/standards/metaspecs/
 
 **Spec:** specs/strategy/dogfooding.spec.md (circularity requirement)
 
@@ -212,7 +211,7 @@ for spec in specs/**/*.spec.md; do
 done
 
 # Count deliverables vs defining specs
-DELIVERABLE_COUNT=$(find dist/ -type f | wc -l)
+DELIVERABLE_COUNT=$(find skills/ agents/ commands/ -type f | wc -l)
 SPEC_COUNT=$(find specs/features/ -name "*.spec.md" | wc -l)
 ```
 
@@ -282,13 +281,13 @@ jobs:
 
 ## Connection to Drift Detection
 
-**Drift detection is Phase 4 applied to LiveSpec itself:**
+**Drift detection is the EVOLVE workflow applied to LiveSpec itself:**
 
 **Manual drift detection:**
 - Developer notices spec doesn't match deliverable
-- Uses 4a-detect-drift.md to analyze gap
-- Uses 4b-extract-specs.md to document new reality
-- Uses 4c-sync-complete.md to verify alignment
+- Uses `/livespec:audit health` to analyze gap
+- Uses `/livespec:audit extract` to document new reality
+- Confirms alignment restored via re-running the audit
 
 **Automated drift detection:**
 - Tests run continuously
@@ -303,12 +302,12 @@ jobs:
 **Drift type 1: Unspec'd deliverable**
 ```
 # Test detects
-prompt added: dist/prompts/utils/upgrade-methodology.md
-No spec found: specs/artifacts/prompts/utils-upgrade.spec.md
+skill added: skills/upgrade/SKILL.md + commands/upgrade.md
+Not listed in: specs/artifacts/commands/generation.spec.md's Command Mapping table
 
 # Resolution
-Create specs/artifacts/prompts/utils-upgrade.spec.md
-Add spec: frontmatter to prompt
+Add the mapping row to specs/artifacts/commands/generation.spec.md
+Verify the command routes correctly to the skill
 Tests pass
 ```
 
@@ -316,10 +315,10 @@ Tests pass
 ```
 # Test detects
 specs/features/folder-structure.spec.md says "4 standard folders"
-But dist/standard/conventions/folder-structure.spec.md says "3 standard folders"
+But references/standards/conventions/folder-structure.spec.md says "3 standard folders"
 
 # Resolution
-Update dist/standard/conventions/folder-structure.spec.md
+Update references/standards/conventions/folder-structure.spec.md
 Sync with specs/features/folder-structure.spec.md
 Tests pass
 ```

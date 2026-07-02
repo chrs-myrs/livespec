@@ -13,55 +13,54 @@ derives-from:
 # AI Discoverability Strategy
 
 ## Requirements
-- [!] LiveSpec maximizes AI agent effectiveness through Context7 integration, cacheable documentation (AGENTS.md <100KB), machine-readable index (llms.txt), navigable folder hierarchy, semantic prompt frontmatter, and version-aware upgrade process, enabling agents to guide users without requiring manual context provision.
-  - Context7 indexes LiveSpec repository at github.com/chrs-myrs/livespec
-  - llms.txt provides Context7-compatible entry point
+- [!] LiveSpec maximizes AI agent effectiveness through plugin-based distribution, cacheable documentation (AGENTS.md <100KB), machine-readable index (llms.txt), navigable folder hierarchy, semantic skill/command frontmatter, and version-aware upgrade process, enabling agents to guide users without requiring manual context provision.
+  - LiveSpec is discovered and installed as a Claude Code plugin (`/plugin install livespec@livespec`)
+  - llms.txt provides a machine-readable entry point
   - AGENTS.md generated from workspace specs provides <100KB cacheable reference
   - Folder structure uses clear hierarchy (workspace/, behaviors/, strategy/, contracts/ optional)
-  - Prompts include spec: frontmatter pointing to defining specifications
-  - VERSION file enables version-aware operations and upgrade detection
+  - Skills and commands include frontmatter pointing to defining specifications
+  - Plugin version (plugin.json) enables version-aware operations and upgrade detection
   - Upgrade process preserves agent context (AGENTS.md regeneration)
   - Agent-agnostic approach (same content works for Claude, Copilot, Cursor)
-  - Remote reference mode (Context7) and local copy mode both supported
+  - Plugin installation (Claude Code) and direct repository use both supported
 
-## Context7 Integration
+## Plugin Discoverability
 
 **Rationale:**
-- Enables AI agents to discover and reference LiveSpec remotely
-- Reduces friction for users (no manual setup to get help)
+- Enables AI agents to discover and reference LiveSpec via the Claude Code plugin marketplace
+- Reduces friction for users (single install command, no manual copying)
 - Provides canonical source of truth for methodology
-- Supports rapid iteration (updates immediately available)
+- Supports rapid iteration (plugin updates available via `/plugin update`)
 
 **Implementation:**
-- LiveSpec repository indexed by Context7
-- llms.txt at root provides structured entry point
-- Agents can reference via `@context7/chrs-myrs/livespec`
-- Full prompts/ and docs/ available remotely
+- LiveSpec distributed as a Claude Code plugin (`/plugin install livespec@livespec`)
+- llms.txt at root provides structured entry point for agents reading the repository directly
+- Skills, agents, and commands are self-contained under skills/, agents/, commands/
+- Full skills/ and references/ content available once installed
 
 **Trade-offs:**
-- **Remote reference**: Always up-to-date, no local copy needed, requires internet
-- **Local copy**: Works offline, user-customizable, requires manual upgrade
-- **Hybrid approach**: Local .livespec/ + remote fallback for unknown patterns
+- **Plugin install**: Always current version per marketplace release, single command, requires Claude Code plugin support
+- **Direct repository use**: Works for dogfooding and development, requires being in this repository
 
 **Usage pattern:**
 ```bash
-# Quick help without local copy
-"Use @context7/chrs-myrs/livespec to explain Phase 1"
+# Install the plugin
+/plugin install livespec@livespec
 
-# After adopting locally
-"Use .livespec/1-design/1a-design-architecture.md"
+# Invoke a skill
+/livespec:design
 ```
 
 ## llms.txt Design
 
 **Purpose:**
-- Context7-compatible index file
+- Machine-readable index file
 - Quick overview for AI agents discovering LiveSpec
-- Links to detailed content (prompts, docs, specs)
+- Links to detailed content (skills, docs, specs)
 
 **Content structure:**
 1. **Overview**: 2-paragraph summary (what LiveSpec is, why it exists)
-2. **Core Methodology**: 5 phases with links to prompt folders
+2. **Core Methodology**: skills with links to skill definitions
 3. **Project Structure**: Folder tree showing standard layout
 4. **Quick Start**: New project and existing project workflows
 5. **MSL Format**: Brief example showing minimal spec format
@@ -77,8 +76,8 @@ derives-from:
 
 **Validation:**
 - File exists at root: llms.txt
-- Context7 can parse and index successfully
-- Contains links to all 5 phase folders
+- Content is parseable structured markdown
+- Contains links to all core skills
 - MSL example demonstrates format
 
 ## AGENTS.md Design
@@ -110,9 +109,9 @@ derives-from:
 
 **Generation workflow:**
 - Triggered by workspace spec changes, PURPOSE.md updates, or version upgrades
-- Prompt: prompts/4-evolve/4d-regenerate-context.md
+- Skill: `/livespec:evolve context` (delegates to the context-builder agent)
 - Sources: PURPOSE.md, specs/workspace/, specs/foundation/outcomes.spec.md, specs/foundation/constraints.spec.md
-- Output: AGENTS.md with frontmatter (generated timestamp, version, spec reference)
+- Output: regenerated AGENTS.md
 - Validation: file size check, section completeness, manual review
 
 **Agent-specific variants (optional):**
@@ -167,57 +166,56 @@ specs/
 - AI agents can locate specs by asking semantic questions
 - No ambiguity about where specs belong
 
-## Prompt Frontmatter Design
+## Skill/Command Frontmatter Design
 
 **Purpose:**
-- Links prompts to defining specifications
+- Links skills and commands to defining specifications
 - Enables bidirectional traceability
-- Helps agents understand prompt intent and validation criteria
+- Helps agents understand skill intent and validation criteria
 
 **Pattern:**
 ```yaml
 ---
-implements: specs/artifacts/prompts/4a-detect-drift.spec.md
+specifies: skills/audit/SKILL.md
 ---
 ```
 
 **Benefits:**
-- Agent can read spec to understand prompt deeply
-- Validates prompt implements spec requirements
-- Supports regeneration (prompt rebuilt from updated spec)
-- Creates traceable chain: requirements → strategy → behaviors → prompts
+- Agent can read spec to understand skill deeply
+- Validates skill implements spec requirements
+- Supports regeneration (skill rebuilt from updated spec)
+- Creates traceable chain: requirements → strategy → behaviors → skills
 
 **Frontmatter conventions:**
-- `spec:` points to defining specification
-- `derives_from:` points to upstream dependencies
-- `constrained_by:` points to constraints
+- `specifies:` (in the spec) points to the deliverable it governs
+- `derives-from:` points to upstream dependencies
+- `governed-by:` points to constraints
 - Relative paths from repository root
 
 **Agent usage:**
-- "Show me the spec for this prompt" → read spec: field
-- "What requirements does this satisfy?" → follow derives_from chain
-- "What constraints apply?" → read constrained_by references
+- "Show me the spec for this skill" → find the spec whose `specifies:` references it
+- "What requirements does this satisfy?" → follow `satisfies` chain
+- "What constraints apply?" → read `governed-by` references
 
-## VERSION File and Upgrade Integration
+## Plugin Version and Upgrade Integration
 
 **Purpose:**
 - Enables version-aware upgrade detection
 - Documents current methodology version
-- Supports Context7 version pinning (future)
+- Supports future marketplace version pinning
 
 **Location:**
-- dist/VERSION (distributed to target projects as .livespec/VERSION)
+- `plugin.json` (plugin manifest version field)
 
 **Format:**
-- Single line: `2.0.0`
 - Semantic versioning: MAJOR.MINOR.PATCH
 
 **Usage in upgrade workflow:**
-1. Pre-flight: Read .livespec/VERSION (detect current version)
-2. Fetch: Read new dist/VERSION (detect target version)
+1. Pre-flight: Detect legacy install (`.livespec-repo/` submodule or copied `.livespec/`) or current plugin version
+2. Fetch: Latest plugin release via `/plugin update` or marketplace
 3. Diff: Compare versions, show what changed between versions
-4. Apply: Selective upgrade with version awareness
-5. Update: Copy new VERSION to .livespec/VERSION
+4. Apply: `/livespec:upgrade` migrates legacy installs to the plugin model
+5. Update: Plugin manifest reflects new version after update
 
 **Agent context preservation:**
 - After upgrade: Prompt to regenerate AGENTS.md
@@ -225,35 +223,31 @@ implements: specs/artifacts/prompts/4a-detect-drift.spec.md
 - Maintains 80% coverage without additional context
 
 **Validation:**
-- VERSION file exists at dist/VERSION
-- Upgrade prompt references VERSION for detection
+- plugin.json version field present and current
+- `/livespec:upgrade` detects legacy installs and migrates them
 - AGENTS.md regeneration triggered post-upgrade
 - Version visible in llms.txt
 
-## Remote vs Local Trade-offs
+## Plugin Install vs Dogfooding Trade-offs
 
 **Decision matrix:**
 
 | Scenario | Approach | Rationale |
 |----------|----------|-----------|
-| Quick help/discovery | Remote (Context7) | No setup needed, always current |
-| Adopted LiveSpec | Local (.livespec/) | Offline, customizable, faster |
-| Exploring methodology | Remote (Context7) | Try before committing to local copy |
-| Production project | Local (.livespec/) | Stable, versioned, team-controlled |
-| Learning LiveSpec | Remote (Context7) | Lower barrier to entry |
-| Custom workflows | Local (.livespec/) | Can modify prompts for project needs |
+| Adopting LiveSpec in a project | Plugin install | Single command, versioned, always current release |
+| Developing LiveSpec itself | Direct repository use | Dogfooding, immediate iteration on skills/specs |
+| Production project | Plugin install | Stable, versioned, team-controlled via marketplace |
+| Learning LiveSpec | Plugin install | Lower barrier to entry, no manual copying |
 
-**Hybrid pattern (recommended):**
-1. Discover via Context7: `"Use @context7/chrs-myrs/livespec to explain drift detection"`
-2. Adopt locally: `cp -r livespec/dist/* .livespec/`
-3. Customize: Modify .livespec/ for project needs
-4. Upgrade: Use upgrade-methodology.md when new version released
-5. Fallback: Reference Context7 for new features not yet adopted
+**Recommended pattern:**
+1. Install: `/plugin install livespec@livespec`
+2. Use: Invoke skills (`/livespec:design`, `/livespec:audit`, etc.) directly
+3. Upgrade: `/plugin update` when a new version releases; `/livespec:upgrade` migrates any legacy pre-plugin install
+4. Customize: Project-level specs and workspace configuration remain project-owned
 
 **Agent handling:**
-- Prefer local .livespec/ if exists (user has adopted)
-- Fall back to Context7 if .livespec/ missing or incomplete
-- Suggest local adoption after repeated Context7 references
+- Prefer the installed plugin skills
+- Detect legacy installs (`.livespec-repo/` submodule, copied `.livespec/`) and recommend `/livespec:upgrade`
 
 ## Agent-Agnostic Implementation
 
@@ -262,7 +256,7 @@ Same content structure works across Claude Code, GitHub Copilot, Cursor IDE, and
 
 **Strategies:**
 
-1. **Plain markdown prompts:**
+1. **Plain markdown skills and commands:**
    - No proprietary formats
    - No special syntax beyond standard markdown
    - Readable by humans and AI equally
@@ -273,37 +267,37 @@ Same content structure works across Claude Code, GitHub Copilot, Cursor IDE, and
    - Agents discover methodology via familiar filename
 
 3. **Conventional folder structure:**
-   - .livespec/ (common convention)
+   - skills/, agents/, commands/ (Claude Code plugin convention)
    - specs/ (semantic clarity)
    - No magic folders requiring specific agent features
 
 4. **Execution flexibility:**
-   - Claude Code: Direct prompt execution
-   - Cursor: Open prompt, use Composer
-   - Copilot: Add prompt as context
-   - Manual: Copy/paste prompt content
+   - Claude Code: Direct skill/command execution via the installed plugin
+   - Cursor: Open skill content, use Composer
+   - Copilot: Add skill content as context
+   - Manual: Copy/paste skill content
 
-5. **Context7 as universal reference:**
-   - Any agent can reference @context7/chrs-myrs/livespec
-   - Canonical remote methodology
+5. **Plain-markdown content as universal reference:**
+   - Any agent can read skills/agents/commands directly from the repository
+   - Canonical methodology lives in this repository
    - No vendor lock-in
 
 **Validation:**
-- 3+ different AI agents successfully execute prompts
-- No prompt requires agent-specific features
+- 3+ different AI agents successfully execute skill instructions
+- No skill requires agent-specific features
 - Documentation explains usage for each agent
 - AGENTS.md works across all agents tested
 
 ## Validation
 
-- Context7 indexes LiveSpec repository successfully
+- LiveSpec installs successfully as a Claude Code plugin
 - llms.txt exists at root with correct structure
 - AGENTS.md generated from workspace specs, <100KB
 - Folder structure uses clear semantic hierarchy
-- All prompts include spec: frontmatter
-- VERSION file exists in dist/
-- Upgrade prompt triggers AGENTS.md regeneration
-- Remote (Context7) and local (.livespec/) modes both functional
-- Same prompts work across Claude, Copilot, Cursor
+- All skills/commands include spec-linking frontmatter
+- plugin.json version field present and current
+- `/livespec:upgrade` triggers AGENTS.md regeneration after migrating legacy installs
+- Plugin install and direct repository (dogfooding) use both functional
+- Same skill content works across Claude, Copilot, Cursor
 - Agents can navigate folder structure semantically
-- Prompt frontmatter enables bidirectional traceability
+- Skill/command frontmatter enables bidirectional traceability

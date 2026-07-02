@@ -302,4 +302,4 @@ Before finalizing report:
 **Next Steps**:
 - Save report to `var/compliance/session-YYYY-MM-DD-HHMMSS-report.md`
 - If creating session log, save JSON to `var/compliance/session-YYYY-MM-DD-HHMMSS.json`
-- Use `.livespec/utils/next-steps.md` for workflow navigation
+- Use `/livespec:go` for workflow navigation

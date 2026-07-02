@@ -54,8 +54,8 @@ Optional - skip when:
 - specs/foundation/outcomes.spec.md exists (high-level requirements)
 - specs/foundation/complexity-assessment.md exists (project complexity understood)
 - Agent has access to:
-  - .livespec/standard/metaspecs/research/*.metaspec.md (quality guidance)
-  - .livespec/templates/research/*.md.template (structured formats)
+  - references/standards/metaspecs/research/*.metaspec.md (quality guidance)
+  - templates/research/*.md.template (structured formats)
 
 ## Outputs
 

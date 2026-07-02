@@ -71,7 +71,7 @@ Ask the user:
    - If YES: "These go in specs/features/processes/ or specs/strategy/, NOT specs/workspace/"
    - If NO: "workspace/ will contain only operating context (constitution, patterns, workflows, taxonomy)"
 
-4. **Select appropriate taxonomy template** from `.livespec/templates/workspace/taxonomy-[domain].spec.md.template`
+4. **Select appropriate taxonomy template** from `templates/workspace/taxonomy-[domain].spec.md.template`
 
 5. **Create specs/workspace/taxonomy.spec.md**
    - Use selected domain template
@@ -185,33 +185,33 @@ Ask the user:
 
 ### Step 4: Create Workspace Specifications
 
-Using appropriate templates from `dist/templates/workspace/`, create four workspace specifications:
+Using appropriate templates from `templates/workspace/`, create four workspace specifications:
 
 1. **specs/workspace/constitution.spec.md**
-   - Template: `dist/templates/workspace/constitution-[level].md.template`
+   - Template: `templates/workspace/constitution-[level].md.template`
    - Include `context_compression: [level]` in frontmatter
    - Define 3-5 core development principles
    - Customize from template for project context
 
 2. **specs/workspace/patterns.spec.md**
-   - Template: `dist/templates/workspace/patterns.spec.md.template`
+   - Template: `templates/workspace/patterns.spec.md.template`
    - Naming conventions
    - File structure patterns
    - Specification format requirements
 
 3. **specs/workspace/workflows.spec.md**
-   - Template: `dist/templates/workspace/workflows.spec.md.template`
+   - Template: `templates/workspace/workflows.spec.md.template`
    - Development process workflows
    - When to use which Phase prompts
    - How specs evolve with code
 
 4. **specs/workspace/context-architecture.spec.md**
-   - Template: `dist/templates/workspace/context-architecture.spec.md.template`
+   - Template: `templates/workspace/context-architecture.spec.md.template`
    - Define project's context tree structure (phases, domains, utils)
    - Specify what content populates AGENTS.md (always include, include when relevant)
    - Customize load triggers for project workflow
    - Configure content focus (behaviors/constraints/patterns balance)
-   - References `.livespec/standard/conventions/context-tree.spec.md` for mechanism
+   - References `references/standards/conventions/context-tree.spec.md` for mechanism
 
 Note: taxonomy.spec.md created in Step 3 is also part of workspace/ (operating context).
 
@@ -222,7 +222,7 @@ Brief explanation of what the chosen compression level means:
 - What will be inline vs extracted
 - Where to find detailed guidance (templates/, prompts/)
 - How this affects AGENTS.md structure
-- Can be changed later via audit utility (`.livespec/prompts/utils/audit-context-compression.md`)
+- Can be changed later via audit utility (`references/prompts/utils/audit-context-compression.md`)
 
 ### Step 6: Regenerate AGENTS.md
 
@@ -232,9 +232,9 @@ Tell user:
 
 "Workspace specs created! Now regenerating AGENTS.md with your project-specific context..."
 
-**Use prompt 4d to regenerate**:
+**Use `/livespec:evolve` to regenerate**:
 ```
-"Use .livespec/4-evolve/4d-regenerate-context.md to update AGENTS.md"
+"Use /livespec:evolve to update AGENTS.md"
 ```
 
 **What this does**:
@@ -244,7 +244,7 @@ Tell user:
 - Gives AI agents your project's specific context
 - Critical for agent effectiveness going forward
 
-**Wait for 4d completion** before proceeding to slash command generation.
+**Wait for context regeneration to complete** before proceeding to slash command verification.
 
 ### Step 6.5: Verify Slash Commands
 

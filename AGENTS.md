@@ -609,8 +609,9 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 **Run validation at key checkpoints:**
 - Before committing: `scripts/validate-frontmatter.sh`
+- Cross-reference integrity: `scripts/validate-crossrefs.sh`
 - After regenerating files: `scripts/validate-purpose.sh`
-- Cross-reference integrity: `references/prompts/utils/validate-project.md`
+- Full sweep: `references/prompts/utils/validate-project.md`
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, underscore field names)
@@ -798,22 +799,29 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **`references/standards/vocabulary.spec.md`** - Canonical controlled vocabulary (type values, fidelity levels, relationship fields, phases, layers)
 - **`references/standards/metaspecs/base.spec.md`** - Base frontmatter schema
 - **`references/standards/conventions/context-tree.spec.md`** - Context tree structure and generation governance
-- **`specs/workspace/folder-organization.spec.md`** - Folder organization
-- **`references/standards/conventions/dependencies.spec.md`** - Spec relationships (if present) or see Specification Dependencies above
-- **`references/standards/conventions/naming.spec.md`** - File naming patterns (if present) or see Development Patterns above
+- **`references/standards/conventions/dependencies.spec.md`** - Spec relationship field semantics (full version of Specification Dependencies above)
+- **`references/standards/conventions/naming.spec.md`** - File naming patterns (full version of Development Patterns above)
+- **`references/standards/conventions/folder-structure.spec.md`** - Canonical folder structure convention
+- **`specs/workspace/folder-organization.spec.md`** - This project's folder organization
 
 ### Metaspecs (Templates for Spec Types)
 - **`references/standards/metaspecs/base.spec.md`** - Base frontmatter schema for all specs
+- **`references/standards/metaspecs/behavior.spec.md`** - Behavior specs (features/)
+- **`references/standards/metaspecs/strategy.spec.md`** - Strategy specs
 - **`references/standards/metaspecs/prompt.spec.md`** - Prompt artifacts
 - **`references/standards/metaspecs/agent.spec.md`** - Agent artifacts
 
 ### Guides (How to Apply)
 - **`references/guides/msl-minimalism.md`** - MSL decision framework
 - **`references/guides/terminology.md`** - Controlled vocabulary usage guide
+- **`references/guides/context-positioning.md`** - START/MIDDLE/END pattern for generated context
+- **`references/guides/progressive-disposability.md`** - Layer durability and regeneration
 
 ### Validation Scripts
 - **`scripts/validate-frontmatter.sh`** - Check all spec frontmatter (IMP-005)
+- **`scripts/validate-crossrefs.sh`** - Check cross-reference integrity (frontmatter paths resolve)
 - **`scripts/upgrade-to-v5.sh`** - Migrate legacy submodule/copy installs to the v5 plugin
+- **`scripts/sweep-projects.sh`** - Multi-project portfolio audit (backs `/livespec:sweep`)
 
 ### Plugin Skills (Invoke Directly)
 - **`/livespec:init`** - Initialize a new project

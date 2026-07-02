@@ -21,7 +21,7 @@ specifies: []
   - Builds dependency graph showing actual link relationships
   - Displays as ASCII tree where each level represents files linked by parent level
   - Shows duplicates where same file referenced by multiple contexts
-  - Includes files outside ctxt/ folder (specs/*, .livespec/*)
+  - Includes files outside ctxt/ folder (specs/*, references/*)
   - Annotates with file sizes and load trigger keywords
 
 - [!] Output provides actionable insights
@@ -40,7 +40,7 @@ specifies: []
 - [ ] Correctly parses AGENTS.md "When to Load Sub-Agents" section
 - [ ] Extracts all ctxt/* references from markdown links
 - [ ] Recursively parses ctxt/* files for outbound references
-- [ ] Detects references to .livespec/* and specs/* files
+- [ ] Detects references to references/* and specs/* files
 - [ ] Shows duplicate nodes where file referenced multiple times
 - [ ] Calculates cumulative context size per branch
 - [ ] Color output works in standard terminal

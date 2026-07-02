@@ -51,6 +51,5 @@ Script detects content that belongs elsewhere:
 
 ## Integration
 
-- Used by `dist/tests/structure/test_full_validation.sh` Section 10
-- Referenced by `dist/prompts/utils/extract-purpose-overflow.md`
-- Supports `dist/prompts/0-define/0c-define-problem.md` exit criteria
+- Referenced by `references/prompts/utils/extract-purpose-overflow.md`
+- Supports `references/prompts/define/0c-define-outcomes.md` exit criteria

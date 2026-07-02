@@ -102,7 +102,7 @@ derives-from:
 ### Tooling
 - [ ] `scripts/validate-frontmatter.sh` exists and exits 0 against current specs
 - [ ] Metaspec templates updated to document new mandatory fields
-- [ ] dist/ templates include full frontmatter schema for target projects
+- [ ] `templates/` include full frontmatter schema for target projects
 
 ### Audit Impact
 - [ ] A1 (frontmatter completeness) improves from 1/5 baseline

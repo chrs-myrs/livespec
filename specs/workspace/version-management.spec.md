@@ -8,7 +8,6 @@ governed-by: []
 applies_to:
   - .livespec-version
   - AGENTS.md
-  - dist/VERSION
   - CHANGELOG.md
 ---
 
@@ -18,10 +17,9 @@ applies_to:
 
 - [!] All version-related files remain synchronized across the project
   - `.livespec-version` file contains current version (single source of truth)
-  - `dist/VERSION` contains current version (distributed with methodology)
   - `AGENTS.md` footer link text matches `.livespec-version` (e.g., "LiveSpec v3.1.0")
   - All files updated atomically in same commit during release
-  - Validation detects mismatches before commits (via validate-project.md)
+  - Validation detects mismatches before commits (via `/livespec:audit validate`)
 
 - [!] Version increments follow semantic versioning principles
   - **Major** (X.0.0): Breaking changes, backwards-incompatible
@@ -67,19 +65,16 @@ applies_to:
 
 ### Automated Checks
 
-**Pre-commit validation** (via `dist/prompts/utils/validate-project.md`):
+**Pre-commit validation** (via `/livespec:audit validate`):
 ```bash
 # Extract versions from all files
 VERSION_FILE=$(cat .livespec-version)
-DIST_VERSION=$(cat dist/VERSION)
 AGENTS_FOOTER=$(grep "LiveSpec v" AGENTS.md | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+")
 
 # Verify all match
-if [ "$VERSION_FILE" != "$DIST_VERSION" ] || \
-   [ "$VERSION_FILE" != "$AGENTS_FOOTER" ]; then
+if [ "$VERSION_FILE" != "$AGENTS_FOOTER" ]; then
   echo "❌ ERROR: Version mismatch detected"
   echo "  .livespec-version: $VERSION_FILE"
-  echo "  dist/VERSION: $DIST_VERSION"
   echo "  AGENTS.md footer: $AGENTS_FOOTER"
   exit 1
 fi
@@ -89,7 +84,7 @@ fi
 
 Before committing changes that affect functionality:
 - [ ] Check `.livespec-version` reflects intended release version
-- [ ] Run `dist/prompts/utils/validate-project.md` to verify synchronisation
+- [ ] Run `/livespec:audit validate` to verify synchronisation
 - [ ] Verify CHANGELOG has entry for current version
 - [ ] Confirm all version indicators match (`.livespec-version` is source of truth)
 

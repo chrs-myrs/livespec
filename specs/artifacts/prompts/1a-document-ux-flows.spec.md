@@ -20,7 +20,7 @@ specifies: []
   - Flows validate against user journeys (if exist) or requirements
   - Flows link to requirements they inform (bidirectional traceability)
   - Agent prompted to consider all interaction paths (not just happy path)
-  - Follows `.livespec/standard/metaspecs/research/ux-flow.metaspec.md` structure
+  - Follows `references/standards/metaspecs/research/ux-flow.metaspec.md` structure
   - Optional for simple projects (use when UX complexity justifies documentation)
 
 ## When to Create UX Flows

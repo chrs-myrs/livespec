@@ -79,12 +79,11 @@ Lower layers are more disposable than upper layers:
 ### PURPOSE.md
 Root-level purpose statement defining why LiveSpec exists and what success looks like.
 
-### prompts/
-Methodology source (users copy this to .livespec/):
-- 0-define/ - Problem definition prompts
-- 1-design/ - Spec design prompts
-- 4-evolve/ - Spec evolution prompts
-- utils/ - Utility prompts (upgrade-methodology.md)
+### skills/
+Methodology source, discovered directly by Claude Code once the plugin is installed (no copying):
+- Each `skills/<name>/SKILL.md` is a self-contained, inline workflow
+- 8 skills: init, design, audit, sweep, learn, birth, go, upgrade
+- Matching `commands/<name>.md` router files expose each as `/livespec:<name>`
 
 ### standard/
 Canonical metaspecs (always overwritten on upgrade):
@@ -100,10 +99,10 @@ Specification templates for bootstrapping:
 - operations/ - Operations domain templates (runbook, playbook)
 
 ### Version Tracking
-Framework version tracked via git:
-- .livespec-version.template - Legacy version marker (deprecated - submodules use git tags)
-- Submodule installations: Version via `git -C .livespec-repo describe --tags`
-- Copy installations: Manual version tracking (migration to submodule recommended)
+Framework version tracked via the plugin manifest:
+- `.claude-plugin/plugin.json` `version` field is the source of truth
+- `.livespec-version` mirrors it for scripts/specs that need a plain-text read
+- Users update via `/plugin update livespec` — no manual version tracking needed
 
 ### specs/workspace/
 Development process specifications defining HOW LiveSpec is built:
@@ -129,9 +128,6 @@ Technical approach and architectural decisions:
 Top-level product definition:
 - outcomes.spec.md - High-level requirements
 - constraints.spec.md - Hard boundaries
-
-### .livespec/
-Symlink to prompts/ (enables dogfooding - we use our own methodology).
 
 ### docs/
 User documentation (not specifications):
@@ -201,11 +197,10 @@ specs/
 **Solution:** Structural enforcement makes compliance path of least resistance.
 
 **Approach:**
-1. **Templates provide active verification content** (`.livespec/templates/agents/`):
-   - pre-action-verification.md - Checklist before creating specs
-   - no-plumbing-exception.md - Warning against "just wiring" categorization
-   - self-check-questions.md - Questions agents ask themselves
-   - plan-review-checklist.md - Compliance verification before execution
+1. **Templates provide active verification content** (`templates/agents/`):
+   - spec-first-enforcement.md - Four-layer enforcement (TodoWrite gate,
+     validation check, mandatory plan mode, permanent-file test), inserted
+     inline into AGENTS.md's spec-first protocol section
 
 2. **Specs require templates** (`specs/workspace/workspace-agent.spec.md`):
    - Mandates verification sections in AGENTS.md START section
@@ -231,36 +226,25 @@ specs/
 
 1. **Dogfooding** (LiveSpec uses its own methodology):
    - We maintain PURPOSE.md, specs/workspace/, specs/artifacts/prompts/
-   - .livespec/ symlink lets us use prompts/ on ourselves
+   - This repo installs its own plugin like any other project would
    - Validation checks our specs follow our own rules
 
 2. **Distribution** (Users adopting LiveSpec):
-   - **Complete adoption** (recommended): `cp -r livespec/dist/ my-project/.livespec/`
-     - Gets prompts/, templates/, standard/, guides/, version templates
-     - Single command, no missing dependencies
-   - **Selective adoption** (if customizing distribution):
-     - Copy `dist/prompts/` → `.livespec/prompts/` (methodology prompts)
-     - Copy `dist/templates/` → `.livespec/templates/` (workspace bootstrap + agent verification)
-     - Copy `dist/standard/` → `.livespec/standard/` (MSL metaspecs)
-   - Version tracked via git submodule (or .livespec-version for copy method)
-   - Organize specs/ with subfolders for domain clarity (optional)
-   - Generate AGENTS.md using `.livespec/prompts/4-evolve/4d-regenerate-context.md`
-     - Reads templates from `.livespec/templates/agents/`
-     - Inserts verification content into AGENTS.md START section
-     - Creates project-specific agent configuration
+   - Install the plugin: `/plugin marketplace add chrs-myrs/livespec` then
+     `/plugin install livespec@livespec`
+   - No file copying, no submodule, no `.livespec/` directory — Claude Code
+     discovers `skills/`, `commands/`, `agents/` directly from the installed plugin
+   - `/livespec:init` scaffolds `specs/` + `PURPOSE.md` in the target project
+   - `AGENTS.md`/`ctxt/` generation is opt-in via `/livespec:audit context`
+     (`agents/context-builder.md` reads templates directly from the plugin's
+     `templates/agents/`, inserts verification content into the generated
+     `AGENTS.md`)
 
-3. **Context7/Remote Reference**:
-   - Context7 indexes prompts/ and docs/
-   - AI agents read methodology remotely
-   - Users create specs locally with AI help
-   - Detailed strategy in specs/strategy/ai-discoverability.spec.md
-
-4. **Upgrade** (Git submodule update):
-   - Submodule installations: `git submodule update --remote .livespec-repo`
-   - Copy installations: Manual upgrade (or migrate to submodule)
-   - Framework is immutable reference (no customization tracking needed)
-   - Project specs (specs/workspace/) independent of framework version
-   - Detailed process in prompts/utils/upgrade-methodology.md
+3. **Upgrade**:
+   - `/plugin update livespec` pulls the latest plugin version
+   - `/livespec:upgrade` migrates an existing project's specs/conventions to
+     match the current version where needed
+   - No manual version tracking, no submodule sync
 
 ## Validation
 

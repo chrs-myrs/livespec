@@ -66,7 +66,7 @@ Example: `var/implementation-reports/2025-11-06-slack-mcp-channel-operations.md`
 
 ### Step 2: Use the Template
 
-Copy template from `.livespec/templates/reports/implementation-report.md.template` to your report location.
+Copy template from `templates/reports/implementation-report.md.template` to your report location.
 
 **Template sections** (fill all substantively):
 

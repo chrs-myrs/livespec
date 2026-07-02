@@ -36,7 +36,7 @@ context_compression: moderate
     - Precision hierarchy: Outcome → Behavioral → Interface (default to highest level)
     - Requirement justification: Critical (always) > Important (usually) > Useful (rarely) > Nice (never)
     - Hierarchical minimalism: Abstract common requirements to parent specs
-    - See .livespec/guides/msl-minimalism.md for complete decision framework
+    - See references/guides/msl-minimalism.md for complete decision framework
   - All specs pass MSL test (CRITICAL or IMPORTANT only)
   - Repository uses LiveSpec methodology (specs/ and prompts/ exist)
   - LiveSpec usable with file operations and AI prompts only
@@ -53,9 +53,9 @@ context_compression: moderate
       - Active self-check questions agents ask before creating specs
       - Plan review for methodology compliance
     - Context positioning optimized (START 30-40%, MIDDLE 40%, END 20-30%)
-    - Clear pointers to extended context (when to fetch full prompts)
-    - Reference Library with `.livespec/` paths enables 80/20 navigation (AGENTS.md → deep detail)
-    - Templates in `.livespec/templates/agents/` provide reusable verification content
+    - Clear pointers to extended context (when to fetch full skill/command detail)
+    - Reference Library with `references/` paths enables 80/20 navigation (AGENTS.md → deep detail)
+    - Templates in `templates/agents/` provide reusable verification content
     - Structural enforcement makes compliance path of least resistance
     - **Context Compression** applied (Moderate level):
       - Active force that reorganizes guidance for agent focus efficiency
@@ -63,11 +63,11 @@ context_compression: moderate
       - Strategic extraction of reusable content to templates
       - Balanced inline/reference approach (critical inline, details referenced)
       - Configurable: Light (verbose) | Moderate (balanced) | Aggressive (dense)
-      - Framework: `.livespec/standard/conventions/context-compression.spec.md`
+      - Framework: `references/standards/conventions/context-compression.spec.md`
   - **Clean Evolution** (Principle #7 - LiveSpec project only):
     - LiveSpec itself evolves without backwards compatibility or deprecation cycles
     - Old patterns deleted, not deprecated (no .deprecated files, no legacy code paths)
-    - Users on old versions use their copied dist/ (already have it, not broken)
+    - Users on old plugin versions keep working until they update (`/plugin update livespec`, not broken)
     - New users get current best practice only (no confusion from multiple patterns)
     - Lean codebase with no accumulated baggage
     - Dogfoods "remain lean" principle (LiveSpec practices what it preaches)

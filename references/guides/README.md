@@ -37,7 +37,7 @@ Recommended practices and decision frameworks for LiveSpec methodology.
 **In workspace specs:**
 Templates reference guides for detailed frameworks:
 ```markdown
-# See .livespec/guides/msl-minimalism.md for decision framework
+# See references/guides/msl-minimalism.md for decision framework
 ```
 
 **In AGENTS.md:**

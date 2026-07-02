@@ -18,86 +18,75 @@ specifies: []
 
 # Prompt Registry
 
+Most LiveSpec functionality is now delivered through the 8 self-contained
+skills (`skills/*/SKILL.md` — see `specs/artifacts/commands/generation.spec.md`
+for the authoritative skill/command mapping). This registry covers what's
+left: 25 standalone prompt files under `references/prompts/` whose content
+hasn't been migrated into a skill yet, plus a handful still directly
+referenced by a live skill.
+
+**Status**: Some entries below cover functionality with unmigrated unique
+content (tracked separately as a deferred content-migration issue) — their
+placement is not final. This registry describes what exists on disk today,
+not a target architecture.
+
 ## Requirements
-- [!] LiveSpec provides prompts organized by three modes (DEFINE, DESIGN, EVOLVE) plus utilities, with clear mode assignments, output specifications, and relationships to behaviors.
-  - Each prompt has corresponding behavior spec in specs/artifacts/prompts/
-  - Mode 0 (DEFINE): 8 prompts establishing foundation (quick-start + customize + validation)
-  - Mode 1 (DESIGN): 4 prompts specifying solution
-  - Mode 2 (EVOLVE): 6 prompts maintaining spec health
-  - Utils: 14 prompts for special situations (session completion, strategic improvements, health diagnostics, workspace optimization, workflow analysis, spikes, upgrade, audits, slash command generation)
-  - Registry matches three-modes.spec.md structure
-  - All prompt paths and outputs documented accurately
-  - Bidirectional links maintained (prompts → specs, specs → prompts)
+
+- [!] LiveSpec's surviving standalone prompts are indexed with accurate mode, spec, and purpose
+  - Each prompt's governing spec (where one exists) lives in `specs/artifacts/prompts/`
+  - Two prompts currently lack a governing spec (`3b-acceptance-review.md`, `learn.md`) — flagged in the tables below
+  - Registry reflects actual files on disk, verified against `references/prompts/{define,design,evolve,utils}/`
 
 ## Prompt Inventory
 
-### Mode 0: DEFINE (8 prompts)
-Establish problem space and constraints.
+### DEFINE (6 prompts)
 
-| Prompt | Spec | Output | Purpose |
-|--------|------|--------|---------|
-| 0a-quick-start | 0a-quick-start.spec.md | specs/workspace/*.spec.md | Zero-question setup (5 min, defaults) |
-| 0b-customize-workspace | 0b-customize-workspace.spec.md | specs/workspace/*.spec.md | Full customization (20-30 min, tailored) |
-| 0c-define-problem | 0c-define-problem.spec.md | PURPOSE.md | Articulate problem statement |
-| 0d-define-outcomes | 0d-define-outcomes.spec.md | specs/foundation/outcomes.spec.md | Define high-level requirements |
-| 0e-assess-complexity | 0e-assess-complexity.spec.md | var/complexity-assessment.md | Evaluate project scope and approach |
-| 0f-evaluate-research-needs | 0f-evaluate-research-needs.spec.md | var/research-needs.md | Determine if UX research required |
-| 0g-identify-constraints | 0g-identify-constraints.spec.md | specs/foundation/constraints.spec.md | Document non-negotiable boundaries |
-| 0x-validate-understanding | 0x-validate-understanding.spec.md | None (validation only) | Verify conceptual understanding |
+| Prompt | Spec | Purpose |
+|--------|------|---------|
+| 0b-customize-workspace | 0b-customize-workspace.spec.md | Full workspace customization (20-30 min, tailored) |
+| 0c-define-outcomes | 0c-define-outcomes.spec.md | Define high-level requirements |
+| 0d-assess-complexity | 0d-assess-complexity.spec.md | Evaluate project scope and approach |
+| 0e-evaluate-research-needs | 0e-evaluate-research-needs.spec.md | Determine if UX research required |
+| 0f-identify-constraints | 0f-identify-constraints.spec.md | Document non-negotiable boundaries |
+| 0x-validate-understanding | 0x-validate-understanding.spec.md | Verify conceptual understanding (validation only) |
 
-### Mode 1: DESIGN (4 prompts)
-Design spec architecture.
+### DESIGN (2 prompts)
 
-| Prompt | Spec | Output | Purpose |
-|--------|------|--------|---------|
-| 1a-document-ux-flows | 1a-document-ux-flows.spec.md | research/flows/*.md | Document user interaction flows before architecture |
-| 1b-design-architecture | 1b-design-architecture.spec.md | specs/strategy/architecture.spec.md | Define system structure and components |
-| 1c-define-behaviors | 1c-define-behaviors.spec.md | specs/features/*.spec.md | Specify observable outcomes |
-| 1d-create-contracts | 1d-create-contracts.spec.md | specs/interfaces/*.spec.md | Define API/data interfaces |
+| Prompt | Spec | Purpose |
+|--------|------|---------|
+| 1a-document-ux-flows | 1a-document-ux-flows.spec.md | Document user interaction flows before architecture |
+| 1b-design-architecture | 1b-design-architecture.spec.md | Define system structure and components |
 
-### Mode 2: EVOLVE (6 prompts)
-Maintain spec health and extract learnings.
+### EVOLVE (4 prompts)
 
-| Prompt | Spec | Output | Purpose |
-|--------|------|--------|---------|
-| 4a-detect-drift | 4a-detect-drift.spec.md | var/health-reports/*.md | Identify spec health issues |
-| 4b-extract-specs | 4b-extract-specs.spec.md | specs/features/*.spec.md | Extract learnings to specs |
-| 4c-sync-complete | 4c-sync-complete.spec.md | Updated specs | Confirm spec updates complete |
-| 4d-regenerate-context | 4d-regenerate-context.spec.md | AGENTS.md | Regenerate context tree |
-| 4e-validate-extractions | 4e-validate-extractions.spec.md | Promoted specs | Review low-confidence extracted specs |
-| 4f-document-implementation | 4f-document-implementation.spec.md | var/reports/*.md | Create comprehensive feedback report |
+| Prompt | Spec | Purpose |
+|--------|------|---------|
+| 2a-implement-from-specs | (none) | Spec-driven implementation guidance |
+| 2b-create-tests | (none) | Create tests from behavior specs |
+| 3b-acceptance-review | (none — no governing spec) | Stakeholder acceptance review |
+| 4f-document-implementation | 4f-document-implementation.spec.md | Create comprehensive implementation report |
 
-### Utils (14 prompts)
-Special situation handlers and continuous improvement.
+### Utils (13 prompts)
 
-| Prompt | Spec | Output | Purpose |
-|--------|------|--------|---------|
-| analyze-failure | analyze-failure.spec.md | specs/failure-analysis.md | Forensic analysis when adoption fails |
-| audit-context-compression | utils-audit-context-compression.spec.md | var/audits/context-*.md | Analyze context compression effectiveness |
-| audit-msl-minimalism | utils-audit-msl-minimalism.spec.md | var/audits/minimalism-*.md | Check specs for over-specification using MSL principles |
-| audit-spec-coverage | utils-audit-spec-coverage.spec.md | var/audits/coverage-*.md | Verify all permanent files have specifications |
-| audit-workspace-scope | utils-audit-workspace-scope.spec.md | var/audits/workspace-scope-*.md | Verify workspace scope appropriateness |
-| audit-workspace-specs | utils-audit-workspace-specs.spec.md | var/audits/workspace-specs-*.md | Detect bloat/redundancy in workspace specs |
-| complete-session | utils-complete-session.spec.md | ~/.claude/livespec/compliance/, feedback/ | End-of-session analysis with compliance scoring and learning capture |
-| generate-custom-slash-commands | utils-generate-custom-slash-commands.spec.md | .claude/commands/livespec/*.md | Generate customized Claude Code slash commands for LiveSpec utilities |
-| next-steps | next-steps.spec.md | Status report | Workflow orchestration and navigation |
-| reorganize-workspace | utils-reorganize-workspace.spec.md | Reorganization plan | Context optimization based on usage patterns (START/MIDDLE/END positioning) |
-| run-health-report | utils-run-health-report.spec.md | var/health-reports/*.md | Diagnostic health assessment with status and remediation plans |
-| run-spike | run-spike.spec.md | specs/spikes/*.md | Time-boxed technical exploration |
-| suggest-improvements | utils-suggest-improvements.spec.md | Prioritized recommendations | Strategic improvement analysis based on accumulated data (registries, trends, feedback) |
-| upgrade-methodology | utils-upgrade.spec.md | Upgraded .livespec/ | Migrate to new LiveSpec version |
+| Prompt | Spec | Purpose |
+|--------|------|---------|
+| analyze-failure | analyze-failure.spec.md | Forensic analysis when adoption fails |
+| audit-context-compression | utils-audit-context-compression.spec.md | Analyze context compression effectiveness |
+| detect-phase-restart | utils-detect-phase-restart.spec.md | Detect and handle phase restarts mid-project |
+| extract-purpose-overflow | utils-extract-purpose-overflow.spec.md | Route PURPOSE.md overflow content to proper specs |
+| feedback-report | utils-feedback-report.spec.md | Structured feedback for LiveSpec improvement |
+| learn | (none — no governing spec) | Session completion and learning capture. **Live dependency**: referenced by `skills/learn/SKILL.md` |
+| measure-session-compliance | utils-measure-session.spec.md | Session compliance scoring. **Live dependency**: referenced by `skills/learn/SKILL.md` |
+| reorganize-workspace | utils-reorganize-workspace.spec.md | Context optimization based on usage patterns |
+| research-decision-tree | utils-research-decision-tree.spec.md | Research decision framework |
+| run-health-report | utils-run-health-report.spec.md | Diagnostic health assessment with remediation plans |
+| run-spike | run-spike.spec.md | Time-boxed technical exploration |
+| suggest-improvements | utils-suggest-improvements.spec.md | Strategic improvement analysis from accumulated data |
+| validate-project | utils-validate-project.spec.md | Comprehensive project validation |
 
 ## Validation
 
-- Registry lists exactly 32 prompts (8+4+6+14)
-- All prompts have corresponding behavior specs in specs/artifacts/prompts/
-- Mode assignments match three-modes.spec.md definitions
-- Output paths documented for each prompt
-- Bidirectional links maintained (prompts reference specs, specs reference prompts)
-- Registry enables AI agents to navigate methodology
-- Mode 0 includes conceptual validation prompt (0x-validate-understanding)
-- Utils prompts handle special situations (failure, navigation, exploration, upgrade, session completion, strategic improvements, health diagnostics, workspace optimization, audits, slash command generation)
-- Four-level improvement taxonomy supported (session, context, strategic, diagnostic)
-- Session completion integrated with learning capture
-- Five audit types available (minimalism, context, coverage, workspace-specs, workspace-scope)
-- Slash command generation creates discoverable commands in .claude/commands/livespec/ namespace
+- Registry lists exactly 25 prompts (6+2+4+13), matching `references/prompts/{define,design,evolve,utils}/` on disk
+- Every listed prompt file exists; every referenced spec file exists (except the two explicitly noted as spec-less)
+- `learn.md` and `measure-session-compliance.md` remain in place — deleting either would break `skills/learn/SKILL.md`
+- No entry references `dist/`, `.livespec/`, or a deleted prompt file

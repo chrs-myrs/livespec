@@ -15,15 +15,15 @@ guided-by:
 
 ## Requirements
 - [!] LiveSpec distributes reusable standard defining specification types and conventions, enabling consistent methodology across projects.
-  - Framework distributed via dist/ folder containing standard/ and prompts/
-  - Target projects copy dist/ contents to .livespec/ directory
+  - Framework distributed as a Claude Code plugin containing `references/standards/` and skill-based prompts
+  - Target projects install the plugin via `/plugin install livespec@livespec`
   - Standard includes 7 metaspecs (base, behavior, workspace, strategy, requirements, constraints, contract)
   - Standard includes 3 conventions (folder-structure, naming, dependencies)
   - All metaspecs extend base.spec.md which references MSL specification
   - Metaspecs are self-contained MSL specifications (not just documentation)
   - Project specifications reference metaspecs via `constrained_by:` frontmatter
   - Standard enables dogfooding (LiveSpec specs follow same metaspecs)
-  - Distribution model: `cp -r livespec/dist/* .livespec/` in target projects
+  - Distribution model: plugin installation (no folder copying or submodules required)
 
 ## Metaspecs Provided
 
@@ -43,9 +43,10 @@ guided-by:
 
 ## Distribution
 
-**What gets distributed:**
-- dist/standard/ → .livespec/standard/ (metaspecs + conventions)
-- dist/prompts/ → .livespec/prompts/ (5-phase methodology prompts)
+**What gets distributed (via the plugin):**
+- references/standards/ (metaspecs + conventions)
+- skills/ (methodology skills, invoked as `/livespec:design`, `/livespec:audit`, etc.)
+- templates/ (root-level templates)
 
 **What stays in LiveSpec repo:**
 - specs/ (LiveSpec's own specifications - dogfooding)

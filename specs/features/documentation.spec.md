@@ -64,7 +64,7 @@ guided-by:
 - [!] README provides clear onboarding paths.
   - 5-minute quick start for new projects
   - Existing project path (extract specs from code)
-  - Upgrade path for existing .livespec/ installations
+  - Upgrade path for existing legacy (submodule/copy) installations via `/livespec:upgrade`
   - docs/quickstart.md provides detailed phase walkthrough
 
 ### Troubleshooting and Common Pitfalls
@@ -116,7 +116,7 @@ guided-by:
   - Decision tree for which phase/prompt to use
   - MSL format quick reference
   - Essential templates and patterns
-  - Regeneratable from source specs via prompts/utils/regenerate-contexts.md
+  - Regeneratable from source specs via `/livespec:audit context`
 
 ### llms.txt
 - [!] llms.txt enables Context7 integration for remote methodology access.

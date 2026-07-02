@@ -150,7 +150,7 @@ After all updates applied:
    ```
 
 2. **Run context regeneration:**
-   Use `dist/prompts/utils/regenerate-contexts.md`
+   Use `/livespec:evolve`
 
 3. **Confirm completion:**
    ```
@@ -171,8 +171,8 @@ After all updates applied:
 - Learnings are code-level, not spec-level (implementation details stay in code)
 
 **Use instead:**
-- **complete-session.md** - To analyze session and identify learnings first
-- **regenerate-contexts.md** - To rebuild context without spec updates
+- **`/livespec:learn`** - To analyze session and identify learnings first
+- **`/livespec:evolve`** - To rebuild context without spec updates
 - Direct editing - For deliberate spec changes (not session-driven)
 
 ---

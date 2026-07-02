@@ -42,7 +42,7 @@ implements: specs/features/workspace-optimization.spec.md
   - Content repeated 3+ times (template candidate)
   - Long inline examples (could be templates)
   - Verification checklists (standardize)
-  - Decision matrices (extract to .livespec/templates/)
+  - Decision matrices (extract to templates/)
   - Don't extract: Used once, critical decision logic, varies by context
 
 - [!] Prompt MUST specify compression level assessment
@@ -68,7 +68,7 @@ implements: specs/features/workspace-optimization.spec.md
   - Cancel option
 
 - [!] Prompt MUST specify implementation steps
-  - Create extraction templates (.livespec/templates/agents/)
+  - Create extraction templates (templates/agents/)
   - Update AGENTS.md (move sections, add references)
   - Regenerate context tree (use regenerate-contexts.md)
   - Validate (file sizes, cross-references)

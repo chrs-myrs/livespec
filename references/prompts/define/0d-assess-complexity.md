@@ -122,7 +122,7 @@ Create `specs/complexity-assessment.md`:
 - [ ] Use iterative specification updates
 - [ ] Plan for spec evolution via Phase 4
 - [ ] Budget time for exploration spikes
-- [ ] Add reality checkpoints (use 4a-detect-drift quarterly)
+- [ ] Add reality checkpoints (use `/livespec:evolve` quarterly)
 ```
 
 ## Next Steps
@@ -137,6 +137,6 @@ After completing complexity assessment:
 **Then**:
 - If **Low complexity + no research needs**: Proceed to Phase 1 (design-architecture)
 - If **Medium+**: Consider discovery spikes, complete any needed research, then Phase 1
-- If **High+**: Strongly recommend using `.livespec/utils/run-spike.md` for each unknown
+- If **High+**: Strongly recommend using `references/prompts/utils/run-spike.md` for each unknown
 
 Remember: Better to overestimate complexity than underestimate it.

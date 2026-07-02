@@ -36,7 +36,7 @@ derives-from:
 
 - [!] The vocabulary spec is distributed as a standard deliverable so target projects receive it automatically.
   - Located in `references/standards/vocabulary.spec.md`
-  - Included in dist/ packaging alongside metaspecs
+  - Included in the plugin (`/plugin install livespec@livespec`) alongside metaspecs
   - Available to agents without loading additional context
 
 ### Extensibility
@@ -61,5 +61,5 @@ derives-from:
 - [ ] Phase and layer vocabularies documented
 - [ ] Registry vocabularies documented
 - [ ] Extension mechanism documented with example
-- [ ] Included in dist/ packaging
+- [ ] Included in the plugin distribution
 - [ ] B6 audit dimension improves from 0/5 baseline

@@ -193,7 +193,7 @@ derives-from:
 **How modes help agents:**
 
 **Clarity of intent:**
-- "Use .livespec/1-design/1a-design-architecture.md"
+- "Use `/livespec:design`"
 - Agent knows: Design mode, focus on architecture
 - Constrains solution space
 

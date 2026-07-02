@@ -57,7 +57,7 @@ Contracts (API/data to enable architecture)
 - [ ] `specs/foundation/` - High-level requirements (strategic + functional)
 - [ ] (Optional) `research/journeys/` - User journey maps showing pain points
 
-**If missing requirements** → "Use `.livespec/0-define/0d-define-outcomes.md` first"
+**If missing requirements** → "Use `/livespec:design` first"
 
 **Only proceed when you understand WHAT users need to accomplish** (requirements). This prompt documents HOW they'll accomplish it (flows).
 
@@ -424,7 +424,7 @@ After creating UX flows:
    - What data must flow between components?
    - What external integrations required?
 
-3. **Create behavior specs from flows** (`1c-define-behaviors.md`)
+3. **Create behavior specs from flows** (`/livespec:design`)
    - Each screen/state → behavior specification
    - Each error scenario → error handling behavior
    - Each decision point → validation behavior
@@ -460,4 +460,4 @@ After creating UX flows:
 
 **Remember**: UX flows are the bridge between "WHAT users need" (requirements) and "HOW we build it" (architecture). Spend time here to prevent expensive rework later.
 
-**See**: `.livespec/standard/metaspecs/research/ux-flow.metaspec.md` for complete quality criteria
+**See**: `references/standards/metaspecs/research/ux-flow.metaspec.md` for complete quality criteria

@@ -39,10 +39,9 @@ specifies: []
 
 - [!] Context Tree hierarchy shows agent guidance structure.
   - Root: AGENTS.md (80% coverage, cacheable)
-  - Branches: ctxt/phases/*.md (phase specialists)
+  - Branches: ctxt/define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, one file per specialist)
   - Branches: ctxt/domains/*.md (domain specialists)
-  - Branches: ctxt/utils/*.md (utility specialists)
-  - Size indicators show target budgets (30-40KB for AGENTS.md, 8-12KB per specialist)
+  - Size indicators show target budgets (30-40KB for AGENTS.md, 4-10KB per specialist)
 
 - [!] Diagram format supports common documentation tools.
   - Mermaid diagram syntax (preferred - renders in GitHub, markdown viewers)
@@ -80,13 +79,11 @@ graph TD
 
     subgraph CONTEXT["Context Tree (Agent Guidance)"]
         AGENTS[AGENTS.md<br/>80% coverage, 30-40KB]
-        PHASES[ctxt/phases/<br/>Phase specialists]
+        SPECIALISTS[ctxt/define.md, design.md, evolve.md,<br/>session.md, msl-audit.md, audit.md<br/>flat, one per specialist]
         DOMAINS[ctxt/domains/<br/>Domain specialists]
-        UTILS[ctxt/utils/<br/>Utility specialists]
 
-        AGENTS --> PHASES
+        AGENTS --> SPECIALISTS
         AGENTS --> DOMAINS
-        AGENTS --> UTILS
     end
 
     WS ==>|generates| AGENTS
@@ -123,13 +120,13 @@ graph TD
 
 **Completeness:**
 - [ ] All value structure levels shown (PURPOSE through implementation)
-- [ ] All context tree components shown (AGENTS.md + all ctxt/ subdirectories)
+- [ ] All context tree components shown (AGENTS.md + all ctxt/ specialist files + ctxt/domains/)
 - [ ] Workspace specs appear in both contexts correctly
 - [ ] Relationship arrows are directionally correct
 
 **Accuracy:**
 - [ ] Value structure reflects actual LiveSpec organization
-- [ ] Context tree reflects actual .livespec/ctxt/ structure
+- [ ] Context tree reflects actual ctxt/ structure
 - [ ] Workspace specs correctly positioned as part of value structure
 - [ ] Generation relationship (workspace → context) correctly shown
 
@@ -174,8 +171,8 @@ Current documentation explains value structure and context tree in text, but the
 **Common confusion this addresses:**
 - "Are workspace specs part of the project or part of LiveSpec?"
   → Answer: Both. They're project specs that define agent context.
-- "Why do workspace specs live in specs/ but also affect .livespec/?"
-  → Answer: They're SOURCE (in specs/) that GENERATES guidance (in .livespec/)
+- "Why do workspace specs live in specs/ but also affect the context tree?"
+  → Answer: They're SOURCE (in specs/) that GENERATES guidance (in AGENTS.md/ctxt/)
 - "Is the context tree separate from value structure?"
   → Answer: Yes, but workspace specs connect them.
 

@@ -36,7 +36,7 @@ extends:
 
   **Optional sections (when applicable):**
   - **Examples section**: For complex patterns, spec may require agent provide examples of outputs or behaviors
-  - Agent references appropriate templates when generating content (e.g., `.livespec/templates/`)
+  - Agent references appropriate templates when generating content (e.g., `templates/`)
 
 ## Agent Spec Structure Pattern
 
@@ -44,13 +44,13 @@ extends:
 
 ```markdown
 ---
-specifies: .claude/agents/[name]/instructions.md
+specifies: agents/[name].md
 criticality: CRITICAL | IMPORTANT
 failure_mode: [What fails without this agent]
 derives_from:
   - specs/features/[behavior].spec.md
 governed-by:
-  - .livespec/standard/metaspecs/agent.spec.md
+  - references/standards/metaspecs/agent.spec.md
 satisfies:
   - specs/foundation/[requirement].spec.md
 guided-by:

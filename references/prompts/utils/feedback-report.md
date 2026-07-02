@@ -21,7 +21,7 @@ Complete the specified task with clear deliverables.
 
 ## Validation
 
-- Prompt exists at dist/prompts/utils/generate-feedback-report.md
+- Prompt exists at references/prompts/utils/feedback-report.md
 - Prompt has spec: frontmatter reference
 - Six report sections documented (context, adoption, quality, usage, experience, submission)
 - Five experience questions defined (works well, pain points, confusion, missing, suggestions)

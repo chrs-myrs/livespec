@@ -17,8 +17,8 @@ guided-by:
 
 - [!] Template includes LiveSpec breadcrumb for AI discovery.
   - Section: "Development Methodology"
-  - Content: "This project uses [LiveSpec](/.livespec/AGENTS.md) methodology"
-  - Instruction: "AI Agents: Read `.livespec/AGENTS.md` before any implementation"
+  - Content: "This project uses [LiveSpec](/AGENTS.md) methodology"
+  - Instruction: "AI Agents: Read `AGENTS.md` before any implementation"
   - Link resolves to project's AGENTS.md file
 
 - [!] Template follows MSL metaspec for PURPOSE.md.

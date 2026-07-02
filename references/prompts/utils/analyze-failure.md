@@ -142,7 +142,7 @@ Create `specs/failure-analysis.md`:
 ### Immediate Actions (This Week)
 
 **Priority 1 - Stop the Bleeding:**
-1. [ ] Run `.livespec/4-evolve/4a-detect-drift.md` to document current state
+1. [ ] Run `/livespec:evolve` to document current state
 2. [ ] Identify critical specs that MUST be updated
 3. [ ] Update PURPOSE.md and specs/foundation/outcomes.spec.md (foundation)
 
@@ -153,7 +153,7 @@ Create `specs/failure-analysis.md`:
 
 ### Short-term (This Month)
 
-1. [ ] Run `.livespec/4-evolve/4b-extract-specs.md` on undocumented code
+1. [ ] Run `/livespec:evolve` on undocumented code
 2. [ ] Establish Phase 4 rhythm (weekly/bi-weekly drift checks)
 3. [ ] Simplify over-specified areas (embrace MSL minimalism)
 4. [ ] Add drift detection to CI/CD if possible
@@ -168,7 +168,7 @@ Create `specs/failure-analysis.md`:
 ## Prevention Recommendations
 
 **Process Changes:**
-- Run `4a-detect-drift.md` weekly during active development
+- Run `/livespec:evolve` weekly during active development
 - Use `0e-assess-complexity.md` at project start
 - Don't skip workspace specs - they define HOW you work
 - Embrace MSL minimalism - less is more
@@ -207,7 +207,7 @@ Create `specs/failure-analysis.md`:
 ### Pattern 2: "We Stopped Updating"
 **Symptoms:** Specs drifted silently
 **Root Cause:** No Phase 4 rhythm established
-**Fix:** Weekly `4a-detect-drift.md`, treat as non-negotiable
+**Fix:** Weekly `/livespec:evolve`, treat as non-negotiable
 
 ### Pattern 3: "We Never Started Properly"
 **Symptoms:** No foundation (PURPOSE, requirements, workspace)

@@ -63,7 +63,7 @@ Use when:
 ## Error Handling
 
 **If PURPOSE.md missing:**
-- Guide to Phase 0b: Use `.livespec/0-define/0b-define-problem.md` first
+- Guide to Phase 0b: Use `references/prompts/define/0b-customize-workspace.md` first
 - Explain outcomes derive from purpose
 
 **If outcomes too detailed (feature-level):**

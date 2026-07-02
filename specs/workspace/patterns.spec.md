@@ -24,7 +24,7 @@ applies_to:
   - AGENTS.md references specs/workspace/workspace-agent.spec.md in frontmatter
   - Agent integration behaviors defined in specs/workspace/livespec.spec.md
   - Agent context structure defined in specs/workspace/context-architecture.spec.md
-  - Regeneration prompt exists at prompts/4-evolve/4d-regenerate-context.md
+  - Regeneration available via `/livespec:audit context`
 
 ## Cross-Cutting Development Standards (Strategy References)
 
@@ -67,7 +67,7 @@ Agents must follow standards defined in these strategy specs.
 
 ### Distribution
 **See:** `specs/workspace/distribution.spec.md`
-- dist/ canonical source pattern
+- Plugin installation as canonical distribution pattern (`/plugin install livespec@livespec`, no file copying)
 - Symlinks vs generated files
 - Template architecture
 - Reference Library pattern

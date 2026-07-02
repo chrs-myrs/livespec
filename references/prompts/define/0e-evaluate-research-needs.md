@@ -212,8 +212,8 @@ Create a prioritized list:
 **Type**: [Persona/Journey/Flow/Insights]
 **Rationale**: [Why this matters - what decisions it will inform]
 **Effort**: [Quick/Moderate/Substantial] ([X hours/days])
-**Template**: `.livespec/templates/research/[template].md.template`
-**Quality Guide**: `.livespec/standard/metaspecs/research/[metaspec].metaspec.md`
+**Template**: `templates/research/[template].md.template`
+**Quality Guide**: `references/standards/metaspecs/research/[metaspec].metaspec.md`
 **Informs**:
 - specs/features/[feature].spec.md
 - specs/features/[feature].spec.md
@@ -272,7 +272,7 @@ If user chooses to conduct research:
 
 1. **Create artifact using template:**
    ```bash
-   cp .livespec/templates/research/[type].md.template research/[category]/[name].md
+   cp templates/research/[type].md.template research/[category]/[name].md
    ```
 
 2. **Guide through sections:**

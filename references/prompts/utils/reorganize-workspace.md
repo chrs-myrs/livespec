@@ -98,7 +98,7 @@ grep -o "Use \`.*\\.md\`" AGENTS.md | sort | uniq -c
 - Content repeated 3+ times (template opportunity)
 - Long inline examples (could be templates)
 - Verification checklists (standardize as templates)
-- Decision matrices (extract to .livespec/templates/)
+- Decision matrices (extract to templates/)
 
 **Don't extract:**
 - Content used only once
@@ -152,13 +152,13 @@ grep -o "Use \`.*\\.md\`" AGENTS.md | sort | uniq -c
 
 ### 1. Phase Verification Checklist
 **Currently:** Inline in AGENTS.md, repeated for each phase
-**Extract to:** `.livespec/templates/agents/phase-verification.md`
+**Extract to:** `templates/agents/phase-verification.md`
 **Usage:** Reference from AGENTS.md: "See phase-verification template"
 **Savings:** ~500 characters × 5 phases = 2.5KB
 
 ### 2. Session Completion Report Format
 **Currently:** Inline example in Session Completion section
-**Extract to:** `.livespec/templates/agents/session-report.md`
+**Extract to:** `templates/agents/session-report.md`
 **Usage:** Reference when needed
 **Savings:** ~300 characters
 
@@ -230,7 +230,7 @@ Present comprehensive plan:
 
 ## Proposed Extractions
 
-1. **Phase Verification Template** → `.livespec/templates/agents/phase-verification.md`
+1. **Phase Verification Template** → `templates/agents/phase-verification.md`
    - Savings: ~2.5 KB
    - Referenced 5× currently inline
 
@@ -276,7 +276,7 @@ Present comprehensive plan:
 1. Create templates (extractions)
 2. Update AGENTS.md (move sections, add references)
 3. Update constitution.spec.md (if compression level changes)
-4. Regenerate context tree (use regenerate-contexts.md)
+4. Regenerate context tree (use `/livespec:evolve`)
 5. Validate (check file sizes, cross-references)
 6. Monitor next 5 sessions (measure improvement)
 ```
@@ -299,7 +299,7 @@ This reorganization is based on [X] sessions of usage data. What should I do?
 
 1. **Create extraction templates:**
 ```bash
-mkdir -p .livespec/templates/agents
+mkdir -p templates/agents
 # Create each template file
 ```
 

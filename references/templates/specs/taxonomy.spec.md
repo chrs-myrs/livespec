@@ -133,7 +133,7 @@ bash scripts/audit-workspace-scope.sh
 technical-docs/
 ├── PURPOSE.md                           # Document architecture for developers
 ├── AGENTS.md                            # Regenerated after workspace setup
-├── .livespec/                           # Copied from livespec/dist/
+│                                         # (LiveSpec methodology provided by installed plugin)
 │
 ├── specs/
 │   ├── workspace/

@@ -32,7 +32,7 @@ extends:
 
   **Optional sections (when applicable):**
   - **Examples section**: For complex patterns, spec may require generated prompt include Examples demonstrating good/bad patterns (show don't tell)
-  - Prompt references appropriate templates when bootstrapping (e.g., `.livespec/templates/`)
+  - Prompt references appropriate templates when bootstrapping (e.g., `templates/`)
 
 ## Prompt Spec Structure Pattern
 
@@ -44,7 +44,7 @@ specifies: prompts/[phase]/[name].md
 criticality: CRITICAL | IMPORTANT
 failure_mode: [What fails without this prompt]
 governed-by:
-  - .livespec/standard/metaspecs/prompt.spec.md
+  - references/standards/metaspecs/prompt.spec.md
 ---
 
 # Prompt Behavior: [Name]

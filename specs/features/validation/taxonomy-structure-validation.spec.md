@@ -89,7 +89,7 @@ This project defines TMP's project classification system:
   - Specs Boundary (where non-spec content lives)
   - AI agents must (agent obligations)
 
-Reference: dist/standard/metaspecs/taxonomy.spec.md
+Reference: references/standards/metaspecs/taxonomy.spec.md
 
 ## Failure Scenarios
 
@@ -137,10 +137,10 @@ Reference: dist/standard/metaspecs/taxonomy.spec.md
 - Core test: Does each required concept have a dedicated section?
 
 **Remediation guidance:**
-- Link to taxonomy metaspec: `dist/standard/metaspecs/taxonomy.spec.md`
-- Link to taxonomy template: `dist/templates/workspace/taxonomy-*.spec.md.template`
+- Link to taxonomy metaspec: `references/standards/metaspecs/taxonomy.spec.md`
+- Link to taxonomy template: `templates/workspace/taxonomy-*.spec.md.template`
 - Reference LiveSpec's own taxonomy as example: `specs/workspace/taxonomy.spec.md`
-- Suggest: "Use .livespec/prompts/0-define/0b-customize-workspace.md to regenerate taxonomy"
+- Suggest: "Use `/livespec:design` to regenerate taxonomy"
 
 **Historical context:**
 This validation addresses real failure discovered in ../tmp/project-governance/ where:

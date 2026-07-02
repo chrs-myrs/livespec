@@ -30,12 +30,12 @@ You're in Phase 2 (BUILD - TDD), implementing features based on existing specifi
 - [ ] Architecture defined (optional but recommended)
 
 **If ANY Phase 0 artifact is missing → STOP:**
-- Missing PURPOSE.md → "Use `.livespec/0-define/0b-define-problem.md`"
+- Missing PURPOSE.md → "Use `/livespec:design`"
 - Missing outcomes/constraints → "Complete Phase 0 (DEFINE) first"
-- Missing workspace specs → "Use `.livespec/0-define/0a-quick-start.md`"
+- Missing workspace specs → "Use `/livespec:design`"
 
 **If Phase 1 artifacts missing → STOP:**
-- Missing specs/features/ → "Use `.livespec/1-design/1b-define-behaviors.md` to create behavior specs first"
+- Missing specs/features/ → "Use `/livespec:design` to create behavior specs first"
 - Empty behaviors directory → "Cannot implement without specifications"
 
 **Only proceed when specifications exist.** Implementation without specs = guaranteed drift.
@@ -122,7 +122,7 @@ def get_database_url() -> str:
     return os.getenv("DATABASE_URL", "sqlite:///dev.db")
 ```
 
-**See `.livespec/guides/tdd.md` for complete TDD framework**
+**See `references/guides/tdd.md` for complete TDD framework**
 
 ### Benefits of TDD in LiveSpec
 

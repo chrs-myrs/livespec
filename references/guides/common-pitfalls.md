@@ -38,7 +38,7 @@ This guide catalogs actual failures from real LiveSpec projects, analyzing **why
 **Root cause**: Overconfidence bias - assuming problem is simpler than it is
 
 **Prevention**:
-- ✅ **Use Phase 0 (DEFINE)**: Always start with .livespec/0-define/ prompts
+- ✅ **Use Phase 0 (DEFINE)**: Always start with `/livespec:design` problem definition
 - ✅ **Create PURPOSE.md**: Forces articulation of WHY before WHAT
 - ✅ **List all requirements**: FR-* numbering makes gaps visible
 - ✅ **User review checkpoint**: Requirements review catches missed dependencies
@@ -96,7 +96,7 @@ User request → Requirements (15 min)
 **Recovery**:
 If you realize you've coded without specs:
 1. Don't delete code - keep as reference
-2. Extract specs from implementation (.livespec/4-evolve/4b-extract-specs.md)
+2. Extract specs from implementation (`/livespec:audit extract`)
 3. Mark extracted specs as "LOW CONFIDENCE"
 4. User review of extracted specs
 5. Refactor implementation to match validated specs
@@ -119,7 +119,7 @@ If you realize you've coded without specs:
 **Root cause**: Pattern matching is useful but insufficient - each domain has unique constraints
 
 **Prevention**:
-- ✅ **Document domain models**: Use .livespec/standard/metaspecs/domain-model.spec.md
+- ✅ **Document domain models**: Use references/standards/metaspecs/domain-model.spec.md
 - ✅ **Explicit threading models**: Slack threads ≠ Discord threads ≠ email threads
 - ✅ **Business context in requirements**: specs/foundation/ captures WHY
 - ✅ **Domain-specific behaviors**: specs/features/ defines THIS system's rules
@@ -234,10 +234,10 @@ If you realize you skipped TDD after implementation:
 - ❌ Can't validate if implementation matches intended UX
 
 **Prevention (Post-3.3.0)**:
-- ✅ **Phase 1a added**: .livespec/1-design/1a-document-ux-flows.md
+- ✅ **Phase 1a added**: references/prompts/design/1a-document-ux-flows.md
 - ✅ **Before architecture**: UX flows defined before tool contracts
 - ✅ **Mermaid diagrams**: Visual flow documentation required
-- ✅ **Metaspec available**: .livespec/standard/metaspecs/research/ux-flow.metaspec.md
+- ✅ **Metaspec available**: references/standards/metaspecs/research/ux-flow.metaspec.md
 
 **When to create UX flows**:
 - ✅ User-facing features with multiple interaction paths
@@ -254,7 +254,7 @@ If you realize you skipped TDD after implementation:
 
 **Recovery**:
 If you discover missing UX flows after implementation:
-1. Use .livespec/1-design/1a-document-ux-flows.md retroactively
+1. Use references/prompts/design/1a-document-ux-flows.md retroactively
 2. Create Mermaid flowcharts for each user journey
 3. Validate flows against implementation
 4. Update tools to match documented UX (if gaps found)
@@ -329,7 +329,7 @@ If you discover parameters without behavior specs:
 - ❌ Behavior under concurrent access undefined
 
 **Prevention (Post-3.3.0)**:
-- ✅ **Domain model metaspec**: .livespec/standard/metaspecs/domain-model.spec.md
+- ✅ **Domain model metaspec**: references/standards/metaspecs/domain-model.spec.md
 - ✅ **Explicit core concepts**: Threading, correlation, state machines get their own specs
 - ✅ **Invariants documented**: Rules that MUST hold in all cases
 - ✅ **Interaction patterns**: How concepts relate to each other
@@ -497,7 +497,7 @@ If you find essential knowledge only in code:
 
 1. **Thought: "This is straightforward, I can skip requirements"**
    - → Pitfall 1 (Overconfidence bias)
-   - Action: Use .livespec/0-define/0c-define-problem.md
+   - Action: Use `/livespec:design` problem definition
 
 2. **Thought: "Writing specs will slow me down"**
    - → Pitfall 2 (False speed)
@@ -513,11 +513,11 @@ If you find essential knowledge only in code:
 
 5. **Thought: "I'll write tests later/after implementation"**
    - → Pitfall 5 (TDD skipped)
-   - Action: Use .livespec/2-build/2b-create-tests.md FIRST
+   - Action: Use references/prompts/evolve/2b-create-tests.md FIRST
 
 6. **Thought: "The user request is clear enough"**
    - → Pitfall 6 (UX flows missing)
-   - Action: Use .livespec/1-design/1a-document-ux-flows.md
+   - Action: Use references/prompts/design/1a-document-ux-flows.md
 
 7. **Thought: "I can add that parameter to the API"**
    - → Pitfall 7 (Incomplete features)
@@ -620,10 +620,10 @@ If you find essential knowledge only in code:
 ## Further Reading
 
 - **references/templates/reports/implementation-report.md.template** - Full report template with cognitive bias sections
-- **references/prompts/4-evolve/4f-document-implementation.md** - Prompt for creating honest implementation reports
+- **references/prompts/evolve/4f-document-implementation.md** - Prompt for creating honest implementation reports
 - **specs/workspace/constitution.spec.md** - Core principles including spec-first enforcement
 - **references/guides/tdd.md** - TDD guide with mandatory-by-default approach
-- **.livespec/standard/metaspecs/domain-model.spec.md** - Template for domain model specs
+- **references/standards/metaspecs/domain-model.spec.md** - Template for domain model specs
 
 ---
 

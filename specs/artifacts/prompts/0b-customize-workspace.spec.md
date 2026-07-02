@@ -21,7 +21,7 @@ specifies: []
   - Produces `specs/workspace/constitution.spec.md` with 3-5 development principles
   - Produces `specs/workspace/patterns.spec.md` with code/spec naming and format conventions
   - Produces `specs/workspace/workflows.spec.md` with development processes
-  - References `.livespec/templates/workspace/` for bootstrap templates
+  - References `templates/workspace/` for bootstrap templates
   - Explains workspace defines HOW to build, not WHAT to build
   - Customizes specs to target project context (not generic templates)
 
@@ -34,7 +34,7 @@ Use when:
 
 ## Prerequisites
 
-- `.livespec/` directory exists with LiveSpec methodology copied
+- LiveSpec plugin installed (provides methodology guidance)
 - `specs/workspace/` directory created
 - Agent understands MSL format (title, frontmatter, Requirements section)
 
@@ -63,16 +63,16 @@ Use when:
 
 ## Error Handling
 
-**If `.livespec/` directory missing:**
-- Guide user to copy LiveSpec distribution: `cp -r livespec/dist/ .livespec/`
-- Explain `.livespec/` contains methodology prompts and templates
+**If LiveSpec plugin not installed:**
+- Guide user to install the LiveSpec plugin
+- Explain the plugin provides methodology prompts and templates
 
 **If `specs/workspace/` directory missing:**
 - Create directory: `mkdir -p specs/workspace`
 - Explain this directory contains HOW-to-build methodology
 
 **If agent lacks MSL format knowledge:**
-- Reference `.livespec/standard/metaspecs/` for format requirements
+- Reference `references/standards/metaspecs/` for format requirements
 - Provide inline MSL structure reminder: title, frontmatter (criticality, failure_mode), Requirements section
 
 ## Constraints

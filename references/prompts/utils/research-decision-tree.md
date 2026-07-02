@@ -124,8 +124,8 @@ After using this decision tree:
 
 **If research recommended:**
 → Proceed with 0e-evaluate-research-needs.md
-→ Use templates in `.livespec/templates/research/`
-→ Follow metaspecs in `.livespec/standard/metaspecs/research/`
+→ Use templates in `templates/research/`
+→ Follow metaspecs in `references/standards/metaspecs/research/`
 
 **If research skipped:**
 → Document assumptions in requirements

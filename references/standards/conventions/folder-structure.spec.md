@@ -2,7 +2,7 @@
 criticality: CRITICAL
 failure_mode: Without clear folder structure, AI agents cannot find relevant context and users become confused about where to place specs
 governed-by:
-  - .livespec/standard/metaspecs/base.spec.md
+  - references/standards/metaspecs/base.spec.md
 ---
 
 # Folder Structure Convention
@@ -19,9 +19,9 @@ governed-by:
   - Subfolders allowed within standard folders for organization (e.g., specs/features/prompts/, specs/strategy/architecture/)
   - `specs/foundation/outcomes.spec.md` captures high-level requirements
   - `specs/foundation/constraints.spec.md` defines hard boundaries
-  - `.livespec/` contains LiveSpec methodology (copied from LiveSpec dist/)
-  - `.livespec/standard/` contains metaspecs and conventions
-  - `.livespec/templates/` contains workspace spec starter files and taxonomy templates
+  - LiveSpec methodology is provided by the installed Claude Code plugin (skills, agent, references/, templates/) — not copied into the project
+  - `references/standards/` contains metaspecs and conventions
+  - `templates/` contains workspace spec starter files and taxonomy templates
   - **Decision process**: Check taxonomy.spec.md → Apply classification rules → Use "about vs in" test if needed
   - AI agents locate context by: taxonomy (classification) → workspace (process) → behaviors (features)
 
@@ -30,21 +30,7 @@ governed-by:
 ```
 project/
 ├── PURPOSE.md              # Why this exists (vision + success criteria)
-│
-├── .livespec/              # LiveSpec methodology
-│   ├── prompts/
-│   │   ├── 0-define/
-│   │   ├── 1-design/
-│   │   ├── 2-build/
-│   │   ├── 3-verify/
-│   │   ├── 4-evolve/
-│   │   └── utils/
-│   ├── standard/           # Metaspecs and conventions
-│   │   ├── metaspecs/
-│   │   └── conventions/
-│   └── templates/          # Spec starter files
-│       ├── requirements/
-│       └── workspace/
+│                           # LiveSpec methodology is provided by the installed plugin (no local copy)
 │
 └── specs/
     ├── foundation/     # Top-level project definition
@@ -95,11 +81,11 @@ Before applying any decision test, read `specs/workspace/taxonomy.spec.md`:
 ## Notes
 
 See individual metaspecs for what belongs in each folder:
-- `.livespec/standard/metaspecs/taxonomy.spec.md` - Project classification rules (**check first**)
-- `.livespec/standard/metaspecs/purpose.spec.md` - Purpose document rules
-- `.livespec/standard/metaspecs/outcomes.spec.md` - Outcomes (high-level requirements) rules
-- `.livespec/standard/metaspecs/constraints.spec.md` - Constraints rules
-- `.livespec/standard/metaspecs/workspace.spec.md` - Workspace rules
-- `.livespec/standard/metaspecs/behavior.spec.md` - Behavior rules
-- `.livespec/standard/metaspecs/strategy.spec.md` - Strategy rules
-- `.livespec/standard/metaspecs/contract.spec.md` - Contract rules
+- `references/standards/metaspecs/taxonomy.spec.md` - Project classification rules (**check first**)
+- `references/standards/metaspecs/purpose.spec.md` - Purpose document rules
+- `references/standards/metaspecs/outcomes.spec.md` - Outcomes (high-level requirements) rules
+- `references/standards/metaspecs/constraints.spec.md` - Constraints rules
+- `references/standards/metaspecs/workspace.spec.md` - Workspace rules
+- `references/standards/metaspecs/behavior.spec.md` - Behavior rules
+- `references/standards/metaspecs/strategy.spec.md` - Strategy rules
+- `references/standards/metaspecs/contract.spec.md` - Contract rules

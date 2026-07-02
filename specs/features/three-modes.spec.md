@@ -7,17 +7,11 @@ failure_mode: Without structured modes, spec development becomes chaotic and AI 
 governed-by: []
 satisfies: []
 guided-by: []
-updated-by:
-  - specs/features/ambient-architecture.spec.md (Simplified Skill Set)
 ---
 
 # Three Modes Behavior
 
-## Status
-
-**Updated to align with ambient architecture skill set.**
-
-The conceptual modes remain valid but are now implemented through skills:
+The conceptual modes are implemented through the plugin's 8 skills:
 - DEFINE → `/livespec:init` (bootstrap) + `/livespec:go` (router)
 - DESIGN → `/livespec:design` (guided spec creation)
 - EVOLVE → `/livespec:audit` (health) + `/livespec:learn` (capture)
@@ -48,7 +42,6 @@ The conceptual modes remain valid but are now implemented through skills:
 - **Exit**: Architecture and behaviors specified
 - **Implementing Skills**:
   - `/livespec:design` - Guided spec creation/refinement
-  - Ambient behavior - Auto-creates specs before implementation
 - **Outputs**: specs/features/, specs/interfaces/, specs/strategy/
 
 ### Mode 2: EVOLVE (Maintenance)
@@ -75,4 +68,3 @@ The conceptual modes remain valid but are now implemented through skills:
 - [ ] `/livespec:go` correctly identifies project mode
 - [ ] Skills implement their designated mode behaviors
 - [ ] Mode transitions are clear to users
-- [ ] Ambient behavior works across all modes

@@ -50,15 +50,15 @@ supports:
 
   **LiveSpec Methodology Integration**:
 
-  Methodology Prompts Referenced:
-  - .livespec/prompts/0-define/ (Mode 0 guidance)
-  - .livespec/prompts/1-design/ (Mode 1 guidance)
-  - .livespec/prompts/4-evolve/ (Mode 2 guidance)
-  - .livespec/prompts/utils/ (utility workflows)
+  Methodology Skills Referenced:
+  - skills/init/ (Phase 0 guidance)
+  - skills/design/ (Phase 1 guidance)
+  - skills/audit/ (Phase 3/4 guidance)
+  - skills/learn/ (session completion)
 
   Guides Incorporated:
-  - .livespec/guides/msl-minimalism.md (spec writing)
-  - .livespec/guides/context-positioning.md (prompt structure)
+  - references/guides/msl-minimalism.md (spec writing)
+  - references/guides/context-positioning.md (prompt structure)
 
   Compression Level: moderate
   - Strategic extraction of reusable content

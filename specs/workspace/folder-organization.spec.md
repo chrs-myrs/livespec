@@ -224,8 +224,6 @@ Place in `specs/features/processes/[process].spec.md`
 - `specs/features/processes/refactoring.spec.md` - How to document refactoring decisions
 - `specs/features/processes/incident.spec.md` - How to document production incidents
 
-**Template:** Use `dist/templates/processes/meta-process.spec.md.template`
-
 **Pattern:**
 - Spec defines requirements for ALL instances
 - Instances (e.g., `investigations/001-problem.md`) conform to spec

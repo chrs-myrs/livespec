@@ -44,7 +44,7 @@ implements: specs/artifacts/prompts/1a-design-architecture.spec.md
 **Specs use `specifies:` to reference implementation:**
 ```yaml
 ---
-specifies: dist/prompts/1-design/1a-design-architecture.md
+specifies: skills/design/SKILL.md
 ---
 ```
 
@@ -59,7 +59,7 @@ specifies: dist/prompts/1-design/1a-design-architecture.md
 ```yaml
 ---
 governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md
+  - references/standards/metaspecs/behavior.spec.md
 ---
 ```
 
@@ -77,7 +77,7 @@ governed-by:
 - `applies_to:` - Scope (for workspace specs)
 - `guided-by:` - Strategies guiding this spec (horizontal influence)
 
-**See:** `.livespec/standard/conventions/dependencies.spec.md` for complete reference
+**See:** `references/standards/conventions/dependencies.spec.md` for complete reference
 
 ## Cross-Reference Update Pattern
 
@@ -86,32 +86,31 @@ When renaming or moving prompts or specs, use systematic checklist to maintain t
 ### Update Checklist
 
 **Files to update:**
-- [ ] Source file renamed/moved (dist/prompts/ or specs/)
+- [ ] Source file renamed/moved (skills/, commands/, or specs/)
 - [ ] Spec frontmatter (`specifies:` or `implements:` field)
 - [ ] Registry entry (specs/artifacts/prompts/registry.spec.md)
-- [ ] Navigation files (dist/prompts/utils/next-steps.md)
+- [ ] Navigation references (command routing, skill cross-links)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
-- [ ] Validation run (prompts/utils/validate-project.md)
+- [ ] Validation run (`/livespec:audit validate`)
 
 ### Example: Renaming Prompt
 
 **Scenario:** Renaming 0d-identify-constraints.md → 0f-identify-constraints.md
 
 **Updated files:**
-1. ✓ dist/prompts/0-define/0f-identify-constraints.md (renamed)
+1. ✓ references/prompts/define/0f-identify-constraints.md (renamed)
 2. ✓ specs/artifacts/prompts/0f-identify-constraints.spec.md (frontmatter: `specifies:`)
 3. ✓ specs/artifacts/prompts/registry.spec.md (table entry)
-4. ✓ dist/prompts/utils/next-steps.md (decision tree references)
-5. ✓ dist/prompts/0-define/0c-define-outcomes.md (next step reference)
-6. ✓ AGENTS.md (if prompt mentioned)
-7. ✓ Run validation to catch any missed references
+4. ✓ references/prompts/define/0c-define-outcomes.md (next step reference)
+5. ✓ AGENTS.md (if prompt mentioned)
+6. ✓ Run validation to catch any missed references
 
 **Git workflow:**
 ```bash
 # Rename files
-git mv dist/prompts/0-define/0d-identify-constraints.md \
-       dist/prompts/0-define/0f-identify-constraints.md
+git mv references/prompts/define/0d-identify-constraints.md \
+       references/prompts/define/0f-identify-constraints.md
 
 # Update all cross-references (Edit tool)
 # ... update spec frontmatter, registry, navigation, etc.
@@ -170,7 +169,7 @@ prompt.spec.md (prompt structural requirements)
 
 **Benefit:** Individual prompt specs focus on WHAT prompt achieves, not HOW prompt is structured. Structure inherited from metaspec.
 
-**Location:** Metaspecs live in `.livespec/standard/metaspecs/` and distribute to target projects via `dist/standard/metaspecs/`.
+**Location:** Metaspecs live in `references/standards/metaspecs/` and are distributed to target projects via the LiveSpec plugin (`/plugin install livespec@livespec`), not file copying.
 
 ## Validation
 - All prompts declare `implements:` field

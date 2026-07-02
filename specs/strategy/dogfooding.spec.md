@@ -14,13 +14,13 @@ derives-from:
 # Dogfooding Strategy
 
 ## Requirements
-- [!] LiveSpec validates its methodology by using itself to document and develop itself, creating self-referential proof that the framework works in practice through .livespec/ symlink to dist/, comprehensive specs/ structure, tests/ validation suite, and continuous drift detection applied to own codebase.
-  - .livespec/ symlink points to dist/ (LiveSpec uses distributed methodology on itself)
-  - specs/ follows standard folder structure (workspace/, foundation/, 2-strategy/, features/, interfaces/)
+- [!] LiveSpec validates its methodology by using itself to document and develop itself, creating self-referential proof that the framework works in practice through the plugin's own skills/ and specs/ structure, tests/ validation suite, and continuous health checks applied to own codebase.
+  - LiveSpec is installed as a Claude Code plugin (`/plugin install livespec@livespec`) and used on itself (no separate copy mechanism)
+  - specs/ follows standard folder structure (workspace/, foundation/, strategy/, features/, interfaces/)
   - Every deliverable has defining spec in specs/ (complete circularity)
-  - Every spec constrained by metaspec in dist/standard/metaspecs/
+  - Every spec constrained by metaspec in references/standards/metaspecs/
   - tests/ validate LiveSpec follows its own rules
-  - Drift detection applied to LiveSpec repository (Phase 4 on ourselves)
+  - Drift/health detection applied to LiveSpec repository (`/livespec:audit` on ourselves)
   - Changes to methodology trigger spec updates (living documentation)
   - Repository demonstrates specification-driven regeneration (specs → deliverables)
   - Dogfooding proves methodology works before recommending to others
@@ -42,27 +42,23 @@ derives-from:
 - AI agents can assist (we use Claude Code on ourselves)
 - Voluntary adoption possible (we maintain specs willingly)
 
-## .livespec/ Symlink Design
+## Plugin Self-Use Design
 
 **Implementation:**
-```bash
-# In LiveSpec repository root
-.livespec -> dist/
-```
+- LiveSpec repository is itself the plugin source; skills under `skills/<name>/SKILL.md` are used directly on this repository, the same way a consumer project would invoke them after `/plugin install livespec@livespec`
 
 **Rationale:**
 - LiveSpec uses EXACT methodology we distribute (no special case)
-- Symlink not copy ensures we use latest dist/ version
-- Tests run against .livespec/ prove dist/ works
-- If .livespec/ prompts break for us, they break for users
-- Forces us to keep dist/ actually usable
+- Working directly against the plugin source ensures we always use the latest skill behavior
+- If a skill breaks for us, it breaks for users
+- Forces us to keep skills/ actually usable
 
 **What this enables:**
-- Develop new prompt using own methodology
-- Test prompt immediately via .livespec/
-- Validate prompt works before distributing
-- Use utils/ on ourselves (next-steps.md, upgrade-methodology.md)
-- AI agents reference .livespec/ same as user projects
+- Develop a new skill using own methodology
+- Test skill immediately by invoking it in this repository
+- Validate skill works before releasing
+- Use utility skills on ourselves (`/livespec:learn`, `/livespec:upgrade`)
+- AI agents use the installed plugin skills same as user projects
 
 **Alternative considered:**
 - Separate methodology for developing LiveSpec
@@ -80,7 +76,7 @@ Metaspecs (7: behavior, workspace, strategy, requirements, constraints, contract
   ↓ (constrain)
 Project Specs (30+: behaviors/, workspace/, strategy/, requirements.spec.md, constraints.spec.md)
   ↓ (define)
-Deliverables (prompts, templates, framework, docs)
+Deliverables (skills, agents, commands, templates, docs)
   ↓ (dogfoods back into)
 LiveSpec methodology (used to create specs)
 ```
@@ -136,14 +132,14 @@ tests/
 ## Drift Detection on Ourselves
 
 **Continuous monitoring:**
-- Use prompts/4-evolve/4a-detect-drift.md on LiveSpec repository
-- Compare dist/ deliverables vs specs/ definitions
+- Use `/livespec:audit health` on LiveSpec repository
+- Compare skills/agents/commands deliverables vs specs/ definitions
 - Compare specs/ vs actual repository structure
 - Check for unspec'd deliverables (new files without defining specs)
 - Check for obsolete specs (defining deleted deliverables)
 
 **What we detect:**
-- Prompt added without defining spec → drift
+- Skill/command/agent added without defining spec → drift
 - Spec updated but deliverable unchanged → drift
 - Folder structure changed but folder-structure.spec.md not updated → drift
 - New metaspec but base.spec.md not updated → drift
@@ -161,33 +157,33 @@ tests/
 **Example:**
 ```
 # Drift detected
-prompts/utils/upgrade-methodology.md added
-But: No specs/artifacts/prompts/utils-upgrade.spec.md
+skills/upgrade/SKILL.md + commands/upgrade.md added
+But: specs/artifacts/commands/generation.spec.md not updated with the new entry
 
 # Resolution
-Create specs/artifacts/prompts/utils-upgrade.spec.md
-Define what upgrade prompt should do
-Verify prompt implements spec
+Add skills/upgrade to the Command Mapping table in
+specs/artifacts/commands/generation.spec.md
+Verify the command routes correctly to the skill
 Commit both together
 ```
 
 **Connection to validation:**
-- Drift detection IS Phase 4 applied to ourselves
-- Proves Phase 4 methodology works in practice
+- Drift detection IS `/livespec:audit` applied to ourselves
+- Proves the audit methodology works in practice
 - Tests catch drift automatically (CI/CD integration)
 
 ## Regeneration Workflow Demonstration
 
 **Spec → Deliverable (design-first, primary path):**
-1. Create behavior spec (e.g., specs/artifacts/prompts/utils-upgrade.spec.md)
+1. Define the skill's behavior spec (feature-level, e.g. under specs/features/)
 2. Define requirements, triggers, outputs, validation criteria
-3. Generate/implement deliverable from spec (prompts/utils/upgrade-methodology.md)
-4. Reference spec in deliverable frontmatter (spec: ...)
-5. Validate deliverable satisfies spec
+3. Generate/implement the skill (skills/upgrade/SKILL.md) + its command router (commands/upgrade.md)
+4. Add the mapping to specs/artifacts/commands/generation.spec.md's Command Mapping table
+5. Validate the skill satisfies its behavior spec
 
 **Deliverable → Spec (discovery leveling):**
 1. Create deliverable (rapid prototyping, exploration)
-2. Use 4b-extract-specs.md to extract essential knowledge
+2. Use `/livespec:audit extract` to extract essential knowledge
 3. Level up discoveries to appropriate spec layer
 4. Add spec reference to deliverable frontmatter
 5. Deliverable becomes regenerable from spec
@@ -222,9 +218,9 @@ Commit both together
 
 ## Validation
 
-- .livespec/ symlink exists and points to dist/
+- LiveSpec is installed and used as a Claude Code plugin on its own repository
 - specs/ follows standard folder structure (workspace/, behaviors/, strategy/)
-- Every deliverable in dist/ has defining spec in specs/
+- Every deliverable (skill, agent, command) has defining spec in specs/
 - Every spec has constrained_by pointing to metaspec
 - tests/ directory validates LiveSpec follows own rules
 - Drift detection applied to LiveSpec repository

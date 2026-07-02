@@ -24,7 +24,7 @@ supports:
 ### Context Tree Structure Generation
 
 - [!] Agent context tree is successfully generated from workspace specifications, producing a flat structure that enables proactive specialized loading
-  - **Universal mechanism**: See `.livespec/standard/conventions/context-tree.spec.md` for context tree pattern
+  - **Universal mechanism**: See `references/standards/conventions/context-tree.spec.md` for context tree pattern
   - Root AGENTS.md generated (30-40KB, no frontmatter, routing to sub-agents)
   - Sub-agents generated in ctxt/ — define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (4-10KB each, flat, no phases/ or utils/ subfolders)
   - Domain specialists generated (ctxt/domains/, 4-10KB each, based on taxonomy)
@@ -37,7 +37,7 @@ supports:
   - Workspace specs verified (constitution, patterns, workflows, context-architecture)
   - context-architecture.spec.md is REQUIRED (provides content sources and structure)
   - PURPOSE.md verified (project vision)
-  - Templates verified (.livespec/templates/agents/)
+  - Templates verified (templates/agents/)
   - Context builder agent verified (agents/context-builder.md)
   - Clear error messages if prerequisites missing, especially context-architecture.spec.md
   - Guidance provided to resolve missing prerequisites (e.g., "Run Phase 0 first")
@@ -69,7 +69,7 @@ supports:
   - Moderate: Strategic extraction, balanced inline/reference (default)
   - Aggressive: Heavy extraction, minimal inline
   - Root AGENTS.md contains inline content (no external references to specs/workspace/)
-  - Sub-agents reference .livespec/ for detailed specs (80/20 navigation)
+  - Sub-agents reference `references/` for detailed specs (80/20 navigation)
 
 ### Size Budget Enforcement
 
@@ -107,13 +107,15 @@ supports:
   - Report explicitly labels the run "scoped update: [files]" so it's clear less than the full tree ran
   - Same edit-warning and footer conventions as full generation apply to touched files
 
-### Distribution Pattern
+### Opt-In Generation
 
-- [!] Context tree follows correct distribution pattern separating bootstrap from project-specific generation
-  - dist/AGENTS.md = Bootstrap version (minimal ~5KB, instructs to build tree)
-  - Project AGENTS.md + ctxt/ = Generated per-project from workspace specs
-  - dist/ does NOT contain pre-built ctxt/ (generated locally after Phase 0)
-  - Bootstrap AGENTS.md provides clear path to full generation
+- [!] AGENTS.md + ctxt/ generation is optional, not a plugin-install prerequisite
+  - Skills are self-contained and work correctly with no AGENTS.md/ctxt/ present
+  - `/livespec:init` scaffolds specs/ + PURPOSE.md but does not generate AGENTS.md
+  - A project generates its own AGENTS.md + ctxt/ on request via
+    `/livespec:audit context`, once workspace specs exist
+  - There is no separate "bootstrap" AGENTS.md shipped by the plugin — the first
+    real generation IS the full tree
 
 ## Validation
 
@@ -132,7 +134,7 @@ supports:
 - [ ] Sub-agents have inline edit warning at top
 - [ ] Sub-agents have content immediately accessible (no metadata overhead)
 - [ ] Sub-agents reference parent root AGENTS.md in footer text
-- [ ] Sub-agents link to .livespec/ detailed specs in Reference Library sections
+- [ ] Sub-agents link to `references/` detailed specs in Reference Library sections
 - [ ] Compression level applied consistently across all files
 
 ### Functional Validation
@@ -170,9 +172,8 @@ supports:
 - [ ] Scoped runs only read/write/validate the mapped target file(s), never the rest of the tree
 - [ ] No confirmation gate blocks either path — classification is reported, not asked
 
-### Distribution Validation
-- [ ] dist/AGENTS.md is bootstrap (~5KB, not full tree)
-- [ ] dist/AGENTS.md instructs generation after Phase 0
-- [ ] Project AGENTS.md generated locally (not distributed)
-- [ ] ctxt/ generated locally (not in dist/)
-- [ ] Bootstrap clearly explains full tree comes after workspace specs
+### Opt-In Generation Validation
+- [ ] Skills execute correctly with no AGENTS.md/ctxt/ present in the project
+- [ ] `/livespec:init` does not generate AGENTS.md
+- [ ] `/livespec:audit context` is the only path that generates AGENTS.md/ctxt/
+- [ ] No spec or generated file references a separate "bootstrap AGENTS.md"
