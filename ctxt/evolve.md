@@ -1,6 +1,6 @@
 # EVOLVE Mode
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for implementation, TDD, validation, and regeneration.
 
@@ -27,7 +27,7 @@ Evolve mode handles implementation concerns: building from specs using TDD, vali
 2. Write minimal code to pass (GREEN) — no more than needed
 3. Refactor while tests pass — improve design
 
-**Prompts:**
+**Prompts** (`references/prompts/evolve/`):
 - `2b-create-tests.md` — Write failing tests FIRST
 - `2a-implement-from-specs.md` — Make tests pass
 
@@ -60,7 +60,7 @@ Before implementing any feature:
 scripts/validate-frontmatter.sh
 
 # Cross-reference integrity
-prompts/utils/validate-project.md
+# See references/prompts/utils/validate-project.md
 
 # Purpose boundary check
 scripts/validate-purpose.sh
@@ -223,12 +223,7 @@ scripts/validate-frontmatter.sh
 
 ```bash
 # All validations must pass
-scripts/validate-frontmatter.sh  # frontmatter compliance
-prompts/utils/validate-project.md  # cross-references
-
-# Must be zero issues for release:
-# All drift resolved → Proceed
-# Drift exists → Fix first
+scripts/validate-frontmatter.sh
 
 # Rebuild context if workspace specs changed
 /livespec:audit context
@@ -247,6 +242,7 @@ prompts/utils/validate-project.md  # cross-references
 
 - Audit skill: `/livespec:audit`
 - Learn skill: `/livespec:learn`
+- Evolve prompts (LiveSpec repo only): `references/prompts/evolve/`
 - Frontmatter validation: `scripts/validate-frontmatter.sh`
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`

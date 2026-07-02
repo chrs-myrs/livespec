@@ -1,0 +1,43 @@
+---
+criticality: CRITICAL | IMPORTANT
+failure_mode: [What breaks without this policy]
+constrained_by:
+  - ../../../../.livespec/standard/metaspecs/base.spec.md
+  - ../../../../.livespec/standard/metaspecs/behavior.spec.md
+compliance_mapping:
+  - ISO 27001: [A.X.Y.Z]
+  - GDPR: [Article X]
+  - [Other frameworks as applicable]
+---
+
+# [Policy Name]
+
+## Requirements
+- [!] [Primary policy requirement - what must be true]
+  - [Specific criterion 1]
+  - [Specific criterion 2]
+  - [Specific criterion 3]
+
+## Validation
+- [How to verify this policy is being followed]
+- [Observable evidence of compliance]
+- [Audit criteria]
+
+## Enforcement
+[How this policy is enforced - technical controls, reviews, etc.]
+
+## Review Schedule
+[How often this policy is reviewed - quarterly, annual, etc.]
+
+## Exceptions
+[Process for requesting and approving exceptions to this policy]
+
+## Notes
+
+**Policy goes in:** `specs/behaviors/policies/`
+
+**Why behaviors?** Policies define observable organizational behaviors ("only authorized users access systems").
+
+**Related:**
+- Procedures implementing this policy → `specs/contracts/procedures/`
+- Technical strategy supporting this policy → `specs/strategy/`

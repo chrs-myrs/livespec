@@ -190,13 +190,13 @@ Choose your preferred method:
 
 **Available commands after installation:**
 - `/livespec:init` - Initialize project with workspace specs
-- `/livespec:design` - Phase 1: Design architecture and behaviors
-- `/livespec:build` - Phase 2: TDD implementation
-- `/livespec:verify` - Phase 3: Validation
-- `/livespec:evolve` - Phase 4: Drift detection and regeneration
-- `/livespec:validate` - Run project validation
-- `/livespec:rebuild-context` - Regenerate AGENTS.md
-- Plus 10 more utility commands
+- `/livespec:design` - Create and refine specifications (Phase 0/1)
+- `/livespec:audit` - Spec health, validation, and context generation (Phase 3/4)
+- `/livespec:sweep` - Multi-project audit across your portfolio
+- `/livespec:learn` - Session completion and learning capture
+- `/livespec:birth` - Incubate and birth child projects from within a parent LiveSpec project
+- `/livespec:go` - Intelligent entry point, routes to the right skill based on intent
+- `/livespec:upgrade` - Migrate an existing project to the current version
 
 **Update later:**
 ```bash
@@ -205,100 +205,32 @@ Choose your preferred method:
 
 [Plugin installation guide →](docs/plugin-installation.md)
 
-#### Method 2: Directory Copy (Legacy)
-
-**Pros:** Works everywhere, no plugin system needed
-**Cons:** Manual updates, file duplication
-
-```bash
-# Clone LiveSpec
-git clone https://github.com/chrs-myrs/livespec.git
-
-cd your-project
-
-# Copy methodology to .livespec/ folder
-cp -r ../livespec/dist .livespec
-
-# Create project structure
-mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
-
-# Copy bootstrap AGENTS.md
-cp .livespec/AGENTS.md .
-
-# Update later
-cp -r ../livespec/dist/* .livespec/
-```
-
-#### Method 3: Context7 (Remote)
-
-**Pros:** No local files needed
-**Cons:** Requires Context7 MCP server
-
-```bash
-# Tell your AI agent:
-# "Use @context7/chrs-myrs/livespec methodology"
-# AI reads prompts remotely
-```
-
----
-
-**Note on Framework Immutability:**
-
-`.livespec/` is an **immutable framework reference** - use prompts as-is, don't modify them. Customize your project via `specs/workspace/` instead (constitution, patterns, workflows). Framework changes (rare) require forking the repository.
+**Customize your project** via `specs/workspace/` (constitution, patterns, workflows) — the plugin itself is not meant to be edited in place.
 
 ---
 
 ### New Project Setup
-
-**With Plugin (Recommended):**
 
 ```bash
 # Initialize with defaults (5 min)
 /livespec:init
 
 # Or with full customization (20-30 min)
-/livespec:init --full
+/livespec:init full
 
 # Edit PURPOSE.md with your project vision
-# Then regenerate context
-/livespec:rebuild-context
-```
-
-**With Directory Copy:**
-
-```bash
-# 1. Edit PURPOSE.md
-#    Describe why your project exists and what success looks like
-
-# 2. Run Phase 0 to customize workspace
-claude-code "Use .livespec/0-define/0a-quick-start.md"  # 5 min, defaults
-# OR
-claude-code "Use .livespec/0-define/0b-customize-workspace.md"  # 30 min, full customization
-
-# 3. Regenerate full agent context
-claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
+# Then generate context
+/livespec:audit context
 ```
 
 ### Existing Project
 
-**With Plugin:**
-
 ```bash
 # Extract specifications from existing code
-/livespec:evolve extract
+/livespec:audit extract
 
 # Regenerate agent context
-/livespec:rebuild-context
-```
-
-**With Directory Copy:**
-
-```bash
-# Extract specifications from existing code
-claude-code "Use .livespec/prompts/4-evolve/4b-extract-specs.md to document this codebase"
-
-# Then regenerate agent context
-claude-code "Use .livespec/prompts/utils/regenerate-contexts.md"
+/livespec:audit context
 ```
 
 [Full quickstart guide →](docs/quickstart.md)
@@ -323,7 +255,7 @@ your-project/
 │   ├── interfaces/            # Contracts — API/data formats
 │   └── artifacts/             # Deliverable specifications
 │
-├── registries/             # Active backlogs (gaps, issues, improvements)
+├── registries/             # Accepted current state (gaps, issues, improvements)
 │
 ├── AGENTS.md               # Generated agent context (from workspace specs)
 ├── CLAUDE.md               # Generated (symlink or copy of AGENTS.md)
@@ -449,7 +381,7 @@ Common mistakes when setting up LiveSpec:
 | **Creating files before checking taxonomy** | Files in wrong locations, agents confused | Always read `specs/workspace/taxonomy.spec.md` FIRST |
 | **Mixing workspace and product concerns** | Workspace specs contain business logic, or vice versa | Workspace = HOW you build (all projects). Product = WHAT you build (this project) |
 | **Skipping Phase 0** | Missing workspace specs, no constitution | Run `0a-quick-start.md` or `0b-customize-workspace.md` |
-| **Forgetting to regenerate AGENTS.md** | AI agents using stale context | Run `prompts/utils/regenerate-contexts.md` after spec changes |
+| **Forgetting to regenerate AGENTS.md** | AI agents using stale context | Run `/livespec:audit context` after spec changes |
 
 **Quick diagnostic:** If your AI agent seems confused about your project structure, regenerate AGENTS.md first.
 
@@ -479,12 +411,11 @@ Common mistakes when setting up LiveSpec:
 
 LiveSpec v5 is distributed as a Claude Code plugin:
 - **Plugin installation** - `/plugin install livespec` for integrated experience
-- **6 skills** - Design, evolve, learn, birth, upgrade, go
-- **Slash commands** - All utility operations available via `/livespec:*`
-- **Sub-agents** - Phase-specific context for focused guidance
-- **Legacy support** - `dist/` copy method still works
+- **8 skills** - init, design, audit, sweep, learn, birth, go, upgrade
+- **Slash commands** - All skills available via `/livespec:*`
+- **Sub-agents** - `context-builder` performs isolated context regeneration
 
-Previous: v4 introduced disposable code architecture, v5 added plugin distribution and mandatory frontmatter.
+Previous: v4 introduced disposable code architecture, v5 replaced directory-copy distribution with a Claude Code plugin.
 
 [Changelog →](CHANGELOG.md) | [Migration guide →](docs/migration-to-plugin.md)
 
@@ -507,53 +438,50 @@ livespec/
 │   ├── plugin.json         # Plugin manifest
 │   └── marketplace.json    # Self-hosted marketplace
 │
-├── skills/                 # Plugin skills (phase workflows)
+├── skills/                 # Plugin skills
 │   ├── init/SKILL.md
 │   ├── design/SKILL.md
-│   ├── build/SKILL.md
-│   ├── verify/SKILL.md
-│   ├── evolve/SKILL.md
-│   ├── spec-writing/SKILL.md
-│   └── context-generation/SKILL.md
+│   ├── audit/SKILL.md
+│   ├── sweep/SKILL.md
+│   ├── learn/SKILL.md
+│   ├── birth/SKILL.md
+│   ├── go/SKILL.md
+│   └── upgrade/SKILL.md
 │
-├── commands/               # Plugin commands (utilities)
-│   ├── validate.md
-│   ├── complete-session.md
-│   └── [11 more...]
+├── commands/               # Slash command routers (routes-to: skills/*/SKILL.md)
+│   ├── init.md
+│   ├── design.md
+│   ├── audit.md
+│   ├── sweep.md
+│   ├── learn.md
+│   ├── birth.md
+│   ├── go.md
+│   └── upgrade.md
 │
 ├── agents/                 # Sub-agent definitions
-│   ├── phase-0-define.md
-│   ├── phase-1-design.md
-│   └── [etc...]
+│   └── context-builder.md  # Isolated AGENTS.md/ctxt/ regeneration
 │
-├── references/             # Reference content for plugin
+├── references/             # Reference content for the plugin
 │   ├── guides/
-│   ├── standards/
-│   └── phase-prompts/
-│
-├── templates/              # Project templates
-│
-├── dist/                   # LEGACY DISTRIBUTION (copy to .livespec/)
 │   ├── prompts/
-│   ├── standard/
-│   └── templates/
+│   └── standards/
+│
+├── templates/              # Project scaffolding templates
+│
+├── examples/                # Worked example projects
 │
 ├── specs/                  # DOGFOODING (LiveSpec's own specs)
 │   ├── workspace/
 │   ├── foundation/
 │   ├── strategy/
-│   └── features/
+│   ├── features/
+│   ├── artifacts/
+│   └── interfaces/
 │
 └── docs/                   # User documentation
 ```
 
-**For Users:** Use plugin (`/plugin install livespec`) or copy `dist/` to `.livespec/`
-
-**For Contributors:**
-- Read `specs/workspace/` to understand how WE build LiveSpec
-- Check `specs/artifacts/prompts/` for what each prompt does
-- Check `specs/features/` for the framework behaviors
-- We use `.livespec/` (symlinked to `dist/`) for our own development
+**For Users:** Install the plugin (`/plugin install livespec`)
 
 ## Contributing
 
@@ -561,7 +489,6 @@ Contributions welcome! We dogfood our own methodology:
 - Read [specs/workspace/](specs/workspace/) to understand how WE build LiveSpec
 - Check [specs/artifacts/prompts/](specs/artifacts/prompts/) for what each prompt does
 - Check [specs/features/](specs/features/) for the framework behaviors
-- Use `.livespec/` (symlinked to `dist/`) when working on LiveSpec itself
 - Submit PRs following workspace patterns
 
 ## License

@@ -1,12 +1,14 @@
 # LiveSpec Agent Configuration
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 ## Summary
 
 LiveSpec provides information architecture where upper layers are durable assets and code is disposable. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → code) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, ctxt/). Code can be regenerated from specs at any time. Works for new projects and existing systems across any domain.
 
 **Primary domain:** Governance — methodology framework for specification-driven development.
+
+**Distribution:** LiveSpec ships as a Claude Code plugin (skills + commands + agents), not a copied `dist/` folder. There is no `.livespec/` directory in this repo or in target projects.
 
 ---
 
@@ -54,12 +56,11 @@ Creating new permanent files requires presenting plan with:
 - Tests (`tests/`, `__tests__/`)
 - Config (`.gitignore`, `tsconfig.json`, `package.json`, lock files)
 - Documentation (`README`, guides)
-- Agents (`.claude/agents/*/instructions.md`)
-- Slash commands (`.claude/commands/`)
+- Skills (`skills/*/SKILL.md`), commands (`commands/*.md`), agents (`agents/*.md`)
 
 **NO (no spec needed):**
 - `var/`, `generated/`, `.archive/`
-- Build outputs (`dist/`, `build/`)
+- Build outputs (`build/`)
 - Logs, caches
 
 **Exception:** `specs/workspace/*.spec.md` ARE specs (no meta-spec needed)
@@ -121,7 +122,7 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 ### 1. Specs Before Implementation
 - Every deliverable requires specification before implementation (ALWAYS)
 - AI agents check for spec existence and guide to DESIGN mode if missing
-- Applies to ALL deliverables (code, prompts, templates, documentation, configs)
+- Applies to ALL deliverables (code, skills, commands, agents, documentation, configs)
 - Even "obvious" deliverables need specs (CHANGELOG mistake demonstrates this)
 - Familiarity doesn't excuse skipping specification
 - Every behavior has validation criteria and failure mode defined
@@ -138,7 +139,7 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - Trust implementers to make reasonable decisions
 - Precision hierarchy: Outcome → Behavioral → Interface → Implementation
 - Requirement justification: Critical (always) > Important (usually) > Useful (rarely) > Nice (never)
-- See `.livespec/guides/msl-minimalism.md` for complete framework
+- See `references/guides/msl-minimalism.md` for complete framework
 
 ### 3. Test-Driven Development
 - Phase 2 (BUILD) follows TDD discipline (tests before implementation)
@@ -148,7 +149,7 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - Tests map directly to behavior specs (specs/features/ → tests → implementation)
 
 ### 4. Dogfooding
-- LiveSpec uses its own methodology (specs/ and prompts/ exist)
+- LiveSpec uses its own methodology (specs/ and skills/ exist)
 - Repository demonstrates patterns it prescribes
 - No custom tooling required for methodology
 
@@ -176,7 +177,7 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 ### 9. Clean Evolution (LiveSpec Project Only)
 - LiveSpec evolves without backwards compatibility
 - Old patterns deleted, not deprecated (no legacy code paths)
-- Users on old versions use their copied dist/ (not broken)
+- Users upgrade via `/livespec:upgrade`; older versions aren't "broken", they're superseded
 - NOT imposed on projects using LiveSpec
 
 ### 10. Progressive Disposability
@@ -250,7 +251,8 @@ Read `specs/workspace/taxonomy.spec.md` for:
 - **Phase 2**: BUILD (TDD) (test-driven implementation)
 - **Phase 3**: VERIFY (validation)
 - **Phase 4**: EVOLVE (maintenance)
-- **Location**: `.livespec/0-define/`, `.livespec/1-design/`, etc.
+- **Location**: `references/prompts/define/`, `references/prompts/design/`, `references/prompts/evolve/`
+- **Invocation**: `/livespec:design`, `/livespec:audit`, `/livespec:learn` (skills route to these prompts; no phase-numbered folders to browse manually)
 
 **3 Abstraction Layers (Structural Organization)** - WHERE specs live:
 - **Layer 1**: `foundation/` (WHY — strategic outcomes, constraints)
@@ -346,35 +348,25 @@ specs/
   - ONLY when: Auditing minimalism, reviewing spec quality
   - NOT for: Writing specs (use AGENTS.md MSL guidance)
 
-- **"Health", "drift", "spec health", "validation", "audit"** → Load `ctxt/audit.md`
-  - ONLY when: Running spec health checks, context validation, learning capture
+- **"Health", "drift", "spec health", "validation", "context regeneration"** → Load `ctxt/audit.md`
+  - ONLY when: Running spec health checks, context validation, extraction
 
 ---
 
 ## Quick Start (New Project)
 
-**80% of cases start with Phase 0:**
+**80% of cases start with `/livespec:init`:**
 
 ```bash
-# 1. Copy LiveSpec methodology
-cp -r livespec/dist/ .livespec/
+# 1. Install the LiveSpec plugin (once), then in the target project:
+/livespec:init            # Quick setup with sensible defaults
+/livespec:init full       # Interactive: domain, compression level, workspace specs
 
-# 2. Create specs structure
-mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
-
-# 3. Create PURPOSE.md
-echo "# Project Purpose
-
-## Why This Exists
-[Problem this project solves]
-
-## What Success Looks Like
-[Measurable success criteria]" > PURPOSE.md
-
-# 4. Start Phase 0 (choose one):
-# Quick start (5 min, zero questions): "Use .livespec/0-define/0a-quick-start.md"
-# Full customization (20-30 min): "Use .livespec/0-define/0b-customize-workspace.md"
+# Creates: PURPOSE.md, specs/{workspace,foundation,strategy,features,interfaces}/,
+#          initial AGENTS.md
 ```
+
+No `.livespec/` copy step, no submodule, no manual folder scaffolding — the `init` skill does this. Existing legacy installations (submodule or directory copy) migrate via `/livespec:upgrade`.
 
 ---
 
@@ -387,11 +379,12 @@ Establish problem space and constraints.
 **Entry:** Project idea or codebase
 **Exit:** Problem, constraints, workspace defined
 **Outputs:** PURPOSE.md, specs/foundation/constraints.spec.md, specs/workspace/
+**Skill:** `/livespec:init`, `/livespec:design workspace`
 
-**Key prompts:**
+**Key prompts** (`references/prompts/define/`):
 - `0a-quick-start.md` - Zero-question setup (5 min, defaults)
 - `0b-customize-workspace.md` - Full workspace customization
-- `0c-define-problem.md` - Articulate problem statement
+- `0c-define-problem.md` / `0c-define-outcomes.md` - Articulate problem and outcomes
 - `0d-assess-complexity.md` - Evaluate project complexity
 - `0e-evaluate-research-needs.md` - Determine if UX research needed
 - `0f-identify-constraints.md` - Document boundaries
@@ -403,8 +396,9 @@ Design solution architecture.
 **Entry:** Problem and constraints defined
 **Exit:** Architecture and contracts specified
 **Outputs:** specs/strategy/architecture.spec.md, specs/features/, specs/interfaces/
+**Skill:** `/livespec:design feature <name>`, `/livespec:design spec <type>`
 
-**Key prompts:**
+**Key prompts** (`references/prompts/design/`):
 - `1a-document-ux-flows.md` - Document user interaction flows (optional)
 - `1b-design-architecture.md` - Define system structure
 - `1c-define-behaviors.md` - Specify observable outcomes
@@ -417,26 +411,30 @@ Implement solution using test-driven development.
 **Exit:** Tests pass, implementation matches specifications
 **TDD:** Mandatory by default (tests before code, escape hatch for trivial scripts with justification)
 
-**Key prompts:**
+**Key prompts** (`references/prompts/evolve/`):
 - `2b-create-tests.md` - Write failing tests FIRST (RED phase)
 - `2a-implement-from-specs.md` - Make tests pass (GREEN + REFACTOR phases)
 
 ### Phase 3: VERIFY
 Validate solution meets requirements.
 
-**Key prompts:**
+**Key prompts** (`references/prompts/evolve/`):
 - `3a-run-validation.md` - Execute validation tests
 - `3b-acceptance-review.md` - Stakeholder approval
 
 ### Phase 4: EVOLVE
-Maintain specs; regenerate code when needed (continuous).
+Maintain specs; regenerate code and context when needed (continuous).
 
-**Key prompts:**
+**Skill:** `/livespec:audit` (health, validate, context, extract)
+
+**Key prompts** (`references/prompts/evolve/`):
 - `4a-detect-drift.md` - Detect regeneration signals
 - `4b-extract-specs.md` - Level up discoveries to specs
 - `4c-sync-complete.md` - Confirm regeneration complete
-- `4d-regenerate-context.md` - Update AGENTS.md
 - `4e-validate-extractions.md` - Review extracted specs
+- `4f-document-implementation.md` - Document implementation outcomes
+
+**Context regeneration:** `/livespec:audit context` classifies each run as MINOR (scoped patch to the affected file) or FULL (whole-tree rebuild) based on the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`, then delegates to `agents/context-builder.md` — a dedicated sub-agent that keeps this large generation task out of your session's context window.
 
 ---
 
@@ -467,7 +465,7 @@ supports:               # interfaces, foundation — what this enables
 applies_to:             # workspace — governance scope
   - all_projects
 specifies:              # artifacts — path to deliverable
-  - dist/prompts/0-define/0a-quick-start.md
+  - skills/init/SKILL.md
 ---
 ```
 
@@ -529,16 +527,6 @@ specifies:              # artifacts — path to deliverable
 your-project/
 ├── PURPOSE.md              # Why this exists, what success looks like
 │
-├── .livespec/              # Copied from livespec/dist/
-│   ├── 0-define/           # Phase prompts (temporal workflow)
-│   ├── 1-design/           # Phase prompts
-│   ├── 2-build/            # Phase prompts
-│   ├── 3-verify/           # Phase prompts
-│   ├── 4-evolve/           # Phase prompts
-│   ├── utils/              # Utility prompts
-│   ├── standard/           # MSL metaspecs
-│   └── templates/          # Workspace and agent templates
-│
 └── specs/
     ├── workspace/          # HOW you build (process)
     │   ├── constitution.spec.md
@@ -557,6 +545,8 @@ your-project/
     └── interfaces/         # Interfaces (API/data contracts)
 ```
 
+**No `.livespec/` directory.** LiveSpec methodology (skills, commands, agents) is provided by the installed Claude Code plugin, invoked via `/livespec:*` commands — not copied into the project.
+
 ---
 
 ## Development Patterns
@@ -569,10 +559,10 @@ your-project/
 
 ### Cross-Reference Updates
 When renaming or moving prompts/specs, use systematic checklist:
-- [ ] Source file renamed/moved (dist/prompts/ or specs/)
+- [ ] Source file renamed/moved (`references/prompts/[mode]/` or specs/)
 - [ ] Spec frontmatter (`specifies:` or `guided-by:` field) — note: hyphenated, not underscored
 - [ ] Registry entry (specs/artifacts/prompts/registry.spec.md)
-- [ ] Navigation files (dist/prompts/utils/next-steps.md)
+- [ ] Navigation files (`references/prompts/utils/next-steps.md`)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
 - [ ] Validation run (`scripts/validate-frontmatter.sh`)
@@ -602,7 +592,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 **AI checks before implementation:**
 1. Does `specs/features/[deliverable].spec.md` exist?
 2. If NO → Pause, say: "I need a specification before implementing. Let's create specs/features/[deliverable].spec.md first using DESIGN mode"
-3. Guide user to appropriate Phase 1 prompt
+3. Guide user to `/livespec:design`
 4. If YES → Verify spec has Requirements section with [!] items, full frontmatter (type, category, fidelity, criticality, failure_mode, governed-by, plus per-category fields)
 5. Then proceed to implementation
 
@@ -620,7 +610,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 **Run validation at key checkpoints:**
 - Before committing: `scripts/validate-frontmatter.sh`
 - After regenerating files: `scripts/validate-purpose.sh`
-- Cross-reference integrity: `prompts/utils/validate-project.md`
+- Cross-reference integrity: `references/prompts/utils/validate-project.md`
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, underscore field names)
@@ -629,11 +619,11 @@ When renaming or moving prompts/specs, use systematic checklist:
 ### Learning Distribution Workflow
 
 Changes flow through distribution mechanism:
-1. Create template in `.livespec/templates/` (if reusable content)
+1. Create template in `templates/` (if reusable content)
 2. Update spec requirements (mandate template usage)
-3. Update prompt instructions (reference templates during generation)
-4. Regenerate AGENTS.md (includes templates in distribution)
-5. Copy to `dist/` (target projects receive templates)
+3. Update skill/prompt instructions (reference templates during generation)
+4. Regenerate AGENTS.md (`/livespec:audit context`) — includes templates in distribution
+5. Plugin update propagates to target projects (no manual copy step)
 
 ---
 
@@ -702,13 +692,13 @@ specs/strategy/architecture.spec.md    (derives-from)
 **This project uses:** Moderate compression (balanced inline/reference)
 - Strategic extraction of reusable content
 - Critical workflows inline, details referenced
-- Target size: 20-30KB root AGENTS.md
+- Target size: 30-40KB root AGENTS.md
 
 **MSL Minimalism vs Context Compression:**
 - MSL Minimalism: Content pressure (reduce WITHIN specs)
 - Context Compression: Structural force (reorganize ACROSS guidance)
 
-**Change level:** Use `.livespec/prompts/utils/audit-context-compression.md`
+**Change level:** Use `/livespec:audit` (compression audit workflow)
 
 ---
 
@@ -723,11 +713,11 @@ specs/strategy/architecture.spec.md    (derives-from)
 - **Natural Stopping Point:** "Good stopping point. Should I complete the session?"
 - **User Appears Stuck (3+ failed attempts):** "This seems challenging. Let me complete the session — starting fresh often helps."
 
-**Tool:** Use `dist/prompts/utils/complete-session.md`
+**Tool:** `/livespec:learn`
 
 ### Unified Session Analysis
 
-**One action at session end:** `dist/prompts/utils/complete-session.md`
+**One action at session end:** `/livespec:learn`
 
 **Compliance Scoring:**
 
@@ -759,7 +749,7 @@ Focus Efficiency (0-13 points):
 
 **Skipping Phase 0**
 - Bad: Jump straight to coding
-- Good: Create PURPOSE.md and workspace specs first
+- Good: Create PURPOSE.md and workspace specs first (`/livespec:init`)
 
 **Over-specification**
 - Bad: "Button must be exactly 120px wide with #007bff color"
@@ -774,12 +764,16 @@ Focus Efficiency (0-13 points):
 - Good: Only truly critical requirements marked CRITICAL
 
 **Metaspec paths in governed-by**
-- Bad: `governed-by: [.livespec/standard/metaspecs/behavior.spec.md]`
+- Bad: `governed-by: [references/standards/metaspecs/behavior.spec.md]`
 - Good: `governed-by: []` (format implied by `type: behavior`)
 
 **Underscore field names**
 - Bad: `derives_from:`, `guided_by:`
 - Good: `derives-from:`, `guided-by:`
+
+**Assuming a `.livespec/` folder exists**
+- Bad: `cp -r livespec/dist/ .livespec/` or reading `.livespec/prompts/...`
+- Good: LiveSpec is a plugin — use `/livespec:*` skill commands; reference `references/prompts/` only when working inside the LiveSpec repo itself
 
 ---
 
@@ -791,7 +785,7 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **ctxt/define.md** - Define mode (problem definition, workspace setup)
 - **ctxt/design.md** - Design mode (architecture, behaviors, contracts)
 - **ctxt/evolve.md** - Evolve mode (implementation, validation, drift, extraction)
-- **ctxt/audit.md** - Audit mode (spec health, learning capture)
+- **ctxt/audit.md** - Audit mode (spec health, frontmatter compliance, learning capture, context regeneration)
 
 ### Domain Specialists (ctxt/domains/)
 - **ctxt/domains/governance.md** - Governance patterns (methodology development)
@@ -803,29 +797,33 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 ### Conventions (How to Structure)
 - **`references/standards/vocabulary.spec.md`** - Canonical controlled vocabulary (type values, fidelity levels, relationship fields, phases, layers)
 - **`references/standards/metaspecs/base.spec.md`** - Base frontmatter schema
-- **`.livespec/standard/conventions/context-compression.spec.md`** - Compression framework
-- **`.livespec/standard/conventions/folder-structure.spec.md`** - Folder organization
-- **`.livespec/standard/conventions/dependencies.spec.md`** - Spec relationships
-- **`.livespec/standard/conventions/naming.spec.md`** - File naming patterns
+- **`references/standards/conventions/context-tree.spec.md`** - Context tree structure and generation governance
+- **`specs/workspace/folder-organization.spec.md`** - Folder organization
+- **`references/standards/conventions/dependencies.spec.md`** - Spec relationships (if present) or see Specification Dependencies above
+- **`references/standards/conventions/naming.spec.md`** - File naming patterns (if present) or see Development Patterns above
 
 ### Metaspecs (Templates for Spec Types)
-- **`.livespec/standard/metaspecs/behavior.spec.md`** - Behavior specs
-- **`.livespec/standard/metaspecs/contract.spec.md`** - API/data contracts
-- **`.livespec/standard/metaspecs/workspace.spec.md`** - Workspace specs
-- **`.livespec/standard/metaspecs/prompt.spec.md`** - Prompt artifacts
+- **`references/standards/metaspecs/base.spec.md`** - Base frontmatter schema for all specs
+- **`references/standards/metaspecs/prompt.spec.md`** - Prompt artifacts
+- **`references/standards/metaspecs/agent.spec.md`** - Agent artifacts
 
 ### Guides (How to Apply)
-- **`.livespec/guides/msl-minimalism.md`** - MSL decision framework
-- **`.livespec/guides/tdd.md`** - TDD workflow
-- **`.livespec/guides/context-positioning.md`** - START/MIDDLE/END pattern
-- **`.livespec/guides/ai-commits.md`** - Commit message format
-- **`.livespec/guides/progressive-disposability.md`** - Layer durability and regeneration
-- **`dist/guides/common-pitfalls.md`** - Real-world failure examples
+- **`references/guides/msl-minimalism.md`** - MSL decision framework
+- **`references/guides/terminology.md`** - Controlled vocabulary usage guide
 
 ### Validation Scripts
 - **`scripts/validate-frontmatter.sh`** - Check all spec frontmatter (IMP-005)
-- **`scripts/validate-purpose.sh`** - Check PURPOSE.md boundary
-- **`scripts/check-requires-spec.sh`** - Check if file needs spec
+- **`scripts/upgrade-to-v5.sh`** - Migrate legacy submodule/copy installs to the v5 plugin
+
+### Plugin Skills (Invoke Directly)
+- **`/livespec:init`** - Initialize a new project
+- **`/livespec:design`** - Create and refine specifications (Phase 0 + 1)
+- **`/livespec:audit`** - Spec health, validation, context generation (Phase 3 + 4)
+- **`/livespec:learn`** - Session completion, compliance, learning capture
+- **`/livespec:sweep`** - Multi-project portfolio audit
+- **`/livespec:birth`** - Incubate/birth child projects from a parent LiveSpec project
+- **`/livespec:go`** - Intent-based router to the right skill
+- **`/livespec:upgrade`** - Migrate legacy (submodule/copy) installs to the v5 plugin
 
 ---
 

@@ -1,0 +1,33 @@
+---
+criticality: CRITICAL
+failure_mode: Without [PROJECT_NAME] meeting these outcomes, [FAILURE_CONSEQUENCE]
+derives_from:
+  - PURPOSE.md
+---
+
+# [PROJECT_NAME] Outcomes
+
+## Requirements
+- [!] [Outcome 1]: [High-level requirement statement - what must be achieved]
+  - [Validation criterion 1 - how to verify]
+  - [Validation criterion 2 - how to verify]
+  - [Validation criterion 3 - how to verify]
+- [!] [Outcome 2]: [High-level requirement statement]
+  - [Validation criterion 1]
+  - [Validation criterion 2]
+  - [Validation criterion 3]
+- [!] [Outcome 3]: [High-level requirement statement]
+  - [Validation criterion 1]
+  - [Validation criterion 2]
+  - [Validation criterion 3]
+
+## Notes
+
+**Derived from PURPOSE.md:**
+- This specification elaborates on "What Success Looks Like" from PURPOSE.md
+- Each outcome traces to one or more success criteria
+- Outcomes are high-level (detailed behaviors go in specs/behaviors/)
+
+**Satisfied by:**
+- specs/strategy/architecture.spec.md (how we technically achieve outcomes)
+- specs/behaviors/*.spec.md (detailed observable behaviors)

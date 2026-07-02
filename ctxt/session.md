@@ -1,6 +1,6 @@
 # Session Completion
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for session analysis and compliance measurement.
 

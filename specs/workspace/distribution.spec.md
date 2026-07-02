@@ -93,10 +93,9 @@ derives-from:
 - **dist/AGENTS.md** - Bootstrap version (minimal, ~5KB, instructs generation)
 - **Project AGENTS.md** - Generated from workspace specs (20-30KB, routing)
 - **Project ctxt/** - Generated sub-agent contexts (not distributed)
-  - ctxt/phases/ - 5 phase specialists
+  - ctxt/define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md - one file per specialist
   - ctxt/domains/ - Domain-specific patterns
-  - ctxt/utils/ - 3 utility specialists
-- **Generation**: Use `.livespec/prompts/utils/regenerate-contexts.md`
+- **Generation**: Use `/livespec:audit context`
 - **Timing**: Immediately after Phase 0 (workspace specs established)
 
 **Bootstrap AGENTS.md content**:

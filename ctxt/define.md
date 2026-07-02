@@ -1,6 +1,6 @@
 # DEFINE Mode
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for problem definition and workspace setup.
 
@@ -33,7 +33,7 @@ Use `/livespec:init`:
 
 ### Full Customization Path (20-30 minutes)
 
-Use `/livespec:init --full`:
+Use `/livespec:init full`:
 1. Interactive domain selection (Software/Governance/Hybrid)
 2. Compression level choice (light/moderate/aggressive)
 3. Customized workspace specs
@@ -145,7 +145,7 @@ Total: 10 minutes to working specs
 ### Team Onboarding Path
 
 ```bash
-/livespec:init --full    # 20-30 min interactive
+/livespec:init full      # 20-30 min interactive
 # Workshop PURPOSE.md    # Team discussion
 # Document constraints   # From team input
 /livespec:audit context  # Rebuild context
@@ -177,11 +177,12 @@ During Define mode, establish taxonomy (`specs/workspace/taxonomy.spec.md`):
 **Key taxonomy outputs:**
 - Project Domain (affects how features/ is organized)
 - Workspace Scope (what's operating context vs deliverable)
-- Specs Boundary (what belongs in specs/ vs dist/)
+- Specs Boundary (what belongs in specs/ vs elsewhere)
 
 ## References
 
 - Init skill: `/livespec:init`
+- Define prompts (LiveSpec repo only): `references/prompts/define/`
 - Parent context: AGENTS.md
 - Metaspecs: `references/standards/metaspecs/base.spec.md`
 

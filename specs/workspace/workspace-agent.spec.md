@@ -26,7 +26,7 @@ supports: []
 - [!] LiveSpec AGENTS.md provides AI agents with methodology context following context tree convention
   - **Context tree pattern**: Root AGENTS.md + ctxt/ sub-agents (see `.livespec/standard/conventions/context-tree.spec.md`)
   - **Evolution**: Monolithic (50-60KB) → Hierarchical tree (root 30-40KB + ctxt/)
-  - **Generation**: Use `.livespec/prompts/utils/regenerate-contexts.md` to build tree
+  - **Generation**: Use `/livespec:audit context` to build tree
   - **Distribution**: dist/AGENTS.md is bootstrap (~5KB), instructs generation after Phase 0
   - **Benefits**: Better focus (specialized contexts), reduced overload (load what's needed), improved signal-to-noise (60% vs 20%)
 

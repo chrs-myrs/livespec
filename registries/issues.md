@@ -2,14 +2,10 @@
 store: registry
 type: issues
 schema_version: 2
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-02
 entries:
-  - id: ISSUE-001
-    summary: .livespec -> dist symlink is broken and has no single clean replacement target
-    severity: medium
-    status: open
-  - id: ISSUE-002
-    summary: Legacy prompt-based context-regeneration pathway still present alongside its replacement
+  - id: ISSUE-003
+    summary: references/prompts/ and much of specs/ still assume the old dist/ distribution model
     severity: medium
     status: open
 ---
@@ -20,12 +16,7 @@ Tracks known problems accepted for now — what's broken but tolerated.
 
 ---
 
-## ISSUE-001: .livespec -> dist symlink is broken and has no single clean replacement target
+## ISSUE-003: references/prompts/ and much of specs/ still assume the old dist/ distribution model
 
-**Context**: `dist/` no longer exists at project root following the v5 Claude Code plugin migration (distribution now happens via `.claude-plugin/plugin.json` + top-level `agents/`/`skills/`/`commands/`, not a `dist/` copy). Repointing `.livespec` isn't a one-line fix: `references/` has `guides/`, `prompts/`, `standards/` but is missing `templates/agents/spec-first-enforcement.md` (only present under root-level `templates/`), so either candidate target leaves `.livespec/templates/...` broken. Many specs and generated files still reference `.livespec/...` paths directly. Previously flagged in `.livespec-audit/issues.md` (2026-02-26, v5.1.0, T2 issues #1 and #2).
-**Category**: Tooling
-
-## ISSUE-002: Legacy prompt-based context-regeneration pathway still present alongside its replacement
-
-**Context**: `references/prompts/utils/regenerate-contexts.md`, `references/prompts/evolve/4d-regenerate-context.md`, and their specs (`specs/artifacts/prompts/utils-regenerate-context.spec.md`, `specs/artifacts/prompts/4d-regenerate-context.spec.md`) describe a Task-tool sub-agent + chmod-444 workflow that has been superseded by `skills/audit/SKILL.md` (Mode: context) + `agents/context-builder.md`. Discovered 2026-07-01 while adding incremental-update support to context generation — the legacy pathway also documented a `ctxt/phases/`+`ctxt/utils/` tree structure that was never actually built, which caused real confusion during that work (already corrected in the live specs/agent). Neither the legacy files nor their specs have been removed or marked deprecated, so they remain discoverable and can mislead future edits.
+**Context**: Discovered 2026-07-02 while resolving ISSUE-001/ISSUE-002 (both now fixed: dead `.livespec` symlink removed, legacy regeneration pathway deleted, generated-file headers now point at `/livespec:audit context`). A much larger sprawl remains: 30+ files under `references/prompts/`, `references/guides/`, and `specs/` (e.g. `specs/artifacts/prompts/*.spec.md`, `specs/strategy/architecture.spec.md`, `specs/workspace/*.spec.md`) still describe or reference the pre-plugin `dist/.claude/commands/livespec/`, `dist/prompts/`, install-script, and `generated_by`/`generated_at` metadata model, none of which exist any more — commands now live flatly at `commands/*.md` routing to `skills/*/SKILL.md` (see `specs/artifacts/commands/generation.spec.md`, rewritten 2026-07-02). Confirmed independently by the context-builder agent during the same session's full AGENTS.md/ctxt/ regeneration: it flagged `specs/strategy/architecture.spec.md`, `specs/strategy/distribution.spec.md`, `specs/workspace/folder-organization.spec.md`, `specs/workspace/context-compression.spec.md`, and `specs/workspace/livespec.spec.md` by name as still detailing the pre-plugin `dist/`/submodule model — these are the highest-priority targets for the audit pass, since they're workspace/strategy specs that directly govern generated output. Unlike ISSUE-001/002, this isn't two files with an obvious replacement — it's a wide, unaudited tail across two directory trees where some content may still be load-bearing (e.g. `references/prompts/utils/learn.md`, `reorganize-workspace.md` — unclear if actively used or fully superseded by the self-contained `skills/*/SKILL.md` pattern). Needs a dedicated DESIGN-mode pass, not a spot-fix.
 **Category**: Structure

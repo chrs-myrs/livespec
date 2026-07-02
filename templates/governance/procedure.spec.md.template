@@ -1,0 +1,45 @@
+---
+criticality: IMPORTANT
+failure_mode: [What breaks without this procedure]
+constrained_by:
+  - ../../../../.livespec/standard/metaspecs/base.spec.md
+  - ../../../../.livespec/standard/metaspecs/contract.spec.md
+implements_policy:
+  - [Path to policy this procedure implements]
+---
+
+# [Procedure Name]
+
+## Requirements
+- [!] [Primary procedural contract - what process must be followed]
+  - Step 1: [Action]
+  - Step 2: [Action]
+  - Step 3: [Action]
+
+## Prerequisites
+- [What must be in place before this procedure can be followed]
+- [Required access, tools, or permissions]
+
+## Validation
+- [How to verify procedure was followed correctly]
+- [Expected outcomes]
+- [Success criteria]
+
+## Rollback
+[How to rollback if procedure fails or needs to be undone]
+
+## Timing
+[Estimated time to complete]
+
+## Frequency
+[How often this procedure is performed - daily, quarterly, as-needed]
+
+## Notes
+
+**Procedure goes in:** `specs/contracts/procedures/`
+
+**Why contracts?** Procedures define process contracts ("to achieve X, follow steps A→B→C").
+
+**Related:**
+- Policy this implements → `specs/behaviors/policies/`
+- Technical implementation → code or runbooks

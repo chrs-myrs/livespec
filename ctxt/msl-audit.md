@@ -1,6 +1,6 @@
 # MSL Audit
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for minimalism enforcement and spec quality.
 
@@ -236,7 +236,7 @@ governed-by: []  # or only truly constraining content specs
 
 ## References
 
-- MSL Framework: `.livespec/guides/msl-minimalism.md`
+- MSL Framework: `references/guides/msl-minimalism.md`
 - MSL Specification: https://github.com/chrs-myrs/msl-specification
 - Audit command: `/livespec:audit`
 - Frontmatter compliance (separate): `ctxt/audit.md`

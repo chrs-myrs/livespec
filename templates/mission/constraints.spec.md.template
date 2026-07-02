@@ -1,0 +1,45 @@
+---
+criticality: CRITICAL
+failure_mode: Violating these constraints makes [PROJECT_NAME] fail or unusable
+derives_from:
+  - PURPOSE.md
+constrains:
+  - specs/strategy/architecture.spec.md
+---
+
+# [PROJECT_NAME] Constraints
+
+## Requirements
+- [!] [Constraint name]: [One sentence stating the non-negotiable boundary]
+  - [How to verify compliance - testable criterion]
+  - [How to verify compliance - testable criterion]
+- [!] [Constraint name]: [One sentence stating the non-negotiable boundary]
+  - [How to verify compliance]
+  - [How to verify compliance]
+- [!] [Constraint name]: [One sentence stating the non-negotiable boundary]
+  - [How to verify compliance]
+  - [How to verify compliance]
+
+## Notes
+
+**What makes a real constraint:**
+- Cannot be negotiated (hard limit)
+- Would cause project failure if violated
+- Derived from external factors (regulations, existing systems, physics, budget)
+- Testable and measurable
+
+**Good constraints:**
+- ✅ "Must respond within 200ms for 95th percentile"
+- ✅ "Must comply with GDPR data residency requirements"
+- ✅ "Must integrate with existing PostgreSQL 12 database"
+- ✅ "Budget cannot exceed $50K/year"
+
+**Not constraints (move elsewhere):**
+- ❌ "Should be fast" → Too vague (remove or make specific)
+- ❌ "Users can search documents" → Functional requirement (→ behaviors/)
+- ❌ "Use Redis for caching" → Technical decision (→ strategy/)
+- ❌ "Python is preferred" → Preference, not constraint (remove)
+
+**Constrains:**
+- specs/strategy/architecture.spec.md must respect these boundaries
+- specs/behaviors/*.spec.md must not violate constraints

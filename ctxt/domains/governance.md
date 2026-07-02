@@ -1,6 +1,6 @@
 # Governance Domain Patterns
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for governance domain projects and methodology development.
 
@@ -29,44 +29,43 @@ LiveSpec (governance project):
 │   └── workflows.spec.md      # LiveSpec's process
 │
 ├── specs/strategy/            # LiveSpec's architecture
-│   └── distribution.spec.md   # How framework reaches users
+│   └── architecture.spec.md   # Two-branch model, distribution approach
 │
 ├── specs/features/            # LiveSpec's methodology behaviors
 │   ├── context-generation.spec.md
 │   ├── mandatory-frontmatter.spec.md
 │   └── ...
 │
-└── specs/artifacts/           # LiveSpec's deliverables (prompts, agents)
-    └── prompts/*.spec.md
+└── specs/artifacts/           # LiveSpec's deliverables (prompts, agents, commands)
+    ├── prompts/*.spec.md
+    ├── agents/*.spec.md
+    └── commands/*.spec.md
 ```
 
 ### Framework Distribution Pattern
 
-**Challenge:** Governance projects produce frameworks that other projects copy.
+**Challenge:** Governance projects produce frameworks that other projects adopt.
 
-**Solution:**
+**Solution (v5, plugin-based):**
 ```
 livespec (source repo):
 ├── specs/                     # Source of truth (specifications)
-├── dist/                      # Distributable framework (what users copy)
-│   ├── prompts/              # Phase 0-4 prompts
-│   ├── guides/               # MSL, TDD, etc.
-│   ├── standard/             # Metaspecs, conventions
-│   └── templates/            # Reusable content
+├── skills/                    # Skill definitions (init, design, audit, learn, sweep, birth, go, upgrade)
+├── commands/                  # Slash command routing (thin wrappers to skills/)
+├── agents/                    # Sub-agent definitions (context-builder)
+├── references/                # Prompts, guides, standards (LiveSpec's own working detail)
 └── AGENTS.md                  # Generated (from specs/workspace/)
 
 target-project (user's repo):
-└── .livespec/                 # Copied from livespec/dist/
-    ├── prompts/
-    ├── guides/
-    └── ...
+└── (no copied framework files — the Claude Code plugin provides
+    /livespec:* skills directly; project only has specs/ and AGENTS.md)
 ```
 
-**Key insight:** `specs/` governs LiveSpec's development, `dist/` is the distributed product.
+**Key insight:** `specs/` governs LiveSpec's own development. The plugin (`skills/`, `commands/`, `agents/`) is what target projects invoke — nothing is copied into their repos. This replaced the pre-v5 `dist/` + submodule/copy model entirely.
 
 ### Specs About Specs Pattern
 
-**Governance projects have specs at two levels:**
+**Governance projects have specs at three levels:**
 
 1. **Meta-level** (specs about the framework):
    ```
@@ -76,8 +75,8 @@ target-project (user's repo):
 
 2. **Artifact-level** (specs about specific deliverables):
    ```
-   specs/artifacts/prompts/4d-regenerate-context.spec.md
-   → Defines what 4d-regenerate-context.md prompt does
+   specs/artifacts/agents/context-builder.spec.md
+   → Defines what the context-builder agent does
    ```
 
 3. **Metaspec level** (templates for specs, in references/):
@@ -130,14 +129,14 @@ derives-from:
 **Artifact specs in governance projects:**
 ```yaml
 ---
-type: prompt
+type: agent
 category: artifacts
 fidelity: behavioral
 criticality: IMPORTANT
-failure_mode: Without spec, prompt implementation lacks requirements
+failure_mode: Without spec, agent implementation lacks requirements
 governed-by: []
 specifies:
-  - dist/prompts/0-define/0a-quick-start.md
+  - agents/context-builder.md
 ---
 ```
 
@@ -147,7 +146,7 @@ specifies:
 
 1. **Capture learning in template:**
    ```
-   .livespec/templates/agents/spec-first-enforcement.md
+   templates/agents/spec-first-enforcement.md
    → Reusable verification content
    ```
 
@@ -157,24 +156,25 @@ specifies:
    → "Agents use spec-first-enforcement template"
    ```
 
-3. **Update prompt to reference template:**
+3. **Update agent to reference template:**
    ```
-   .livespec/prompts/4-evolve/4d-regenerate-context.md
+   agents/context-builder.md
    → Includes template in AGENTS.md generation
    ```
 
 4. **Regenerate AGENTS.md:**
    ```
-   AGENTS.md now contains template content
+   /livespec:audit context
+   → AGENTS.md now contains template content
    ```
 
-5. **Copy to dist/:**
+5. **Plugin ships the update:**
    ```
-   dist/AGENTS.md, dist/templates/agents/*
-   → Target projects receive improvement automatically
+   Users on the installed plugin receive the improved skill/template
+   directly — no manual copy step, no dist/ sync
    ```
 
-**Result:** Learnings flow: violations → templates → specs → prompts → AGENTS.md → dist/ → target projects
+**Result:** Learnings flow: violations → templates → specs → skills/agents → AGENTS.md → plugin users.
 
 ## Folder Organization (Governance Projects)
 
@@ -189,17 +189,17 @@ specifies:
 - taxonomy.spec.md — Project classification
 
 **IN → appropriate layer (deliverables):**
-- distribution.spec.md — How LiveSpec distributes → strategy/
+- architecture.spec.md — How LiveSpec is structured → strategy/
 - context-generation.spec.md — What context generation does → features/
-- 0a-quick-start.spec.md — What prompt does → artifacts/prompts/
+- context-builder.spec.md — What the agent does → artifacts/agents/
 
 ### Specs Boundary
 
-**specs/ = specifications only (not distributable framework)**
+**specs/ = specifications only (not the plugin implementation itself)**
 
-**Test:** "Is this defining WHAT framework does, or IS this the framework itself?"
+**Test:** "Is this defining WHAT the methodology does, or IS this the methodology's runnable artifact?"
 - Defining WHAT → specs/ (specifications)
-- IS the framework → dist/ (distributable product)
+- IS the runnable artifact → skills/, commands/, agents/ (plugin implementation)
 
 ## Common Behaviors (Governance Domain)
 
@@ -207,74 +207,47 @@ specifies:
 
 - Learnings captured in templates
 - Violations trigger methodology updates
-- Changes flow through distribution mechanism
-- IMP-NNN registry entries track improvements
+- Changes ship via the plugin (skills/commands/agents), not a copy step
+- IMP-NNN registry entries track known improvement opportunities
 
 ### Framework Development
 
 - Framework has specifications (behaviors, prompts, guides)
 - Framework dogfoods its own methodology
-- Framework distribution follows distribution spec
+- Framework distributed as a Claude Code plugin (no submodule/copy)
 
 ## Examples
 
-### Example 1: Adding New Prompt (Governance Project)
+### Example 1: Adding New Skill (Governance Project)
 
 ```bash
 # Step 1: Create behavior spec FIRST
-Use .livespec/1-design/1c-define-behaviors.md
-# Creates: specs/features/prompts/0g-new-prompt.spec.md
+Use /livespec:design feature <name>
+# Creates: specs/features/<name>.spec.md
 # Full frontmatter with type: behavior, satisfies, guided-by
 
 # Step 2: Create artifact spec
-# Creates: specs/artifacts/prompts/0g-new-prompt.spec.md
-# Full frontmatter with type: prompt, specifies: dist/prompts/...
+# Creates: specs/artifacts/commands/<name>.spec.md (or skills/ equivalent)
+# Full frontmatter with type: command/prompt, specifies: commands/<name>.md
 
-# Step 3: Implement prompt
-Use .livespec/2-build/2a-implement-from-specs.md
-# Creates: dist/prompts/0-define/0g-new-prompt.md
+# Step 3: Implement the skill/command
+# Creates: skills/<name>/SKILL.md, commands/<name>.md
 
 # Step 4: Update registry
-# Edit: specs/artifacts/prompts/registry.spec.md
+# Edit: specs/artifacts/prompts/registry.spec.md (if prompt-backed)
 
 # Step 5: Regenerate agents
-Use .livespec/4-evolve/4d-regenerate-context.md
-# Updates: AGENTS.md (references new prompt)
+/livespec:audit context
+# Updates: AGENTS.md (references new skill)
 ```
 
-### Example 2: Capturing Violation Learning (IMP-005 pattern)
-
-```bash
-# Violation detected: Specs not machine-navigable, missing type field
-
-# Step 1: Create feature spec
-# Write: specs/features/mandatory-frontmatter.spec.md
-# type: behavior, satisfies: outcomes, guided-by: strategy
-
-# Step 2: Update base metaspec
-# Edit: references/standards/metaspecs/base.spec.md
-# Add: mandatory fields documentation
-
-# Step 3: Create validation script
-# Write: scripts/validate-frontmatter.sh
-# Spec: specs/artifacts/validator-frontmatter.spec.md
-
-# Step 4: Regenerate AGENTS.md (includes new guidance)
-Use .livespec/4-evolve/4d-regenerate-context.md
-
-# Step 5: Update dist/ templates
-cp references/standards/metaspecs/base.spec.md dist/standard/metaspecs/
-
-# Result: Target projects get mandatory frontmatter requirement
-```
-
-### Example 3: Dogfooding Validation
+### Example 2: Dogfooding Validation
 
 ```bash
 # Build new feature (e.g., mandatory frontmatter)
 
-# Step 1: Use LiveSpec's own Phase 1 (DESIGN)
-Use .livespec/1-design/1c-define-behaviors.md
+# Step 1: Use LiveSpec's own DESIGN skill
+/livespec:design feature mandatory-frontmatter
 # Creates: specs/features/mandatory-frontmatter.spec.md
 # (Meta-irony: spec for specs must itself have correct frontmatter)
 
@@ -293,13 +266,13 @@ scripts/validate-frontmatter.sh  # must exit 0
 **Is this workspace/ or strategy/?**
 - Test: "Is this ABOUT how we operate?" → YES = workspace/
 - Example: "Use MSL format" → workspace/ (operating convention)
-- Example: "Distribute via dist/" → strategy/ (framework architecture)
+- Example: "Ship as a Claude Code plugin" → strategy/ (framework architecture)
 
 **Is this features/ or artifacts/?**
 - Test: "Does this describe what the methodology DOES?" → YES = features/
 - Test: "Does this describe something we BUILD?" → YES = artifacts/
 - Example: "Context generation behavior" → features/
-- Example: "Regenerate-context prompt" → artifacts/prompts/
+- Example: "context-builder agent" → artifacts/agents/
 
 **Should I dogfood this?**
 - YES if: Governance project (always dogfood)
@@ -310,9 +283,9 @@ scripts/validate-frontmatter.sh  # must exit 0
 - Parent: AGENTS.md (root context)
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Taxonomy: `specs/workspace/taxonomy.spec.md` (project classification)
-- Distribution: `specs/workspace/distribution.spec.md` (framework patterns)
 - Mandatory frontmatter: `specs/features/mandatory-frontmatter.spec.md`
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
+- Context builder agent: `agents/context-builder.md`
 
 ---
 

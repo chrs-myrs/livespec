@@ -1,6 +1,6 @@
 # AUDIT Mode
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for spec health, frontmatter compliance, learning capture, and context validation.
 
@@ -59,7 +59,7 @@ Fix: Change to type: behavior
 **Metaspec in governed-by:**
 ```
 WARNING: specs/features/auth.spec.md governed-by contains metaspec path
-  .livespec/standard/metaspecs/behavior.spec.md
+  references/standards/metaspecs/behavior.spec.md
 Fix: Remove — format governance is implied by type field
 ```
 
@@ -142,7 +142,7 @@ for spec in specs/workspace/*.spec.md; do
 done
 ```
 
-**Action:** `/livespec:audit context`
+**Action:** `/livespec:audit context` — classifies the change as MINOR (scoped patch to the mapped file, per the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`) or FULL (whole-tree rebuild), then delegates to `agents/context-builder.md`.
 
 ## Learning Capture (Correction-as-Spec)
 
@@ -256,7 +256,7 @@ git rm specs/features/obsolete.spec.md
 
 ```bash
 /livespec:audit context
-# Regenerates AGENTS.md from workspace specs
+# Regenerates AGENTS.md from workspace specs (scoped or full, auto-classified)
 ```
 
 ## Continuous Evolution Pattern
@@ -283,7 +283,6 @@ scripts/validate-frontmatter.sh
 ```bash
 # All validations must pass for release
 scripts/validate-frontmatter.sh
-prompts/utils/validate-project.md
 
 # Rebuild context
 /livespec:audit context
@@ -302,6 +301,7 @@ prompts/utils/validate-project.md
 
 - Audit skill: `/livespec:audit`
 - Learn skill: `/livespec:learn`
+- Context builder agent: `agents/context-builder.md`
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Frontmatter spec: `specs/features/mandatory-frontmatter.spec.md`
 - Frontmatter script: `scripts/validate-frontmatter.sh`

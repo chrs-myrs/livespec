@@ -83,7 +83,7 @@ supports:
 
 - [!] Context tree generation is repeatable, auditable, and protected from manual edits
   - Generated files marked with edit warnings (not frontmatter - clean context)
-  - Edit warnings instruct regeneration via .livespec/prompts/utils/regenerate-contexts.md
+  - Edit warnings instruct regeneration via `/livespec:audit context`
   - Regeneration reads workspace specs as source of truth
   - Workspace spec changes trigger regeneration need
   - Context builder agent (agents/context-builder.md) performs generation

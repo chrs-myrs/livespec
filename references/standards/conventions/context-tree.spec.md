@@ -65,9 +65,9 @@ applies_to:
   - **Source of truth**: workspace/*.spec.md + PURPOSE.md
   - **Regeneration required**: When workspace specs change, PURPOSE.md updates, or version upgrades
   - **Edit protection**: Files marked with inline warnings (regenerate, don't edit)
-  - **Generation tool**: `.livespec/prompts/utils/regenerate-contexts.md`
-  - **Context builder agent**: `.claude/agents/context-builder/` performs generation
-  - **Isolated execution**: Generation runs via Task tool without polluting parent session
+  - **Generation tool**: `/livespec:audit context`
+  - **Context builder agent**: `agents/context-builder.md` performs generation
+  - **Isolated execution**: Generation runs as a dedicated sub-agent without polluting parent session
 
 ### Size Budget Rationale
 
@@ -268,7 +268,7 @@ project-root/
 - High signal-to-noise ratio (60%)
 - Better focus efficiency through specialization
 
-**Migration path**: Projects can regenerate from monolithic to tree using `.livespec/prompts/utils/regenerate-contexts.md`
+**Migration path**: Projects can regenerate from monolithic to tree using `/livespec:audit context`
 
 ## Examples
 

@@ -1,6 +1,6 @@
 # DESIGN Mode
 
-> **Generated file** - Do not edit directly. Regenerate using `.livespec/prompts/utils/regenerate-contexts.md`
+> **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
 Sub-agent context for architecture, behaviors, and contracts.
 
@@ -213,19 +213,18 @@ specs/features/context-generation.spec.md
   satisfies: foundation/outcomes.spec.md
   guided-by: strategy/architecture.spec.md
 
-specs/artifacts/prompts/4d-regenerate-context.spec.md
-  → "Prompt generates AGENTS.md + ctxt/ tree"
-  specifies: dist/prompts/4-evolve/4d-regenerate-context.md
+specs/artifacts/agents/context-builder.spec.md
+  → "context-builder agent generates AGENTS.md + ctxt/ tree"
+  specifies: agents/context-builder.md
 ```
 
 ## References
 
 - Design skill: `/livespec:design`
+- Design prompts (LiveSpec repo only): `references/prompts/design/`
 - Parent context: AGENTS.md
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
-- Behavior metaspec: `.livespec/standard/metaspecs/behavior.spec.md`
-- Contract metaspec: `.livespec/standard/metaspecs/contract.spec.md`
 
 ---
 

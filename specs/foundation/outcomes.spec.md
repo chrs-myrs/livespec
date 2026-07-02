@@ -100,7 +100,7 @@ Methodology prevents bloat through balanced expansion/contraction forces.
 
 **Satisfied by:**
 - specs/workspace/workspace-agent.spec.md (critical warning budget: max 3)
-- .livespec/prompts/utils/regenerate-contexts.md (MSL minimalism during generation)
+- agents/context-builder.md (MSL minimalism during generation)
 - specs/workspace/context-architecture.spec.md (context tree clean evolution)
 - prompts/utils/audit-workspace-specs.md (periodic consolidation)
 - specs/features/session-completion.spec.md (feedback loop identifying what doesn't work)

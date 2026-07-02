@@ -1,25 +1,26 @@
 ---
-description: Spec health, validation, context generation, and continuous evolution
+description: Spec health, validation, and context generation
+routes-to: skills/audit/SKILL.md
 ---
 
-# Evolve
+# Audit
 
-Manage specification health, run validation, regenerate context, and maintain the spec ecosystem.
+Manage specification health, run validation, and regenerate context.
 
 ## Usage
 
 ```
-/livespec:evolve                     # Full evolution check
-/livespec:evolve health              # Detailed health report
-/livespec:evolve validate            # Run validation checks
-/livespec:evolve audit [type]        # Quality audits (msl|scope|coverage)
-/livespec:evolve context             # Regenerate AGENTS.md
-/livespec:evolve extract             # Extract specs from code
+/livespec:audit                      # Full audit check
+/livespec:audit health               # Detailed health report
+/livespec:audit validate             # Run validation checks
+/livespec:audit msl|scope|coverage   # Quality audits
+/livespec:audit context              # Regenerate AGENTS.md
+/livespec:audit extract              # Extract specs from code
 ```
 
 ## Modes
 
-### (default) - Full Evolution Check
+### (default) - Full Audit Check
 
 Runs health scan and reports status:
 
@@ -51,13 +52,13 @@ Executes validation scripts:
 
 Returns pass/fail with specific errors.
 
-### audit [type] - Quality Audits
+### msl|scope|coverage - Quality Audits
 
 Deep quality analysis:
 
-- `audit msl` - MSL minimalism compliance
-- `audit scope` - Workspace scope clarity
-- `audit coverage` - Spec coverage analysis
+- `msl` - MSL minimalism compliance
+- `scope` - Workspace scope clarity
+- `coverage` - Spec coverage analysis
 
 ### context - Regenerate AGENTS.md
 
