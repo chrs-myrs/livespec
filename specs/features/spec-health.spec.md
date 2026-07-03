@@ -16,6 +16,7 @@ guided-by: []
   - Spec validation detects structural issues (missing sections, broken links)
   - MSL audit identifies bloated or over-specified specs
   - Cross-reference validation ensures bidirectional linking works
+  - Coverage/completeness claims in a spec's own Validation section are spot-checked against actual repo state (file listings, grep) during audits, not assumed true from prose
   - AI agents guide spec remediation through EVOLVE mode
   - Human review focuses only on ambiguous cases
 
@@ -27,6 +28,7 @@ Spec health monitoring detects:
 - **Broken references**: Invalid frontmatter links, orphaned specs
 - **Stale specs**: Specs no longer relevant to project
 - **Bloat**: Specs that have grown beyond MSL minimalism targets
+- **Unverified coverage claims**: A spec's Validation section asserts completeness (e.g. "covers every file in X") that doesn't match actual repo state
 
 ## Resolution Categories
 
