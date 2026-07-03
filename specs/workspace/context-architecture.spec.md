@@ -101,8 +101,17 @@ supports:
   | workflows.spec.md | AGENTS.md § The 5 Phases; ctxt/evolve.md | No |
   | taxonomy.spec.md | AGENTS.md § Folder Organization Tests; ctxt/domains/*.md | Domain classification changes are structural (add/remove domain files) |
   | context-architecture.spec.md (this spec) | Tree structure itself — which files exist, size budgets, load triggers | Always structural |
+  | context-compression.spec.md | AGENTS.md § Context Compression | Compression-level changes are structural (affect every file) |
+  | cross-references.spec.md | AGENTS.md § Cross-Reference Updates; § Frontmatter Relationship Fields | No |
+  | distribution.spec.md | AGENTS.md (Summary; Quick Start; Common Anti-Patterns — scattered mentions, one file) | No |
+  | folder-organization.spec.md | AGENTS.md § Folder Organization Decision Tests | No, unless the change adds/removes a domain-classification category |
+  | generated-files.spec.md | *(none — process-only, not inlined into AGENTS.md/ctxt)* | N/A — no generated target |
+  | livespec.spec.md | AGENTS.md (diffused across Core Principles, Development Workflows, general tone — no clean single target) | Yes — no clean single-target scope, treat as structural |
+  | third-party-dependencies.spec.md | *(none — process-only, not inlined)* | N/A — no generated target |
+  | version-management.spec.md | AGENTS.md footer version stamp only | No |
+  | workspace-agent.spec.md | Governs AGENTS.md's own structure, positioning, compression, and critical-section rules, including mandating inline of `templates/agents/spec-first-enforcement.md` | Always structural |
 
-  **Structural** means the change can add, remove, or resize generated files beyond the mapped target(s) — it forces full regeneration regardless of how small the diff looks. Everything else can be scoped to the listed file(s) provided no spec or generated file is being added or removed.
+  **Structural** means the change can add, remove, or resize generated files beyond the mapped target(s) — it forces full regeneration regardless of how small the diff looks. Everything else can be scoped to the listed file(s) provided no spec or generated file is being added or removed. A changed source with **no generated target** (see `generated-files.spec.md`, `third-party-dependencies.spec.md` above) is excluded from the changed-target set entirely — it doesn't force FULL by itself, unlike a genuinely unclear mapping.
 
 ## Validation
 

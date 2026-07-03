@@ -237,6 +237,8 @@ Read `specs/workspace/taxonomy.spec.md` for:
 - "Drift detection behavior" → features/drift-detection.spec.md (methodology behavior)
 - "Individual prompt specs" → artifacts/prompts/*.spec.md (methodology artifacts)
 
+**Note:** `registries/` (project root, not specs/) holds accepted-current-state data (gaps, issues, improvements) — see Reference Library below. It is not a specs/ category and isn't part of this classification.
+
 ---
 
 ## CRITICAL DISTINCTION: Phases vs Layers
@@ -776,6 +778,10 @@ Focus Efficiency (0-13 points):
 - Bad: `cp -r livespec/dist/ .livespec/` or reading `.livespec/prompts/...`
 - Good: LiveSpec is a plugin — use `/livespec:*` skill commands; reference `references/prompts/` only when working inside the LiveSpec repo itself
 
+**Treating registries as backlogs**
+- Bad: Registry entry reads "implement X" or "fix Y" (that's a ticket, not a state observation)
+- Good: Registry entry reads "X is missing because..." or "Y is accepted as a known limitation because..." — see `specs/features/registry-specs.spec.md`
+
 ---
 
 ## Reference Library (Deep Detail Navigation)
@@ -802,7 +808,7 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **`references/standards/conventions/dependencies.spec.md`** - Spec relationship field semantics (full version of Specification Dependencies above)
 - **`references/standards/conventions/naming.spec.md`** - File naming patterns (full version of Development Patterns above)
 - **`references/standards/conventions/folder-structure.spec.md`** - Canonical folder structure convention
-- **`specs/workspace/folder-organization.spec.md`** - This project's folder organization
+- **`specs/workspace/folder-organization.spec.md`** - This project's folder organization, including registries/ (accepted current state, not backlog)
 
 ### Metaspecs (Templates for Spec Types)
 - **`references/standards/metaspecs/base.spec.md`** - Base frontmatter schema for all specs
@@ -810,6 +816,13 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **`references/standards/metaspecs/strategy.spec.md`** - Strategy specs
 - **`references/standards/metaspecs/prompt.spec.md`** - Prompt artifacts
 - **`references/standards/metaspecs/agent.spec.md`** - Agent artifacts
+
+### Registries (Accepted Current State)
+- **`references/standards/registries/gaps.spec.md`** - Known missing coverage entry format
+- **`references/standards/registries/issues.spec.md`** - Known problems accepted for now entry format
+- **`references/standards/registries/improvements.spec.md`** - Known improvement opportunities entry format
+- **`specs/features/registry-specs.spec.md`** - Registry lifecycle and hygiene behaviour
+- **Key distinction:** registries/ records what is known true now, not desired state (specs) or actionable work (tickets)
 
 ### Guides (How to Apply)
 - **`references/guides/msl-minimalism.md`** - MSL decision framework

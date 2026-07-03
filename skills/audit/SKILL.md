@@ -297,9 +297,11 @@ git diff --name-only <that-commit> -- PURPOSE.md specs/workspace/
 
 For each changed source, look it up in `specs/workspace/context-architecture.spec.md`'s Spec → Generated File Map:
 
-- Any changed source marked **Structural** in the map → classify **FULL**
+- A changed source with **no generated target** in the map (e.g. `generated-files.spec.md`, `third-party-dependencies.spec.md`) → exclude it from the changed-target set; it doesn't force FULL by itself
+- Any remaining changed source marked **Structural** in the map → classify **FULL**
 - A workspace spec was added or removed → classify **FULL**
-- Every changed source maps cleanly to existing content in a single target file → classify **MINOR**, scope = that target file (plus any other single targets from other changed sources, if still a small, non-overlapping set)
+- Every remaining changed source maps cleanly to existing content in a single target file → classify **MINOR**, scope = that target file (plus any other single targets from other changed sources, if still a small, non-overlapping set)
+- If no source has a generated target at all → classify **MINOR** with an empty scope (nothing to regenerate)
 - Anything unclear or spanning many unrelated targets → default to **FULL** (don't guess at a narrow patch)
 
 Report the classification and a one-line reason, then proceed — no confirmation gate:

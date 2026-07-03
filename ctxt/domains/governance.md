@@ -122,7 +122,7 @@ satisfies:
 guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
-  - registries/improvements.md (IMP-NNN)  # if derived from registry
+  - registries/improvements.md (IMP-NNN)  # if derived from a known improvement opportunity
 ---
 ```
 
@@ -208,7 +208,7 @@ specifies:
 - Learnings captured in templates
 - Violations trigger methodology updates
 - Changes ship via the plugin (skills/commands/agents), not a copy step
-- IMP-NNN registry entries track known improvement opportunities
+- Registries (`registries/gaps.md`, `issues.md`, `improvements.md`) record accepted current state — known tensions, not a backlog. Entries read as state observations ("X is missing because...", "Y is accepted as a known limitation because..."); when an entry becomes actionable it graduates to a ticket and is removed from the registry. See `specs/features/registry-specs.spec.md`.
 
 ### Framework Development
 
@@ -235,6 +235,7 @@ Use /livespec:design feature <name>
 
 # Step 4: Update registry
 # Edit: specs/artifacts/prompts/registry.spec.md (if prompt-backed)
+# (Not registries/*.md — those are accepted-current-state data, not this kind of tracking table)
 
 # Step 5: Regenerate agents
 /livespec:audit context

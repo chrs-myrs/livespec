@@ -94,8 +94,9 @@ supports:
 - [!] Context generation classifies each regeneration request as MINOR (scoped patch) or FULL (whole-tree rebuild) and defaults to acting on that classification without a confirmation gate
   - Diffs workspace specs and PURPOSE.md against the last generation (git history) to determine what changed
   - Consults `specs/workspace/context-architecture.spec.md` Spec → Generated File Map to find the target file(s) for each change
-  - Classifies **MINOR** when every changed spec maps to existing content in a single target file/section, and none of the changes are marked "Structural" in the map
-  - Classifies **FULL** when any changed spec is marked "Structural" in the map, a workspace spec was added or removed, multiple unrelated targets are touched at once, or the mapping is unclear
+  - A changed spec with no generated target in the map is excluded from the changed-target set — it doesn't force FULL by itself, unlike a genuinely unclear mapping
+  - Classifies **MINOR** when every remaining changed spec maps to existing content in a single target file/section, and none of the changes are marked "Structural" in the map (an empty remaining set after exclusions also classifies MINOR, with nothing to regenerate)
+  - Classifies **FULL** when any remaining changed spec is marked "Structural" in the map, a workspace spec was added or removed, multiple unrelated targets are touched at once, or the mapping is unclear
   - On ambiguity or low confidence in a clean mapping, defaults to FULL rather than guessing at a narrow patch that might miss something
   - States the classification and a one-line reason in its report either way; this is judgement, not a rigid rule — the user can always request the other path explicitly (e.g. "full regenerate")
   - MINOR path: context-builder is invoked with a scope limited to the mapped target file(s) — see Scoped Generation below
@@ -169,6 +170,7 @@ supports:
 - [ ] Classification (MINOR/FULL) and its reasoning appear in the generation report
 - [ ] MINOR only fires when no changed spec is marked "Structural" in the Spec → Generated File Map
 - [ ] FULL fires automatically on any Structural change, added/removed spec, or unclear mapping
+- [ ] A changed spec with no generated target (per the map) is excluded from classification, not treated as unclear/FULL
 - [ ] Scoped runs only read/write/validate the mapped target file(s), never the rest of the tree
 - [ ] No confirmation gate blocks either path — classification is reported, not asked
 

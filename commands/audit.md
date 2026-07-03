@@ -62,13 +62,14 @@ Deep quality analysis:
 
 ### context - Regenerate AGENTS.md
 
-Rebuilds context from workspace specs:
+Updates the context tree from workspace specs:
 
-1. Reads PURPOSE.md + specs/workspace/
-2. Applies compression level from project.yaml
-3. Structures with START/MIDDLE/END positioning
-4. Generates AGENTS.md or CLAUDE.md
-5. Validates under budget
+1. Classifies the change as MINOR (scoped patch to the affected file) or FULL (whole-tree rebuild), based on the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`
+2. Reports the classification and reason, then proceeds — no confirmation gate
+3. Delegates to `agents/context-builder.md`, which generates or patches only the classified scope
+4. Validates output under budget
+
+Force a full rebuild regardless of classification: `/livespec:audit context --full`
 
 ### extract - Extract Specs from Code
 
