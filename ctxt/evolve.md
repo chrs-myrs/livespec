@@ -250,5 +250,5 @@ scripts/validate-frontmatter.sh
 
 ---
 
-*Evolve mode specialist for LiveSpec v5.5.0*
+*Evolve mode specialist for LiveSpec v5.6.0*
 *Parent: AGENTS.md*

@@ -12,13 +12,37 @@ This changelog uses ⚠️ to mark changes affecting customized prompts/template
 - **MEDIUM impact**: Should merge for improvements
 - **LOW impact**: Optional, backward compatible
 
-See `dist/prompts/utils/upgrade-methodology.md` for AI-assisted upgrade process.
+See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ---
 
 ## [Unreleased]
 
 ---
+
+## [5.6.0] - 2026-07-03
+
+### Added
+
+- **skills/audit, skills/init, skills/sweep committed**: three v5 skills (plus their `commands/*.md` routers and `scripts/sweep-projects.sh`) existed on disk but were never committed to git — now real, installed capability. `commands/sweep.md` was also missing entirely (audit/init both had routers, sweep didn't) — added to complete the set
+- **Plugin scaffolding committed**: `templates/` (root-level template tree), `.mcp.json`, `references/standards/registries/*.spec.md`, and example project specs (`examples/{auth-system,ecommerce-checkout,loan-system}/specs/`) — all built but sitting uncommitted
+- **`.claude/CLAUDE.md`, `.claude/hooks/skill-evaluator.sh`, `.claude/plans/`** committed — active project-level Claude Code configuration that was governing this session's own behaviour but had never been checked in
+
+### Fixed
+
+- **Broken `.livespec -> dist` symlink removed** (ISSUE-001): `dist/` no longer exists post-plugin-migration; distribution is now the installed plugin itself, no local copy
+- **Legacy prompt-based context-regeneration pathway deleted** (ISSUE-002): `references/prompts/utils/regenerate-contexts.md` and `references/prompts/evolve/4d-regenerate-context.md` (+ their specs) superseded by `skills/audit/SKILL.md` (context mode) + `agents/context-builder.md`
+- **Corrupted `skills/evolve/SKILL.md` and stale `commands/evolve.md` deleted**: the `evolve` → `audit` rename was documented in CHANGELOG history (v5.1.0) but never executed; the working-tree copy of `skills/evolve/SKILL.md` had also been overwritten with unrelated content. Superseded by `skills/audit/SKILL.md` + `commands/audit.md`
+- **`specs/artifacts/commands/generation.spec.md` rewritten**: described a dead `dist/.claude/commands/livespec/` install-script model, never covered the real flat `commands/*.md` + `routes-to:` pattern
+- **Two more instances of `ctxt/phases/`+`ctxt/utils/` structural drift fixed** (first instance caught in v5.5.0): `specs/workspace/distribution.spec.md` and `specs/artifacts/diagrams/value-structure-context-tree-relationship.spec.md` still described the never-built nested structure
+- **`references/prompts/` and `specs/` purged of the dead `dist/` distribution model** (ISSUE-003, ~90 files): 18 fully-superseded prompt+spec pairs deleted; `specs/strategy/distribution.spec.md` and `specs/interfaces/distribution/dist-package.spec.md` deleted (entirely described the dead submodule/copy model); `specs/features/plugin-skills.spec.md` and `specs/features/ambient-architecture.spec.md` deleted (both traced to a parentless git stash commit, never independently reviewed, claimed a stale 5-skill count, and described unbuilt `[SPEC-CHECK]` behaviour despite CHANGELOG v5.1.0 claiming it shipped); `specs/features/installation.spec.md`, `templates.spec.md`, and `specs/strategy/architecture.spec.md`'s Distribution section rewritten for the real plugin-install flow; `references/standards/conventions/context-tree.spec.md` rewritten; stale path references fixed across ~70 more files; `specs/artifacts/prompts/registry.spec.md` corrected from a stale 32-prompt claim to the real 25 survivors
+- **README.md corrected**: removed fictional skills/commands that were never built (`skills/build`, `skills/verify`, `/livespec:build`, `/livespec:evolve extract`, `/livespec:rebuild-context`) and the dead Directory Copy/Context7 installation methods; now describes the actual 8 skills and plugin-only install flow
+- **`.claude/hooks/skill-evaluator.sh`**: stale `/livespec:evolve` suggestion corrected to `/livespec:audit`
+
+### Removed
+
+- **`worktrees/v4`**: stale pre-v5 git worktree (parallel exploration from before the v5 restructure was finalised), confirmed abandoned and removed
+- **`AGENTS.md.plugin`, `.livespec-audit/`, `.claude/prompts/regenerate-all-prompts.md`**: unreferenced orphans describing worlds that no longer exist
 
 ## [5.5.0] - 2026-07-01
 

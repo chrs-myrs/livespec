@@ -309,5 +309,5 @@ scripts/validate-frontmatter.sh
 
 ---
 
-*Audit mode specialist for LiveSpec v5.5.0*
+*Audit mode specialist for LiveSpec v5.6.0*
 *Parent: AGENTS.md*
