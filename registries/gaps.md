@@ -1,14 +1,14 @@
 ---
 store: registry
-registry_type: gaps
-schema_version: 1
-last_reviewed: 2026-03-28
-entry_count: 0
+type: gaps
+schema_version: 2
+last_reviewed: 2026-04-02
+entries: []
 ---
 
 # Gap Registry
 
-Tracks methodology gaps identified during LiveSpec development.
+Tracks known missing coverage — what should exist but doesn't yet.
 
 ---
 

@@ -3,7 +3,7 @@ type: prompt
 category: artifacts
 fidelity: behavioral
 criticality: IMPORTANT
-failure_mode: Strategic improvement prompt unclear or incomplete, improvements made without proper data analysis, prioritization incorrect
+failure_mode: Strategic improvement prompt unclear or incomplete, known tensions analysed without proper data, triage prioritisation incorrect
 governed-by:
   - specs/workspace/patterns.spec.md
 specifies: []
@@ -15,14 +15,14 @@ implements: specs/features/improvement-analysis.spec.md
 ## Requirements
 
 - [!] Prompt MUST guide agent through data analysis workflow
-  - Step 1: Read all three registries
+  - Step 1: Read all three registries (accepted current state)
   - Step 2: Read recent session feedback (10-15 files)
   - Step 3: Analyze compliance trends (5-10 files)
-  - Step 4: Prioritize by impact × frequency
-  - Step 5: Identify related items
-  - Step 6: Check improvement history
-  - Step 7: Generate recommendations
-  - Step 8: Update registries
+  - Step 4: Prioritize known tensions by impact × frequency (triage activity)
+  - Step 5: Identify related tensions
+  - Step 6: Check history (git log, registry state) for previously attempted approaches
+  - Step 7: Generate recommendations (actions to resolve known tensions)
+  - Step 8: Update registries (add new state observations, remove resolved tensions)
   - Step 9: Present to user
   - Step 10: Ask for direction
 
@@ -32,9 +32,9 @@ implements: specs/features/improvement-analysis.spec.md
   - Priority calculation: Impact × Frequency (1-16 range)
   - Priority groups: P1 (12-16), P2 (8-11), P3 (4-7), P4 (1-3)
 
-- [!] Prompt MUST enforce improvement history checking
-  - Check improvements registry before recommending
-  - Identify ineffective approaches (documented failures)
+- [!] Prompt MUST enforce history checking before recommending
+  - Check registry state and git history for previously attempted approaches
+  - Identify ineffective approaches (documented in commit history)
   - Note why previous attempts failed
   - Recommend different approach if needed
 

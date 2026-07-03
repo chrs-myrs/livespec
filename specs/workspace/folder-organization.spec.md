@@ -100,22 +100,22 @@ derives-from:
 
 **Note:** knowledge/ is NOT specifications - contains references, notes, imports. Not part of requirements.
 
-### registries/ - Registry Data (Project-Specific)
-**Contains:** Actual registry entries (gaps, issues, improvements) for this project
+### registries/ - Accepted Current State (Project-Specific)
+**Contains:** Known tensions — gaps, issues, and improvement opportunities accepted for now
 
 **Examples:**
-- registries/gaps.md - Methodology gaps identified
-- registries/issues.md - Problems encountered
-- registries/improvements.md - Changes tried and results
+- registries/gaps.md - Known missing coverage
+- registries/issues.md - Known problems accepted for now
+- registries/improvements.md - Known improvement opportunities pending review
 
 **Three-layer pattern:**
-- Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
+- Format specs: `references/standards/registries/*.spec.md` (defines entry structure)
 - Data files: `registries/*.md` (project-specific entries)
-- Governance: `specs/artifacts/registries/registry-specs.spec.md` (governs format specs)
+- Governance: `specs/features/registry-specs.spec.md` (governs registry behaviour)
 
-**Test:** "Is this operational record data (not a specification)?" → YES = registries/
+**Test:** "Is this accepted current state (not desired state or actionable work)?" → YES = registries/
 
-**Note:** Registry DATA is not distributed. Each project maintains its own registries following the format specs from `.livespec/standard/registries/`.
+**Note:** Registry DATA is not distributed. Each project maintains its own registries following the format specs from `references/standards/registries/`.
 
 ## Folder Organization Decision Tests
 

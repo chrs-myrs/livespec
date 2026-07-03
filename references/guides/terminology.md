@@ -58,16 +58,16 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 **Tool:** `references/prompts/utils/suggest-improvements.md`
 
 **Uses:** Three registries:
-- Format specs: `.livespec/standard/registries/*.spec.md` (defines entry structure)
+- Format specs: `references/standards/registries/*.spec.md` (defines entry structure)
 - Data files: `registries/*.md` (actual entries: gaps, issues, improvements)
 
 **What it does:**
-- Reads all registries + recent session feedback
-- Identifies patterns (repeated gaps/issues)
-- Prioritizes by impact (CRITICAL > IMPORTANT)
-- Recommends specific actions (update spec X, create prompt Y)
-- Updates registries with newly discovered entries
-- Outputs prioritized improvement plan
+- Reads all registries (accepted current state) + recent session feedback
+- Correlates known tensions with session patterns
+- Prioritizes by impact × frequency (triage activity, not stored in registries)
+- Recommends specific actions to resolve known tensions
+- Updates registries (adds new state observations, removes resolved tensions)
+- Outputs prioritized recommendations
 
 ### Diagnostic-Level: "Run Health Report"
 
@@ -163,23 +163,23 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 
 ### Registry
 
-**Definition:** A structured tracking system with separate format specs and data files.
+**Definition:** A store of accepted current state — known tensions that are neither desired state (specs) nor actionable work (tickets).
 
 **Use for:**
-- Gaps tracking (`registries/gaps.md`)
-- Issues tracking (`registries/issues.md`)
-- Improvements tracking (`registries/improvements.md`)
+- Known missing coverage (`registries/gaps.md`)
+- Known problems accepted for now (`registries/issues.md`)
+- Known improvement opportunities (`registries/improvements.md`)
 
 **Structure:**
-- Format specs in `.livespec/standard/registries/*.spec.md` (defines entry structure)
+- Format specs in `references/standards/registries/*.spec.md` (defines entry structure)
 - Data files in `registries/*.md` (actual entries)
-- Each entry: ID, description, status, metadata
-- Updated by prompts (capture session learnings, suggest improvements)
-- Reviewed periodically (suggest improvements workflow)
+- Each entry: ID, summary, severity, status in YAML frontmatter; detail in markdown body
+- Entries read as state observations, not work items
+- Resolved entries are removed (git history is the archive)
 
 **Examples:**
-- ✅ "Add this gap to the gap registry"
-- ✅ "Review the issue registry for recurring problems"
+- ✅ "Record this as a known gap in the gap registry"
+- ✅ "Review the issue registry for recurring tensions"
 
 ---
 

@@ -75,29 +75,27 @@ done
 
 ### Step 3: Check Registry Health
 
-Read all three registry data files:
+Read all three registry data files (registries track accepted current state):
 
 ```bash
-# Count open vs resolved items
-cat registries/gaps.md | grep -E "^### GAP-" | wc -l
-cat registries/gaps.md | grep "Status: resolved" | wc -l
+# Count active entries via frontmatter entries array
+grep -c "^ *- id:" registries/gaps.md
+grep -c "^ *- id:" registries/issues.md
+grep -c "^ *- id:" registries/improvements.md
 
-cat registries/issues.md | grep -E "^### ISSUE-" | wc -l
-cat registries/issues.md | grep "Status: resolved" | wc -l
-
-cat registries/improvements.md | grep -E "^### IMP-" | wc -l
-cat registries/improvements.md | grep "Decision: keep" | wc -l
+# Check last_reviewed dates
+grep "last_reviewed:" registries/*.md
 ```
 
 **Registry health indicators:**
-- Gap accumulation rate (open gaps / resolved gaps)
-- Issue resolution rate (resolved / total issues)
-- Improvement success rate (effective / total tried)
+- Total active entries across all registries (are tensions accumulating?)
+- Entry age (how long has each tension been accepted? check git blame)
+- last_reviewed currency (stale registries = unreviewed tensions)
 
 **Status thresholds:**
-- 🟢 GREEN: <5 open gaps, >70% issue resolution, >60% improvement success
-- 🟡 YELLOW: 5-10 open gaps, 50-70% issue resolution, 40-60% improvement success
-- 🔴 RED: >10 open gaps, <50% issue resolution, <40% improvement success
+- GREEN: <5 active entries total, all reviewed within 30 days
+- YELLOW: 5-15 active entries, or last_reviewed >30 days
+- RED: >15 active entries, or last_reviewed >60 days, or entries that should have graduated to tickets
 
 ### Step 4: Measure Context Efficiency
 

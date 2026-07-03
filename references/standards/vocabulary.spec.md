@@ -158,26 +158,35 @@ Specs are organised into three abstraction layers. Layers describe WHERE specs l
 
 ## Registry Vocabularies
 
-### Gap Registry
+Registries track accepted current state — not desired state (specs) or actionable work (tickets). All registries share common entry fields (`id`, `summary`, `severity`, `status`) in YAML frontmatter, with type-specific detail in the markdown body.
+
+### Common Entry Fields
 
 | Field | Values | Description |
 |-------|--------|-------------|
-| Impact | `HIGH`, `MEDIUM`, `LOW` | Severity of the methodology gap |
-| Status | `Open`, `Resolved`, `Accepted Limitation` | Current state of the gap |
+| severity | `critical`, `high`, `medium`, `low` | How significant this known tension is |
+| status | `open` | Current state (resolved entries are removed, not marked) |
+
+### Gap Registry
+
+| Body Field | Description |
+|------------|-------------|
+| Context | Why this gap exists, what evidence surfaced it |
+| Scope | What area is affected by the missing coverage |
 
 ### Issue Registry
 
-| Field | Values | Description |
-|-------|--------|-------------|
-| Category | `Process`, `Structure`, `Guidance`, `Tooling` | Classification of the issue |
-| Status | `Open`, `Resolved`, `Accepted Limitation` | Current state of the issue |
+| Body Field | Description |
+|------------|-------------|
+| Context | Why this problem is accepted for now |
+| Category | `Process`, `Structure`, `Guidance`, `Tooling` |
 
 ### Improvement Registry
 
-| Field | Values | Description |
-|-------|--------|-------------|
-| Category | `Structure`, `Guidance`, `Process`, `Traceability`, `Governance` | What the improvement changes |
-| Decision | `Pending`, `Keep`, `Accepted as Limitation`, `Implemented` | Outcome of evaluation |
+| Body Field | Description |
+|------------|-------------|
+| Evidence | What works but could be better, and the evidence |
+| Category | `Structure`, `Guidance`, `Process`, `Traceability`, `Governance` |
 
 ---
 

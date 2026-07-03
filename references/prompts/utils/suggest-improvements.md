@@ -5,7 +5,7 @@ phase: utilities
 
 # Suggest Strategic Improvements
 
-**Purpose**: Analyze accumulated data (registries, session feedback, compliance trends) to recommend prioritized improvements to project value structure and LiveSpec methodology.
+**Purpose**: Analyze accumulated data (registries as accepted current state, session feedback, compliance trends) to recommend prioritized actions for resolving known tensions.
 
 **When to use**: Monthly, when 10+ session feedback files accumulated, or when systematic patterns emerge requiring strategic analysis.
 
@@ -13,11 +13,11 @@ phase: utilities
 
 ## Instructions for AI Agent
 
-You are analyzing project health data to identify patterns and recommend prioritized improvements. Focus on systematic issues, not one-off problems.
+You are analyzing project health data to identify patterns and recommend actions for resolving known tensions. Registries track accepted current state — not work items. Focus on systematic tensions, not one-off problems.
 
 ### Step 1: Read All Registries
 
-Read the three registry data files to understand current state:
+Read the three registry data files to understand accepted current state:
 
 ```bash
 # Read gaps registry
@@ -31,10 +31,10 @@ cat registries/improvements.md
 ```
 
 **Extract:**
-- Open gaps (identified, investigating)
-- Open issues (open, investigating)
-- Improvements needing evaluation (too early to tell)
-- Improvements marked ineffective (avoid repeating)
+- Known gaps (missing coverage accepted for now)
+- Known issues (problems tolerated for now)
+- Known improvement opportunities (what works but could be better)
+- Note: resolved tensions are not in registries — check git history for past resolutions
 
 ### Step 2: Read Recent Session Feedback
 
@@ -110,23 +110,22 @@ ls -t ~/.claude/livespec/compliance/*.json | head -10
 - Reveals systemic problems vs isolated issues
 - Better resource allocation
 
-### Step 6: Check Improvement History
+### Step 6: Check History
 
-**Before recommending solution, check improvements registry:**
-- Has this approach been tried before?
-- If yes, what was the outcome?
-- If ineffective, why did it fail?
+**Before recommending solution, check git history and registry state:**
+- Has a similar tension been observed before?
+- Was it acted on? What happened? (check git log for registry removals)
+- If the approach failed, why?
 - Different approach needed?
 
 **Avoid:**
 - Repeating failed approaches
 - Solutions that were tried and reverted
-- Approaches documented as "don't try again"
+- Approaches that resolved a tension only to reintroduce it
 
 **Learn from:**
-- Effective improvements (what made them work?)
-- Mixed improvements (what could be adjusted?)
-- "Iterate" decisions (what's the next attempt?)
+- Effective changes (what made them work?)
+- Tensions that recur (what's the underlying cause?)
 
 ### Step 7: Generate Prioritized Recommendations
 
@@ -178,20 +177,18 @@ ls -t ~/.claude/livespec/compliance/*.json | head -10
 
 ### Step 8: Update Registries
 
-**Add newly discovered gaps/issues:**
-- Patterns from feedback not yet in registries
+**Add newly discovered state observations:**
+- Tensions from feedback not yet in registries (as state observations, not work items)
 - Systemic problems revealed by trend analysis
-- Dependencies between existing items now visible
+- Each new entry must read as accepted current state, not an action item
 
 **Update existing entries:**
-- Change priority if frequency/impact changed
-- Link related items (cross-reference)
 - Add evidence from latest session data
+- Update severity if new evidence warrants it
 
-**Update improvement entries:**
-- Items reaching evaluation date (check outcome)
-- Add evidence of effectiveness (or lack thereof)
-- Transition status (implemented → evaluated)
+**Remove resolved entries:**
+- Tensions whose accepted state has changed (gap filled, issue fixed, improvement acted on)
+- Commit message captures resolution details (git history is the archive)
 
 ### Step 9: Present Recommendations
 
@@ -260,12 +257,12 @@ These recommendations are based on [X] days of data. Which priority level should
 Before presenting recommendations:
 - [ ] Priority calculated with evidence (Impact × Frequency)
 - [ ] Related items grouped (same root cause or category)
-- [ ] Improvement history checked (avoid repeating failures)
+- [ ] History checked — git log and registry state (avoid repeating failures)
 - [ ] Recommendations specific and actionable (not vague)
 - [ ] Evidence cited from data (sessions, registries, trends)
 - [ ] Quick wins identified (high impact, low effort)
 - [ ] Systemic patterns explained (cross-cutting themes)
-- [ ] Registries updated with new discoveries
+- [ ] Registries updated (new state observations added, resolved tensions removed)
 - [ ] User choice offered (what to tackle first)
 
 ---

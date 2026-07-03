@@ -62,7 +62,7 @@ if ls -d specs/[0-9]-*/ 2>/dev/null | head -1 > /dev/null 2>&1; then
   HAS_NUMBERED_SPECS=true
 fi
 
-if [ -d ".claude-plugin" ] || [ -d "$HOME/.claude/plugins/livespec" ]; then
+if [ -d ".claude-plugin" ] || [ -d "$HOME/.claude/plugins/marketplaces/livespec" ] || ls -d "$HOME/.claude/plugins/cache/"*"/livespec" >/dev/null 2>&1; then
   echo "FOUND: v5 plugin installed"
   HAS_PLUGIN=true
 fi
