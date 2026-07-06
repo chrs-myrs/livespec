@@ -20,6 +20,27 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ---
 
+## [5.8.0] - 2026-07-06
+
+### Added
+
+- **Tiered registry taxonomy** aligned to knowledge-architecture's `in-repo-knowledge` standard: required `decisions` (DEC-), `debt` (DEBT-), `security` (SEC-); recommended `conflicts` (CON-), `gaps` (GAP-); optional `dependencies` (DEP-), `issues` (ISSUE-). Type-specific metadata (`alternatives_considered`, `regulatory_context`, `conflicting_sources`) and a review-agent consumption model added to `specs/features/registry-specs.spec.md`
+- **`init` now scaffolds registries at bootstrap** (new Step 5.5): new projects get `registries/` with the three required registries + README. Previously `init` created no registries at all, so registries only ever existed where hand-built
+- **`/livespec:audit` registry coverage**: new `validate` check #7 (Registry Integrity) and `health` check #5, surfacing missing required registries, index↔body drift, work-item-style summaries, and 3-month staleness
+- **`scripts/validate-registries.sh`** (+ spec): executable validator backing the audit checks — required-registries-exist, ID-prefix correctness, frontmatter-index↔body sync, work-item-language detection, staleness
+- **New format specs**: `references/standards/registries/{decisions,debt,security,conflicts,dependencies}.spec.md`
+
+### Changed
+
+- **Registry set realigned** ⚠️ MEDIUM impact for customized projects: was `gaps`/`issues`/`improvements` (spec-health lens), now the tiered engineering-knowledge set above. `issues` retained as optional for projects without a ticketing platform. TMP/FCA `regulatory_context` is an optional field, not baked into generic projects
+- **`references/standards/vocabulary.spec.md`** Registry Vocabularies section rewritten with the tiered types, ID prefixes, and type-specific fields
+
+### Removed
+
+- **`improvements` registry** and `references/standards/registries/improvements.spec.md`: folds into `debt` (accepted cost) / `gaps` (missing coverage). Stale `derives-from: registries/improvements.md (IMP-NNN)` references cleaned across specs, guides, and prompt utilities
+
+---
+
 ## [5.7.0] - 2026-07-06
 
 ### Added

@@ -821,6 +821,6 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 
 ---
 
-*Agent configuration for LiveSpec v5.7.0*
+*Agent configuration for LiveSpec v5.8.0*
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
