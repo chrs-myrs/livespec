@@ -237,7 +237,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
 - "Drift detection behavior" → features/drift-detection.spec.md (methodology behavior)
 - "Individual prompt specs" → artifacts/prompts/*.spec.md (methodology artifacts)
 
-**Note:** `registries/` (project root, not specs/) holds accepted-current-state data (gaps, issues, improvements) — see Reference Library below. It is not a specs/ category and isn't part of this classification.
+**Note:** `registries/` (project root, not specs/) holds accepted-current-state data, tiered by requirement: required (decisions, debt, security), recommended (conflicts, gaps), optional (dependencies, issues) — see Reference Library below. It is not a specs/ category and isn't part of this classification.
 
 ---
 
@@ -364,7 +364,7 @@ specs/
 /livespec:init full       # Interactive: domain, compression level, workspace specs
 
 # Creates: PURPOSE.md, specs/{workspace,foundation,strategy,features,interfaces}/,
-#          initial AGENTS.md
+#          registries/{decisions,debt,security}.md (required tier), initial AGENTS.md
 ```
 
 No `.livespec/` copy step, no submodule, no manual folder scaffolding — the `init` skill does this. Existing legacy installations (submodule or directory copy) migrate via `/livespec:upgrade`.
@@ -402,7 +402,7 @@ Implement the solution.
 ### Phase 3: VERIFY
 Validate solution meets requirements.
 
-**Skill:** `/livespec:audit validate` (cross-reference integrity, frontmatter compliance, spec-implementation alignment)
+**Skill:** `/livespec:audit validate` (cross-reference integrity, frontmatter compliance, spec-implementation alignment, registry integrity — required registries present, entries well-formed, per `scripts/validate-registries.sh`)
 
 ### Phase 4: EVOLVE
 Maintain specs; regenerate code and context when needed (continuous).
@@ -584,6 +584,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 **Run validation at key checkpoints:**
 - Before committing: `scripts/validate-frontmatter.sh`
 - Cross-reference integrity: `scripts/validate-crossrefs.sh`
+- Registry integrity: `scripts/validate-registries.sh` (required registries present, entries well-formed, no work-item-style summaries, staleness flagged)
 - After regenerating files: `scripts/validate-purpose.sh`
 - Full sweep: `/livespec:audit validate`
 
@@ -789,11 +790,11 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **`references/standards/metaspecs/prompt.spec.md`** - Prompt artifacts
 - **`references/standards/metaspecs/agent.spec.md`** - Agent artifacts
 
-### Registries (Accepted Current State)
-- **`references/standards/registries/gaps.spec.md`** - Known missing coverage entry format
-- **`references/standards/registries/issues.spec.md`** - Known problems accepted for now entry format
-- **`references/standards/registries/improvements.spec.md`** - Known improvement opportunities entry format
-- **`specs/features/registry-specs.spec.md`** - Registry lifecycle and hygiene behaviour
+### Registries (Accepted Current State — Tiered)
+- **Required:** `references/standards/registries/decisions.spec.md` (`DEC-`), `debt.spec.md` (`DEBT-`), `security.spec.md` (`SEC-`)
+- **Recommended:** `references/standards/registries/conflicts.spec.md` (`CON-`), `gaps.spec.md` (`GAP-`)
+- **Optional:** `references/standards/registries/dependencies.spec.md` (`DEP-`, temporal dependency risk), `issues.spec.md` (`ISSUE-`, only for projects without a ticketing platform)
+- **`specs/features/registry-specs.spec.md`** - Registry taxonomy, lifecycle, and hygiene behaviour
 - **Key distinction:** registries/ records what is known true now, not desired state (specs) or actionable work (tickets)
 
 ### Guides (How to Apply)

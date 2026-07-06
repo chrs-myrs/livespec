@@ -78,10 +78,14 @@ done
 Read all three registry data files (registries track accepted current state):
 
 ```bash
-# Count active entries via frontmatter entries array
-grep -c "^ *- id:" registries/gaps.md
-grep -c "^ *- id:" registries/issues.md
-grep -c "^ *- id:" registries/improvements.md
+# Count active entries via frontmatter entries array (across all present registries)
+for r in registries/*.md; do
+  [ "$(basename "$r")" = "README.md" ] && continue
+  printf '%s: ' "$r"; grep -c "^ *- id:" "$r"
+done
+
+# Or run the registry validator directly
+bash scripts/validate-registries.sh
 
 # Check last_reviewed dates
 grep "last_reviewed:" registries/*.md

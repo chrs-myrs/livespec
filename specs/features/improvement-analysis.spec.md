@@ -17,7 +17,7 @@ specifies: []
 ## Requirements
 
 - [!] Agent analyzes accumulated data to identify improvement patterns
-  - Reads all three registries (gaps, issues, improvements) as accepted current state
+  - Reads the present registries (decisions, debt, security, and any recommended/optional ones) as accepted current state
   - Reads recent session feedback (last 10-15 files from `~/.claude/livespec/feedback/`)
   - Analyzes compliance trends (last 5-10 JSON files from `~/.claude/livespec/compliance/`)
   - Correlates known tensions (registry state) with session patterns (same tension in 3+ sessions = systematic)
@@ -29,7 +29,7 @@ specifies: []
   - Groups by priority: P1 (12-16), P2 (8-11), P3 (4-7), P4 (1-3)
 
 - [!] Agent checks improvement history before recommending
-  - Verifies if similar tension observed before (improvements registry, git history)
+  - Verifies if similar tension observed before (debt/gaps registries, git history)
   - If previously acted on, identifies what happened
   - Avoids recommending approaches that failed previously
   - Learns from effective changes (what made them work?)
@@ -48,7 +48,7 @@ specifies: []
   - Systemic patterns explained (cross-cutting themes)
 
 - [!] Agent updates registries with discoveries
-  - New gaps/issues/improvements from pattern analysis (state observations, not work items)
+  - New registry entries (debt, gaps, or the appropriate type) from pattern analysis (state observations, not work items)
   - Evidence from latest session data added to existing entries
   - Entries whose accepted state has changed are removed (resolved tensions)
 
@@ -65,7 +65,7 @@ specifies: []
 # Minimum data requirements
 test $(ls -1 ~/.claude/livespec/compliance/*.json 2>/dev/null | wc -l) -ge 5 || echo "Need 5+ compliance files"
 test $(ls -1 ~/.claude/livespec/feedback/*.md 2>/dev/null | wc -l) -ge 3 || echo "Need 3+ feedback files"
-test -f registries/gaps.md || echo "Need gaps registry"
+bash scripts/validate-registries.sh >/dev/null || echo "Registries missing or invalid"
 ```
 
 **Prioritization Quality:**

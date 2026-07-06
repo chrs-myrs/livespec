@@ -7,8 +7,6 @@ failure_mode: Without vocabulary definitions, agents and users interpret control
 governed-by: []
 specifies:
   - references/standards/metaspecs/base.spec.md
-derives-from:
-  - registries/improvements.md (IMP-006)
 ---
 
 # LiveSpec Vocabulary
@@ -158,35 +156,35 @@ Specs are organised into three abstraction layers. Layers describe WHERE specs l
 
 ## Registry Vocabularies
 
-Registries track accepted current state — not desired state (specs) or actionable work (tickets). All registries share common entry fields (`id`, `summary`, `severity`, `status`) in YAML frontmatter, with type-specific detail in the markdown body.
+Registries track accepted current state — not desired state (specs) or actionable work (tickets). All registries share common entry fields (`id`, `summary`, `severity`, `status`) in YAML frontmatter, with type-specific detail in the markdown body. Full per-type format lives in `references/standards/registries/<type>.spec.md`; taxonomy and tiers in `specs/features/registry-specs.spec.md`.
+
+### Registry Types and Tiers
+
+| Type | Tier | ID prefix | Tracks |
+|------|------|-----------|--------|
+| `decisions` | required | `DEC-` | Architecture/design choices with rejected alternatives |
+| `debt` | required | `DEBT-` | Accepted technical/spec shortcuts with known cost |
+| `security` | required | `SEC-` | Accepted security considerations and known exposures |
+| `conflicts` | recommended | `CON-` | Contradictions between code, specs, conventions |
+| `gaps` | recommended | `GAP-` | Known missing specs, tests, or coverage |
+| `dependencies` | optional | `DEP-` | Temporal risk of external dependencies |
+| `issues` | optional | `ISSUE-` | Known problems tolerated (projects without a tracker) |
 
 ### Common Entry Fields
 
 | Field | Values | Description |
 |-------|--------|-------------|
-| severity | `critical`, `high`, `medium`, `low` | How significant this known tension is |
-| status | `open` | Current state (resolved entries are removed, not marked) |
+| severity | `critical`, `high`, `medium`, `low`, `n/a` | How significant this known tension is (`n/a` for decisions) |
+| status | `open`, `accepted` | Current state (`accepted` for decisions; resolved entries are removed, not marked) |
 
-### Gap Registry
+### Type-Specific Fields
 
-| Body Field | Description |
-|------------|-------------|
-| Context | Why this gap exists, what evidence surfaced it |
-| Scope | What area is affected by the missing coverage |
-
-### Issue Registry
-
-| Body Field | Description |
-|------------|-------------|
-| Context | Why this problem is accepted for now |
-| Category | `Process`, `Structure`, `Guidance`, `Tooling` |
-
-### Improvement Registry
-
-| Body Field | Description |
-|------------|-------------|
-| Evidence | What works but could be better, and the evidence |
-| Category | `Structure`, `Guidance`, `Process`, `Traceability`, `Governance` |
+| Type | Additional fields |
+|------|-------------------|
+| decisions | `date`, `alternatives_considered` |
+| debt | `target` (optional) |
+| security | `regulatory_context` (optional) |
+| conflicts | `conflicting_sources` |
 
 ---
 

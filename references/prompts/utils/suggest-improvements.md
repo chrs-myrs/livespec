@@ -23,17 +23,17 @@ Read the three registry data files to understand accepted current state:
 # Read gaps registry
 cat registries/gaps.md
 
-# Read issues registry
-cat registries/issues.md
+# Read issues registry (optional — projects without a tracker)
+cat registries/issues.md 2>/dev/null
 
-# Read improvements registry
-cat registries/improvements.md
+# Read debt registry (improvement opportunities that are accepted debt live here)
+cat registries/debt.md
 ```
 
 **Extract:**
 - Known gaps (missing coverage accepted for now)
 - Known issues (problems tolerated for now)
-- Known improvement opportunities (what works but could be better)
+- Accepted debt (what works but carries known cost to improve)
 - Note: resolved tensions are not in registries — check git history for past resolutions
 
 ### Step 2: Read Recent Session Feedback

@@ -136,6 +136,15 @@ find src/ lib/ -name "*.ts" -o -name "*.py" | while read code; do
 done
 ```
 
+**5. Registry Health**
+
+```bash
+# Required registries present, index/body in sync, staleness surfaced
+bash scripts/validate-registries.sh
+```
+
+Surfaces missing required registries, index↔body drift, work-item-style summaries, and registries unreviewed for 3+ months. "Time to review a stale registry" is a positive maintenance signal, not a failure.
+
 ### Health Report Format
 
 All audit reports include a standard provenance block at the top before any findings.
@@ -235,6 +244,16 @@ for cmd in commands/*.md; do
 done
 ```
 
+**7. Registry Integrity**
+- Required registries exist (`decisions.md`, `debt.md`, `security.md`)
+- Entry IDs use the correct prefix per type; frontmatter index matches body sections
+- No entry summary reads like a work item; no registry stale (>3 months) without acknowledgement
+- Governed by `specs/features/registry-specs.spec.md`
+
+```bash
+bash scripts/validate-registries.sh   # exit 1 on any error; warnings for staleness / work-item language
+```
+
 ### Output Format
 
 ```
@@ -246,8 +265,9 @@ Validation Results:
 [PASS] Folder structure correct
 [FAIL] Version synchronisation (marketplace.json: 5.5.0, expected 5.6.0)
 [PASS] Skill/command manifest consistency (7/7 commands route correctly)
+[PASS] Registry integrity (required registries present, index in sync)
 
-Overall: 4/6 checks passed
+Overall: 5/7 checks passed
 
 Fix required:
 - specs/features/auth.spec.md: Add ## Validation section

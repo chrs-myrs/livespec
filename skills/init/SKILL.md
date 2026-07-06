@@ -181,6 +181,68 @@ failure_mode: Incorrect folder organization without taxonomy
 - No ambiguous file locations
 ```
 
+**[NEXT]** Proceed to Step 5.5.
+
+---
+
+### Step 5.5: Create Registries
+
+**[CHECKPOINT]** Scaffold the registries that track accepted current state (see `specs/features/registry-specs.spec.md`).
+
+Create the **three required** registries — every project makes decisions, accrues debt, and has a security posture. An empty registry is valid; it asserts "nothing accepted here yet".
+
+```bash
+mkdir -p registries
+today=$(date +%Y-%m-%d)
+
+for t in decisions debt security; do
+  case "$t" in
+    decisions) title="Decision Registry"; tracks="architecture and design choices with rejected alternatives";;
+    debt)      title="Debt Registry";     tracks="accepted technical/spec shortcuts with known cost";;
+    security)  title="Security Registry";  tracks="accepted security considerations and known exposures";;
+  esac
+  cat > "registries/$t.md" <<EOF
+---
+store: registry
+type: $t
+schema_version: 2
+last_reviewed: $today
+entries: []
+---
+
+# $title
+
+Tracks $tracks. Resolved entries are removed — git history holds the record.
+
+---
+
+No open entries.
+EOF
+done
+```
+
+**Recommended** (`conflicts.md`, `gaps.md`) — add when the project is complex enough to accumulate mismatches or coverage gaps. **Optional** (`dependencies.md`, `issues.md`) — add per their criteria: `dependencies` when external deps carry temporal risk no tool tracks; `issues` **only when the project has no external ticketing platform** (otherwise tolerated problems graduate to tickets). Create these with the same frontmatter, changing `type` and the `ID` prefix (`CON-`, `GAP-`, `DEP-`, `ISSUE-`).
+
+Create a `registries/README.md`:
+
+```bash
+cat > registries/README.md <<'EOF'
+# Registries
+
+Accepted current state — known tensions that are neither desired state (specs) nor actionable work (tickets). Resolved entries are removed; git history has the full record.
+
+| File | Tier | Purpose |
+|------|------|---------|
+| `decisions.md` | required | Architecture/design decisions with rejected alternatives |
+| `debt.md` | required | Accepted technical/spec debt with known cost |
+| `security.md` | required | Accepted security considerations and known exposures |
+| `conflicts.md` | recommended | Contradictions between code, specs, conventions |
+| `gaps.md` | recommended | Known missing specs, tests, or coverage |
+| `dependencies.md` | optional | Temporal risk of external dependencies |
+| `issues.md` | optional | Known problems tolerated (projects without a tracker) |
+EOF
+```
+
 **[NEXT]** Proceed to Step 6.
 
 ---
@@ -196,6 +258,7 @@ Created:
 - specs/workspace/constitution.spec.md
 - specs/workspace/taxonomy.spec.md
 - PURPOSE.md
+- registries/{decisions,debt,security}.md + README.md
 
 Folder structure:
 specs/
@@ -204,6 +267,7 @@ specs/
 ├── strategy/      (architecture)
 ├── features/      (behaviors)
 └── interfaces/    (contracts)
+registries/        (accepted current state — decisions, debt, security)
 
 Next steps:
 - /livespec:design feature <name>  - Create feature with spec-first
@@ -298,6 +362,7 @@ failure_mode: [What breaks without this]
 - [ ] PURPOSE.md exists
 - [ ] specs/workspace/constitution.spec.md exists
 - [ ] specs/workspace/taxonomy.spec.md exists
+- [ ] registries/ exists with required registries (decisions.md, debt.md, security.md)
 
 ---
 

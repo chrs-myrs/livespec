@@ -166,9 +166,11 @@ LiveSpec uses a four-level improvement taxonomy with distinct triggers, scopes, 
 **Definition:** A store of accepted current state — known tensions that are neither desired state (specs) nor actionable work (tickets).
 
 **Use for:**
+- Architecture/design decisions (`registries/decisions.md`)
+- Accepted technical/spec debt (`registries/debt.md`)
+- Security considerations (`registries/security.md`)
 - Known missing coverage (`registries/gaps.md`)
-- Known problems accepted for now (`registries/issues.md`)
-- Known improvement opportunities (`registries/improvements.md`)
+- Known problems tolerated, projects without a tracker (`registries/issues.md`)
 
 **Structure:**
 - Format specs in `references/standards/registries/*.spec.md` (defines entry structure)

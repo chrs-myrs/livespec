@@ -122,7 +122,7 @@ satisfies:
 guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
-  - registries/improvements.md (IMP-NNN)  # if derived from a known improvement opportunity
+  - registries/debt.md (DEBT-NNN)  # if derived from a known accepted debt item
 ---
 ```
 
@@ -208,7 +208,7 @@ specifies:
 - Learnings captured in templates
 - Violations trigger methodology updates
 - Changes ship via the plugin (skills/commands/agents), not a copy step
-- Registries (`registries/gaps.md`, `issues.md`, `improvements.md`) record accepted current state — known tensions, not a backlog. Entries read as state observations ("X is missing because...", "Y is accepted as a known limitation because..."); when an entry becomes actionable it graduates to a ticket and is removed from the registry. See `specs/features/registry-specs.spec.md`.
+- Registries are tiered: required (`decisions.md`, `debt.md`, `security.md`), recommended (`conflicts.md`, `gaps.md`), optional (`dependencies.md`, `issues.md` — only without a ticketing platform). They record accepted current state — known tensions, not a backlog. Entries read as state observations ("X is missing because...", "Y debt is accepted because..."); when an entry becomes actionable it graduates to a ticket and is removed from the registry. See `specs/features/registry-specs.spec.md`.
 
 ### Framework Development
 

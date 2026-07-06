@@ -10,7 +10,7 @@ governed-by:
 
 # Gap Registry Format
 
-Defines the format for gap entries in `registries/gaps.md`. Gaps track known missing coverage — what should exist but doesn't yet.
+Defines the format for gap entries in `registries/gaps.md`. Gaps track known missing coverage — what should exist but doesn't yet. **Recommended registry.**
 
 ## Requirements
 

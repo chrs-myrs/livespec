@@ -10,7 +10,7 @@ governed-by:
 
 # Issue Registry Format
 
-Defines the format for issue entries in `registries/issues.md`. Issues track known problems accepted for now — what's broken but tolerated.
+Defines the format for issue entries in `registries/issues.md`. Issues track known problems accepted for now — what's broken but tolerated. **Optional registry** — create only when the project has no external ticketing platform; where a tracker exists, accepted-but-unworked problems graduate to tickets instead.
 
 ## Requirements
 

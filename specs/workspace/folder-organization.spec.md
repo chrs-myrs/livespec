@@ -101,12 +101,14 @@ derives-from:
 **Note:** knowledge/ is NOT specifications - contains references, notes, imports. Not part of requirements.
 
 ### registries/ - Accepted Current State (Project-Specific)
-**Contains:** Known tensions — gaps, issues, and improvement opportunities accepted for now
+**Contains:** Accepted current state — decisions, debt, security posture, and other known tensions (not desired state or actionable work)
 
-**Examples:**
-- registries/gaps.md - Known missing coverage
-- registries/issues.md - Known problems accepted for now
-- registries/improvements.md - Known improvement opportunities pending review
+**Examples (tiered — see `specs/features/registry-specs.spec.md`):**
+- registries/decisions.md - Architecture/design decisions (required)
+- registries/debt.md - Accepted technical/spec debt (required)
+- registries/security.md - Accepted security considerations (required)
+- registries/gaps.md - Known missing coverage (recommended)
+- registries/issues.md - Known problems tolerated, projects without a tracker (optional)
 
 **Three-layer pattern:**
 - Format specs: `references/standards/registries/*.spec.md` (defines entry structure)
