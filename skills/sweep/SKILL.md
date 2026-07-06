@@ -113,7 +113,7 @@ Initialize the consolidated report with header:
 ```markdown
 # LiveSpec Sweep Report — YYYY-MM-DD
 
-**LiveSpec version:** 5.6.0
+**LiveSpec version:** 5.7.0
 **Sweep mode:** [tiered|conservative|aggressive]
 **Started:** HH:MM UTC
 **Projects audited:** [N]
@@ -135,7 +135,7 @@ Task tool:
     You are auditing the LiveSpec project at: [PROJECT_PATH]
     Project name: [PROJECT_NAME]
     Sweep mode: [MODE]
-    LiveSpec plugin version: 5.6.0
+    LiveSpec plugin version: 5.7.0
 
     ## Your Mission
 
@@ -225,7 +225,7 @@ Task tool:
     # LiveSpec Audit Issues — [PROJECT_NAME]
 
     <!-- Provenance — do not remove -->
-    **LiveSpec version:** 5.6.0
+    **LiveSpec version:** 5.7.0
     **Report generated:** YYYY-MM-DD HH:MM UTC
     **Checks performed:** structural, cross-references, coverage, agent-inspection
     **Project path:** [PROJECT_PATH]
@@ -262,7 +262,7 @@ Task tool:
     ---
 
     ## Audit Run — YYYY-MM-DD HH:MM UTC
-    **LiveSpec version:** 5.6.0 | **Mode:** sweep-[MODE] | **Git HEAD:** [GIT_HEAD]
+    **LiveSpec version:** 5.7.0 | **Mode:** sweep-[MODE] | **Git HEAD:** [GIT_HEAD]
     **Status:** [GREEN|YELLOW|RED]
 
     ### Summary
@@ -320,7 +320,7 @@ After all agents complete, write the sweep report:
 ```markdown
 # LiveSpec Sweep Report — YYYY-MM-DD
 
-**LiveSpec version:** 5.6.0
+**LiveSpec version:** 5.7.0
 **Sweep mode:** [tiered|conservative|aggressive]
 **Completed:** HH:MM UTC
 **Projects audited:** N
@@ -375,7 +375,7 @@ If qualifying patterns exist, write:
 # LiveSpec Framework Meta-Report — YYYY-MM-DD
 
 **Generated from sweep of:** N projects
-**LiveSpec version:** 5.6.0
+**LiveSpec version:** 5.7.0
 **Date:** YYYY-MM-DD HH:MM UTC
 
 This report surfaces patterns appearing across 3+ projects that may indicate

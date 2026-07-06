@@ -20,6 +20,34 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ---
 
+## [5.7.0] - 2026-07-06
+
+### Added
+
+- **`/livespec:audit acceptance`**: stakeholder GO/GO-WITH-WARNINGS/NO-GO sign-off workflow (review package, decision template)
+- **`/livespec:audit compression`**: measures actual vs. declared context-compression level against quantitative thresholds, with a migration-plan template
+- **`skills/design/SKILL.md`** gained six sections: outcomes and constraints spec templates, UX-flow documentation guidance, external-dependency guidance, compression-level decision criteria, and a merged "is research needed before speccing" checklist
+- **`skills/go/SKILL.md`** gained phase-restart detection: classifies incoming work as continue-in-phase vs. restart-at-Phase-0
+- **`skills/learn/SKILL.md`** gained an optional deeper implementation-report mode (`/livespec:learn report`) with named cognitive-bias categories and a metrics table, additive to the existing lighter session-learnings capture
+
+### Fixed
+
+- **Spec → Generated File Map completed** (ISSUE from the v5.6.0 incremental-update feature): only 5 of 14 `specs/workspace/` files were mapped, so most real edits — including to `workspace-agent.spec.md`, source of the "CRITICAL: Spec-First Protocol" section — fell through to a default-FULL classification. All 14 now mapped ⚠️ LOW impact
+- **`commands/audit.md`** updated to actually mention the MINOR/FULL classification and `--full` override, which existed in `skills/audit/SKILL.md` but were invisible at the router level
+- **`registries/gaps.md` and `registries/improvements.md`** migrated to the v2 schema `issues.md` already used — "accepted current state" framing (state observations, not a backlog), not the old "active backlog with resolved items removed" model
+- **`specs/features/spec-health.spec.md`** gained a requirement to spot-check a spec's own coverage/completeness claims against actual repo state, rather than trusting the prose (found twice: `ambient-architecture.spec.md`'s unbuilt-feature claims, and the Generated File Map's false completeness claim above)
+- **ISSUE-004 resolved**: 17 prompt files with unmigrated unique content, plus `validate-project.md` (describing dead v4/dist mechanisms), were each dispositioned — folded into design/go/learn/audit as above, or dropped. Fixed the resulting dangling references across 8 files; rewrote `specs/artifacts/prompts/registry.spec.md` down to the 8 prompts that remain
+
+### Changed
+
+- **TDD demoted from mandatory-by-default to optional guidance** ⚠️ MEDIUM impact: LiveSpec's Phase 2 (BUILD) involvement is limited to spec-first bootstrap enforcement — implementation/TDD methodology is the coding agent's domain, not something LiveSpec prescribes. `project.yaml`'s `methodology.tdd` changed from `mandatory_with_escape` to `optional`; `references/guides/tdd.md` reframed as optional reference material rather than a mandate
+
+### Removed
+
+- **17 legacy prompt files** (`references/prompts/{define,design,evolve,utils}/*`) **and their 14 governing specs**: `2a-implement-from-specs.md`/`2b-create-tests.md` (TDD mechanics, out of LiveSpec's domain), `0d-assess-complexity.md`/`extract-purpose-overflow.md`/`run-spike.md` (redundant or never fleshed out), and the remaining 12 files whose unique content migrated into skills per Added above
+
+---
+
 ## [5.6.0] - 2026-07-03
 
 ### Added
