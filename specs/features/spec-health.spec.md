@@ -17,6 +17,7 @@ guided-by: []
   - MSL audit identifies bloated or over-specified specs
   - Cross-reference validation ensures bidirectional linking works
   - Coverage/completeness claims in a spec's own Validation section are spot-checked against actual repo state (file listings, grep) during audits, not assumed true from prose
+  - A specified capability is checked for being wired into the lifecycle touchpoints that create and enforce it (bootstrap/init, audit/validation), not just for having a spec — a spec can be complete while the feature never reaches users
   - AI agents guide spec remediation through EVOLVE mode
   - Human review focuses only on ambiguous cases
 
@@ -29,6 +30,7 @@ Spec health monitoring detects:
 - **Stale specs**: Specs no longer relevant to project
 - **Bloat**: Specs that have grown beyond MSL minimalism targets
 - **Unverified coverage claims**: A spec's Validation section asserts completeness (e.g. "covers every file in X") that doesn't match actual repo state
+- **Unwired capabilities**: A feature is fully specified (spec + format specs exist) but never wired into bootstrap (`init`) or enforcement (`audit`), so it silently never reaches new projects
 
 ## Resolution Categories
 
