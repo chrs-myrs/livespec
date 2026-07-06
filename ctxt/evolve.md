@@ -2,11 +2,11 @@
 
 > **Generated file** - Do not edit directly. Regenerate using `/livespec:audit context`
 
-Sub-agent context for implementation, TDD, validation, and regeneration.
+Sub-agent context for implementation, validation, and regeneration.
 
 ## Summary
 
-Evolve mode handles implementation concerns: building from specs using TDD, validating against specifications, and detecting when specs need regeneration. Covers the full cycle from tests-first through spec extraction.
+Evolve mode handles implementation concerns: spec-first bootstrap for implementation (Phase 2), validating against specifications (Phase 3), and detecting when specs need regeneration (Phase 4). LiveSpec doesn't prescribe implementation methodology (TDD or otherwise) — see Phase 2 below.
 
 ## When to Use
 
@@ -16,20 +16,16 @@ Evolve mode handles implementation concerns: building from specs using TDD, vali
 - Validation needed (Phase 3 VERIFY)
 - Regeneration signals detected (Phase 4 EVOLVE)
 
-## Phase 2: BUILD (TDD)
+## Phase 2: BUILD
 
-### TDD Discipline
+### LiveSpec's Role: Spec-First Bootstrap Only
 
-**Mandatory by default.** Escape hatch for trivial scripts with documented justification.
+LiveSpec's involvement in Phase 2 stops at spec-first enforcement — a spec must exist with `[!]` requirements before implementation starts (see Spec-First Protocol in AGENTS.md). LiveSpec does not prescribe TDD, another test strategy, or any other implementation methodology; that choice belongs to the coding agent and team.
 
-**Red-Green-Refactor cycle:**
-1. Write failing test (RED) — test maps to spec requirement
-2. Write minimal code to pass (GREEN) — no more than needed
-3. Refactor while tests pass — improve design
-
-**Prompts** (`references/prompts/evolve/`):
-- `2b-create-tests.md` — Write failing tests FIRST
-- `2a-implement-from-specs.md` — Make tests pass
+**TDD is optional, not mandated:**
+- `project.yaml` → `methodology.tdd: optional` (default) governs this per-project
+- `references/guides/tdd.md` is optional reference material — a structured Red-Green-Refactor approach with an escape-hatch scoring rubric, for teams who deliberately want TDD discipline
+- If you use it: Red (failing test mapped to a spec requirement) → Green (minimal code to pass) → Refactor (improve design, tests stay green)
 
 ### Tests Map to Specs
 
@@ -47,8 +43,7 @@ specs/features/authentication.spec.md
 Before implementing any feature:
 - [ ] Spec exists with [!] requirements
 - [ ] Spec has full frontmatter (type, category, fidelity, criticality, failure_mode, governed-by + per-category fields)
-- [ ] Failing tests written (TDD)
-- [ ] Tests reference spec requirements in docstrings/comments
+- [ ] Tests (if the team's chosen methodology writes them first) reference spec requirements in docstrings/comments
 
 ## Phase 3: VERIFY
 
@@ -60,11 +55,13 @@ Before implementing any feature:
 scripts/validate-frontmatter.sh
 
 # Cross-reference integrity
-# See references/prompts/utils/validate-project.md
+scripts/validate-crossrefs.sh
 
 # Purpose boundary check
 scripts/validate-purpose.sh
 ```
+
+Full sweep: `/livespec:audit validate`
 
 **Severity levels:**
 - ERROR: Must fix before committing
@@ -242,7 +239,7 @@ scripts/validate-frontmatter.sh
 
 - Audit skill: `/livespec:audit`
 - Learn skill: `/livespec:learn`
-- Evolve prompts (LiveSpec repo only): `references/prompts/evolve/`
+- TDD guide (optional): `references/guides/tdd.md`
 - Frontmatter validation: `scripts/validate-frontmatter.sh`
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`

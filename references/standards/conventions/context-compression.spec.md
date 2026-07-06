@@ -129,7 +129,7 @@ Context compression force influences:
 - Cache boundary decisions (what to load once vs repeatedly)
 
 ### During Evolution
-Use `references/prompts/utils/audit-context-compression.md`:
+Use `/livespec:audit compression`:
 - Measure actual compression (extraction ratio, reference depth)
 - Compare to declared level
 - Identify optimization opportunities

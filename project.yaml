@@ -11,7 +11,7 @@ livespec:
   # Core methodology decisions (guides context generation)
   methodology:
     spec_first: mandatory              # mandatory | encouraged | optional
-    tdd: mandatory_with_escape         # mandatory | mandatory_with_escape | encouraged | optional
+    tdd: optional                      # mandatory | mandatory_with_escape | encouraged | optional
     context_compression: moderate      # light | moderate | aggressive
 
   # Project taxonomy (determines phase applicability)

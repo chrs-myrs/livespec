@@ -51,5 +51,4 @@ Script detects content that belongs elsewhere:
 
 ## Integration
 
-- Referenced by `references/prompts/utils/extract-purpose-overflow.md`
-- Supports `references/prompts/define/0c-define-outcomes.md` exit criteria
+- Supports the outcomes-spec exit criteria in `skills/design/SKILL.md`

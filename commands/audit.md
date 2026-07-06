@@ -16,6 +16,9 @@ Manage specification health, run validation, and regenerate context.
 /livespec:audit msl|scope|coverage   # Quality audits
 /livespec:audit context              # Regenerate AGENTS.md
 /livespec:audit extract              # Extract specs from code
+/livespec:audit acceptance           # Stakeholder acceptance review (GO/NO-GO)
+/livespec:audit compression          # Measure actual vs declared context compression
+/livespec:audit review               # Review existing audit reports for freshness
 ```
 
 ## Modes
@@ -49,6 +52,7 @@ Executes validation scripts:
 - Generated file protection
 - MSL format compliance
 - Folder structure correctness
+- Version sync (`.livespec-version`, `plugin.json`, `marketplace.json`, `project.yaml`) and skill/command manifest consistency
 
 Returns pass/fail with specific errors.
 
@@ -80,6 +84,24 @@ For brownfield projects:
 3. Drafts specs with confidence markers
 4. Presents for review and validation
 5. Promotes validated extractions
+
+### acceptance - Stakeholder Acceptance Review
+
+Builds the review package and records a decision:
+
+1. Assembles purpose, delivered behaviors by criticality, validation results, and known issues
+2. Poses review questions (problem, behavior, constraint, deployment readiness)
+3. Applies the GO / GO WITH WARNINGS / NO-GO decision rule
+4. Records the decision with rationale, conditions, and sign-off
+
+### compression - Context Compression Audit
+
+Measures actual vs declared compression level:
+
+1. Reads the declared level from `specs/workspace/constitution.spec.md` (or `project.yaml`)
+2. Measures extraction ratio, reference depth, example coverage, and redundancy tolerance
+3. Compares against thresholds for light/moderate/aggressive
+4. Provides a migration plan if a level change is recommended
 
 ## Health Indicators
 

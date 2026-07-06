@@ -1,7 +1,7 @@
 ---
 name: learn
 description: Session completion, compliance measurement, and learning capture
-argument-hint: [capture|compliance]
+argument-hint: [capture|compliance|report]
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
@@ -14,6 +14,7 @@ Complete sessions with analysis, capture learnings to specs, and save compliance
 - `/livespec:learn` - Full session completion workflow
 - `/livespec:learn capture` - Capture learnings only (mid-session)
 - `/livespec:learn compliance` - Show compliance scores only
+- `/livespec:learn report` - Deep implementation report (substantial sessions; see "Deep Mode: Implementation Report")
 
 ## Full Session Completion Workflow (Default)
 
@@ -99,6 +100,8 @@ If fails gate: Note as observation, don't add to spec.
 
 **Next:** Start fresh session with clearer context.
 ```
+
+**Substantial session?** If this session qualifies as substantial (see criteria below), offer the deeper Implementation Report instead of/alongside the bullet summary — see "Deep Mode: Implementation Report".
 
 ### Step 5: Save Data
 
@@ -190,6 +193,57 @@ Use when:
 
 ---
 
+## Deep Mode: Implementation Report
+
+**Purpose:** A fuller post-implementation "lessons learned" report for sessions substantial enough to reward honest failure analysis, not just bullet capture. This deepens Step 2/4 — it doesn't replace them. Normal session-end keeps the lightweight bullet report by default.
+
+**Invocation:** `/livespec:learn report` (explicit), or offered automatically in Step 4 when a session is **substantial**:
+
+- Compliance level is **Fair or Poor** (methodology gaps worth analyzing), OR
+- Session spanned significant implementation (new feature, phase-2 BUILD work, or a milestone/sprint close) rather than small edits, OR
+- User explicitly says the methodology was partially skipped or a first-time trial
+
+Skip this mode for small edits, spec-only tweaks, or Perfect/Good sessions with nothing notable to dig into — the Step 4 bullet report is sufficient.
+
+**Output location:** `var/implementation-reports/YYYY-MM-DD-[project-name]-[scope].md`
+
+**Report skeleton:**
+
+1. **Metadata** — project, scope, date, LiveSpec version
+2. **Executive Summary** — 2-3 sentences: what was built + key learning
+3. **Process Adherence** — checklist of phases/steps followed; honest accounting of what was skipped
+4. **Honest Failure Analysis** (most important section) — for each skipped step: *What I thought* (flawed reasoning at the time) → *What I missed* (consequences) → *Lesson*. Tag with a cognitive-bias category where it fits:
+   - **Overconfidence bias** — "this is obvious, I don't need specs"
+   - **Efficiency instinct** — "specs are overhead, I'll go faster without them"
+   - **Pattern matching** — "I've done this before, I know the shape"
+   - **Ambiguity aversion** — "asking will slow things down"
+5. **Critical Failures** — major violations only (e.g. TDD skipped entirely, contract without behavior): what happened vs what should have, impact, root cause, prevention
+6. **What Worked Well / What Didn't Work Well** — concrete, evidenced; separate methodology pain points from implementation issues
+7. **Quantitative Results** — metrics table (behaviors/contracts created, files new/updated, automated vs manual test coverage, issues found, rework cycles, incomplete implementations)
+8. **Recommendations** — actionable, categorized as **For AI Assistants** vs **For LiveSpec Methodology**; format as `[Recommendation] — [specific change with acceptance criteria]`
+9. **Conclusion** — what you got right/wrong, root cause, would you repeat the mistake, overall verdict
+
+**Framework issue vs implementation issue** — keep these distinct, it changes what gets fixed:
+
+| Framework issue (LiveSpec needs improvement) | Implementation issue (methodology wasn't followed) |
+|---|---|
+| "Behavior vs contract boundary is ambiguous for X" | "I skipped tests because it felt slow" |
+| "No guidance on when to create domain model specs" | "I didn't read the constitution about TDD" |
+
+**Good vs poor excerpt** (be specific, not defensive):
+
+✅ Good:
+> **Overconfidence bias** — *What I thought*: "Channel operations are straightforward, I've built messaging systems before." *What I missed*: discovery tools, username resolution, graceful OAuth degradation. *Lesson*: even "simple" features hide complexity; spec-first surfaces dependencies before coding reveals them expensively. *Evidence*: user had to ask "how do I discover channels?" after posting tools were already designed — 1 hour of retroactive rework.
+
+❌ Poor:
+> "I built some tools. The methodology was mostly followed. TDD would have been nice but wasn't necessary. Overall it went well."
+>
+> Why it's bad: no specific failure identified, no metrics, no evidence, defensive framing ("wasn't necessary" instead of admitting it was skipped).
+
+**After filing:** if a bias or ambiguity recurs across multiple reports, route it into `specs/workspace/patterns.spec.md` (or the relevant methodology spec) via the normal Step 6 learning-application flow — patterns across reports are exactly the "same problem hit multiple times" signal Step 2 already watches for.
+
+---
+
 ## Classification Levels
 
 | Level | Criteria | Interpretation |
@@ -241,6 +295,7 @@ For detailed guidance:
 - Session analysis: `${CLAUDE_PLUGIN_ROOT}/ctxt/session.md`
 - Learning application: `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/learn.md`
 - Compliance measurement: `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/measure-session-compliance.md`
+- Deep implementation report template: see "Deep Mode: Implementation Report" above
 
 ## Validation
 

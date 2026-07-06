@@ -198,7 +198,7 @@ These concepts are fundamental to correct LiveSpec organization. Understanding t
 Would you like to:
 - Take time to read those sections first
 - Continue anyway (risk of needing restructure later)
-- Use `references/prompts/define/0b-customize-workspace.md` (includes inline guidance)"
+- Use `/livespec:design workspace` (includes compression-level guidance)"
 
 ## Output
 

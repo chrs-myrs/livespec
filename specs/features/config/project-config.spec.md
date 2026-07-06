@@ -124,14 +124,14 @@ agent:
 
 ## Integration Points
 
-**AGENTS.md regeneration** (prompts/4-evolve/4d-regenerate-context.md):
+**AGENTS.md regeneration** (`/livespec:audit context`, delegates to `agents/context-builder.md`):
 - Reads `context_compression` to control inline vs reference balance
 - Reads `spec_first` to adjust verification prompt severity
-- Reads `tdd` to customize Phase 2 guidance
+- Reads `tdd` to determine whether `references/guides/tdd.md` is presented as available guidance (optional by default)
 - Reads `domain` to filter applicable phases
 - Reads `agent.doc_format` to determine output filename
 
-**Phase 0 setup** (prompts/0-define/0a-quick-start.md, 0b-customize-workspace.md):
+**Phase 0 setup** (`/livespec:init`):
 - Generates `project.yaml` with defaults
 - Reads PURPOSE.md for project metadata
 - Prompts for domain and methodology preferences

@@ -141,12 +141,12 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - Requirement justification: Critical (always) > Important (usually) > Useful (rarely) > Nice (never)
 - See `references/guides/msl-minimalism.md` for complete framework
 
-### 3. Test-Driven Development
-- Phase 2 (BUILD) follows TDD discipline (tests before implementation)
-- Red-Green-Refactor cycle: failing test → passing code → improve design
-- Automated tests required for all non-trivial code
-- Escape hatch for trivial scripts (justification required, documented)
-- Tests map directly to behavior specs (specs/features/ → tests → implementation)
+### 3. Spec-First Bootstrap, Not Implementation Methodology
+- LiveSpec's involvement in Phase 2 (BUILD) stops at spec-first enforcement (a spec must exist before implementation starts)
+- LiveSpec does not mandate TDD or any other implementation methodology — that's the coding agent's domain
+- `project.yaml` → `methodology.tdd: optional` governs this per-project; default is optional, not mandatory
+- `references/guides/tdd.md` is optional reference material for teams who want structured TDD discipline — call on it deliberately, don't treat it as a default
+- Tests, when written, should map to behavior specs (specs/features/ → tests → implementation) regardless of methodology chosen
 
 ### 4. Dogfooding
 - LiveSpec uses its own methodology (specs/ and skills/ exist)
@@ -250,11 +250,10 @@ Read `specs/workspace/taxonomy.spec.md` for:
 **5 Phases (Temporal Workflow)** - WHEN you do things:
 - **Phase 0**: DEFINE (problem space)
 - **Phase 1**: DESIGN (solution architecture)
-- **Phase 2**: BUILD (TDD) (test-driven implementation)
+- **Phase 2**: BUILD (implementation — spec-first enforcement only; methodology e.g. TDD is optional and the coding agent's choice)
 - **Phase 3**: VERIFY (validation)
 - **Phase 4**: EVOLVE (maintenance)
-- **Location**: `references/prompts/define/`, `references/prompts/design/`, `references/prompts/evolve/`
-- **Invocation**: `/livespec:design`, `/livespec:audit`, `/livespec:learn` (skills route to these prompts; no phase-numbered folders to browse manually)
+- **Invocation**: `/livespec:init`, `/livespec:design`, `/livespec:audit`, `/livespec:learn` (skills carry the phase workflow directly; no phase-numbered prompt folders to browse manually)
 
 **3 Abstraction Layers (Structural Organization)** - WHERE specs live:
 - **Layer 1**: `foundation/` (WHY — strategic outcomes, constraints)
@@ -381,15 +380,7 @@ Establish problem space and constraints.
 **Entry:** Project idea or codebase
 **Exit:** Problem, constraints, workspace defined
 **Outputs:** PURPOSE.md, specs/foundation/constraints.spec.md, specs/workspace/
-**Skill:** `/livespec:init`, `/livespec:design workspace`
-
-**Key prompts** (`references/prompts/define/`):
-- `0a-quick-start.md` - Zero-question setup (5 min, defaults)
-- `0b-customize-workspace.md` - Full workspace customization
-- `0c-define-problem.md` / `0c-define-outcomes.md` - Articulate problem and outcomes
-- `0d-assess-complexity.md` - Evaluate project complexity
-- `0e-evaluate-research-needs.md` - Determine if UX research needed
-- `0f-identify-constraints.md` - Document boundaries
+**Skill:** `/livespec:init` (quick-start or full interactive setup), `/livespec:design workspace`
 
 ### Phase 1: DESIGN
 Design solution architecture.
@@ -398,43 +389,25 @@ Design solution architecture.
 **Entry:** Problem and constraints defined
 **Exit:** Architecture and contracts specified
 **Outputs:** specs/strategy/architecture.spec.md, specs/features/, specs/interfaces/
-**Skill:** `/livespec:design feature <name>`, `/livespec:design spec <type>`
+**Skill:** `/livespec:design feature <name>` (architecture, behaviors, contracts, optional UX flow docs and research-needs check — all inline in the skill), `/livespec:design spec <type>` for direct creation
 
-**Key prompts** (`references/prompts/design/`):
-- `1a-document-ux-flows.md` - Document user interaction flows (optional)
-- `1b-design-architecture.md` - Define system structure
-- `1c-define-behaviors.md` - Specify observable outcomes
-- `1d-create-contracts.md` - Define API/data interfaces
-
-### Phase 2: BUILD (TDD)
-Implement solution using test-driven development.
+### Phase 2: BUILD
+Implement the solution.
 
 **When:** After design approved
-**Exit:** Tests pass, implementation matches specifications
-**TDD:** Mandatory by default (tests before code, escape hatch for trivial scripts with justification)
-
-**Key prompts** (`references/prompts/evolve/`):
-- `2b-create-tests.md` - Write failing tests FIRST (RED phase)
-- `2a-implement-from-specs.md` - Make tests pass (GREEN + REFACTOR phases)
+**Exit:** Implementation matches specifications
+**LiveSpec's role here is narrow:** spec-first bootstrap enforcement only (see Spec-First Protocol above) — checking a spec exists before implementation begins. LiveSpec does not prescribe *how* you implement (TDD, other test strategies, or none) — that choice belongs to the coding agent and team.
+**TDD:** Optional, not mandated (`project.yaml` → `methodology.tdd: optional`). Use `references/guides/tdd.md` deliberately if you want structured TDD discipline; it is reference material, not a default workflow.
 
 ### Phase 3: VERIFY
 Validate solution meets requirements.
 
-**Key prompts** (`references/prompts/evolve/`):
-- `3a-run-validation.md` - Execute validation tests
-- `3b-acceptance-review.md` - Stakeholder approval
+**Skill:** `/livespec:audit validate` (cross-reference integrity, frontmatter compliance, spec-implementation alignment)
 
 ### Phase 4: EVOLVE
 Maintain specs; regenerate code and context when needed (continuous).
 
 **Skill:** `/livespec:audit` (health, validate, context, extract)
-
-**Key prompts** (`references/prompts/evolve/`):
-- `4a-detect-drift.md` - Detect regeneration signals
-- `4b-extract-specs.md` - Level up discoveries to specs
-- `4c-sync-complete.md` - Confirm regeneration complete
-- `4e-validate-extractions.md` - Review extracted specs
-- `4f-document-implementation.md` - Document implementation outcomes
 
 **Context regeneration:** `/livespec:audit context` classifies each run as MINOR (scoped patch to the affected file) or FULL (whole-tree rebuild) based on the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`, then delegates to `agents/context-builder.md` — a dedicated sub-agent that keeps this large generation task out of your session's context window.
 
@@ -554,7 +527,7 @@ your-project/
 ## Development Patterns
 
 ### Naming Conventions
-- Prompts: [0-4][a-z]-descriptive-name.md (e.g., `1b-design-architecture.md`)
+- Prompts (LiveSpec repo only, surviving files under `references/prompts/`): [0-4][a-z]-descriptive-name.md
 - Specs: descriptive-name.spec.md (matches prompt or behavior)
 - British English for user documentation (synchronisation, behaviour)
 - American English for code elements
@@ -564,7 +537,6 @@ When renaming or moving prompts/specs, use systematic checklist:
 - [ ] Source file renamed/moved (`references/prompts/[mode]/` or specs/)
 - [ ] Spec frontmatter (`specifies:` or `guided-by:` field) — note: hyphenated, not underscored
 - [ ] Registry entry (specs/artifacts/prompts/registry.spec.md)
-- [ ] Navigation files (`references/prompts/utils/next-steps.md`)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
 - [ ] Validation run (`scripts/validate-frontmatter.sh`)
@@ -613,7 +585,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 - Before committing: `scripts/validate-frontmatter.sh`
 - Cross-reference integrity: `scripts/validate-crossrefs.sh`
 - After regenerating files: `scripts/validate-purpose.sh`
-- Full sweep: `references/prompts/utils/validate-project.md`
+- Full sweep: `/livespec:audit validate`
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, underscore field names)

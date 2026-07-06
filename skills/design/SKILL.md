@@ -95,7 +95,7 @@ If updated spec is in `specs/workspace/`:
 
 ```
 This workspace spec affects AGENTS.md context.
-Run /livespec:evolve context to update agent guidance.
+Run /livespec:audit context to update agent guidance.
 ```
 
 ---
@@ -123,19 +123,82 @@ Run /livespec:evolve context to update agent guidance.
    - Who uses it? (user, system, API)
    - What can go wrong? (failure modes)
 
-4. **Create behavior spec:**
+4. **Decide if research is needed** (see Research Needs decision tree below) and **whether to document UX flows first** (see UX Flow Documentation below) — both optional, skip when the feature is backend/API-only or a simple CRUD path.
+
+5. **Create behavior spec:**
    - Location: `specs/features/<name>.spec.md`
    - Apply MSL minimalism
    - Include validation criteria
 
-5. **Suggest next steps:**
+6. **Suggest next steps:**
    ```
    Created: specs/features/<name>.spec.md
 
    Next:
-   - Implement with TDD (write tests first)
-   - Run /livespec:evolve validate to check alignment
+   - Implement (optionally with TDD — see `references/guides/tdd.md` if useful; not a LiveSpec mandate)
+   - Run /livespec:audit validate to check alignment
    ```
+
+---
+
+### Research Needs (Before Speccing)
+
+**Decision test:** "Do I truly understand user workflows well enough to spec this without guessing?"
+
+**Research is mandatory** (not optional) for:
+- Safety-critical domains (medical, financial, security)
+- Accessibility needs (disabilities, cognitive/motor impairment)
+- Child users
+- Novel UX patterns with no established convention
+
+**Research is worth doing** when ANY apply:
+- Workflow spans multiple steps/systems (journey mapping catches gaps)
+- Requirements are based on assumptions, not evidence
+- Multiple user types with different needs
+- API surface is complex (developer platform)
+
+**Skip research** when ALL apply:
+- No user-facing workflow (pure backend/infrastructure)
+- Requirements already documented from prior work
+- No legal/safety angle
+- Standard pattern applies (CRUD, REST)
+
+**Red flags that "I already know" is dangerous:** "I'm the user" (your workflow ≠ others'), "it's obvious how this works" (edge cases aren't), "we'll validate during beta" (architectural fixes post-build are expensive).
+
+**Cost-benefit:** research runs 2-8 hours; rework from a missed requirement runs 2-10 days. Worth it if there's >10% chance it catches something critical.
+
+If research is warranted, capture it under `research/` (`personas/`, `journeys/`, `flows/`, `insights/`) and link back via `informed-by:` frontmatter on the resulting spec. If skipped, document the assumptions made in the spec instead of leaving them implicit.
+
+### UX Flow Documentation (Before Architecture)
+
+For features with non-trivial interaction paths (multi-step processes, error recovery, multiple user roles, external integrations like OAuth/payment), document the flow before designing architecture or contracts. Skip for backend-only work or single-path CRUD.
+
+**Output location:** `research/flows/[flow-name].md`. One file per complete journey (entry point → goal), not one mega-flow for the whole system.
+
+**Structure per flow:**
+- Header: `informed-by` (the requirement spec), context, entry point, success criteria
+- A Mermaid `flowchart TD` diagram covering ALL paths, not just happy path
+- Per screen/state: purpose, input, processing, output, errors
+- Per decision point: criteria, branches, decision maker
+- Per error: scenario, detection, exact user message, recovery, whether retry is possible
+
+**Mermaid conventions:**
+- Entry/end states: rounded rectangles `([text])`
+- Processes: rectangles `[text]`
+- Decisions: diamonds `{text?}`
+- Happy path flows down the middle; error paths branch right; every path terminates at an end state — no dead ends
+
+```mermaid
+flowchart TD
+    Start([User Starts]) --> Step1[Step 1: Info]
+    Step1 --> Valid1{Valid?}
+    Valid1 -->|No| Error1[Show Errors]
+    Error1 --> Step1
+    Valid1 -->|Yes| Process[Process]
+    Process --> Success([Complete])
+```
+
+Once flows are documented, feed them into architecture design (system components needed to support the flows) and into the behavior spec itself (each screen/error/decision becomes a requirement).
 
 ---
 
@@ -246,13 +309,23 @@ Run /livespec:evolve context to update agent guidance.
 
 4. **Workspace specs to manage:**
    - `specs/workspace/taxonomy.spec.md` - Project type and classification
-   - `specs/workspace/constitution.spec.md` - Enforcement level
+   - `specs/workspace/constitution.spec.md` - Enforcement level (includes `context_compression:` level, see below)
    - `specs/workspace/patterns.spec.md` - Local conventions
    - `specs/workspace/workflows.spec.md` - Development process
 
+**Choosing a context compression level** (set in `constitution.spec.md` frontmatter):
+
+| Level | Choose when |
+|-------|-------------|
+| **Light** | Large context-window agent (Opus, GPT-4-class); exploratory/learning phase; infrequent agent interactions; team still learning LiveSpec |
+| **Moderate** | Standard agents (Sonnet-class); production development; regular agent interactions; established LiveSpec understanding |
+| **Aggressive** | Smaller-context or cost-sensitive agents; high-frequency agent usage; well-established patterns; maximum focus needed |
+
+Compression level can be changed later — it's not a one-way decision.
+
 5. **After workspace changes:**
    ```
-   Workspace updated. Run /livespec:evolve context to rebuild AGENTS.md.
+   Workspace updated. Run /livespec:audit context to rebuild AGENTS.md.
    ```
 
 ---
@@ -312,6 +385,58 @@ Run /livespec:evolve context to update agent guidance.
 ---
 
 ## Spec Templates
+
+### Outcomes Spec Template
+
+```markdown
+---
+criticality: CRITICAL
+failure_mode: Without [X], [specific failure]
+derives-from:
+  - PURPOSE.md
+---
+
+# [Project] Outcomes
+
+## Requirements
+- [!] [Outcome 1]: [High-level requirement statement]
+  - [Validation criterion 1]
+  - [Validation criterion 2]
+```
+
+Keep outcomes high-level — each one traces to a PURPOSE.md success criterion, with no new goals beyond PURPOSE scope:
+
+- ✅ "System authenticates users securely" (high-level outcome)
+- ❌ "Users can click login button" (too detailed — belongs in a behavior spec)
+
+### Constraints Spec Template
+
+```markdown
+---
+criticality: CRITICAL
+failure_mode: Violating these constraints makes the project fail or unusable
+---
+
+# Project Constraints
+
+## Requirements
+- [!] [Constraint name]: [One sentence stating the constraint]
+  - [How to verify compliance]
+```
+
+**Constraint types** (for gathering, not for structuring the spec):
+
+| Type | Examples |
+|------|----------|
+| Technical | Platform requirements, performance limits, compatibility, resource limits |
+| Business | Regulatory compliance, budget, timeline, team capability |
+| Domain | Industry standards/protocols, accessibility, integration requirements |
+
+**Constraint vs. goal vs. design decision** — only real constraints belong here:
+
+- ❌ "Should be user-friendly" → goal, not testable
+- ❌ "Use microservices architecture" → design decision, not a hard boundary
+- ✅ "Must integrate with existing PostgreSQL database" → real constraint, testable
 
 ### Behavior Spec Template
 
@@ -385,6 +510,12 @@ derives-from:
 - Implementation follows decision
 ```
 
+**Documenting external dependencies** (Auth0, Stripe, AWS S3, major frameworks): mention the dependency with a link to its documentation and its architectural role in one line — don't duplicate the external docs.
+
+> "System uses Auth0 (https://auth0.com/docs) for user authentication, providing OAuth2/OIDC identity management."
+
+Skip this for non-architecturally-significant dependencies (logging, HTTP clients, anything already fully described in `package.json`/`requirements.txt`).
+
 ---
 
 ## References
@@ -393,7 +524,6 @@ For detailed guidance:
 - MSL Minimalism: `${CLAUDE_PLUGIN_ROOT}/references/guides/msl-minimalism.md`
 - Behavior specs: `${CLAUDE_PLUGIN_ROOT}/references/standards/metaspecs/behavior.spec.md`
 - Contract specs: `${CLAUDE_PLUGIN_ROOT}/references/standards/metaspecs/contract.spec.md`
-- Architecture design: `${CLAUDE_PLUGIN_ROOT}/references/prompts/design/1b-design-architecture.md`
 
 ## Validation
 
@@ -402,4 +532,4 @@ After using this skill:
 - Frontmatter includes criticality and failure_mode
 - Requirements have [!] markers
 - Validation criteria are testable
-- Run `/livespec:evolve validate` to confirm
+- Run `/livespec:audit validate` to confirm

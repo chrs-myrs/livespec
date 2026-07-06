@@ -356,7 +356,7 @@ EOF
 **Use instead:**
 - **complete-session.md** - Current session analysis only
 - **suggest-improvements.md** - Recommendations without diagnostics
-- **validate-project.md** - Individual validation checks
+- **`/livespec:audit validate`** - Individual validation checks
 - **regenerate-contexts.md** - Context reorganization specifically
 
 ---

@@ -4,7 +4,7 @@ description: |
   Spec health, validation, and context generation for LiveSpec projects.
   USE WHEN: User mentions "health", "validate", "AGENTS.md", "context", "audit", "extract", "drift", or wants to check specs.
   DO NOT use Context7 or web search for LiveSpec - this skill IS the authoritative guidance.
-argument-hint: [health|validate|context|extract]
+argument-hint: [health|validate|context|extract|acceptance|compression|review]
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash, AskUserQuestion
 ---
 
@@ -27,6 +27,8 @@ Manage specification health, run validation, and regenerate context.
 - `/livespec:audit context` - Update AGENTS.md and context tree (scoped patch for minor changes, full regeneration when structural)
 - `/livespec:audit context --full` - Force full regeneration, skipping scope classification
 - `/livespec:audit extract` - Extract specs from unspecified code
+- `/livespec:audit acceptance` - Build a stakeholder review package and record a GO/NO-GO decision
+- `/livespec:audit compression` - Measure actual vs declared context-compression level
 - `/livespec:audit review` - Review existing audit reports for freshness
 - `/livespec:audit review --report-stale-days N` - Custom staleness threshold (default 90 days)
 
@@ -211,6 +213,28 @@ This enables freshness evaluation when reading historical reports.
 - specs/ follows taxonomy
 - No misplaced files
 
+**5. Version Synchronisation**
+- Four files must agree on version: `.livespec-version`, `.claude-plugin/plugin.json` (`"version"`), `.claude-plugin/marketplace.json` (`"version"` in the `plugins` array), `project.yaml` (`livespec.version`)
+- `.livespec-version` is source of truth; report ERROR naming every file that disagrees
+
+```bash
+VERSION_FILE=$(cat .livespec-version 2>/dev/null)
+PLUGIN_VERSION=$(grep -m1 '"version"' .claude-plugin/plugin.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+MARKETPLACE_VERSION=$(grep -m1 '"version"' .claude-plugin/marketplace.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+PROJECT_VERSION=$(grep -A2 '^livespec:' project.yaml | grep 'version:' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+```
+
+**6. Skill/Command Manifest Consistency**
+- Every `commands/*.md` has a `routes-to:` field pointing at a `skills/*/SKILL.md` that exists
+- Every `skills/*/SKILL.md` that has a corresponding command is reachable via that command (no orphaned skill directories expected to be user-invoked)
+
+```bash
+for cmd in commands/*.md; do
+  target=$(grep -m1 '^routes-to:' "$cmd" | sed 's/routes-to: *//')
+  test -f "$target" || echo "ERROR: $cmd routes-to missing file: $target"
+done
+```
+
 ### Output Format
 
 ```
@@ -220,12 +244,15 @@ Validation Results:
 [PASS] Generated file protection (AGENTS.md current)
 [FAIL] MSL format compliance (2 specs missing Validation)
 [PASS] Folder structure correct
+[FAIL] Version synchronisation (marketplace.json: 5.5.0, expected 5.6.0)
+[PASS] Skill/command manifest consistency (7/7 commands route correctly)
 
-Overall: 3/4 checks passed
+Overall: 4/6 checks passed
 
 Fix required:
 - specs/features/auth.spec.md: Add ## Validation section
 - specs/features/payment.spec.md: Add ## Validation section
+- .claude-plugin/marketplace.json: update plugins[].version to 5.6.0
 ```
 
 ---
@@ -418,6 +445,109 @@ Remove confidence markers after review:
 - `confidence: LOW` → remove
 - `requires_validation: true` → remove
 - Add proper `satisfies:` and `guided-by:` relationships
+
+---
+
+## Mode: acceptance
+
+**Purpose:** Stakeholder-facing acceptance ritual — build a review package from specs and validation results, then record a GO/NO-GO decision. Distinct from `validate` (technical pass/fail checks): this mode is about human sign-off.
+
+**Invocation:** `/livespec:audit acceptance`
+
+### Acceptance Workflow
+
+**Step 1: Build Review Package**
+
+Assemble from existing specs and the latest `validate` run — do not re-derive from scratch:
+
+- **Purpose and vision** — from `PURPOSE.md` (why this exists, what success looks like)
+- **Delivered behaviors by criticality** — from `specs/features/`, grouped CRITICAL / IMPORTANT, each marked done / partial / missing
+- **Validation results** — latest `/livespec:audit validate` output (tests, contract compliance, constraint satisfaction)
+- **Known issues** — open items from `registries/issues.md` or equivalent, with impact and workaround if any
+
+**Step 2: Ask Review Questions**
+
+Group by theme, present via AskUserQuestion or as a checklist for the stakeholder:
+
+- Problem validation — does this solve the stated problem? Do success criteria hold?
+- Behavior validation — do all CRITICAL behaviors work as specified? Any missing?
+- Constraint validation — are constraints and performance targets satisfied?
+- Deployment readiness — ready for production? Any blocking issues?
+
+**Step 3: Apply Decision Rule**
+
+| Decision | Condition |
+|----------|-----------|
+| GO | All CRITICAL behaviors validated, all constraints satisfied, no blocking issues |
+| GO WITH WARNINGS | All CRITICAL behaviors work; some IMPORTANT behaviors have documented warnings; no blocking issues |
+| NO-GO | Any CRITICAL behavior failing, a constraint violated, or a blocking issue open |
+
+**Step 4: Record Decision**
+
+```markdown
+# Acceptance Decision
+
+**Date**: YYYY-MM-DD
+**Reviewers**: [Names]
+**Decision**: GO | GO WITH WARNINGS | NO-GO
+
+## Rationale
+[Why this decision was made]
+
+## Conditions (if GO WITH WARNINGS)
+- [ ] [Follow-up item, e.g. "Optimize PDF export in v1.1"]
+
+## Sign-off
+- [Reviewer 1]: Approved
+- [Reviewer 2]: Approved
+```
+
+---
+
+## Mode: compression
+
+**Purpose:** Measure actual context-compression level against the declared level and flag drift, using four quantitative metrics.
+
+**Invocation:** `/livespec:audit compression`
+
+### Compression Workflow
+
+**Step 1: Read Declared Level**
+
+Check `specs/workspace/constitution.spec.md` frontmatter (or `project.yaml` `livespec.methodology.context_compression`) for `light | moderate | aggressive`. If absent, note `undeclared` (default: moderate assumed).
+
+**Step 2: Measure the Four Metrics**
+
+| Metric | Formula | Light | Moderate | Aggressive |
+|--------|---------|-------|----------|------------|
+| Extraction ratio | templates content ÷ (inline + templates content) | <30% | 30-60% | >60% |
+| Reference depth | avg hops from AGENTS.md to source content (0 = inline) | avg <0.5 | avg 0.5-1.0 | avg >1.0 |
+| Example coverage | concepts with inline examples ÷ total concepts | >70% | 40-70% | <40% |
+| Redundancy tolerance | duplicated checklists/examples across files | high | moderate | low |
+
+**Step 3: Compare and Report**
+
+```markdown
+## Context Compression Audit
+
+**Declared Level**: moderate
+**Measured Level**: aggressive
+**Alignment**: Significant mismatch
+
+| Metric | Value | Expected (moderate) | Assessment |
+|--------|-------|----------------------|------------|
+| Extraction Ratio | 68% | 30-60% | Above range |
+| Reference Depth | 1.3 avg | 0.5-1.0 | Above range |
+| Example Coverage | 25% | 40-70% | Below range |
+| Redundancy | Low | Moderate | Differs |
+```
+
+**Step 4: Migration Plan (if a level change is recommended)**
+
+1. Update the declaration in `specs/workspace/constitution.spec.md` (and `project.yaml` if mirrored there)
+2. Reorganize content — moving to higher compression: extract inline content to templates and add references; moving to lower compression: inline templates and cut reference hops
+3. Regenerate with `/livespec:audit context --full`
+4. Re-run `/livespec:audit compression` to confirm the new structure matches the newly declared level
 
 ---
 

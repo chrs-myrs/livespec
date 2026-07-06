@@ -334,7 +334,7 @@ mkdir -p templates/agents
 
 **Use instead:**
 - **regenerate-contexts.md** - Just regenerate existing structure
-- **audit-context-compression.md** - Measure compression without reorganizing
+- **`/livespec:audit compression`** - Measure compression without reorganizing
 - **suggest-improvements.md** - Strategic analysis (not just context)
 
 ---

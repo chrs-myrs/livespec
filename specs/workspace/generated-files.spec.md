@@ -218,7 +218,7 @@ spec: specs/features/getting-started.spec.md
 1. Update source specifications
 2. Run generation prompt again (will need to unlock files first or regenerator handles this)
 3. Make regenerated files read-only: `chmod 444 [generated-file]`
-4. Validate immediately (Use `prompts/utils/validate-project.md`)
+4. Validate immediately (Use `/livespec:audit validate`)
 5. Commit updated generated file with sources
 
 **Validation:**

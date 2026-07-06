@@ -1,12 +1,12 @@
-# Test-Driven Development Guide (Mandatory with Escape Hatch)
+# Test-Driven Development Guide (Optional)
 
-LiveSpec Phase 2 (BUILD) requires test-driven development by default. This guide defines the TDD discipline and when escape hatch applies.
+LiveSpec doesn't prescribe implementation methodology for Phase 2 (BUILD) — that's the coding agent's domain. LiveSpec's own involvement in Phase 2 stops at spec-first enforcement (see `templates/agents/spec-first-enforcement.md`). This guide is optional reference material for teams or agents who want a structured TDD approach; call on it deliberately, don't treat it as a default.
 
 ## Philosophy
 
-TDD is **the default approach** in Phase 2 (BUILD). Write tests before implementation to ensure correctness, enable refactoring, and prevent regression.
+TDD is **one approach available** for Phase 2 (BUILD) — not a LiveSpec requirement. Write tests before implementation when it suits the work: ensures correctness, enables refactoring, prevents regression.
 
-**Core belief:** TDD is mandatory by default, with escape hatch for trivial scripts (justification required). When in doubt, use TDD.
+**Core belief:** Use this guide when you want TDD discipline; skip it entirely when it doesn't fit. The escape-hatch scoring below is a tool for deciding *within* a TDD approach when to skip it for trivial code — not a claim that TDD itself is mandatory.
 
 ## When TDD is Required (Default)
 
@@ -104,14 +104,14 @@ def load_database_config():
 
 ## Success Criteria
 
-TDD succeeds when:
-- Phase 2 (BUILD) consistently follows test-first discipline
+When you do use this guide, it succeeds when:
+- Test-first discipline is followed consistently for the work you chose it for
 - Tests serve as executable documentation of requirements
-- All non-trivial code has automated test coverage
+- Non-trivial code has automated test coverage
 - Escape hatch used conservatively with justification
 - Refactoring is performed confidently with test safety
 - Red-Green-Refactor cycle becomes natural workflow
 
 ---
 
-*Adapted from SpellForge Test-Driven Development policy for LiveSpec distribution. **TDD is MANDATORY by default** in Phase 2 (BUILD), with escape hatch for truly trivial code (justification required).*
+*Adapted from SpellForge Test-Driven Development policy for LiveSpec distribution. Optional guidance — LiveSpec does not mandate TDD or any other implementation methodology in Phase 2 (BUILD).*

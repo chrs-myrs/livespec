@@ -254,7 +254,7 @@ If you realize you skipped TDD after implementation:
 
 **Recovery**:
 If you discover missing UX flows after implementation:
-1. Use references/prompts/design/1a-document-ux-flows.md retroactively
+1. Use `/livespec:design` (UX flow documentation guidance) retroactively
 2. Create Mermaid flowcharts for each user journey
 3. Validate flows against implementation
 4. Update tools to match documented UX (if gaps found)
@@ -513,11 +513,11 @@ If you find essential knowledge only in code:
 
 5. **Thought: "I'll write tests later/after implementation"**
    - → Pitfall 5 (TDD skipped)
-   - Action: Use references/prompts/evolve/2b-create-tests.md FIRST
+   - Action: See `references/guides/tdd.md` if structured TDD is what you want (optional, not a LiveSpec mandate)
 
 6. **Thought: "The user request is clear enough"**
    - → Pitfall 6 (UX flows missing)
-   - Action: Use references/prompts/design/1a-document-ux-flows.md
+   - Action: Use `/livespec:design` (UX flow documentation guidance)
 
 7. **Thought: "I can add that parameter to the API"**
    - → Pitfall 7 (Incomplete features)
@@ -620,9 +620,9 @@ If you find essential knowledge only in code:
 ## Further Reading
 
 - **references/templates/reports/implementation-report.md.template** - Full report template with cognitive bias sections
-- **references/prompts/evolve/4f-document-implementation.md** - Prompt for creating honest implementation reports
+- **`/livespec:learn report`** - Deep mode for creating honest implementation reports
 - **specs/workspace/constitution.spec.md** - Core principles including spec-first enforcement
-- **references/guides/tdd.md** - TDD guide with mandatory-by-default approach
+- **references/guides/tdd.md** - Optional TDD guide (not a LiveSpec mandate)
 - **references/standards/metaspecs/domain-model.spec.md** - Template for domain model specs
 
 ---

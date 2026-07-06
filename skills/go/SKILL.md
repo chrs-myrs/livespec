@@ -107,6 +107,34 @@ Then invoke: `/livespec:init`
 
 Present full options based on detected intent.
 
+### Continue-or-Restart Check (Initialized Projects Only)
+
+When the project is already past Phase 0 (has completed DESIGN/BUILD/VERIFY work) and the intent describes new work rather than a status/session request, route through this check before picking a skill — it decides whether the request needs a Phase 0 restart or can continue in the current phase.
+
+**Classify the change:**
+
+| Type | Signal | Routing |
+|------|--------|---------|
+| A. Bug fix / small enhancement | Fixing broken behaviour, minor tweak, perf, tech debt | CONTINUE → `/livespec:audit` (drift) then `/livespec:design debug` or straight to implementation |
+| B. New user-facing feature | New capability, workflow, or user type | RESTART at Phase 0 → `/livespec:design` (outcomes first) |
+| C. UX rethink / redesign | Changing how a feature works, accessibility, mobile/responsive redesign | RESTART at Phase 0, **mandatory research evaluation** |
+| D. Architectural / technical change | New tech, infra change, new technical constraints | RESTART at Phase 0 → `/livespec:design` (constraints first) |
+
+**Mandatory research trigger** — if the change touches any of these, Phase 0 restart with research is mandatory regardless of size:
+- Accessibility (disabilities, cognitive impairments)
+- Child users (especially with special needs)
+- Safety-critical systems (medical, financial, security)
+- Novel UX patterns (no established convention to follow)
+- High-complexity workflows (multi-step, multiple user types)
+
+**Quick gut-check:** can the change be implemented from existing specs as-is? If yes, CONTINUE regardless of type. If it needs new/changed outcomes, constraints, or behaviours, RESTART at the phase that owns the missing spec.
+
+Two worked examples:
+- *"Reduce scan time from 6 hours to under 1 hour"* → Type A, no research trigger, existing behaviour specs cover it → CONTINUE Phase 4 (update spec only if behaviour changes).
+- *"Redesign the story list for a 9-year-old with cognitive impairment"* → Type C + accessibility/child research trigger → RESTART at Phase 0, research is mandatory before any design work.
+
+When this check yields RESTART, route to `/livespec:design` (it owns Phase 0 outcomes/constraints work) rather than jumping to BUILD-phase skills. When it yields CONTINUE, route as normal from the intent table above.
+
 ## Skill Reference
 
 | Skill | Purpose | When to Use |

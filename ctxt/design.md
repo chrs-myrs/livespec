@@ -221,7 +221,6 @@ specs/artifacts/agents/context-builder.spec.md
 ## References
 
 - Design skill: `/livespec:design`
-- Design prompts (LiveSpec repo only): `references/prompts/design/`
 - Parent context: AGENTS.md
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
