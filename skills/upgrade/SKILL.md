@@ -29,7 +29,18 @@ Run the detection script from the project root (the script ships in the plugin):
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh --detect-only
 ```
 
-If output says "Already on v5" or "No LiveSpec installation detected", report to user and stop.
+Route on the reported status:
+
+| Status | Action |
+|--------|--------|
+| "No LiveSpec installation detected" | Report and stop. Suggest `/livespec:init`; there is no project to upgrade |
+| "Already on v5. Nothing to migrate." | Skip Steps 2 and 3 (no legacy artifacts to remove) and go straight to Step 3a |
+| Legacy artifacts listed | Continue to Step 2 |
+
+A current project still has upgrade work to do. Conventions may never have been
+vendored and the validation hook may never have been installed, because both
+postdate most existing v5 projects. Stopping at this step would make those steps
+unreachable for exactly the projects that need them.
 
 If `/livespec:upgrade check` was invoked, report detection results and stop.
 
@@ -58,6 +69,8 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh
 Report the output to the user. If verification fails, show the failures and stop.
 
 ## Step 3a: Vendor or Refresh Conventions
+
+Reached for both a migrated project and one that was already current.
 
 ```bash
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/vendor-conventions.sh --check
