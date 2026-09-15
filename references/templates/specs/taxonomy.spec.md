@@ -41,9 +41,7 @@ governs: All specs/workspace/taxonomy.spec.md files
 ### Automated Validation
 
 **Taxonomy structure validation:**
-```bash
-bash scripts/validate-taxonomy-structure.sh
-```
+Planned validator `validate-taxonomy-structure.sh` (not yet built, GAP-004).
 
 **Checks:**
 - Presence of all four required section headings
@@ -51,9 +49,7 @@ bash scripts/validate-taxonomy-structure.sh
 - Blocks commit if sections missing (via pre-commit hook)
 
 **Workspace scope audit:**
-```bash
-bash scripts/audit-workspace-scope.sh
-```
+Planned validator `audit-workspace-scope.sh` (not yet built, GAP-004).
 
 **Checks:**
 - Applies "about vs in" test to each workspace/ file

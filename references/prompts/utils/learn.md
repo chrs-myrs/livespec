@@ -150,7 +150,7 @@ After all updates applied:
    ```
 
 2. **Run context regeneration:**
-   Use `/livespec:evolve`
+   Use `/livespec:audit`
 
 3. **Confirm completion:**
    ```
@@ -172,7 +172,7 @@ After all updates applied:
 
 **Use instead:**
 - **`/livespec:learn`** - To analyze session and identify learnings first
-- **`/livespec:evolve`** - To rebuild context without spec updates
+- **`/livespec:audit`** - To rebuild context without spec updates
 - Direct editing - For deliberate spec changes (not session-driven)
 
 ---

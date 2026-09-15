@@ -99,6 +99,39 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
 Run `--check` first and report the state. An existing foreign hook is preserved
 as `pre-commit.local` and chained, never discarded.
 
+## Step 3c: Remediate What the Upgrade Surfaced
+
+Installing validation into a project with historical drift will block its commits
+until that drift is fixed. The upgrade that installs the validation must also
+offer the repair, so run it here rather than leaving the user stuck.
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/remediate-references.sh --check
+```
+
+Present what it would rewrite: retired command names mapped to current ones, and
+convention references repointed at the copies just vendored in Step 3a. Then
+apply:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/remediate-references.sh
+```
+
+Migration guides and historical documents are skipped: their "old reference"
+columns are correct as written.
+
+Then run the validators and report what remains:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-constraints.sh
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-crossrefs.sh
+```
+
+Anything still failing is project-specific and needs a decision: a retired name
+with no equivalent, a script the project never built, or a spec reference that
+has to be repointed by hand. List these for the user rather than guessing. Do not
+leave the step without saying plainly whether the project can now commit.
+
 ## Step 4: Commit
 
 Stage and commit all changes:

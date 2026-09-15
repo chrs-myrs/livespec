@@ -17,33 +17,21 @@ You are generating a comprehensive health report. Run all diagnostics, calculate
 
 ### Step 1: Run All Validation Scripts
 
-Execute the 8 validation scripts and collect results:
+Execute the validators that ship and collect results:
 
 ```bash
-# 1. Taxonomy structure
-bash scripts/validate-taxonomy-structure.sh 2>&1
-
-# 2. Workspace scope
-bash scripts/audit-workspace-scope.sh 2>&1
-
-# 3. Code in specs
-bash scripts/detect-code-in-specs.sh 2>&1
-
-# 4. Architecture alignment
-bash scripts/validate-architecture-alignment.sh 2>&1
-
-# 5. Contract completeness
-bash scripts/check-contract-completeness.sh 2>&1
-
-# 6. Value structure
-bash scripts/validate-value-structure.sh 2>&1
-
-# 7. Agent compliance measurement
-bash scripts/measure-agent-compliance.sh 2>&1
-
-# 8. Compliance dashboard generation
-bash scripts/generate-compliance-dashboard.sh 2>&1
+bash scripts/validate-frontmatter.sh 2>&1    # schema and relationship graph
+bash scripts/validate-crossrefs.sh 2>&1      # relationship targets resolve
+bash scripts/validate-constraints.sh 2>&1    # self-assertions and toolchain independence
+bash scripts/validate-registries.sh 2>&1     # registry integrity
+bash scripts/validate-purpose.sh 2>&1        # PURPOSE.md boundary
 ```
+
+The eight validators named in `specs/features/project-health.spec.md`
+(taxonomy structure, workspace scope, code-in-specs, architecture alignment,
+contract completeness, value structure, agent compliance, compliance dashboard)
+have never been built. That is recorded as GAP-004; do not instruct anyone to run
+them.
 
 **Collect for each:**
 - Exit code (0 = pass, non-zero = fail)

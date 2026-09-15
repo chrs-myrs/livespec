@@ -276,7 +276,7 @@ Present comprehensive plan:
 1. Create templates (extractions)
 2. Update AGENTS.md (move sections, add references)
 3. Update constitution.spec.md (if compression level changes)
-4. Regenerate context tree (use `/livespec:evolve`)
+4. Regenerate context tree (use `/livespec:audit`)
 5. Validate (check file sizes, cross-references)
 6. Monitor next 5 sessions (measure improvement)
 ```

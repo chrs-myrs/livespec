@@ -30,8 +30,18 @@ ERRORS=0
 WARNINGS=0
 
 # Documentation surfaces that make claims about what ships.
+# Migration documents describe a past state and legitimately name tooling from
+# the era they document. Excluded from existence checks, as guides already were:
+# "we used to run X" is not a claim that X exists now.
+migration_doc() {
+    case "$1" in
+        */guides/*|*migration*|*/migration/*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
 # Existence checks run broad: any surface asserting a command or tool exists.
-SCAN_PATHS=(README.md AGENTS.md CLAUDE.md commands skills agents ctxt references/guides specs templates)
+SCAN_PATHS=(README.md AGENTS.md CLAUDE.md commands skills agents ctxt references specs templates docs)
 EXISTING=()
 for p in "${SCAN_PATHS[@]}"; do [[ -e "$p" ]] && EXISTING+=("$p"); done
 
@@ -44,29 +54,30 @@ for p in "${LAYOUT_PATHS[@]}"; do [[ -e "$p" ]] && LAYOUT_EXISTING+=("$p"); done
 err()  { echo "${RED}ERROR${RESET}: $1"; ERRORS=$((ERRORS+1)); }
 warnn() { echo "${YELLOW}WARN${RESET}:  $1"; WARNINGS=$((WARNINGS+1)); }
 
-# --- Check 1: every referenced /livespec:<name> resolves to commands/<name>.md ---
+# --- Check 1: every referenced /livespec:<name> resolves ---
+# Deduplicate on the command NAME. An earlier version deduplicated on a sort
+# field that the match's own colon made constant, so only one reference per
+# file was ever checked.
 echo "Checking referenced commands..."
-while IFS= read -r line; do
-    [[ -z "$line" ]] && continue
-    file="${line%%:*}"; rest="${line#*:}"; lineno="${rest%%:*}"
-    name="$(grep -oE '/livespec:[a-z-]+' <<< "$line" | head -1 | cut -d: -f2)"
+while IFS= read -r name; do
     [[ -z "$name" ]] && continue
     # Commands ship in the plugin, not in consuming projects. Resolve locally
-    # first, then against the plugin. When neither directory is visible the
-    # claim cannot be verified, so say nothing rather than cry wolf in every
-    # project that installs the hook.
+    # first, then against the plugin. When neither is visible the claim cannot
+    # be verified, so say nothing rather than cry wolf in every project.
     if [[ -f "commands/${name}.md" ]]; then
-        :
+        continue
     elif [[ -n "${CLAUDE_PLUGIN_ROOT:-}" && -f "${CLAUDE_PLUGIN_ROOT}/commands/${name}.md" ]]; then
-        :
+        continue
     elif [[ ! -d "commands" && -z "${CLAUDE_PLUGIN_ROOT:-}" ]]; then
-        :
-    else
-        err "/livespec:${name} referenced but no such command exists"
-        echo "         $file:$lineno"
+        continue
     fi
-done < <(grep -rn -oE '/livespec:[a-z-]+' "${EXISTING[@]}" 2>/dev/null \
-         | sort -u -t: -k1,1 -k3,3 || true)
+    err "/livespec:${name} referenced but no such command exists"
+    grep -rn -F "/livespec:${name}" "${EXISTING[@]}" 2>/dev/null | head -3 \
+        | sed 's/^/         /' | cut -c1-120
+done < <(for f in $(grep -rl -E '/livespec:[a-z-]+' "${EXISTING[@]}" 2>/dev/null); do
+             migration_doc "$f" && continue
+             grep -h -oE '/livespec:[a-z-]+' "$f" 2>/dev/null
+         done | cut -d: -f2 | sort -u || true)
 
 # --- Check 2: every referenced scripts/*.sh exists ---
 echo "Checking referenced scripts..."
@@ -81,8 +92,10 @@ while IFS= read -r ref; do
             grep -rn -F "$ref" "${EXISTING[@]}" 2>/dev/null | head -3 | sed 's/^/         /'
         fi
     fi
-done < <(grep -rh -oE '(bash |\./|Run |sh )[a-zA-Z0-9_/-]+\.sh' "${EXISTING[@]}" 2>/dev/null \
-         | grep -oE '[a-zA-Z0-9_/-]+\.sh' \
+done < <(for f in $(grep -rl -E '(bash |\./|Run |sh )[a-zA-Z0-9_/-]+\.sh' "${EXISTING[@]}" 2>/dev/null); do
+             migration_doc "$f" && continue
+             grep -h -oE '(bash |\./|Run |sh )[a-zA-Z0-9_/-]+\.sh' "$f" 2>/dev/null
+         done | grep -oE '[a-zA-Z0-9_/-]+\.sh' \
          | grep -vE '^(setup|install|build|deploy|run)\.sh$' | sort -u || true)
 
 # --- Check 3: command-to-skill routing integrity ---

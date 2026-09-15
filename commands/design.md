@@ -72,5 +72,5 @@ If fails MSL gate, explains why and suggests alternative.
 
 ## See Also
 
-- `/livespec:evolve` - Health checks and context generation
+- `/livespec:audit` - Health checks and context generation
 - `/livespec:learn` - Session completion and learning capture

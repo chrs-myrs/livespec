@@ -14,6 +14,16 @@ entries:
     severity: medium
     status: open
     date: 2026-09-15
+  - id: GAP-005
+    summary: Vendoring covers conventions but not templates, so project specs still reference templates by a toolchain path that does not resolve
+    severity: medium
+    status: open
+    date: 2026-09-15
+  - id: GAP-004
+    summary: Eight validators named by project-health.spec.md were never built, so the health report cannot run as specified
+    severity: medium
+    status: open
+    date: 2026-09-15
   - id: GAP-003
     summary: Two artifact specs describe deliverables that were never produced (context tree visualiser script, value-structure diagram)
     severity: low
@@ -73,3 +83,48 @@ Two artifact specs describe deliverables that do not exist:
 Both are specs waiting on implementation rather than code missing its spec, which is the healthier direction of the two. They are the reason `specifies` coverage is 17 of 19 rather than complete: there is nothing to point at.
 
 Either build them or delete the specs. Leaving them is the state that produced this session's larger findings, where documentation described tooling that had been removed.
+
+---
+
+## GAP-004: Health-report validators never built
+
+**Severity**: medium
+**Status**: open
+**Recorded**: 2026-09-15 at `ab64480`
+
+`specs/features/project-health.spec.md` names eight validators: taxonomy
+structure, workspace scope, code-in-specs, architecture alignment, contract
+completeness, value structure, agent compliance, and compliance dashboard
+generation. None exist.
+
+`references/prompts/utils/run-health-report.md` instructed running all eight. It
+now runs the five validators that ship and states plainly that the eight do not
+exist. Two metaspecs carried the same invocations and now name them as planned.
+
+This is the same shape as GAP-003 and the healthier direction of the two: specs
+waiting on implementation rather than code missing its spec. The harm was that
+the prompt read as an instruction, so an agent following it would try to run
+tooling that has never existed.
+
+Either build them or reduce the spec to what health reporting actually does.
+
+---
+
+## GAP-005: Templates are not vendored
+
+**Severity**: medium
+**Status**: open
+**Recorded**: 2026-09-15 at `ab64480`
+
+`vendor-conventions.sh` vendors `references/standards/conventions/` and nothing
+else. Project specs also reference `references/templates/specs/*.spec.md` through
+`governed-by`, and those paths exist only in the toolchain.
+
+Observed in a real project: after vendoring conventions and remediating
+references, broken cross-references fell from twelve to five, and all five
+remaining point at templates. The composition problem is solved for conventions
+and untouched for templates.
+
+The mechanism generalises: vendoring is directory-agnostic, so the work is
+deciding which template directories a project should own a copy of, and whether
+a template a project never uses should be vendored at all.

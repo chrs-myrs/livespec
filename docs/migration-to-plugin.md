@@ -44,7 +44,7 @@ ls -la .livespec/
 Test a command to ensure the plugin is active:
 
 ```bash
-/livespec:validate
+/livespec:audit validate
 ```
 
 You should see validation output (may show errors if project needs updates - that's fine).
@@ -60,8 +60,8 @@ If you have any scripts or documentation referencing `.livespec/` paths, update 
 | `.livespec/prompts/2-build/2a-implement-from-specs.md` | `/livespec:build` |
 | `.livespec/prompts/3-verify/3a-run-validation.md` | `/livespec:verify` |
 | `.livespec/prompts/4-evolve/4a-detect-drift.md` | `/livespec:audit detect` |
-| `.livespec/prompts/utils/validate-project.md` | `/livespec:validate` |
-| `.livespec/prompts/utils/complete-session.md` | `/livespec:complete-session` |
+| `.livespec/prompts/utils/validate-project.md` | `/livespec:audit validate` |
+| `.livespec/prompts/utils/complete-session.md` | `/livespec:learn` |
 
 ### Step 5: Remove .livespec/ Directory
 
@@ -117,19 +117,19 @@ The plugin version is managed automatically.
 
 | Old Prompt | New Command |
 |------------|-------------|
-| `validate-project.md` | `/livespec:validate` |
-| `complete-session.md` | `/livespec:complete-session` |
-| `run-health-report.md` | `/livespec:health-report` |
+| `validate-project.md` | `/livespec:audit validate` |
+| `complete-session.md` | `/livespec:learn` |
+| `run-health-report.md` | `/livespec:audit health` |
 | `regenerate-contexts.md` | `/livespec:audit context` |
 | `learn.md` | `/livespec:learn` |
 | `audit-*.md` | `/livespec:audit [type]` |
-| `next-steps.md` | `/livespec:next-steps` |
-| `suggest-improvements.md` | `/livespec:suggest-improvements` |
-| `reorganize-workspace.md` | `/livespec:refine-workspace` |
+| `next-steps.md` | `/livespec:go` |
+| `suggest-improvements.md` | `/livespec:audit` |
+| `reorganize-workspace.md` | `/livespec:design workspace` |
 | `run-spike.md` | `/livespec:run-spike <topic>` |
 | `analyze-failure.md` | `/livespec:analyze-failure` |
 | `upgrade-methodology.md` | `/livespec:upgrade` |
-| `measure-session-compliance.md` | `/livespec:measure-session` |
+| `measure-session-compliance.md` | `/livespec:learn` |
 
 ## What Stays the Same
 

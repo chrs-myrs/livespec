@@ -109,7 +109,7 @@ derives-from:
 
 **Generation workflow:**
 - Triggered by workspace spec changes, PURPOSE.md updates, or version upgrades
-- Skill: `/livespec:evolve context` (delegates to the context-builder agent)
+- Skill: `/livespec:audit context` (delegates to the context-builder agent)
 - Sources: PURPOSE.md, specs/workspace/, specs/foundation/outcomes.spec.md, specs/foundation/constraints.spec.md
 - Output: regenerated AGENTS.md
 - Validation: file size check, section completeness, manual review

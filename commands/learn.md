@@ -114,4 +114,4 @@ Apply learnings to specs?
 ## See Also
 
 - `/livespec:design` - Create and refine specs
-- `/livespec:evolve` - Health checks and validation
+- `/livespec:audit` - Health checks and validation

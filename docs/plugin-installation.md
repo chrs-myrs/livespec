@@ -36,7 +36,7 @@ You should see `livespec` in the list of installed plugins.
 ### Step 4: Test a Command
 
 ```bash
-/livespec:next-steps
+/livespec:go
 ```
 
 This should analyze your project and suggest next steps.

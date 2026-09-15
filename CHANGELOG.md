@@ -18,6 +18,19 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Added
+
+- **`scripts/remediate-references.sh`** ⚠️ MEDIUM impact: repairs the stale references an upgrade surfaces. Rewrites retired command names to current equivalents using the migration table, and repoints convention references at the copies vendored into the project. Migration guides and historical documents are skipped, since their "old reference" columns are correct as written. A retired name with no equivalent is reported, never guessed
+- **`/livespec:upgrade` Step 3c** runs remediation, then reports what remains and whether the project can commit. Installing validation into a project with historical drift blocks its commits, so the upgrade that installs it now offers the repair
+
+### Fixed
+
+- **`validate-constraints.sh` checked roughly one command reference per file** ⚠️ HIGH impact: the deduplication sorted on a field that the match's own colon made constant, so all but the first `/livespec:` reference in each file went unchecked. Fixing it immediately exposed stale references across this repository, including the `/livespec:evolve` rename recorded as ISSUE-005 on 2026-07-06 and never swept
+- **ISSUE-005 resolved**: `/livespec:evolve` replaced with `/livespec:audit` in the eight live files it named; the ninth was the historical CHANGELOG mention it predicted
+- **`references/prompts/utils/run-health-report.md` instructed eight validators that have never existed**. It now runs the five that ship. Two taxonomy metaspecs carried the same invocations and now name them as planned rather than runnable
+- **Migration documents excluded from existence checks**: a document describing a past migration legitimately names tooling from that era, and treating it as a live claim produced false errors
+- **Scan widened** to all of `references/` and `docs/`, which is what exposed the above
+
 ---
 
 ## [5.9.1] - 2026-09-15

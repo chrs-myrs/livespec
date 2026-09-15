@@ -20,7 +20,7 @@ cd your-project
 claude /install-plugin https://github.com/chrs-myrs/livespec
 ```
 
-The plugin provides skills (`/livespec:go`, `/livespec:design`, `/livespec:evolve`) and agent context automatically.
+The plugin provides skills (`/livespec:go`, `/livespec:design`, `/livespec:audit`) and agent context automatically.
 
 ### Option 2: Manual Setup
 
