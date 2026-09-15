@@ -253,6 +253,15 @@ done
 bash scripts/validate-registries.sh   # exit 1 on any error; warnings for staleness / work-item language
 ```
 
+**6. Self-Assertion Integrity**
+- Every `/livespec:*` command, `scripts/*.sh` invocation and `routes-to:` target referenced in docs must resolve
+- Catches the failure class where documentation describes a command set or tool that does not ship
+- Governed by `specs/artifacts/validators/validate-constraints.spec.md`
+
+```bash
+bash scripts/validate-constraints.sh   # exit 1 on unresolved command, script or route
+```
+
 ### Output Format
 
 ```

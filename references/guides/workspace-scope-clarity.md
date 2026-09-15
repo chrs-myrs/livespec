@@ -248,8 +248,8 @@ If you see these in workspace/, move them:
 ## Validation Commands
 
 **Audit workspace scope:**
-```bash
-bash scripts/audit-workspace-scope.sh
+```
+/livespec:audit
 ```
 
 **Checks:**

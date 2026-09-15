@@ -1,5 +1,6 @@
 ---
 description: Create and refine specifications (Phase 0 + Phase 1)
+routes-to: skills/design/SKILL.md
 ---
 
 # Design

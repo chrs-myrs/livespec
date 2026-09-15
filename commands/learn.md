@@ -1,5 +1,6 @@
 ---
 description: Session completion, compliance measurement, and learning capture
+routes-to: skills/learn/SKILL.md
 ---
 
 # Learn

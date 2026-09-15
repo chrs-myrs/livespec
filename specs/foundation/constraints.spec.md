@@ -15,9 +15,10 @@ supports:
 # LiveSpec Constraints
 
 ## Requirements
-- [!] LiveSpec must operate within seven critical boundaries:
-  - LiveSpec works across Claude, Copilot, Cursor (agent agnostic)
-  - Setup requires only file operations, no installation scripts (manual adoption)
+- [!] LiveSpec must operate within eight critical boundaries:
+  - Projects are workable by any AI agent (agent agnostic)
+  - Project work never requires the authoring toolchain (toolchain independence)
+  - A project's behaviour changes only by deliberate acceptance (no action at a distance)
   - All specs follow 4-section MSL format (MSL minimalism)
   - All content is standard markdown in standard folders (no lock-in)
   - Every spec has testable validation criteria (testable behaviors)
@@ -25,18 +26,41 @@ supports:
   - Specs contain WHAT/WHY only, never implementation HOW (abstraction purity)
 
 ## Agent Agnostic
-Works with any AI coding agent (Claude, Copilot, Cursor, etc.). Same structure produces effective results across 3+ agents.
+
+The claim applies to projects, not to the authoring toolchain. Conflating the two
+makes the constraint untestable and, in practice, false.
+
+| Layer | Covers | Harness coupling |
+|-------|--------|------------------|
+| Authoring toolchain | init, workspace design, audit | May be harness-specific |
+| Project artefacts | PURPOSE.md, specs/, AGENTS.md, ctxt/ | Must be harness-neutral |
 
 **Validation criteria:**
-- Generated utilities go in `prompts/` (not `.claude/commands/` or tool-specific locations)
-- Prompts are readable markdown (no tool-specific syntax requirements)
-- Works with Claude, Copilot, Cursor, and manual copy-paste
-- No dependencies on specific IDE features (slash commands are optional convenience)
-- AGENTS.md guides usage (agent reads prompts and executes them)
-- Same prompts work across different agents without modification
+- A project can be implemented, reviewed and delivered by an agent with no LiveSpec tooling installed
+- Project artefacts are standard markdown carrying no tool-specific syntax
+- No project artefact references a path that exists only inside a plugin cache
+- Slash commands are optional convenience for project work, never a requirement
+- Generated AGENTS.md is self-sufficient for the 80% case without fetching toolchain files
 
-### Manual Adoption
-Simple enough to adopt without custom tooling. Users can set up and use with standard file operations and AI prompts only.
+### Toolchain Independence
+The authoring toolchain enhances LiveSpec work. It is never a hard dependency for
+building a project's deliverables.
+
+**Validation criteria:**
+- Removing the toolchain leaves the project buildable
+- No generated project file instructs the reader to run a command the project does not ship
+- Every path referenced by a project artefact resolves within that project
+
+### No Action at a Distance
+A project's behaviour is a function of what it has accepted, never of what its
+toolchain happens to be today. Updating LiveSpec must not change how an existing
+project behaves until that project deliberately accepts the change.
+
+**Validation criteria:**
+- Conventions a project depends on exist as local files within that project
+- Each vendored convention records its source, version and content hash
+- Upgrades present changes for explicit acceptance and never apply silently
+- No project spec resolves through a version-pinned or machine-local path
 
 ### MSL Minimalism
 All specifications follow MSL principles. Specifications cannot be further reduced without losing essential information.
@@ -67,8 +91,9 @@ Specifications contain WHAT and WHY, never implementation HOW. Implementation de
 
 ## Validation
 
-- LiveSpec works across Claude, Copilot, Cursor (agent agnostic)
-- Setup requires only file operations, no installation scripts (manual adoption)
+- Projects are workable by any AI agent (agent agnostic)
+- Project work never requires the authoring toolchain (toolchain independence)
+- Project behaviour changes only by deliberate acceptance (no action at a distance)
 - All specs follow 4-section MSL format (MSL minimalism)
 - All content is standard markdown in standard folders (no lock-in)
 - Every spec has testable validation criteria (testable behaviors)

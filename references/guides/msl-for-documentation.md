@@ -364,7 +364,7 @@ implements: specs/features/documentation/architecture-docs.spec.md
 **Orphaned doc detection**:
 ```bash
 # Validation catches docs without specs
-bash scripts/validate-value-structure.sh
+bash scripts/validate-crossrefs.sh
 
 # If doc has no spec → Why does it exist?
 # If spec has no requirement → What outcome does it serve?

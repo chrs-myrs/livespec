@@ -447,7 +447,7 @@ Workspace Specs
 
 ```bash
 # Check for upstream references
-scripts/validate-value-structure.sh
+bash scripts/validate-crossrefs.sh
 
 # Check bidirectional links
 tests/structure/test_full_validation.sh
@@ -473,8 +473,8 @@ tests/structure/test_full_validation.sh
 
 **Run validation**:
 ```bash
-bash scripts/validate-value-structure.sh
-bash tests/structure/test_full_validation.sh
+bash scripts/validate-crossrefs.sh
+bash scripts/validate-frontmatter.sh
 ```
 
 ---

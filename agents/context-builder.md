@@ -6,7 +6,7 @@ description: |
 
   <example>
   Context: User wants to regenerate agent context after updating specs
-  user: "/livespec:evolve context"
+  user: "/livespec:audit context"
   assistant: "I'll delegate context regeneration to the context-builder agent."
   <commentary>
   Context generation reads many large files and produces substantial output. Running as a sub-agent keeps the parent session lean.

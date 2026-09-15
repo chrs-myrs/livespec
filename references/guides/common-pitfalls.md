@@ -286,7 +286,7 @@ If you discover missing UX flows after implementation:
 **Root cause**: Contract completeness validation didn't exist (fixed in 3.3.0)
 
 **Prevention (Post-3.3.0)**:
-- ✅ **Contract completeness validation**: scripts/check-contract-completeness.sh
+- ✅ **Contract completeness validation**: `/livespec:audit validate`
 - ✅ **Required behavior links**: Every contract parameter must reference behavior spec
 - ✅ **Pre-commit hook**: Automatic validation before commit
 - ✅ **CI/CD integration**: tests/structure/test_full_validation.sh includes completeness check
@@ -302,7 +302,7 @@ If you discover missing UX flows after implementation:
 
 **Recovery**:
 If you discover parameters without behavior specs:
-1. Run scripts/check-contract-completeness.sh to identify all gaps
+1. Run `/livespec:audit validate` to identify all gaps
 2. For each parameter, create or link to behavior spec
 3. Implement missing behavior (if parameter claims functionality)
 4. OR remove parameter (if not actually needed)
@@ -571,7 +571,7 @@ If you find essential knowledge only in code:
    - Escape hatch with scoring system (≥8/10 to skip)
 
 6. **Contract Completeness**:
-   - scripts/check-contract-completeness.sh validates parameters
+   - `/livespec:audit validate` validates parameters
    - Every contract parameter must link to behavior spec
    - Integrated into validation suite
 

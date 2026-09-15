@@ -13,6 +13,19 @@ Automate the LiveSpec release process: determine version increment, update all v
 2. Read `CHANGELOG.md` — specifically the `## [Unreleased]` section
 3. If the Unreleased section is empty (no entries between `## [Unreleased]` and the next `## [`), STOP and tell the user: "Nothing to release — the Unreleased section in CHANGELOG.md is empty."
 
+## Step 1b: Validate Self-Assertions (blocking)
+
+Run before anything else is changed:
+
+```bash
+bash scripts/validate-constraints.sh
+```
+
+If it exits non-zero, STOP and report the violations. A release must not ship
+documentation describing commands, scripts or routes that do not exist; this is
+the check that would have caught the v5.4.2 README documenting `/livespec:init`
+before that command shipped.
+
 ## Step 2: Determine Version Increment
 
 Analyse the Unreleased changelog entries to decide increment type:
