@@ -192,6 +192,27 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 
 ---
 
+## CRITICAL: Toolchain vs Project — Agent-Agnostic Boundary
+
+LiveSpec binds every project to eight constraints (`specs/foundation/constraints.spec.md`). The one agents get wrong most often:
+
+**Agent-agnostic applies to the PROJECT, not the authoring toolchain.**
+
+| Layer | Covers | Harness coupling |
+|-------|--------|-------------------|
+| Authoring toolchain | `/livespec:init`, workspace design, `/livespec:audit` | May be harness-specific (Claude Code plugin) |
+| Project artefacts | `PURPOSE.md`, `specs/`, `AGENTS.md`, `ctxt/` | Must be harness-neutral — buildable, reviewable, deliverable by an agent with NO LiveSpec tooling installed |
+
+**Toolchain Independence:** the toolchain enhances LiveSpec work; it is never a hard dependency for building a project's deliverables. Generated `AGENTS.md` must be self-sufficient for the 80% case without fetching toolchain files, and must never instruct the reader to run a command the project doesn't ship.
+
+**No Action at a Distance:** a project's behaviour is a function of what it has *accepted*, never of what its toolchain happens to be today. Conventions a project depends on are vendored as local files (`scripts/vendor-conventions.sh` → `specs/workspace/standards/`, stamped with `vendored-from`/`source-version`/`source-hash` provenance) — never resolved through a version-pinned or machine-local plugin path. Upgrades present changes for explicit acceptance; they never apply silently.
+
+**Remaining five constraints** (MSL Minimalism, No Framework Lock-in, Testable Behaviors, Spec Durability, Abstraction Purity) are detailed in `specs/foundation/constraints.spec.md`.
+
+**Before asserting a path in project context, ask:** does it resolve inside the project, or only inside the installed plugin? If only the plugin, it doesn't belong in `AGENTS.md`/`ctxt/`. `scripts/validate-constraints.sh` checks this mechanically.
+
+---
+
 ## Folder Organization Decision Tests
 
 **CRITICAL:** Check `specs/workspace/taxonomy.spec.md` FIRST before creating any files.
@@ -364,7 +385,9 @@ specs/
 /livespec:init full       # Interactive: domain, compression level, workspace specs
 
 # Creates: PURPOSE.md, specs/{workspace,foundation,strategy,features,interfaces}/,
-#          registries/{decisions,debt,security}.md (required tier), initial AGENTS.md
+#          registries/{decisions,debt,security}.md (required tier),
+#          specs/workspace/standards/ (vendored conventions, with provenance),
+#          .git/hooks/pre-commit (installed validation hook), initial AGENTS.md
 ```
 
 No `.livespec/` copy step, no submodule, no manual folder scaffolding — the `init` skill does this. Existing legacy installations (submodule or directory copy) migrate via `/livespec:upgrade`.
@@ -581,16 +604,19 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 ### Validation Workflow
 
-**Run validation at key checkpoints:**
-- Before committing: `scripts/validate-frontmatter.sh` (accepts `[--verbose] [--strict] [path]`; scans `specs/` by default)
+**Run validation at key checkpoints (five validators):**
+- Frontmatter compliance: `scripts/validate-frontmatter.sh` (accepts `[--verbose] [--strict] [path]`; scans `specs/` by default)
 - Cross-reference integrity: `scripts/validate-crossrefs.sh` (accepts `[--verbose] [path]`)
+- Constraint integrity: `scripts/validate-constraints.sh` (accepts `[--verbose]`) — every `/livespec:` command, `scripts/*.sh` reference, and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`)
 - Registry integrity: `scripts/validate-registries.sh` (required registries present, entries well-formed, no work-item-style summaries, staleness flagged)
-- After regenerating files: `scripts/validate-purpose.sh`
+- PURPOSE.md boundary: `scripts/validate-purpose.sh` (accepts `[path]`, defaults to `./PURPOSE.md`)
 - Full sweep: `/livespec:audit validate`
 
+**Installed automatically:** `scripts/setup-hooks.sh` wires the resolvable validators into `.git/hooks/pre-commit`, chaining to (not replacing) any pre-existing hook. Skips with a notice, without blocking, when no validators resolve.
+
 **Severity levels:**
-- ERROR: Must fix before committing (missing mandatory fields, wrong type values, underscore field names)
-- WARNING: Should fix soon (governed-by contains metaspec paths, missing backlinks, per-category mandatory field declared empty)
+- ERROR: Must fix before committing (missing mandatory fields, wrong type values, underscore field names, unresolved `/livespec:` command/script/route reference)
+- WARNING: Should fix soon (governed-by contains metaspec paths, missing backlinks, per-category mandatory field declared empty, retired-layout reference outside migration guides)
 
 **Empty relationship fields:** A declared field with no values asserts the relationship does not exist. That is correct for optional fields — an empty `governed-by` is the normal default — and a warning where the category mandates the field. `--strict` promotes those warnings to errors once a project has populated its graph. `validate-frontmatter.sh` prints a populated/declared count per mandatory field; `validate-crossrefs.sh` reports empty fields alongside references checked, so the references-checked figure is not read as coverage.
 
@@ -753,6 +779,10 @@ Focus Efficiency (0-13 points):
 - Bad: `cp -r livespec/dist/ .livespec/` or reading `.livespec/prompts/...`
 - Good: LiveSpec is a plugin — use `/livespec:*` skill commands; reference `references/prompts/` only when working inside the LiveSpec repo itself
 
+**Coupling project artefacts to the toolchain**
+- Bad: `AGENTS.md` instructs the reader to run a plugin-only script the project doesn't ship, or a spec resolves through the plugin's install path
+- Good: Vendor the convention (`scripts/vendor-conventions.sh` → `specs/workspace/standards/`) so the project carries its own local copy with provenance
+
 **Treating registries as backlogs**
 - Bad: Registry entry reads "implement X" or "fix Y" (that's a ticket, not a state observation)
 - Good: Registry entry reads "X is missing because..." or "Y is accepted as a known limitation because..." — see `specs/features/registry-specs.spec.md`
@@ -805,11 +835,20 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these references:
 - **`references/guides/context-positioning.md`** - START/MIDDLE/END pattern for generated context
 - **`references/guides/progressive-disposability.md`** - Layer durability and regeneration
 
+### Automation & Configuration Behaviour Specs
+- **`specs/features/automation.spec.md`** - Sweep and version-migration script behaviour (detection-first, non-mutating sweep)
+- **`specs/features/project-config.spec.md`** - `project.yaml` as version source of truth; plugin manifest agreement
+- **`specs/artifacts/validators/validate-constraints.spec.md`** - Constraint validator behaviour
+- **`specs/artifacts/validators/setup-hooks.spec.md`** - Hook installer behaviour (chains existing hooks, degrades gracefully)
+- **`specs/artifacts/validators/vendor-conventions.spec.md`** - Convention vendoring and provenance behaviour
+
 ### Validation Scripts
-- **`scripts/validate-frontmatter.sh`** - Check all spec frontmatter (IMP-005)
-- **`scripts/validate-crossrefs.sh`** - Check cross-reference integrity (frontmatter paths resolve)
-- **`scripts/upgrade-to-v5.sh`** - Migrate legacy submodule/copy installs to the v5 plugin
-- **`scripts/sweep-projects.sh`** - Multi-project portfolio audit (backs `/livespec:sweep`)
+- **`scripts/validate-frontmatter.sh`**, **`validate-crossrefs.sh`**, **`validate-constraints.sh`**, **`validate-registries.sh`**, **`validate-purpose.sh`** - the five validators; flags in Validation Workflow above
+- **`scripts/check-requires-spec.sh`** - Layer 2 spec-first gate; `path/to/file`
+- **`scripts/setup-hooks.sh`** - Install the pre-commit hook that chains the resolvable validators; `[--check] [--force]`
+- **`scripts/vendor-conventions.sh`** - Vendor conventions into `specs/workspace/standards/` with provenance; `[--check] [--source DIR] [--target DIR]`
+- **`scripts/upgrade-to-v5.sh`** - Migrate legacy submodule/copy installs to the v5 plugin; `[--detect-only] [--dry-run]`
+- **`scripts/sweep-projects.sh`** - Multi-project portfolio audit (backs `/livespec:sweep`); `[--json] [--root <path>] [--stale-days <N>]`
 
 ### Plugin Skills (Invoke Directly)
 - **`/livespec:init`** - Initialize a new project

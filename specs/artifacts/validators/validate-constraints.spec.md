@@ -39,6 +39,11 @@ previously found only by a user hitting it.
   - Project context (`AGENTS.md`, `CLAUDE.md`, `ctxt/`) must not reference the plugin root
   - Every script the project context instructs must exist in the project, not only in the plugin
   - Enforces the toolchain independence criterion: removing the toolchain leaves the project buildable
+  - The plugin-root check is unconditional and has no escape for illustrative use,
+    so an anti-pattern example in project context must describe the pattern in
+    words rather than quote the variable. That is a deliberate trade: the leak it
+    prevents is an ERROR, and a heuristic distinguishing example from usage would
+    be no more reliable here than the spec-path check already rejected above
   - Does NOT check whether spec paths named in project context resolve. Generated
     context carries teaching examples in the same syntax as real references, so no
     mechanical rule separates assertion from illustration, and a check that cannot

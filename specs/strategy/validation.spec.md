@@ -15,16 +15,15 @@ derives-from:
 
 ## Requirements
 - [!] LiveSpec validates adherence to own methodology through bash-based test suite that checks observable behaviors (folder structure, MSL format, traceability, prompt alignment) without testing implementation details, enabling continuous verification that repository follows defined conventions and maintaining dogfooding integrity.
-  - Test suite in tests/ directory (prompts/, structure/ subdirectories)
-  - All tests are executable bash scripts (.sh extension)
-  - run-all-tests.sh orchestrates full validation
-  - Tests check observable behaviors only (file existence, format, naming, structure)
-  - Tests do NOT check implementation details (code quality, content accuracy, user workflows)
-  - Test categories: structure compliance, MSL format, traceability, naming, alignment
-  - Tests pass when LiveSpec follows its own rules (dogfooding validated)
-  - Test failures indicate drift (specs vs practice misalignment)
-  - Tests runnable in CI/CD (exit codes: 0 success, 1 failure)
-  - No test framework dependencies (bash, grep, sed only)
+  - Validators live in `scripts/` as executable bash scripts (`.sh`)
+  - Each validator has an artifact spec under `specs/artifacts/validators/`
+  - Validators check observable behaviours only (file existence, format, naming, structure, resolvability)
+  - Validators do NOT check implementation details (code quality, content accuracy, user workflows)
+  - Validation passes when LiveSpec follows its own rules (dogfooding validated)
+  - Validation failure indicates drift between specs and practice
+  - Exit codes: 0 success, 1 violations, 2 usage error
+  - No test framework dependencies (bash, grep, sed, awk only)
+  - `scripts/setup-hooks.sh` installs them as a pre-commit hook so they run without being remembered
 
 ## Testing Philosophy
 
@@ -72,7 +71,7 @@ derives-from:
 **Trade-offs accepted:**
 - Less sophisticated assertions (basic string matching)
 - No mocking/stubbing capabilities
-- Manual test discovery (run-all-tests.sh lists scripts)
+- Manual validator discovery (the hook runs whichever it can resolve)
 - Basic reporting (pass/fail counts)
 
 **Benefits realized:**
@@ -82,165 +81,21 @@ derives-from:
 - Users can run same tests on their projects
 - Transparent (can read test source easily)
 
-## Test Categories
+## Validators
 
-### 1. Structure Compliance Tests (tests/prompts/test_folder_structure.sh)
+Each has an artifact spec under `specs/artifacts/validators/`.
 
-**Validates:**
-- specs/workspace/ contains development methodology
-- specs/features/ contains observable behaviors
-- specs/strategy/ contains technical decisions
-- PURPOSE.md exists at root
-- skills/, agents/, commands/ contain deliverables
+| Validator | Checks | Failure means |
+|-----------|--------|---------------|
+| `validate-frontmatter.sh` | Base six fields, type/category/fidelity values, per-category mandatory fields, relationship graph population | A spec cannot be placed or related correctly |
+| `validate-crossrefs.sh` | Every relationship field target resolves on disk | A spec points at something that does not exist |
+| `validate-constraints.sh` | Every `/livespec:` command, invoked script and `routes-to:` target resolves; project context is usable without the toolchain | LiveSpec asserts something about itself that is untrue |
+| `validate-registries.sh` | Required registries present, entries well-formed, no work-item summaries, staleness flagged | Accepted current state is unrecorded or misrecorded |
+| `validate-purpose.sh` | PURPOSE.md within the content-line boundary, required sections, misplaced content routed | Vision has absorbed content belonging in specs |
 
-**Spec:** specs/features/folder-structure.spec.md (via references/standards/conventions/)
-
-**Example checks:**
-```bash
-# Validation: workspace/ contains required specs
-[ -f "specs/workspace/constitution.spec.md" ]
-[ -f "specs/workspace/patterns.spec.md" ]
-[ -f "specs/workspace/workflows.spec.md" ]
-
-# Validation: skills/ contains SKILL.md files
-[ -f "skills/audit/SKILL.md" ]
-```
-
-### 2. MSL Format Compliance (tests/prompts/test_msl_format.sh)
-
-**Validates:**
-- All .spec.md files have YAML frontmatter
-- Frontmatter contains criticality field (CRITICAL or IMPORTANT)
-- Frontmatter contains failure_mode field
-- File has ## Requirements section
-- Requirements use [!] marker for critical items
-- Title exists (# Heading)
-
-**Spec:** references/standards/metaspecs/base.spec.md
-
-**Example checks:**
-```bash
-# Check frontmatter exists
-head -1 "$spec_file" | grep -q "^---$"
-
-# Check criticality field
-grep -q "^criticality: \(CRITICAL\|IMPORTANT\)$" frontmatter
-
-# Check ## Requirements section exists
-grep -q "^## Requirements$" "$spec_file"
-```
-
-### 3. Traceability Tests (tests/structure/test_traceability.sh)
-
-**Validates:**
-- Specs have frontmatter dependency fields (derives_from, constrained_by, satisfies, supports, applies_to)
-- Dependency chains are complete (referenced specs exist)
-- No circular dependencies (A → B → A)
-- Every spec traceable back to requirements or metaspecs
-
-**Spec:** specs/workspace/patterns.spec.md (dependency conventions)
-
-**Example checks:**
-```bash
-# Check for dependency frontmatter
-echo "$FRONTMATTER" | grep -qE "derives_from:|constrained_by:|satisfies:"
-
-# Validate referenced files exist
-for ref in $REFERENCES; do
-  [ -f "$ref" ] || echo "FAIL - Missing $ref"
-done
-```
-
-### 4. Naming Convention Tests (tests/prompts/test_spec_naming.sh)
-
-**Validates:**
-- Behavior specs use .spec.md extension
-- Skills use `skills/<name>/SKILL.md` layout
-- Workspace specs follow kebab-case naming
-- No spaces in filenames
-- Lowercase preferred
-
-**Spec:** references/standards/conventions/naming.spec.md
-
-**Example checks:**
-```bash
-# Behavior specs must end in .spec.md
-for spec in specs/features/*.spec.md; do
-  [[ "$spec" =~ \.spec\.md$ ]] || FAIL
-done
-
-# Skills match skills/<name>/SKILL.md pattern
-for skill_dir in skills/*/; do
-  [ -f "${skill_dir}SKILL.md" ] || FAIL
-done
-```
-
-### 5. Skill Alignment Tests (tests/prompts/test_prompt_behaviors.sh)
-
-**Validates:**
-- Skills/commands have frontmatter pointing to defining spec (or specs reference the deliverable via `specifies:`)
-- Referenced spec files exist
-- Spec file contains behavior definition for skill
-
-**Spec:** specs/workspace/patterns.spec.md (spec ↔ skill alignment)
-
-**Example checks:**
-```bash
-# Extract spec reference from artifact spec frontmatter
-SPEC_REF=$(sed -n '/^specifies:/s/^specifies: //p' "$spec_file")
-
-# Validate deliverable exists
-[ -f "$SPEC_REF" ] || echo "FAIL - $spec_file references missing deliverable"
-```
-
-### 6. Full Validation (tests/structure/test_full_validation.sh)
-
-**Validates:**
-- Circularity: Every spec has constrained_by
-- Completeness: Every deliverable has defining spec
-- Consistency: No orphaned specs or deliverables
-- Metaspecs: All metaspecs exist in references/standards/metaspecs/
-
-**Spec:** specs/strategy/dogfooding.spec.md (circularity requirement)
-
-**Example checks:**
-```bash
-# Check every spec constrained
-for spec in specs/**/*.spec.md; do
-  grep -q "^constrained_by:" "$spec" || echo "MISSING constrained_by: $spec"
-done
-
-# Count deliverables vs defining specs
-DELIVERABLE_COUNT=$(find skills/ agents/ commands/ -type f | wc -l)
-SPEC_COUNT=$(find specs/features/ -name "*.spec.md" | wc -l)
-```
-
-## Test Runner (run-all-tests.sh)
-
-**Purpose:**
-- Execute all test scripts
-- Aggregate results
-- Provide summary
-- Exit with appropriate code
-
-**Design:**
-```bash
-for test_file in tests/prompts/*.sh tests/structure/*.sh; do
-  if "$test_file"; then
-    PASSED_TESTS=$((PASSED_TESTS + 1))
-  else
-    FAILED_TESTS=$((FAILED_TESTS + 1))
-  fi
-done
-
-[ $FAILED_TESTS -gt 0 ] && exit 1 || exit 0
-```
-
-**Benefits:**
-- Single command runs all tests
-- CI/CD integration (GitHub Actions checks exit code)
-- Local development feedback
-- Pre-commit validation
+Two further scripts support the spec-first protocol rather than validating specs:
+`check-requires-spec.sh` answers whether a path requires a specification, and
+`setup-hooks.sh` installs the validators as a chaining pre-commit hook.
 
 ## Continuous Validation Approach
 
@@ -359,13 +214,12 @@ Tests pass
 
 ## Validation
 
-- Test suite exists in tests/ directory
-- All tests are executable bash scripts
-- run-all-tests.sh aggregates and runs all tests
-- Tests validate structure, format, traceability, naming, alignment
-- Tests do NOT validate content quality, UX, or outcomes
-- Test suite passes on current LiveSpec repository
-- Tests use only bash, grep, sed (no frameworks)
-- Tests runnable locally and in CI/CD
-- Test failures indicate drift between specs and practice
-- Connection to dogfooding clear (tests validate we follow own rules)
+- Five validators exist in `scripts/`, each executable bash
+- Each validator has an artifact spec declaring `specifies` for it
+- Validators check structure, format, traceability, naming, and resolvability
+- Validators do NOT check content quality, UX, or outcomes
+- All five pass on the current LiveSpec repository
+- Validators use only bash, grep, sed and awk (no frameworks)
+- Validators are runnable locally; CI is absent and recorded as GAP-002
+- Validation failure indicates drift between specs and practice
+- Connection to dogfooding clear (validators check we follow our own rules)

@@ -63,6 +63,8 @@ target-project (user's repo):
 
 **Key insight:** `specs/` governs LiveSpec's own development. The plugin (`skills/`, `commands/`, `agents/`) is what target projects invoke — nothing is copied into their repos. This replaced the pre-v5 `dist/` + submodule/copy model entirely.
 
+**Toolchain vs project boundary** (dogfooding's sharpest edge): the authoring toolchain (`init`, workspace design, `audit`) may be harness-specific, but LiveSpec's own project artefacts (`PURPOSE.md`, `specs/`, `AGENTS.md`, `ctxt/`) must stay harness-neutral — the "no action at a distance" constraint. `scripts/vendor-conventions.sh` is the concrete mechanism: it copies conventions into `specs/workspace/standards/` with `vendored-from`/`source-version`/`source-hash` provenance so a project never resolves a convention through a version-pinned plugin path.
+
 ### Specs About Specs Pattern
 
 **Governance projects have specs at three levels:**
@@ -144,35 +146,11 @@ specifies:
 
 **When governance project learns something:**
 
-1. **Capture learning in template:**
-   ```
-   templates/agents/spec-first-enforcement.md
-   → Reusable verification content
-   ```
-
-2. **Update spec to mandate template:**
-   ```
-   specs/workspace/workflows.spec.md
-   → "Agents use spec-first-enforcement template"
-   ```
-
-3. **Update agent to reference template:**
-   ```
-   agents/context-builder.md
-   → Includes template in AGENTS.md generation
-   ```
-
-4. **Regenerate AGENTS.md:**
-   ```
-   /livespec:audit context
-   → AGENTS.md now contains template content
-   ```
-
-5. **Plugin ships the update:**
-   ```
-   Users on the installed plugin receive the improved skill/template
-   directly — no manual copy step, no dist/ sync
-   ```
+1. Capture reusable content in a template (`templates/agents/spec-first-enforcement.md`)
+2. Update a spec to mandate the template (`specs/workspace/workflows.spec.md`)
+3. Update `agents/context-builder.md` to reference it during generation
+4. Regenerate AGENTS.md (`/livespec:audit context`) so it carries the content inline
+5. Plugin users receive the update directly on next `/plugin update` — no manual copy step
 
 **Result:** Learnings flow: violations → templates → specs → skills/agents → AGENTS.md → plugin users.
 
@@ -208,7 +186,7 @@ specifies:
 - Learnings captured in templates
 - Violations trigger methodology updates
 - Changes ship via the plugin (skills/commands/agents), not a copy step
-- Registries are tiered: required (`decisions.md`, `debt.md`, `security.md`), recommended (`conflicts.md`, `gaps.md`), optional (`dependencies.md`, `issues.md` — only without a ticketing platform). They record accepted current state — known tensions, not a backlog. Entries read as state observations ("X is missing because...", "Y debt is accepted because..."); when an entry becomes actionable it graduates to a ticket and is removed from the registry. See `specs/features/registry-specs.spec.md`.
+- Registries are tiered (required/recommended/optional) and record accepted current state, not a backlog — entries read as state observations, not tickets. See AGENTS.md "Registries" and `specs/features/registry-specs.spec.md`.
 
 ### Framework Development
 
@@ -221,23 +199,13 @@ specifies:
 ### Example 1: Adding New Skill (Governance Project)
 
 ```bash
-# Step 1: Create behavior spec FIRST
-Use /livespec:design feature <name>
-# Creates: specs/features/<name>.spec.md
-# Full frontmatter with type: behavior, satisfies, guided-by
-
-# Step 2: Create artifact spec
-# Creates: specs/artifacts/commands/<name>.spec.md (or skills/ equivalent)
-# Full frontmatter with type: command/prompt, specifies: commands/<name>.md
-
-# Step 3: Implement the skill/command
-# Creates: skills/<name>/SKILL.md, commands/<name>.md
-
-# Step 4: Update registry
-# Edit: specs/artifacts/prompts/registry.spec.md (if prompt-backed)
-# (Not registries/*.md — those are accepted-current-state data, not this kind of tracking table)
-
-# Step 5: Regenerate agents
+# 1. Behavior spec first: /livespec:design feature <name>
+#    → specs/features/<name>.spec.md (type: behavior, satisfies, guided-by)
+# 2. Artifact spec: specs/artifacts/commands/<name>.spec.md (specifies: commands/<name>.md)
+# 3. Implement: skills/<name>/SKILL.md, commands/<name>.md
+# 4. Update specs/artifacts/prompts/registry.spec.md if prompt-backed
+#    (not registries/*.md — that's accepted-current-state data, not a tracking table)
+# 5. Regenerate agents
 /livespec:audit context
 # Updates: AGENTS.md (references new skill)
 ```
@@ -257,7 +225,8 @@ scripts/validate-frontmatter.sh  # finds violations
 # Fix all specs to comply
 
 # Step 3: USE the validation in current session
-scripts/validate-frontmatter.sh  # must exit 0
+scripts/validate-frontmatter.sh   # must exit 0
+scripts/validate-constraints.sh   # confirms no dangling references introduced
 
 # Step 4: Commit only after validation passes
 ```

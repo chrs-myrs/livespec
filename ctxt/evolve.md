@@ -49,19 +49,16 @@ Before implementing any feature:
 
 ### Validation Against Specs
 
-**Run validation at key checkpoints:**
+**Run validation at key checkpoints (five validators):**
 ```bash
-# Frontmatter compliance (IMP-005)
-scripts/validate-frontmatter.sh
-
-# Cross-reference integrity
-scripts/validate-crossrefs.sh
-
-# Purpose boundary check
-scripts/validate-purpose.sh
+scripts/validate-frontmatter.sh    # frontmatter compliance (IMP-005)
+scripts/validate-crossrefs.sh      # cross-reference integrity
+scripts/validate-constraints.sh    # commands/scripts/routes LiveSpec claims exist
+scripts/validate-registries.sh     # registries/ integrity
+scripts/validate-purpose.sh        # PURPOSE.md boundary
 ```
 
-Full sweep: `/livespec:audit validate`
+Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs these as a pre-commit hook (chains to any existing hook rather than replacing it).
 
 **Severity levels:**
 - ERROR: Must fix before committing
@@ -70,8 +67,10 @@ Full sweep: `/livespec:audit validate`
   - Underscore field names (use hyphens)
   - Broken cross-references
   - governed-by containing metaspec paths
+  - Unresolved `/livespec:` command, `scripts/*.sh`, or `routes-to:` reference
 - WARNING: Should fix soon
   - Missing backlinks, stale generated files
+  - Retired-layout reference (`.livespec/`, `.livespec-version`) outside migration guides
 
 ### Acceptance Review
 
@@ -209,8 +208,9 @@ derives-from:
 # - IMPORTANT: Fix this week
 # - MINOR: Backlog
 
-# Confirm frontmatter compliance
+# Confirm frontmatter and constraint compliance
 scripts/validate-frontmatter.sh
+scripts/validate-constraints.sh
 
 # Confirm sync
 /livespec:audit validate
@@ -219,8 +219,9 @@ scripts/validate-frontmatter.sh
 ### Pre-Release Validation
 
 ```bash
-# All validations must pass
+# All five validators must pass
 scripts/validate-frontmatter.sh
+scripts/validate-constraints.sh
 
 # Rebuild context if workspace specs changed
 /livespec:audit context
@@ -241,6 +242,7 @@ scripts/validate-frontmatter.sh
 - Learn skill: `/livespec:learn`
 - TDD guide (optional): `references/guides/tdd.md`
 - Frontmatter validation: `scripts/validate-frontmatter.sh`
+- Constraint validation: `scripts/validate-constraints.sh`
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
 - Parent context: AGENTS.md

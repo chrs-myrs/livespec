@@ -81,6 +81,26 @@ ERROR: specs/features/auth.spec.md (category: features) missing 'satisfies'
 Fix: Add satisfies: [specs/foundation/outcomes.spec.md ...]
 ```
 
+## Constraint Compliance
+
+### Run Validation
+
+```bash
+scripts/validate-constraints.sh [--verbose]
+```
+
+**Checks:**
+- Every `/livespec:<name>` referenced in README, skills, commands, or agent context resolves to `commands/<name>.md`
+- Every `scripts/<name>.sh` referenced in documentation or agent instructions exists
+- Every `commands/*.md` `routes-to:` target names an existing `skills/*/SKILL.md`
+- Retired-layout references (`.livespec/`, `.livespec-version`) outside migration guides and CHANGELOG history
+- Project context (`AGENTS.md`, `CLAUDE.md`, `ctxt/`) doesn't reference the plugin root, and every script it instructs exists in the project
+
+**Does not check:** whether spec paths named in project context resolve — generated context carries teaching examples in the same syntax as real references, so no mechanical rule can separate assertion from illustration.
+
+**Exit code 0:** No errors (warnings permitted)
+**Exit code 1:** Unresolved command, script, or route
+
 ### Per-Category Reminder
 
 | Category | Required fields beyond base six |
@@ -270,12 +290,13 @@ git rm specs/features/obsolete.spec.md
 ### Weekly Maintenance
 
 ```bash
-# Monday: Check frontmatter + health
+# Monday: Check frontmatter + constraints + health
 scripts/validate-frontmatter.sh
+scripts/validate-constraints.sh
 /livespec:audit health
 
 # Triage:
-# - ERROR: Fix immediately (frontmatter)
+# - ERROR: Fix immediately (frontmatter, constraints)
 # - CRITICAL: Fix immediately (health)
 # - IMPORTANT: Fix this week
 # - MINOR: Backlog
@@ -287,8 +308,12 @@ scripts/validate-frontmatter.sh
 ### Pre-Release Validation
 
 ```bash
-# All validations must pass for release
+# All five validators must pass for release
 scripts/validate-frontmatter.sh
+scripts/validate-crossrefs.sh
+scripts/validate-constraints.sh
+scripts/validate-registries.sh
+scripts/validate-purpose.sh
 
 # Rebuild context
 /livespec:audit context
@@ -311,6 +336,8 @@ scripts/validate-frontmatter.sh
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Frontmatter spec: `specs/features/mandatory-frontmatter.spec.md`
 - Frontmatter script: `scripts/validate-frontmatter.sh`
+- Constraint validator spec: `specs/artifacts/validators/validate-constraints.spec.md`
+- Hook installer: `scripts/setup-hooks.sh` (spec: `specs/artifacts/validators/setup-hooks.spec.md`)
 - Parent context: AGENTS.md
 
 ---

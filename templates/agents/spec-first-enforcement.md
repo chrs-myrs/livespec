@@ -42,19 +42,20 @@ Creating new permanent files requires presenting plan with:
 - Tests (`tests/`, `__tests__/`)
 - Config (`.gitignore`, `tsconfig.json`, `package.json`, lock files)
 - Documentation (`README`, guides)
-- Agents (`.claude/agents/*/instructions.md`)
-- Slash commands (`.claude/commands/`)
+- Agent definitions (`agents/*.md`)
+- Skills (`skills/*/SKILL.md`) and commands (`commands/*.md`)
 
 **NO (no spec needed):**
 - `var/`, `generated/`, `.archive/`
-- Build outputs (`dist/`, `build/`)
+- Build outputs (`build/`)
 - Logs, caches
 
 **Exception:** `specs/workspace/*.spec.md` ARE specs (no meta-spec needed)
 
 ### Flexible Spec Organization
 
-Multiple related files can share one spec (agent decides based on coherence):
+Multiple related files can share one spec (agent decides based on coherence).
+The paths below are illustrative; a project creates whichever it needs:
 - `specs/features/documentation.spec.md` → All README/GUIDE files
 - `specs/features/project-config.spec.md` → Config files like .gitignore
 - `specs/features/automation.spec.md` → Related maintenance scripts

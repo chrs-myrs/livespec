@@ -110,6 +110,9 @@ supports:
   | third-party-dependencies.spec.md | *(none — process-only, not inlined)* | N/A — no generated target |
   | version-management.spec.md | AGENTS.md footer version stamp only | No |
   | workspace-agent.spec.md | Governs AGENTS.md's own structure, positioning, compression, and critical-section rules, including mandating inline of `templates/agents/spec-first-enforcement.md` | Always structural |
+  | foundation/constraints.spec.md | AGENTS.md § Toolchain vs Project boundary; § Core Principles | Always structural — CRITICAL foundation content reaches several sections |
+  | foundation/outcomes.spec.md | AGENTS.md § Summary | No |
+  | features/*.spec.md, artifacts/*.spec.md | AGENTS.md § Reference Library | No |
 
   **Structural** means the change can add, remove, or resize generated files beyond the mapped target(s) — it forces full regeneration regardless of how small the diff looks. Everything else can be scoped to the listed file(s) provided no spec or generated file is being added or removed. A changed source with **no generated target** (see `generated-files.spec.md`, `third-party-dependencies.spec.md` above) is excluded from the changed-target set entirely — it doesn't force FULL by itself, unlike a genuinely unclear mapping.
 
@@ -129,4 +132,4 @@ supports:
 - Always-include content appears in root context
 - Compression level matches constitution.spec.md declaration
 - Content focus produces balanced, relevant guidance
-- Spec → Generated File Map covers every file in specs/workspace/ plus PURPOSE.md and taxonomy.spec.md
+- Spec → Generated File Map covers every file in specs/workspace/, plus PURPOSE.md, taxonomy.spec.md, and the foundation, features and artifacts categories

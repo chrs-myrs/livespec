@@ -28,7 +28,7 @@ Session completion analyzes agent compliance and context efficiency to maintain 
 - 0: Skipped TodoWrite gate
 
 **Layer 2 — Validation Check (0-2 points):**
-- 2: Ran validation checks before creating files (including `scripts/validate-frontmatter.sh`)
+- 2: Ran validation checks before creating files (frontmatter, cross-reference, constraint validators as relevant)
 - 1: Ran checks for some files
 - 0: Skipped validation checks
 

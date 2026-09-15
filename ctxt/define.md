@@ -29,7 +29,10 @@ Use `/livespec:init`:
 1. Creates directory structure
 2. Copies default workspace specs
 3. Generates template PURPOSE.md
-4. Creates initial AGENTS.md
+4. Creates registries/ (required tier: decisions, debt, security)
+5. Vendors conventions into `specs/workspace/standards/` with provenance (`scripts/vendor-conventions.sh`)
+6. Installs the pre-commit validation hook (`scripts/setup-hooks.sh`)
+7. Creates initial AGENTS.md
 
 ### Full Customization Path (20-30 minutes)
 
