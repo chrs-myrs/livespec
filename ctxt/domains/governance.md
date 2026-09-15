@@ -259,5 +259,5 @@ scripts/validate-constraints.sh   # confirms no dangling references introduced
 
 ---
 
-*Governance domain specialist for LiveSpec v5.9.0*
+*Governance domain specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*

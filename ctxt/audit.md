@@ -342,5 +342,5 @@ scripts/validate-purpose.sh
 
 ---
 
-*Audit mode specialist for LiveSpec v5.9.0*
+*Audit mode specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*

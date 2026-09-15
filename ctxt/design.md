@@ -227,5 +227,5 @@ specs/artifacts/agents/context-builder.spec.md
 
 ---
 
-*Design mode specialist for LiveSpec v5.9.0*
+*Design mode specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*

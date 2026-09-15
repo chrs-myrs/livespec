@@ -244,5 +244,5 @@ governed-by: []  # or only truly constraining content specs
 
 ---
 
-*MSL audit specialist for LiveSpec v5.9.0*
+*MSL audit specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*

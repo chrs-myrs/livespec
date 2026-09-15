@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.9.1] - 2026-09-15
+
 ### Fixed
 
 - **`validate-constraints.sh` reported every `/livespec:` reference as broken in consuming projects** ⚠️ HIGH impact: commands ship in the plugin, not in projects, so `commands/<name>.md` never resolves locally. Since v5.9.0 installs this validator as a pre-commit hook, the effect was to block every commit in every project that adopted it. A dogfood upgrade against a real project produced 16 such false errors. The check now resolves locally, then against `${CLAUDE_PLUGIN_ROOT}`, and stays silent when neither is visible rather than failing on a claim it cannot verify

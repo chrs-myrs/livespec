@@ -249,5 +249,5 @@ scripts/validate-constraints.sh
 
 ---
 
-*Evolve mode specialist for LiveSpec v5.9.0*
+*Evolve mode specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*
