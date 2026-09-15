@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.9.0] - 2026-09-15
+
 ### Added
 
 - **Empty relationship field detection** in `scripts/validate-frontmatter.sh` ⚠️ LOW impact: a per-category mandatory field declared `[]` — or as a bare key with no list items — now warns instead of passing silently. Previously `has_field()` tested key presence only, so a mandatory relationship field declared empty satisfied validation while contributing nothing to the spec graph. Default exit codes are unchanged; projects will see new warnings on a run that still passes

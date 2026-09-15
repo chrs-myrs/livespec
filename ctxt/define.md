@@ -191,5 +191,5 @@ During Define mode, establish taxonomy (`specs/workspace/taxonomy.spec.md`):
 
 ---
 
-*Define mode specialist for LiveSpec v5.8.0*
+*Define mode specialist for LiveSpec v5.9.0*
 *Parent: AGENTS.md*

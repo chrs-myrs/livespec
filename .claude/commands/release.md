@@ -70,6 +70,7 @@ Update these files atomically (all must be updated):
 2. **`.claude-plugin/plugin.json`** — update `"version"` field
 3. **`.claude-plugin/marketplace.json`** — update `"version"` in plugins array
 5. **`AGENTS.md`** — update footer line `*Agent configuration for LiveSpec vX.Y.Z*`
+5b. **`ctxt/**/*.md`** — update each footer line `*... specialist for LiveSpec vX.Y.Z*` (7 files)
 6. **`README.md`** — update `**Current Version: X.Y.Z**`
 7. **`skills/sweep/SKILL.md`** — update the hardcoded `**LiveSpec version:** X.Y.Z` example strings in the report-format templates (6 occurrences)
 8. **`CHANGELOG.md`** — rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD` and add a new empty `## [Unreleased]` section above it
