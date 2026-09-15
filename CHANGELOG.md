@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.9.1] - 2026-09-15
+
 ### Added
 
 - **`scripts/remediate-references.sh`** ⚠️ MEDIUM impact: repairs the stale references an upgrade surfaces. Rewrites retired command names to current equivalents using the migration table, and repoints convention references at the copies vendored into the project. Migration guides and historical documents are skipped, since their "old reference" columns are correct as written. A retired name with no equivalent is reported, never guessed
@@ -30,12 +34,6 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 - **`references/prompts/utils/run-health-report.md` instructed eight validators that have never existed**. It now runs the five that ship. Two taxonomy metaspecs carried the same invocations and now name them as planned rather than runnable
 - **Migration documents excluded from existence checks**: a document describing a past migration legitimately names tooling from that era, and treating it as a live claim produced false errors
 - **Scan widened** to all of `references/` and `docs/`, which is what exposed the above
-
----
-
-## [5.9.1] - 2026-09-15
-
-### Fixed
 
 - **`validate-constraints.sh` reported every `/livespec:` reference as broken in consuming projects** ⚠️ HIGH impact: commands ship in the plugin, not in projects, so `commands/<name>.md` never resolves locally. Since v5.9.0 installs this validator as a pre-commit hook, the effect was to block every commit in every project that adopted it. A dogfood upgrade against a real project produced 16 such false errors. The check now resolves locally, then against `${CLAUDE_PLUGIN_ROOT}`, and stays silent when neither is visible rather than failing on a claim it cannot verify
 - **Vendored conventions carried an `extends` reference into the receiving project**, pointing at a metaspec that exists only in the toolchain. Vendoring five conventions planted five broken cross-references. `extends` is now dropped on vendoring; the metaspec template is implied by `type` in any case
