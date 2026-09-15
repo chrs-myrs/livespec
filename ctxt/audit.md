@@ -33,14 +33,20 @@ scripts/validate-frontmatter.sh
 **Checks:**
 - All six base fields present (type, category, fidelity, criticality, failure_mode, governed-by)
 - `type` value is from allowed set
-- `category` matches directory location
+- `category` matches directory location (specs under `specs/` only)
 - `fidelity` is from allowed values
 - Per-category mandatory fields present
+- Per-category mandatory fields carry values — warns when declared empty
 - `governed-by` does NOT contain metaspec paths
 - No underscore field names (rejects `derives_from`, `guided_by`)
 
+**Reports:** populated/declared count per mandatory field, so an unpopulated relationship graph is visible as a proportion rather than hidden behind a pass.
+
+**Arguments:** `[--verbose] [--strict] [path]` — `path` scans a tree other than `specs/` (spec-shaped files under `lib/`, `scripts/`); `--strict` turns empty-field warnings into errors.
+
 **Exit code 0:** All checks pass
 **Exit code 1:** Failures found — must fix before committing
+**Exit code 2:** Usage error (unknown option, path is not a directory)
 
 ### Common Failures
 

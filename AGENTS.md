@@ -582,15 +582,17 @@ When renaming or moving prompts/specs, use systematic checklist:
 ### Validation Workflow
 
 **Run validation at key checkpoints:**
-- Before committing: `scripts/validate-frontmatter.sh`
-- Cross-reference integrity: `scripts/validate-crossrefs.sh`
+- Before committing: `scripts/validate-frontmatter.sh` (accepts `[--verbose] [--strict] [path]`; scans `specs/` by default)
+- Cross-reference integrity: `scripts/validate-crossrefs.sh` (accepts `[--verbose] [path]`)
 - Registry integrity: `scripts/validate-registries.sh` (required registries present, entries well-formed, no work-item-style summaries, staleness flagged)
 - After regenerating files: `scripts/validate-purpose.sh`
 - Full sweep: `/livespec:audit validate`
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, underscore field names)
-- WARNING: Should fix soon (governed-by contains metaspec paths, missing backlinks)
+- WARNING: Should fix soon (governed-by contains metaspec paths, missing backlinks, per-category mandatory field declared empty)
+
+**Empty relationship fields:** A declared field with no values asserts the relationship does not exist. That is correct for optional fields — an empty `governed-by` is the normal default — and a warning where the category mandates the field. `--strict` promotes those warnings to errors once a project has populated its graph. `validate-frontmatter.sh` prints a populated/declared count per mandatory field; `validate-crossrefs.sh` reports empty fields alongside references checked, so the references-checked figure is not read as coverage.
 
 ### Learning Distribution Workflow
 

@@ -1,18 +1,41 @@
 #!/usr/bin/env bash
 # validate-crossrefs.sh — Check all spec frontmatter relationship targets exist
 #
-# Usage: bash scripts/validate-crossrefs.sh [--verbose]
+# Usage: bash scripts/validate-crossrefs.sh [--verbose] [path]
+#   path  tree to scan for *.spec.md (default: specs/)
 # Exit 0: all references valid
 # Exit 1: broken references found
+# Exit 2: usage error
 #
 # Specifies: specs/features/validation/cross-reference-validation.spec.md
 
 set -uo pipefail
 
-VERBOSE="${1:-}"
+VERBOSE=""
+SPEC_ROOT=""
+
+for arg in "$@"; do
+    case "$arg" in
+        --verbose) VERBOSE="--verbose" ;;
+        -*)        echo "Unknown option: $arg" >&2
+                   echo "Usage: $0 [--verbose] [path]" >&2
+                   exit 2 ;;
+        *)         SPEC_ROOT="$arg" ;;
+    esac
+done
+
+SPEC_ROOT="${SPEC_ROOT:-specs/}"
+
+if [[ ! -d "$SPEC_ROOT" ]]; then
+    echo "ERROR: not a directory: $SPEC_ROOT" >&2
+    exit 2
+fi
+
 ERRORS=0
 CHECKED=0
 REFS_CHECKED=0
+FIELDS_DECLARED=0
+FIELDS_EMPTY=0
 
 # Relationship fields to check
 REF_FIELDS="governed-by satisfies guided-by derives-from supports specifies implements extends informed-by supersedes updated-by"
@@ -59,12 +82,16 @@ while IFS= read -r specfile; do
     for field in $REF_FIELDS; do
         # Extract values for this field
         in_field=false
+        field_declared=false
+        field_has_value=false
         while IFS= read -r line; do
             if [[ "$line" =~ ^${field}: ]]; then
                 in_field=true
+                field_declared=true
                 # Check inline value (field: value)
                 inline_val=$(echo "$line" | sed "s/^${field}:[[:space:]]*//" | xargs)
                 if [[ -n "$inline_val" && "$inline_val" != "[]" ]]; then
+                    field_has_value=true
                     clean=$(strip_annotation "$inline_val")
                     if is_path "$clean"; then
                         ((REFS_CHECKED++))
@@ -83,6 +110,7 @@ while IFS= read -r specfile; do
                 if [[ "$line" =~ ^[[:space:]]+-[[:space:]] ]]; then
                     # List item — extract value
                     item_val=$(echo "$line" | sed 's/^[[:space:]]*-[[:space:]]*//' | xargs)
+                    [[ -n "$item_val" ]] && field_has_value=true
                     clean=$(strip_annotation "$item_val")
                     if is_path "$clean"; then
                         ((REFS_CHECKED++))
@@ -99,13 +127,22 @@ while IFS= read -r specfile; do
                 fi
             fi
         done <<< "$fm"
+
+        # A declared field carrying no values resolves nothing — count it rather
+        # than skipping silently, so references-checked is not read as coverage
+        if [[ "$field_declared" == true ]]; then
+            ((FIELDS_DECLARED++))
+            [[ "$field_has_value" == false ]] && ((FIELDS_EMPTY++))
+        fi
     done
 
-done < <(find specs/ -name "*.spec.md" -type f | sort)
+done < <(find "$SPEC_ROOT" -name "*.spec.md" -type f | sort)
 
 echo ""
 echo "Summary:"
-echo "  Files checked:      $CHECKED"
+echo "  Scanned:             $SPEC_ROOT"
+echo "  Files checked:       $CHECKED"
+echo "  Relationship fields: $FIELDS_DECLARED declared, $FIELDS_EMPTY empty"
 echo "  References checked:  $REFS_CHECKED"
 echo "  Broken references:   $ERRORS"
 

@@ -24,6 +24,8 @@ specifies:
   - Extracts file paths from reference values, stripping parenthetical annotations
   - Skips non-path values (e.g., "all_projects", descriptive strings)
   - Reports broken references with source file, field name, and target path
+  - Counts relationship fields declared with no values in the summary, so the references-checked figure is not read as coverage it has not earned
+  - Accepts an optional path argument so spec-shaped files outside `specs/` can be checked, defaulting to `specs/`
   - Exits 0 when all references valid, 1 on any broken reference
   - Integrated into pre-commit hook alongside frontmatter validation
 
@@ -31,7 +33,8 @@ specifies:
 
 - [ ] `scripts/validate-crossrefs.sh` exists and is executable
 - [ ] Script detects broken file path references in frontmatter
-- [ ] Script ignores non-path values and empty arrays
+- [ ] Script ignores non-path values, and counts empty relationship fields rather than skipping them silently
 - [ ] Script strips parenthetical annotations before path checking
 - [ ] Pre-commit hook runs cross-reference validation
-- [ ] All 118 current specs pass with 0 errors
+- [ ] All current specs pass with 0 errors
+- [ ] Summary reports empty relationship fields alongside references checked

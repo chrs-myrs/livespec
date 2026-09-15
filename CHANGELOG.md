@@ -18,6 +18,24 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Added
+
+- **Empty relationship field detection** in `scripts/validate-frontmatter.sh` ⚠️ LOW impact: a per-category mandatory field declared `[]` — or as a bare key with no list items — now warns instead of passing silently. Previously `has_field()` tested key presence only, so a mandatory relationship field declared empty satisfied validation while contributing nothing to the spec graph. Default exit codes are unchanged; projects will see new warnings on a run that still passes
+- **Relationship graph population report**: `validate-frontmatter.sh` prints a populated/declared count per mandatory field, so an unpopulated graph is visible as a proportion rather than hidden behind a pass. `declared - populated` equals the warning count exactly
+- **`--strict` flag** on `validate-frontmatter.sh`: promotes empty-field warnings to errors, letting a project that has populated its graph prevent regression
+- **Optional path argument** on both validators: `validate-frontmatter.sh [path]` and `validate-crossrefs.sh [path]` scan a caller-supplied tree instead of `specs/`, so spec-shaped files living under `lib/` or `scripts/` can be validated at all. Exit code 2 added for usage errors
+- **Empty-field counting** in the `validate-crossrefs.sh` summary: reports relationship fields as "N declared, M empty" alongside references checked, so the references-checked figure is not read as coverage it has not earned
+
+### Changed
+
+- **`specs/features/mandatory-frontmatter.spec.md`**: new "Relationship Field Values" requirement defines what a declared-but-empty field means — legitimate where the field is optional (an empty `governed-by` remains the normal default), a reportable gap where the category mandates it, never an error outside `--strict`
+- **`specs/features/validation/cross-reference-validation.spec.md`**: empty fields counted rather than skipped silently; optional path argument specified
+- **Category-matches-directory check** now applies only to files under a `specs/` path segment. The rule is an invariant of the specs tree; applying it to spec-shaped files elsewhere produced a uniform false error per file
+
+### Fixed
+
+- **`category_from_path()` in `validate-frontmatter.sh`** mis-derived the category for absolute paths — `sed 's|specs/||'` stripped the first match anywhere in the string. Now matches `specs/` as a whole path segment, which also avoids over-matching directories that merely end in `specs/`, such as `metaspecs/`
+
 ---
 
 ## [5.8.0] - 2026-07-06

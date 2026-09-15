@@ -1,18 +1,43 @@
 #!/usr/bin/env bash
 # validate-frontmatter.sh — Check all .spec.md files for IMP-005 frontmatter compliance
 #
-# Usage: bash scripts/validate-frontmatter.sh [--verbose]
+# Usage: bash scripts/validate-frontmatter.sh [--verbose] [--strict] [path]
+#   path      tree to scan for *.spec.md (default: specs/)
+#   --strict  promote empty-mandatory-field warnings to errors
 # Exit 0: all checks pass
 # Exit 1: one or more failures
+# Exit 2: usage error
 #
 # Specifies: specs/features/mandatory-frontmatter.spec.md
 
 set -uo pipefail
 
-VERBOSE="${1:-}"
+VERBOSE=""
+STRICT=""
+SPEC_ROOT=""
+
+for arg in "$@"; do
+    case "$arg" in
+        --verbose) VERBOSE="--verbose" ;;
+        --strict)  STRICT="--strict" ;;
+        -*)        echo "Unknown option: $arg" >&2
+                   echo "Usage: $0 [--verbose] [--strict] [path]" >&2
+                   exit 2 ;;
+        *)         SPEC_ROOT="$arg" ;;
+    esac
+done
+
+SPEC_ROOT="${SPEC_ROOT:-specs/}"
+
+if [[ ! -d "$SPEC_ROOT" ]]; then
+    echo "ERROR: not a directory: $SPEC_ROOT" >&2
+    exit 2
+fi
+
 ERRORS=0
 WARNINGS=0
 CHECKED=0
+EMPTY_MANDATORY=0
 
 # Allowed values (canonical source: references/standards/vocabulary.spec.md)
 VALID_TYPES="outcomes constraints strategy behavior contract workspace taxonomy prompt agent validator diagram command registry domain-model purpose"
@@ -30,6 +55,15 @@ CATEGORY_FIELDS=(
     "interfaces:supports"
     "artifacts:specifies"
 )
+
+# Relationship graph population, counted only where the field is mandatory for
+# the spec's own category (declared - populated == empty-field reports)
+MANDATORY_FIELDS="applies_to derives-from supports satisfies guided-by specifies"
+declare -A FIELD_DECLARED FIELD_POPULATED
+for f in $MANDATORY_FIELDS; do
+    FIELD_DECLARED[$f]=0
+    FIELD_POPULATED[$f]=0
+done
 
 error() {
     echo "  ERROR: $1"
@@ -57,10 +91,56 @@ has_field() {
     echo "$fm" | grep -qE "^${field}:" 2>/dev/null
 }
 
+trim() {
+    local v="$1"
+    v="${v#"${v%%[![:space:]]*}"}"
+    v="${v%"${v##*[![:space:]]}"}"
+    printf '%s' "$v"
+}
+
+# True when a declared field carries no values. Structural: covers both
+# `field: []` and a bare `field:` with no list items beneath it.
+field_is_empty() {
+    local fm="$1" field="$2"
+    local in_field=false found=false val
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^${field}: ]]; then
+            in_field=true
+            val=$(trim "${line#*:}")
+            if [[ -n "$val" && "$val" != "[]" ]]; then
+                found=true
+                break
+            fi
+            continue
+        fi
+        if [[ "$in_field" == true ]]; then
+            if [[ "$line" =~ ^[[:space:]]+-[[:space:]] ]]; then
+                val=$(trim "${line#*-}")
+                if [[ -n "$val" ]]; then
+                    found=true
+                    break
+                fi
+            else
+                in_field=false
+            fi
+        fi
+    done <<< "$fm"
+    [[ "$found" == false ]]
+}
+
 # Get category from directory path
+# Category is the directory immediately under the specs/ path segment.
+# Must match specs/ as a whole segment — metaspecs/ also ends in "specs/".
 category_from_path() {
-    local path="$1"
-    echo "$path" | sed 's|specs/||' | cut -d'/' -f1
+    local path="$1" rest="$1"
+    [[ "$path" =~ (^|/)specs/(.*)$ ]] && rest="${BASH_REMATCH[2]}"
+    echo "$rest" | cut -d'/' -f1
+}
+
+# The category-matches-directory rule is an invariant of the specs/ tree only;
+# spec-shaped files living elsewhere (lib/, scripts/) have no such directory
+under_specs_tree() {
+    [[ "$1" =~ (^|/)specs/ ]]
 }
 
 echo "Validating spec frontmatter (IMP-005)..."
@@ -105,7 +185,7 @@ while IFS= read -r specfile; do
         if ! echo "$VALID_CATEGORIES" | grep -qw "$val"; then
             [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
             error "category '$val' not in allowed values"
-        elif [[ "$val" != "$expected_cat" ]]; then
+        elif under_specs_tree "$specfile" && [[ "$val" != "$expected_cat" ]]; then
             [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
             error "category '$val' does not match directory '$expected_cat'"
         fi
@@ -194,19 +274,54 @@ while IFS= read -r specfile; do
                     if ! has_field "$fm" "$field"; then
                         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
                         error "Missing $cat_name-mandatory field: $field"
+                        continue
+                    fi
+                    ((FIELD_DECLARED[$field]++))
+                    if field_is_empty "$fm" "$field"; then
+                        ((EMPTY_MANDATORY++))
+                        [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
+                        if [[ "$STRICT" == "--strict" ]]; then
+                            error "Empty $cat_name-mandatory field: $field (declared, no values)"
+                        else
+                            warn "Empty $cat_name-mandatory field: $field (declared, no values)"
+                        fi
+                    else
+                        ((FIELD_POPULATED[$field]++))
+                        verbose "$field populated"
                     fi
                 done
             fi
         done
     fi
 
-done < <(find specs/ -name "*.spec.md" -type f | sort)
+done < <(find "$SPEC_ROOT" -name "*.spec.md" -type f | sort)
+
+echo ""
+echo "Relationship graph population (fields mandatory for the spec's category):"
+graph_shown=false
+for f in $MANDATORY_FIELDS; do
+    declared=${FIELD_DECLARED[$f]}
+    [[ $declared -eq 0 ]] && continue
+    graph_shown=true
+    printf "  %-14s %3d / %-3d populated\n" "$f" "${FIELD_POPULATED[$f]}" "$declared"
+done
+[[ "$graph_shown" == false ]] && echo "  (no per-category mandatory fields declared in this tree)"
+
+if [[ ${FIELD_DECLARED[specifies]} -gt ${FIELD_POPULATED[specifies]} ]]; then
+    echo ""
+    echo "  Note: an empty 'specifies' has no substitute field — those artifact specs"
+    echo "        have no machine-checkable link to the deliverable they govern."
+fi
 
 echo ""
 echo "Summary:"
+echo "  Scanned:       $SPEC_ROOT"
 echo "  Files checked: $CHECKED"
 echo "  Errors:        $ERRORS"
 echo "  Warnings:      $WARNINGS"
+echo "  Empty mandatory fields: $EMPTY_MANDATORY"
+[[ "$STRICT" != "--strict" && $EMPTY_MANDATORY -gt 0 ]] && \
+    echo "  (re-run with --strict to fail on empty mandatory fields)"
 
 if [[ $ERRORS -gt 0 ]]; then
     echo ""

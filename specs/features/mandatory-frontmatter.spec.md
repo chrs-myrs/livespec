@@ -65,6 +65,14 @@ derives-from:
   - interfaces specs: `supports`
   - artifacts specs: `specifies` (path to deliverable)
 
+### Relationship Field Values
+
+- [!] A declared relationship field carrying no values asserts that the relationship does not exist; that assertion is legitimate where the field is optional and a reportable gap where the category mandates it.
+  - Empty optional fields report nothing — an empty `governed-by` is the correct default for a spec that nothing governs
+  - Empty per-category mandatory fields report as warnings, never errors: the traceability is usually carried by a different populated field rather than genuinely absent
+  - Empty `specifies` on an artifact spec has no substitute field — it means no machine-checkable link to the deliverable exists
+  - Emptiness is structural, covering both `field: []` and a bare `field:` with no list items beneath it
+
 ### Field Naming Consistency
 
 - All relationship field names use hyphenated form (`derives-from`, `governed-by`, `guided-by`), never underscored (`derives_from`).
@@ -77,10 +85,14 @@ derives-from:
   - Checks base six fields present on all specs
   - Checks per-category mandatory fields present
   - Validates `type` against allowed values
-  - Validates `category` matches directory location
+  - Validates `category` matches directory location for specs under `specs/`
   - Validates `fidelity` against allowed values
   - Warns on `governed-by` containing metaspec paths
   - Warns on underscore field names
+  - Warns on per-category mandatory fields declared empty
+  - Reports relationship graph population per mandatory field — populated against declared — so unpopulated declarations are visible as a proportion
+  - Accepts an optional path argument so spec-shaped files outside `specs/` can be validated, defaulting to `specs/`
+  - Promotes empty-field warnings to errors under `--strict`, letting a project that has populated its graph prevent regression
   - Exits 0 when all checks pass, 1 on any failure
 
 ## Validation
@@ -91,15 +103,17 @@ derives-from:
 - [ ] `category` values match directory for every spec
 - [ ] `fidelity` values are from the allowed set
 - [ ] Per-category mandatory fields present on applicable specs
+- [ ] Per-category mandatory fields declared empty are reported as warnings, with a populated/declared count per field
 
 ### Semantic Correctness
 - [ ] No `governed-by` arrays contain metaspec template paths
-- [ ] Foundation specs have empty or content-only `governed-by`
+- [ ] Foundation specs have empty or content-only `governed-by`, and empty `governed-by` is never reported
 - [ ] No `derives_from` (underscore) remaining anywhere
 - [ ] `type` values correctly imply the right metaspec for each spec
 
 ### Tooling
 - [ ] `scripts/validate-frontmatter.sh` exists and exits 0 against current specs
+- [ ] `scripts/validate-frontmatter.sh` validates a caller-supplied tree as well as `specs/`
 - [ ] Metaspec templates updated to document new mandatory fields
 - [ ] `templates/` include full frontmatter schema for target projects
 
