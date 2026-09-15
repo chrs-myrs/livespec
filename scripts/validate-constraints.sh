@@ -96,6 +96,34 @@ done < <(grep -rn -E '\.livespec/|\.livespec-version' "${LAYOUT_EXISTING[@]}" 2>
          | grep -v 'not a copied `dist/` folder' \
          | cut -c1-140 || true)
 
+# --- Check 5: toolchain independence of project artefacts ---
+# Project context must be usable by an agent with no LiveSpec tooling installed.
+echo "Checking toolchain independence of project context..."
+PROJECT_CTX=()
+for p in AGENTS.md CLAUDE.md ctxt; do [[ -e "$p" ]] && PROJECT_CTX+=("$p"); done
+
+if (( ${#PROJECT_CTX[@]} > 0 )); then
+    while IFS= read -r hit; do
+        [[ -z "$hit" ]] && continue
+        err "project context references the toolchain root: ${hit%%:*}"
+    done < <(grep -rln 'CLAUDE_PLUGIN_ROOT' "${PROJECT_CTX[@]}" 2>/dev/null || true)
+
+    # Every script the project context instructs must exist in the project,
+    # not merely in the plugin: the reader may not have the plugin.
+    while IFS= read -r ref; do
+        [[ -z "$ref" ]] && continue
+        [[ -f "$ref" ]] || err "project context instructs '$ref' which the project does not ship"
+    done < <(grep -rh -oE '(bash |\./|Run |sh )scripts/[a-zA-Z0-9_-]+\.sh' "${PROJECT_CTX[@]}" 2>/dev/null \
+             | grep -oE 'scripts/[a-zA-Z0-9_-]+\.sh' | sort -u || true)
+
+    # Deliberately NOT checked: whether spec paths named in project context
+    # resolve. Generated context legitimately carries teaching examples
+    # (specs/features/auth.spec.md) in the same syntax as real references, so
+    # no mechanical rule separates assertion from illustration. A check that
+    # cannot tell them apart produces false errors and trains readers to
+    # ignore the validator.
+fi
+
 echo ""
 echo "Summary:"
 echo "  Errors:   $ERRORS"

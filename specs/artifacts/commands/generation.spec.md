@@ -9,7 +9,15 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/workspace/patterns.spec.md
-specifies: []
+specifies:
+  - commands/audit.md
+  - commands/birth.md
+  - commands/design.md
+  - commands/go.md
+  - commands/init.md
+  - commands/learn.md
+  - commands/sweep.md
+  - commands/upgrade.md
 ---
 
 # Slash Command Routing

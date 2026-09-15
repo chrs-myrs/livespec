@@ -35,6 +35,15 @@ previously found only by a user hitting it.
   - Flags `.livespec/` and `.livespec-version` outside migration guides and changelog history
   - Enforces the toolchain independence boundary: a project artefact must not point into a layout the project does not have
 
+- [!] Script verifies project context is usable without the toolchain
+  - Project context (`AGENTS.md`, `CLAUDE.md`, `ctxt/`) must not reference the plugin root
+  - Every script the project context instructs must exist in the project, not only in the plugin
+  - Enforces the toolchain independence criterion: removing the toolchain leaves the project buildable
+  - Does NOT check whether spec paths named in project context resolve. Generated
+    context carries teaching examples in the same syntax as real references, so no
+    mechanical rule separates assertion from illustration, and a check that cannot
+    tell them apart trains readers to ignore the validator
+
 - [!] Script reports severity and exits accordingly
   - ERROR for an unresolved command, script or route; exit 1
   - WARNING for a retired-layout reference; exit 0
