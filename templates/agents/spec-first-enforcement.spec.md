@@ -1,7 +1,7 @@
 ---
 criticality: CRITICAL
 failure_mode: Agents lack structural enforcement guidance, resulting in spec-first bypasses and methodology violations
-specifies: .livespec/templates/agents/spec-first-enforcement.md
+specifies: templates/agents/spec-first-enforcement.md
 governed-by: specs/workspace/workspace-agent.spec.md
 ---
 

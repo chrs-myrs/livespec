@@ -58,8 +58,10 @@ For direct access (power users):
 
 | Command | Purpose |
 |---------|---------|
+| `/livespec:init` | Project initialisation |
 | `/livespec:design` | Spec creation and refinement |
 | `/livespec:audit` | Health, validation, context |
 | `/livespec:birth` | Incubate and birth child projects |
 | `/livespec:learn` | Session completion and learning |
+| `/livespec:sweep` | Multi-project portfolio audit |
 | `/livespec:upgrade` | Migrate to v5 plugin |

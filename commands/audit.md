@@ -52,7 +52,7 @@ Executes validation scripts:
 - Generated file protection
 - MSL format compliance
 - Folder structure correctness
-- Version sync (`.livespec-version`, `plugin.json`, `marketplace.json`, `project.yaml`) and skill/command manifest consistency
+- Version sync (`project.yaml`, `plugin.json`, `marketplace.json`) and skill/command manifest consistency
 
 Returns pass/fail with specific errors.
 

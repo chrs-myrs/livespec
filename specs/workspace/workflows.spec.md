@@ -46,7 +46,7 @@ applies_to:
     - Validation checks three critical disciplines:
       - Cross-reference integrity (all frontmatter references valid)
       - Generated file protection (no direct edits bypassing sources)
-      - Version synchronisation (all version indicators match .livespec-version)
+      - Version synchronisation (all version indicators match project.yaml livespec.version)
     - Run validation: Use `/livespec:audit validate`
     - Validation severity levels guide action:
       - ❌ ERROR: Must fix before committing (broken references, direct edits to generated files, version mismatches)
@@ -65,7 +65,7 @@ applies_to:
     - Prevents three failure modes:
       - Direct edits to generated files (AGENTS.md mistake)
       - Broken spec/doc cross-references (clt-formation mistake)
-      - Version drift (v3.0.0 in .livespec-version but v2.4.0 in AGENTS.md)
+      - Version drift (v3.0.0 in project.yaml but v2.4.0 in AGENTS.md)
   - **Dogfooding Validation Workflow** (essential before committing new specs):
     - Create spec following methodology → USE spec in current session → THEN commit
     - Catches integration issues before release (missing files, incomplete workflows, version drift)

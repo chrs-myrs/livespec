@@ -154,7 +154,7 @@ This enables freshness evaluation when reading historical reports.
 # Spec Health Report
 
 <!-- Provenance metadata — do not remove -->
-**LiveSpec version:** [read from .claude-plugin/plugin.json or .livespec-version]
+**LiveSpec version:** [read from project.yaml livespec.version or .claude-plugin/plugin.json]
 **Report generated:** YYYY-MM-DD HH:MM UTC
 **Checks performed:** structural, cross-references, MSL compliance, coverage
 **Project path:** /absolute/path/to/project
@@ -223,11 +223,10 @@ This enables freshness evaluation when reading historical reports.
 - No misplaced files
 
 **5. Version Synchronisation**
-- Four files must agree on version: `.livespec-version`, `.claude-plugin/plugin.json` (`"version"`), `.claude-plugin/marketplace.json` (`"version"` in the `plugins` array), `project.yaml` (`livespec.version`)
-- `.livespec-version` is source of truth; report ERROR naming every file that disagrees
+- Three files must agree on version: `project.yaml` (`livespec.version`), `.claude-plugin/plugin.json` (`"version"`), `.claude-plugin/marketplace.json` (`"version"` in the `plugins` array)
+- `project.yaml` is source of truth; report ERROR naming every file that disagrees
 
 ```bash
-VERSION_FILE=$(cat .livespec-version 2>/dev/null)
 PLUGIN_VERSION=$(grep -m1 '"version"' .claude-plugin/plugin.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 MARKETPLACE_VERSION=$(grep -m1 '"version"' .claude-plugin/marketplace.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 PROJECT_VERSION=$(grep -A2 '^livespec:' project.yaml | grep 'version:' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')

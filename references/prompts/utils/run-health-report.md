@@ -107,7 +107,7 @@ Analyze AGENTS.md and context tree:
 
 ```bash
 # File sizes
-wc -c AGENTS.md .livespec/ctxt/**/*.md 2>/dev/null
+wc -c AGENTS.md ctxt/**/*.md 2>/dev/null
 
 # Target vs actual
 cat specs/workspace/context-architecture.spec.md | grep -E "target.*KB|budget.*KB"

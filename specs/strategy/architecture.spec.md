@@ -101,7 +101,7 @@ Specification templates for bootstrapping:
 ### Version Tracking
 Framework version tracked via the plugin manifest:
 - `.claude-plugin/plugin.json` `version` field is the source of truth
-- `.livespec-version` mirrors it for scripts/specs that need a plain-text read
+- `project.yaml` `livespec.version` is the sole version record; no mirror file
 - Users update via `/plugin update livespec` — no manual version tracking needed
 
 ### specs/workspace/

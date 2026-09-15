@@ -9,7 +9,8 @@ guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
   - specs/features/validation/spec-purity-detection.spec.md
-specifies: []
+specifies:
+  - scripts/check-requires-spec.sh
 implements: 
 ---
 

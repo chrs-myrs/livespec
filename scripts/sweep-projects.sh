@@ -42,13 +42,13 @@ is_excluded() {
 # Check version lag signal (0=ok, 1=warning, 2=critical)
 score_version_lag() {
   local project_dir="$1"
-  local version_file="${project_dir}/.livespec-version"
+  local version_file="${project_dir}/project.yaml"
   local plugin_manifest="${project_dir}/.claude-plugin/plugin.json"
 
-  # Check for .livespec-version file
+  # Read livespec.version from project.yaml (single source of truth)
   if [[ -f "$version_file" ]]; then
     local project_version
-    project_version=$(cat "$version_file" | tr -d '[:space:]')
+    project_version=$(grep -A5 '^livespec:' "$version_file" | grep -m1 'version:' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
     if [[ "$project_version" == "$CURRENT_PLUGIN_VERSION" ]]; then
       echo 0; return
     fi

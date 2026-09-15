@@ -24,7 +24,7 @@ Cross-portfolio LiveSpec audit that discovers, prioritises, analyses, and remedi
   - Discovery completes in <10 seconds via bash script (no agent spawning at this stage)
 
 - [!] Each candidate project is fingerprinted against five maintenance signals
-  - **Version lag**: Project's `.livespec-version` or `.livespec/` contents behind current plugin version
+  - **Version lag**: Project's `livespec.version` in `project.yaml` behind current plugin version
   - **Missing required files**: Expected files absent (`AGENTS.md`, `specs/workspace/`, `PURPOSE.md`, plugin manifest if applicable)
   - **Stale specs**: No spec-related git commits in 60+ days while project has other activity
   - **Structure violations**: Spec files present but not following current MSL format or folder conventions

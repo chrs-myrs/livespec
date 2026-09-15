@@ -32,6 +32,7 @@ LEGACY_LIVESPEC_TYPE=""
 HAS_VERSION_FILE=false
 HAS_NUMBERED_SPECS=false
 HAS_PLUGIN=false
+HAS_PROJECT=false
 
 if [ -d ".livespec-repo" ]; then
   echo "FOUND: .livespec-repo/ (legacy submodule)"
@@ -67,11 +68,24 @@ if [ -d ".claude-plugin" ] || [ -d "$HOME/.claude/plugins/marketplaces/livespec"
   HAS_PLUGIN=true
 fi
 
+# A LiveSpec PROJECT is identified by its own artifacts, independently of whether
+# the plugin happens to be installed on this machine. Project work must not depend
+# on the plugin, so plugin absence must never read as "not a LiveSpec project".
+if { [ -f "PURPOSE.md" ] && [ -d "specs/workspace" ]; } || [ -f "project.yaml" ]; then
+  echo "FOUND: LiveSpec project structure"
+  HAS_PROJECT=true
+fi
+
 # Summarise state
 if ! $HAS_SUBMODULE && ! $HAS_LEGACY_LIVESPEC && ! $HAS_VERSION_FILE && ! $HAS_NUMBERED_SPECS; then
-  if $HAS_PLUGIN; then
+  if $HAS_PROJECT; then
     echo ""
     echo "STATUS: Already on v5. Nothing to migrate."
+    exit 0
+  elif $HAS_PLUGIN; then
+    echo ""
+    echo "STATUS: Plugin installed, but no LiveSpec project structure here."
+    echo "        Use /livespec:init to set up this project."
     exit 0
   else
     echo ""

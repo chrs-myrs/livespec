@@ -23,10 +23,10 @@ The upgrade script only removes legacy artifacts and migrates specs.
 
 ## Step 1: Detect Current State
 
-Run the detection script from the project root:
+Run the detection script from the project root (the script ships in the plugin):
 
 ```bash
-bash scripts/upgrade-to-v5.sh --detect-only
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh --detect-only
 ```
 
 If output says "Already on v5" or "No LiveSpec installation detected", report to user and stop.
@@ -38,7 +38,7 @@ If `/livespec:upgrade check` was invoked, report detection results and stop.
 Run the dry-run to show what will change:
 
 ```bash
-bash scripts/upgrade-to-v5.sh --dry-run
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh --dry-run
 ```
 
 Present the plan to the user and ask for confirmation using AskUserQuestion:
@@ -52,7 +52,7 @@ If cancelled, stop.
 Run the migration:
 
 ```bash
-bash scripts/upgrade-to-v5.sh
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh
 ```
 
 Report the output to the user. If verification fails, show the failures and stop.

@@ -9,7 +9,7 @@ Automate the LiveSpec release process: determine version increment, update all v
 
 ## Step 1: Read Current State
 
-1. Read `.livespec-version` to get the current version
+1. Read `livespec.version` from `project.yaml` to get the current version
 2. Read `CHANGELOG.md` — specifically the `## [Unreleased]` section
 3. If the Unreleased section is empty (no entries between `## [Unreleased]` and the next `## [`), STOP and tell the user: "Nothing to release — the Unreleased section in CHANGELOG.md is empty."
 
@@ -53,10 +53,9 @@ Options:
 
 Update these files atomically (all must be updated):
 
-1. **`.livespec-version`** — replace version string (source of truth)
+1. **`project.yaml`** — update `livespec.version` field (source of truth)
 2. **`.claude-plugin/plugin.json`** — update `"version"` field
 3. **`.claude-plugin/marketplace.json`** — update `"version"` in plugins array
-4. **`project.yaml`** — update `livespec.version` field
 5. **`AGENTS.md`** — update footer line `*Agent configuration for LiveSpec vX.Y.Z*`
 6. **`README.md`** — update `**Current Version: X.Y.Z**`
 7. **`skills/sweep/SKILL.md`** — update the hardcoded `**LiveSpec version:** X.Y.Z` example strings in the report-format templates (6 occurrences)
@@ -90,7 +89,7 @@ If stale references found, fix them before proceeding.
 Stage all changed files explicitly (no `git add .`):
 
 ```bash
-git add .livespec-version .claude-plugin/plugin.json .claude-plugin/marketplace.json \
+git add project.yaml .claude-plugin/plugin.json .claude-plugin/marketplace.json \
   project.yaml AGENTS.md README.md skills/sweep/SKILL.md CHANGELOG.md \
   [any other files with version updates found in Step 4]
 ```

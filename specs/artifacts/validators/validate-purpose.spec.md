@@ -6,7 +6,8 @@ criticality: IMPORTANT
 failure_mode: Without PURPOSE.md boundary validation, documents expand beyond minimal vision statements
 governed-by:
   - specs/strategy/validation.spec.md
-specifies: []
+specifies:
+  - scripts/validate-purpose.sh
 implements: 
 ---
 

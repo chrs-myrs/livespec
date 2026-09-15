@@ -55,6 +55,9 @@ Read these files to understand the project:
 
 **Required (STOP if missing):**
 - `PURPOSE.md`
+
+**Read if present** (these are advisory, not a gate — omit the corresponding
+AGENTS.md content when a file is absent rather than failing the run):
 - `specs/workspace/constitution.spec.md`
 - `specs/workspace/patterns.spec.md`
 - `specs/workspace/workflows.spec.md`
@@ -64,14 +67,13 @@ Read these files to understand the project:
 - `specs/workspace/taxonomy.spec.md` (project domain)
 
 **Configuration:**
-- `project.yaml` — read `context_compression` (light/moderate/aggressive), `doc_format` (AGENTS.md/CLAUDE.md), `context_budget`
-- `.livespec-version` — current version number
+- `project.yaml` — read `context_compression` (light/moderate/aggressive), `doc_format` (AGENTS.md/CLAUDE.md), `context_budget`, and `livespec.version` for the footer
 
 **Content sources:**
 - `specs/workspace/*.spec.md` — all workspace specs
 - `specs/foundation/*.spec.md` — outcomes and constraints
 - `specs/features/*.spec.md` — key behaviors (spec-first enforcement, context generation, etc.)
-- `.livespec/templates/agents/spec-first-enforcement.md` — inline in root AGENTS.md
+- `${CLAUDE_PLUGIN_ROOT}/templates/agents/spec-first-enforcement.md` — inline in root AGENTS.md
 
 ## Step 2: Read Existing Context Tree
 
@@ -104,7 +106,7 @@ Read these files to understand the project:
 13. Context Compression
 14. Session Completion
 15. Common Anti-Patterns
-16. Reference Library (navigation to ctxt/ and .livespec/)
+16. Reference Library (navigation to ctxt/ and plugin references/)
 
 **Content rules:**
 - Extract and compress content FROM specs — do NOT reference specs/workspace/*.spec.md
@@ -141,7 +143,7 @@ Read context-architecture.spec.md for the definitive list of sub-agents and thei
 - Contains load triggers matching AGENTS.md routing table
 
 **Content sources per sub-agent:**
-- Phase/workflow specialists (define, design, evolve): corresponding `.livespec/prompts/[phase]/` + relevant specs
+- Phase/workflow specialists (define, design, evolve): corresponding `${CLAUDE_PLUGIN_ROOT}/skills/[skill]/SKILL.md` + relevant specs
 - Domain specialists: domain-specific specs and patterns
 - Utility specialists (session, msl-audit, audit): relevant feature specs and guides
 
@@ -170,7 +172,7 @@ head -1 AGENTS.md  # Should NOT be "---"
 - Total tree: <100KB
 - NO frontmatter on any file
 - All files have generated-file warning
-- Version in footer matches .livespec-version
+- Version in footer matches `livespec.version` in project.yaml
 
 ## Step 6: Report
 

@@ -6,7 +6,7 @@ criticality: CRITICAL
 failure_mode: Without consistent version management, documentation and version files drift, causing confusion about current release state and breaking version-dependent workflows
 governed-by: []
 applies_to:
-  - .livespec-version
+  - project.yaml
   - AGENTS.md
   - CHANGELOG.md
 ---
@@ -16,8 +16,8 @@ applies_to:
 ## Requirements
 
 - [!] All version-related files remain synchronized across the project
-  - `.livespec-version` file contains current version (single source of truth)
-  - `AGENTS.md` footer link text matches `.livespec-version` (e.g., "LiveSpec v3.1.0")
+  - `livespec.version` in `project.yaml` contains current version (single source of truth)
+  - `AGENTS.md` footer link text matches `project.yaml` `livespec.version` (e.g., "LiveSpec v3.1.0")
   - All files updated atomically in same commit during release
   - Validation detects mismatches before commits (via `/livespec:audit validate`)
 
@@ -45,7 +45,7 @@ applies_to:
 ## Rationale
 
 **Why this prevents drift:**
-- Single source of truth (`.livespec-version`) prevents ambiguity
+- Single source of truth (`project.yaml` `livespec.version`) prevents ambiguity
 - Validation enforces synchronisation automatically
 - Semantic versioning communicates change impact clearly
 - CHANGELOG provides upgrade guidance
@@ -56,7 +56,7 @@ applies_to:
 - Users can trust version indicators match functionality
 
 **Historical example:**
-- v3.0.0 documented in CHANGELOG and `.livespec-version`
+- v3.0.0 documented in CHANGELOG and `project.yaml`
 - But AGENTS.md still referenced v2.4.0 in multiple places
 - Template referenced v2.1.0 in footer
 - Caused confusion about actual current version
@@ -68,13 +68,13 @@ applies_to:
 **Pre-commit validation** (via `/livespec:audit validate`):
 ```bash
 # Extract versions from all files
-VERSION_FILE=$(cat .livespec-version)
+PROJECT_VERSION=$(grep -A2 '^livespec:' project.yaml | grep 'version:' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 AGENTS_FOOTER=$(grep "LiveSpec v" AGENTS.md | grep -oP "v\K[0-9]+\.[0-9]+\.[0-9]+")
 
 # Verify all match
-if [ "$VERSION_FILE" != "$AGENTS_FOOTER" ]; then
+if [ "$PROJECT_VERSION" != "$AGENTS_FOOTER" ]; then
   echo "❌ ERROR: Version mismatch detected"
-  echo "  .livespec-version: $VERSION_FILE"
+  echo "  project.yaml: $PROJECT_VERSION"
   echo "  AGENTS.md footer: $AGENTS_FOOTER"
   exit 1
 fi
@@ -83,10 +83,10 @@ fi
 ### Manual Verification
 
 Before committing changes that affect functionality:
-- [ ] Check `.livespec-version` reflects intended release version
+- [ ] Check `project.yaml` `livespec.version` reflects intended release version
 - [ ] Run `/livespec:audit validate` to verify synchronisation
 - [ ] Verify CHANGELOG has entry for current version
-- [ ] Confirm all version indicators match (`.livespec-version` is source of truth)
+- [ ] Confirm all version indicators match (`project.yaml` is source of truth)
 
 ### Post-Release Verification
 
