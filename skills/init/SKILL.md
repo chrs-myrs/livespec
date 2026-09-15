@@ -255,7 +255,7 @@ Give the project local copies of the conventions its specs derive from:
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/vendor-conventions.sh
 ```
 
-Conventions land in `specs/standards/`, each stamped with `vendored-from`,
+Conventions land in `specs/workspace/standards/`, each stamped with `vendored-from`,
 `source-version` and `source-hash`. Project specs reference those local paths
 instead of restating the generic content, and `/livespec:upgrade` reports when a
 vendored convention has changed upstream.

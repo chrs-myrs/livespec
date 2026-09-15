@@ -1,8 +1,14 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: CRITICAL
 failure_mode: Without clear folder structure, AI agents cannot find relevant context and users become confused about where to place specs
-governed-by:
+governed-by: []
+extends:
   - references/standards/metaspecs/base.spec.md
+applies_to:
+  - specs/
 ---
 
 # Folder Structure Convention

@@ -1,8 +1,14 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Inconsistent naming makes LiveSpec projects harder to understand and navigate
-governed-by:
+governed-by: []
+extends:
   - references/standards/metaspecs/base.spec.md
+applies_to:
+  - specs/
 ---
 
 # Naming Convention

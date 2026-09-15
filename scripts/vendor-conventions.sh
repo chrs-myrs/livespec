@@ -12,7 +12,11 @@ set -uo pipefail
 
 CHECK=false
 SOURCE=""
-TARGET="specs/standards"
+# specs/workspace/standards: category is derived from the directory immediately
+# under specs/, so vendoring to specs/standards/ would derive an invalid category
+# "standards". Conventions govern how the workspace operates, so workspace/ is
+# both valid and correct.
+TARGET="specs/workspace/standards"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in

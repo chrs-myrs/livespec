@@ -1,7 +1,11 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: CRITICAL
 failure_mode: Without context tree structure, agents suffer from context overload, lack specialized guidance, and cannot proactively load phase/domain/utility contexts, reducing focus efficiency and adoption
-governed-by:
+governed-by: []
+extends:
   - references/standards/metaspecs/base.spec.md
 applies_to:
   - AGENTS.md

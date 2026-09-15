@@ -21,7 +21,7 @@ distance": the copy is inert, and updates arrive only when accepted.
 ## Requirements
 
 - [!] Conventions are vendored into the project as real local files
-  - Copied from the toolchain into `specs/standards/`
+  - Copied from the toolchain into `specs/workspace/standards/`, where the derived category is valid
   - A project spec can reference a vendored convention by a stable repository-relative path
   - No project spec resolves through a version-pinned or machine-local toolchain path
 
@@ -47,7 +47,8 @@ distance": the copy is inert, and updates arrive only when accepted.
 
 ## Validation
 
-- First run in a project with no `specs/standards/` vendors every convention and stamps provenance
+- First run in a project with no `specs/workspace/standards/` vendors every convention and stamps provenance
+- Vendored files pass `validate-frontmatter.sh` in the project that received them
 - Second run reports all files unchanged and writes nothing
 - Editing a vendored body causes that file to report as locally edited and be left alone on update
 - A changed upstream body with an unedited local copy reports upstream-changed and is updated

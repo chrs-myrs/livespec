@@ -1,7 +1,11 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Without context compression guidance, projects produce inefficient agent guidance that either overwhelms with detail or lacks necessary structure
-governed-by:
+governed-by: []
+extends:
   - references/standards/metaspecs/base.spec.md
 applies_to:
   - workspace/constitution.spec.md

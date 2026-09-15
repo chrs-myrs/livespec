@@ -1,8 +1,14 @@
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Without dependency tracking, specification relationships become implicit and unverifiable
-governed-by:
+governed-by: []
+extends:
   - references/standards/metaspecs/base.spec.md
+applies_to:
+  - specs/
 ---
 
 # Dependency Convention

@@ -49,7 +49,7 @@ echo "Checking referenced commands..."
 while IFS= read -r line; do
     [[ -z "$line" ]] && continue
     file="${line%%:*}"; rest="${line#*:}"; lineno="${rest%%:*}"
-    name="$(echo "$line" | grep -oE '/livespec:[a-z-]+' | head -1 | cut -d: -f2)"
+    name="$(grep -oE '/livespec:[a-z-]+' <<< "$line" | head -1 | cut -d: -f2)"
     [[ -z "$name" ]] && continue
     if [[ ! -f "commands/${name}.md" ]]; then
         err "/livespec:${name} referenced but commands/${name}.md does not exist"

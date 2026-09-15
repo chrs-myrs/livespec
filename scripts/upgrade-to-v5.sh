@@ -58,7 +58,7 @@ if [ -f ".livespec-version" ]; then
   HAS_VERSION_FILE=true
 fi
 
-if ls -d specs/[0-9]-*/ 2>/dev/null | head -1 > /dev/null 2>&1; then
+if compgen -G "specs/[0-9]-*/" > /dev/null; then
   echo "FOUND: Numbered spec folders (need migration)"
   HAS_NUMBERED_SPECS=true
 fi
@@ -257,7 +257,7 @@ PASS=true
 if [ -d ".livespec-repo" ]; then echo "FAIL: .livespec-repo/ still exists"; PASS=false; else echo "PASS: No submodule"; fi
 if [ -e ".livespec" ]; then echo "FAIL: .livespec still exists"; PASS=false; else echo "PASS: No legacy .livespec"; fi
 if [ -f ".livespec-version" ]; then echo "FAIL: .livespec-version still exists"; PASS=false; else echo "PASS: No version file"; fi
-if ls -d specs/[0-9]-*/ 2>/dev/null | head -1 > /dev/null 2>&1; then echo "FAIL: Numbered spec folders remain"; PASS=false; else echo "PASS: No numbered folders"; fi
+if compgen -G "specs/[0-9]-*/" > /dev/null; then echo "FAIL: Numbered spec folders remain"; PASS=false; else echo "PASS: No numbered folders"; fi
 
 REMAINING=$(grep -rl "specs/1-requirements\|specs/2-strategy\|specs/3-behaviors" specs/ 2>/dev/null || true)
 if [ -n "$REMAINING" ]; then

@@ -81,14 +81,25 @@ verbose() {
 
 # Extract a YAML field value from frontmatter text
 # Handles both single-value and list fields (returns first line only for lists)
+# NOTE: these deliberately avoid pipelines. `echo "$fm" | grep -q ...` sends
+# SIGPIPE to echo when grep exits on first match; with `set -o pipefail` the
+# pipeline returns 141 and a field that IS present reads as missing. That race
+# fires under load and produced intermittent false "Missing required field"
+# errors. Pure bash is both correct and far faster.
 get_field() {
-    local fm="$1" field="$2"
-    echo "$fm" | grep -E "^${field}:" | head -1 | sed "s/^${field}:[[:space:]]*//"
+    local fm="$1" field="$2" line
+    while IFS= read -r line; do
+        if [[ "$line" == "$field":* ]]; then
+            trim "${line#"$field":}"
+            return 0
+        fi
+    done <<< "$fm"
+    return 0
 }
 
 has_field() {
     local fm="$1" field="$2"
-    echo "$fm" | grep -qE "^${field}:" 2>/dev/null
+    [[ $'\n'"$fm" == *$'\n'"$field":* ]]
 }
 
 trim() {
@@ -238,7 +249,7 @@ while IFS= read -r specfile; do
         if [[ "$line" =~ ^governed-by: ]]; then
             in_governed_by=true
             # Check inline value (governed-by: .livespec/...)
-            if echo "$line" | grep -q ".livespec/standard/metaspecs/"; then
+            if grep -q "metaspecs/" <<< "$line"; then
                 [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
                 warn "governed-by contains metaspec reference (should be content governance only)"
             fi
@@ -246,7 +257,7 @@ while IFS= read -r specfile; do
         fi
         if [[ "$in_governed_by" == true ]]; then
             if [[ "$line" =~ ^[[:space:]]+-[[:space:]] ]]; then
-                if echo "$line" | grep -q ".livespec/standard/metaspecs/"; then
+                if grep -q "metaspecs/" <<< "$line"; then
                     [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
                     warn "governed-by contains metaspec reference (should be content governance only)"
                 fi
@@ -257,7 +268,7 @@ while IFS= read -r specfile; do
     done <<< "$fm"
 
     # Check for underscore field names
-    if echo "$fm" | grep -qE "^derives_from:|^governed_by:"; then
+    if grep -qE "^derives_from:|^governed_by:" <<< "$fm"; then
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
         warn "Underscore field name detected (use hyphens: derives-from, governed-by)"
     fi
