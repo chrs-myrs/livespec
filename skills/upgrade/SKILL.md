@@ -57,6 +57,18 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh
 
 Report the output to the user. If verification fails, show the failures and stop.
 
+## Step 3b: Install Validation Hook
+
+Legacy installs predate hook installation, so install it now:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh --check
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
+```
+
+Run `--check` first and report the state. An existing foreign hook is preserved
+as `pre-commit.local` and chained, never discarded.
+
 ## Step 4: Commit
 
 Stage and commit all changes:

@@ -30,9 +30,16 @@ ERRORS=0
 WARNINGS=0
 
 # Documentation surfaces that make claims about what ships.
-SCAN_PATHS=(README.md AGENTS.md CLAUDE.md commands skills agents ctxt references/guides)
+# Existence checks run broad: any surface asserting a command or tool exists.
+SCAN_PATHS=(README.md AGENTS.md CLAUDE.md commands skills agents ctxt references/guides specs templates)
 EXISTING=()
 for p in "${SCAN_PATHS[@]}"; do [[ -e "$p" ]] && EXISTING+=("$p"); done
+
+# Retired-layout checks run narrow: only project-facing artefacts. Migration
+# guides and historical specs legitimately describe the layout being retired.
+LAYOUT_PATHS=(README.md AGENTS.md CLAUDE.md commands skills agents ctxt)
+LAYOUT_EXISTING=()
+for p in "${LAYOUT_PATHS[@]}"; do [[ -e "$p" ]] && LAYOUT_EXISTING+=("$p"); done
 
 err()  { echo "${RED}ERROR${RESET}: $1"; ERRORS=$((ERRORS+1)); }
 warnn() { echo "${YELLOW}WARN${RESET}:  $1"; WARNINGS=$((WARNINGS+1)); }
@@ -81,7 +88,7 @@ echo "Checking for retired layout references..."
 while IFS= read -r hit; do
     [[ -z "$hit" ]] && continue
     warnn "retired layout referenced: ${hit}"
-done < <(grep -rn -E '\.livespec/|\.livespec-version' "${EXISTING[@]}" 2>/dev/null \
+done < <(grep -rn -E '\.livespec/|\.livespec-version' "${LAYOUT_EXISTING[@]}" 2>/dev/null \
          | grep -v '^references/guides/' \
          | grep -v 'CHANGELOG' \
          | grep -v 'Assuming a `.livespec/` folder exists' \

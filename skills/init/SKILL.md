@@ -243,6 +243,26 @@ Accepted current state — known tensions that are neither desired state (specs)
 EOF
 ```
 
+**[NEXT]** Proceed to Step 5.6.
+
+---
+
+### Step 5.6: Install Validation Hook
+
+Install the pre-commit hook so validation runs automatically:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
+```
+
+The installer preserves any existing pre-commit hook as `pre-commit.local` and
+chains to it, so a credential scanner installed via `init.templateDir` keeps
+running. The installed hook skips rather than blocking when no validators
+resolve, so a contributor without LiveSpec can still commit.
+
+Report what was installed and preserved. If it exits non-zero, show the message
+and continue; a missing hook is not a reason to fail initialisation.
+
 **[NEXT]** Proceed to Step 6.
 
 ---
