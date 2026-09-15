@@ -51,8 +51,18 @@ while IFS= read -r line; do
     file="${line%%:*}"; rest="${line#*:}"; lineno="${rest%%:*}"
     name="$(grep -oE '/livespec:[a-z-]+' <<< "$line" | head -1 | cut -d: -f2)"
     [[ -z "$name" ]] && continue
-    if [[ ! -f "commands/${name}.md" ]]; then
-        err "/livespec:${name} referenced but commands/${name}.md does not exist"
+    # Commands ship in the plugin, not in consuming projects. Resolve locally
+    # first, then against the plugin. When neither directory is visible the
+    # claim cannot be verified, so say nothing rather than cry wolf in every
+    # project that installs the hook.
+    if [[ -f "commands/${name}.md" ]]; then
+        :
+    elif [[ -n "${CLAUDE_PLUGIN_ROOT:-}" && -f "${CLAUDE_PLUGIN_ROOT}/commands/${name}.md" ]]; then
+        :
+    elif [[ ! -d "commands" && -z "${CLAUDE_PLUGIN_ROOT:-}" ]]; then
+        :
+    else
+        err "/livespec:${name} referenced but no such command exists"
         echo "         $file:$lineno"
     fi
 done < <(grep -rn -oE '/livespec:[a-z-]+' "${EXISTING[@]}" 2>/dev/null \

@@ -56,9 +56,17 @@ else
     GREEN=""; YELLOW=""; BLUE=""; RESET=""
 fi
 
-# Version of the toolchain doing the vendoring
-VERSION="$(grep -A5 '^livespec:' project.yaml 2>/dev/null | grep -m1 'version:' \
-          | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo unknown)"
+# Version of the TOOLCHAIN that supplied the conventions, not of the project
+# receiving them. Reading the receiving project's project.yaml recorded the
+# wrong version, or "unknown" where the project has none.
+SOURCE_ROOT="$(cd "$SOURCE/../../.." 2>/dev/null && pwd)"
+VERSION="unknown"
+for candidate in "${CLAUDE_PLUGIN_ROOT:-}/project.yaml" "$SOURCE_ROOT/project.yaml"; do
+    [[ -f "$candidate" ]] || continue
+    v="$(grep -A5 '^livespec:' "$candidate" 2>/dev/null | grep -m1 'version:' \
+        | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')"
+    if [[ -n "$v" ]]; then VERSION="$v"; break; fi
+done
 
 # Body = everything after the closing --- of frontmatter. Hashing the body only
 # keeps the hash verifiable after provenance keys are stamped into frontmatter.
@@ -68,8 +76,12 @@ body_hash() {
 
 stamp() {
     local src="$1" dst="$2" hash="$3" from="$4"
+    # `extends` is dropped from the vendored copy: it points at a metaspec that
+    # exists in the toolchain and not in the receiving project, so carrying it
+    # over would plant a broken cross-reference in every project that vendors.
+    # The metaspec template is implied by `type` in any case.
     awk -v from="$from" -v ver="$VERSION" -v hash="$hash" '
-        BEGIN{n=0}
+        BEGIN{n=0; skip=0}
         /^---$/{
             n++
             if(n==2){
@@ -77,8 +89,12 @@ stamp() {
                 print "source-version: " ver
                 print "source-hash: sha256:" hash
             }
+            skip=0
             print; next
         }
+        n==1 && /^extends:/ {skip=1; next}
+        n==1 && skip==1 && /^[[:space:]]+-[[:space:]]/ {next}
+        n==1 {skip=0}
         {print}
     ' "$src" > "$dst"
 }

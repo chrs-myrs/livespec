@@ -18,6 +18,12 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Fixed
+
+- **`validate-constraints.sh` reported every `/livespec:` reference as broken in consuming projects** ⚠️ HIGH impact: commands ship in the plugin, not in projects, so `commands/<name>.md` never resolves locally. Since v5.9.0 installs this validator as a pre-commit hook, the effect was to block every commit in every project that adopted it. A dogfood upgrade against a real project produced 16 such false errors. The check now resolves locally, then against `${CLAUDE_PLUGIN_ROOT}`, and stays silent when neither is visible rather than failing on a claim it cannot verify
+- **Vendored conventions carried an `extends` reference into the receiving project**, pointing at a metaspec that exists only in the toolchain. Vendoring five conventions planted five broken cross-references. `extends` is now dropped on vendoring; the metaspec template is implied by `type` in any case
+- **`source-version` provenance read the receiving project's `project.yaml`** rather than the toolchain's, recording the wrong version or `unknown`. Now read from the plugin root or the source tree
+
 ---
 
 ## [5.9.0] - 2026-09-15
