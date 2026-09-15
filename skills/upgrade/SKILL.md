@@ -57,6 +57,23 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh
 
 Report the output to the user. If verification fails, show the failures and stop.
 
+## Step 3a: Vendor or Refresh Conventions
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/vendor-conventions.sh --check
+```
+
+Report the state of each convention: unchanged, upstream update available,
+locally edited, or diverged. Then apply the safe updates:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/vendor-conventions.sh
+```
+
+Only absent and upstream-changed-but-unedited files are written. Locally edited
+and diverged files are reported and left alone; tell the user which need a
+deliberate decision rather than resolving them automatically.
+
 ## Step 3b: Install Validation Hook
 
 Legacy installs predate hook installation, so install it now:

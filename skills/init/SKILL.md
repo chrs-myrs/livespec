@@ -247,6 +247,26 @@ EOF
 
 ---
 
+### Step 5.55: Vendor Conventions
+
+Give the project local copies of the conventions its specs derive from:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/vendor-conventions.sh
+```
+
+Conventions land in `specs/standards/`, each stamped with `vendored-from`,
+`source-version` and `source-hash`. Project specs reference those local paths
+instead of restating the generic content, and `/livespec:upgrade` reports when a
+vendored convention has changed upstream.
+
+Updating LiveSpec never changes a project's behaviour on its own: a vendored file
+is inert until an update is explicitly accepted.
+
+**[NEXT]** Proceed to Step 5.6.
+
+---
+
 ### Step 5.6: Install Validation Hook
 
 Install the pre-commit hook so validation runs automatically:
