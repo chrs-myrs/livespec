@@ -25,16 +25,28 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 - **`--strict` flag** on `validate-frontmatter.sh`: promotes empty-field warnings to errors, letting a project that has populated its graph prevent regression
 - **Optional path argument** on both validators: `validate-frontmatter.sh [path]` and `validate-crossrefs.sh [path]` scan a caller-supplied tree instead of `specs/`, so spec-shaped files living under `lib/` or `scripts/` can be validated at all. Exit code 2 added for usage errors
 - **Empty-field counting** in the `validate-crossrefs.sh` summary: reports relationship fields as "N declared, M empty" alongside references checked, so the references-checked figure is not read as coverage it has not earned
+- **`scripts/validate-constraints.sh`** ⚠️ MEDIUM impact: checks the assertions LiveSpec makes about itself. Every `/livespec:*` command referenced in docs must resolve to `commands/<name>.md`, every invoked `scripts/*.sh` must exist, every `routes-to:` target must be real, and references to retired distribution layouts are flagged. Wired into `/livespec:audit validate`, the release process as a blocking step, and the pre-commit hook. First run found eight violations
+- **`scripts/check-requires-spec.sh` and `scripts/validate-purpose.sh` restored**: both were deleted in 3.8.0 yet referenced by agent instructions ever since. `check-requires-spec.sh` is Layer 2 of the spec-first protocol, so that gate had been inoperable for two major versions while compliance scoring still awarded a point for running it. Both regenerated from their surviving artifact specs. First run of the spec checker reports nine committed deliverables with no specification, including seven of eight slash commands
+- **Toolchain independence and no action at a distance** added to `specs/foundation/constraints.spec.md` as named constraints with testable criteria
 
 ### Changed
 
 - **`specs/features/mandatory-frontmatter.spec.md`**: new "Relationship Field Values" requirement defines what a declared-but-empty field means — legitimate where the field is optional (an empty `governed-by` remains the normal default), a reportable gap where the category mandates it, never an error outside `--strict`
 - **`specs/features/validation/cross-reference-validation.spec.md`**: empty fields counted rather than skipped silently; optional path argument specified
 - **Category-matches-directory check** now applies only to files under a `specs/` path segment. The rule is an invariant of the specs tree; applying it to spec-shaped files elsewhere produced a uniform false error per file
+- **Agent-agnostic constraint restated** ⚠️ MEDIUM impact: the constraint was CRITICAL, carried six validation criteria, and nothing had ever run them. Measured as written it was mostly false, because it conflated the authoring toolchain with project artefacts. The claim now applies to projects: a project must be implementable, reviewable and deliverable by an agent with no LiveSpec tooling installed, while the toolchain may be harness-specific
+- **Version source of truth is `project.yaml` `livespec.version`**. `.livespec-version` existed only in the LiveSpec repo and was never written into target projects, so the generated AGENTS.md footer required a file no installed project could have. File retired, references repointed across eight files
+- **`agents/context-builder.md` workspace-spec prerequisite softened** from "Required (STOP if missing)" to advisory, matching actual behaviour. Only `PURPOSE.md` now stops a run
 
 ### Fixed
 
 - **`category_from_path()` in `validate-frontmatter.sh`** mis-derived the category for absolute paths — `sed 's|specs/||'` stripped the first match anywhere in the string. Now matches `specs/` as a whole path segment, which also avoids over-matching directories that merely end in `specs/`, such as `metaspecs/`
+- **Dead `.livespec/templates/agents/spec-first-enforcement.md` dependency** in `agents/context-builder.md`. Generated AGENTS.md files therefore shipped without the spec-first enforcement block, eroding the self-sufficiency that lets a project be worked on without the plugin. Repointed to `${CLAUDE_PLUGIN_ROOT}`, with two stale navigation references and the template spec's own `specifies:` field
+- **`scripts/upgrade-to-v5.sh` reported "No LiveSpec installation detected"** for plugin-era projects, because it tested only for legacy artifacts. A project is now identified by its own artifacts, independently of plugin presence
+- **`skills/upgrade/SKILL.md` documented a path that cannot resolve**, telling readers to run a plugin-resident script from the project root. Now `${CLAUDE_PLUGIN_ROOT}`-qualified
+- **`/livespec:evolve` still referenced** in `agents/context-builder.md` after 5.6.0 replaced it with `audit`
+- **Three guides instructed readers to run validation scripts** absent since before v5 (`audit-workspace-scope.sh`, `check-contract-completeness.sh`, `validate-value-structure.sh`), now repointed at the tools that deliver those behaviours
+- **`commands/design.md` and `commands/learn.md` carried no `routes-to:` field**
 
 ---
 
