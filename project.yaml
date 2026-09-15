@@ -31,3 +31,8 @@ agent:
 ui:
   icon: 📋
   icon_source: manual
+
+# AMP agent-network discovery (read by ampd)
+amp:
+  enabled: true
+  capabilities: [research]
