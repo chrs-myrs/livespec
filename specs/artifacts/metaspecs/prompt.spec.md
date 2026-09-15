@@ -5,7 +5,8 @@ fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without prompt spec requirements, prompt specs lack essential structure for guiding AI agents
 governed-by: []
-specifies: []
+specifies:
+  - references/standards/metaspecs/prompt.spec.md
 extends:
   - references/standards/metaspecs/behavior.spec.md
 ---

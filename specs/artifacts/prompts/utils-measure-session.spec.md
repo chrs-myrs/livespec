@@ -12,7 +12,8 @@ guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
   - specs/features/measurement/agent-compliance.spec.md
-specifies: []
+specifies:
+  - references/prompts/utils/measure-session-compliance.md
 ---
 
 # Measure Session Compliance Prompt

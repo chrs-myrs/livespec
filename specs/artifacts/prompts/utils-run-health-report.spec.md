@@ -6,7 +6,8 @@ criticality: IMPORTANT
 failure_mode: Health report prompt unclear, validations missed, status thresholds wrong, remediation plans vague or missing
 governed-by:
   - specs/workspace/patterns.spec.md
-specifies: []
+specifies:
+  - references/prompts/utils/run-health-report.md
 implements: specs/features/project-health.spec.md
 ---
 

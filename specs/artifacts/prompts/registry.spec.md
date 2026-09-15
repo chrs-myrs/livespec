@@ -13,7 +13,15 @@ guided-by:
 derives-from:
   - specs/features/three-modes.spec.md
   - specs/workspace/workflows.spec.md
-specifies: []
+specifies:
+  - references/prompts/define/0x-validate-understanding.md
+  - references/prompts/utils/analyze-failure.md
+  - references/prompts/utils/feedback-report.md
+  - references/prompts/utils/learn.md
+  - references/prompts/utils/measure-session-compliance.md
+  - references/prompts/utils/reorganize-workspace.md
+  - references/prompts/utils/run-health-report.md
+  - references/prompts/utils/suggest-improvements.md
 ---
 
 # Prompt Registry

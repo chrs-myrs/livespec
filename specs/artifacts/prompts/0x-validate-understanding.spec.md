@@ -5,7 +5,8 @@ fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without conceptual validation, users make organizational mistakes requiring costly restructuring
 governed-by: []
-specifies: []
+specifies:
+  - references/prompts/define/0x-validate-understanding.md
 ---
 
 # Prompt Behavior: Validate Understanding
