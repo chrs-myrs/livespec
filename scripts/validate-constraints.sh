@@ -62,14 +62,18 @@ done < <(grep -rn -oE '/livespec:[a-z-]+' "${EXISTING[@]}" 2>/dev/null \
 echo "Checking referenced scripts..."
 while IFS= read -r ref; do
     [[ -z "$ref" ]] && continue
+    # A ${CLAUDE_PLUGIN_ROOT}/ prefix leaves a leading slash once the variable
+    # is stripped; the path is plugin-relative, so test it as such.
+    ref="${ref#/}"
     if [[ ! -f "$ref" ]]; then
         err "$ref referenced in documentation but does not exist"
         if $VERBOSE; then
             grep -rn -F "$ref" "${EXISTING[@]}" 2>/dev/null | head -3 | sed 's/^/         /'
         fi
     fi
-done < <(grep -rh -oE '(bash |\./|Run |sh )scripts/[a-zA-Z0-9_-]+\.sh' "${EXISTING[@]}" 2>/dev/null \
-         | grep -oE 'scripts/[a-zA-Z0-9_-]+\.sh' | sort -u || true)
+done < <(grep -rh -oE '(bash |\./|Run |sh )[a-zA-Z0-9_/-]+\.sh' "${EXISTING[@]}" 2>/dev/null \
+         | grep -oE '[a-zA-Z0-9_/-]+\.sh' \
+         | grep -vE '^(setup|install|build|deploy|run)\.sh$' | sort -u || true)
 
 # --- Check 3: command-to-skill routing integrity ---
 echo "Checking command routing..."

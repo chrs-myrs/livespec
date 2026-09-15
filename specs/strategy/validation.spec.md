@@ -251,27 +251,28 @@ done
 - **Manual**: Developer unsure if change broke conventions
 
 **Automation:**
-```yaml
-# .github/workflows/test.yml
-name: Validate LiveSpec
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run test suite
-        run: ./tests/run-all-tests.sh
+
+Validation is delivered by the validator scripts, installed as a pre-commit hook
+by `scripts/setup-hooks.sh`:
+
+```bash
+bash scripts/validate-frontmatter.sh    # frontmatter schema and relationship graph
+bash scripts/validate-crossrefs.sh      # relationship targets resolve
+bash scripts/validate-constraints.sh    # commands, scripts and routes LiveSpec claims exist
+bash scripts/validate-registries.sh     # registry integrity
+bash scripts/validate-purpose.sh        # PURPOSE.md boundary
 ```
 
 **Feedback loop:**
-1. Developer makes change (add spec, modify prompt)
-2. Run tests locally: `./tests/run-all-tests.sh`
-3. Tests fail → fix issue → rerun
-4. Tests pass → commit
-5. CI/CD runs tests on push
-6. GitHub shows test status
-7. PRs require tests passing
+1. Developer makes change (add spec, modify skill)
+2. Pre-commit hook runs the validators it can resolve
+3. Validation fails → fix issue → commit again
+4. Validation passes → commit proceeds
+
+**Not yet delivered:** there is no `tests/` suite and no CI workflow in this
+repository. Enforcement is local to each clone via the installed hook, so a
+contributor who has not run `setup-hooks.sh` is unvalidated until review. Closing
+that gap needs a CI step, which is not yet designed.
 
 **Benefits:**
 - Catches drift immediately (before it spreads)
