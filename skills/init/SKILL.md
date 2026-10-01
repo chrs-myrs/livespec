@@ -285,6 +285,29 @@ no validators resolve, so a contributor without LiveSpec can still commit.
 Report what was installed, preserved and vendored, and where each validator resolves. If it exits non-zero, show the message
 and continue; a missing hook is not a reason to fail initialisation.
 
+**[NEXT]** Proceed to Step 5.65.
+
+---
+
+### Step 5.65: Record the Accepted Version
+
+Record which LiveSpec version this project has accepted, so a later upgrade
+knows where it starts from. Read the toolchain version:
+
+```bash
+grep -A5 '^livespec:' "${CLAUDE_PLUGIN_ROOT}/project.yaml" | grep -m1 'version:'
+```
+
+If `project.yaml` does not exist, create it with only this:
+
+```yaml
+# The LiveSpec version this project has accepted. /livespec:upgrade updates it.
+livespec:
+  version: X.Y.Z
+```
+
+If it exists, add or set `livespec.version` and change nothing else in it.
+
 **[NEXT]** Proceed to Step 6.
 
 ---

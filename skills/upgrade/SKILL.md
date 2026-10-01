@@ -173,6 +173,21 @@ has to be repointed by hand. List these for the user rather than guessing. Do no
 leave the step without saying plainly which specs will block a commit when next
 touched.
 
+## Step 3d: Record the Accepted Version
+
+Once the user has accepted the upgrade, set `livespec.version` in `project.yaml`
+to the toolchain version, creating the file with only that key if it is absent
+and changing nothing else if it exists:
+
+```bash
+grep -A5 '^livespec:' "${CLAUDE_PLUGIN_ROOT}/project.yaml" | grep -m1 'version:'
+```
+
+Step 1's detection reported every version signal the project carries. Mention
+any it flagged as differing: a vendored file left alone because it was edited
+locally keeps its old version, and generated context lags until
+`/livespec:audit context` runs.
+
 ## Step 4: Commit
 
 Stage and commit all changes:
@@ -185,6 +200,7 @@ Migrate to LiveSpec v5 plugin architecture
 - Remove legacy installation artifacts
 - Migrate specs/ to semantic folder structure
 - Update cross-references
+- Record the accepted LiveSpec version in project.yaml
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
