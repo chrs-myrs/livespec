@@ -213,22 +213,11 @@ specifies:
 ### Example 2: Dogfooding Validation
 
 ```bash
-# Build new feature (e.g., mandatory frontmatter)
-
-# Step 1: Use LiveSpec's own DESIGN skill
-/livespec:design feature mandatory-frontmatter
-# Creates: specs/features/mandatory-frontmatter.spec.md
-# (Meta-irony: spec for specs must itself have correct frontmatter)
-
-# Step 2: Migrate all existing specs
-scripts/validate-frontmatter.sh  # finds violations
-# Fix all specs to comply
-
-# Step 3: USE the validation in current session
-scripts/validate-frontmatter.sh   # must exit 0
-scripts/validate-constraints.sh   # confirms no dangling references introduced
-
-# Step 4: Commit only after validation passes
+/livespec:design feature mandatory-frontmatter   # spec for specs must itself have correct frontmatter
+scripts/validate-frontmatter.sh                  # finds violations; fix all specs, then must exit 0
+scripts/validate-constraints.sh                  # no dangling references
+scripts/validate-crossrefs.sh --strict           # links trace to PURPOSE.md; --fix regenerates supports:
+# Commit only after validation passes
 ```
 
 ## Decision Points
@@ -261,3 +250,5 @@ scripts/validate-constraints.sh   # confirms no dangling references introduced
 
 *Governance domain specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*
+
+<!-- livespec-context-sources: sha256:e3d07be666b52c2002e6e5588b89e8c4b676f767e933290b1811b105d7ae9952 n=80 -->

@@ -50,36 +50,13 @@ scripts/validate-frontmatter.sh
 
 ### Common Failures
 
-**Missing base fields:**
-```
-ERROR: specs/features/auth.spec.md missing 'type' field
-Fix: Add type: behavior to frontmatter
-```
-
-**Wrong type value:**
-```
-ERROR: specs/features/auth.spec.md has type: 'feature' (invalid)
-Fix: Change to type: behavior
-```
-
-**Metaspec in governed-by:**
-```
-WARNING: specs/features/auth.spec.md governed-by contains metaspec path
-  references/standards/metaspecs/behavior.spec.md
-Fix: Remove — format governance is implied by type field
-```
-
-**Underscore field name:**
-```
-ERROR: specs/features/auth.spec.md uses derives_from (underscore)
-Fix: Rename to derives-from
-```
-
-**Missing per-category field:**
-```
-ERROR: specs/features/auth.spec.md (category: features) missing 'satisfies'
-Fix: Add satisfies: [specs/foundation/outcomes.spec.md ...]
-```
+| Finding | Fix |
+|---------|-----|
+| Missing base field (`type`) | Add the field (`type: behavior`) |
+| Invalid `type` (`feature`) | Use a controlled value (`behavior`) |
+| Metaspec path in `governed-by` (warning) | Remove it; format is implied by `type` |
+| Underscore field (`derives_from`) | Rename to `derives-from` |
+| Missing per-category field (features lack `satisfies`) | Add the upward link |
 
 ## Constraint Compliance
 
@@ -96,7 +73,19 @@ scripts/validate-constraints.sh [--verbose]
 - Retired-layout references (`.livespec/`, `.livespec-version`) outside migration guides and CHANGELOG history
 - Project context (`AGENTS.md`, `CLAUDE.md`, `ctxt/`) doesn't reference the plugin root, and every script it instructs exists in the project
 
-**Does not check:** whether spec paths named in project context resolve — generated context carries teaching examples in the same syntax as real references, so no mechanical rule can separate assertion from illustration.
+## Cross-Reference, Coverage and Output
+
+```bash
+scripts/validate-crossrefs.sh [--strict] [--fix]   # links resolve, trace to PURPOSE.md, supports: mirrors upward links
+scripts/validate-coverage.sh [--which <path>]      # which spec's specifies: governs a file (report only)
+```
+
+- Links are authored upward only; `--fix` regenerates each parent's `supports:` and migrates retired `implements:` to `satisfies:`, naming every entry it drops. Review `stale-backlink` warnings first
+- Upward links must resolve from the repository root to a spec at the same or higher layer; PURPOSE.md is a direct parent only of foundation and workspace specs
+- Coverage is reported, never enforced: ungoverned files, multiply-governed files, `specifies:` values matching nothing
+- Every validator takes `--json` (one versioned document: `schema_version`, `validator`, `livespec_version`, `findings`); exit codes 0/1/2 as in text mode. Contract: `specs/interfaces/formats/validator-output.spec.md`
+
+**Constraint validator does not check:** whether spec paths named in project context resolve — generated context carries teaching examples in the same syntax as real references, so no mechanical rule can separate assertion from illustration.
 
 **Exit code 0:** No errors (warnings permitted)
 **Exit code 1:** Unresolved command, script, or route
@@ -106,69 +95,40 @@ scripts/validate-constraints.sh [--verbose]
 | Category | Required fields beyond base six |
 |----------|----------------------------------|
 | workspace | `applies_to` |
-| foundation | `derives-from`, `supports` |
+| foundation | `derives-from`, `supports` (generated) |
 | strategy | `derives-from` |
 | features | `satisfies`, `guided-by` |
-| interfaces | `supports` |
+| interfaces | `supports` (generated) |
 | artifacts | `specifies` |
 
 ## Health Detection
 
 ### Spec-Code Drift
 
-**Implementations without specs:**
-```
-Found: src/api/new-endpoint.py
-Missing: specs/features/new-endpoint.spec.md
-
-Action: /livespec:audit extract
-```
-
-**Specs without implementations:**
-```
-Found: specs/features/obsolete-feature.spec.md
-Missing: Implementation (deleted but spec remains)
-
-Action: git rm specs/features/obsolete-feature.spec.md
-```
-
-**Behaviors changed without spec updates:**
-```
-Found: src/auth/oauth.py (flow changed)
-Outdated: specs/features/authentication.spec.md
-
-Action: /livespec:design refine specs/features/authentication.spec.md
-```
+| Finding | Action |
+|---------|--------|
+| Implementation without a spec (`src/api/new-endpoint.py`) | `/livespec:audit extract` |
+| Spec without an implementation (deleted code) | `git rm` the spec |
+| Behaviour changed, spec outdated | `/livespec:design refine specs/features/<name>.spec.md` |
 
 ### Structural Drift
 
-**Broken cross-references:**
-```
-specs/features/auth.spec.md
-  → guided-by: specs/strategy/old-arch.spec.md (missing!)
-
-Action: Update frontmatter with correct path
-```
-
-**Generated files edited directly:**
-```
-AGENTS.md modified by hand
-
-Action: Revert, run /livespec:audit context
-```
+| Finding | Action |
+|---------|--------|
+| Broken cross-reference (`guided-by` target missing) | Correct the path in the frontmatter |
+| Generated file edited by hand | Revert, run `/livespec:audit context` |
 
 ### Context Drift
 
-**AGENTS.md stale:**
+**Context stale:** every generated file ends with a `livespec-context-sources` hash comment of its sources (no timestamps; they differ per clone). `--strict` turns warnings into errors.
 ```bash
-for spec in specs/workspace/*.spec.md; do
-  if [ "$spec" -nt "AGENTS.md" ]; then
-    echo "STALE: AGENTS.md older than $spec"
-  fi
-done
+scripts/validate-context.sh            # each file: current, stale or unstamped
+scripts/validate-context.sh --changed  # sources changed since the stamp; prints unknown if the stamping commit is not in history
 ```
 
-**Action:** `/livespec:audit context` — classifies the change as MINOR (scoped patch to the mapped file, per the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`) or FULL (whole-tree rebuild), then delegates to `agents/context-builder.md`.
+Stamped sources: PURPOSE.md and every spec in workspace, foundation, features and artifacts, plus the inlined spec-first template. Any unstamped file, `unknown` from `--changed`, or a missing Spec → Generated File Map means FULL.
+
+**Action:** `/livespec:audit context` — classifies the change as MINOR (scoped patch to the mapped file, per the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`) or FULL (whole-tree rebuild), then delegates to `agents/context-builder.md`, which ends by running `scripts/validate-context.sh --stamp` (never write the stamp line by hand).
 
 ## Learning Capture (Correction-as-Spec)
 
@@ -216,36 +176,7 @@ Rebuild context
 
 ## Health Report Format
 
-```markdown
-# Spec Health Report
-
-**Date:** YYYY-MM-DD
-**Overall Health:** [GREEN/YELLOW/RED] XX%
-
-## Frontmatter Compliance (IMP-005)
-- [PASS] All specs have six base fields
-- [FAIL] 2 specs missing per-category fields
-- [WARN] 1 spec has governed-by metaspec reference
-
-## Structural Health (X/Y passing)
-- [PASS] All specs have frontmatter
-- [FAIL] 3 specs missing Validation section
-
-## Cross-Reference Health (X/Y valid)
-- [PASS] All satisfies: references valid
-- [FAIL] 1 broken guided-by: reference
-
-## MSL Compliance (X/Y minimal)
-- [PASS] Most specs under 100 lines
-- [WARN] 2 specs may have implementation details
-
-## Remediation
-
-1. Fix missing per-category fields (run scripts/validate-frontmatter.sh for detail)
-2. Remove metaspec from governed-by (format implied by type field)
-3. Fix missing Validation sections
-4. Update broken reference
-```
+A report carries date, overall health (GREEN/YELLOW/RED with a percentage), then PASS/WARN/FAIL lines for frontmatter compliance, structural health (frontmatter, Validation sections), cross-reference health (links valid) and MSL compliance, closed by numbered remediation steps (e.g. run `scripts/validate-frontmatter.sh` for detail; remove metaspec paths from governed-by; fix broken references).
 
 ## Remediation Strategies
 
@@ -289,31 +220,19 @@ git rm specs/features/obsolete.spec.md
 
 ### Weekly Maintenance
 
-```bash
-# Monday: Check frontmatter + constraints + health
-scripts/validate-frontmatter.sh
-scripts/validate-constraints.sh
-/livespec:audit health
-
-# Triage:
-# - ERROR: Fix immediately (frontmatter, constraints)
-# - CRITICAL: Fix immediately (health)
-# - IMPORTANT: Fix this week
-# - MINOR: Backlog
-
-# Friday: Confirm sync
-/livespec:audit validate
-```
+Check frontmatter, constraints and `/livespec:audit health`; triage ERROR and CRITICAL immediately, IMPORTANT within the week, MINOR to backlog; end with `/livespec:audit validate`.
 
 ### Pre-Release Validation
 
 ```bash
-# All five validators must pass for release
+# All seven validators run in CI on every push (.github/workflows/validate.yml)
 scripts/validate-frontmatter.sh
-scripts/validate-crossrefs.sh
+scripts/validate-crossrefs.sh --strict
 scripts/validate-constraints.sh
 scripts/validate-registries.sh
 scripts/validate-purpose.sh
+scripts/validate-coverage.sh      # report only
+scripts/validate-context.sh       # stale/unstamped until context is regenerated
 
 # Rebuild context
 /livespec:audit context
@@ -336,6 +255,8 @@ scripts/validate-purpose.sh
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Frontmatter spec: `specs/features/mandatory-frontmatter.spec.md`
 - Frontmatter script: `scripts/validate-frontmatter.sh`
+- Validator output contract: `specs/interfaces/formats/validator-output.spec.md`
+- Coverage and context validators: `specs/artifacts/validators/validate-coverage.spec.md`, `specs/artifacts/validators/validate-context.spec.md`
 - Constraint validator spec: `specs/artifacts/validators/validate-constraints.spec.md`
 - Hook installer: `scripts/setup-hooks.sh` (spec: `specs/artifacts/validators/setup-hooks.spec.md`)
 - Parent context: AGENTS.md
@@ -344,3 +265,5 @@ scripts/validate-purpose.sh
 
 *Audit mode specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*
+
+<!-- livespec-context-sources: sha256:e3d07be666b52c2002e6e5588b89e8c4b676f767e933290b1811b105d7ae9952 n=80 -->

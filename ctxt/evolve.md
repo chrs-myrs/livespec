@@ -49,14 +49,18 @@ Before implementing any feature:
 
 ### Validation Against Specs
 
-**Run validation at key checkpoints (five validators):**
+**Run validation at key checkpoints (seven validators):**
 ```bash
 scripts/validate-frontmatter.sh    # frontmatter compliance (IMP-005)
-scripts/validate-crossrefs.sh      # cross-reference integrity
+scripts/validate-crossrefs.sh      # links resolve, trace to PURPOSE.md; --fix regenerates supports:
 scripts/validate-constraints.sh    # commands/scripts/routes LiveSpec claims exist
 scripts/validate-registries.sh     # registries/ integrity
 scripts/validate-purpose.sh        # PURPOSE.md boundary
+scripts/validate-coverage.sh       # which spec's specifies: governs each file (report only)
+scripts/validate-context.sh        # generated context current, stale or unstamped
 ```
+
+Every validator accepts `--json` (one versioned document; contract in `specs/interfaces/formats/validator-output.spec.md`). CI (`.github/workflows/validate.yml`) runs all seven on every push, cross-references with `--strict`.
 
 Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs these as a pre-commit hook (chains to any existing hook rather than replacing it).
 
@@ -65,11 +69,12 @@ Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs these 
   - Missing mandatory frontmatter fields
   - Wrong type/category values
   - Underscore field names (use hyphens)
-  - Broken cross-references
+  - Broken cross-references (link target missing or relative)
   - governed-by containing metaspec paths
   - Unresolved `/livespec:` command, `scripts/*.sh`, or `routes-to:` reference
 - WARNING: Should fix soon
-  - Missing backlinks, stale generated files
+  - `supports:` out of step with upward links (fix with `validate-crossrefs.sh --fix`), spec not reaching PURPOSE.md, link pointing down a layer, retired `implements:`
+  - Stale or unstamped generated context, ungoverned files
   - Retired-layout reference (`.livespec/`, `.livespec-version`) outside migration guides
 
 ### Acceptance Review
@@ -219,9 +224,14 @@ scripts/validate-constraints.sh
 ### Pre-Release Validation
 
 ```bash
-# All five validators must pass
+# All seven validators must pass (coverage and context report only)
 scripts/validate-frontmatter.sh
+scripts/validate-crossrefs.sh --strict
 scripts/validate-constraints.sh
+scripts/validate-registries.sh
+scripts/validate-purpose.sh
+scripts/validate-coverage.sh
+scripts/validate-context.sh
 
 # Rebuild context if workspace specs changed
 /livespec:audit context
@@ -243,6 +253,7 @@ scripts/validate-constraints.sh
 - TDD guide (optional): `references/guides/tdd.md`
 - Frontmatter validation: `scripts/validate-frontmatter.sh`
 - Constraint validation: `scripts/validate-constraints.sh`
+- Spec governance query: `scripts/validate-coverage.sh --which <path>` (what `scripts/check-requires-spec.sh` uses)
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms)
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
 - Parent context: AGENTS.md
@@ -251,3 +262,5 @@ scripts/validate-constraints.sh
 
 *Evolve mode specialist for LiveSpec v5.9.1*
 *Parent: AGENTS.md*
+
+<!-- livespec-context-sources: sha256:e3d07be666b52c2002e6e5588b89e8c4b676f767e933290b1811b105d7ae9952 n=80 -->
