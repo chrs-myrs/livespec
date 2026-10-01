@@ -19,21 +19,24 @@ Cross-portfolio LiveSpec audit that discovers, prioritises, analyses, and remedi
 ## Requirements
 
 - [!] Sweep discovers all LiveSpec-adjacent projects under `~/projects/` excluding `~/projects/tmp/`
-  - A project qualifies if it contains any of: `specs/`, `.livespec/`, `AGENTS.md`, `PURPOSE.md`
-  - `~/projects/tmp/` and all descendants are unconditionally excluded
+  - A project qualifies if it contains any of: `specs/`, `.livespec` (directory, file or symlink), `.livespec-repo`, `AGENTS.md`, `PURPOSE.md`, `project.yaml`
+  - `~/projects/tmp/` and all descendants are excluded from discovery; a root named explicitly with `--root` is scanned as given
+  - Options are accepted in any order
   - Discovery completes in <10 seconds via bash script (no agent spawning at this stage)
 
 - [!] Each candidate project is fingerprinted against five maintenance signals
-  - **Version lag**: Project's `livespec.version` in `project.yaml` behind current plugin version
+  - **Version lag**: Project's accepted `livespec.version` behind the version of the toolchain running the sweep, read from the toolchain's own `project.yaml`; a retired install or spec layout is critical whatever the version says. Both come from `upgrade-to-v5.sh --detect-only`, so the sweep and the upgrade cannot disagree about what needs migrating
   - **Missing required files**: Expected files absent (`AGENTS.md`, `specs/workspace/`, `PURPOSE.md`, plugin manifest if applicable)
   - **Stale specs**: No spec-related git commits in 60+ days while project has other activity
   - **Structure violations**: Spec files present but not following current MSL format or folder conventions
   - **Incomplete/unlinked specs**: Specs lacking frontmatter, validation sections, or cross-references where expected
+  - Structure and completeness are judged over every spec in the project, not a sample
   - Each signal scored 0-2 (0=healthy, 1=warning, 2=critical); total score 0-10
 
 - [!] Discovery output is a scored priority list presented to the user before any deep analysis begins
   - Projects sorted by score descending (highest maintenance need first)
   - Each entry shows: project name, path, score, triggered signals
+  - `--json` output is valid JSON whatever the project names and paths contain
   - User approves which projects to include before deep audit agents are spawned
   - Hard gate: no project-write operations before approval
 
@@ -79,6 +82,8 @@ Cross-portfolio LiveSpec audit that discovers, prioritises, analyses, and remedi
 - [ ] Meta-report is only generated when 3+ projects share a pattern; absent otherwise
 - [ ] Conservative mode produces zero file writes across all projects
 - [ ] Aggressive mode auto-applies Tier 1 and Tier 2 fixes and reports changes made
-- [ ] `~/projects/tmp/` contents are never included regardless of signal scores
+- [ ] `~/projects/tmp/` contents are never included when discovering from the default root, regardless of signal scores
+- [ ] A project with a `.livespec` symlink or a retired `specs/1-requirements/` scores critical version lag
+- [ ] `--stale-days 30 --json` and `--json --stale-days 30` give the same result
 - [ ] A project with outdated AGENTS.md skill references produces at least one Tier 3 finding in its issues file
 - [ ] Agent definition files referencing removed commands produce findings distinct from structural spec issues

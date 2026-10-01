@@ -25,6 +25,8 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ### Fixed
 
+- **`sweep-projects.sh` measured version lag against a hardcoded 5.1.0**, and missed legacy installs other than a `.livespec/` directory. It now reads the running toolchain's own `project.yaml`, and takes legacy-install and retired-layout detection from `upgrade-to-v5.sh --detect-only`, so the sweep and the upgrade agree on what needs migrating
+- **`sweep-projects.sh` honoured `--root` and `--stale-days` only as the first argument**, wrote unescaped JSON, judged structure from the first ten specs `find` returned, and used `mapfile` and an unguarded empty array, which fail in the bash macOS ships. All fixed; every spec is now scanned in one pass, which also makes the sweep faster
 - **Folder migration could silently overwrite specs**: `mv dir/*` replaced any same-named file at the destination. Moves now never overwrite; a clash is reported, both files are kept, and verification fails until it is resolved
 - **Unnumbered retired folders read as "Already on v5"**: a project with `specs/learnings/` or `specs/meta/` was told there was nothing to migrate, and an unknown numbered folder failed verification with no guidance. Both are now listed with what to do
 - **A retired install was missed on a fresh clone**: an uninitialised submodule or a dangling `.livespec` symlink is now recognised from the git index and `.gitmodules`, and the submodule's `.gitmodules` section is removed even when its name differs from its path
