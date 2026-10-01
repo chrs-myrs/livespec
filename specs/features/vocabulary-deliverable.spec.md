@@ -13,7 +13,7 @@ guided-by:
   - specs/strategy/ai-discoverability.spec.md
   - specs/workspace/patterns.spec.md
 informed-by:
-  - research/reports/knowledge-store-audit-findings.md
+  - knowledge-store audit findings (local research report, not in the repository)
 ---
 
 # Vocabulary Spec as Standard Deliverable
