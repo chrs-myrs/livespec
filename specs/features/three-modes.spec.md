@@ -6,7 +6,8 @@ criticality: CRITICAL
 failure_mode: Without structured modes, spec development becomes chaotic and AI agents lack clear direction
 governed-by: []
 satisfies: []
-guided-by: []
+guided-by:
+  - specs/strategy/phase-workflow.spec.md
 ---
 
 # Three Modes Behavior

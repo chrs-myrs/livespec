@@ -11,7 +11,7 @@ satisfies:
 guided-by:
   - specs/strategy/ai-discoverability.spec.md
   - specs/workspace/patterns.spec.md
-derives-from:
+informed-by:
   - research/reports/knowledge-store-audit-findings.md
 ---
 

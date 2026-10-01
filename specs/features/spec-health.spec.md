@@ -6,7 +6,8 @@ criticality: CRITICAL
 failure_mode: Without spec health monitoring, specifications become outdated, bloated, or inconsistent
 governed-by: []
 satisfies: []
-guided-by: []
+guided-by:
+  - specs/strategy/validation.spec.md
 ---
 
 # Spec Health Behavior

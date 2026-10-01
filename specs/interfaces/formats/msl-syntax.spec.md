@@ -8,6 +8,8 @@ governed-by: []
 supports:
   - specs/features/validation/
   - specs/artifacts/prompts/
+derives-from:
+  - specs/workspace/patterns.spec.md
 ---
 
 # MSL Syntax Contract

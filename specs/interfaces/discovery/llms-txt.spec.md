@@ -7,6 +7,8 @@ failure_mode: Without llms.txt, AI tools cannot discover LiveSpec methodology co
 governed-by: []
 supports:
   - specs/strategy/ai-discoverability.spec.md
+guided-by:
+  - specs/strategy/ai-discoverability.spec.md
 ---
 
 # llms.txt Discovery Interface Contract

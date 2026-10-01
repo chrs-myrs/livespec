@@ -9,6 +9,8 @@ applies_to:
   - project.yaml
   - AGENTS.md
   - CHANGELOG.md
+derives-from:
+  - specs/workspace/workflows.spec.md
 ---
 
 # Version Management

@@ -7,6 +7,8 @@ failure_mode: Without Context7 integration, AI agents using Context7 MCP cannot 
 governed-by: []
 supports:
   - specs/strategy/ai-discoverability.spec.md
+guided-by:
+  - specs/strategy/ai-discoverability.spec.md
 ---
 
 # Context7 Discovery Interface Contract

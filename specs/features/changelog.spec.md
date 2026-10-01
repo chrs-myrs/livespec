@@ -6,7 +6,8 @@ criticality: IMPORTANT
 failure_mode: Without structured changelog, users cannot understand version changes or assess upgrade impact, leading to confusion about what improved
 governed-by: []
 satisfies: []
-guided-by: []
+guided-by:
+  - specs/workspace/version-management.spec.md
 notes: This spec was created retrospectively after CHANGELOG.md was implemented.
 Demonstrates the importance of spec-first even for "obvious" deliverables.
 See commit 40411e3 (CHANGELOG implementation) vs this spec (specification).

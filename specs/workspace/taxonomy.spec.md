@@ -6,6 +6,8 @@ criticality: IMPORTANT
 failure_mode: Without taxonomy, LiveSpec development becomes inconsistent and agents confuse framework distribution with specifications
 governed-by: []
 applies_to: this_project
+derives-from:
+  - PURPOSE.md
 ---
 
 # LiveSpec Project Taxonomy

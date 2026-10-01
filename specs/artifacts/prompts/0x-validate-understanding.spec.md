@@ -4,7 +4,8 @@ category: artifacts
 fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without conceptual validation, users make organizational mistakes requiring costly restructuring
-governed-by: []
+governed-by:
+  - specs/workspace/patterns.spec.md
 specifies:
   - references/prompts/define/0x-validate-understanding.md
 ---

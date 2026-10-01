@@ -89,7 +89,7 @@ Each has an artifact spec under `specs/artifacts/validators/`.
 | Validator | Checks | Failure means |
 |-----------|--------|---------------|
 | `validate-frontmatter.sh` | Base six fields, type/category/fidelity values, per-category mandatory fields, relationship graph population | A spec cannot be placed or related correctly |
-| `validate-crossrefs.sh` | Every relationship field target resolves on disk | A spec points at something that does not exist |
+| `validate-crossrefs.sh` | Every relationship target resolves from the repository root; upward links reach PURPOSE.md through specs at the same or a higher layer | A spec points at something that does not exist, or traces to nothing |
 | `validate-constraints.sh` | Every `/livespec:` command, invoked script and `routes-to:` target resolves; project context is usable without the toolchain | LiveSpec asserts something about itself that is untrue |
 | `validate-registries.sh` | Required registries present, entries well-formed, no work-item summaries, staleness flagged | Accepted current state is unrecorded or misrecorded |
 | `validate-purpose.sh` | PURPOSE.md within the content-line boundary, required sections, misplaced content routed | Vision has absorbed content belonging in specs |
@@ -113,7 +113,7 @@ by `scripts/setup-hooks.sh`:
 
 ```bash
 bash scripts/validate-frontmatter.sh    # frontmatter schema and relationship graph
-bash scripts/validate-crossrefs.sh      # relationship targets resolve
+bash scripts/validate-crossrefs.sh      # relationship targets resolve and trace to PURPOSE.md
 bash scripts/validate-constraints.sh    # commands, scripts and routes LiveSpec claims exist
 bash scripts/validate-registries.sh     # registry integrity
 bash scripts/validate-purpose.sh        # PURPOSE.md boundary

@@ -8,6 +8,8 @@ governed-by: []
 applies_to:
   - all_projects
   - livespec_development
+derives-from:
+  - specs/workspace/constitution.spec.md
 ---
 
 # LiveSpec Development Workflows

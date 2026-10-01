@@ -4,7 +4,8 @@ category: artifacts
 fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without prompt spec requirements, prompt specs lack essential structure for guiding AI agents
-governed-by: []
+governed-by:
+  - specs/interfaces/formats/msl-syntax.spec.md
 specifies:
   - references/standards/metaspecs/prompt.spec.md
 extends:

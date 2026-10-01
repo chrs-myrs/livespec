@@ -7,6 +7,8 @@ failure_mode: Without consistent prompt structure, AI agents can't reliably exec
 governed-by: []
 supports:
   - specs/artifacts/prompts/
+derives-from:
+  - specs/workspace/patterns.spec.md
 ---
 
 # Prompt Structure Contract

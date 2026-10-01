@@ -68,6 +68,15 @@ gate CI on findings without parsing text. This is schema version 1.
 | | `metaspec-in-governed-by` | warning | the entry |
 | | `underscore-field` | warning | none |
 | | `empty-mandatory-field` | warning; error under `--strict` | field name |
+| `validate-crossrefs` | `broken-reference` | error | field and target, `<field>:<target>` |
+| | `relative-path` | error | field and target |
+| | `unparseable` | warning; error under `--strict` | the field |
+| | `not-a-spec` | warning; error under `--strict` | field and target |
+| | `self-reference` | warning; error under `--strict` | the field |
+| | `wrong-layer` | warning; error under `--strict` | field and target |
+| | `unlinked` | warning; error under `--strict` | none |
+| | `no-chain` | warning; error under `--strict` | none |
+| | `cycle` | warning; error under `--strict` | none |
 | `validate-constraints` | `unknown-command` | error | the command as referenced, `/livespec:` and its name |
 | | `missing-script` | error | the script path |
 | | `missing-route` | error | none |

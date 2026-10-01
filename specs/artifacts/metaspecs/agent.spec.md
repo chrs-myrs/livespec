@@ -4,7 +4,8 @@ category: artifacts
 fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without agent spec requirements, agent specs lack essential structure for guiding AI agent implementations
-governed-by: []
+governed-by:
+  - specs/interfaces/formats/msl-syntax.spec.md
 specifies:
   - references/standards/metaspecs/agent.spec.md
 extends:

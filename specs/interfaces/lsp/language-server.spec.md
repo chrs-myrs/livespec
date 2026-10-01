@@ -10,6 +10,8 @@ supports:
   - specs/features/lsp/diagnostics.spec.md
   - specs/features/lsp/navigation.spec.md
   - specs/features/lsp/completions.spec.md
+guided-by:
+  - specs/strategy/architecture.spec.md
 ---
 
 # LiveSpec Language Server Interface

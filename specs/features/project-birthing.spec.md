@@ -6,7 +6,8 @@ criticality: IMPORTANT
 failure_mode: No structured path for incubating and extracting child projects
 governed-by: []
 satisfies: []
-guided-by: []
+guided-by:
+  - specs/strategy/architecture.spec.md
 ---
 
 # Project Birthing
