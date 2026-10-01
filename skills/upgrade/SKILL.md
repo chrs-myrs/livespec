@@ -126,6 +126,30 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/remediate-references.sh
 Migration guides and historical documents are skipped: their "old reference"
 columns are correct as written.
 
+Then bring relationship links to the current model. Links are authored upward
+only, each parent's `supports:` is generated from its children, and
+`implements:` is retired:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-crossrefs.sh
+```
+
+Review its `stale-backlink` warnings before fixing. Each is a `supports:` entry
+with no upward link back, which `--fix` will drop. Where the entry names a spec
+that depends on the one listing it, add the upward link to that spec instead:
+`satisfies` for an outcome or constraint, `guided-by` for a strategy or
+interface, `governed-by` for a workspace pattern. Ask the user when the direction
+is unclear. Then:
+
+```bash
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-crossrefs.sh --fix
+```
+
+It moves `implements:` values into `satisfies:`, rewrites each `supports:` from
+the upward links, and names every entry it dropped. Specs with no upward link,
+or none reaching PURPOSE.md, are warnings: list them for the user, since only
+they can say what each spec serves.
+
 Then run the validators and report what remains:
 
 ```bash

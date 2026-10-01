@@ -10,6 +10,8 @@ satisfies:
 guided-by:
   - specs/workspace/patterns.spec.md
 specifies: []
+supports:
+  - specs/artifacts/prompts/utils-run-health-report.spec.md
 ---
 
 # Project Health Assessment

@@ -10,6 +10,14 @@ applies_to:
   - livespec_development
 derives-from:
   - specs/workspace/constitution.spec.md
+supports:
+  - specs/artifacts/prompts/analyze-failure.spec.md
+  - specs/artifacts/prompts/registry.spec.md
+  - specs/artifacts/prompts/utils-feedback-report.spec.md
+  - specs/features/multi-project-sweep.spec.md
+  - specs/workspace/livespec.spec.md
+  - specs/workspace/version-management.spec.md
+  - specs/workspace/workspace-agent.spec.md
 ---
 
 # LiveSpec Development Workflows

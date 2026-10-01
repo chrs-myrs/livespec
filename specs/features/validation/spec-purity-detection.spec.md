@@ -8,6 +8,8 @@ governed-by: []
 satisfies: []
 guided-by:
   - specs/strategy/validation.spec.md
+supports:
+  - specs/artifacts/validators/check-requires-spec.spec.md
 ---
 
 # Spec Purity Detection

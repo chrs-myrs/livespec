@@ -8,6 +8,8 @@ governed-by: []
 applies_to: this_project
 derives-from:
   - PURPOSE.md
+supports:
+  - specs/workspace/context-architecture.spec.md
 ---
 
 # LiveSpec Project Taxonomy

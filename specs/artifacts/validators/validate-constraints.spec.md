@@ -6,6 +6,7 @@ criticality: CRITICAL
 failure_mode: Documented commands, scripts and paths drift from what ships, so agents are instructed to run things that do not exist and constraint violations reach release unnoticed
 governed-by:
   - specs/foundation/constraints.spec.md
+  - specs/interfaces/formats/validator-output.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
 specifies:

@@ -7,8 +7,7 @@ failure_mode: Without consistent AGENTS.md format, AI agents receive malformed c
 governed-by: []
 derives-from:
   - specs/features/context-generation.spec.md
-supports:
-  - specs/workspace/context-architecture.spec.md
+supports: []
 ---
 
 # AGENTS.md Format Contract

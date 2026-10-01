@@ -11,7 +11,9 @@ guided-by:
   - specs/strategy/architecture.spec.md
 derives-from:
   - specs/workspace/constitution.spec.md
-supports: []
+supports:
+  - specs/artifacts/prompts/utils-measure-session.spec.md
+  - specs/features/measurement/compliance-dashboard.spec.md
 specifies: []
 ---
 

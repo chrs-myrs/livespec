@@ -10,8 +10,12 @@ satisfies:
 guided-by:
   - specs/strategy/ai-discoverability.spec.md
   - specs/interfaces/formats/msl-syntax.spec.md
+  - specs/interfaces/lsp/language-server.spec.md
 supports:
-  - specs/features/validation/cross-reference-validation.spec.md
+  - specs/features/lsp/completions.spec.md
+  - specs/features/lsp/diagnostics.spec.md
+  - specs/features/lsp/navigation.spec.md
+  - specs/interfaces/lsp/plugin-manifest.spec.md
 ---
 
 # Claude Code LSP Plugin

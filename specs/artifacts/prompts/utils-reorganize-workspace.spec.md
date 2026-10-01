@@ -8,7 +8,8 @@ governed-by:
   - specs/workspace/patterns.spec.md
 specifies:
   - references/prompts/utils/reorganize-workspace.md
-implements: specs/features/workspace-optimization.spec.md
+satisfies:
+  - specs/features/workspace-optimization.spec.md
 ---
 
 # Utility Prompt: Reorganize Workspace

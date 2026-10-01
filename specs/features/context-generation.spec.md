@@ -14,7 +14,8 @@ guided-by:
 derives-from:
   - specs/workspace/context-architecture.spec.md
 supports:
-  - agents/context-builder.md
+  - specs/artifacts/agents/context-builder.spec.md
+  - specs/interfaces/context/agents-md.spec.md
 ---
 
 # Agent Context Tree Generation

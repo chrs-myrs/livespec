@@ -4,7 +4,8 @@ category: features
 fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Without mandatory frontmatter, specs are not self-describing or machine-navigable, requiring AGENTS.md or taxonomy as intermediaries and scoring 1/5 on machine-readability audits
-governed-by: []
+governed-by:
+  - specs/interfaces/formats/validator-output.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 1: Specification-first development)
   - specs/foundation/outcomes.spec.md (Requirement 4: Sustainable methodology)

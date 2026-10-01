@@ -8,10 +8,48 @@ governed-by: []
 derives-from:
   - PURPOSE.md
 supports:
+  - specs/artifacts/agents/context-builder.spec.md
+  - specs/artifacts/commands/generation.spec.md
+  - specs/artifacts/diagrams/value-structure-context-tree-relationship.spec.md
+  - specs/artifacts/prompts/analyze-failure.spec.md
+  - specs/artifacts/prompts/registry.spec.md
+  - specs/artifacts/prompts/utils-feedback-report.spec.md
+  - specs/artifacts/prompts/utils-measure-session.spec.md
+  - specs/features/abstraction-guidance.spec.md
+  - specs/features/automation.spec.md
+  - specs/features/config/project-config.spec.md
+  - specs/features/context-generation.spec.md
+  - specs/features/documentation.spec.md
+  - specs/features/framework/standard.spec.md
+  - specs/features/improvement-analysis.spec.md
+  - specs/features/installation.spec.md
+  - specs/features/learning-application.spec.md
+  - specs/features/lsp/claude-code-plugin.spec.md
+  - specs/features/mandatory-frontmatter.spec.md
+  - specs/features/measurement/agent-compliance.spec.md
+  - specs/features/measurement/compliance-dashboard.spec.md
+  - specs/features/multi-project-sweep.spec.md
+  - specs/features/project-config.spec.md
+  - specs/features/project-health.spec.md
+  - specs/features/registry-specs.spec.md
+  - specs/features/session-completion.spec.md
+  - specs/features/templates.spec.md
+  - specs/features/templates/purpose.spec.md
+  - specs/features/validation/cross-reference-validation.spec.md
+  - specs/features/validation/generated-file-protection.spec.md
+  - specs/features/vocabulary-deliverable.spec.md
+  - specs/features/workspace-optimization.spec.md
   - specs/foundation/constraints.spec.md
+  - specs/strategy/ai-discoverability.spec.md
   - specs/strategy/architecture.spec.md
-  - specs/workspace/
-  - specs/artifacts/prompts/
+  - specs/strategy/dogfooding.spec.md
+  - specs/strategy/phase-workflow.spec.md
+  - specs/strategy/three-layer-architecture.spec.md
+  - specs/strategy/validation.spec.md
+  - specs/workspace/constitution.spec.md
+  - specs/workspace/context-architecture.spec.md
+  - specs/workspace/folder-organization.spec.md
+  - specs/workspace/workspace-agent.spec.md
 ---
 
 # LiveSpec Outcomes

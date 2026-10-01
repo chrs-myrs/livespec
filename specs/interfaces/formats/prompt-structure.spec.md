@@ -5,8 +5,7 @@ fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Without consistent prompt structure, AI agents can't reliably execute prompts, reducing methodology effectiveness
 governed-by: []
-supports:
-  - specs/artifacts/prompts/
+supports: []
 derives-from:
   - specs/workspace/patterns.spec.md
 ---

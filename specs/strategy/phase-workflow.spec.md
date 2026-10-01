@@ -8,6 +8,10 @@ governed-by:
   - specs/foundation/constraints.spec.md (Agent Agnostic, Manual Adoption)
 derives-from:
   - specs/foundation/outcomes.spec.md (Voluntary Adoption, Maintenance Proportional to Durability, Specification-Driven Architecture)
+supports:
+  - specs/artifacts/prompts/analyze-failure.spec.md
+  - specs/artifacts/prompts/utils-feedback-report.spec.md
+  - specs/features/three-modes.spec.md
 ---
 
 # Mode Workflow Strategy

@@ -9,6 +9,11 @@ governed-by:
 derives-from:
   - specs/foundation/outcomes.spec.md (Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
+supports:
+  - specs/features/validation/architecture-alignment.spec.md
+  - specs/features/validation/cross-reference-validation.spec.md
+  - specs/features/validation/taxonomy-structure-validation.spec.md
+  - specs/features/validation/workspace-scope-audit.spec.md
 ---
 
 # Dogfooding Strategy

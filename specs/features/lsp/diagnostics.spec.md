@@ -10,6 +10,7 @@ satisfies:
 guided-by:
   - specs/interfaces/formats/msl-syntax.spec.md
   - specs/features/validation/cross-reference-validation.spec.md
+  - specs/interfaces/lsp/language-server.spec.md
 ---
 
 # LSP Diagnostics

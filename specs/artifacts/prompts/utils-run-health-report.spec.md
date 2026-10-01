@@ -8,7 +8,8 @@ governed-by:
   - specs/workspace/patterns.spec.md
 specifies:
   - references/prompts/utils/run-health-report.md
-implements: specs/features/project-health.spec.md
+satisfies:
+  - specs/features/project-health.spec.md
 ---
 
 # Utility Prompt: Run Health Report

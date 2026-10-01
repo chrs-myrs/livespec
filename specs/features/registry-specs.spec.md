@@ -6,6 +6,7 @@ criticality: IMPORTANT
 failure_mode: Without registry purpose alignment and a defined taxonomy, registries become backlogs or bug trackers rather than recording accepted current state, and projects get no registries at bootstrap so known tensions have nowhere to live
 governed-by:
   - specs/foundation/constraints.spec.md
+  - specs/interfaces/formats/validator-output.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 4: Sustainable methodology)
 guided-by:

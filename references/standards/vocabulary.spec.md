@@ -84,6 +84,8 @@ All relationship field names use **hyphenated form** (never underscored).
 
 ### Upward Relationships (pointing to more abstract/durable specs)
 
+Links are authored upward only. `governed-by`, `satisfies`, `guided-by` and `derives-from` together form the traceability graph every spec must climb to PURPOSE.md; the downward direction is generated from them (`supports`).
+
 | Field | Description | Common Usage |
 |-------|-------------|-------------|
 | `governed-by` | Content governance — higher-level specs that constrain WHAT this spec can say | Any spec → constraints, workspace patterns |
@@ -104,8 +106,9 @@ All relationship field names use **hyphenated form** (never underscored).
 | Field | Description | Common Usage |
 |-------|-------------|-------------|
 | `specifies` | Path to the deliverable this spec governs | artifact specs → prompt/agent/script files |
-| `implements` | Realises a behaviour in code or configuration | validator → behaviour spec |
-| `supports` | Enables or makes possible | interfaces → features, foundation → strategy |
+| `supports` | Generated: the specs whose upward links resolve to this one. Written by `validate-crossrefs.sh --fix`, never by hand | any parent → its children |
+
+`implements` is retired. A spec that realises another spec `satisfies` it; which spec governs a file is answered from `specifies`.
 
 ### Sideways Relationships (peer coordination)
 

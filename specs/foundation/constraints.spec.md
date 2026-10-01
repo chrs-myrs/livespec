@@ -9,7 +9,23 @@ derives-from:
   - PURPOSE.md
   - specs/foundation/outcomes.spec.md
 supports:
+  - specs/artifacts/validators/remediate-references.spec.md
+  - specs/artifacts/validators/setup-hooks.spec.md
+  - specs/artifacts/validators/validate-constraints.spec.md
+  - specs/artifacts/validators/vendor-conventions.spec.md
+  - specs/features/abstraction-guidance.spec.md
+  - specs/features/automation.spec.md
+  - specs/features/project-config.spec.md
+  - specs/features/registry-specs.spec.md
+  - specs/features/validation/cross-reference-validation.spec.md
+  - specs/features/vocabulary-deliverable.spec.md
+  - specs/interfaces/formats/validator-output.spec.md
+  - specs/strategy/ai-discoverability.spec.md
   - specs/strategy/architecture.spec.md
+  - specs/strategy/dogfooding.spec.md
+  - specs/strategy/phase-workflow.spec.md
+  - specs/strategy/three-layer-architecture.spec.md
+  - specs/strategy/validation.spec.md
 ---
 
 # LiveSpec Constraints

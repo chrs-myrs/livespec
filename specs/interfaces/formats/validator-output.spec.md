@@ -9,11 +9,12 @@ governed-by:
 derives-from:
   - specs/strategy/validation.spec.md
 supports:
-  - specs/features/mandatory-frontmatter.spec.md
-  - specs/features/validation/cross-reference-validation.spec.md
   - specs/artifacts/validators/validate-constraints.spec.md
   - specs/artifacts/validators/validate-purpose.spec.md
+  - specs/artifacts/validators/validator-output.spec.md
+  - specs/features/mandatory-frontmatter.spec.md
   - specs/features/registry-specs.spec.md
+  - specs/features/validation/cross-reference-validation.spec.md
 ---
 
 # Validator Output Contract
@@ -77,6 +78,9 @@ gate CI on findings without parsing text. This is schema version 1.
 | | `unlinked` | warning; error under `--strict` | none |
 | | `no-chain` | warning; error under `--strict` | none |
 | | `cycle` | warning; error under `--strict` | none |
+| | `missing-backlink` | warning; error under `--strict` | the child missing from `supports:` |
+| | `stale-backlink` | warning; error under `--strict` | the `supports:` entry |
+| | `retired-field` | warning; error under `--strict` | the field |
 | `validate-constraints` | `unknown-command` | error | the command as referenced, `/livespec:` and its name |
 | | `missing-script` | error | the script path |
 | | `missing-route` | error | none |

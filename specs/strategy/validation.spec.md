@@ -9,6 +9,15 @@ governed-by:
 derives-from:
   - specs/foundation/outcomes.spec.md (Minimal Maintenance, Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
+supports:
+  - specs/artifacts/validators/validate-purpose.spec.md
+  - specs/features/spec-health.spec.md
+  - specs/features/validation/architecture-alignment.spec.md
+  - specs/features/validation/cross-reference-validation.spec.md
+  - specs/features/validation/spec-purity-detection.spec.md
+  - specs/features/validation/taxonomy-structure-validation.spec.md
+  - specs/features/validation/workspace-scope-audit.spec.md
+  - specs/interfaces/formats/validator-output.spec.md
 ---
 
 # Validation Strategy

@@ -8,6 +8,9 @@ governed-by:
   - specs/foundation/constraints.spec.md
 derives-from:
   - specs/foundation/outcomes.spec.md
+supports:
+  - specs/features/config/project-config.spec.md
+  - specs/strategy/layer-definitions.spec.md
 ---
 
 # Three-Layer Architecture Pattern

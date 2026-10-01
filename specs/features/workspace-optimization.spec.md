@@ -10,6 +10,8 @@ satisfies:
 guided-by:
   - specs/workspace/context-architecture.spec.md
 specifies: []
+supports:
+  - specs/artifacts/prompts/utils-reorganize-workspace.spec.md
 ---
 
 # Workspace Context Optimization

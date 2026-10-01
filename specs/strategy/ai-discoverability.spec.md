@@ -8,6 +8,17 @@ governed-by:
   - specs/foundation/constraints.spec.md (Agent Agnostic, No Framework Lock-in, Manual Adoption)
 derives-from:
   - specs/foundation/outcomes.spec.md (AI Agent Support, Voluntary Adoption)
+supports:
+  - specs/artifacts/prompts/registry.spec.md
+  - specs/features/context-generation.spec.md
+  - specs/features/documentation.spec.md
+  - specs/features/lsp/claude-code-plugin.spec.md
+  - specs/features/mandatory-frontmatter.spec.md
+  - specs/features/registry-specs.spec.md
+  - specs/features/templates/purpose.spec.md
+  - specs/features/vocabulary-deliverable.spec.md
+  - specs/interfaces/discovery/context7.spec.md
+  - specs/interfaces/discovery/llms-txt.spec.md
 ---
 
 # AI Discoverability Strategy

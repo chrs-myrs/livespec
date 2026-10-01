@@ -10,6 +10,27 @@ applies_to:
   - all_specifications
 derives-from:
   - specs/workspace/constitution.spec.md
+supports:
+  - specs/artifacts/commands/generation.spec.md
+  - specs/artifacts/prompts/0x-validate-understanding.spec.md
+  - specs/artifacts/prompts/utils-reorganize-workspace.spec.md
+  - specs/artifacts/prompts/utils-run-health-report.spec.md
+  - specs/artifacts/prompts/utils-suggest-improvements.spec.md
+  - specs/artifacts/validators/context-tree-visualizer.spec.md
+  - specs/features/improvement-analysis.spec.md
+  - specs/features/mandatory-frontmatter.spec.md
+  - specs/features/project-health.spec.md
+  - specs/features/registry-specs.spec.md
+  - specs/features/templates.spec.md
+  - specs/features/vocabulary-deliverable.spec.md
+  - specs/interfaces/formats/msl-syntax.spec.md
+  - specs/interfaces/formats/prompt-structure.spec.md
+  - specs/workspace/cross-references.spec.md
+  - specs/workspace/distribution.spec.md
+  - specs/workspace/folder-organization.spec.md
+  - specs/workspace/generated-files.spec.md
+  - specs/workspace/third-party-dependencies.spec.md
+  - specs/workspace/workspace-agent.spec.md
 ---
 
 # LiveSpec Development Patterns

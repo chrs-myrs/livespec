@@ -6,6 +6,7 @@ criticality: IMPORTANT
 failure_mode: Broken cross-references cause spec drift, lost traceability, and silent methodology violations — 110 stale references accumulated before detection in v5.4.0
 governed-by:
   - specs/foundation/constraints.spec.md
+  - specs/interfaces/formats/validator-output.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 4: Sustainable methodology)
 guided-by:
@@ -13,6 +14,8 @@ guided-by:
   - specs/strategy/dogfooding.spec.md
 specifies:
   - scripts/validate-crossrefs.sh
+supports:
+  - specs/features/lsp/diagnostics.spec.md
 ---
 
 # Cross-Reference Validation
@@ -40,6 +43,12 @@ specifies:
   - A spec on a cycle of upward links is reported
   - The graph is always the whole tree (every spec under `specs/`, PURPOSE.md and the paths given), even when only some files are checked, so checking the staged specs still sees their chains; findings are reported only for the files checked
 
+- [!] Each spec's `supports:` lists exactly the specs whose upward links resolve to it, so links are navigable both ways within the files
+  - A child missing from its parent's list, or an entry with no upward link back, is reported on the parent, whenever the parent or that child is among the files checked
+  - `implements:` is retired and reported wherever it is declared
+  - `--fix` moves `implements:` values into `satisfies:`, then rewrites each mismatched `supports:` in sorted order, adding the field only to specs that have children
+  - `--fix` names every entry it drops, so a relation once written only as `supports:` can be re-expressed as an upward link; it changes nothing else in the frontmatter
+
 - [!] Severity separates what is broken from what is untraced
   - An unresolved or relative target is an error
   - Every other finding is a warning, promoted to an error by `--strict`
@@ -57,6 +66,8 @@ specifies:
 - [ ] An upward link to a non-spec file, to the spec itself, or to a lower layer is reported
 - [ ] A feature whose only upward link is PURPOSE.md is reported
 - [ ] Checking one staged spec reports its missing chain using the rest of the tree
+- [ ] After `--fix` on this repository no backlink finding remains, and a second `--fix` changes nothing
+- [ ] A spec gaining an upward link, checked alone, reports the missing entry on its parent
 - [ ] Pre-commit hook runs cross-reference validation
 - [ ] All current specs pass with 0 errors, and with 0 warnings under `--strict`
 - [ ] Summary reports empty relationship fields alongside references checked

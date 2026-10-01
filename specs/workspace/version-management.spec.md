@@ -11,6 +11,8 @@ applies_to:
   - CHANGELOG.md
 derives-from:
   - specs/workspace/workflows.spec.md
+supports:
+  - specs/features/changelog.spec.md
 ---
 
 # Version Management

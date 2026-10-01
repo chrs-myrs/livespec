@@ -11,6 +11,30 @@ satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 2: AI Context Generation)
   - specs/foundation/outcomes.spec.md (Requirement 3: Universal Applicability)
 derives-from: []
+supports:
+  - specs/artifacts/agents/context-builder.spec.md
+  - specs/artifacts/diagrams/value-structure-context-tree-relationship.spec.md
+  - specs/artifacts/prompts/registry.spec.md
+  - specs/artifacts/prompts/utils-measure-session.spec.md
+  - specs/artifacts/validators/check-requires-spec.spec.md
+  - specs/artifacts/validators/remediate-references.spec.md
+  - specs/artifacts/validators/setup-hooks.spec.md
+  - specs/artifacts/validators/validate-constraints.spec.md
+  - specs/artifacts/validators/vendor-conventions.spec.md
+  - specs/features/abstraction-guidance.spec.md
+  - specs/features/automation.spec.md
+  - specs/features/context-generation.spec.md
+  - specs/features/documentation.spec.md
+  - specs/features/framework/standard.spec.md
+  - specs/features/learning-application.spec.md
+  - specs/features/measurement/agent-compliance.spec.md
+  - specs/features/measurement/compliance-dashboard.spec.md
+  - specs/features/multi-project-sweep.spec.md
+  - specs/features/project-birthing.spec.md
+  - specs/features/project-config.spec.md
+  - specs/features/templates.spec.md
+  - specs/features/validation/generated-file-protection.spec.md
+  - specs/interfaces/lsp/language-server.spec.md
 ---
 
 # LiveSpec Architecture

@@ -6,8 +6,12 @@ criticality: CRITICAL
 failure_mode: Without consistent MSL format, specs become inconsistent, validation fails, and AI agents can't reliably parse requirements
 governed-by: []
 supports:
-  - specs/features/validation/
-  - specs/artifacts/prompts/
+  - specs/artifacts/metaspecs/agent.spec.md
+  - specs/artifacts/metaspecs/prompt.spec.md
+  - specs/features/lsp/claude-code-plugin.spec.md
+  - specs/features/lsp/completions.spec.md
+  - specs/features/lsp/diagnostics.spec.md
+  - specs/features/lsp/navigation.spec.md
 derives-from:
   - specs/workspace/patterns.spec.md
 ---

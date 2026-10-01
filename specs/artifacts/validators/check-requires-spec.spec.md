@@ -11,7 +11,6 @@ derives-from:
   - specs/features/validation/spec-purity-detection.spec.md
 specifies:
   - scripts/check-requires-spec.sh
-implements: 
 ---
 
 # Spec Requirement Validation Tool

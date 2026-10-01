@@ -8,7 +8,8 @@ governed-by:
   - specs/workspace/patterns.spec.md
 specifies:
   - references/prompts/utils/suggest-improvements.md
-implements: specs/features/improvement-analysis.spec.md
+satisfies:
+  - specs/features/improvement-analysis.spec.md
 ---
 
 # Utility Prompt: Suggest Improvements

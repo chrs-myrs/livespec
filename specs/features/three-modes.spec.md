@@ -8,6 +8,8 @@ governed-by: []
 satisfies: []
 guided-by:
   - specs/strategy/phase-workflow.spec.md
+supports:
+  - specs/artifacts/prompts/registry.spec.md
 ---
 
 # Three Modes Behavior

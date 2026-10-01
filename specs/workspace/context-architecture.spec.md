@@ -14,7 +14,10 @@ derives-from:
   - specs/workspace/constitution.spec.md
   - specs/workspace/taxonomy.spec.md
 supports:
+  - specs/artifacts/validators/context-tree-visualizer.spec.md
   - specs/features/context-generation.spec.md
+  - specs/features/workspace-optimization.spec.md
+  - specs/workspace/workspace-agent.spec.md
 ---
 
 # Context Architecture

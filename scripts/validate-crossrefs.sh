@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # validate-crossrefs.sh — Check spec relationship links resolve, and upward links trace to PURPOSE.md
 #
-# Usage: bash scripts/validate-crossrefs.sh [--verbose] [--strict] [--json] [path...]
+# Usage: bash scripts/validate-crossrefs.sh [--verbose] [--strict] [--json] [--fix] [path...]
 #   path      tree to scan for *.spec.md, or a single spec file (default: specs/)
 #   --strict  promote traceability warnings to errors
 #   --json    machine-readable output (specs/interfaces/formats/validator-output.spec.md)
+#   --fix     move retired implements: into satisfies:, and regenerate each
+#             parent's supports: from its children's upward links
 # Exit 0: no errors (warnings permitted)
 # Exit 1: an unresolved target, or any finding under --strict
 # Exit 2: usage error
@@ -20,6 +22,7 @@ set -uo pipefail
 VERBOSE=false
 STRICT=false
 JSON=false
+FIX=false
 ROOTS=()
 
 for arg in "$@"; do
@@ -27,8 +30,9 @@ for arg in "$@"; do
         --verbose) VERBOSE=true ;;
         --strict)  STRICT=true ;;
         --json)    JSON=true ;;
+        --fix)     FIX=true ;;
         -*)        echo "Unknown option: $arg" >&2
-                   echo "Usage: $0 [--verbose] [--strict] [--json] [path...]" >&2
+                   echo "Usage: $0 [--verbose] [--strict] [--json] [--fix] [path...]" >&2
                    exit 2 ;;
         *)         ROOTS+=("$arg") ;;
     esac
@@ -149,22 +153,6 @@ dashes == 1 {
 END { closefield() }
 '
 
-EXTRACTED=""
-(( ${#GRAPH_FILES[@]} )) && EXTRACTED="$(awk -v SQ="'" "$EXTRACT" "${GRAPH_FILES[@]}")"
-
-# Existence is a filesystem question, answered here: X target kind, and R for a
-# missing target that would resolve relative to the spec naming it.
-EXISTENCE=""
-while IFS=$'\t' read -r tag src _ val; do
-    [[ "$tag" == E ]] || continue
-    if [[ -e "$val" ]]; then
-        EXISTENCE+="X"$'\t'"$val"$'\t'"present"$'\n'
-    else
-        EXISTENCE+="X"$'\t'"$val"$'\t'"missing"$'\n'
-        [[ -e "${src%/*}/$val" ]] && EXISTENCE+="R"$'\t'"$src"$'\t'"$val"$'\n'
-    fi
-done <<< "$EXTRACTED"
-
 # Pass 2: resolution, layers, reachability and cycles.
 #   F severity rule path subject message (unit-separated: a subject may be empty,
 #   and bash collapses empty tab-separated fields) | OK path field target | SUM counts
@@ -190,7 +178,7 @@ BEGIN {
 $1 == "N" { node[$2] = 1; order[++nn] = $2; next }
 $1 == "S" { scan[$2] = 1; ns++; next }
 $1 == "C" { if (($3 in RANK) && $3 != "purpose") cat[$2] = $3; next }
-$1 == "D" { if ($2 in scan) { declared++; if ($4 == 0) empty++ }; next }
+$1 == "D" { if ($2 in scan) { declared++; if ($4 == 0) empty++; if ($3 == "implements") retired[$2] = 1 }; next }
 $1 == "X" { kind[$2] = $3; next }
 $1 == "R" { rel[$2, $3] = 1; next }
 $1 == "E" { ne++; es[ne] = $2; ef[ne] = $3; et[ne] = $4; next }
@@ -200,6 +188,9 @@ END {
         s = es[i]; f = ef[i]; raw = et[i]; t = raw; sub(/^(\.\/)+/, "", t)
         in_scan = (s in scan)
         if (in_scan) refs++
+        if (f == "supports" && !((s, t) in act)) { act[s, t] = 1; actl[s] = actl[s] SUBSEP t }
+        if (f == "satisfies") sat[s, t] = 1
+        if (f == "implements" && in_scan) { nimpl[s]++; impl[s, nimpl[s]] = t }
         if (kind[raw] == "missing") {
             if (!in_scan) continue
             nbroken++
@@ -223,6 +214,7 @@ END {
         }
         if (in_scan) print "OK\t" s "\t" f "\t" raw
         linked[s] = 1
+        if (t != "PURPOSE.md" && !((t, s) in der)) { der[t, s] = 1; derl[t] = derl[t] SUBSEP s }
         adj[s] = (s in adj) ? adj[s] SUBSEP t : t
         nedge++; eS[nedge] = s; eT[nedge] = t
     }
@@ -252,27 +244,162 @@ END {
         }
         if (oncycle) finding(warn, "cycle", s, "", "upward links lead back to this spec")
     }
+
+    # Retired implements:, and the values --fix moves into satisfies:.
+    for (s in retired) {
+        finding(warn, "retired-field", s, "implements", "implements: is retired; its values belong in satisfies: (--fix moves them)")
+        moved = ""
+        for (x = 1; x <= nimpl[s]; x++) if (!((s, impl[s, x]) in sat)) moved = moved "\034" impl[s, x]
+        print "IMPL" US s US substr(moved, 2)
+    }
+
+    # supports: is the inverse of the resolving upward links, reported on the
+    # parent whenever the parent or the child concerned is being checked.
+    for (j = 1; j <= nn; j++) {
+        p = order[j]
+        if (p == "PURPOSE.md") continue
+        touched = (p in scan); mismatch = 0; dropped = ""
+        m = split(derl[p], ch, SUBSEP)
+        for (x = 2; x <= m; x++)
+            if (!((p, ch[x]) in act) && (touched || (ch[x] in scan))) {
+                mismatch = 1
+                finding(warn, "missing-backlink", p, ch[x], "supports: lacks " ch[x] ", which links up to this spec")
+            }
+        m = split(actl[p], en, SUBSEP)
+        for (x = 2; x <= m; x++)
+            if (!((p, en[x]) in der) && (touched || (en[x] in scan))) {
+                mismatch = 1; dropped = dropped "\034" en[x]
+                finding(warn, "stale-backlink", p, en[x], "supports: lists " en[x] ", which has no upward link to this spec")
+            }
+        if (mismatch) { kids = derl[p]; gsub(SUBSEP, "\034", kids); print "SUP" US p US substr(kids, 2) US substr(dropped, 2) }
+    }
     print "SUM\t" (ns + 0) "\t" (declared + 0) "\t" (empty + 0) "\t" (refs + 0) "\t" (nbroken + 0) "\t" (chained + 0) "\t" (unlinked + 0) "\t" (nerr + 0) "\t" (nwarn + 0)
 }
 '
 
 STRICT_N=0; $STRICT && STRICT_N=1
-RESOLVED="$(
-    {
-        while IFS= read -r f; do [[ -n "$f" ]] && printf 'N\t%s\n' "$f"; done <<< "$GRAPH"
-        [[ -f PURPOSE.md ]] && printf 'N\tPURPOSE.md\n'
-        while IFS= read -r f; do [[ -n "$f" ]] && printf 'S\t%s\n' "$f"; done <<< "$SCANNED"
-        printf '%s' "$EXISTENCE"
-        [[ -n "$EXTRACTED" ]] && printf '%s\n' "$EXTRACTED"
-    } | awk -v strict="$STRICT_N" "$RESOLVE"
-)"
+US=$'\037'
+
+# Extraction, existence and resolution: run again after each --fix rewrite.
+analyse() {
+    local tag src val f
+    EXTRACTED=""
+    (( ${#GRAPH_FILES[@]} )) && EXTRACTED="$(awk -v SQ="'" "$EXTRACT" "${GRAPH_FILES[@]}")"
+
+    # Existence is a filesystem question, answered here: X target kind, and R for
+    # a missing target that would resolve relative to the spec naming it.
+    EXISTENCE=""
+    while IFS=$'\t' read -r tag src _ val; do
+        [[ "$tag" == E ]] || continue
+        if [[ -e "$val" ]]; then
+            EXISTENCE+="X"$'\t'"$val"$'\t'"present"$'\n'
+        else
+            EXISTENCE+="X"$'\t'"$val"$'\t'"missing"$'\n'
+            [[ -e "${src%/*}/$val" ]] && EXISTENCE+="R"$'\t'"$src"$'\t'"$val"$'\n'
+        fi
+    done <<< "$EXTRACTED"
+
+    RESOLVED="$(
+        {
+            while IFS= read -r f; do [[ -n "$f" ]] && printf 'N\t%s\n' "$f"; done <<< "$GRAPH"
+            [[ -f PURPOSE.md ]] && printf 'N\tPURPOSE.md\n'
+            while IFS= read -r f; do [[ -n "$f" ]] && printf 'S\t%s\n' "$f"; done <<< "$SCANNED"
+            printf '%s' "$EXISTENCE"
+            [[ -n "$EXTRACTED" ]] && printf '%s\n' "$EXTRACTED"
+        } | awk -v strict="$STRICT_N" "$RESOLVE"
+    )"
+}
+
+# Frontmatter rewrite for --fix: supports: replaced (or added when the spec has
+# children), implements: dropped, values appended to satisfies:. Lists are
+# joined with \034. Nothing else in the file changes.
+REWRITE='
+function trim(v) { sub(/^[[:space:]]+/, "", v); sub(/[[:space:]]+$/, "", v); return v }
+function emit_list(key, joined,    n, a, i) {
+    n = (joined == "") ? 0 : split(joined, a, "\034")
+    if (n == 0) { print key ": []"; return }
+    print key ":"
+    for (i = 1; i <= n; i++) print "  - " a[i]
+}
+function emit_inline(v,    inner, i, c, depth, buf) {
+    sub(/[[:space:]]+#.*$/, "", v); v = trim(v)
+    if (v == "" || v == "[]") return
+    if (v !~ /^\[.*\]$/) { print "  - " v; return }
+    inner = substr(v, 2, length(v) - 2); depth = 0; buf = ""
+    for (i = 1; i <= length(inner); i++) {
+        c = substr(inner, i, 1)
+        if (c == "(") depth++
+        else if (c == ")" && depth > 0) depth--
+        if (c == "," && depth == 0) { if (trim(buf) != "") print "  - " trim(buf); buf = "" } else buf = buf c
+    }
+    if (trim(buf) != "") print "  - " trim(buf)
+}
+function append_sat(    n, a, i) { n = split(add_sat, a, "\034"); for (i = 1; i <= n; i++) print "  - " a[i]; sat_done = 1 }
+function close_block() { if (blk == "satisfies") append_sat(); blk = "" }
+dashes >= 2 { print; next }
+/^---[[:space:]]*$/ {
+    dashes++
+    if (dashes == 2) {
+        close_block()
+        if (sup_set && !sup_done && sup != "") emit_list("supports", sup)
+        if (add_sat != "" && !sat_done) emit_list("satisfies", add_sat)
+    }
+    print; next
+}
+dashes == 1 && /^[A-Za-z_][A-Za-z0-9_-]*:/ {
+    close_block(); skip = 0
+    key = $0; sub(/:.*/, "", key)
+    val = $0; sub(/^[^:]*:/, "", val)
+    if (key == "supports" && sup_set) { emit_list("supports", sup); sup_done = 1; skip = 1; next }
+    if (key == "implements" && drop_impl) { skip = 1; next }
+    if (key == "satisfies" && add_sat != "") {
+        if (trim(val) == "") { print; blk = "satisfies"; next }
+        print "satisfies:"; emit_inline(val); append_sat(); next
+    }
+    print; next
+}
+dashes == 1 && skip && /^([[:space:]]|-)/ { next }
+{ print }
+'
+
+# rewrite <file> <rewrite-supports 0|1> <supports> <drop-implements 0|1> <add-to-satisfies>
+rewrite() {
+    local tmp
+    tmp="$(mktemp)" || return 1
+    awk -v sup_set="$2" -v sup="$3" -v drop_impl="$4" -v add_sat="$5" "$REWRITE" "$1" > "$tmp" \
+        && cat "$tmp" > "$1"
+    rm -f "$tmp"
+}
+
+analyse
+
+if $FIX; then
+    echo "Fixing relationship links..."
+    # implements: first, so the satisfies: it becomes counts towards supports:.
+    while IFS="$US" read -r tag f vals; do
+        [[ "$tag" == IMPL ]] || continue
+        rewrite "$f" 0 "" 1 "$vals"
+        echo "  FIXED  $f: implements: moved into satisfies:"
+    done < <(grep "^IMPL$US" <<< "$RESOLVED")
+    analyse
+    while IFS="$US" read -r tag f children dropped; do
+        [[ "$tag" == SUP ]] || continue
+        children="$(tr '\034' '\n' <<< "$children" | grep -v '^$' | LC_ALL=C sort -u | tr '\n' '\034')"
+        rewrite "$f" 1 "${children%$'\034'}" 0 ""
+        echo "  FIXED  $f: supports: regenerated"
+        while IFS= read -r d; do
+            [[ -n "$d" ]] && echo "         dropped $d: it has no upward link here. If it depends on this spec, add one to it"
+        done < <(tr '\034' '\n' <<< "$dropped")
+    done < <(grep "^SUP$US" <<< "$RESOLVED")
+    analyse
+    echo ""
+fi
 
 echo "Validating cross-references..."
 echo ""
 
 # Findings grouped by file, in a stable order.
 last=""
-US=$'\037'
 while IFS="$US" read -r tag sev rule path subject message; do
     [[ "$tag" == F ]] || continue
     [[ "$path" != "$last" ]] && { echo "$path:"; last="$path"; }

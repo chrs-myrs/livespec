@@ -9,6 +9,7 @@ satisfies:
   - specs/features/lsp/claude-code-plugin.spec.md
 guided-by:
   - specs/interfaces/formats/msl-syntax.spec.md
+  - specs/interfaces/lsp/language-server.spec.md
 ---
 
 # LSP Navigation

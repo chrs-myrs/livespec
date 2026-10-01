@@ -9,6 +9,8 @@ applies_to:
   - livespec_projects
 derives-from:
   - specs/workspace/patterns.spec.md
+supports:
+  - specs/features/installation.spec.md
 ---
 
 # Distribution Pattern

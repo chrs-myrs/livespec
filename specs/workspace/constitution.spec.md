@@ -11,6 +11,22 @@ satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
   - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
 context_compression: moderate
+supports:
+  - specs/artifacts/prompts/utils-measure-session.spec.md
+  - specs/features/measurement/agent-compliance.spec.md
+  - specs/features/measurement/compliance-dashboard.spec.md
+  - specs/features/session-completion.spec.md
+  - specs/features/validation/contract-completeness.spec.md
+  - specs/features/validation/purpose-traceability.spec.md
+  - specs/strategy/dogfooding.spec.md
+  - specs/strategy/markdown-standards.spec.md
+  - specs/strategy/validation.spec.md
+  - specs/workspace/context-architecture.spec.md
+  - specs/workspace/context-compression.spec.md
+  - specs/workspace/livespec.spec.md
+  - specs/workspace/patterns.spec.md
+  - specs/workspace/workflows.spec.md
+  - specs/workspace/workspace-agent.spec.md
 ---
 
 # LiveSpec Development Constitution

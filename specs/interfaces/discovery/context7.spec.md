@@ -5,8 +5,7 @@ fidelity: full-detail
 criticality: IMPORTANT
 failure_mode: Without Context7 integration, AI agents using Context7 MCP cannot access LiveSpec documentation effectively
 governed-by: []
-supports:
-  - specs/strategy/ai-discoverability.spec.md
+supports: []
 guided-by:
   - specs/strategy/ai-discoverability.spec.md
 ---
