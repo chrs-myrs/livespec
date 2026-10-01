@@ -14,6 +14,8 @@ guided-by:
   - specs/workspace/patterns.spec.md
 informed-by:
   - knowledge-store audit findings (local research report, not in the repository)
+supports:
+  - specs/artifacts/validators/validate-coverage.spec.md
 ---
 
 # Mandatory Spec Frontmatter
@@ -65,6 +67,7 @@ informed-by:
   - features specs: `satisfies`, `guided-by`
   - interfaces specs: `supports`
   - artifacts specs: `specifies` (path to deliverable)
+  - `specifies` is also valid on features and interfaces, and each value may be a file, a directory or a glob: it is the one link that says which files a spec governs
 
 ### Relationship Field Values
 

@@ -26,6 +26,9 @@ jobs:
       - name: Registries
         if: ${{ !cancelled() }}
         run: bash scripts/validate-registries.sh
+      - name: Coverage (report only)
+        if: ${{ !cancelled() }}
+        run: bash scripts/validate-coverage.sh
       - name: PURPOSE.md
         if: ${{ !cancelled() }}
         run: bash scripts/validate-purpose.sh

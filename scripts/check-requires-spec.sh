@@ -28,88 +28,47 @@ fi
 NORM="${TARGET#./}"
 BASENAME="$(basename "$NORM")"
 
-# --- Exception 1: temporary / build / vendor directories ---
-for dir in var generated .archive .git node_modules .cache build dist worktrees; do
-    if [[ "$NORM" == "$dir/"* || "$NORM" == *"/$dir/"* ]]; then
-        echo "${GREEN}NO SPEC NEEDED${RESET}: $NORM"
-        echo "  Reason: lives under ${BLUE}$dir/${RESET} (transient, not committed as a deliverable)"
-        exit 0
-    fi
-done
+# Exemptions and governance come from the coverage validator, so this gate and
+# the coverage report cannot disagree. A path is governed only when a spec's
+# specifies: names it; a colocated spec or a mention in a spec's text is not.
+COVERAGE="$(dirname "${BASH_SOURCE[0]}")/validate-coverage.sh"
+if [[ ! -f "$COVERAGE" ]]; then
+    echo "ERROR: $COVERAGE not found; this gate needs it" >&2
+    exit 2
+fi
+ANSWER="$(bash "$COVERAGE" --which "$NORM")"
+STATUS=$?
+(( STATUS == 2 )) && exit 2
 
-# --- Exception 2: workspace specs are self-defining ---
-if [[ "$NORM" == specs/workspace/* ]]; then
+if [[ "$ANSWER" == exempt$'\t'* ]]; then
     echo "${GREEN}NO SPEC NEEDED${RESET}: $NORM"
-    echo "  Reason: workspace specs ARE specifications (no meta-spec required)"
+    echo "  Reason: ${ANSWER#exempt$'\t'}"
     exit 0
 fi
 
-# --- Exception 3: any .spec.md is itself a spec ---
-if [[ "$BASENAME" == *.spec.md ]]; then
-    echo "${GREEN}NO SPEC NEEDED${RESET}: $NORM"
-    echo "  Reason: file is itself a specification"
-    exit 0
-fi
-
-# --- Exception 4: pure data / log files ---
-case "$BASENAME" in
-    *.log|*.lock|*.cache)
-        echo "${GREEN}NO SPEC NEEDED${RESET}: $NORM"
-        echo "  Reason: data/log artefact, carries no specified behaviour"
-        exit 0 ;;
-esac
-
-# --- Exception 5: vendored files are specified where they came from ---
-if [[ -f "$NORM" ]] && grep -m1 -qE '^(# )?vendored-from: ' "$NORM" 2>/dev/null; then
-    from="$(grep -m1 -oE 'vendored-from: .*' "$NORM")"
-    echo "${GREEN}NO SPEC NEEDED${RESET}: $NORM"
-    echo "  Reason: vendored from ${from#vendored-from: }, which is specified upstream"
-    exit 0
-fi
-
-# --- Check 1: colocated spec ---
-COLOCATED="${NORM%.*}.spec.md"
-if [[ -f "$COLOCATED" ]]; then
+if (( STATUS == 0 )); then
     echo "${GREEN}SPEC FOUND${RESET}: $NORM"
-    echo "  Colocated: ${BLUE}$COLOCATED${RESET}"
-    exit 0
-fi
-
-# --- Check 2: any spec in specs/ that mentions this path or filename ---
-# A path appearing as an argument in a usage example is not evidence that a
-# spec governs it, so shell-invocation lines are excluded from the match.
-MENTIONS=""
-if [[ -d specs ]]; then
-    MENTIONS="$(grep -rn -F -e "$NORM" specs/ 2>/dev/null \
-        | grep -v -E ':[[:space:]]*(\$ |\./|bash |sh )' \
-        | grep -v -E '\.sh[[:space:]]' \
-        | cut -d: -f1 | sort -u || true)"
-fi
-
-if [[ -n "$MENTIONS" ]]; then
-    echo "${GREEN}SPEC FOUND${RESET}: $NORM"
-    echo "  Referenced by:"
-    while IFS= read -r m; do
-        [[ -n "$m" ]] && echo "    ${BLUE}$m${RESET}"
-    done <<< "$MENTIONS"
+    echo "  Governed by:"
+    while IFS=$'\t' read -r _ spec; do
+        [[ -n "$spec" ]] && echo "    ${BLUE}$spec${RESET}"
+    done <<< "$ANSWER"
     exit 0
 fi
 
 # --- Missing: actionable guidance ---
-DIRNAME="$(dirname "$NORM")"
 STEM="${BASENAME%%.*}"
 
 echo "${RED}SPEC REQUIRED${RESET}: $NORM"
 echo ""
-echo "  No specification governs this file. It is a permanent deliverable"
+echo "  No spec's specifies: names this file. It is a permanent deliverable"
 echo "  and LiveSpec requires a spec before implementation."
 echo ""
 echo "  ${YELLOW}Suggested locations${RESET}:"
 echo "    ${BLUE}specs/features/${STEM}.spec.md${RESET}      (observable behaviour)"
 echo "    ${BLUE}specs/artifacts/${STEM}.spec.md${RESET}     (prompt, agent, command, validator)"
 echo "    ${BLUE}specs/interfaces/${STEM}.spec.md${RESET}    (API or data contract)"
-echo "    ${BLUE}${DIRNAME}/${STEM}.spec.md${RESET}          (colocated)"
 echo ""
 echo "  An existing spec may cover this file if they share one observable"
-echo "  purpose. Otherwise create one: ${BLUE}/livespec:design spec${RESET}"
+echo "  purpose: add the file, its directory or a glob to that spec's specifies:."
+echo "  Otherwise create one: ${BLUE}/livespec:design spec${RESET}"
 exit 1

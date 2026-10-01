@@ -10,6 +10,7 @@ derives-from:
   - specs/strategy/validation.spec.md
 supports:
   - specs/artifacts/validators/validate-constraints.spec.md
+  - specs/artifacts/validators/validate-coverage.spec.md
   - specs/artifacts/validators/validate-purpose.spec.md
   - specs/artifacts/validators/validate-registries.spec.md
   - specs/artifacts/validators/validator-output.spec.md
@@ -35,6 +36,7 @@ gate CI on findings without parsing text. This is schema version 1.
   - `validator`: the validator's file name without `.sh`
   - `livespec_version`: the release the validator came from, as recorded by its `source-version` stamp when vendored or by the toolchain's `project.yaml` otherwise; `unknown` when neither is available
   - `findings`: an array of finding objects, empty when nothing was found
+  - Optional keys a validator adds after `findings`, named in its rule-code table below
 
 - [!] Each finding is an object with these keys, in this order
   - `id`: `<rule>:<path>`, followed by `:<subject>` for rules that name a subject
@@ -81,6 +83,11 @@ gate CI on findings without parsing text. This is schema version 1.
 | | `missing-backlink` | warning; error under `--strict` | the child missing from `supports:` |
 | | `stale-backlink` | warning; error under `--strict` | the `supports:` entry |
 | | `retired-field` | warning; error under `--strict` | the field |
+| `validate-coverage` | `ungoverned` | warning | none |
+| | `multiply-governed` | warning | none |
+| | `dead-pattern` | warning | the `specifies:` value |
+| | optional key `governed` | | object: each spec path → sorted array of the tracked files its `specifies:` matches |
+| | optional key `coverage` | | object: `files` needing a spec, and how many are `governed` |
 | `validate-constraints` | `unknown-command` | error | the command as referenced, `/livespec:` and its name |
 | | `missing-script` | error | the script path |
 | | `missing-route` | error | none |

@@ -282,16 +282,18 @@ US=$'\037'
 
 # Extraction, existence and resolution: run again after each --fix rewrite.
 analyse() {
-    local tag src val f
+    local tag src field val f
     EXTRACTED=""
     (( ${#GRAPH_FILES[@]} )) && EXTRACTED="$(awk -v SQ="'" "$EXTRACT" "${GRAPH_FILES[@]}")"
 
     # Existence is a filesystem question, answered here: X target kind, and R for
     # a missing target that would resolve relative to the spec naming it.
     EXISTENCE=""
-    while IFS=$'\t' read -r tag src _ val; do
+    while IFS=$'\t' read -r tag src field val; do
         [[ "$tag" == E ]] || continue
-        if [[ -e "$val" ]]; then
+        # A specifies: glob names no single path; validate-coverage.sh reports
+        # one that matches nothing.
+        if [[ -e "$val" ]] || [[ "$field" == specifies && "$val" == *[\*\?\[]* ]]; then
             EXISTENCE+="X"$'\t'"$val"$'\t'"present"$'\n'
         else
             EXISTENCE+="X"$'\t'"$val"$'\t'"missing"$'\n'

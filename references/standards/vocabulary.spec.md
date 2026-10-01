@@ -105,7 +105,7 @@ Links are authored upward only. `governed-by`, `satisfies`, `guided-by` and `der
 
 | Field | Description | Common Usage |
 |-------|-------------|-------------|
-| `specifies` | Path to the deliverable this spec governs | artifact specs → prompt/agent/script files |
+| `specifies` | The files this spec governs: a path, a directory or a glob (`*` within a segment, `**` across) | features, interfaces and artifacts → deliverable files |
 | `supports` | Generated: the specs whose upward links resolve to this one. Written by `validate-crossrefs.sh --fix`, never by hand | any parent → its children |
 
 `implements` is retired. A spec that realises another spec `satisfies` it; which spec governs a file is answered from `specifies`.

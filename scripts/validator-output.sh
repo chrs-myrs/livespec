@@ -4,6 +4,7 @@
 # Sourced, never run, and only when --json is requested:
 #   vo_init <validator>                     after any cd; silences text output
 #   vo_finding <severity> <rule> <path> <subject> <message>
+#   vo_extra <key> <json>                   an optional key after findings
 # The document is written to the original stdout when the validator exits.
 #
 # Specifies: specs/artifacts/validators/validator-output.spec.md
@@ -13,6 +14,7 @@
 
 VO_SCHEMA_VERSION=1
 VO_LINES=()
+VO_EXTRA=()
 
 # Release this validator came from: its own vendored stamp, then the
 # toolchain's project.yaml beside it.
@@ -84,6 +86,10 @@ vo_finding() {
     VO_LINES+=("$jid"$'\t'"$jmsg"$'\t'"$obj")
 }
 
+# Optional top-level keys follow findings, in the order added. The value is
+# already-rendered JSON, deterministic by the caller's construction.
+vo_extra() { VO_EXTRA+=("$1"$'\t'"$2"); }
+
 _vo_emit() {
     {
         printf '{\n  "schema_version": %d,\n' "$VO_SCHEMA_VERSION"
@@ -93,9 +99,14 @@ _vo_emit() {
             printf '  "findings": [\n'
             printf '%s\n' "${VO_LINES[@]}" | LC_ALL=C sort -u | cut -f3- \
                 | sed -e 's/^/    /' -e '$!s/$/,/'
-            printf '  ]\n}\n'
+            printf '  ]'
         else
-            printf '  "findings": []\n}\n'
+            printf '  "findings": []'
         fi
+        local extra
+        for extra in ${VO_EXTRA[@]+"${VO_EXTRA[@]}"}; do
+            _vo_esc "${extra%%$'\t'*}"; printf ',\n  %s: %s' "$_VO_E" "${extra#*$'\t'}"
+        done
+        printf '\n}\n'
     } >&3
 }
