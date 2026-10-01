@@ -33,7 +33,7 @@ guided-by: []
 - [!] Each parameter must reference behavior spec that documents its purpose and validation.
   - Parameter documented in contract: `specs/interfaces/api/endpoint.spec.md`
   - Behavior spec referenced: `specs/features/feature.spec.md`
-  - Reference can be in frontmatter (`implements:` or `satisfies:`) or inline comment
+  - Reference can be in frontmatter (`satisfies:`) or inline comment
   - Parameter without reference → validation fails
   - Optional parameters still need behavior specs (optionality is a behavior)
 

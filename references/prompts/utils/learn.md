@@ -1,5 +1,4 @@
 ---
-implements: specs/features/learning-application.spec.md
 phase: utilities
 ---
 

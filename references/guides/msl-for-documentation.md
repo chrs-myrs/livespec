@@ -354,11 +354,10 @@ derives-from:
 # specs/features/documentation/architecture-docs.spec.md
 satisfies:
   - specs/foundation/onboarding.spec.md
+specifies:
+  - docs/architecture/README.md
 ## Requirements
 - [!] Architecture docs explain system design within target time.
-
-# docs/architecture/README.md
-implements: specs/features/documentation/architecture-docs.spec.md
 ```
 
 **Orphaned doc detection**:

@@ -6,7 +6,7 @@
 # Exit 0: all checks pass (warnings allowed)
 # Exit 1: one or more errors
 #
-# Specifies: scripts/validate-registries.spec.md
+# Specifies: specs/artifacts/validators/validate-registries.spec.md
 # Governs:   specs/features/registry-specs.spec.md
 
 set -uo pipefail

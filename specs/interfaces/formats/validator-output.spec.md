@@ -11,9 +11,9 @@ derives-from:
 supports:
   - specs/artifacts/validators/validate-constraints.spec.md
   - specs/artifacts/validators/validate-purpose.spec.md
+  - specs/artifacts/validators/validate-registries.spec.md
   - specs/artifacts/validators/validator-output.spec.md
   - specs/features/mandatory-frontmatter.spec.md
-  - specs/features/registry-specs.spec.md
   - specs/features/validation/cross-reference-validation.spec.md
 ---
 

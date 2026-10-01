@@ -101,27 +101,21 @@ LiveSpec methodology (used to create specs)
 
 ## Validation Through Testing
 
-**Test suite structure:**
+**Validators** (`scripts/`, run by the pre-commit hook `setup-hooks.sh` installs):
 ```
-tests/
-├── prompts/
-│   ├── test_folder_structure.sh     # Validates folder-structure convention
-│   ├── test_msl_format.sh           # Validates MSL format compliance
-│   ├── test_prompt_behaviors.sh     # Validates prompt ↔ spec alignment
-│   └── test_spec_naming.sh          # Validates naming convention
-├── structure/
-│   ├── test_full_validation.sh      # Validates circularity (constrained_by completeness)
-│   └── test_traceability.sh         # Validates derives_from chains
-└── run-all-tests.sh                 # Executes all tests
+scripts/
+├── validate-frontmatter.sh   # Frontmatter schema and MSL fields
+├── validate-crossrefs.sh     # Links resolve and trace to PURPOSE.md
+├── validate-constraints.sh   # Commands, scripts and routes LiveSpec claims exist
+├── validate-registries.sh    # Registry integrity
+└── validate-purpose.sh       # PURPOSE.md boundary
 ```
 
-**What tests validate:**
-1. **Structure compliance**: LiveSpec follows its own folder-structure.spec.md
-2. **MSL compliance**: All specs follow MSL format (title, frontmatter, Requirements)
-3. **Traceability**: derives_from and constrained_by chains complete
-4. **Circularity**: Every spec constrained, every deliverable specified
-5. **Naming**: File names follow naming.spec.md convention
-6. **Alignment**: Prompts implement their defining specs
+**What validators check:**
+1. **Format compliance**: every spec carries the required frontmatter
+2. **Traceability**: every spec's upward links reach PURPOSE.md, and each parent lists its children
+3. **Self-consistency**: what LiveSpec says about its own commands and scripts is true
+4. **Registries**: accepted state is recorded in the expected shape
 
 **Philosophy:**
 - Tests validate OBSERVABLE behaviors (file structure, format, naming)

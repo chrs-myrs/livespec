@@ -87,10 +87,9 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+specifies:
+  - src/auth/oauth-handler.ts
 "System authenticates users via OAuth"
-
-# src/auth/oauth-handler.ts
-implements: specs/features/authentication.spec.md
 ```
 
 **Validation**: oauth-handler.ts → authentication.spec.md → outcomes.spec.md → PURPOSE.md ✓
@@ -108,10 +107,9 @@ derives-from:
 # specs/features/documentation/architecture-docs.spec.md
 satisfies:
   - specs/foundation/outcomes.spec.md
+specifies:
+  - docs/architecture/README.md
 "Architecture documentation covers: overview, components, data flow"
-
-# docs/architecture/README.md
-implements: specs/features/documentation/architecture-docs.spec.md
 ```
 
 **Validation**: docs/architecture/README.md → architecture-docs.spec.md → outcomes.spec.md → PURPOSE.md ✓

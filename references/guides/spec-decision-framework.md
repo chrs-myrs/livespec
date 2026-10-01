@@ -281,7 +281,7 @@ derives-from:
 - `satisfies:` (requirement)
 - `guided-by:` (strategy)
 
-**Validation**: `scripts/validate-value-structure.sh` checks hierarchy integrity
+**Validation**: `scripts/validate-crossrefs.sh` checks that every spec's upward links reach PURPOSE.md
 
 ---
 
@@ -507,7 +507,7 @@ Write spec (10 min)
 - **PURPOSE.md** - Foundation of Value Structure
 - **references/guides/frontmatter-relationships.md** - How to link specs
 - **specs/workspace/patterns.spec.md** - Naming conventions
-- **scripts/validate-value-structure.sh** - Automated hierarchy validation
+- **scripts/validate-crossrefs.sh** - Automated hierarchy validation
 
 ---
 

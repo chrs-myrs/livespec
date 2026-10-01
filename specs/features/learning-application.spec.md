@@ -9,6 +9,8 @@ satisfies:
   - specs/foundation/outcomes.spec.md
 guided-by:
   - specs/strategy/architecture.spec.md
+specifies:
+  - references/prompts/utils/learn.md
 ---
 
 # Learning Application

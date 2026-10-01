@@ -104,7 +104,7 @@ Agents must follow standards defined in these strategy specs.
 
 ### Cross-References
 **See:** `specs/workspace/cross-references.spec.md`
-- Dependency traceability (implements:, specifies:, governed-by:)
+- Dependency traceability (upward links to PURPOSE.md, specifies:)
 - Cross-reference update workflow
 - Metaspec hierarchy
 - Systematic update checklist

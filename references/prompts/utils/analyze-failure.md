@@ -1,7 +1,3 @@
----
-implements: specs/artifacts/prompts/analyze-failure.spec.md
----
-
 # Analyze LiveSpec Process Failure
 
 Perform forensic analysis when LiveSpec adoption failed - specs drifted, became useless, or weren't maintained. Diagnose what went wrong and provide recovery plan.

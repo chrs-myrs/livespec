@@ -1,5 +1,4 @@
 ---
-implements: specs/artifacts/prompts/utils-measure-session.spec.md
 phase: utilities
 ---
 

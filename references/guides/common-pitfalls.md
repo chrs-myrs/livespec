@@ -283,13 +283,11 @@ If you discover missing UX flows after implementation:
 - Users will expect behavior that doesn't exist
 - **Contract doesn't match implementation**
 
-**Root cause**: Contract completeness validation didn't exist (fixed in 3.3.0)
+**Root cause**: Nothing checked that contract parameters link to behaviour. A validator for this existed in 3.3.0 and was not carried into v5.
 
-**Prevention (Post-3.3.0)**:
-- ✅ **Contract completeness validation**: `/livespec:audit validate`
+**Prevention**:
 - ✅ **Required behavior links**: Every contract parameter must reference behavior spec
-- ✅ **Pre-commit hook**: Automatic validation before commit
-- ✅ **CI/CD integration**: tests/structure/test_full_validation.sh includes completeness check
+- ⚠️ **Not automated**: no validator checks this today, so check it in review
 
 **Pattern**:
 ```markdown

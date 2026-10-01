@@ -1,5 +1,4 @@
 ---
-implements: specs/features/workspace-optimization.spec.md
 phase: utilities
 ---
 

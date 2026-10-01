@@ -1,5 +1,4 @@
 ---
-implements: specs/artifacts/prompts/0x-validate-understanding.spec.md
 phase: 0-define
 estimated_time: "5-10 minutes"
 ---

@@ -25,7 +25,6 @@ derives-from:
 ### Frontmatter Contract
 
 - [!] Prompt frontmatter provides execution context
-  - `implements`: Path to spec this prompt implements (optional)
   - `phase`: Phase number (0-4) or "utils" (required)
   - `estimated_time`: Human-readable duration (optional)
   - `prerequisites`: List of required preconditions (optional)

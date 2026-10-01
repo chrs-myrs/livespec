@@ -6,6 +6,7 @@ criticality: IMPORTANT
 failure_mode: Without automated registry validation, registries drift into backlogs, index and body fall out of sync, and required registries silently go missing from projects
 governed-by:
   - specs/features/registry-specs.spec.md
+  - specs/interfaces/formats/validator-output.spec.md
 specifies:
   - scripts/validate-registries.sh
 ---

@@ -153,13 +153,13 @@ technical-docs/
 │
 └── docs/                                # Actual documentation (implementation)
     ├── architecture/
-    │   ├── README.md                    # implements: specs/features/documentation/architecture-docs.spec.md
+    │   ├── README.md                    # specified by: specs/features/documentation/architecture-docs.spec.md
     │   ├── overview.md
     │   └── components.md
     ├── api/
-    │   └── reference.md                 # implements: specs/features/documentation/api-reference.spec.md
+    │   └── reference.md                 # specified by: specs/features/documentation/api-reference.spec.md
     └── guides/
-        └── getting-started.md           # implements: specs/features/documentation/onboarding-guide.spec.md
+        └── getting-started.md           # specified by: specs/features/documentation/onboarding-guide.spec.md
 ```
 
 ### Example Spec: Documentation Behavior

@@ -38,7 +38,7 @@ derives-from:
 - ✅ `POST /auth/login` request/response format
 - ✅ Error response structure: `{ ok: false, error: string }`
 
-**Every contract parameter MUST link to behavior spec** (enforced by scripts/check-contract-completeness.sh)
+**Every contract parameter MUST link to behavior spec** (no validator enforces this yet; check it in review)
 
 **Example linkage**:
 ```markdown

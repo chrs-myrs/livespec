@@ -26,8 +26,7 @@ derives-from:
   - **[!] Every contract parameter MUST link to behavior spec** (completeness requirement)
     - Inline reference: `- param_name: Description\n  - Behavior: specs/features/feature.spec.md#section`
     - OR frontmatter: `satisfies: [specs/features/feature.spec.md]`
-    - Validated by: `scripts/check-contract-completeness.sh`
-    - Pre-commit hook: Blocks commits if parameters lack behavior links
+    - No validator enforces this yet; check it in review
     - Prevents incomplete features (parameters that promise behavior without implementation)
 
 ## Contract vs Behavior Boundary

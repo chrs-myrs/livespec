@@ -463,7 +463,7 @@ See specs/features/domain-models/threading-model.spec.md for core threading conc
 
 **Rule**: Every parameter in contract MUST link to behavior spec
 
-**Validation**: scripts/check-contract-completeness.sh
+**Validation**: not automated; no validator checks this today, so check it in review
 
 **Checks**:
 - Each contract parameter has inline behavior reference OR
@@ -721,7 +721,6 @@ See specs/features/domain-models/threading-model.spec.md
 ## Further Reading
 
 - **specs/features/validation/contract-completeness.spec.md** - Validation rules for behavior links
-- **scripts/check-contract-completeness.sh** - Automated completeness checking
 - **references/guides/common-pitfalls.md** - Real examples of boundary violations (Pitfall #7)
 - **references/standards/metaspecs/behavior.spec.md** - Template for behavior specs
 - **references/standards/metaspecs/contract.spec.md** - Template for contract specs

@@ -1,5 +1,4 @@
 ---
-implements: specs/artifacts/prompts/utils-feedback-report.spec.md
 generated: '2025-10-10'
 ---
 

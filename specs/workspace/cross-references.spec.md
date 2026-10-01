@@ -14,34 +14,37 @@ derives-from:
 # Cross-Reference Patterns
 
 ## Requirements
-- [!] LiveSpec maintains bidirectional links between prompts and specifications using YAML frontmatter with systematic update workflow when renaming or moving files.
-  - Prompts declare `implements:` field linking to behavior spec
-  - Specs declare `specifies:` field linking to implementation
-  - Specs declare `governed-by:` field linking to metaspecs
-  - Other dependency fields available (derives-from, satisfies, supports, applies_to)
+- [!] LiveSpec keeps links between specs, and from specs to the files they govern, navigable in both directions, with a systematic update workflow when renaming or moving files.
+  - Specs declare upward links (`derives-from`, `satisfies`, `guided-by`, `governed-by`) to what they serve, written from the repository root
+  - Specs declare `specifies:` naming the files they govern; those files carry no link back
+  - Each spec's `supports:` is generated from the upward links that reach it, never written by hand
+  - `governed-by:` is content governance; the metaspec a spec follows is implied by its `type`
   - Systematic checklist used when renaming/moving files
   - All cross-references updated atomically in single commit
-  - Validation catches broken references
+  - Validation catches broken references and links that do not trace to PURPOSE.md
 
 ## Dependency Traceability
 
-### Prompts → Specs (implements:)
+### Specs → Parents (upward links)
 
-**Prompts use `implements:` to reference defining specifications:**
+**Specs name what they serve, upward only:**
 ```yaml
 ---
-implements: specs/artifacts/prompts/1a-design-architecture.spec.md
+satisfies:
+  - specs/foundation/outcomes.spec.md
+guided-by:
+  - specs/strategy/architecture.spec.md
 ---
 ```
 
 **Purpose:**
-- Links prompt to its behavioral specification
-- Enables validation (prompt matches spec requirements)
-- Provides traceability (what behavior does this prompt implement)
+- Traces every spec to PURPOSE.md
+- The parent's `supports:` is generated from these, so navigation down needs no tool
+- One source of truth: editing a link means editing the child
 
-### Specs → Prompts (specifies:)
+### Specs → Files (specifies:)
 
-**Specs use `specifies:` to reference implementation:**
+**Specs use `specifies:` to name what they govern:**
 ```yaml
 ---
 specifies: skills/design/SKILL.md
@@ -49,35 +52,18 @@ specifies: skills/design/SKILL.md
 ```
 
 **Purpose:**
-- Links behavior spec to its implementation
-- Bidirectional navigation (spec ↔ prompt)
+- Links a spec to its deliverable
+- A file's governing spec is the one whose `specifies:` names it
 - Enables validation (spec requirements met by implementation)
-
-### Specs → Metaspecs (governed-by:)
-
-**Specs use `governed-by:` to reference constraining metaspecs:**
-```yaml
----
-governed-by:
-  - references/standards/metaspecs/behavior.spec.md
----
-```
-
-**Purpose:**
-- Declares hierarchical structure
-- Inherits requirements from parent metaspec
-- Enables MSL minimalism (don't repeat inherited structure)
 
 ### Other Dependency Fields
 
 **For specs:**
-- `derives-from:` - Parent specs this is based on
-- `satisfies:` - Requirements this fulfills
-- `supports:` - What this spec enables
+- `supports:` - Generated: the specs that link up to this one
+- `informed-by:` - External research or standards
 - `applies_to:` - Scope (for workspace specs)
-- `guided-by:` - Strategies guiding this spec (horizontal influence)
 
-**See:** `references/standards/conventions/dependencies.spec.md` for complete reference
+**See:** `references/guides/frontmatter-relationships.md` for the decision framework
 
 ## Cross-Reference Update Pattern
 
@@ -87,12 +73,12 @@ When renaming or moving prompts or specs, use systematic checklist to maintain t
 
 **Files to update:**
 - [ ] Source file renamed/moved (skills/, commands/, or specs/)
-- [ ] Spec frontmatter (`specifies:` or `implements:` field)
+- [ ] Spec frontmatter (`specifies:` and any upward links naming the moved spec)
 - [ ] Registry entry (specs/artifacts/prompts/registry.spec.md)
 - [ ] Navigation references (command routing, skill cross-links)
 - [ ] Predecessor prompts ("Next Step" sections)
 - [ ] Documentation references (AGENTS.md, guides)
-- [ ] Validation run (`/livespec:audit validate`)
+- [ ] Validation run (`bash scripts/validate-crossrefs.sh --fix`, then `/livespec:audit validate`)
 
 ### Example: Renaming Prompt
 
@@ -130,7 +116,7 @@ git commit -m "Rename 0d → 0f: Update all cross-references
 ### Why Systematic Approach Matters
 
 **Missing updates cause:**
-- Missing spec frontmatter breaks bidirectional linking
+- Missing spec frontmatter breaks traceability to PURPOSE.md
 - Missing registry breaks prompt discovery
 - Missing navigation breaks workflow guidance
 - Inconsistent references confuse AI agents
@@ -172,10 +158,10 @@ prompt.spec.md (prompt structural requirements)
 **Location:** Metaspecs live in `references/standards/metaspecs/` and are distributed to target projects via the LiveSpec plugin (`/plugin install livespec@livespec`), not file copying.
 
 ## Validation
-- All prompts declare `implements:` field
 - All prompt behavior specs declare `specifies:` field
-- All specs declare `governed-by:` field (except metaspecs)
-- Bidirectional links maintained (implements: ↔ specifies:)
+- Every spec's upward links reach PURPOSE.md
+- Every `supports:` matches the upward links that reach its spec
+- No spec declares the retired `implements:` field
 - Systematic checklist used for renames/moves
 - All cross-references updated atomically
 - Validation catches broken references
