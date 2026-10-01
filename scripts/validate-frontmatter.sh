@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # validate-frontmatter.sh — Check all .spec.md files for IMP-005 frontmatter compliance
 #
-# Usage: bash scripts/validate-frontmatter.sh [--verbose] [--strict] [path]
-#   path      tree to scan for *.spec.md (default: specs/)
+# Usage: bash scripts/validate-frontmatter.sh [--verbose] [--strict] [path...]
+#   path      tree to scan for *.spec.md, or a single spec file (default: specs/)
 #   --strict  promote empty-mandatory-field warnings to errors
 # Exit 0: all checks pass
 # Exit 1: one or more failures
@@ -14,25 +14,27 @@ set -uo pipefail
 
 VERBOSE=""
 STRICT=""
-SPEC_ROOT=""
+SPEC_ROOTS=()
 
 for arg in "$@"; do
     case "$arg" in
         --verbose) VERBOSE="--verbose" ;;
         --strict)  STRICT="--strict" ;;
         -*)        echo "Unknown option: $arg" >&2
-                   echo "Usage: $0 [--verbose] [--strict] [path]" >&2
+                   echo "Usage: $0 [--verbose] [--strict] [path...]" >&2
                    exit 2 ;;
-        *)         SPEC_ROOT="$arg" ;;
+        *)         SPEC_ROOTS+=("$arg") ;;
     esac
 done
 
-SPEC_ROOT="${SPEC_ROOT:-specs/}"
+(( ${#SPEC_ROOTS[@]} )) || SPEC_ROOTS=(specs/)
 
-if [[ ! -d "$SPEC_ROOT" ]]; then
-    echo "ERROR: not a directory: $SPEC_ROOT" >&2
-    exit 2
-fi
+for root in "${SPEC_ROOTS[@]}"; do
+    if [[ ! -e "$root" ]]; then
+        echo "ERROR: no such file or directory: $root" >&2
+        exit 2
+    fi
+done
 
 ERRORS=0
 WARNINGS=0
@@ -243,13 +245,16 @@ while IFS= read -r specfile; do
 
     # --- Warnings ---
 
-    # Check for metaspec refs in governed-by (only check list items directly under governed-by)
+    # Check for metaspec refs in governed-by (only check list items directly under governed-by).
+    # Older versions planted pre-schema metaspec copies under references/templates/
+    # and *.metaspec.md names; neither contains "metaspecs/".
+    METASPEC_RE='metaspecs/|references/templates/|\.metaspec\.md'
     in_governed_by=false
     while IFS= read -r line; do
         if [[ "$line" =~ ^governed-by: ]]; then
             in_governed_by=true
             # Check inline value (governed-by: .livespec/...)
-            if grep -q "metaspecs/" <<< "$line"; then
+            if grep -qE "$METASPEC_RE" <<< "$line"; then
                 [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
                 warn "governed-by contains metaspec reference (should be content governance only)"
             fi
@@ -257,7 +262,7 @@ while IFS= read -r specfile; do
         fi
         if [[ "$in_governed_by" == true ]]; then
             if [[ "$line" =~ ^[[:space:]]+-[[:space:]] ]]; then
-                if grep -q "metaspecs/" <<< "$line"; then
+                if grep -qE "$METASPEC_RE" <<< "$line"; then
                     [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
                     warn "governed-by contains metaspec reference (should be content governance only)"
                 fi
@@ -305,7 +310,7 @@ while IFS= read -r specfile; do
         done
     fi
 
-done < <(find "$SPEC_ROOT" -name "*.spec.md" -type f | sort)
+done < <(find "${SPEC_ROOTS[@]}" -name "*.spec.md" -type f | sort -u)
 
 echo ""
 echo "Relationship graph population (fields mandatory for the spec's category):"
@@ -326,7 +331,11 @@ fi
 
 echo ""
 echo "Summary:"
-echo "  Scanned:       $SPEC_ROOT"
+if (( ${#SPEC_ROOTS[@]} == 1 )); then
+    echo "  Scanned:       ${SPEC_ROOTS[0]}"
+else
+    echo "  Scanned:       ${#SPEC_ROOTS[@]} paths"
+fi
 echo "  Files checked: $CHECKED"
 echo "  Errors:        $ERRORS"
 echo "  Warnings:      $WARNINGS"

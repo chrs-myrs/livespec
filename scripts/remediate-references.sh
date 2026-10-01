@@ -46,7 +46,7 @@ declare -A RENAME=(
 NO_EQUIVALENT="build verify run-spike analyze-failure"
 
 # Historical records, not instructions.
-SKIP_RE='(^|/)(CHANGELOG\.md|registries/|var/|worktrees/|\.git/)'
+SKIP_RE='(^|/)(CHANGELOG\.md|registries/|var/|worktrees/|\.git/|\.archive/)'
 GUIDE_RE='references/guides/'
 
 files() {
@@ -108,11 +108,55 @@ if [[ -d "$VENDOR_DIR" ]]; then
     done
 fi
 
+# Drop metaspec references from governed-by: the format they name is implied by
+# `type`. Older versions planted pre-schema copies under references/templates/
+# and *.metaspec.md names the toolchain has since retired, so existence is
+# irrelevant. Writes the rewritten file to $2 and prints the entries dropped.
+METASPEC_RE='metaspecs/|references/templates/|[.]metaspec[.]md'
+drop_metaspecs() {
+    awk -v re="$METASPEC_RE" -v out="$2" '
+        function flush() {
+            if (dropped_here > 0 && kept == 0) print "governed-by: []" > out
+            else { print hdr > out; printf "%s", buf > out }
+            ing = 0
+        }
+        BEGIN { n = 0; ing = 0; total = 0 }
+        /^---$/ { n++; if (ing) flush(); print > out; next }
+        n == 1 && /^governed-by:[[:space:]]*$/ {
+            ing = 1; hdr = $0; buf = ""; kept = 0; dropped_here = 0; next
+        }
+        n == 1 && /^governed-by:/ && $0 ~ re { print "governed-by: []" > out; total++; next }
+        n == 1 && ing && /^[[:space:]]+-[[:space:]]/ {
+            if ($0 ~ re) { dropped_here++; total++ } else { buf = buf $0 "\n"; kept++ }
+            next
+        }
+        n == 1 && ing { flush() }
+        { print > out }
+        END { print total }
+    ' "$1"
+}
+
+META=0
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
+while IFS= read -r f; do
+    [[ -z "$f" || "$f" != *.spec.md || "$f" == "$VENDOR_DIR"/* ]] && continue
+    n="$(drop_metaspecs "$f" "$tmp")"
+    (( n > 0 )) || continue
+    if $CHECK; then
+        echo "${BLUE}WOULD${RESET}  $f: drop ${n} metaspec reference(s) from governed-by"
+    else
+        cat "$tmp" > "$f"
+        echo "${GREEN}FIXED${RESET}  $f: dropped ${n} metaspec reference(s) from governed-by"
+    fi
+    META=$((META+n))
+done < <(files)
+
 echo ""
 if $CHECK; then
-    echo "Would rewrite: $WOULD command reference(s), $CONV convention reference(s)"
+    echo "Would rewrite: $WOULD command reference(s), $CONV convention reference(s), $META metaspec reference(s)"
 else
-    echo "Rewrote: $APPLIED command reference(s), $CONV convention reference(s)"
+    echo "Rewrote: $APPLIED command reference(s), $CONV convention reference(s), $META metaspec reference(s)"
 fi
 
 if (( ${#UNREMEDIABLE[@]} > 0 )); then

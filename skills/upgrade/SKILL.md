@@ -89,29 +89,35 @@ deliberate decision rather than resolving them automatically.
 
 ## Step 3b: Install Validation Hook
 
-Legacy installs predate hook installation, so install it now:
+Legacy installs predate hook installation, and hooks installed before validator
+vendoring resolve nothing at commit time, so they skip every commit. Install or
+refresh it now:
 
 ```bash
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh --check
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
 ```
 
-Run `--check` first and report the state. An existing foreign hook is preserved
-as `pre-commit.local` and chained, never discarded.
+Run `--check` first and report the state, including its warning if no hooked
+validator is in the project's `scripts/`. An existing foreign hook is preserved
+as `pre-commit.local` and chained, never discarded. Locally edited or diverged
+vendored scripts are reported and left alone; raise them with the user.
 
 ## Step 3c: Remediate What the Upgrade Surfaced
 
-Installing validation into a project with historical drift will block its commits
-until that drift is fixed. The upgrade that installs the validation must also
-offer the repair, so run it here rather than leaving the user stuck.
+The installed hook validates only the specs being committed, so historical drift
+blocks a commit only when the drifted spec is next touched. The upgrade that
+installs the validation should still offer the repair, so that the first edit to
+an old spec does not stall on problems the upgrade itself exposed.
 
 ```bash
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/remediate-references.sh --check
 ```
 
-Present what it would rewrite: retired command names mapped to current ones, and
-convention references repointed at the copies just vendored in Step 3a. Then
-apply:
+Present what it would rewrite: retired command names mapped to current ones,
+convention references repointed at the copies just vendored in Step 3a, and
+metaspec or template entries dropped from `governed-by`, where older versions
+planted them although `type` already implies the format. Then apply:
 
 ```bash
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/remediate-references.sh
@@ -130,7 +136,8 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-crossrefs.sh
 Anything still failing is project-specific and needs a decision: a retired name
 with no equivalent, a script the project never built, or a spec reference that
 has to be repointed by hand. List these for the user rather than guessing. Do not
-leave the step without saying plainly whether the project can now commit.
+leave the step without saying plainly which specs will block a commit when next
+touched.
 
 ## Step 4: Commit
 

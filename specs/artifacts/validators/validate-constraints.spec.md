@@ -60,4 +60,5 @@ previously found only by a user hitting it.
 - A `scripts/*.sh` referenced but absent produces an ERROR
 - A `commands/*.md` whose `routes-to:` target is missing produces an ERROR
 - A `.livespec/` reference outside `references/guides/` and `CHANGELOG.md` produces a WARNING
+- A project-context script named as inline code without an invocation prefix (the form the inlined spec-first template uses) counts as an instruction, and produces an ERROR when the project does not ship it
 - Clean repository exits 0 with zero errors

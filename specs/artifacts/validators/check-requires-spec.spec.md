@@ -28,6 +28,7 @@ implements:
   - Temporary directories: `var/`, `generated/`, `.archive/`, `.git/`, `node_modules/`, `.cache/`, `build/`, `dist/`
   - Workspace specs are self-defining: `specs/workspace/` files ARE specs
   - Pure data/log files: `.log`, `.lock`, `.cache` extensions
+  - Vendored files: a file recording `vendored-from` provenance is specified where it was vendored from, so it needs no local spec
 
 - [!] Script checks for existing spec coverage
   - Searches `specs/` directory for filename mentions (grep)
@@ -44,5 +45,6 @@ implements:
 - Running `./scripts/check-requires-spec.sh var/temp.txt` → Exit 0 (temporary, no spec needed)
 - Running `./scripts/check-requires-spec.sh src/main.py` without spec → Exit 1 with suggestions
 - Running `./scripts/check-requires-spec.sh src/main.py` with spec → Exit 0 with confirmation
+- Running it on a script vendored by `setup-hooks.sh` → Exit 0 (vendored, specified upstream)
 - Error messages are clear and actionable
 - Colored output helps distinguish status (green/red/yellow/blue)

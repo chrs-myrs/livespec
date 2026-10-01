@@ -51,6 +51,11 @@ LAYOUT_PATHS=(README.md AGENTS.md CLAUDE.md commands skills agents ctxt)
 LAYOUT_EXISTING=()
 for p in "${LAYOUT_PATHS[@]}"; do [[ -e "$p" ]] && LAYOUT_EXISTING+=("$p"); done
 
+# grep -r with no file operand searches the working directory, which would scan
+# vendored scripts and everything else. An empty surface must scan nothing.
+(( ${#EXISTING[@]} ))        || EXISTING=(/dev/null)
+(( ${#LAYOUT_EXISTING[@]} )) || LAYOUT_EXISTING=(/dev/null)
+
 err()  { echo "${RED}ERROR${RESET}: $1"; ERRORS=$((ERRORS+1)); }
 warnn() { echo "${YELLOW}WARN${RESET}:  $1"; WARNINGS=$((WARNINGS+1)); }
 
@@ -136,11 +141,13 @@ if (( ${#PROJECT_CTX[@]} > 0 )); then
     done < <(grep -rln 'CLAUDE_PLUGIN_ROOT' "${PROJECT_CTX[@]}" 2>/dev/null || true)
 
     # Every script the project context instructs must exist in the project,
-    # not merely in the plugin: the reader may not have the plugin.
+    # not merely in the plugin: the reader may not have the plugin. Inline code
+    # with no invocation prefix counts: the spec-first template inlined into
+    # every project names its gate as `scripts/check-requires-spec.sh`.
     while IFS= read -r ref; do
         [[ -z "$ref" ]] && continue
         [[ -f "$ref" ]] || err "project context instructs '$ref' which the project does not ship"
-    done < <(grep -rh -oE '(bash |\./|Run |sh )scripts/[a-zA-Z0-9_-]+\.sh' "${PROJECT_CTX[@]}" 2>/dev/null \
+    done < <(grep -rh -oE '(bash |\./|Run |sh |`)scripts/[a-zA-Z0-9_-]+\.sh' "${PROJECT_CTX[@]}" 2>/dev/null \
              | grep -oE 'scripts/[a-zA-Z0-9_-]+\.sh' | sort -u || true)
 
     # Deliberately NOT checked: whether spec paths named in project context

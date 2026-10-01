@@ -25,7 +25,7 @@ specifies:
   - Skips non-path values (e.g., "all_projects", descriptive strings)
   - Reports broken references with source file, field name, and target path
   - Counts relationship fields declared with no values in the summary, so the references-checked figure is not read as coverage it has not earned
-  - Accepts an optional path argument so spec-shaped files outside `specs/` can be checked, defaulting to `specs/`
+  - Accepts optional path arguments, each a directory to scan or a single spec file, so spec-shaped files outside `specs/` and the specs staged for a commit can be checked; defaults to `specs/`
   - Exits 0 when all references valid, 1 on any broken reference
   - Integrated into pre-commit hook alongside frontmatter validation
 

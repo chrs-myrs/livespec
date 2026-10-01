@@ -2,7 +2,7 @@
 store: registry
 type: gaps
 schema_version: 2
-last_reviewed: 2026-09-15
+last_reviewed: 2026-09-30
 entries:
   - id: GAP-001
     summary: Artifact specs declaring 'specifies' empty, leaving no machine-checkable spec-to-code link
@@ -11,11 +11,6 @@ entries:
     date: 2026-09-15
   - id: GAP-002
     summary: No CI, so validation enforcement is per-clone and an unhooked contributor is unvalidated until review
-    severity: medium
-    status: open
-    date: 2026-09-15
-  - id: GAP-005
-    summary: Vendoring covers conventions but not templates, so project specs still reference templates by a toolchain path that does not resolve
     severity: medium
     status: open
     date: 2026-09-15
@@ -57,11 +52,13 @@ The consequence observed was that artifact specs continued to instruct readers t
 
 **Severity**: medium
 **Status**: open
-**Recorded**: 2026-09-15 at `96b93e6`
+**Recorded**: 2026-09-15 at `96b93e6`, corrected 2026-09-30 at `8037d69`
 
 There is no `.github/` directory and no test or validation workflow. Validation runs through the pre-commit hook installed by `scripts/setup-hooks.sh`, which `/livespec:init` and `/livespec:upgrade` now invoke.
 
-That covers projects created or upgraded through those skills, and it covers the developer who runs the installer. It does not cover a contributor who clones an existing project and never installs the hook: their work is unvalidated until review. Nothing detects that state.
+This entry originally said the hook covered projects created or upgraded through those skills. It did not. The hook resolved validators from the project's `scripts/` or `${CLAUDE_PLUGIN_ROOT}/scripts/`; consuming projects had no validators of their own, and `CLAUDE_PLUGIN_ROOT` is unset in a shell and in an agent's shell tool. A probe commit of an invalid spec from such a shell succeeded with "no validators resolved". The hook was inert in every consuming project from v5.9.0 on. The installer now vendors the validators into the project, and `--check` warns when none resolve.
+
+With that, the hook covers projects installed or upgraded from the next release, and the developer who runs the installer. It still does not cover a contributor who clones an existing project and never installs the hook: their work is unvalidated until review. Nothing detects that state.
 
 `specs/strategy/validation.spec.md` previously described a `tests/run-all-tests.sh` suite and a GitHub Actions workflow, neither of which exists. That spec now describes what ships and names this gap rather than implying coverage.
 
@@ -107,24 +104,3 @@ the prompt read as an instruction, so an agent following it would try to run
 tooling that has never existed.
 
 Either build them or reduce the spec to what health reporting actually does.
-
----
-
-## GAP-005: Templates are not vendored
-
-**Severity**: medium
-**Status**: open
-**Recorded**: 2026-09-15 at `ab64480`
-
-`vendor-conventions.sh` vendors `references/standards/conventions/` and nothing
-else. Project specs also reference `references/templates/specs/*.spec.md` through
-`governed-by`, and those paths exist only in the toolchain.
-
-Observed in a real project: after vendoring conventions and remediating
-references, broken cross-references fell from twelve to five, and all five
-remaining point at templates. The composition problem is solved for conventions
-and untouched for templates.
-
-The mechanism generalises: vendoring is directory-agnostic, so the work is
-deciding which template directories a project should own a copy of, and whether
-a template a project never uses should be vendored at all.

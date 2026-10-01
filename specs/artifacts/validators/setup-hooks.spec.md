@@ -27,19 +27,28 @@ spec-first enforcement is worthless if every project has to wire it by hand.
   - Recognises a hook it previously installed and replaces it without prompting
   - Is idempotent: running twice leaves the same result
 
+- [!] Script vendors into the project the validators the hook runs and the scripts generated project context instructs
+  - Hook validation works at commit time with no toolchain environment: `CLAUDE_PLUGIN_ROOT` is not set in a shell or an agent's shell tool
+  - Each vendored script records `vendored-from`, `source-version` and `source-hash` in a comment block, with the hash covering the script without those lines
+  - Distinguishes unchanged, locally edited, upstream changed and diverged, as convention vendoring does; only absent and upstream-changed-but-unedited scripts are written
+  - A same-named project script without provenance belongs to the project and is left alone
+  - Inert where the project is the toolchain source
+
 - [!] Installed hook degrades gracefully when the toolchain is absent
   - Resolves validators from the project's own `scripts/` first, then `${CLAUDE_PLUGIN_ROOT}/scripts/`
   - Skips with a notice and exit 0 when neither is available
   - A contributor without LiveSpec installed is never blocked from committing
 
-- [!] Installed hook runs the validators that exist and blocks on error
-  - Runs whichever of frontmatter, cross-reference and constraint validation it can resolve
-  - Blocks the commit on any validator exit 1
+- [!] Installed hook validates what is being committed and blocks on error
+  - Frontmatter and cross-reference validation run on the staged `*.spec.md` files only, and block the commit on exit 1
+  - Historical drift elsewhere in the tree never blocks a commit: blocking on it trains contributors to bypass the hook, and `/livespec:audit validate` still reports it
+  - Constraint validation runs whole-tree and is advisory: a failure is summarised and never blocks
   - Names the failing validator
 
 - [!] Script reports what it did
   - States the hook path written and which validators the hook will run
   - `--check` reports current install state and makes no change
+  - `--check` reports where each hooked validator resolves, and states plainly when none resolve without the toolchain environment, since that hook skips every commit
 
 ## Validation
 
@@ -48,4 +57,9 @@ spec-first enforcement is worthless if every project has to wire it by hand.
 - Running where an unrelated pre-commit hook exists preserves it as `pre-commit.local` and the installed hook still runs it
 - A credential-scanning hook installed by `init.templateDir` continues to run after installation
 - Installed hook exits 0 with a notice when no validators resolve
-- Installed hook exits 1 when a resolvable validator fails
+- Installed hook exits 1 when a staged spec fails frontmatter or cross-reference validation
+- A commit that stages no invalid spec succeeds in a tree that contains invalid specs
+- A constraint violation is reported and the commit still succeeds
+- In a project installed from the plugin, a commit of an invalid spec from a shell with `CLAUDE_PLUGIN_ROOT` unset is blocked
+- Editing a vendored script causes it to report as locally edited and be left alone on reinstall
+- Running inside the LiveSpec repository vendors nothing

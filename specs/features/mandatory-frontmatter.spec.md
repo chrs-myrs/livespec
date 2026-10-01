@@ -87,11 +87,11 @@ derives-from:
   - Validates `type` against allowed values
   - Validates `category` matches directory location for specs under `specs/`
   - Validates `fidelity` against allowed values
-  - Warns on `governed-by` containing metaspec paths
+  - Warns on `governed-by` containing metaspec paths, including pre-schema metaspec copies under `references/templates/` and `*.metaspec.md` names that older versions planted
   - Warns on underscore field names
   - Warns on per-category mandatory fields declared empty
   - Reports relationship graph population per mandatory field — populated against declared — so unpopulated declarations are visible as a proportion
-  - Accepts an optional path argument so spec-shaped files outside `specs/` can be validated, defaulting to `specs/`
+  - Accepts optional path arguments, each a directory to scan or a single spec file, so spec-shaped files outside `specs/` and the specs staged for a commit can be validated; defaults to `specs/`
   - Promotes empty-field warnings to errors under `--strict`, letting a project that has populated its graph prevent regression
   - Exits 0 when all checks pass, 1 on any failure
 

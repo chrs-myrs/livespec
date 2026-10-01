@@ -14,9 +14,9 @@ specifies:
 
 # Reference Remediation
 
-Repairs the stale references an upgrade surfaces. Installing validation into a
-project with historical drift blocks its commits until that drift is fixed, so
-the upgrade that installs the validation must also offer the repair.
+Repairs the stale references an upgrade surfaces. The installed hook blocks a
+commit that touches a spec carrying historical drift, so the upgrade that
+installs the validation must also offer the repair.
 
 ## Requirements
 
@@ -30,6 +30,12 @@ the upgrade that installs the validation must also offer the repair.
   - Nothing is rewritten when no vendored copy is present
   - This is what makes vendoring useful: the project's own specs stop pointing into the toolchain
 
+- [!] Script removes metaspec references from `governed-by`
+  - An entry pointing at a metaspec, a template under `references/templates/`, or a `*.metaspec.md` name is dropped; the format it names is implied by `type`
+  - Applies whether or not the named file still exists, since older versions planted names the toolchain has since retired
+  - A `governed-by` left with no entries becomes `governed-by: []`, the normal default
+  - Other fields and entries are left byte-for-byte unchanged
+
 - [!] Changes are visible before they are made
   - `--check` reports every rewrite it would perform, grouped by file, and changes nothing
   - Without `--check` the rewrites are applied and counted
@@ -37,7 +43,7 @@ the upgrade that installs the validation must also offer the repair.
 
 - [!] Script never edits outside the project
   - Operates only on files within the current repository
-  - Skips `CHANGELOG.md` and any registry entry, where a retired name is a historical record rather than an instruction
+  - Skips `CHANGELOG.md`, any registry entry and `.archive/`, where a retired name is a historical record rather than an instruction
 
 ## Validation
 
@@ -45,4 +51,5 @@ the upgrade that installs the validation must also offer the repair.
 - Applying the rewrites leaves `validate-constraints.sh` reporting fewer errors
 - A retired name with no mapping is reported as unremediable rather than rewritten
 - A convention reference is repointed only where the vendored copy exists
+- A spec whose `governed-by` names only `references/templates/specs/workspace.spec.md` ends with `governed-by: []` and passes `validate-crossrefs.sh`
 - CHANGELOG.md and registries are unchanged by either mode

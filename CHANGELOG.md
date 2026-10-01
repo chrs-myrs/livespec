@@ -18,6 +18,23 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Fixed
+
+- **The installed pre-commit hook never validated anything in consuming projects** ⚠️ HIGH impact: it resolved validators from the project's `scripts/` or `${CLAUDE_PLUGIN_ROOT}/scripts/`, but consuming projects had no validators of their own and `CLAUDE_PLUGIN_ROOT` is unset in a shell and in an agent's shell tool. A probe commit of an invalid spec succeeded with "no validators resolved". Every project given the hook since v5.9.0 has been unvalidated at commit time. `setup-hooks.sh` now vendors the hooked validators, plus the two scripts the inlined spec-first template instructs, into the project's `scripts/` with `vendored-from`, `source-version` and `source-hash` provenance and the same four-state update rule as convention vendoring. Re-run `/livespec:upgrade` to refresh an existing install
+- **`setup-hooks.sh --check` reported `INSTALLED` for a hook that could resolve nothing**. It now reports where each hooked validator resolves and warns when none are in the project
+- **Correction to 5.9.1**: the entry for `validate-constraints.sh` says the command-reference false errors blocked every commit in consuming projects. Given the above, the hook could not have run that validator there; the errors surfaced when the validator was invoked directly, as `/livespec:upgrade` and `/livespec:audit validate` do. The fix stands, the stated impact did not happen
+- **Toolchain independence check missed instructions written as inline code**: `scripts/check-requires-spec.sh`, named that way by the spec-first template inlined into every project's AGENTS.md, was never checked, so a project told to run a gate it did not ship passed
+- **`validate-constraints.sh` scanned the whole working directory when none of its surfaces existed**, because `grep -r` with no file operand searches `.`. Reachable once scripts are vendored: it reported the retired-layout pattern inside the vendored validators themselves
+- **`check-requires-spec.sh` required a local spec for vendored files**. A file carrying `vendored-from` provenance is specified where it came from
+
+### Changed
+
+- **The installed hook validates only the specs being committed** ⚠️ HIGH impact: frontmatter and cross-reference validation run on staged `*.spec.md` files, and constraint validation is whole-tree but advisory. With vendoring the hook would otherwise have gone live whole-tree: measured across 62 local LiveSpec projects, 61 would have had every commit blocked by historical drift (59 carry frontmatter errors, up to 429 in one project). Blocking on drift a commit did not touch trains contributors to bypass the hook, which is the failure the forgewick feedback report recorded against its own hook. Drift elsewhere is still reported by `/livespec:audit validate`
+- **`validate-frontmatter.sh` and `validate-crossrefs.sh` accept several paths**, each a directory to scan or a single spec file, so the hook can pass the staged specs
+- **`remediate-references.sh` drops metaspec and template entries from `governed-by`** ⚠️ MEDIUM impact: the schema forbids metaspec references in `governed-by`, since `type` implies the format, yet older versions planted them widely. Across the local portfolio there are 330: 99 at `references/templates/specs/`, 147 at the legacy `.livespec/standard/metaspecs/` (73 still resolve, only because those projects keep the legacy directory), and 84 at relative or `livespec-plugin:` metaspec paths. Vendoring templates was considered and rejected: of the 99 template references it would have fixed 55, since the other 44 name templates that no longer exist anywhere, and it would have planted pre-schema metaspec copies that fail frontmatter validation themselves. Measured on clones: forgewick's broken references fall from 5 to 0, and gracewick's from 16 to 2 (both remaining genuine). GAP-005 removed, since the gap it recorded was a symptom of this anti-pattern rather than missing vendoring
+- **The metaspec-in-`governed-by` warning catches these paths**: it matched only `metaspecs/`, so neither `references/templates/` nor `*.metaspec.md` entries ever warned
+- **`remediate-references.sh` skips `.archive/`**, alongside CHANGELOG and registries, as a historical record
+
 ---
 
 ## [5.9.1] - 2026-09-15

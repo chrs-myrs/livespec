@@ -277,10 +277,12 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
 
 The installer preserves any existing pre-commit hook as `pre-commit.local` and
 chains to it, so a credential scanner installed via `init.templateDir` keeps
-running. The installed hook skips rather than blocking when no validators
-resolve, so a contributor without LiveSpec can still commit.
+running. It vendors the validators into the project's `scripts/` with
+provenance, because the plugin is not visible at commit time; without them the
+hook would skip every commit. The installed hook skips rather than blocking when
+no validators resolve, so a contributor without LiveSpec can still commit.
 
-Report what was installed and preserved. If it exits non-zero, show the message
+Report what was installed, preserved and vendored, and where each validator resolves. If it exits non-zero, show the message
 and continue; a missing hook is not a reason to fail initialisation.
 
 **[NEXT]** Proceed to Step 6.

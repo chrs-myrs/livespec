@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # validate-crossrefs.sh — Check all spec frontmatter relationship targets exist
 #
-# Usage: bash scripts/validate-crossrefs.sh [--verbose] [path]
-#   path  tree to scan for *.spec.md (default: specs/)
+# Usage: bash scripts/validate-crossrefs.sh [--verbose] [path...]
+#   path  tree to scan for *.spec.md, or a single spec file (default: specs/)
 # Exit 0: all references valid
 # Exit 1: broken references found
 # Exit 2: usage error
@@ -12,24 +12,26 @@
 set -uo pipefail
 
 VERBOSE=""
-SPEC_ROOT=""
+SPEC_ROOTS=()
 
 for arg in "$@"; do
     case "$arg" in
         --verbose) VERBOSE="--verbose" ;;
         -*)        echo "Unknown option: $arg" >&2
-                   echo "Usage: $0 [--verbose] [path]" >&2
+                   echo "Usage: $0 [--verbose] [path...]" >&2
                    exit 2 ;;
-        *)         SPEC_ROOT="$arg" ;;
+        *)         SPEC_ROOTS+=("$arg") ;;
     esac
 done
 
-SPEC_ROOT="${SPEC_ROOT:-specs/}"
+(( ${#SPEC_ROOTS[@]} )) || SPEC_ROOTS=(specs/)
 
-if [[ ! -d "$SPEC_ROOT" ]]; then
-    echo "ERROR: not a directory: $SPEC_ROOT" >&2
-    exit 2
-fi
+for root in "${SPEC_ROOTS[@]}"; do
+    if [[ ! -e "$root" ]]; then
+        echo "ERROR: no such file or directory: $root" >&2
+        exit 2
+    fi
+done
 
 ERRORS=0
 CHECKED=0
@@ -136,11 +138,15 @@ while IFS= read -r specfile; do
         fi
     done
 
-done < <(find "$SPEC_ROOT" -name "*.spec.md" -type f | sort)
+done < <(find "${SPEC_ROOTS[@]}" -name "*.spec.md" -type f | sort -u)
 
 echo ""
 echo "Summary:"
-echo "  Scanned:             $SPEC_ROOT"
+if (( ${#SPEC_ROOTS[@]} == 1 )); then
+    echo "  Scanned:             ${SPEC_ROOTS[0]}"
+else
+    echo "  Scanned:             ${#SPEC_ROOTS[@]} paths"
+fi
 echo "  Files checked:       $CHECKED"
 echo "  Relationship fields: $FIELDS_DECLARED declared, $FIELDS_EMPTY empty"
 echo "  References checked:  $REFS_CHECKED"

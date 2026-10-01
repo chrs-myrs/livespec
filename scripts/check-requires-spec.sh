@@ -59,6 +59,14 @@ case "$BASENAME" in
         exit 0 ;;
 esac
 
+# --- Exception 5: vendored files are specified where they came from ---
+if [[ -f "$NORM" ]] && grep -m1 -qE '^(# )?vendored-from: ' "$NORM" 2>/dev/null; then
+    from="$(grep -m1 -oE 'vendored-from: .*' "$NORM")"
+    echo "${GREEN}NO SPEC NEEDED${RESET}: $NORM"
+    echo "  Reason: vendored from ${from#vendored-from: }, which is specified upstream"
+    exit 0
+fi
+
 # --- Check 1: colocated spec ---
 COLOCATED="${NORM%.*}.spec.md"
 if [[ -f "$COLOCATED" ]]; then
