@@ -248,7 +248,7 @@ scripts/validate-crossrefs.sh --strict           # links trace to PURPOSE.md; --
 
 ---
 
-*Governance domain specialist for LiveSpec v5.9.1*
+*Governance domain specialist for LiveSpec v5.10.0*
 *Parent: AGENTS.md*
 
 <!-- livespec-context-sources: sha256:e3d07be666b52c2002e6e5588b89e8c4b676f767e933290b1811b105d7ae9952 n=80 -->
