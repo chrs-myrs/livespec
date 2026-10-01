@@ -132,58 +132,58 @@ specs/
 
 ### Migration Script
 
+`scripts/upgrade-to-v5.sh` does the move from one table, which `/livespec:upgrade`
+runs for you. Do not move folders with `mv dir/*`: it silently overwrites a file
+of the same name. The script never overwrites; a clash is reported and both files
+are kept for you to compare.
+
 ```bash
-# Create new folders
-mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
-
-# Move requirements → foundation
-mv specs/1-requirements/strategic/* specs/foundation/ 2>/dev/null
-mv specs/1-requirements/functional/* specs/foundation/ 2>/dev/null
-
-# Rename outcomes/constraints if needed
-mv specs/foundation/outcomes.spec.md specs/foundation/outcomes.spec.md 2>/dev/null
-mv specs/foundation/constraints.spec.md specs/foundation/constraints.spec.md 2>/dev/null
-
-# Move strategy (same name, just remove number)
-mv specs/2-strategy/* specs/strategy/ 2>/dev/null
-
-# Move behaviors → features
-mv specs/3-behaviors/*.spec.md specs/features/ 2>/dev/null
-
-# Move contracts → interfaces (if they existed in 3-behaviors/)
-mv specs/3-behaviors/contracts/* specs/interfaces/ 2>/dev/null
-
-# Clean up old folders
-rmdir specs/1-requirements/functional specs/1-requirements/strategic specs/1-requirements 2>/dev/null
-rmdir specs/2-strategy 2>/dev/null
-rmdir specs/3-behaviors/contracts specs/3-behaviors 2>/dev/null
+bash scripts/upgrade-to-v5.sh --detect-only   # classify every folder under specs/
+bash scripts/upgrade-to-v5.sh --dry-run       # show what would move
+bash scripts/upgrade-to-v5.sh                 # move the documented folders
 ```
+
+**Folders it moves without asking:**
+
+| Old folder | New home |
+|------------|----------|
+| `specs/1-requirements/` (`strategic/`, `functional/` flattened) | `specs/foundation/` |
+| `specs/2-strategy/` | `specs/strategy/` |
+| `specs/3-behaviors/` | `specs/features/` |
+| `specs/3-behaviors/contracts/` | `specs/interfaces/` |
+| `specs/3-contracts/` | `specs/interfaces/` |
+| `specs/4-contracts/` (a template named `3-contracts/` this way in error) | `specs/interfaces/` |
+
+**Folders it proposes a home for, moved only once you confirm:**
+
+| Old folder | Proposed home | Why |
+|------------|---------------|-----|
+| `specs/procedures/` | `specs/interfaces/procedures/` | Process contracts live under interfaces |
+| `specs/meta/` | `specs/workspace/` | It describes how the workspace works |
+| `specs/reports/` | `var/audit-reports/` | Reports are generated; delete them instead if they can be regenerated |
+| `specs/metaspecs/` | `specs/workspace/standards/` | Delete copies of LiveSpec's metaspecs (`type` implies the template); keep project-authored templates |
+| `specs/4-validation/` | `specs/features/validation/` | Validation behaviour; move any reports out of `specs/` |
+| `specs/4-baseline/` | `specs/features/` | A brownfield baseline; keep its extraction markers |
+| `specs/learnings/` | none | Accepted learnings become registry entries; raw notes can go, git keeps them |
+| any other `specs/[0-9]-*/` | none | Retired, but with no known mapping |
+
+Confirm each one with `--map`, which also rewrites references to it:
+
+```bash
+bash scripts/upgrade-to-v5.sh --map specs/meta=specs/workspace --map specs/reports=var/audit-reports
+```
+
+Any other folder under `specs/` that is not part of the current layout is
+reported as unknown and left where it is.
 
 ### Update Cross-References in Specs
 
-After moving files, update frontmatter references:
+The script rewrites references to every folder it moves, and its verification
+lists any that remain:
 
 ```bash
-# Find specs with old paths
-grep -r "specs/1-requirements\|specs/2-strategy\|specs/3-behaviors" specs/
-
-# Common replacements needed in frontmatter:
-# satisfies:
-#   - specs/1-requirements/strategic/outcomes.spec.md
-# becomes:
-#   - specs/foundation/outcomes.spec.md
+grep -r "specs/1-requirements\|specs/2-strategy\|specs/3-behaviors\|specs/3-contracts\|specs/4-contracts" specs/
 ```
-
-**Reference mapping:**
-
-| Old Path | New Path |
-|----------|----------|
-| `specs/1-requirements/strategic/outcomes.spec.md` | `specs/foundation/outcomes.spec.md` |
-| `specs/1-requirements/strategic/constraints.spec.md` | `specs/foundation/constraints.spec.md` |
-| `specs/1-requirements/functional/*.spec.md` | `specs/foundation/*.spec.md` |
-| `specs/2-strategy/*.spec.md` | `specs/strategy/*.spec.md` |
-| `specs/3-behaviors/*.spec.md` | `specs/features/*.spec.md` |
-| `specs/3-behaviors/contracts/*.spec.md` | `specs/interfaces/*.spec.md` |
 
 ## Step 7: Update Workspace Specs
 

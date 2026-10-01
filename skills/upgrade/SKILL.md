@@ -58,15 +58,25 @@ Present the plan to the user and ask for confirmation using AskUserQuestion:
 
 If cancelled, stop.
 
+Folders listed as `DECIDE` are not moved until the user confirms where each one
+goes. Ask once per folder with AskUserQuestion, offering the proposed home first
+when there is one, then "Somewhere else" and "Leave it for now". Some judgements
+mean deleting rather than moving: copies of LiveSpec's own metaspecs, reports
+that can be regenerated, raw learning notes. Deletion needs the user's explicit
+agreement; the script never deletes. Folders listed as `UNKNOWN` are not part of
+the layout and stay where they are; mention them.
+
 ## Step 3: Execute Migration
 
-Run the migration:
+Run the migration, passing one `--map` per confirmed folder:
 
 ```bash
-bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/upgrade-to-v5.sh --map specs/meta=specs/workspace
 ```
 
 Report the output to the user. If verification fails, show the failures and stop.
+A `FAIL` naming files left in place means a destination already held a file of
+the same name: show both to the user and ask which to keep.
 
 ## Step 3a: Vendor or Refresh Conventions
 

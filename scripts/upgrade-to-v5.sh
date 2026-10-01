@@ -2,25 +2,71 @@
 set -euo pipefail
 
 # LiveSpec v5 Upgrade Script
-# Migrates legacy installations (submodule/copy/symlink) to v5 plugin architecture.
-# Usage: upgrade-to-v5.sh [--detect-only] [--dry-run]
+# Migrates legacy installations (submodule/copy/symlink) and retired spec folder
+# layouts to the v5 plugin architecture.
+# Usage: upgrade-to-v5.sh [--detect-only] [--dry-run] [--map specs/<folder>=<target>]...
+#   --detect-only  Report current state, make no changes
+#   --dry-run      Show what would change without changing it
+#   --map          Confirm where a folder needing a decision goes (repeatable)
+#
+# Specifies: specs/features/automation.spec.md
 
 DRY_RUN=false
 DETECT_ONLY=false
 CHANGES_MADE=0
+MAPS=""        # "folder|target" lines confirmed with --map
 
-for arg in "$@"; do
-  case "$arg" in
+usage() {
+  echo "Usage: upgrade-to-v5.sh [--detect-only] [--dry-run] [--map specs/<folder>=<target>]..."
+  echo "  --detect-only  Report current state, make no changes"
+  echo "  --dry-run      Show what would change without changing it"
+  echo "  --map          Confirm where a folder needing a decision goes, e.g."
+  echo "                 --map specs/meta=specs/workspace (repeatable)"
+}
+
+add_map() {
+  local from="${1%%=*}" to="${1#*=}"
+  from="${from%/}"; to="${to%/}"
+  if [[ "$1" != *=* || "$from" != specs/* || "$from" == specs/*/* || -z "$to" \
+        || "$to" == /* || "$to" == *..* || "$to" == "$from" ]]; then
+    echo "ERROR: --map wants specs/<folder>=<repository path>, got '$1'" >&2
+    exit 2
+  fi
+  MAPS+="${from#specs/}|$to"$'\n'
+}
+
+while [ $# -gt 0 ]; do
+  case "$1" in
     --dry-run) DRY_RUN=true ;;
     --detect-only) DETECT_ONLY=true ;;
-    --help|-h)
-      echo "Usage: upgrade-to-v5.sh [--detect-only] [--dry-run]"
-      echo "  --detect-only  Report current state, make no changes"
-      echo "  --dry-run      Show what would change without changing it"
-      exit 0
-      ;;
+    --map) [ $# -ge 2 ] || { usage >&2; exit 2; }; add_map "$2"; shift ;;
+    --map=*) add_map "${1#--map=}" ;;
+    --help|-h) usage; exit 0 ;;
+    *) usage >&2; exit 2 ;;
   esac
+  shift
 done
+
+# The migration table: retired folder | target | kind | why.
+#   auto     documented mapping, moved without asking
+#   propose  a judgement: moved only once confirmed with --map
+# Targets are repository paths; "-" means there is no folder to move it into.
+TABLE='1-requirements|specs/foundation|auto|documented; strategic/ and functional/ are flattened
+2-strategy|specs/strategy|auto|documented
+3-behaviors|specs/features|auto|documented; contracts/ goes to specs/interfaces
+3-contracts|specs/interfaces|auto|the pre-v5 contracts folder
+4-contracts|specs/interfaces|auto|a pre-v5 template named 3-contracts/ this way in error
+procedures|specs/interfaces/procedures|propose|process contracts live under interfaces
+meta|specs/workspace|propose|it describes how the workspace works
+reports|var/audit-reports|propose|reports are generated; delete instead if they can be regenerated
+metaspecs|specs/workspace/standards|propose|delete copies of LiveSpec metaspecs; keep project-authored templates
+4-validation|specs/features/validation|propose|validation behaviour; move any reports out of specs/
+4-baseline|specs/features|propose|a brownfield baseline; keep its extraction markers
+learnings|-|propose|accepted learnings become registry entries; raw notes can go, git keeps them'
+CURRENT=" workspace foundation strategy features interfaces artifacts "
+
+table_row() { printf '%s\n' "$TABLE" | awk -F'|' -v d="$1" '$1 == d { print; exit }'; }
+map_for() { printf '%s' "$MAPS" | awk -F'|' -v d="$1" '$1 == d { t = $2 } END { print t }'; }
 
 # --- Detection ---
 
@@ -30,7 +76,6 @@ HAS_SUBMODULE=false
 HAS_LEGACY_LIVESPEC=false
 LEGACY_LIVESPEC_TYPE=""
 HAS_VERSION_FILE=false
-HAS_NUMBERED_SPECS=false
 HAS_PLUGIN=false
 HAS_PROJECT=false
 
@@ -53,15 +98,82 @@ elif [ -f ".livespec" ]; then
   LEGACY_LIVESPEC_TYPE="file"
 fi
 
+# The git index records a retired install even where the working tree does not:
+# a fresh clone leaves a submodule uninitialised, and a symlink may dangle.
+if git rev-parse --git-dir >/dev/null 2>&1; then
+  while read -r mode _ _ path; do
+    if [ "$mode" = 160000 ] && [ "$path" = .livespec-repo ] && ! $HAS_SUBMODULE; then
+      echo "FOUND: .livespec-repo (submodule recorded in the git index)"
+      HAS_SUBMODULE=true
+    elif [ "$mode" = 120000 ] && [ "$path" = .livespec ] && ! $HAS_LEGACY_LIVESPEC; then
+      echo "FOUND: .livespec (symlink recorded in the git index)"
+      HAS_LEGACY_LIVESPEC=true
+      LEGACY_LIVESPEC_TYPE="symlink"
+    fi
+  done < <(git ls-files -s -- .livespec .livespec-repo 2>/dev/null || true)
+  if ! $HAS_SUBMODULE && [ -f .gitmodules ] \
+     && git config -f .gitmodules --get-regexp '^submodule\..*\.path$' 2>/dev/null | grep -q ' \.livespec-repo$'; then
+    echo "FOUND: .livespec-repo (submodule declared in .gitmodules)"
+    HAS_SUBMODULE=true
+  fi
+fi
+
 if [ -f ".livespec-version" ]; then
   echo "FOUND: .livespec-version (legacy version file)"
   HAS_VERSION_FILE=true
 fi
 
-if compgen -G "specs/[0-9]-*/" > /dev/null; then
-  echo "FOUND: Numbered spec folders (need migration)"
-  HAS_NUMBERED_SPECS=true
+# Spec folder layout, classified against the table.
+#   FOLDERS lines: folder|target|kind|why, kind one of auto, confirmed, decide, unknown
+FOLDERS=""
+HAS_CURRENT=false
+HAS_RETIRED=false
+NEEDS_DECISION=false
+if [ -d specs ]; then
+  for d in specs/*/; do
+    [ -d "$d" ] || continue
+    name="$(basename "$d")"
+    case "$CURRENT" in *" $name "*) HAS_CURRENT=true; continue ;; esac
+    row="$(table_row "$name")"
+    mapped="$(map_for "$name")"
+    if [ -n "$mapped" ]; then
+      FOLDERS+="$name|$mapped|confirmed|confirmed with --map"$'\n'
+      HAS_RETIRED=true
+    elif [ -n "$row" ] && [ "$(cut -d'|' -f3 <<< "$row")" = auto ]; then
+      FOLDERS+="$name|$(cut -d'|' -f2 <<< "$row")|auto|$(cut -d'|' -f4 <<< "$row")"$'\n'
+      HAS_RETIRED=true
+    elif [ -n "$row" ]; then
+      FOLDERS+="$name|$(cut -d'|' -f2 <<< "$row")|decide|$(cut -d'|' -f4 <<< "$row")"$'\n'
+      HAS_RETIRED=true; NEEDS_DECISION=true
+    elif [[ "$name" == [0-9]-* ]]; then
+      FOLDERS+="$name|-|decide|a retired numbered folder with no known mapping"$'\n'
+      HAS_RETIRED=true; NEEDS_DECISION=true
+    else
+      FOLDERS+="$name|-|unknown|not a LiveSpec folder"$'\n'
+    fi
+  done
 fi
+
+LAYOUT="absent"
+if $HAS_RETIRED && $HAS_CURRENT; then LAYOUT="retired+mixed"
+elif $HAS_RETIRED; then LAYOUT="retired"
+elif $HAS_CURRENT; then LAYOUT="current"
+fi
+echo "LAYOUT: $LAYOUT"
+
+while IFS='|' read -r name target kind why; do
+  [ -n "$name" ] || continue
+  case "$kind" in
+    auto|confirmed) echo "  MOVE      specs/$name/ -> $target/ ($why)" ;;
+    decide)
+      if [ "$target" = "-" ]; then
+        echo "  DECIDE    specs/$name/: $why; choose a target with --map specs/$name=<path>"
+      else
+        echo "  DECIDE    specs/$name/ -> proposed $target/ ($why); confirm with --map specs/$name=$target"
+      fi ;;
+    unknown) echo "  UNKNOWN   specs/$name/ ($why; left in place)" ;;
+  esac
+done <<< "$FOLDERS"
 
 if [ -d ".claude-plugin" ] || [ -d "$HOME/.claude/plugins/marketplaces/livespec" ] || ls -d "$HOME/.claude/plugins/cache/"*"/livespec" >/dev/null 2>&1; then
   echo "FOUND: v5 plugin installed"
@@ -77,7 +189,7 @@ if { [ -f "PURPOSE.md" ] && [ -d "specs/workspace" ]; } || [ -f "project.yaml" ]
 fi
 
 # Summarise state
-if ! $HAS_SUBMODULE && ! $HAS_LEGACY_LIVESPEC && ! $HAS_VERSION_FILE && ! $HAS_NUMBERED_SPECS; then
+if ! $HAS_SUBMODULE && ! $HAS_LEGACY_LIVESPEC && ! $HAS_VERSION_FILE && ! $HAS_RETIRED; then
   if $HAS_PROJECT; then
     echo ""
     echo "STATUS: Already on v5. Nothing to migrate."
@@ -106,12 +218,12 @@ fi
 if $HAS_VERSION_FILE; then
   echo "  REMOVE: .livespec-version"
 fi
-if $HAS_NUMBERED_SPECS; then
-  echo "  MIGRATE: specs/ numbered folders -> semantic names"
-  for dir in specs/[0-9]-*/; do
-    [ -d "$dir" ] && echo "    $dir"
-  done
-fi
+while IFS='|' read -r name target kind _; do
+  case "$kind" in
+    auto|confirmed) echo "  MIGRATE: specs/$name/ -> $target/" ;;
+    decide) echo "  NEEDS DECISION: specs/$name/ (not moved until confirmed with --map)" ;;
+  esac
+done <<< "$FOLDERS"
 
 if $DETECT_ONLY; then
   exit 0
@@ -129,9 +241,8 @@ if $HAS_LEGACY_LIVESPEC; then
   echo ""
   echo "Removing .livespec ($LEGACY_LIVESPEC_TYPE)..."
   case "$LEGACY_LIVESPEC_TYPE" in
-    symlink) rm .livespec ;;
+    symlink|file) rm -f .livespec ;;
     directory) rm -rf .livespec ;;
-    file) rm .livespec ;;
   esac
   echo "  Done."
   CHANGES_MADE=$((CHANGES_MADE + 1))
@@ -146,7 +257,12 @@ if $HAS_SUBMODULE; then
   git rm -f .livespec-repo 2>/dev/null || git rm --cached .livespec-repo 2>/dev/null || true
   rm -rf .git/modules/.livespec-repo 2>/dev/null || true
   if [ -f .gitmodules ]; then
-    git config -f .gitmodules --remove-section submodule..livespec-repo 2>/dev/null || true
+    # The section is named for the submodule, which need not match its path.
+    while read -r key _; do
+      section="${key%.path}"
+      git config -f .gitmodules --remove-section "$section" 2>/dev/null || true
+    done < <(git config -f .gitmodules --get-regexp '^submodule\..*\.path$' 2>/dev/null \
+             | awk '$2 == ".livespec-repo"' || true)
     git add .gitmodules 2>/dev/null || true
   fi
   # Clean up directory if still present
@@ -167,81 +283,75 @@ fi
 
 # --- Migrate Spec Folders ---
 
-if $HAS_NUMBERED_SPECS; then
-  echo ""
-  echo "Migrating specs/ to semantic folder names..."
+CONFLICTS=""
+MOVED=""       # folders that moved, for reference rewriting and verification
 
-  mkdir -p specs/{workspace,foundation,strategy,features,interfaces}
-
-  # 1-requirements -> foundation
-  if [ -d "specs/1-requirements" ]; then
-    for subdir in specs/1-requirements/*/; do
-      [ -d "$subdir" ] && mv "$subdir"* specs/foundation/ 2>/dev/null || true
-    done
-    # Direct files too
-    mv specs/1-requirements/*.spec.md specs/foundation/ 2>/dev/null || true
-    # Clean up
-    find specs/1-requirements -type d -empty -delete 2>/dev/null || true
-    rmdir specs/1-requirements 2>/dev/null || true
-  fi
-
-  # 2-strategy -> strategy
-  if [ -d "specs/2-strategy" ]; then
-    mv specs/2-strategy/* specs/strategy/ 2>/dev/null || true
-    rmdir specs/2-strategy 2>/dev/null || true
-  fi
-
-  # 3-behaviors -> features (specs) + interfaces (contracts subfolder)
-  if [ -d "specs/3-behaviors" ]; then
-    if [ -d "specs/3-behaviors/contracts" ]; then
-      mv specs/3-behaviors/contracts/* specs/interfaces/ 2>/dev/null || true
-      rmdir specs/3-behaviors/contracts 2>/dev/null || true
+# move_tree <from> <to> [flatten]: move every file under <from> to the same path
+# under <to>, never overwriting. With flatten, the first directory level below
+# <from> is dropped. A file whose destination exists stays put and is reported.
+move_tree() {
+  local from="$1" to="$2" flatten="${3:-}" f rel dest
+  while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    rel="${f#"$from"/}"
+    if [ -n "$flatten" ] && [[ "$rel" == */* ]]; then rel="${rel#*/}"; fi
+    dest="$to/$rel"
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+      CONFLICTS+="  $f (would overwrite $dest)"$'\n'
+      continue
     fi
-    # Move top-level spec files
-    mv specs/3-behaviors/*.spec.md specs/features/ 2>/dev/null || true
-    # Move nested subdirectories (e.g. packing/, models/)
-    for subdir in specs/3-behaviors/*/; do
-      [ -d "$subdir" ] || continue
-      dirname=$(basename "$subdir")
-      mkdir -p "specs/features/$dirname"
-      mv "$subdir"* "specs/features/$dirname/" 2>/dev/null || true
-    done
-    find specs/3-behaviors -type d -empty -delete 2>/dev/null || true
-    rmdir specs/3-behaviors 2>/dev/null || true
-  fi
+    mkdir -p "$(dirname "$dest")"
+    mv "$f" "$dest"
+  done < <(find "$from" \( -type f -o -type l \) 2>/dev/null | LC_ALL=C sort)
+  find "$from" -depth -type d -empty -exec rmdir {} \; 2>/dev/null || true
+}
 
-  # 3-contracts -> interfaces (top-level contracts folder)
-  if [ -d "specs/3-contracts" ]; then
-    mv specs/3-contracts/*.spec.md specs/interfaces/ 2>/dev/null || true
-    # Move any non-spec files too
-    mv specs/3-contracts/* specs/interfaces/ 2>/dev/null || true
-    find specs/3-contracts -type d -empty -delete 2>/dev/null || true
-    rmdir specs/3-contracts 2>/dev/null || true
-  fi
-
-  echo "  Done."
+if grep -qE '\|(auto|confirmed)\|' <<< "$FOLDERS"; then
+  echo ""
+  echo "Migrating specs/ folders..."
+  mkdir -p specs/workspace specs/foundation specs/strategy specs/features specs/interfaces
+  while IFS='|' read -r name target kind _; do
+    case "$kind" in auto|confirmed) ;; *) continue ;; esac
+    if [ "$kind" = auto ] && [ "$name" = 1-requirements ]; then
+      move_tree "specs/$name" "$target" flatten
+    elif [ "$kind" = auto ] && [ "$name" = 3-behaviors ]; then
+      if [ -d specs/3-behaviors/contracts ]; then move_tree specs/3-behaviors/contracts specs/interfaces; fi
+      move_tree "specs/$name" "$target"
+    else
+      move_tree "specs/$name" "$target"
+    fi
+    echo "  Moved: specs/$name/ -> $target/"
+    MOVED+="$name|$target|$kind"$'\n'
+  done <<< "$FOLDERS"
   CHANGES_MADE=$((CHANGES_MADE + 1))
 
-  # Update cross-references
+  # Rewrite references to every folder that moved, most specific first.
+  SEDS=()
+  while IFS='|' read -r name target kind; do
+    [ -n "$name" ] || continue
+    if [ "$kind" = auto ] && [ "$name" = 1-requirements ]; then
+      SEDS+=(-e 's|specs/1-requirements/\([A-Za-z0-9_-]*/\)\{0,1\}|specs/foundation/|g')
+    elif [ "$kind" = auto ] && [ "$name" = 3-behaviors ]; then
+      SEDS+=(-e 's|specs/3-behaviors/contracts/|specs/interfaces/|g' -e 's|specs/3-behaviors/|specs/features/|g')
+    else
+      SEDS+=(-e "s|specs/$name/|$target/|g")
+    fi
+  done <<< "$MOVED"
+
   echo ""
-  echo "Updating cross-references in spec frontmatter..."
-  STALE_REFS=$(grep -rl "specs/1-requirements\|specs/2-strategy\|specs/3-behaviors\|specs/3-contracts" specs/ 2>/dev/null || true)
-  if [ -n "$STALE_REFS" ]; then
-    for f in $STALE_REFS; do
-      sed -i \
-        -e 's|specs/1-requirements/strategic/|specs/foundation/|g' \
-        -e 's|specs/1-requirements/functional/|specs/foundation/|g' \
-        -e 's|specs/1-requirements/|specs/foundation/|g' \
-        -e 's|specs/2-strategy/|specs/strategy/|g' \
-        -e 's|specs/3-behaviors/contracts/|specs/interfaces/|g' \
-        -e 's|specs/3-behaviors/|specs/features/|g' \
-        -e 's|specs/3-contracts/|specs/interfaces/|g' \
-        "$f"
-      echo "  Updated: $f"
-    done
-  else
-    echo "  No stale references found."
-  fi
+  echo "Updating cross-references in specs..."
+  UPDATED=0
+  while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    sed "${SEDS[@]}" "$f" > "$f.livespec-tmp"
+    if cmp -s "$f" "$f.livespec-tmp"; then
+      rm -f "$f.livespec-tmp"
+    else
+      cat "$f.livespec-tmp" > "$f"; rm -f "$f.livespec-tmp"
+      echo "  Updated: $f"; UPDATED=$((UPDATED + 1))
+    fi
+  done < <(grep -rlE 'specs/[A-Za-z0-9_-]+/' specs 2>/dev/null | LC_ALL=C sort || true)
+  [ "$UPDATED" -gt 0 ] || echo "  No stale references found."
 fi
 
 # --- Summary ---
@@ -255,17 +365,31 @@ echo ""
 echo "=== Verification ==="
 PASS=true
 if [ -d ".livespec-repo" ]; then echo "FAIL: .livespec-repo/ still exists"; PASS=false; else echo "PASS: No submodule"; fi
-if [ -e ".livespec" ]; then echo "FAIL: .livespec still exists"; PASS=false; else echo "PASS: No legacy .livespec"; fi
+if [ -e ".livespec" ] || [ -L ".livespec" ]; then echo "FAIL: .livespec still exists"; PASS=false; else echo "PASS: No legacy .livespec"; fi
 if [ -f ".livespec-version" ]; then echo "FAIL: .livespec-version still exists"; PASS=false; else echo "PASS: No version file"; fi
-if compgen -G "specs/[0-9]-*/" > /dev/null; then echo "FAIL: Numbered spec folders remain"; PASS=false; else echo "PASS: No numbered folders"; fi
 
-REMAINING=$(grep -rl "specs/1-requirements\|specs/2-strategy\|specs/3-behaviors" specs/ 2>/dev/null || true)
-if [ -n "$REMAINING" ]; then
-  echo "WARN: Stale cross-references remain in:"
-  echo "$REMAINING"
-else
-  echo "PASS: No stale cross-references"
+if [ -n "$CONFLICTS" ]; then
+  echo "FAIL: Files left in place because their destination already exists:"
+  printf '%s' "$CONFLICTS"
+  echo "      Compare each pair, keep one, then re-run."
+  PASS=false
 fi
+while IFS='|' read -r name target kind; do
+  [ -n "$name" ] || continue
+  if [ -d "specs/$name" ]; then echo "FAIL: specs/$name/ still holds files"; PASS=false; fi
+  if grep -rlF "specs/$name/" specs >/dev/null 2>&1; then
+    echo "WARN: References to specs/$name/ remain in:"
+    grep -rlF "specs/$name/" specs | sed 's/^/  /'
+  fi
+done <<< "$MOVED"
+if [ -z "$MOVED" ] && ! $NEEDS_DECISION; then echo "PASS: No retired spec folders"; fi
+while IFS='|' read -r name target kind _; do
+  if [ "$kind" = decide ]; then
+    [ "$target" = "-" ] && target="<path>"
+    echo "DECIDE: specs/$name/ was not moved; confirm a target with --map specs/$name=$target"
+    PASS=false
+  fi
+done <<< "$FOLDERS"
 
 if $PASS; then
   echo ""

@@ -24,6 +24,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ### Fixed
 
+- **Folder migration could silently overwrite specs**: `mv dir/*` replaced any same-named file at the destination. Moves now never overwrite; a clash is reported, both files are kept, and verification fails until it is resolved
+- **Unnumbered retired folders read as "Already on v5"**: a project with `specs/learnings/` or `specs/meta/` was told there was nothing to migrate, and an unknown numbered folder failed verification with no guidance. Both are now listed with what to do
+- **A retired install was missed on a fresh clone**: an uninitialised submodule or a dangling `.livespec` symlink is now recognised from the git index and `.gitmodules`, and the submodule's `.gitmodules` section is removed even when its name differs from its path
+- **Reference rewriting used GNU-only `sed -i`**, which fails on macOS; the stale-reference check also missed `3-contracts/`
 - **Guides and metaspecs named validators that do not exist as if they ran**: `check-contract-completeness.sh` (the behaviour and contract metaspecs said it blocks commits), `validate-value-structure.sh`, and a `tests/structure/test_full_validation.sh` suite. Contract completeness is now described as a review check, and hierarchy checks point to `validate-crossrefs.sh`. The metaspecs are vendored into projects, so the correction arrives with `/livespec:upgrade`
 - **This repository's links were one-way**: only 5 of 149 upward links had a matching `supports:`. All 30 parent lists are regenerated, five `implements:` fields are migrated, and nine relations written only as `supports:` are re-expressed as upward links on the specs that depend on them
 - **This repository's own specs did not trace to PURPOSE.md**: 16 had no upward link and 7 more chained to nothing; two cited a research report as `derives-from` (now `informed-by`) and a strategy spec derived from a feature. All 90 now trace, with no warnings under `--strict`
@@ -37,6 +41,7 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ### Changed
 
+- **`upgrade-to-v5.sh` migrates spec folders from one table** ⚠️ MEDIUM impact (DEC-008): `1-requirements/`, `2-strategy/`, `3-behaviors/`, `3-contracts/` and `4-contracts/` move automatically; `procedures/`, `meta/`, `reports/`, `metaspecs/`, `4-validation/`, `4-baseline/`, `learnings/` and any other numbered folder get a proposed home and move only once confirmed with `--map`; anything else is reported as unknown and left alone. `--detect-only` reports the layout as current, retired, retired and mixed, or absent, and `/livespec:upgrade` asks per folder
 - **Guidance teaches links written upward, with `supports:` generated**: `references/guides/frontmatter-relationships.md` is rewritten around the layer rule and the generated downward direction; the workspace cross-reference patterns no longer recommend `implements:` or metaspec paths in `governed-by`; prompt files drop their `implements:` lines, since the specs governing them name them through `specifies:`
 - **`validate-registries.spec.md` moved from `scripts/` to `specs/artifacts/validators/`**, beside the other validator specs
 - **Links are authored upward only, and each spec's `supports:` is generated** ⚠️ MEDIUM impact (DEC-004): `validate-crossrefs.sh` reports a parent whose `supports:` lacks a child linking up to it, or lists an entry with no upward link back, and `--fix` rewrites those lists from the upward links, naming every entry it drops. `implements:` is retired, having meant spec→spec in the vocabulary and file→spec in the guide; `--fix` moves its values into `satisfies:`. `/livespec:upgrade` reviews the entries `--fix` would drop before running it. Existing projects see these as warnings
