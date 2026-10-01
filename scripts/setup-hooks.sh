@@ -49,7 +49,9 @@ fi
 # Provenance lives in a comment block after the shebang. The hash excludes
 # those lines, so it stays verifiable after stamping.
 PROV_RE='^# (vendored-from|source-version|source-hash): '
-script_hash() { grep -vE "$PROV_RE" "$1" | sha256sum | cut -d" " -f1; }
+# sha256sum is absent from macOS before 15.2; shasum ships with every release.
+sha256() { if command -v sha256sum >/dev/null; then sha256sum; else shasum -a 256; fi; }
+script_hash() { grep -vE "$PROV_RE" "$1" | sha256 | cut -d" " -f1; }
 
 stamp_script() {
     local src="$1" dst="$2" hash="$3" name="$4"

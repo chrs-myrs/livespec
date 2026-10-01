@@ -70,8 +70,10 @@ done
 
 # Body = everything after the closing --- of frontmatter. Hashing the body only
 # keeps the hash verifiable after provenance keys are stamped into frontmatter.
+# sha256sum is absent from macOS before 15.2; shasum ships with every release.
+sha256() { if command -v sha256sum >/dev/null; then sha256sum; else shasum -a 256; fi; }
 body_hash() {
-    awk 'BEGIN{n=0} /^---$/{n++; if(n<=2) next} n>=2{print}' "$1" | sha256sum | cut -d" " -f1
+    awk 'BEGIN{n=0} /^---$/{n++; if(n<=2) next} n>=2{print}' "$1" | sha256 | cut -d" " -f1
 }
 
 stamp() {

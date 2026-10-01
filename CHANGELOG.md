@@ -26,6 +26,7 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 - **Toolchain independence check missed instructions written as inline code**: `scripts/check-requires-spec.sh`, named that way by the spec-first template inlined into every project's AGENTS.md, was never checked, so a project told to run a gate it did not ship passed
 - **`validate-constraints.sh` scanned the whole working directory when none of its surfaces existed**, because `grep -r` with no file operand searches `.`. Reachable once scripts are vendored: it reported the retired-layout pattern inside the vendored validators themselves
 - **`check-requires-spec.sh` required a local spec for vendored files**. A file carrying `vendored-from` provenance is specified where it came from
+- **Vendoring failed on macOS before 15.2**: `setup-hooks.sh` and `vendor-conventions.sh` hashed with `sha256sum`, which those releases do not ship. Both fall back to `shasum -a 256`
 
 ### Changed
 
