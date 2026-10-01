@@ -10,6 +10,7 @@ derives-from:
   - specs/foundation/outcomes.spec.md (Minimal Maintenance, Voluntary Adoption)
   - specs/workspace/constitution.spec.md (Dogfooding principle)
 supports:
+  - specs/artifacts/validators/ci-validation.spec.md
   - specs/artifacts/validators/validate-purpose.spec.md
   - specs/features/spec-health.spec.md
   - specs/features/validation/architecture-alignment.spec.md
@@ -134,10 +135,12 @@ bash scripts/validate-purpose.sh        # PURPOSE.md boundary
 3. Validation fails → fix issue → commit again
 4. Validation passes → commit proceeds
 
-**Not yet delivered:** there is no `tests/` suite and no CI workflow in this
-repository. Enforcement is local to each clone via the installed hook, so a
-contributor who has not run `setup-hooks.sh` is unvalidated until review. Closing
-that gap needs a CI step, which is not yet designed.
+**CI:** `.github/workflows/validate.yml` runs the five validators on every push
+and pull request, with cross-references under `--strict`
+(`specs/artifacts/validators/ci-validation.spec.md`), so a contributor who has
+not installed the hook is still validated before review. Consuming projects
+gate their own CI on the validators' `--json` output; LiveSpec ships no CI
+template.
 
 **Benefits:**
 - Catches drift immediately (before it spreads)
@@ -230,6 +233,6 @@ Tests pass
 - Validators do NOT check content quality, UX, or outcomes
 - All five pass on the current LiveSpec repository
 - Validators use only bash, grep, sed and awk (no frameworks)
-- Validators are runnable locally; CI is absent and recorded as GAP-002
+- Validators are runnable locally and run in CI on every push
 - Validation failure indicates drift between specs and practice
 - Connection to dogfooding clear (validators check we follow our own rules)

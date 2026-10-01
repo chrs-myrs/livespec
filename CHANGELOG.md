@@ -20,6 +20,7 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ### Added
 
+- **CI for this repository** (`.github/workflows/validate.yml`): the five validators run on every push and pull request, cross-references under `--strict`, so a clone without the hook is still validated before review. Closes GAP-002
 - **Projects record the LiveSpec version they have accepted** (DEC-009): `/livespec:init` writes `livespec.version` into `project.yaml`, creating it if absent, and `/livespec:upgrade` updates it once the upgrade is accepted. `upgrade-to-v5.sh --detect-only` reports the accepted version beside every other version signal (vendored stamps, generated context, a legacy `.livespec-version`) and names each that differs. Previously a v5 project recorded none, so the sweep's version check had nothing to read
 - **Validators offer `--json`** in one versioned envelope (`specs/interfaces/formats/validator-output.spec.md`, schema version 1): `validate-frontmatter.sh`, `validate-constraints.sh`, `validate-registries.sh` and `validate-purpose.sh` now do, and `validate-crossrefs.sh` follows with link resolution. Each finding carries a stable `id` built from a rule code, the repo-root-relative path and a subject, so a consumer can compare base against head; output is byte-identical across runs and carries no timestamps, absolute paths or colour codes. Text output and exit codes are unchanged. The shared `scripts/validator-output.sh` is vendored with the validators
 

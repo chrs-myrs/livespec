@@ -2,16 +2,11 @@
 store: registry
 type: gaps
 schema_version: 2
-last_reviewed: 2026-09-30
+last_reviewed: 2026-10-01
 entries:
   - id: GAP-001
     summary: Artifact specs declaring 'specifies' empty, leaving no machine-checkable spec-to-code link
     severity: low
-    status: open
-    date: 2026-09-15
-  - id: GAP-002
-    summary: No CI, so validation enforcement is per-clone and an unhooked contributor is unvalidated until review
-    severity: medium
     status: open
     date: 2026-09-15
   - id: GAP-004
@@ -45,24 +40,6 @@ The frontmatter validator reports this on every run as part of its relationship 
 `specifies` is the field where an empty declaration cannot be excused as schema-against-practice. Other mandatory relationship fields often have the same information sitting on a different populated edge — a strategy spec with an empty `derives-from` above a populated `satisfies` pointing at the same foundation spec. `specifies` has no substitute: nothing else in the schema links a spec to its code, so an empty one means the link does not exist in machine-checkable form anywhere.
 
 The consequence observed was that artifact specs continued to instruct readers to run scripts deleted months earlier, and no validation could detect it. The two entries still empty are tracked as GAP-003, because their deliverables do not exist to be linked.
-
----
-
-## GAP-002: No CI, so enforcement is per-clone
-
-**Severity**: medium
-**Status**: open
-**Recorded**: 2026-09-15 at `96b93e6`, corrected 2026-09-30 at `8037d69`
-
-There is no `.github/` directory and no test or validation workflow. Validation runs through the pre-commit hook installed by `scripts/setup-hooks.sh`, which `/livespec:init` and `/livespec:upgrade` now invoke.
-
-This entry originally said the hook covered projects created or upgraded through those skills. It did not. The hook resolved validators from the project's `scripts/` or `${CLAUDE_PLUGIN_ROOT}/scripts/`; consuming projects had no validators of their own, and `CLAUDE_PLUGIN_ROOT` is unset in a shell and in an agent's shell tool. A probe commit of an invalid spec from such a shell succeeded with "no validators resolved". The hook was inert in every consuming project from v5.9.0 on. The installer now vendors the validators into the project, and `--check` warns when none resolve.
-
-With that, the hook covers projects installed or upgraded from the next release, and the developer who runs the installer. It still does not cover a contributor who clones an existing project and never installs the hook: their work is unvalidated until review. Nothing detects that state.
-
-`specs/strategy/validation.spec.md` previously described a `tests/run-all-tests.sh` suite and a GitHub Actions workflow, neither of which exists. That spec now describes what ships and names this gap rather than implying coverage.
-
-Closing this needs a CI step, deliberately not designed in this pass.
 
 ---
 

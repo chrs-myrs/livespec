@@ -1,0 +1,31 @@
+# Runs the validators on every push and pull request, so enforcement does not
+# depend on each clone having installed the hook.
+# Specified by: specs/artifacts/validators/ci-validation.spec.md
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Frontmatter
+        run: bash scripts/validate-frontmatter.sh
+      - name: Cross-references (strict)
+        if: ${{ !cancelled() }}
+        run: bash scripts/validate-crossrefs.sh --strict
+      - name: Constraints
+        if: ${{ !cancelled() }}
+        run: bash scripts/validate-constraints.sh
+      - name: Registries
+        if: ${{ !cancelled() }}
+        run: bash scripts/validate-registries.sh
+      - name: PURPOSE.md
+        if: ${{ !cancelled() }}
+        run: bash scripts/validate-purpose.sh
