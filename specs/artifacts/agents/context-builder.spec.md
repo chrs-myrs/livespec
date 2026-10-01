@@ -130,6 +130,12 @@ specifies:
   - Spot-checks sub-agents have inline edit warnings
   - Reports validation results with pass/fail per check
 
+### Source Stamp
+
+- [!] Agent stamps the generated files as its last step
+  - Runs `validate-context.sh --stamp` after validation, for full and scoped runs alike, so every file records the same source hash
+  - A model cannot compute the hash, so the agent never writes or edits the stamp line itself
+
 ### Results Reporting
 
 - [!] Agent provides comprehensive generation report to calling session

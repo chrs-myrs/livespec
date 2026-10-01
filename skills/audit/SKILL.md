@@ -343,14 +343,19 @@ Run /livespec:design workspace to create workspace specs first.
 
 **Step 2: Classify Scope** (skip if `--full` passed — go straight to Step 3 with `full`)
 
-Diff workspace specs and PURPOSE.md against the last generation (last commit that touched AGENTS.md/ctxt/):
+Every generated file records a hash of the sources it was built from. Check it,
+then list what changed since it was written:
 
 ```bash
-git log -1 --format=%H -- AGENTS.md
-git diff --name-only <that-commit> -- PURPOSE.md specs/workspace/
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh            # current, stale or unstamped
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh --changed  # sources changed since the stamp
 ```
 
-For each changed source, look it up in `specs/workspace/context-architecture.spec.md`'s Spec → Generated File Map:
+- Every file **current** → report that the context is up to date and stop
+- Any file **unstamped**, or `--changed` prints `unknown` → classify **FULL**: there is no baseline to scope against
+- `specs/workspace/context-architecture.spec.md` has no Spec → Generated File Map → classify **FULL** and say so: without the map no change can be scoped
+
+Otherwise, for each changed source, look it up in the map:
 
 - A changed source with **no generated target** in the map (e.g. `generated-files.spec.md`, `third-party-dependencies.spec.md`) → exclude it from the changed-target set; it doesn't force FULL by itself
 - Any remaining changed source marked **Structural** in the map → classify **FULL**

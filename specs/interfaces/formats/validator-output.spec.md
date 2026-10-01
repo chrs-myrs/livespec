@@ -10,6 +10,7 @@ derives-from:
   - specs/strategy/validation.spec.md
 supports:
   - specs/artifacts/validators/validate-constraints.spec.md
+  - specs/artifacts/validators/validate-context.spec.md
   - specs/artifacts/validators/validate-coverage.spec.md
   - specs/artifacts/validators/validate-purpose.spec.md
   - specs/artifacts/validators/validate-registries.spec.md
@@ -88,6 +89,8 @@ gate CI on findings without parsing text. This is schema version 1.
 | | `dead-pattern` | warning | the `specifies:` value |
 | | optional key `governed` | | object: each spec path → sorted array of the tracked files its `specifies:` matches |
 | | optional key `coverage` | | object: `files` needing a spec, and how many are `governed` |
+| `validate-context` | `stale` | warning; error under `--strict` | none |
+| | `unstamped` | warning; error under `--strict` | none |
 | `validate-constraints` | `unknown-command` | error | the command as referenced, `/livespec:` and its name |
 | | `missing-script` | error | the script path |
 | | `missing-route` | error | none |

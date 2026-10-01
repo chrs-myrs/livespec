@@ -9,6 +9,8 @@ applies_to:
   - all_projects
 derives-from:
   - specs/workspace/patterns.spec.md
+supports:
+  - specs/artifacts/validators/validate-context.spec.md
 ---
 
 # Generated File Patterns
@@ -18,7 +20,7 @@ derives-from:
   - All generated files include clear markers (HTML comment, YAML frontmatter, or blockquote)
   - Markers identify source files for traceability
   - Markers provide regeneration instructions (prompt path)
-  - Markers include generation timestamp (ISO-8601)
+  - Agent context files carry a hash of the sources they were generated from, written by `scripts/validate-context.sh --stamp`, not a timestamp: timestamps and modification times differ on every clone
   - Markers identify generator (prompt or script path)
   - Markers include LiveSpec version used
   - Partial generation supported with section markers
@@ -64,7 +66,7 @@ Version: 2.4.0
 - Clear "DO NOT EDIT" warning
 - Source file list (enables traceability)
 - Regeneration instructions (path to prompt)
-- Generation timestamp (ISO-8601 format)
+- Source hash stamp (agent context files)
 - Generator identification (prompt or script path)
 - Version (LiveSpec version used)
 
@@ -222,9 +224,8 @@ spec: specs/features/getting-started.spec.md
 5. Commit updated generated file with sources
 
 **Validation:**
-1. Check generation timestamp vs file modification time
-2. Check source file timestamps vs generation timestamp
-3. Report direct edits (ERROR) or stale generation (WARNING)
+1. Recompute the source hash and compare it with each file's stamp (`scripts/validate-context.sh`)
+2. Report stale or unstamped generation (WARNING) and direct edits (ERROR)
 
 **Common generated files:**
 - `AGENTS.md` - Agent configuration (from `specs/workspace/*.spec.md` + `PURPOSE.md`)
@@ -270,7 +271,7 @@ rm CLAUDE.md && ln -s AGENTS.md CLAUDE.md
 - All generated files include standard markers
 - Markers identify source files clearly
 - Regeneration instructions provided (prompt path)
-- Generation metadata complete (timestamp, generator, version)
+- Generation metadata complete (source hash, generator, version)
 - Partial generation uses section markers correctly
 - Generated sections not directly edited
 - Manual sections editable in partially generated files

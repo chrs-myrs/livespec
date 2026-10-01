@@ -17,9 +17,9 @@ does not depend on each clone having installed the hook.
 
 ## Requirements
 
-- [!] Every push and pull request runs the six validators against the whole tree
+- [!] Every push and pull request runs the seven validators against the whole tree
   - Cross-reference validation runs with `--strict`, since this repository traces every spec to PURPOSE.md: a new traceability warning fails the run
-  - The other validators run in their default mode; coverage is reported and never fails the run
+  - The other validators run in their default mode; coverage is reported and never fails the run, and context currency is reported until the generated context is next regenerated
   - Every validator runs even when an earlier one fails, so one run reports everything
   - Any failing validator fails the run
 

@@ -119,6 +119,11 @@ supports:
 
   **Structural** means the change can add, remove, or resize generated files beyond the mapped target(s) — it forces full regeneration regardless of how small the diff looks. Everything else can be scoped to the listed file(s) provided no spec or generated file is being added or removed. A changed source with **no generated target** (see `generated-files.spec.md`, `third-party-dependencies.spec.md` above) is excluded from the changed-target set entirely — it doesn't force FULL by itself, unlike a genuinely unclear mapping.
 
+- [!] Every generated context file records the sources it was built from, so staleness is a fact rather than a guess
+  - The context builder stamps every file it writes as its last step, including after a scoped run, using `scripts/validate-context.sh --stamp`
+  - The stamped sources are PURPOSE.md and every spec in the categories the Spec → Generated File Map covers
+  - `/livespec:audit context` classifies MINOR or FULL from the sources changed since the stamp, and regenerates in full when the map is missing
+
 ## Validation
 
 - Root AGENTS.md follows convention size budgets (30-40KB)

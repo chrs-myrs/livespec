@@ -174,6 +174,19 @@ head -1 AGENTS.md  # Should NOT be "---"
 - All files have generated-file warning
 - Version in footer matches `livespec.version` in project.yaml
 
+## Step 5b: Stamp the Sources
+
+As the last write of every run, full or scoped, record the sources the tree was
+generated from:
+
+```bash
+if [ -f scripts/validate-context.sh ]; then bash scripts/validate-context.sh --stamp
+else bash "${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh" --stamp; fi
+```
+
+Never write or edit the stamp line yourself: it is a hash only the script can
+compute. Include the hash it prints in the report.
+
 ## Step 6: Report
 
 **Full** — return a structured report to the parent session:

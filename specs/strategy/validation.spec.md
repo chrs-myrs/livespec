@@ -11,6 +11,7 @@ derives-from:
   - specs/workspace/constitution.spec.md (Dogfooding principle)
 supports:
   - specs/artifacts/validators/ci-validation.spec.md
+  - specs/artifacts/validators/validate-context.spec.md
   - specs/artifacts/validators/validate-coverage.spec.md
   - specs/artifacts/validators/validate-purpose.spec.md
   - specs/features/spec-health.spec.md
@@ -100,6 +101,7 @@ Each has an artifact spec under `specs/artifacts/validators/`.
 | Validator | Checks | Failure means |
 |-----------|--------|---------------|
 | `validate-frontmatter.sh` | Base six fields, type/category/fidelity values, per-category mandatory fields, relationship graph population | A spec cannot be placed or related correctly |
+| `validate-context.sh` | Generated agent context carries the hash of the sources it was built from, and they have not changed since | Agent instructions have drifted from the specs |
 | `validate-coverage.sh` | Which tracked files a spec's `specifies:` governs; reported, never enforced, and the answer `check-requires-spec.sh` gives | Nobody can say which files a spec governs |
 | `validate-crossrefs.sh` | Every relationship target resolves from the repository root; upward links reach PURPOSE.md through specs at the same or a higher layer | A spec points at something that does not exist, or traces to nothing |
 | `validate-constraints.sh` | Every `/livespec:` command, invoked script and `routes-to:` target resolves; project context is usable without the toolchain | LiveSpec asserts something about itself that is untrue |
@@ -127,6 +129,7 @@ by `scripts/setup-hooks.sh`:
 bash scripts/validate-frontmatter.sh    # frontmatter schema and relationship graph
 bash scripts/validate-crossrefs.sh      # relationship targets resolve and trace to PURPOSE.md
 bash scripts/validate-coverage.sh       # which files the specs govern (report only)
+bash scripts/validate-context.sh        # generated agent context is current
 bash scripts/validate-constraints.sh    # commands, scripts and routes LiveSpec claims exist
 bash scripts/validate-registries.sh     # registry integrity
 bash scripts/validate-purpose.sh        # PURPOSE.md boundary
@@ -138,7 +141,7 @@ bash scripts/validate-purpose.sh        # PURPOSE.md boundary
 3. Validation fails → fix issue → commit again
 4. Validation passes → commit proceeds
 
-**CI:** `.github/workflows/validate.yml` runs the six validators on every push
+**CI:** `.github/workflows/validate.yml` runs the seven validators on every push
 and pull request, with cross-references under `--strict`
 (`specs/artifacts/validators/ci-validation.spec.md`), so a contributor who has
 not installed the hook is still validated before review. Consuming projects
@@ -230,11 +233,11 @@ Tests pass
 
 ## Validation
 
-- Six validators exist in `scripts/`, each executable bash
+- Seven validators exist in `scripts/`, each executable bash
 - Each validator has an artifact spec declaring `specifies` for it
 - Validators check structure, format, traceability, naming, and resolvability
 - Validators do NOT check content quality, UX, or outcomes
-- All six pass on the current LiveSpec repository
+- All seven pass on the current LiveSpec repository
 - Validators use only bash, grep, sed and awk (no frameworks)
 - Validators are runnable locally and run in CI on every push
 - Validation failure indicates drift between specs and practice
