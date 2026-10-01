@@ -29,9 +29,10 @@ HOOK="$GIT_DIR/hooks/pre-commit"
 MARKER="# LiveSpec validation hook"
 
 # The validators the hook runs, then the scripts generated project context
-# instructs (the inlined spec-first template names both of the latter).
+# instructs (the inlined spec-first template names both of the latter), then
+# the helper their --json output needs.
 HOOKED=(validate-frontmatter.sh validate-crossrefs.sh validate-constraints.sh)
-VENDOR=("${HOOKED[@]}" check-requires-spec.sh validate-purpose.sh)
+VENDOR=("${HOOKED[@]}" check-requires-spec.sh validate-purpose.sh validator-output.sh)
 
 # Vendored from beside this script. CLAUDE_PLUGIN_ROOT is not set in a shell or
 # an agent's shell tool, so a hook relying on it skips every commit.

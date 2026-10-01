@@ -22,6 +22,7 @@ derives-from:
   - Validation passes when LiveSpec follows its own rules (dogfooding validated)
   - Validation failure indicates drift between specs and practice
   - Exit codes: 0 success, 1 violations, 2 usage error
+  - `--json` gives machine-readable findings in the shared envelope of `specs/interfaces/formats/validator-output.spec.md`, so a consumer can gate CI without parsing text
   - No test framework dependencies (bash, grep, sed, awk only)
   - `scripts/setup-hooks.sh` installs them as a pre-commit hook so they run without being remembered
 

@@ -27,7 +27,7 @@ spec-first enforcement is worthless if every project has to wire it by hand.
   - Recognises a hook it previously installed and replaces it without prompting
   - Is idempotent: running twice leaves the same result
 
-- [!] Script vendors into the project the validators the hook runs and the scripts generated project context instructs
+- [!] Script vendors into the project the validators the hook runs, the scripts generated project context instructs, and the output helper they source
   - Hook validation works at commit time with no toolchain environment: `CLAUDE_PLUGIN_ROOT` is not set in a shell or an agent's shell tool
   - Each vendored script records `vendored-from`, `source-version` and `source-hash` in a comment block, with the hash covering the script without those lines
   - Distinguishes unchanged, locally edited, upstream changed and diverged, as convention vendoring does; only absent and upstream-changed-but-unedited scripts are written

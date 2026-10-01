@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Added
+
+- **Validators offer `--json`** in one versioned envelope (`specs/interfaces/formats/validator-output.spec.md`, schema version 1): `validate-frontmatter.sh`, `validate-constraints.sh`, `validate-registries.sh` and `validate-purpose.sh` now do, and `validate-crossrefs.sh` follows with link resolution. Each finding carries a stable `id` built from a rule code, the repo-root-relative path and a subject, so a consumer can compare base against head; output is byte-identical across runs and carries no timestamps, absolute paths or colour codes. Text output and exit codes are unchanged. The shared `scripts/validator-output.sh` is vendored with the validators
+
 ### Fixed
 
 - **The installed pre-commit hook never validated anything in consuming projects** ⚠️ HIGH impact: it resolved validators from the project's `scripts/` or `${CLAUDE_PLUGIN_ROOT}/scripts/`, but consuming projects had no validators of their own and `CLAUDE_PLUGIN_ROOT` is unset in a shell and in an agent's shell tool. A probe commit of an invalid spec succeeded with "no validators resolved". Every project given the hook since v5.9.0 has been unvalidated at commit time. `setup-hooks.sh` now vendors the hooked validators, plus the two scripts the inlined spec-first template instructs, into the project's `scripts/` with `vendored-from`, `source-version` and `source-hash` provenance and the same four-state update rule as convention vendoring. Re-run `/livespec:upgrade` to refresh an existing install

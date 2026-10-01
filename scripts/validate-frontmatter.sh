@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # validate-frontmatter.sh — Check all .spec.md files for IMP-005 frontmatter compliance
 #
-# Usage: bash scripts/validate-frontmatter.sh [--verbose] [--strict] [path...]
+# Usage: bash scripts/validate-frontmatter.sh [--verbose] [--strict] [--json] [path...]
 #   path      tree to scan for *.spec.md, or a single spec file (default: specs/)
 #   --strict  promote empty-mandatory-field warnings to errors
+#   --json    machine-readable output (specs/interfaces/formats/validator-output.spec.md)
 # Exit 0: all checks pass
 # Exit 1: one or more failures
 # Exit 2: usage error
@@ -14,14 +15,16 @@ set -uo pipefail
 
 VERBOSE=""
 STRICT=""
+JSON=false
 SPEC_ROOTS=()
 
 for arg in "$@"; do
     case "$arg" in
         --verbose) VERBOSE="--verbose" ;;
         --strict)  STRICT="--strict" ;;
+        --json)    JSON=true ;;
         -*)        echo "Unknown option: $arg" >&2
-                   echo "Usage: $0 [--verbose] [--strict] [path...]" >&2
+                   echo "Usage: $0 [--verbose] [--strict] [--json] [path...]" >&2
                    exit 2 ;;
         *)         SPEC_ROOTS+=("$arg") ;;
     esac
@@ -35,6 +38,14 @@ for root in "${SPEC_ROOTS[@]}"; do
         exit 2
     fi
 done
+
+if $JSON; then
+    VO_HELPER="$(dirname "${BASH_SOURCE[0]}")/validator-output.sh"
+    [[ -f "$VO_HELPER" ]] || { echo "ERROR: --json needs $VO_HELPER" >&2; exit 2; }
+    # shellcheck source=validator-output.sh
+    source "$VO_HELPER"
+    vo_init validate-frontmatter
+fi
 
 ERRORS=0
 WARNINGS=0
@@ -67,14 +78,18 @@ for f in $MANDATORY_FIELDS; do
     FIELD_POPULATED[$f]=0
 done
 
+# error|warn <rule> <subject> <message>, about the current $specfile: rule codes
+# are part of the output contract
 error() {
-    echo "  ERROR: $1"
+    echo "  ERROR: $3"
     ((ERRORS++))
+    $JSON && vo_finding error "$1" "$specfile" "$2" "$3"
 }
 
 warn() {
-    echo "  WARN:  $1"
+    echo "  WARN:  $3"
     ((WARNINGS++))
+    $JSON && vo_finding warning "$1" "$specfile" "$2" "$3"
 }
 
 verbose() {
@@ -170,7 +185,7 @@ while IFS= read -r specfile; do
 
     if [[ -z "$fm" ]]; then
         echo "$specfile:"
-        error "No YAML frontmatter found"
+        error no-frontmatter "" "No YAML frontmatter found"
         continue
     fi
 
@@ -184,11 +199,11 @@ while IFS= read -r specfile; do
         if ! echo "$VALID_TYPES" | grep -qw "$val"; then
             has_errors=true
             [[ "$has_errors" == "true" ]] && { echo "$specfile:"; has_errors=shown; }
-            error "type '$val' not in allowed values"
+            error invalid-value type "type '$val' not in allowed values"
         fi
     else
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        error "Missing required field: type"
+        error missing-field type "Missing required field: type"
     fi
 
     # 2. category
@@ -197,14 +212,14 @@ while IFS= read -r specfile; do
         val=$(get_field "$fm" "category")
         if ! echo "$VALID_CATEGORIES" | grep -qw "$val"; then
             [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-            error "category '$val' not in allowed values"
+            error invalid-value category "category '$val' not in allowed values"
         elif under_specs_tree "$specfile" && [[ "$val" != "$expected_cat" ]]; then
             [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-            error "category '$val' does not match directory '$expected_cat'"
+            error category-mismatch "" "category '$val' does not match directory '$expected_cat'"
         fi
     else
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        error "Missing required field: category"
+        error missing-field category "Missing required field: category"
     fi
 
     # 3. fidelity
@@ -212,11 +227,11 @@ while IFS= read -r specfile; do
         val=$(get_field "$fm" "fidelity")
         if ! echo "$VALID_FIDELITY" | grep -qw "$val"; then
             [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-            error "fidelity '$val' not in allowed values"
+            error invalid-value fidelity "fidelity '$val' not in allowed values"
         fi
     else
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        error "Missing required field: fidelity"
+        error missing-field fidelity "Missing required field: fidelity"
     fi
 
     # 4. criticality
@@ -224,23 +239,23 @@ while IFS= read -r specfile; do
         val=$(get_field "$fm" "criticality")
         if ! echo "$VALID_CRITICALITY" | grep -qw "$val"; then
             [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-            error "criticality '$val' not in allowed values"
+            error invalid-value criticality "criticality '$val' not in allowed values"
         fi
     else
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        error "Missing required field: criticality"
+        error missing-field criticality "Missing required field: criticality"
     fi
 
     # 5. failure_mode
     if ! has_field "$fm" "failure_mode"; then
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        error "Missing required field: failure_mode"
+        error missing-field failure_mode "Missing required field: failure_mode"
     fi
 
     # 6. governed-by
     if ! has_field "$fm" "governed-by"; then
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        error "Missing required field: governed-by"
+        error missing-field governed-by "Missing required field: governed-by"
     fi
 
     # --- Warnings ---
@@ -256,7 +271,8 @@ while IFS= read -r specfile; do
             # Check inline value (governed-by: .livespec/...)
             if grep -qE "$METASPEC_RE" <<< "$line"; then
                 [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-                warn "governed-by contains metaspec reference (should be content governance only)"
+                warn metaspec-in-governed-by "$(trim "${line#governed-by:}")" \
+                    "governed-by contains metaspec reference (should be content governance only)"
             fi
             continue
         fi
@@ -264,7 +280,8 @@ while IFS= read -r specfile; do
             if [[ "$line" =~ ^[[:space:]]+-[[:space:]] ]]; then
                 if grep -qE "$METASPEC_RE" <<< "$line"; then
                     [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-                    warn "governed-by contains metaspec reference (should be content governance only)"
+                    warn metaspec-in-governed-by "$(trim "${line#*-}")" \
+                        "governed-by contains metaspec reference (should be content governance only)"
                 fi
             else
                 in_governed_by=false
@@ -275,7 +292,7 @@ while IFS= read -r specfile; do
     # Check for underscore field names
     if grep -qE "^derives_from:|^governed_by:" <<< "$fm"; then
         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-        warn "Underscore field name detected (use hyphens: derives-from, governed-by)"
+        warn underscore-field "" "Underscore field name detected (use hyphens: derives-from, governed-by)"
     fi
 
     # --- Per-category mandatory fields ---
@@ -289,7 +306,7 @@ while IFS= read -r specfile; do
                 for field in "${fields[@]}"; do
                     if ! has_field "$fm" "$field"; then
                         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
-                        error "Missing $cat_name-mandatory field: $field"
+                        error missing-field "$field" "Missing $cat_name-mandatory field: $field"
                         continue
                     fi
                     ((FIELD_DECLARED[$field]++))
@@ -297,9 +314,9 @@ while IFS= read -r specfile; do
                         ((EMPTY_MANDATORY++))
                         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
                         if [[ "$STRICT" == "--strict" ]]; then
-                            error "Empty $cat_name-mandatory field: $field (declared, no values)"
+                            error empty-mandatory-field "$field" "Empty $cat_name-mandatory field: $field (declared, no values)"
                         else
-                            warn "Empty $cat_name-mandatory field: $field (declared, no values)"
+                            warn empty-mandatory-field "$field" "Empty $cat_name-mandatory field: $field (declared, no values)"
                         fi
                     else
                         ((FIELD_POPULATED[$field]++))

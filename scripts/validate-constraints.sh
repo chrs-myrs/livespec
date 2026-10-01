@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # validate-constraints.sh — Verify the assertions LiveSpec makes about itself
 #
-# Usage: bash scripts/validate-constraints.sh [--verbose]
+# Usage: bash scripts/validate-constraints.sh [--verbose] [--json]
+#   --json  machine-readable output (specs/interfaces/formats/validator-output.spec.md)
 # Exit 0: no errors (warnings permitted)
 # Exit 1: unresolved command, script or route
 # Exit 2: usage error
@@ -11,14 +12,24 @@
 set -uo pipefail
 
 VERBOSE=false
+JSON=false
 for arg in "$@"; do
     case "$arg" in
         --verbose) VERBOSE=true ;;
-        *) echo "Usage: $0 [--verbose]" >&2; exit 2 ;;
+        --json)    JSON=true ;;
+        *) echo "Usage: $0 [--verbose] [--json]" >&2; exit 2 ;;
     esac
 done
 
 cd "$(git rev-parse --show-toplevel 2>/dev/null || echo .)" || exit 2
+
+if $JSON; then
+    VO_HELPER="$(dirname "${BASH_SOURCE[0]}")/validator-output.sh"
+    [[ -f "$VO_HELPER" ]] || { echo "ERROR: --json needs $VO_HELPER" >&2; exit 2; }
+    # shellcheck source=validator-output.sh
+    source "$VO_HELPER"
+    vo_init validate-constraints
+fi
 
 if [[ -t 1 ]]; then
     RED=$'\033[0;31m'; GREEN=$'\033[0;32m'; YELLOW=$'\033[0;33m'; RESET=$'\033[0m'
@@ -56,8 +67,29 @@ for p in "${LAYOUT_PATHS[@]}"; do [[ -e "$p" ]] && LAYOUT_EXISTING+=("$p"); done
 (( ${#EXISTING[@]} ))        || EXISTING=(/dev/null)
 (( ${#LAYOUT_EXISTING[@]} )) || LAYOUT_EXISTING=(/dev/null)
 
-err()  { echo "${RED}ERROR${RESET}: $1"; ERRORS=$((ERRORS+1)); }
-warnn() { echo "${YELLOW}WARN${RESET}:  $1"; WARNINGS=$((WARNINGS+1)); }
+# err|warnn <rule> <path> <subject> <message>: rule codes are part of the output contract
+err()  {
+    echo "${RED}ERROR${RESET}: $4"; ERRORS=$((ERRORS+1))
+    $JSON && vo_finding error "$1" "$2" "$3" "$4"
+}
+warnn() {
+    echo "${YELLOW}WARN${RESET}:  $4"; WARNINGS=$((WARNINGS+1))
+    $JSON && vo_finding warning "$1" "$2" "$3" "$4"
+}
+
+# err_in <rule> <subject> <message> <regex> <paths...>: one text line, and under
+# --json one finding per file matching <regex>, so a consumer sees where to fix.
+err_in() {
+    local rule="$1" subject="$2" msg="$3" re="$4" f
+    shift 4
+    echo "${RED}ERROR${RESET}: $msg"; ERRORS=$((ERRORS+1))
+    $JSON || return 0
+    while IFS= read -r f; do
+        [[ -z "$f" ]] && continue
+        migration_doc "$f" && continue
+        vo_finding error "$rule" "$f" "$subject" "$msg"
+    done < <(grep -rlE -e "$re" "$@" 2>/dev/null || true)
+}
 
 # --- Check 1: every referenced /livespec:<name> resolves ---
 # Deduplicate on the command NAME. An earlier version deduplicated on a sort
@@ -76,7 +108,8 @@ while IFS= read -r name; do
     elif [[ ! -d "commands" && -z "${CLAUDE_PLUGIN_ROOT:-}" ]]; then
         continue
     fi
-    err "/livespec:${name} referenced but no such command exists"
+    err_in unknown-command "/livespec:${name}" "/livespec:${name} referenced but no such command exists" \
+        "/livespec:${name}([^a-z-]|\$)" "${EXISTING[@]}"
     grep -rn -F "/livespec:${name}" "${EXISTING[@]}" 2>/dev/null | head -3 \
         | sed 's/^/         /' | cut -c1-120
 done < <(for f in $(grep -rl -E '/livespec:[a-z-]+' "${EXISTING[@]}" 2>/dev/null); do
@@ -92,7 +125,8 @@ while IFS= read -r ref; do
     # is stripped; the path is plugin-relative, so test it as such.
     ref="${ref#/}"
     if [[ ! -f "$ref" ]]; then
-        err "$ref referenced in documentation but does not exist"
+        err_in missing-script "$ref" "$ref referenced in documentation but does not exist" \
+            "${ref//./\\.}" "${EXISTING[@]}"
         if $VERBOSE; then
             grep -rn -F "$ref" "${EXISTING[@]}" 2>/dev/null | head -3 | sed 's/^/         /'
         fi
@@ -109,9 +143,9 @@ for cmd in commands/*.md; do
     [[ -e "$cmd" ]] || continue
     target="$(grep -m1 '^routes-to:' "$cmd" | sed 's/^routes-to:[[:space:]]*//' | tr -d '"'"'"' ')"
     if [[ -z "$target" ]]; then
-        err "$cmd has no routes-to: field"
+        err missing-route "$cmd" "" "$cmd has no routes-to: field"
     elif [[ ! -f "$target" ]]; then
-        err "$cmd routes to $target which does not exist"
+        err broken-route "$cmd" "$target" "$cmd routes to $target which does not exist"
     fi
 done
 
@@ -119,7 +153,8 @@ done
 echo "Checking for retired layout references..."
 while IFS= read -r hit; do
     [[ -z "$hit" ]] && continue
-    warnn "retired layout referenced: ${hit}"
+    retired=".livespec/"; [[ "$hit" == *.livespec-version* ]] && retired=".livespec-version"
+    warnn retired-layout "${hit%%:*}" "$retired" "retired layout referenced: ${hit}"
 done < <(grep -rn -E '\.livespec/|\.livespec-version' "${LAYOUT_EXISTING[@]}" 2>/dev/null \
          | grep -v '^references/guides/' \
          | grep -v 'CHANGELOG' \
@@ -137,7 +172,7 @@ for p in AGENTS.md CLAUDE.md ctxt; do [[ -e "$p" ]] && PROJECT_CTX+=("$p"); done
 if (( ${#PROJECT_CTX[@]} > 0 )); then
     while IFS= read -r hit; do
         [[ -z "$hit" ]] && continue
-        err "project context references the toolchain root: ${hit%%:*}"
+        err toolchain-root-reference "${hit%%:*}" "" "project context references the toolchain root: ${hit%%:*}"
     done < <(grep -rln 'CLAUDE_PLUGIN_ROOT' "${PROJECT_CTX[@]}" 2>/dev/null || true)
 
     # Every script the project context instructs must exist in the project,
@@ -146,7 +181,8 @@ if (( ${#PROJECT_CTX[@]} > 0 )); then
     # every project names its gate as `scripts/check-requires-spec.sh`.
     while IFS= read -r ref; do
         [[ -z "$ref" ]] && continue
-        [[ -f "$ref" ]] || err "project context instructs '$ref' which the project does not ship"
+        [[ -f "$ref" ]] || err_in unshipped-script "$ref" "project context instructs '$ref' which the project does not ship" \
+            "${ref//./\\.}" "${PROJECT_CTX[@]}"
     done < <(grep -rh -oE '(bash |\./|Run |sh |`)scripts/[a-zA-Z0-9_-]+\.sh' "${PROJECT_CTX[@]}" 2>/dev/null \
              | grep -oE 'scripts/[a-zA-Z0-9_-]+\.sh' | sort -u || true)
 
