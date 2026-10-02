@@ -36,6 +36,7 @@ supports:
   - Exit codes: 0 success, 1 violations, 2 usage error
   - `--json` gives machine-readable findings in the shared envelope of `specs/interfaces/formats/validator-output.spec.md`, so a consumer can gate CI without parsing text
   - No test framework dependencies (bash, grep, sed, awk only)
+  - Validators, and every script vendored into projects, run unchanged on stock macOS (bash 3.2, BSD userland) as well as on GNU systems, since the hook runs them in whatever shell a contributor has
   - `scripts/setup-hooks.sh` installs them as a pre-commit hook so they run without being remembered
 
 ## Testing Philosophy

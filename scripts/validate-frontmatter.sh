@@ -70,12 +70,24 @@ CATEGORY_FIELDS=(
 
 # Relationship graph population, counted only where the field is mandatory for
 # the spec's own category (declared - populated == empty-field reports)
+# Indexed by position in MANDATORY_FIELDS: the bash macOS ships has no
+# associative arrays.
 MANDATORY_FIELDS="applies_to derives-from satisfies guided-by specifies"
-declare -A FIELD_DECLARED FIELD_POPULATED
+FIELD_DECLARED=(); FIELD_POPULATED=()
+n=0
 for f in $MANDATORY_FIELDS; do
-    FIELD_DECLARED[$f]=0
-    FIELD_POPULATED[$f]=0
+    FIELD_DECLARED[n]=0; FIELD_POPULATED[n]=0; n=$((n+1))
 done
+
+# Sets FI to the position of field $1 in MANDATORY_FIELDS
+field_index() {
+    local f i=0
+    for f in $MANDATORY_FIELDS; do
+        [[ "$f" == "$1" ]] && { FI=$i; return 0; }
+        i=$((i+1))
+    done
+    return 1
+}
 
 # error|warn <rule> <subject> <message>, about the current $specfile: rule codes
 # are part of the output contract
@@ -308,7 +320,8 @@ while IFS= read -r specfile; do
                         error missing-field "$field" "Missing $cat_name-mandatory field: $field"
                         continue
                     fi
-                    ((FIELD_DECLARED[$field]++))
+                    field_index "$field"
+                    FIELD_DECLARED[FI]=$((FIELD_DECLARED[FI]+1))
                     if field_is_empty "$fm" "$field"; then
                         ((EMPTY_MANDATORY++))
                         [[ "$has_errors" != "shown" ]] && { echo "$specfile:"; has_errors=shown; }
@@ -318,7 +331,7 @@ while IFS= read -r specfile; do
                             warn empty-mandatory-field "$field" "Empty $cat_name-mandatory field: $field (declared, no values)"
                         fi
                     else
-                        ((FIELD_POPULATED[$field]++))
+                        FIELD_POPULATED[FI]=$((FIELD_POPULATED[FI]+1))
                         verbose "$field populated"
                     fi
                 done
@@ -332,14 +345,16 @@ echo ""
 echo "Relationship graph population (fields mandatory for the spec's category):"
 graph_shown=false
 for f in $MANDATORY_FIELDS; do
-    declared=${FIELD_DECLARED[$f]}
+    field_index "$f"
+    declared=${FIELD_DECLARED[FI]}
     [[ $declared -eq 0 ]] && continue
     graph_shown=true
-    printf "  %-14s %3d / %-3d populated\n" "$f" "${FIELD_POPULATED[$f]}" "$declared"
+    printf "  %-14s %3d / %-3d populated\n" "$f" "${FIELD_POPULATED[FI]}" "$declared"
 done
 [[ "$graph_shown" == false ]] && echo "  (no per-category mandatory fields declared in this tree)"
 
-if [[ ${FIELD_DECLARED[specifies]} -gt ${FIELD_POPULATED[specifies]} ]]; then
+field_index specifies
+if [[ ${FIELD_DECLARED[FI]} -gt ${FIELD_POPULATED[FI]} ]]; then
     echo ""
     echo "  Note: an empty 'specifies' has no substitute field — those artifact specs"
     echo "        have no machine-checkable link to the deliverable they govern."

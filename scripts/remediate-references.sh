@@ -26,20 +26,21 @@ fi
 
 # Retired command -> current equivalent. Matches the migration table in
 # references/guides/upgrade-to-v5.md.
-declare -A RENAME=(
-    [evolve]="audit"
-    [feature]="design feature"
-    [debug]="design debug"
-    [refine]="design refine"
-    [validate]="audit validate"
-    [rebuild-context]="audit context"
-    [session-review]="learn"
-    [health-report]="audit health"
-    [complete-session]="learn"
-    [measure-session]="learn"
-    [next-steps]="go"
-    [refine-workspace]="design workspace"
-    [suggest-improvements]="audit"
+# name=target pairs; indexed, since the bash macOS ships has no associative arrays.
+RENAME=(
+    "evolve=audit"
+    "feature=design feature"
+    "debug=design debug"
+    "refine=design refine"
+    "validate=audit validate"
+    "rebuild-context=audit context"
+    "session-review=learn"
+    "health-report=audit health"
+    "complete-session=learn"
+    "measure-session=learn"
+    "next-steps=go"
+    "refine-workspace=design workspace"
+    "suggest-improvements=audit"
 )
 
 # Retired names with no current equivalent: reported, never guessed.
@@ -54,10 +55,10 @@ files() {
 }
 
 APPLIED=0; WOULD=0
-declare -A UNREMEDIABLE=()
+UNREM_NAMES=(); UNREM_FILES=()
 
-for name in "${!RENAME[@]}"; do
-    target="${RENAME[$name]}"
+for pair in "${RENAME[@]}"; do
+    name="${pair%%=*}"; target="${pair#*=}"
     while IFS= read -r f; do
         [[ -z "$f" ]] && continue
         grep -q -F "/livespec:${name}" "$f" 2>/dev/null || continue
@@ -77,12 +78,16 @@ for name in "${!RENAME[@]}"; do
 done
 
 for name in $NO_EQUIVALENT; do
+    hits=""
     while IFS= read -r f; do
         [[ -z "$f" ]] && continue
         if grep -q -F "/livespec:${name}" "$f" 2>/dev/null; then
-            UNREMEDIABLE["/livespec:${name}"]+="$f "
+            hits+="$f "
         fi
     done < <(files)
+    if [[ -n "$hits" ]]; then
+        UNREM_NAMES+=("/livespec:${name}"); UNREM_FILES+=("$hits")
+    fi
 done
 
 # Repoint convention references at the project's vendored copies.
@@ -159,12 +164,12 @@ else
     echo "Rewrote: $APPLIED command reference(s), $CONV convention reference(s), $META metaspec reference(s)"
 fi
 
-if (( ${#UNREMEDIABLE[@]} > 0 )); then
+if (( ${#UNREM_NAMES[@]} > 0 )); then
     echo ""
     echo "${YELLOW}No current equivalent — resolve by hand:${RESET}"
-    for k in "${!UNREMEDIABLE[@]}"; do
-        echo "  $k"
-        for f in ${UNREMEDIABLE[$k]}; do echo "      $f"; done
+    for i in "${!UNREM_NAMES[@]}"; do
+        echo "  ${UNREM_NAMES[i]}"
+        for f in ${UNREM_FILES[i]}; do echo "      $f"; done
     done
 fi
 exit 0

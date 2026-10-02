@@ -210,7 +210,7 @@ done < <(find "$PROJECTS_ROOT" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/nu
 
 declare -a results=()
 
-for project_dir in "${projects[@]}"; do
+for project_dir in ${projects[@]+"${projects[@]}"}; do
   # Must have at least one LiveSpec signal to qualify
   has_signal=false
   [[ -d "${project_dir}/specs"    ]] && has_signal=true
@@ -265,7 +265,7 @@ json_str() {
 if $OUTPUT_JSON; then
   echo "["
   first=true
-  for entry in "${sorted_results[@]}"; do
+  for entry in ${sorted_results[@]+"${sorted_results[@]}"}; do
     IFS='|' read -r score name path status signals <<< "$entry"
     $first || echo ","
     first=false
@@ -287,7 +287,7 @@ else
   critical=()
   warning=()
   healthy=()
-  for entry in "${sorted_results[@]}"; do
+  for entry in ${sorted_results[@]+"${sorted_results[@]}"}; do
     IFS='|' read -r score name path status signals <<< "$entry"
     case "$status" in
       CRITICAL) critical+=("$entry") ;;
@@ -305,7 +305,7 @@ else
     echo ""
     echo "| Score | Status   | Project          | Signals |"
     echo "|-------|----------|------------------|---------|"
-    for entry in "${critical[@]}" "${warning[@]}"; do
+    for entry in ${critical[@]+"${critical[@]}"} ${warning[@]+"${warning[@]}"}; do
       IFS='|' read -r score name path status signals <<< "$entry"
       [[ -z "$signals" ]] && signals="—"
       printf "| %-5s | %-8s | %-16s | %s |\n" "$score/10" "$status" "$name" "$signals"
