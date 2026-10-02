@@ -21,8 +21,8 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 ### Fixed
 
 - **`validate-frontmatter.sh` failed in the bash macOS ships** ⚠️ MEDIUM impact: it kept its per-field counts in associative arrays, which bash 3.2 does not have, so on a Mac without a newer bash the installed hook printed `declare: -A: invalid option` and miscounted the relationship-graph figures. It now uses indexed arrays, with output byte-identical to before. `remediate-references.sh` had the same defect, and `sweep-projects.sh` still expanded four arrays that can be empty, which bash before 4.4 rejects under `set -u`. The validation strategy now requires validators and vendored scripts to run on stock macOS as well as on GNU systems
-
 - **`validate-registries.sh` reported every registry date as invalid on macOS**: it read `last_reviewed` with GNU-only `date -d`, and matched with GNU grep's `\b` and `\s`. Dates are now read by arithmetic and the patterns use POSIX classes, so GNU and BSD systems agree. A `last_reviewed` that is not in the documented `YYYY-MM-DD` form, such as `2026-1-5`, which GNU `date` used to accept, is now reported as invalid
+- **CI used `actions/checkout@v4`**, which targets the deprecated Node.js 20 runtime; it now uses v7, which runs on Node.js 24
 
 ### Changed
 
