@@ -84,7 +84,23 @@ for t in $REQUIRED_TYPES; do
 done
 
 # --- Per-file checks ---
-today_epoch=$(date +%s)
+today_days=$(( $(date +%s) / 86400 ))
+
+# Days since 1970-01-01 for a YYYY-MM-DD date that exists; fails otherwise.
+# Arithmetic, because GNU date parses with -d and BSD date (macOS) with -j,
+# and BSD silently rolls 02-30 over into March.
+iso_days() {
+    [[ "$1" =~ ^([0-9]{4})-([0-9]{2})-([0-9]{2})$ ]] || return 1
+    local y=$((10#${BASH_REMATCH[1]})) m=$((10#${BASH_REMATCH[2]})) d=$((10#${BASH_REMATCH[3]}))
+    local mdays=(31 28 31 30 31 30 31 31 30 31 30 31)
+    (( y % 4 == 0 && (y % 100 != 0 || y % 400 == 0) )) && mdays[1]=29
+    (( m >= 1 && m <= 12 && d >= 1 && d <= mdays[m-1] )) || return 1
+    (( m <= 2 )) && y=$((y - 1))
+    local era=$((y / 400)) yoe doy
+    yoe=$((y - era * 400))
+    doy=$(( (153 * (m > 2 ? m - 3 : m + 9) + 2) / 5 + d - 1 ))
+    echo $(( era * 146097 + yoe * 365 + yoe / 4 - yoe / 100 + doy - 719468 ))
+}
 
 for f in "$REG_DIR"/*.md; do
     base=$(basename "$f")
@@ -104,7 +120,7 @@ for f in "$REG_DIR"/*.md; do
 
     # Frontmatter required keys
     grep -q '^store: *registry' <<<"$fm" || error missing-key "$f" store "$base: missing 'store: registry'"
-    grep -q "^type: *$type\b" <<<"$fm" || error type-mismatch "$f" "" "$base: 'type' does not match filename ($type)"
+    grep -qE "^type: *${type}([^A-Za-z0-9_]|\$)" <<<"$fm" || error type-mismatch "$f" "" "$base: 'type' does not match filename ($type)"
     grep -q '^schema_version:' <<<"$fm" || error missing-key "$f" schema_version "$base: missing 'schema_version'"
     grep -q '^entries:' <<<"$fm" || error missing-key "$f" entries "$base: missing 'entries' key"
 
@@ -113,17 +129,16 @@ for f in "$REG_DIR"/*.md; do
     if [[ -z "$lr" ]]; then
         error missing-key "$f" last_reviewed "$base: missing 'last_reviewed'"
     else
-        lr_epoch=$(date -d "$lr" +%s 2>/dev/null || echo 0)
-        if [[ "$lr_epoch" == "0" ]]; then
+        if ! lr_days=$(iso_days "$lr"); then
             error invalid-date "$f" last_reviewed "$base: last_reviewed '$lr' is not a valid ISO date"
         else
-            age_days=$(( (today_epoch - lr_epoch) / 86400 ))
+            age_days=$(( today_days - lr_days ))
             (( age_days > STALE_DAYS )) && warn stale "$f" "" "$base: stale — last_reviewed $lr ($age_days days ago, >${STALE_DAYS}d)"
         fi
     fi
 
     # Entry IDs from frontmatter index
-    fm_ids=$(grep -oE '^\s*- id: *[A-Z]+-[0-9]+' <<<"$fm" | sed -E 's/.*id: *//' | sort)
+    fm_ids=$(grep -oE '^[[:space:]]*- id: *[A-Z]+-[0-9]+' <<<"$fm" | sed -E 's/.*id: *//' | sort)
     # Section IDs from body ('## PREFIX-NNN: ...')
     body_ids=$(grep -oE '^## *[A-Z]+-[0-9]+' <<<"$body" | sed -E 's/^## *//' | sort)
 

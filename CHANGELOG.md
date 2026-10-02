@@ -22,6 +22,8 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 - **`validate-frontmatter.sh` failed in the bash macOS ships** ⚠️ MEDIUM impact: it kept its per-field counts in associative arrays, which bash 3.2 does not have, so on a Mac without a newer bash the installed hook printed `declare: -A: invalid option` and miscounted the relationship-graph figures. It now uses indexed arrays, with output byte-identical to before. `remediate-references.sh` had the same defect, and `sweep-projects.sh` still expanded four arrays that can be empty, which bash before 4.4 rejects under `set -u`. The validation strategy now requires validators and vendored scripts to run on stock macOS as well as on GNU systems
 
+- **`validate-registries.sh` reported every registry date as invalid on macOS**: it read `last_reviewed` with GNU-only `date -d`, and matched with GNU grep's `\b` and `\s`. Dates are now read by arithmetic and the patterns use POSIX classes, so GNU and BSD systems agree. A `last_reviewed` that is not in the documented `YYYY-MM-DD` form, such as `2026-1-5`, which GNU `date` used to accept, is now reported as invalid
+
 ### Changed
 
 - **`supports:` is no longer a mandatory field** for foundation and interface specs: since 5.10.0 it is generated from other specs' upward links by `validate-crossrefs.sh --fix`, so `validate-frontmatter.sh` reported a spec nothing yet links to as missing a field (an error) or as having an empty one (a warning). Foundation specs still need `derives-from`; interface specs need nothing beyond the base six, and cross-reference validation still checks that every spec links upward. The base metaspec is vendored, so `/livespec:upgrade` carries the change into projects
