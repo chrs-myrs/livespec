@@ -407,7 +407,7 @@ Common mistakes when setting up LiveSpec:
 
 ## Version
 
-**Current Version: 5.10.0**
+**Current Version: 5.10.1**
 
 LiveSpec v5 is distributed as a Claude Code plugin:
 - **Plugin installation** - `/plugin install livespec` for integrated experience

@@ -673,7 +673,7 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 
 ---
 
-*Agent configuration for LiveSpec v5.10.0*
+*Agent configuration for LiveSpec v5.10.1*
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
 
