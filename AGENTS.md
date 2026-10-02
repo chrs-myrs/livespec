@@ -408,10 +408,10 @@ By category (each type implies its metaspec template): foundation `outcomes`, `c
 | Category | Required beyond base six |
 |----------|--------------------------|
 | workspace | `applies_to` |
-| foundation | `derives-from`, `supports` (generated) |
+| foundation | `derives-from` |
 | strategy | `derives-from` |
 | features | `satisfies`, `guided-by` |
-| interfaces | `supports` (generated) |
+| interfaces | none (crossrefs validation checks they link upward) |
 | artifacts | `specifies` |
 
 ### Minimal Spec Body
@@ -427,7 +427,7 @@ By category (each type implies its metaspec template): foundation `outcomes`, `c
 
 **Controlled vocabulary:** `references/standards/vocabulary.spec.md` — canonical definitions for all type values, category values, fidelity levels, relationship fields, phase/layer vocabulary, and registry vocabularies. Check here when unsure of correct term usage.
 
-**Validate frontmatter:** `scripts/validate-frontmatter.sh`. Per-category `supports` is filled by `scripts/validate-crossrefs.sh --fix`, not by hand.
+**Validate frontmatter:** `scripts/validate-frontmatter.sh`. `supports` is never mandatory: `scripts/validate-crossrefs.sh --fix` generates it, never write it by hand.
 
 ---
 
@@ -677,4 +677,4 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
 
-<!-- livespec-context-sources: sha256:e3d07be666b52c2002e6e5588b89e8c4b676f767e933290b1811b105d7ae9952 n=80 -->
+<!-- livespec-context-sources: sha256:04e831b1bb8eb3a06d415a4213b56693785ae7f42abc74c20fdc3d2944c3be32 n=80 -->

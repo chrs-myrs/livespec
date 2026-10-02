@@ -156,7 +156,7 @@ Before creating any spec during design:
 - [ ] `criticality` is CRITICAL or IMPORTANT (not "USEFUL" — that's MSL non-spec territory)
 - [ ] `failure_mode` is concrete, one sentence, describes real impact
 - [ ] `governed-by` contains only content governance specs (NOT metaspec paths)
-- [ ] Per-category fields present (features: satisfies + guided-by; strategy: derives-from; interfaces: supports; artifacts: specifies)
+- [ ] Per-category fields present (features: satisfies + guided-by; strategy: derives-from; foundation: derives-from; interfaces: none beyond the base six; artifacts: specifies)
 - [ ] Links written upward only, from the repository root, to the same layer or higher (PURPOSE.md only from foundation and workspace); `supports:` is generated, so run `scripts/validate-crossrefs.sh --fix` rather than writing it
 - [ ] `specifies:` names the files the spec governs (path, directory or glob); `implements:` is retired
 - [ ] All field names hyphenated (`derives-from`, `guided-by`) — never underscored
@@ -235,4 +235,4 @@ specs/artifacts/agents/context-builder.spec.md
 *Design mode specialist for LiveSpec v5.10.0*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:e3d07be666b52c2002e6e5588b89e8c4b676f767e933290b1811b105d7ae9952 n=80 -->
+<!-- livespec-context-sources: sha256:04e831b1bb8eb3a06d415a4213b56693785ae7f42abc74c20fdc3d2944c3be32 n=80 -->
