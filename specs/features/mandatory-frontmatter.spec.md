@@ -62,11 +62,12 @@ supports:
 
 - [!] Each category requires additional fields beyond the base six, reflecting the natural traceability patterns of that spec type.
   - workspace specs: `applies_to` (governance scope declaration)
-  - foundation specs: `derives-from`, `supports`
+  - foundation specs: `derives-from`
   - strategy specs: `derives-from`
   - features specs: `satisfies`, `guided-by`
-  - interfaces specs: `supports`
+  - interfaces specs: none beyond the base six; cross-reference validation checks that they link upward
   - artifacts specs: `specifies` (path to deliverable)
+  - `supports` is never mandatory: it is generated from other specs' upward links, so an empty list means nothing links to the spec yet, not that its author left something out
   - `specifies` is also valid on features and interfaces, and each value may be a file, a directory or a glob: it is the one link that says which files a spec governs
 
 ### Relationship Field Values

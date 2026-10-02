@@ -52,11 +52,12 @@ derives-from:
 
 - [!] Each category requires additional fields beyond the base six.
   - workspace: `applies_to` (governance scope)
-  - foundation: `derives-from`, `supports`
+  - foundation: `derives-from`
   - strategy: `derives-from`
   - features: `satisfies`, `guided-by`
-  - interfaces: `supports`
+  - interfaces: none beyond the base six
   - artifacts: `specifies` (path to deliverable)
+  - `supports` is generated from upward links (`validate-crossrefs.sh --fix`), so it is never mandatory
 
 ### Fidelity Defaults
 

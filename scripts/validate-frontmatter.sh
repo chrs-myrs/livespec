@@ -62,16 +62,15 @@ VALID_CRITICALITY="CRITICAL IMPORTANT"
 # Format: category:field1,field2
 CATEGORY_FIELDS=(
     "workspace:applies_to"
-    "foundation:derives-from,supports"
+    "foundation:derives-from"
     "strategy:derives-from"
     "features:satisfies,guided-by"
-    "interfaces:supports"
     "artifacts:specifies"
 )
 
 # Relationship graph population, counted only where the field is mandatory for
 # the spec's own category (declared - populated == empty-field reports)
-MANDATORY_FIELDS="applies_to derives-from supports satisfies guided-by specifies"
+MANDATORY_FIELDS="applies_to derives-from satisfies guided-by specifies"
 declare -A FIELD_DECLARED FIELD_POPULATED
 for f in $MANDATORY_FIELDS; do
     FIELD_DECLARED[$f]=0

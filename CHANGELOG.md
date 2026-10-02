@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Changed
+
+- **`supports:` is no longer a mandatory field** for foundation and interface specs: since 5.10.0 it is generated from other specs' upward links by `validate-crossrefs.sh --fix`, so `validate-frontmatter.sh` reported a spec nothing yet links to as missing a field (an error) or as having an empty one (a warning). Foundation specs still need `derives-from`; interface specs need nothing beyond the base six, and cross-reference validation still checks that every spec links upward. The base metaspec is vendored, so `/livespec:upgrade` carries the change into projects
+
 ### Removed
 
 - **`specs/DEPENDENCIES.md`**: an older copy of the link model, still teaching the retired `derives_from`, `constrained_by` and `implements` fields. Nothing referenced it, and `references/standards/conventions/dependencies.spec.md` covers the same ground with the current fields
