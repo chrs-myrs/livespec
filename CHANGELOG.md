@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Removed
+
+- **`specs/DEPENDENCIES.md`**: an older copy of the link model, still teaching the retired `derives_from`, `constrained_by` and `implements` fields. Nothing referenced it, and `references/standards/conventions/dependencies.spec.md` covers the same ground with the current fields
+
 ---
 
 ## [5.10.0] - 2026-10-01
