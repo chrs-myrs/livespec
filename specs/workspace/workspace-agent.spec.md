@@ -47,7 +47,7 @@ supports: []
 - [!] LiveSpec AGENTS.md enforces critical warnings limitation for focus
   - **Maximum 3 critical sections** in START (prevents warning fatigue)
   - **Critical criteria**: Methodology fails without this (not just poor quality)
-  - **Current critical sections**: Spec-First Protocol
+  - **Current critical sections**: Spec-First Protocol; Toolchain vs Project boundary; Phases vs Layers distinction
   - **Downgrade process**: Adding new critical requires removing/downgrading existing
   - **Status levels**: ⚠️ CRITICAL (max 3) | ## Important (recommended) | ## Optional (nice-to-have)
 
