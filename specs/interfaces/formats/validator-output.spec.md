@@ -98,6 +98,7 @@ gate CI on findings without parsing text. This is schema version 1.
 | | `retired-layout` | warning | the retired path, `.livespec/` or `.livespec-version` |
 | | `toolchain-root-reference` | error | none |
 | | `unshipped-script` | error | the script path |
+| | `ignored-shipped-file` | error | none |
 | `validate-registries` | `missing-registry-dir` | error | none |
 | | `missing-registry` | error | none |
 | | `unknown-registry-type` | warning | none |

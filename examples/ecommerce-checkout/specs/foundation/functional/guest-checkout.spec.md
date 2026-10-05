@@ -1,10 +1,18 @@
 ---
+type: outcomes
+category: foundation
+fidelity: behavioral
+criticality: CRITICAL
+failure_mode: 30% of users abandon at account creation step, significant revenue loss for time-constrained segment
+governed-by: []
+derives-from:
+  - specs/foundation/outcomes.spec.md
 informed-by:
   - research/insights/checkout-friction-study.md
   - research/personas/time-constrained-shopper.md
-derives-from: ../strategic/outcomes.spec.md
-criticality: CRITICAL
-failure_mode: 30% of users abandon at account creation step, significant revenue loss for time-constrained segment
+supports:
+  - specs/features/single-page-checkout.spec.md
+  - specs/strategy/ux-optimization.spec.md
 ---
 
 # Guest Checkout Requirement

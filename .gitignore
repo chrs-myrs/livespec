@@ -5,7 +5,7 @@ plan/
 var/
 .archive/
 .sessions/
-research/
+/research/
 
 # Generated content
 generated/

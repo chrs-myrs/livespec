@@ -1,10 +1,15 @@
 ---
-derives-from:
-  - ../requirements/functional/simplified-checkout.spec.md
-  - ../requirements/functional/guest-checkout.spec.md
-governed-by: ../requirements/strategic/constraints.spec.md
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: IMPORTANT
 failure_mode: Inconsistent UX patterns cause confusion, poor optimization causes abandonment
+governed-by: []
+derives-from:
+  - specs/foundation/functional/simplified-checkout.spec.md
+  - specs/foundation/functional/guest-checkout.spec.md
+supports:
+  - specs/features/single-page-checkout.spec.md
 ---
 
 # UX Optimization Strategy
@@ -20,51 +25,6 @@ failure_mode: Inconsistent UX patterns cause confusion, poor optimization causes
   - **Accessibility-first**: WCAG 2.1 Level AA, keyboard navigation, screen reader support
   - **Error prevention over error correction**: Use appropriate input types, autocomplete, format guidance
   - **Performance as feature**: Fast page loads, instant validation, responsive interactions
-
-## Implementation Guidance
-
-### Progressive Disclosure
-- Collapse completed sections to reduce visual clutter
-- Expand next section automatically as previous completes
-- Show billing fields only when "different from shipping" selected
-- Cart items collapsible in sidebar (summary visible, details hidden)
-
-### Real-Time Feedback
-- Validate fields on blur (not on every keystroke to avoid annoyance)
-- Show green checkmark for valid fields (positive reinforcement)
-- Update shipping and tax immediately when valid address entered
-- Disable submit button until all required fields valid (prevent failed submissions)
-
-### Mobile-First Design
-- Single column layout on mobile (sidebar becomes footer)
-- Large touch targets (44×44px minimum)
-- Appropriate input types trigger correct keyboards
-- Sticky footer with total and submit button on mobile
-- No horizontal scrolling required
-- Test on actual devices (iOS Safari, Android Chrome minimum)
-
-### Accessibility Standards
-- All form fields have associated labels (explicit `for` or implicit wrapping)
-- Error messages announced via `role="alert"`
-- ARIA attributes for dynamic content (`aria-live`, `aria-describedby`)
-- Keyboard navigation order logical (tab through form sequentially)
-- Focus indicators visible and high contrast
-- Color not sole indicator of status (use icons + text)
-
-### Performance Optimization
-- Lazy load address autocomplete API only when field focused
-- Debounce autocomplete requests (500ms)
-- Preload shipping/tax calculation API on page load
-- Minimize JavaScript bundle size (code splitting)
-- Optimize images in cart sidebar
-- Server-side render initial page state
-
-### Error Handling Philosophy
-- Prevent errors before they happen (input masks, autocomplete)
-- When errors occur, explain clearly and show how to fix
-- Never blame user ("Invalid input" → "Please enter...")
-- Provide examples of correct format
-- Allow recovery without starting over (errors inline, not modal)
 
 ## Technology Choices
 

@@ -1,0 +1,79 @@
+# [Persona Name]
+
+---
+created: YYYY-MM-DD
+source: [Research source - e.g., "User interviews Jan 2025", "Customer survey Q1 2025"]
+sample_size: [Number of users this represents]
+---
+
+## Identity
+
+- **Role**: [Job title or user type]
+- **Age**: [Age range if relevant]
+- **Tech proficiency**: [Low/Medium/High]
+- **Context**: [Additional relevant context about their situation]
+
+## Goals
+
+### Primary Goal
+[Main objective this persona wants to achieve with your product]
+
+### Secondary Goals
+- [Supporting goal 1]
+- [Supporting goal 2]
+
+### Success Criteria
+[How this persona measures whether they've succeeded]
+
+## Behaviors
+
+### Current Workflow
+[Describe how they currently accomplish their tasks - before your product]
+
+### Tool Usage
+- [Tool/system 1]: [How/why they use it, frequency]
+- [Tool/system 2]: [How/why they use it, frequency]
+
+### Frequency
+- [Key task]: [How often - daily/weekly/monthly]
+- [Another task]: [How often]
+
+## Pain Points
+
+### Pain Point 1: [Brief Title]
+- **Issue**: [Specific problem they encounter]
+- **Workaround**: [How they cope with this today]
+- **Impact**: [Consequences - time, money, frustration]
+- **Quote**: "[Actual user quote if available]" (Participant ID)
+
+### Pain Point 2: [Brief Title]
+- **Issue**: [Specific problem]
+- **Workaround**: [How they cope]
+- **Impact**: [Consequences]
+- **Quote**: "[User quote]" (Participant ID)
+
+## Needs (That Will Inform Requirements)
+
+Each spec named below lists this file under `informed-by:`. That upward link is the one validation checks; this list is a reading aid.
+
+### Need 1: [Concise need description]
+- **Priority**: HIGH/MEDIUM/LOW
+- **Informs**: `specs/foundation/[feature-name].spec.md`
+- **Rationale**: [Why this need exists, based on goals/pain points]
+- **Evidence**: [Reference to research - interviews, observations, data]
+
+### Need 2: [Concise need description]
+- **Priority**: HIGH/MEDIUM/LOW
+- **Informs**: `specs/foundation/[feature-name].spec.md`
+- **Rationale**: [Why this matters]
+- **Evidence**: [Research basis]
+
+## Validation
+
+- **Evidence sources**: [List specific interview IDs, survey question numbers, observation sessions]
+- **Validated by**: [Stakeholder name/team who reviewed this]
+- **Last reviewed**: YYYY-MM-DD
+- **Next review**: YYYY-MM-DD (recommend 6-12 months)
+
+---
+

@@ -50,6 +50,10 @@ previously found only by a user hitting it.
     mechanical rule separates assertion from illustration, and a check that cannot
     tell them apart trains readers to ignore the validator
 
+- [!] Script verifies that what the plugin ships is tracked, in the toolchain repository
+  - Any git-ignored file under `templates/`, `references/`, `skills/`, `agents/`, `commands/`, `scripts/` or `examples/` is an ERROR, since the plugin is installed from the repository and an ignored file never ships
+  - Applies only where the project is the toolchain source (`.claude-plugin/plugin.json` present); inert in consuming projects
+
 - [!] Script reports severity and exits accordingly
   - ERROR for an unresolved command, script or route; exit 1
   - WARNING for a retired-layout reference; exit 0
@@ -61,5 +65,6 @@ previously found only by a user hitting it.
 - A `scripts/*.sh` referenced but absent produces an ERROR
 - A `commands/*.md` whose `routes-to:` target is missing produces an ERROR
 - A `.livespec/` reference outside `references/guides/` and `CHANGELOG.md` produces a WARNING
+- In the toolchain repository, an ignore rule that matches a file under `templates/` produces an ERROR naming the file
 - A project-context script named as inline code without an invocation prefix (the form the inlined spec-first template uses) counts as an instruction, and produces an ERROR when the project does not ship it
 - Clean repository exits 0 with zero errors

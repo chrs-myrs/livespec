@@ -1,9 +1,13 @@
 ---
+type: taxonomy
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Without taxonomy, ecommerce implementation becomes inconsistent and agents confuse checkout logic with operating context
+governed-by: []
 applies_to: this_project
-governed-by:
-  - .livespec/standard/metaspecs/taxonomy.spec.md
+derives-from:
+  - PURPOSE.md
 ---
 
 # E-Commerce Checkout Project Taxonomy

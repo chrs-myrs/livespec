@@ -1,0 +1,196 @@
+# [Research Topic/Focus] - [Month Year]
+
+---
+method: [Interviews / Surveys / Usability Testing / Observation / Diary Study / Analytics Review]
+sample_size: [Number]
+date_conducted: YYYY-MM-DD to YYYY-MM-DD
+---
+
+## Research Method
+
+**Type**: [Full name of method]
+
+**Protocol/Approach**:
+- [Brief description of what you did - e.g., "Semi-structured interviews with 10 open-ended questions"]
+- [Duration per session if applicable]
+- [Tools used - e.g., "Zoom for video calls", "Lookback for screen recording"]
+
+**Research Questions**:
+1. [Question 1 you were trying to answer]
+2. [Question 2]
+3. [Question 3]
+
+## Sample Description
+
+**Size**: n=[Number]
+
+**Demographics** (if relevant):
+- Age: [Range or distribution]
+- [Other relevant characteristic]: [Distribution]
+- [Other characteristic]: [Distribution]
+
+**Recruitment**:
+- **Method**: [How participants were found/selected]
+- **Screening criteria**: [Inclusion/exclusion requirements]
+- **Incentive**: [What participants received, if anything]
+
+**Sample represents**: [Who these participants represent in your user base]
+
+## Key Findings
+
+### Finding 1: [Clear, concise title of pattern or insight]
+
+**Description**: [What you observed or learned]
+
+**Evidence**:
+- **Frequency**: [How many participants - e.g., "7/10 participants"]
+- **Quotes**:
+  - "[Direct quote 1]" (Participant ID or code)
+  - "[Direct quote 2]" (Participant ID)
+- **Observed behavior**: [If applicable - what you saw them do]
+- **Data**: [If quantitative - specific numbers]
+
+**Interpretation**: [What this means - your analysis]
+
+**Implications for product**: [What we should do about this]
+
+---
+
+### Finding 2: [Next finding title]
+
+**Description**: [What you learned]
+
+**Evidence**:
+- **Frequency**: [n/total]
+- **Quotes**:
+  - "[Quote]" (ID)
+- **Observed/Data**: [Details]
+
+**Interpretation**: [Analysis]
+
+**Implications**: [Actions]
+
+---
+
+### Finding 3: [Continue for all major findings...]
+
+[Repeat structure for 3-7 key findings]
+
+---
+
+## Synthesis
+
+### Theme 1: [Cross-cutting pattern across findings]
+
+**Pattern**: [What you see across multiple findings]
+
+**Contributing findings**: [Which findings above relate to this theme]
+
+**Significance**: [Why this matters]
+
+---
+
+### Theme 2: [Next cross-cutting theme]
+
+[Repeat structure]
+
+---
+
+## Unexpected Insights
+
+[Anything surprising or unexpected you didn't ask about but discovered]
+
+- **Insight 1**: [Description]
+  - **Why unexpected**: [What you thought vs what you found]
+  - **Implications**: [What this means]
+
+## Requirements Informed
+
+Each spec named below lists this file under `informed-by:`. That upward link is the one validation checks; this list is a reading aid.
+
+These research findings directly inform the following requirements:
+
+### 1. `specs/foundation/[feature1].spec.md`
+
+**Based on**: [Which findings - reference Finding numbers above]
+
+**Requirement**: [What will be specified in that requirement]
+
+**Rationale**: [Why these findings lead to this requirement]
+
+**Validation approach**: [How we'll know if requirement addresses the findings]
+
+---
+
+### 2. `specs/foundation/[feature2].spec.md`
+
+**Based on**: [Findings]
+
+**Requirement**: [What will be specified]
+
+**Rationale**: [Why]
+
+**Validation**: [How to measure]
+
+---
+
+## Recommendations
+
+### Immediate Actions (HIGH Priority)
+
+1. **[Recommendation 1]**: [Specific action to take]
+   - **Based on**: [Which findings]
+   - **Expected impact**: [What this will achieve]
+   - **Effort**: [Rough estimate - Small/Medium/Large]
+
+2. **[Recommendation 2]**: [Next action]
+   - **Based on**: [Findings]
+   - **Expected impact**: [Benefit]
+   - **Effort**: [Estimate]
+
+### Short-term Actions (MEDIUM Priority)
+
+3. **[Recommendation 3]**: [Action]
+   - **Based on**: [Findings]
+   - **Impact**: [Benefit]
+   - **Effort**: [Estimate]
+
+### Future Consideration (LOW Priority)
+
+4. **[Recommendation 4]**: [Action]
+   - **Based on**: [Findings]
+   - **Impact**: [Benefit]
+   - **Effort**: [Estimate]
+
+## Limitations
+
+[Be honest about limitations of this research]
+
+- [Limitation 1 - e.g., "Small sample size limits generalizability"]
+- [Limitation 2 - e.g., "Self-reported data, not observed behavior"]
+- [Limitation 3 - e.g., "Sample skewed toward tech-savvy users"]
+
+## Next Steps
+
+**Follow-up research needed**:
+- [ ] [Additional research to conduct - e.g., "Validate findings with larger sample"]
+- [ ] [Another research need - e.g., "Test proposed solution with users"]
+
+**Actions to take**:
+- [ ] Create functional requirements based on findings
+- [ ] Share insights with [stakeholder/team]
+- [ ] Schedule validation testing
+
+## Appendix
+
+**Interview guide / Survey questions** (optional):
+[Link to or include actual questions asked]
+
+**Participant codes**:
+[If needed, key for anonymized participant IDs]
+
+**Raw data location**:
+[Where detailed notes/recordings stored]
+
+---
+

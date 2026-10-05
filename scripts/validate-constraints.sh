@@ -194,6 +194,19 @@ if (( ${#PROJECT_CTX[@]} > 0 )); then
     # ignore the validator.
 fi
 
+# --- Check 6: nothing the plugin ships is git-ignored ---
+# The plugin is installed from the repository, so an ignored file never ships.
+# An unanchored research/ rule kept templates/research/ out of every release.
+# Only meaningful where this project is the toolchain source.
+if [[ -f .claude-plugin/plugin.json ]] && git rev-parse --git-dir >/dev/null 2>&1; then
+    echo "Checking shipped files are tracked..."
+    while IFS= read -r f; do
+        [[ -z "$f" ]] && continue
+        err ignored-shipped-file "$f" "" "$f is git-ignored, so the plugin does not ship it"
+    done < <(git ls-files --others --ignored --exclude-standard -- \
+                 templates references skills agents commands scripts examples 2>/dev/null || true)
+fi
+
 echo ""
 echo "Summary:"
 echo "  Errors:   $ERRORS"

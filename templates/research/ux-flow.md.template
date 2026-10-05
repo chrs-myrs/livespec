@@ -1,0 +1,158 @@
+# [Flow Name]
+
+---
+context: [When/why users go through this flow]
+created: YYYY-MM-DD
+related_journey: research/journeys/[journey-filename].md (if applicable)
+---
+
+## Flow Context
+
+**Entry point**: [How users enter this flow - e.g., "Click 'Checkout' button from cart"]
+**User goal**: [What they want to accomplish - e.g., "Complete purchase"]
+**Success criteria**: [What successful completion looks like]
+**Typical duration**: [Expected time to complete]
+
+## Flow Diagram
+
+\`\`\`mermaid
+flowchart TD
+    Start([Entry Point]) --> Step1[First Screen/State]
+    Step1 --> Decision1{Decision Point}
+    Decision1 -->|Option A| Step2A[Path A]
+    Decision1 -->|Option B| Step2B[Path B]
+    Step2A --> Validation{Validation Check}
+    Validation -->|Valid| Success([Success State])
+    Validation -->|Invalid| Error[Error State]
+    Error --> Step2A
+    Step2B --> Success
+\`\`\`
+
+**Mermaid syntax notes:**
+- `([text])` - Rounded ends for start/end points
+- `[text]` - Rectangles for screens/processes
+- `{text}` - Diamonds for decision points
+- `-->|label|` - Arrows with labels for transitions
+
+## Screens / States
+
+### Screen 1: [Screen Name]
+
+**Purpose**: [What this screen accomplishes in the flow]
+
+**UI Elements**:
+- [Element 1 name]: [Purpose, type - button/input/dropdown/etc.]
+- [Element 2 name]: [Purpose, type]
+- [Element 3 name]: [Purpose, type]
+
+**Validation Rules**:
+- [Field/element]: [Validation rule - e.g., "Required", "Email format", "Min 8 characters"]
+- [Field/element]: [Validation rule]
+
+**Error States**:
+- [Error condition]: [How shown to user - message, styling, position]
+- [Error condition]: [User messaging]
+
+**Next actions**:
+- [Action 1]: Leads to [next state]
+- [Action 2]: Leads to [next state]
+
+### Screen 2: [Next Screen Name]
+
+[Repeat structure for each screen/state in the flow]
+
+## Decision Points
+
+### Decision 1: [Decision description]
+
+**Type**: [User choice / System logic / Conditional]
+
+**Criteria**: [What determines which path - e.g., "User selects payment method"]
+
+**Options**:
+- **Option A**: [What happens] → Leads to [next state]
+  - When: [Condition]
+  - Next: [Screen/state]
+
+- **Option B**: [What happens] → Leads to [next state]
+  - When: [Condition]
+  - Next: [Screen/state]
+
+**Data required**: [Any data needed to make this decision]
+
+### Decision 2: [Next decision]
+
+[Repeat structure for each decision point]
+
+## Error Handling
+
+### Error Scenario 1: [Error type - e.g., "Invalid payment details"]
+
+- **Trigger**: [What causes this error]
+- **User message**: [Exact message shown - be specific]
+- **UI treatment**: [How displayed - inline, modal, toast, etc.]
+- **Recovery path**: [How user proceeds - e.g., "User corrects and resubmits"]
+- **Alternative**: [Other options available - e.g., "Try different payment method"]
+
+### Error Scenario 2: [Next error type]
+
+[Repeat for all error scenarios]
+
+## Happy Path Summary
+
+Brief walkthrough of the ideal, successful path:
+
+1. [Step 1 action] → [Result]
+2. [Step 2 action] → [Result]
+3. [Step 3 action] → [Result]
+4. Success: [Final state]
+
+**Expected duration**: [Time for happy path]
+
+## Alternative Paths
+
+### Alt Path 1: [Scenario name]
+
+- **When**: [Trigger for this alternative]
+- **Difference from happy path**: [Key changes]
+- **Outcome**: [Where it leads]
+
+## Validation Against Journey
+
+**Journey pain points addressed**:
+- [Pain point from journey] → [How flow addresses it]
+- [Pain point from journey] → [Solution in flow]
+
+**New friction introduced**:
+- [Any new complexity added by this flow]
+
+## Requirements Informed
+
+Each spec named below lists this file under `informed-by:`. That upward link is the one validation checks; this list is a reading aid.
+
+This flow validates and informs the following requirements:
+
+1. `specs/foundation/[feature1].spec.md`
+   - **What**: [Which aspect of requirement]
+   - **How**: [How flow validates or specifies it]
+   - **Validation criteria**: [What to measure]
+
+2. `specs/foundation/[feature2].spec.md`
+   - **What**: [Aspect]
+   - **How**: [Specification]
+   - **Validation**: [Measure]
+
+## Testing Notes
+
+**Validation approach**:
+- [How to test this flow - prototype, usability test, A/B test]
+
+**Success metrics**:
+- [Metric 1]: [Target - e.g., "Completion rate >90%"]
+- [Metric 2]: [Target - e.g., "Time to complete <3 minutes"]
+
+**Tested with**: [Number] users on [Date] (optional - if already tested)
+
+---
+
+**Validates against**: `references/standards/metaspecs/research/ux-flow.metaspec.md`

@@ -1,0 +1,116 @@
+# [Journey Name]
+
+---
+persona: research/personas/[persona-filename].md
+goal: [What user wants to accomplish on this journey]
+created: YYYY-MM-DD
+---
+
+## Journey Overview
+
+**Entry point**: [How/where user starts this journey]
+**Success state**: [What successful completion looks like]
+**Typical duration**: [Time it usually takes]
+**Frequency**: [How often user goes through this journey]
+
+## Journey Steps
+
+### Step 1: [Step Name/Description]
+
+**Action**: [What user does at this step]
+**Touchpoint**: [Where interaction happens - web, mobile, phone, email, in-person, etc.]
+**User state**: [Emotional/cognitive state - Motivated/Frustrated/Confused/Confident/Overwhelmed]
+
+**Pain points**:
+- [Specific friction point 1 - be concrete]
+- [Specific friction point 2]
+
+**Opportunities**:
+- [What could improve this step]
+
+**Needs identified**:
+- [Need 1] → Informs: `specs/foundation/[feature].spec.md`
+- [Need 2] → Informs: `specs/foundation/[feature].spec.md`
+
+**Evidence**:
+- "[User quote about this step]" (Participant ID)
+- [Observation note or data point]
+
+### Step 2: [Next Step Name]
+
+**Action**: [What user does]
+**Touchpoint**: [Where]
+**User state**: [Emotional state]
+
+**Pain points**:
+- [Friction 1]
+- [Friction 2]
+
+**Opportunities**:
+- [Improvement 1]
+
+**Needs identified**:
+- [Need] → Informs: `specs/foundation/[feature].spec.md`
+
+**Evidence**:
+- "[Quote]" (ID)
+
+### Step 3: [Continue for all journey steps...]
+
+[Repeat structure for each step in the journey]
+
+## Alternative Paths
+
+### Path A: [Alternative scenario name]
+**When**: [Conditions that trigger this alternative]
+**Steps**: [How this differs from main path]
+**Outcome**: [Where this path leads]
+
+### Path B: [Error/failure scenario]
+**When**: [What goes wrong]
+**User response**: [How they react/recover]
+**Impact**: [Consequences]
+
+## Key Insights
+
+### Insight 1: [Pattern or theme discovered]
+
+**Description**: [What you learned across multiple steps]
+
+**Evidence**:
+- Frequency: [How many users experienced this - e.g., "8/10 participants"]
+- Examples: "[Quote 1]" (ID), "[Quote 2]" (ID)
+
+**Requirements Informed**:
+- `specs/foundation/[feature].spec.md` - [How this insight informs the requirement]
+
+### Insight 2: [Next pattern]
+
+**Description**: [What you learned]
+
+**Evidence**: [Frequency and examples]
+
+**Requirements Informed**:
+- `specs/foundation/[feature].spec.md` - [Connection]
+
+## Opportunities for Improvement
+
+1. **[Opportunity 1]**: [Specific improvement]
+   - Addresses: [Which pain points from which steps]
+   - Impact: [Expected benefit]
+   - Priority: HIGH/MEDIUM/LOW
+
+2. **[Opportunity 2]**: [Next improvement]
+   - Addresses: [Pain points]
+   - Impact: [Benefit]
+   - Priority: HIGH/MEDIUM/LOW
+
+## Validation
+
+- **Research method**: [Observation/Interview/Diary study/Analytics review]
+- **Validated with**: [Number] users/sessions
+- **Date**: YYYY-MM-DD
+- **Sample**: [Brief description of participants]
+
+---
+

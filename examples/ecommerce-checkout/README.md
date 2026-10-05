@@ -1,223 +1,113 @@
 # E-Commerce Checkout Example
 
-Complete demonstration of LiveSpec v3.0 research integration: **Research → Requirements → Strategy → Implementation**
-
-## Quick Overview
-
-This example shows how user research directly informs requirements in a traceable way:
+A small LiveSpec project showing research-to-implementation traceability:
+**Research → Outcomes → Strategy → Behavior**, with every link checked by the
+validators.
 
 ```
 research/insights/checkout-friction-study.md
   (Finding 1: 30% abandonment at account creation)
-    ↓ informs
-specs/requirements/functional/guest-checkout.spec.md
-    ↓ satisfies
-specs/behaviors/single-page-checkout.spec.md
+    ↑ informed-by
+specs/foundation/functional/guest-checkout.spec.md
+    ↑ satisfies
+specs/features/single-page-checkout.spec.md
 ```
 
 ## Structure
 
 ```
 ecommerce-checkout/
-├── PURPOSE.md                 # Why this example exists
-├── research/                  # Research artifacts (evidence)
-│   ├── personas/
-│   │   └── time-constrained-shopper.md
-│   ├── insights/
-│   │   └── checkout-friction-study.md
-│   └── flows/
-│       └── simplified-checkout-flow.md
+├── PURPOSE.md                          # Why this example exists
+├── research/                           # Evidence, not specs
+│   ├── personas/time-constrained-shopper.md
+│   ├── insights/checkout-friction-study.md
+│   └── flows/simplified-checkout-flow.md
 └── specs/
-    ├── requirements/
-    │   ├── strategic/
-    │   │   └── outcomes.spec.md
+    ├── workspace/taxonomy.spec.md      # Project classification
+    ├── foundation/
+    │   ├── outcomes.spec.md            # Checkout outcomes, from PURPOSE.md
     │   └── functional/
     │       ├── guest-checkout.spec.md
     │       └── simplified-checkout.spec.md
-    ├── strategy/
-    │   └── ux-optimization.spec.md
-    └── behaviors/
-        └── single-page-checkout.spec.md
+    ├── strategy/ux-optimization.spec.md
+    └── features/single-page-checkout.spec.md
 ```
 
-## Key Features Demonstrated
+## How the Links Work
 
-### 1. Research Artifacts
-- **Persona**: Time-constrained shopper profile with needs
-- **Research Insights**: Detailed study findings with evidence
-- **UX Flow**: Mermaid diagrams showing proposed solution
+Every link is written upward, from the more specific spec to the more durable
+one it depends on:
 
-### 2. Bidirectional Linkage
-**Research artifacts** link forward:
+| Spec | Links up with | To |
+|------|---------------|----|
+| `foundation/outcomes.spec.md` | `derives-from` | `PURPOSE.md` |
+| `foundation/functional/*.spec.md` | `derives-from`, `informed-by` | outcomes, and the research behind them |
+| `strategy/ux-optimization.spec.md` | `derives-from` | both functional requirements |
+| `features/single-page-checkout.spec.md` | `satisfies`, `guided-by` | both requirements, and the strategy |
+
 ```yaml
----
-informs:
-  - specs/requirements/functional/guest-checkout.spec.md
-  - specs/requirements/functional/simplified-checkout.spec.md
----
-```
-
-**Requirements** link back:
-```yaml
----
+# specs/foundation/functional/guest-checkout.spec.md
+derives-from:
+  - specs/foundation/outcomes.spec.md
 informed-by:
   - research/insights/checkout-friction-study.md
   - research/personas/time-constrained-shopper.md
----
 ```
 
-### 3. Evidence-Based Requirements
-Requirements include:
-- Direct user quotes
-- Observed behaviors
-- Measurements (e.g., "8.5 minutes average checkout time")
-- Sample sizes (n=10)
-- Frequency data ("7/10 participants")
+The downward direction is never written by hand. Each spec's `supports:` list is
+generated from the upward links by `validate-crossrefs.sh --fix`, so it cannot
+drift from them. Research artifacts are not specs and carry no links: to find
+what a study informs, search for it.
 
-### 4. Many-to-Many Relationships
-- One research study informs two requirements
-- One requirement informed by multiple research sources
-- One implementation satisfies two requirements
-
-## Traceability Examples
-
-### Find Research Basis
 ```bash
-# What research informs guest checkout requirement?
-../../scripts/traceability/find-research-basis.sh \
-  specs/requirements/functional/guest-checkout.spec.md
-
-Output:
-  ✓ research/insights/checkout-friction-study.md
-    Type: Research Insights
-    Title: Checkout Friction Study - January 2025
-    Created: 2025-01-15
-
-  ✓ research/personas/time-constrained-shopper.md
-    Type: Persona
-    Title: Time-Constrained Shopper
-    Created: 2025-01-15
+grep -rl "research/insights/checkout-friction-study.md" specs/
 ```
 
-### Find Requirements from Research
-```bash
-# What requirements does the checkout study inform?
-../../scripts/traceability/find-requirements-from-research.sh \
-  research/insights/checkout-friction-study.md
+## Evidence-Based Requirements
 
-Output:
-  ✓ specs/requirements/functional/guest-checkout.spec.md
-    Title: Guest Checkout Requirement
-    Criticality: CRITICAL
-
-  ✓ specs/requirements/functional/simplified-checkout.spec.md
-    Title: Simplified Checkout Requirement
-    Criticality: CRITICAL
-```
-
-### Validate Research Links
-```bash
-# Validate all research ↔ requirement linkage
-../../scripts/traceability/validate-research-links.sh
-
-Output:
-  ✓ All research linkages valid!
-```
-
-### Cascade Impact Analysis
-```bash
-# What's affected if research changes?
-../../scripts/traceability/cascade-impact.sh \
-  research/insights/checkout-friction-study.md
-
-Output:
-  Requirements Informed By This Research:
-    ✓ specs/requirements/functional/guest-checkout.spec.md
-    ✓ specs/requirements/functional/simplified-checkout.spec.md
-
-  Action Items:
-    • Review 2 requirement spec(s) informed by this research
-    • Verify requirements still align with updated research findings
-    • Consider if new insights require new requirements
-```
+The functional requirements cite their research directly: quotes, observed
+behaviour, measurements ("8.5 minutes average checkout time"), sample sizes
+(n=10) and frequencies ("7/10 participants"). One study informs both
+requirements, one requirement draws on several sources, and one behavior
+satisfies both requirements.
 
 ## Reading Order
 
-### 1. Start with Research
-Read these to understand the evidence:
-1. `research/personas/time-constrained-shopper.md` - Who are we building for?
-2. `research/insights/checkout-friction-study.md` - What did research find?
-3. `research/flows/simplified-checkout-flow.md` - What solution is proposed?
+1. **Research**: `research/personas/time-constrained-shopper.md`, then
+   `research/insights/checkout-friction-study.md`, then
+   `research/flows/simplified-checkout-flow.md`
+2. **Outcomes**: `specs/foundation/outcomes.spec.md`, then the two functional
+   requirements. Note the `informed-by:` links back to research
+3. **Strategy**: `specs/strategy/ux-optimization.spec.md`, the decisions and
+   their rationale
+4. **Behavior**: `specs/features/single-page-checkout.spec.md`, what the
+   checkout does, observably. It specifies behaviour, not code: implementation
+   lives outside `specs/`
 
-### 2. See Requirements
-See how research informs requirements:
-1. `specs/requirements/strategic/outcomes.spec.md` - High-level goals
-2. `specs/requirements/functional/guest-checkout.spec.md` - Specific requirement
-3. `specs/requirements/functional/simplified-checkout.spec.md` - Another requirement
+## Validating
 
-Notice the `informed-by:` frontmatter linking back to research!
+Copy the example into its own repository, then run the validators from its root:
 
-### 3. Understand Strategy
-1. `specs/strategy/ux-optimization.spec.md` - How to approach implementation
+```bash
+bash scripts/validate-frontmatter.sh
+bash scripts/validate-crossrefs.sh
+```
 
-### 4. Review Implementation
-1. `specs/behaviors/single-page-checkout.spec.md` - Detailed implementation spec
-
-Notice `satisfies:` linking to requirements!
+The validators come from the LiveSpec plugin; `/livespec:init` vendors them into
+a project's `scripts/`.
 
 ## Key Learning Points
 
-### Research is NOT a Spec
-- Research artifacts use flexible templates, not rigid MSL format
-- Quality guided by metaspecs, not requirements
-- Focus on evidence (quotes, observations, measurements)
-- Separate observation from interpretation from implications
-
-### Evidence-Based Requirements
-- Requirements reference specific research findings
-- Include quotes, frequencies, sample sizes
-- Show rationale for each requirement decision
-- Traceable back to user needs
-
-### Bidirectional Traceability
-- Research links forward (`informs:`)
-- Requirements link back (`informed-by:`)
-- Scripts validate consistency
-- Impact analysis traces both directions
-
-### Many-to-Many Relationships
-- One research artifact can inform multiple requirements
-- One requirement can be informed by multiple research sources
-- Enables complex, realistic traceability patterns
-- No artificial one-to-one constraints
-
-## Running Traceability Scripts
-
-All scripts work from the example directory:
-
-```bash
-cd examples/ecommerce-checkout/
-
-# Find research for a requirement
-../../scripts/traceability/find-research-basis.sh \
-  specs/requirements/functional/guest-checkout.spec.md
-
-# Find requirements for research
-../../scripts/traceability/find-requirements-from-research.sh \
-  research/insights/checkout-friction-study.md
-
-# Validate linkage
-../../scripts/traceability/validate-research-links.sh
-
-# Cascade impact
-../../scripts/traceability/cascade-impact.sh \
-  research/insights/checkout-friction-study.md
-```
+- **Research is not a spec.** Research artifacts use flexible templates from the
+  plugin's `templates/research/`, focused on evidence: separate observation from
+  interpretation from implications
+- **Links point up.** A spec names what it depends on. The reverse is generated
+  or searched for, never maintained by hand
+- **Specs describe behaviour.** The behavior spec states what a shopper observes
+  and how to validate it; the strategy spec records decisions and rationale
 
 ## See Also
 
-- [Three-Layer Architecture](../../specs/strategy/three-layer-architecture.spec.md)
-- [Research Metaspecs](../../.livespec/standard/metaspecs/research/)
-- [Research Templates](../../.livespec/templates/research/)
-- [Phase 0e: Evaluate Research Needs](../../dist/prompts/0-define/0e-evaluate-research-needs.md)
-- [AGENTS.md - Research Integration](../../AGENTS.md#research-integration-v30)
+- [Frontmatter relationships guide](../../references/guides/frontmatter-relationships.md)
+- [Three-layer architecture](../../specs/strategy/three-layer-architecture.spec.md)
+- [UX flow metaspec](../../references/standards/metaspecs/research/ux-flow.metaspec.md)

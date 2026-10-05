@@ -18,7 +18,8 @@ derives-from:
 ## Requirements
 
 - [!] LiveSpec provides reusable markdown templates at the plugin's root-level `templates/`, with no separate distribution step
-  - **Template categories:** `workspace/` (constitution, taxonomy, workflows, context-architecture, workspace-agent variants), `agents/` (spec-first enforcement content), `governance/` (policy, procedure), `mission/` (outcomes, constraints), `operations/` (playbook, runbook), `behaviors/` (MCP integration), `commands/` (utility command scaffold), `reports/` (implementation report), `strategy.spec.md.template`, `utils/` (self-improve)
+  - **Template categories:** `workspace/` (constitution, taxonomy, workflows, context-architecture, workspace-agent variants), `agents/` (spec-first enforcement content), `governance/` (policy, procedure), `mission/` (outcomes, constraints), `operations/` (playbook, runbook), `behaviors/` (MCP integration), `commands/` (utility command scaffold), `reports/` (implementation report), `research/` (persona, user insights, user journey, UX flow), `strategy.spec.md.template`, `utils/` (self-improve)
+  - Research templates link nothing downward: a spec a research artifact informs links up to it with `informed-by:`
   - Each template is complete standalone markdown, not a fragment
   - Templates follow descriptive naming (e.g. `constitution-moderate.md.template`, `spec-first-enforcement.md`)
   - Specs reference templates by their real root-level path (`templates/<category>/<name>`)
@@ -61,3 +62,4 @@ section during generation.
 - `agents/context-builder.md` reads templates directly from `templates/`, not
   from any distributed copy
 - No spec or generated file references `.livespec/templates/` or `dist/templates/`
+- Every template on disk is tracked by git, so it ships in the plugin: no file under `templates/` is untracked or git-ignored (`git ls-files --others templates/`, with and without `--ignored --exclude-standard`, lists nothing)
