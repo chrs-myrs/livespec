@@ -135,6 +135,11 @@ if $CHECK; then
     else
         echo "ABSENT: no pre-commit hook"
     fi
+    if [[ -f scripts/pre-commit-local.sh ]]; then
+        echo "Project checks: scripts/pre-commit-local.sh (runs on every commit)"
+    else
+        echo "Project checks: none (add scripts/pre-commit-local.sh to run your own; it travels with a clone)"
+    fi
     echo "Vendored scripts:"
     vendor_scripts false
     echo "Hooked validators resolve from:"
@@ -194,6 +199,16 @@ if [[ -x "$LOCAL_HOOK" ]]; then
     fi
 fi
 
+# The project's own checks, version-controlled so they travel with a clone;
+# .git/hooks/pre-commit.local does not.
+PROJECT_HOOK="scripts/pre-commit-local.sh"
+if [[ -f "$PROJECT_HOOK" ]]; then
+    if ! bash "$PROJECT_HOOK"; then
+        echo "✗ $PROJECT_HOOK failed - commit blocked"
+        exit 1
+    fi
+fi
+
 # Only the specs being committed. Blocking on historical drift elsewhere in the
 # tree trains contributors to bypass the hook; /livespec:audit validate reports it.
 STAGED=()
@@ -244,6 +259,9 @@ chmod +x "$HOOK"
 echo "Installed: $HOOK"
 if $PRESERVED; then
     echo "Preserved:  $LOCAL (existing hook, still runs first)"
+fi
+if [[ -f scripts/pre-commit-local.sh ]]; then
+    echo "Chained:    scripts/pre-commit-local.sh (the project's own checks)"
 fi
 echo "Vendored scripts (source $VERSION):"
 vendor_scripts true

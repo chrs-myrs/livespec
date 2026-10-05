@@ -117,7 +117,10 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
 Run `--check` first and report the state, including its warning if no hooked
 validator is in the project's `scripts/`. An existing foreign hook is preserved
 as `pre-commit.local` and chained, never discarded. Locally edited or diverged
-vendored scripts are reported and left alone; raise them with the user.
+vendored scripts are reported and left alone; raise them with the user. A project
+that wants its own checks at commit time should put them in
+`scripts/pre-commit-local.sh`, which the hook runs and which travels with the
+repository; `.git/hooks/pre-commit.local` does not survive a clone.
 
 ## Step 3c: Remediate What the Upgrade Surfaced
 

@@ -27,6 +27,11 @@ spec-first enforcement is worthless if every project has to wire it by hand.
   - Recognises a hook it previously installed and replaces it without prompting
   - Is idempotent: running twice leaves the same result
 
+- [!] Installed hook runs the project's own version-controlled checks
+  - When `scripts/pre-commit-local.sh` exists, the hook runs it after `pre-commit.local`, before LiveSpec validation, and blocks the commit when it fails
+  - Unlike `.git/hooks/pre-commit.local`, which git does not track, it travels with a clone, so a project's own checks come back wherever the installer runs
+  - `--check` reports whether it is present
+
 - [!] Script vendors into the project the validators the hook runs, the scripts generated project context instructs, the output helper they source, the coverage validator the spec-first gate relies on, and the context-currency check
   - Hook validation works at commit time with no toolchain environment: `CLAUDE_PLUGIN_ROOT` is not set in a shell or an agent's shell tool
   - Each vendored script records `vendored-from`, `source-version` and `source-hash` in a comment block, with the hash covering the script without those lines
@@ -56,6 +61,7 @@ spec-first enforcement is worthless if every project has to wire it by hand.
 - Running twice produces no change on the second run
 - Running where an unrelated pre-commit hook exists preserves it as `pre-commit.local` and the installed hook still runs it
 - A credential-scanning hook installed by `init.templateDir` continues to run after installation
+- In a fresh clone of a project that commits `scripts/pre-commit-local.sh`, running the installer makes that script run on every commit, and its failure blocks the commit
 - Installed hook exits 0 with a notice when no validators resolve
 - Installed hook exits 1 when a staged spec fails frontmatter or cross-reference validation
 - A commit that stages no invalid spec succeeds in a tree that contains invalid specs
