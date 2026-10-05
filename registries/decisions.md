@@ -118,7 +118,7 @@ Tracks architecture and design decisions with rationale and rejected alternative
 - *Both directions authored, symmetry enforced*: a deletion on one side is indistinguishable from an omission on the other, so no tool can say which side is right.
 - *A generated link-map file*: navigation is one hop away from the spec.
 
-**Consequence**: The child's upward fields (`derives-from`, `satisfies`, `guided-by`, `governed-by`) are the single source of truth. `--fix` writes each parent's `supports:` list, and a mismatch is a finding. Heavily cited specs carry long lists (`outcomes.spec.md` about 50), and adding a spec also edits its parents. `implements:` is retired and its spec→spec uses become `satisfies:`. Which spec governs a code file is answered by a query over `specifies:` (DEC-005).
+**Consequence**: The child's upward fields (`derives-from`, `satisfies`, `guided-by`, `governed-by`) are the single source of truth. `--fix` writes each parent's `supports:` list, and a mismatch is a finding. Since 2026-10-05, `--fix` keeps a `supports:` entry with no upward link back and reports it, removing it only under `--prune`: a consuming project's upgrade showed such entries can record true dependencies, and removing them reached a clean result by deleting that fact. Heavily cited specs carry long lists (`outcomes.spec.md` about 50), and adding a spec also edits its parents. `implements:` is retired and its spec→spec uses become `satisfies:`. Which spec governs a code file is answered by a query over `specifies:` (DEC-005).
 
 **Related**: references/standards/vocabulary.spec.md, references/guides/frontmatter-relationships.md, DEC-005
 

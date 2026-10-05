@@ -188,7 +188,7 @@ supports:
 ```
 
 - `validate-crossrefs.sh` reports a `supports:` that lacks a child or lists an entry with no upward link back
-- `validate-crossrefs.sh --fix` rewrites it from the upward links and names every entry it drops
+- `validate-crossrefs.sh --fix` rewrites it from the upward links. An entry with no upward link back is kept and reported, since it may record a true dependency; `--fix --prune` removes such entries
 - Edit the child's upward link, then run `--fix`; never edit `supports:` itself
 
 ---

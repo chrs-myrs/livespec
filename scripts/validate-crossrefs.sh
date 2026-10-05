@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
 # validate-crossrefs.sh — Check spec relationship links resolve, and upward links trace to PURPOSE.md
 #
-# Usage: bash scripts/validate-crossrefs.sh [--verbose] [--strict] [--json] [--fix] [path...]
+# Usage: bash scripts/validate-crossrefs.sh [--verbose] [--strict] [--json] [--fix [--prune]] [path...]
 #   path      tree to scan for *.spec.md, or a single spec file (default: specs/)
 #   --strict  promote traceability warnings to errors
 #   --json    machine-readable output (specs/interfaces/formats/validator-output.spec.md)
 #   --fix     move retired implements: into satisfies:, and regenerate each
-#             parent's supports: from its children's upward links
+#             parent's supports: from its children's upward links, keeping any
+#             entry with no upward link back (it may record a true dependency)
+#   --prune   with --fix, remove those entries too
 # Exit 0: no errors (warnings permitted)
 # Exit 1: an unresolved target, or any finding under --strict
 # Exit 2: usage error
@@ -23,6 +25,7 @@ VERBOSE=false
 STRICT=false
 JSON=false
 FIX=false
+PRUNE=false
 ROOTS=()
 
 for arg in "$@"; do
@@ -31,12 +34,18 @@ for arg in "$@"; do
         --strict)  STRICT=true ;;
         --json)    JSON=true ;;
         --fix)     FIX=true ;;
+        --prune)   PRUNE=true ;;
         -*)        echo "Unknown option: $arg" >&2
-                   echo "Usage: $0 [--verbose] [--strict] [--json] [--fix] [path...]" >&2
+                   echo "Usage: $0 [--verbose] [--strict] [--json] [--fix [--prune]] [path...]" >&2
                    exit 2 ;;
         *)         ROOTS+=("$arg") ;;
     esac
 done
+
+if $PRUNE && ! $FIX; then
+    echo "ERROR: --prune only applies with --fix" >&2
+    exit 2
+fi
 
 (( ${#ROOTS[@]} )) || ROOTS=(specs/)
 
@@ -143,6 +152,7 @@ dashes == 1 {
         closefield()
         key = substr($0, 1, RLENGTH - 1); val = substr($0, RLENGTH + 1)
         if (key == "category") print "C\t" file "\t" trim(val)
+        if (key == "vendored-from") print "V\t" file
         if (key in REF) { cur = key; hasval = 0; inline(val) }
         next
     }
@@ -178,6 +188,7 @@ BEGIN {
 $1 == "N" { node[$2] = 1; order[++nn] = $2; next }
 $1 == "S" { scan[$2] = 1; ns++; next }
 $1 == "C" { if (($3 in RANK) && $3 != "purpose") cat[$2] = $3; next }
+$1 == "V" { vend[$2] = 1; next }
 $1 == "D" { if ($2 in scan) { declared++; if ($4 == 0) empty++; if ($3 == "implements") retired[$2] = 1 }; next }
 $1 == "X" { kind[$2] = $3; next }
 $1 == "R" { rel[$2, $3] = 1; next }
@@ -229,6 +240,9 @@ END {
     for (j = 1; j <= nn; j++) {
         s = order[j]
         if (!(s in scan)) continue
+        # Vendored specs describe the toolchain; tracing them to the project
+        # PURPOSE.md would mean editing vendored content or asserting a false link.
+        if (s in vend) { nvend++; continue }
         if (!(s in linked)) { unlinked++; finding(warn, "unlinked", s, "", "no upward link resolves (derives-from, satisfies, guided-by, governed-by)"); continue }
         if (s in reach) chained++
         else finding(warn, "no-chain", s, "", "upward links never reach PURPOSE.md")
@@ -273,7 +287,7 @@ END {
             }
         if (mismatch) { kids = derl[p]; gsub(SUBSEP, "\034", kids); print "SUP" US p US substr(kids, 2) US substr(dropped, 2) }
     }
-    print "SUM\t" (ns + 0) "\t" (declared + 0) "\t" (empty + 0) "\t" (refs + 0) "\t" (nbroken + 0) "\t" (chained + 0) "\t" (unlinked + 0) "\t" (nerr + 0) "\t" (nwarn + 0)
+    print "SUM\t" (ns + 0) "\t" (declared + 0) "\t" (empty + 0) "\t" (refs + 0) "\t" (nbroken + 0) "\t" (chained + 0) "\t" (unlinked + 0) "\t" (nerr + 0) "\t" (nwarn + 0) "\t" (nvend + 0)
 }
 '
 
@@ -365,12 +379,16 @@ dashes == 1 && skip && /^([[:space:]]|-)/ { next }
 '
 
 # rewrite <file> <rewrite-supports 0|1> <supports> <drop-implements 0|1> <add-to-satisfies>
+# Returns 0 when the file changed, 1 when it was already as written.
 rewrite() {
-    local tmp
+    local tmp rc=1
     tmp="$(mktemp)" || return 1
-    awk -v sup_set="$2" -v sup="$3" -v drop_impl="$4" -v add_sat="$5" "$REWRITE" "$1" > "$tmp" \
-        && cat "$tmp" > "$1"
+    if awk -v sup_set="$2" -v sup="$3" -v drop_impl="$4" -v add_sat="$5" "$REWRITE" "$1" > "$tmp" \
+       && ! cmp -s "$tmp" "$1"; then
+        cat "$tmp" > "$1"; rc=0
+    fi
     rm -f "$tmp"
+    return $rc
 }
 
 analyse
@@ -386,11 +404,20 @@ if $FIX; then
     analyse
     while IFS="$US" read -r tag f children dropped; do
         [[ "$tag" == SUP ]] || continue
+        # An entry with no upward link back may record a true dependency written
+        # only downward. Removing it would reach a clean result by deleting that
+        # fact, so it is kept unless --prune says otherwise.
+        $PRUNE || children+=$'\034'"$dropped"
         children="$(tr '\034' '\n' <<< "$children" | grep -v '^$' | LC_ALL=C sort -u | tr '\n' '\034')"
-        rewrite "$f" 1 "${children%$'\034'}" 0 ""
-        echo "  FIXED  $f: supports: regenerated"
+        rewrite "$f" 1 "${children%$'\034'}" 0 "" && echo "  FIXED  $f: supports: regenerated"
         while IFS= read -r d; do
-            [[ -n "$d" ]] && echo "         dropped $d: it has no upward link here. If it depends on this spec, add one to it"
+            [[ -z "$d" ]] && continue
+            if $PRUNE; then
+                echo "         dropped $d: it has no upward link here"
+            else
+                echo "  KEPT   $f: $d has no upward link here. If it depends on this spec,"
+                echo "         add one to it (satisfies: or guided-by:); otherwise remove it with --fix --prune"
+            fi
         done < <(tr '\034' '\n' <<< "$dropped")
     done < <(grep "^SUP$US" <<< "$RESOLVED")
     analyse
@@ -415,7 +442,7 @@ if $VERBOSE; then
     done <<< "$RESOLVED"
 fi
 
-IFS=$'\t' read -r _ CHECKED DECLARED EMPTY REFS BROKEN CHAINED UNLINKED ERRORS WARNINGS \
+IFS=$'\t' read -r _ CHECKED DECLARED EMPTY REFS BROKEN CHAINED UNLINKED ERRORS WARNINGS VENDORED \
     < <(grep '^SUM' <<< "$RESOLVED")
 
 echo ""
@@ -429,7 +456,11 @@ echo "  Files checked:       $CHECKED"
 echo "  Relationship fields: $DECLARED declared, $EMPTY empty"
 echo "  References checked:  $REFS"
 echo "  Broken references:   $BROKEN"
-echo "  Traced to PURPOSE:   $CHAINED of $CHECKED ($UNLINKED with no upward link)"
+if (( VENDORED > 0 )); then
+    echo "  Traced to PURPOSE:   $CHAINED of $(( CHECKED - VENDORED )) ($UNLINKED with no upward link; $VENDORED vendored, exempt)"
+else
+    echo "  Traced to PURPOSE:   $CHAINED of $CHECKED ($UNLINKED with no upward link)"
+fi
 echo "  Warnings:            $WARNINGS"
 if ! $STRICT && (( WARNINGS > 0 )); then
     echo "  (re-run with --strict to fail on traceability warnings)"

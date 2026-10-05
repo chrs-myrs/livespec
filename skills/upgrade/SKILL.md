@@ -151,7 +151,8 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-crossrefs.sh
 ```
 
 Review its `stale-backlink` warnings before fixing. Each is a `supports:` entry
-with no upward link back, which `--fix` will drop. Where the entry names a spec
+with no upward link back. `--fix` keeps these and reports them; only
+`--fix --prune` removes them, so nothing true is lost by default. Where the entry names a spec
 that depends on the one listing it, add the upward link to that spec instead:
 `satisfies` for an outcome or constraint, `guided-by` for a strategy or
 interface, `governed-by` for a workspace pattern. Ask the user when the direction
@@ -162,7 +163,9 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-crossrefs.sh --fix
 ```
 
 It moves `implements:` values into `satisfies:`, rewrites each `supports:` from
-the upward links, and names every entry it dropped. Specs with no upward link,
+the upward links, and names every entry it kept for lack of an upward link. Once
+each kept entry has been re-expressed as an upward link or confirmed untrue, run
+it again with `--prune` to remove what remains. Specs with no upward link,
 or none reaching PURPOSE.md, are warnings: list them for the user, since only
 they can say what each spec serves.
 

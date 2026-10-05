@@ -42,12 +42,15 @@ supports:
   - A linked spec whose resolving links never reach PURPOSE.md is reported as having no chain
   - A spec on a cycle of upward links is reported
   - The graph is always the whole tree (every spec under `specs/`, PURPOSE.md and the paths given), even when only some files are checked, so checking the staged specs still sees their chains; findings are reported only for the files checked
+  - A spec recording `vendored-from` provenance is exempt from tracing and counted separately in the summary: it describes the toolchain, and the only ways to make it trace to the project's PURPOSE.md are editing vendored content or asserting a link that is untrue. Its links are still resolved
 
 - [!] Each spec's `supports:` lists exactly the specs whose upward links resolve to it, so links are navigable both ways within the files
   - A child missing from its parent's list, or an entry with no upward link back, is reported on the parent, whenever the parent or that child is among the files checked
   - `implements:` is retired and reported wherever it is declared
   - `--fix` moves `implements:` values into `satisfies:`, then rewrites each mismatched `supports:` in sorted order, adding the field only to specs that have children
-  - `--fix` names every entry it drops, so a relation once written only as `supports:` can be re-expressed as an upward link; it changes nothing else in the frontmatter
+  - `--fix` never removes a `supports:` entry that has no upward link back: such an entry may record a true dependency written only in the downward direction, and removing it reaches a clean result by deleting that fact. It keeps the entry, names it, and says to add the upward link to the child; the entry stays a finding until then
+  - `--fix --prune` removes those entries, naming each; `--prune` without `--fix` is a usage error
+  - `--fix` changes nothing else in the frontmatter
 
 - [!] Severity separates what is broken from what is untraced
   - An unresolved or relative target is an error
@@ -67,6 +70,8 @@ supports:
 - [ ] A feature whose only upward link is PURPOSE.md is reported
 - [ ] Checking one staged spec reports its missing chain using the rest of the tree
 - [ ] After `--fix` on this repository no backlink finding remains, and a second `--fix` changes nothing
+- [ ] A `supports:` entry with no upward link back survives `--fix`, is still reported, and is removed by `--fix --prune`
+- [ ] Vendoring conventions into a project adds no traceability warning
 - [ ] A spec gaining an upward link, checked alone, reports the missing entry on its parent
 - [ ] Pre-commit hook runs cross-reference validation
 - [ ] All current specs pass with 0 errors, and with 0 warnings under `--strict`
