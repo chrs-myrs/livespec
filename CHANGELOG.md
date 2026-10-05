@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Removed
+
+- **`references/templates/`**: six pre-schema spec copies and four `*.metaspec.md` files, older and longer versions of the metaspecs in `references/standards/metaspecs/`. Nothing referenced or governed them; project specs that named them in `governed-by` were the anti-pattern `remediate-references.sh` now removes. Two guides that pointed into the directory are repointed
+
 ### Fixed
 
 - **The context-architecture template prescribed the layout the convention forbids** ⚠️ MEDIUM impact: it routed sub-agents to `ctxt/phases/0-define.md` through `phases/4-evolve.md` and `utils/session-completion.md`, gave a 20-30KB root budget against the convention's 30-40KB, pointed throughout at the retired `.livespec/` layout, and lacked the `type`, `category` and `fidelity` the schema requires. It is the likely source of the `phases/` and `utils/` folders found in nine local projects. Rewritten to the flat layout, with a Spec → Generated File Map section, which it never had, so `/livespec:audit context` can scope a rebuild instead of always running in full. A spec created from it passes frontmatter and cross-reference validation

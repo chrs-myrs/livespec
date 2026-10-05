@@ -294,7 +294,7 @@ grep -r "\.livespec/" . --include="*.md" 2>/dev/null
 | Old | New |
 |-----|-----|
 | `.livespec/prompts/` | Plugin handles internally |
-| `.livespec/templates/` | `references/templates/` |
+| `.livespec/templates/` | `templates/` in the plugin; in `governed-by`, remove it, since `type` implies the format |
 | `.livespec/standard/` | `references/standards/` |
 | `/livespec:feature` | `/livespec:design feature` |
 | `/livespec:debug` | `/livespec:design debug` |

@@ -2,7 +2,7 @@
 
 **Purpose**: Prevent recurring mistakes through honest failure analysis and pattern recognition.
 
-**Based on**: Real implementation experiences documented through references/templates/reports/implementation-report.md.template
+**Based on**: Real implementation experiences documented through templates/reports/implementation-report.md.template
 
 ---
 
@@ -617,7 +617,7 @@ If you find essential knowledge only in code:
 
 ## Further Reading
 
-- **references/templates/reports/implementation-report.md.template** - Full report template with cognitive bias sections
+- **templates/reports/implementation-report.md.template** - Full report template with cognitive bias sections
 - **`/livespec:learn report`** - Deep mode for creating honest implementation reports
 - **specs/workspace/constitution.spec.md** - Core principles including spec-first enforcement
 - **references/guides/tdd.md** - Optional TDD guide (not a LiveSpec mandate)
