@@ -360,7 +360,7 @@ Maintain specs; regenerate code and context when needed (continuous).
 
 **Skill:** `/livespec:audit` (health, validate, context, extract)
 
-**Context regeneration:** `/livespec:audit context` checks `scripts/validate-context.sh` (each generated file is current, stale or unstamped; `--changed` lists sources changed since the stamp). It classifies each run as MINOR (scoped patch to the affected file) or FULL (whole-tree rebuild) using the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`. Any unstamped file, `--changed` printing `unknown`, or a missing map means FULL. It then delegates to `agents/context-builder.md`, a dedicated sub-agent that keeps this large generation task out of your session's context window. The builder's last step is `scripts/validate-context.sh --stamp`, which writes a source-hash comment line at the end of every generated file; never write or edit that line by hand.
+**Context regeneration:** `/livespec:audit context` checks `scripts/validate-context.sh` (each generated file is current, stale or unstamped; `--changed` lists sources changed since the stamp; the hash covers PURPOSE.md and every spec, strategy and interfaces included, ; only flat `ctxt/` files and `ctxt/domains/` are stamped). It classifies each run as MINOR (scoped patch to the affected file) or FULL (whole-tree rebuild) using the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`. Any unstamped file, `--changed` printing `unknown`, or a missing map means FULL. When no changed source feeds a generated file, it re-stamps without regenerating. Otherwise it delegates to `agents/context-builder.md`, a dedicated sub-agent that keeps this large generation task out of your session's context window. The builder's last step is `scripts/validate-context.sh --stamp`, which writes a source-hash comment line at the end of every generated file; never write or edit that line by hand.
 
 ---
 
@@ -440,10 +440,9 @@ By category (each type implies its metaspec template): foundation `outcomes`, `c
 ## Development Patterns
 
 ### Naming Conventions
-- Prompts (LiveSpec repo only, surviving files under `references/prompts/`): [0-4][a-z]-descriptive-name.md
-- Specs: descriptive-name.spec.md (matches prompt or behavior)
-- British English for user documentation (synchronisation, behaviour)
-- American English for code elements
+- Prompts (LiveSpec repo only, under `references/prompts/`): [0-4][a-z]-descriptive-name.md
+- Specs: descriptive-name.spec.md
+- British English for user documentation, American for code elements
 
 ### Cross-Reference Updates
 When renaming or moving prompts/specs, use systematic checklist:
@@ -456,9 +455,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 ### Spec Evolution
 - NO `_old`, `_v2`, `_deprecated`, or `_backup` files
-- Update specs in place (git commit captures change)
-- DELETE obsolete specs: `git rm specs/features/old-spec.spec.md`
-- Git history is version control system
+- Update specs in place; delete obsolete ones with `git rm` (git history is the version control)
 - All relationship field names use hyphenated form (`derives-from`, `guided-by`) — never underscored
 
 ### Dogfooding Validation Workflow
@@ -490,8 +487,8 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 **Run validation at key checkpoints (seven validators, all in `scripts/`):**
 - Frontmatter compliance: `scripts/validate-frontmatter.sh` (accepts `[--verbose] [--strict] [path]`; scans `specs/` by default)
-- Cross-reference integrity and traceability: `scripts/validate-crossrefs.sh` (accepts `[--verbose] [--strict] [--fix] [path]`) — targets resolve from the repository root, upward links reach PURPOSE.md, `supports:` mirrors them
-- Constraint integrity: `scripts/validate-constraints.sh` (accepts `[--verbose]`) — every `/livespec:` command, `scripts/*.sh` reference, and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`)
+- Cross-reference integrity and traceability: `scripts/validate-crossrefs.sh` (accepts `[--verbose] [--strict] [--fix [--prune]] [path]`) — targets resolve from the repository root, upward links reach PURPOSE.md (specs with `vendored-from` provenance are exempt), `supports:` mirrors them
+- Constraint integrity: `scripts/validate-constraints.sh` (accepts `[--verbose]`) — every `/livespec:` command, `scripts/*.sh` reference, and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`); in the toolchain repo only, `ignored-shipped-file` errors on git-ignored shipped files
 - Registry integrity: `scripts/validate-registries.sh` (required registries present, entries well-formed, no work-item-style summaries, staleness flagged)
 - PURPOSE.md boundary: `scripts/validate-purpose.sh` (accepts `[path]`, defaults to `./PURPOSE.md`)
 - Spec coverage: `scripts/validate-coverage.sh` — which tracked files a spec's `specifies:` governs; reported, never enforced (exit 0). `--which <path>` answers which spec governs a path (exit 1 when a spec is needed and none governs it)
@@ -500,7 +497,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 **Machine-readable output:** every validator accepts `--json` and then writes exactly one JSON document to stdout (`schema_version`, `validator`, `livespec_version`, `findings`; each finding has `id`, `rule`, `severity`, `path`, `message`). Exit codes match text mode (0 no errors, 1 errors, 2 usage error). Output is deterministic, so consumers compare findings by `id`. Contract: `specs/interfaces/formats/validator-output.spec.md`; shared helper `scripts/validator-output.sh` (sourced, not run directly).
 
-**Installed automatically:** `scripts/setup-hooks.sh` wires the resolvable validators into `.git/hooks/pre-commit`, chaining to (not replacing) any pre-existing hook. Skips with a notice, without blocking, when no validators resolve.
+**Installed automatically:** `scripts/setup-hooks.sh` writes `.git/hooks/pre-commit`, chaining to (not replacing) any existing hook, and vendors the hooked validators and the scripts this context instructs into the project's `scripts/` with `vendored-from`/`source-version`/`source-hash` provenance. The hook validates only staged `*.spec.md` files: frontmatter and cross-references block the commit, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one. Skips with a notice when no validators resolve; `--check` reports where each resolves.
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, unresolved link targets, unresolved `/livespec:` command/script/route reference)
@@ -510,7 +507,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 ### Learning Distribution Workflow
 
-Template in `templates/` (if reusable) → spec requirement mandating it → skill instructions referencing it → regenerate AGENTS.md (`/livespec:audit context`) → plugin update reaches target projects (no copy step).
+Template in `templates/` (if reusable; research templates under `templates/research/`) → spec requirement mandating it → skill instructions referencing it → regenerate AGENTS.md (`/livespec:audit context`) → plugin update reaches target projects (no copy step).
 
 ---
 
@@ -562,7 +559,7 @@ specs/features/*  specs/interfaces/*  specs/artifacts/*
 - PURPOSE.md is a direct parent only of foundation and workspace specs; features reach it through them
 - Every spec must reach PURPOSE.md through its upward links; cycles, self-references and links to non-specs are reported
 - Behaviours carry dual linkage: `satisfies` (outcome, WHAT) plus `guided-by` (strategy, HOW)
-- Edit the child's upward link, then run `bash scripts/validate-crossrefs.sh --fix`; review `stale-backlink` warnings first, since `--fix` drops those `supports:` entries
+- Edit the child's upward link, then run `bash scripts/validate-crossrefs.sh --fix`; `--fix` keeps a `supports:` entry with no upward link back and reports it (add the link, or run `--fix --prune` to remove it)
 
 **Field naming:** All relationship fields use hyphenated form. `derives-from` not `derives_from`. Validation rejects underscore variants.
 
@@ -577,11 +574,7 @@ specs/features/*  specs/interfaces/*  specs/artifacts/*
 - Critical workflows inline, details referenced
 - Target size: 30-40KB root AGENTS.md
 
-**MSL Minimalism vs Context Compression:**
-- MSL Minimalism: Content pressure (reduce WITHIN specs)
-- Context Compression: Structural force (reorganize ACROSS guidance)
-
-**Change level:** Use `/livespec:audit` (compression audit workflow)
+MSL Minimalism reduces content WITHIN specs; Context Compression reorganises ACROSS guidance. Change level via `/livespec:audit`.
 
 ---
 
@@ -607,17 +600,9 @@ specs/features/*  specs/interfaces/*  specs/artifacts/*
 - Bad: Let specs and code diverge, patching code instead of specs
 - Good: Level up discoveries to specs, regenerate code when needed
 
-**Wrong Criticality**
-- Bad: Everything marked CRITICAL
-- Good: Only truly critical requirements marked CRITICAL
-
 **Metaspec paths in governed-by**
 - Bad: `governed-by: [references/standards/metaspecs/behavior.spec.md]`
 - Good: `governed-by: []` (format implied by `type: behavior`)
-
-**Underscore field names**
-- Bad: `derives_from:`, `guided_by:`
-- Good: `derives-from:`, `guided-by:`
 
 **Assuming a `.livespec/` folder exists**
 - Bad: `cp -r livespec/dist/ .livespec/` or reading `.livespec/prompts/...`
@@ -632,11 +617,9 @@ specs/features/*  specs/interfaces/*  specs/artifacts/*
 - Good: Add the upward link (`satisfies`, `guided-by`, `derives-from`, `governed-by`) on the child, then `scripts/validate-crossrefs.sh --fix`
 
 **Linking a feature straight to PURPOSE.md, or a strategy down to a feature**
-- Bad: `derives-from: PURPOSE.md` on a feature; `derives-from` a feature on a strategy
 - Good: Features `satisfies` a foundation outcome and are `guided-by` a strategy; links point to the same layer or higher
 
-**Hand-editing the context source stamp**
-- Bad: Writing or editing the `livespec-context-sources` comment line
+**Hand-editing the context source stamp (`livespec-context-sources` line)**
 - Good: Regenerate context, then `scripts/validate-context.sh --stamp`
 
 **Treating registries as backlogs**
@@ -655,7 +638,7 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 
 **Guides:** `references/guides/msl-minimalism.md`, `frontmatter-relationships.md` (which link field to use), `terminology.md`, `context-positioning.md`, `progressive-disposability.md`.
 
-**Registries (accepted current state, tiered):** required `decisions.md` (`DEC-`), `debt.md` (`DEBT-`), `security.md` (`SEC-`); recommended `conflicts` (`CON-`), `gaps` (`GAP-`); optional `dependencies` (`DEP-`), `issues` (`ISSUE-`). Standards in `references/standards/registries/`; behaviour in `specs/features/registry-specs.spec.md`. `registries/decisions.md` DEC-002 to DEC-009 record the spec-checker split: link resolution, upward-authored links with generated `supports:`, coverage from `specifies:`, the context source hash, the validator output envelope, table-driven upgrade, accepted version in `project.yaml`. Registries record what is known true now, not desired state (specs) or work (tickets).
+**Registries (accepted current state, tiered):** required `decisions.md` (`DEC-`), `debt.md` (`DEBT-`), `security.md` (`SEC-`); recommended `conflicts` (`CON-`), `gaps` (`GAP-`); optional `dependencies` (`DEP-`), `issues` (`ISSUE-`). Standards in `references/standards/registries/`; behaviour in `specs/features/registry-specs.spec.md`. `registries/decisions.md` DEC-002 to DEC-009 record the spec-checker design decisions. Registries record what is known true now, not desired state (specs) or work (tickets).
 
 **Behaviour specs:** `specs/features/automation.spec.md` (sweep, version migration), `specs/features/project-config.spec.md` (`project.yaml`; `livespec.version` is the accepted version, written by init, bumped by upgrade), `specs/artifacts/validators/{ci-validation,validate-coverage,validate-context,validator-output,validate-constraints,setup-hooks,vendor-conventions}.spec.md`, `specs/interfaces/formats/validator-output.spec.md` (`--json` contract and rule codes).
 
@@ -663,13 +646,14 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 - **Seven validators:** `validate-frontmatter.sh`, `validate-crossrefs.sh`, `validate-constraints.sh`, `validate-registries.sh`, `validate-purpose.sh`, `validate-coverage.sh`, `validate-context.sh`; all accept `--json`; flags in Validation Workflow above
 - **`scripts/validator-output.sh`** - Shared helper rendering the `--json` envelope (sourced, not run)
 - **`scripts/check-requires-spec.sh`** `path/to/file` - Layer 2 spec-first gate; delegates to `validate-coverage.sh --which`
-- **`scripts/setup-hooks.sh`** `[--check] [--force]` - Install the pre-commit hook chaining the resolvable validators
+- **`scripts/setup-hooks.sh`** `[--check] [--force]` - Install the pre-commit hook; vendors hooked validators and instructed scripts with provenance
 - **`scripts/vendor-conventions.sh`** `[--check] [--source DIR] [--target DIR]` - Vendor conventions into `specs/workspace/standards/` with provenance
-- **`scripts/upgrade-to-v5.sh`** `[--detect-only] [--dry-run] [--map old=new]` - Table-driven migration of legacy installs
+- **`scripts/upgrade-to-v5.sh`** `[--detect-only] [--dry-run] [--map old=new]` - Table-driven migration of legacy installs; reports a retired `ctxt/phases/` or `ctxt/utils/` layout and never moves it
+- **`scripts/remediate-references.sh`** `[--check]` - Drops metaspec/template entries from `governed-by`
 - **`scripts/sweep-projects.sh`** `[--json] [--root <path>] [--stale-days <N>]` - Portfolio audit (backs `/livespec:sweep`)
 
 ### Plugin Skills
-`/livespec:init` (new project), `/livespec:design` (create and refine specs, Phases 0-1), `/livespec:audit` (health, validate, context; Phases 3-4), `/livespec:learn` (session completion), `/livespec:sweep` (portfolio audit), `/livespec:birth` (incubate child projects), `/livespec:go` (intent router), `/livespec:upgrade` (migrate legacy installs).
+`/livespec:init` (new project), `/livespec:design` (create and refine specs, Phases 0-1), `/livespec:audit` (health, validate, context; Phases 3-4), `/livespec:learn` (session completion), `/livespec:sweep` (portfolio audit), `/livespec:birth` (incubate child projects), `/livespec:go` (intent router; "feedback" routes to the feedback-report prompt `references/prompts/utils/feedback-report.md`), `/livespec:upgrade` (migrate legacy installs).
 
 ---
 
@@ -677,4 +661,4 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
 
-<!-- livespec-context-sources: sha256:04e831b1bb8eb3a06d415a4213b56693785ae7f42abc74c20fdc3d2944c3be32 n=80 -->
+<!-- livespec-context-sources: sha256:05325e2061ac33a004d5b3b90e0e80bea7a2ac2483e70b5f3cf692cbfc407461 n=96 -->

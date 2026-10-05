@@ -72,23 +72,23 @@ scripts/validate-constraints.sh [--verbose]
 - Every `commands/*.md` `routes-to:` target names an existing `skills/*/SKILL.md`
 - Retired-layout references (`.livespec/`, `.livespec-version`) outside migration guides and CHANGELOG history
 - Project context (`AGENTS.md`, `CLAUDE.md`, `ctxt/`) doesn't reference the plugin root, and every script it instructs exists in the project
+- Toolchain repo only: a git-ignored file under a shipped folder (`templates/`, `references/`, `skills/`, `agents/`, `commands/`, `scripts/`, `examples/`) is an `ignored-shipped-file` ERROR
 
 ## Cross-Reference, Coverage and Output
 
 ```bash
-scripts/validate-crossrefs.sh [--strict] [--fix]   # links resolve, trace to PURPOSE.md, supports: mirrors upward links
+scripts/validate-crossrefs.sh [--strict] [--fix [--prune]]   # links resolve, trace to PURPOSE.md, supports: mirrors upward links
 scripts/validate-coverage.sh [--which <path>]      # which spec's specifies: governs a file (report only)
 ```
 
-- Links are authored upward only; `--fix` regenerates each parent's `supports:` and migrates retired `implements:` to `satisfies:`, naming every entry it drops. Review `stale-backlink` warnings first
+- Links are authored upward only; `--fix` regenerates each parent's `supports:` and migrates retired `implements:` to `satisfies:`, naming every entry it moves. A `supports:` entry with no upward link back is kept and reported (`stale-backlink`); add the link, or run `--fix --prune` to remove it. Specs with `vendored-from` provenance are exempt from tracing to PURPOSE.md
 - Upward links must resolve from the repository root to a spec at the same or higher layer; PURPOSE.md is a direct parent only of foundation and workspace specs
 - Coverage is reported, never enforced: ungoverned files, multiply-governed files, `specifies:` values matching nothing
 - Every validator takes `--json` (one versioned document: `schema_version`, `validator`, `livespec_version`, `findings`); exit codes 0/1/2 as in text mode. Contract: `specs/interfaces/formats/validator-output.spec.md`
 
-**Constraint validator does not check:** whether spec paths named in project context resolve — generated context carries teaching examples in the same syntax as real references, so no mechanical rule can separate assertion from illustration.
+**Constraint validator does not check** whether spec paths named in project context resolve (teaching examples use the same syntax as real references).
 
-**Exit code 0:** No errors (warnings permitted)
-**Exit code 1:** Unresolved command, script, or route
+Exit 0: no errors (warnings permitted). Exit 1: unresolved command, script or route.
 
 ### Per-Category Reminder
 
@@ -126,44 +126,19 @@ scripts/validate-context.sh            # each file: current, stale or unstamped
 scripts/validate-context.sh --changed  # sources changed since the stamp; prints unknown if the stamping commit is not in history
 ```
 
-Stamped sources: PURPOSE.md and every spec in workspace, foundation, features and artifacts, plus the inlined spec-first template. Any unstamped file, `unknown` from `--changed`, or a missing Spec → Generated File Map means FULL.
+Stamped sources: PURPOSE.md and every spec under `specs/` (strategy and interfaces included), plus the inlined spec-first template. Only the flat `ctxt/` files and `ctxt/domains/` are stamped; other subfolders are never stamped or checked. Any unstamped file, `unknown` from `--changed`, or a missing Spec → Generated File Map means FULL.
 
-**Action:** `/livespec:audit context` — classifies the change as MINOR (scoped patch to the mapped file, per the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`) or FULL (whole-tree rebuild), then delegates to `agents/context-builder.md`, which ends by running `scripts/validate-context.sh --stamp` (never write the stamp line by hand).
+**Action:** `/livespec:audit context` — classifies the change as MINOR (scoped patch to the mapped file, per the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`) or FULL (whole-tree rebuild), then delegates to `agents/context-builder.md`, which never preserves a folder layout and ends by running `scripts/validate-context.sh --stamp` (never write the stamp line by hand). When no changed source feeds a generated file, the run re-stamps without regenerating. A retired `ctxt/phases/` or `ctxt/utils/` is reported by `scripts/upgrade-to-v5.sh --detect-only` and never moved or deleted by it.
 
 ## Learning Capture (Correction-as-Spec)
 
 ### Session Insight Patterns
 
-**Corrections made:**
-- "I initially thought X, but actually it's Y"
-- Mistaken assumptions corrected
-- Wrong approaches abandoned
-
-**User clarifications:**
-- "No, I meant..."
-- Requirements refined during discussion
-- Scope adjusted based on feedback
-
-**Patterns emerged:**
-- Same problem hit multiple times
-- New conventions established
-- "We should always do X" statements
+Signals worth capturing: corrections ("I initially thought X, but actually Y"), user clarifications ("No, I meant..."), and patterns that emerged (same problem hit repeatedly, "we should always do X").
 
 ### Learning → Spec Flow
 
-```
-Session insight detected
-         ↓
-Categorize (workspace/strategy/features)
-         ↓
-Present options to user (AskUserQuestion)
-         ↓
-Apply MSL gate (essential? not HOW? proven problem?)
-         ↓
-Update target spec (with correct frontmatter)
-         ↓
-Rebuild context
-```
+Session insight → categorise (workspace/strategy/features) → present options (AskUserQuestion) → MSL gate (essential? not HOW? proven problem?) → update target spec with correct frontmatter → rebuild context.
 
 ### Learning Routing
 
@@ -180,34 +155,9 @@ A report carries date, overall health (GREEN/YELLOW/RED with a percentage), then
 
 ## Remediation Strategies
 
-### Code without specs
-
-```bash
-/livespec:audit extract
-# Creates spec with confidence markers
-# Apply correct frontmatter (type, category, fidelity + per-category fields)
-# Validate and promote
-```
-
-### Spec without code
-
-```bash
-# Verify truly obsolete
-git log --all --full-history -- specs/features/obsolete.spec.md
-
-# Delete if confirmed
-git rm specs/features/obsolete.spec.md
-```
-
-### Behavior changed without spec update
-
-```bash
-# Option A: Spec was correct, code wrong
-# Revert code to match spec
-
-# Option B: Code is correct, spec outdated
-/livespec:design refine specs/features/<spec>.spec.md
-```
+- **Code without specs:** `/livespec:audit extract` creates a spec with confidence markers; apply full frontmatter, validate, promote
+- **Spec without code:** confirm obsolete (`git log --all --full-history -- <spec>`), then `git rm` it
+- **Behaviour changed without spec update:** spec right, code wrong → revert code; code right → `/livespec:design refine specs/features/<spec>.spec.md`
 
 ### Stale context
 
@@ -240,22 +190,12 @@ scripts/validate-context.sh       # stale/unstamped until context is regenerated
 
 ### Session End
 
-```bash
-# Capture learnings
-/livespec:learn
-
-# Result: Fresh session with captured knowledge
-```
+`/livespec:learn` captures learnings, then start a fresh session.
 
 ## References
 
-- Audit skill: `/livespec:audit`
-- Learn skill: `/livespec:learn`
 - Context builder agent: `agents/context-builder.md`
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
-- Frontmatter spec: `specs/features/mandatory-frontmatter.spec.md`
-- Frontmatter script: `scripts/validate-frontmatter.sh`
-- Validator output contract: `specs/interfaces/formats/validator-output.spec.md`
 - Coverage and context validators: `specs/artifacts/validators/validate-coverage.spec.md`, `specs/artifacts/validators/validate-context.spec.md`
 - Constraint validator spec: `specs/artifacts/validators/validate-constraints.spec.md`
 - Hook installer: `scripts/setup-hooks.sh` (spec: `specs/artifacts/validators/setup-hooks.spec.md`)
@@ -266,4 +206,4 @@ scripts/validate-context.sh       # stale/unstamped until context is regenerated
 *Audit mode specialist for LiveSpec v5.10.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:04e831b1bb8eb3a06d415a4213b56693785ae7f42abc74c20fdc3d2944c3be32 n=80 -->
+<!-- livespec-context-sources: sha256:05325e2061ac33a004d5b3b90e0e80bea7a2ac2483e70b5f3cf692cbfc407461 n=96 -->

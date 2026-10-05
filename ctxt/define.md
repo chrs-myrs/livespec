@@ -31,7 +31,7 @@ Use `/livespec:init`:
 3. Generates template PURPOSE.md
 4. Creates registries/ (required tier: decisions, debt, security)
 5. Vendors conventions into `specs/workspace/standards/` with provenance (`scripts/vendor-conventions.sh`)
-6. Installs the pre-commit validation hook (`scripts/setup-hooks.sh`)
+6. Installs the pre-commit validation hook and vendors the hooked validators into `scripts/` (`scripts/setup-hooks.sh`); staged specs are validated, and the project's own tracked pre-commit script also runs when present
 7. Creates initial AGENTS.md
 8. Records the accepted LiveSpec version as `livespec.version` in project.yaml (created if absent; upgrade bumps it)
 
@@ -193,4 +193,4 @@ During Define mode, establish taxonomy (`specs/workspace/taxonomy.spec.md`):
 *Define mode specialist for LiveSpec v5.10.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:04e831b1bb8eb3a06d415a4213b56693785ae7f42abc74c20fdc3d2944c3be32 n=80 -->
+<!-- livespec-context-sources: sha256:05325e2061ac33a004d5b3b90e0e80bea7a2ac2483e70b5f3cf692cbfc407461 n=96 -->

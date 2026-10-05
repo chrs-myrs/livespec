@@ -52,7 +52,7 @@ Before implementing any feature:
 **Run validation at key checkpoints (seven validators):**
 ```bash
 scripts/validate-frontmatter.sh    # frontmatter compliance (IMP-005)
-scripts/validate-crossrefs.sh      # links resolve, trace to PURPOSE.md; --fix regenerates supports:
+scripts/validate-crossrefs.sh      # links resolve, trace to PURPOSE.md; --fix regenerates supports: (--fix --prune drops orphans)
 scripts/validate-constraints.sh    # commands/scripts/routes LiveSpec claims exist
 scripts/validate-registries.sh     # registries/ integrity
 scripts/validate-purpose.sh        # PURPOSE.md boundary
@@ -62,7 +62,7 @@ scripts/validate-context.sh        # generated context current, stale or unstamp
 
 Every validator accepts `--json` (one versioned document; contract in `specs/interfaces/formats/validator-output.spec.md`). CI (`.github/workflows/validate.yml`) runs all seven on every push, cross-references with `--strict`.
 
-Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs these as a pre-commit hook (chains to any existing hook rather than replacing it).
+Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs a pre-commit hook (chains to any existing hook rather than replacing it) and vendors the hooked validators into the project's `scripts/` with provenance. The hook validates staged `*.spec.md` files only: frontmatter and cross-references block, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one; `--check` reports where validators resolve.
 
 **Severity levels:**
 - ERROR: Must fix before committing
@@ -263,4 +263,4 @@ scripts/validate-context.sh
 *Evolve mode specialist for LiveSpec v5.10.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:04e831b1bb8eb3a06d415a4213b56693785ae7f42abc74c20fdc3d2944c3be32 n=80 -->
+<!-- livespec-context-sources: sha256:05325e2061ac33a004d5b3b90e0e80bea7a2ac2483e70b5f3cf692cbfc407461 n=96 -->
