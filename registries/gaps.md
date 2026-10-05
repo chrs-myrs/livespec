@@ -2,8 +2,18 @@
 store: registry
 type: gaps
 schema_version: 2
-last_reviewed: 2026-10-01
+last_reviewed: 2026-10-05
 entries:
+  - id: GAP-006
+    summary: Spec paths written in body text are never validated, so dead prose references survive every audit
+    severity: low
+    status: open
+    date: 2026-10-05
+  - id: GAP-007
+    summary: Nothing detects a spec restating its requirements as narrative sections, the bloat pattern behind 61 lines per requirement in forgewick
+    severity: low
+    status: open
+    date: 2026-10-05
   - id: GAP-001
     summary: Artifact specs declaring 'specifies' empty, leaving no machine-checkable spec-to-code link
     severity: low
@@ -81,3 +91,38 @@ the prompt read as an instruction, so an agent following it would try to run
 tooling that has never existed.
 
 Either build them or reduce the spec to what health reporting actually does.
+
+---
+
+## GAP-006: Body-text spec references are unvalidated
+
+**Severity**: low
+**Status**: open
+**Recorded**: 2026-10-05 at `a401ec8`
+
+`validate-crossrefs.sh` checks frontmatter relationship fields only. A spec path
+written in prose is never resolved. The forgewick feedback report (§2.4) found
+seven dead ones in one project, including `.metaspec.md` names for files that
+are `.spec.md` and a path to a spec archived months earlier, all of which had
+survived several audits.
+
+A naive existence check is the reason this stays open. Several of forgewick's
+apparently dead paths were correct: they name files generated in target
+projects, or illustrate where product specs belong. `validate-constraints.sh`
+already declines to check spec paths in project context for the same reason.
+A useful check has to tell assertion from illustration, or run as report-only.
+
+---
+
+## GAP-007: Requirements restated as narrative are undetected
+
+**Severity**: low
+**Status**: open
+**Recorded**: 2026-10-05 at `a401ec8`
+
+The forgewick feedback report (§4) found six specs that each stated their
+content twice: once as `### REQ-*` entries under `## Requirements`, then again
+as narrative `##` sections mirroring them one for one. The cluster ran to 3,315
+lines for 54 requirements, 61 lines per requirement, and fell to 7 per
+requirement once the restatement went. It survived every prior audit, and no
+current check, including `/livespec:audit msl`, looks for it.

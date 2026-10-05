@@ -23,7 +23,8 @@ when those sources have changed since.
 - [!] A stamp records a hash of the sources the agent context is generated from
   - The sources are PURPOSE.md and every spec in the categories the Spec → Generated File Map covers (workspace, foundation, features, artifacts), plus the spec-first template inlined into the agent doc when present
   - Only files git would commit count, read in byte-wise path order with line endings normalised, so every clone computes the same hash
-  - Stamping writes one comment line, `<!-- livespec-context-sources: sha256:<hash> n=<count> -->`, at the end of the agent doc named by `agent.doc_format` (default AGENTS.md) and of every `ctxt/` file, replacing any earlier stamp
+  - Stamping writes one comment line, `<!-- livespec-context-sources: sha256:<hash> n=<count> -->`, at the end of the agent doc named by `agent.doc_format` (default AGENTS.md) and of every generated `ctxt/` file, replacing any earlier stamp
+  - Generated `ctxt/` files are the flat files and those in `ctxt/domains/`. Files in any other subfolder were not produced by the current generation and are never stamped or checked: stamping a retired `ctxt/phases/` file or hand-written context would make it read as current
   - A symlinked doc is not stamped twice, and a read-only file keeps its permissions
 
 - [!] The check reports each generated file as current, stale or unstamped

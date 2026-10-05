@@ -175,6 +175,30 @@ while IFS='|' read -r name target kind why; do
   esac
 done <<< "$FOLDERS"
 
+# Context tree layout: flat, plus ctxt/domains/. Earlier generations wrote
+# phases/ and utils/. A rebuild does not remove them, and no marker reliably
+# identifies generated files across generations, so nothing here is moved.
+CTXT_RETIRED=""
+CTXT_OTHER=""
+if [ -d ctxt ]; then
+  for d in ctxt/*/; do
+    [ -d "$d" ] || continue
+    name="$(basename "$d")"
+    case "$name" in
+      domains) ;;
+      phases|utils) CTXT_RETIRED+="$name " ;;
+      *) CTXT_OTHER+="$name " ;;
+    esac
+  done
+  if [ -n "$CTXT_RETIRED" ]; then echo "CONTEXT: retired layout"; else echo "CONTEXT: flat"; fi
+  for name in $CTXT_RETIRED; do
+    echo "  RETIRED   ctxt/$name/ (earlier generation; a rebuild does not remove it)"
+  done
+  for name in $CTXT_OTHER; do
+    echo "  CHECK     ctxt/$name/ (not in the standard layout; keep it only if your context-architecture spec defines it)"
+  done
+fi
+
 if [ -d ".claude-plugin" ] || [ -d "$HOME/.claude/plugins/marketplaces/livespec" ] || ls -d "$HOME/.claude/plugins/cache/"*"/livespec" >/dev/null 2>&1; then
   echo "FOUND: v5 plugin installed"
   HAS_PLUGIN=true
@@ -228,7 +252,8 @@ if $HAS_VERSION_FILE; then
 fi
 
 # Summarise state
-if ! $HAS_SUBMODULE && ! $HAS_LEGACY_LIVESPEC && ! $HAS_VERSION_FILE && ! $HAS_RETIRED; then
+if ! $HAS_SUBMODULE && ! $HAS_LEGACY_LIVESPEC && ! $HAS_VERSION_FILE && ! $HAS_RETIRED \
+   && [ -z "$CTXT_RETIRED" ]; then
   if $HAS_PROJECT; then
     echo ""
     echo "STATUS: Already on v5. Nothing to migrate."
@@ -263,6 +288,9 @@ while IFS='|' read -r name target kind _; do
     decide) echo "  NEEDS DECISION: specs/$name/ (not moved until confirmed with --map)" ;;
   esac
 done <<< "$FOLDERS"
+for name in $CTXT_RETIRED; do
+  echo "  NEEDS DECISION: ctxt/$name/ (never moved; delete it yourself once /livespec:audit context has written the flat files)"
+done
 
 if $DETECT_ONLY; then
   exit 0
@@ -429,6 +457,10 @@ while IFS='|' read -r name target kind _; do
     PASS=false
   fi
 done <<< "$FOLDERS"
+for name in $CTXT_RETIRED; do
+  echo "DECIDE: ctxt/$name/ is a retired context layout; regenerate with /livespec:audit context, then delete it"
+  PASS=false
+done
 
 if $PASS; then
   echo ""

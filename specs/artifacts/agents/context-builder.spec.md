@@ -126,6 +126,8 @@ specifies:
   - Verifies root has "When to Load Sub-Agents" section
   - Verifies ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
   - Verifies ctxt/domains/ contains expected files based on taxonomy
+  - Reports any ctxt/ subfolder other than domains/ as not produced by this generation, listing its files and excluding them from the size totals; never deletes them, since no marker reliably identifies generated files across generations
+  - A full run takes section ordering and content patterns from the existing tree, never a folder layout the flat structure forbids
   - Spot-checks 2-3 sub-agents for NO frontmatter
   - Spot-checks sub-agents have inline edit warnings
   - Reports validation results with pass/fail per check
@@ -196,6 +198,7 @@ specifies:
 
 ### Sub-Agent Generation
 - [ ] ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
+- [ ] A full run in a project with ctxt/phases/ generates the flat files, reports ctxt/phases/ by name, and leaves it in place
 - [ ] Domain sub-agents generated based on taxonomy
 - [ ] All sub-agents have NO frontmatter
 - [ ] All sub-agents have inline edit warning at top

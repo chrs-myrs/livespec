@@ -312,6 +312,7 @@ Once flows are documented, feed them into architecture design (system components
    - `specs/workspace/constitution.spec.md` - Enforcement level (includes `context_compression:` level, see below)
    - `specs/workspace/patterns.spec.md` - Local conventions
    - `specs/workspace/workflows.spec.md` - Development process
+   - `specs/workspace/context-architecture.spec.md` - What the agent context tree holds, and the Spec → Generated File Map that lets a rebuild be scoped. `/livespec:audit context` will not run without it. Create it from `${CLAUDE_PLUGIN_ROOT}/templates/workspace/context-architecture.spec.md.template`, adding a map row for every workspace spec the project has
 
 **Choosing a context compression level** (set in `constitution.spec.md` frontmatter):
 

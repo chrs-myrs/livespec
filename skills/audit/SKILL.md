@@ -154,7 +154,7 @@ This enables freshness evaluation when reading historical reports.
 # Spec Health Report
 
 <!-- Provenance metadata — do not remove -->
-**LiveSpec version:** [read from project.yaml livespec.version or .claude-plugin/plugin.json]
+**LiveSpec version:** [the plugin's version, from ${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json; the review compares against this]
 **Report generated:** YYYY-MM-DD HH:MM UTC
 **Checks performed:** structural, cross-references, MSL compliance, coverage
 **Project path:** /absolute/path/to/project
@@ -595,13 +595,16 @@ Check `specs/workspace/constitution.spec.md` frontmatter (or `project.yaml` `liv
 **Step 1: Collect Reports**
 
 ```bash
-# Current plugin version
-PLUGIN_VERSION=$(grep '"version"' .claude-plugin/plugin.json 2>/dev/null | grep -o '"[0-9.]*"' | tr -d '"')
+# Current plugin version: read from the plugin, not the project. A consuming
+# project has no .claude-plugin/, so a project-relative read finds nothing.
+PLUGIN_VERSION=$(grep -m1 '"version"' ${CLAUDE_PLUGIN_ROOT}/.claude-plugin/plugin.json 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
 TODAY=$(date +%Y-%m-%d)
 STALE_DAYS=${REPORT_STALE_DAYS:-90}  # configurable via --report-stale-days N
 
-# Per-project issues file
-test -f .livespec-audit/issues.md && echo "Found: .livespec-audit/issues.md"
+# Per-project issues file, and anything else in .livespec-audit/: earlier
+# versions wrote other files there (AUDIT-SUMMARY.txt, audit-metadata.json)
+# with no provenance block
+ls .livespec-audit/ 2>/dev/null
 
 # Global sweep reports (in current project's var/audit-reports/)
 ls var/audit-reports/*.md 2>/dev/null || echo "No sweep reports found"
@@ -612,16 +615,29 @@ ls var/audit-reports/*.md 2>/dev/null || echo "No sweep reports found"
 For each report found, extract its provenance block:
 - `LiveSpec version:` field → compare to current plugin version
 - `Report generated:` field → calculate age in days
-- Check if project has git commits since report date
+- `Git HEAD:` field → check whether the project's specs have changed since:
+  ```bash
+  git merge-base --is-ancestor <head> HEAD 2>/dev/null || echo "not in history"
+  git diff --quiet <head> HEAD -- specs/ PURPOSE.md || echo "specs changed since"
+  ```
+
+A file in `.livespec-audit/` with no provenance block was written by an earlier
+version and cannot be dated against the project: classify it STALE (no
+provenance), whatever it says.
 
 **Step 3: Classify Freshness**
 
 | Condition | Status |
 |-----------|--------|
-| Version matches + age < 90 days | CURRENT |
+| Version matches, specs unchanged since `Git HEAD`, age < 90 days | CURRENT |
 | Version mismatch | STALE (version) |
+| Specs changed since `Git HEAD`, or that commit is not in history | STALE (changed) |
 | Age > 90 days + project active since | STALE (time) |
-| Both mismatches | STALE (both) |
+| No provenance block | STALE (no provenance) |
+| More than one of the above | STALE (list each) |
+
+A stale report describes the project as it was. Never use one as current
+context, and say so whenever its contents are quoted.
 
 **Step 4: Present Freshness Table**
 

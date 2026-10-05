@@ -68,7 +68,11 @@ fi
 
 TARGETS=""
 [[ -f "$DOC" && ! -L "$DOC" ]] && TARGETS+="$DOC"$'\n'
-[[ -d ctxt ]] && TARGETS+="$(find ctxt -name '*.md' -type f | LC_ALL=C sort)"$'\n'
+# Generated context is flat plus ctxt/domains/. Any other subfolder is a retired
+# layout or hand-written context; stamping it would make it read as current.
+[[ -d ctxt ]] && TARGETS+="$( { find ctxt -maxdepth 1 -name '*.md' -type f
+                                [[ -d ctxt/domains ]] && find ctxt/domains -name '*.md' -type f; } \
+                              | LC_ALL=C sort)"$'\n'
 TARGETS="$(grep -v '^$' <<< "$TARGETS" || true)"
 
 # The sources: PURPOSE.md, every spec in the categories the Spec -> Generated

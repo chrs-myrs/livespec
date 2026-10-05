@@ -66,6 +66,12 @@ that can be regenerated, raw learning notes. Deletion needs the user's explicit
 agreement; the script never deletes. Folders listed as `UNKNOWN` are not part of
 the layout and stay where they are; mention them.
 
+`ctxt/` subfolders listed as `RETIRED` (`phases/`, `utils/`) come from an earlier
+generation. A context rebuild writes the flat files but does not remove these, so
+after `/livespec:audit context` has run, offer to delete them, with the user's
+explicit agreement, and check first that nothing in them was edited by hand.
+Subfolders listed as `CHECK` stay unless the user says otherwise.
+
 ## Step 3: Execute Migration
 
 Run the migration, passing one `--map` per confirmed folder:

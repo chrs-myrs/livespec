@@ -44,6 +44,11 @@ versions. Validators are specified separately under `specs/artifacts/validators/
   - References to every moved folder are rewritten, and verification checks every folder that moved
   - Never deletes spec content: removing copies or regenerable reports is left to the person confirming
 
+- [!] Context tree layout is checked, and retired subfolders are reported, never removed
+  - `ctxt/phases/` and `ctxt/utils/`, which earlier generations wrote, are reported as a retired layout needing a decision; a project carrying them is not reported as current
+  - Any other `ctxt/` subfolder except `domains/` is listed for checking against the project's context-architecture spec, without changing the result
+  - Nothing under `ctxt/` is moved or deleted: no marker reliably identifies generated files across generations, and a context rebuild does not remove them
+
 ## Validation
 
 - Sweep run against a project directory produces a report and leaves the project unchanged
@@ -52,3 +57,5 @@ versions. Validators are specified separately under `specs/artifacts/validators/
 - `upgrade-to-v5.sh --detect-only` on a project with `specs/learnings/` reports it as needing a decision, not as already current
 - Migrating into a folder that already holds a same-named file leaves both files and reports the conflict
 - `--map specs/meta=specs/workspace` moves that folder and rewrites references to it
+- `--detect-only` on an otherwise current project with `ctxt/phases/` reports the retired context layout, not "nothing to migrate"
+- A full run leaves every file under `ctxt/` in place

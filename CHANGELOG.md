@@ -18,6 +18,19 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Fixed
+
+- **The context-architecture template prescribed the layout the convention forbids** ⚠️ MEDIUM impact: it routed sub-agents to `ctxt/phases/0-define.md` through `phases/4-evolve.md` and `utils/session-completion.md`, gave a 20-30KB root budget against the convention's 30-40KB, pointed throughout at the retired `.livespec/` layout, and lacked the `type`, `category` and `fidelity` the schema requires. It is the likely source of the `phases/` and `utils/` folders found in nine local projects. Rewritten to the flat layout, with a Spec → Generated File Map section, which it never had, so `/livespec:audit context` can scope a rebuild instead of always running in full. A spec created from it passes frontmatter and cross-reference validation
+- **No skill created `specs/workspace/context-architecture.spec.md`**, yet `/livespec:audit context` refuses to run without it and sends the user to `/livespec:design workspace`, which did not list it. Design's workspace mode now creates it from the template
+- **A full context rebuild preserved a retired `ctxt/` layout** ⚠️ MEDIUM impact: the context builder was told to "preserve the structure" of the existing tree, and its checks counted every subfolder against the size budget without naming them. It now takes section ordering and content patterns from the flat files only, reports any subfolder other than `domains/` by name, and leaves it in place
+- **`validate-context.sh --stamp` wrote the source stamp into every `.md` under `ctxt/`**, including retired `phases/` and `utils/` files and hand-written folders, which then read as current. It now stamps and checks only the flat files and `ctxt/domains/`
+- **`/livespec:audit review` could not judge report freshness in a consuming project**: it read the plugin version from `.claude-plugin/plugin.json` relative to the project, which only the LiveSpec repository has. Health reports likewise recorded either the project's accepted version or the plugin's, so the comparison could flip. Both now use the plugin's own version
+
+### Added
+
+- **`upgrade-to-v5.sh` reports the context tree layout**: `ctxt/phases/` and `ctxt/utils/` are reported as a retired layout needing a decision, so an otherwise current project carrying them is no longer reported as having nothing to migrate. Other subfolders except `domains/` are listed for checking. Nothing under `ctxt/` is moved or deleted: three generations of generated-file markers were found across nine projects, some files carry none, and some subfolders hold hand-written context. Raised by the forgewick feedback report (§2.2), where the drift was invisible until read against the convention by hand
+- **`/livespec:audit review` uses the `Git HEAD` the sweep already records**: a report is stale once specs have changed since that commit, and a file in `.livespec-audit/` with no provenance block, as earlier versions wrote, is stale by definition. Raised by the forgewick feedback report (§2.5), where a five-month-old report was nearly read as current
+
 ---
 
 ## [5.10.1] - 2026-10-02

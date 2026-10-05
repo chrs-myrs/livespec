@@ -77,7 +77,7 @@ AGENTS.md content when a file is absent rather than failing the run):
 
 ## Step 2: Read Existing Context Tree
 
-**Full**: read the current AGENTS.md and all ctxt/ files to understand the established structure, section ordering, and content patterns. Preserve the structure unless specs have changed to warrant restructuring.
+**Full**: read the current AGENTS.md and the flat ctxt/ files to understand the established section ordering and content patterns, and preserve them unless specs have changed to warrant restructuring. Never preserve a folder layout: the tree is flat plus `ctxt/domains/`, whatever an earlier generation left. Files in any other ctxt/ subfolder (`phases/`, `utils/` and the like) are not a template for this run.
 
 **Scoped**: read only the current version of your target file(s), to edit in place rather than rewrite from scratch.
 
@@ -156,11 +156,14 @@ After generating all files:
 ```bash
 # Size checks
 wc -c AGENTS.md
-wc -c ctxt/*.md ctxt/**/*.md
+wc -c ctxt/*.md ctxt/domains/*.md
 
 # Structure checks
 grep "^## " AGENTS.md
-grep "Generated file" AGENTS.md ctxt/*.md ctxt/**/*.md
+grep "Generated file" AGENTS.md ctxt/*.md ctxt/domains/*.md
+
+# Subfolders this generation did not produce
+find ctxt -mindepth 1 -maxdepth 1 -type d ! -name domains
 
 # No frontmatter
 head -1 AGENTS.md  # Should NOT be "---"
@@ -173,6 +176,7 @@ head -1 AGENTS.md  # Should NOT be "---"
 - NO frontmatter on any file
 - All files have generated-file warning
 - Version in footer matches `livespec.version` in project.yaml
+- Any ctxt/ subfolder other than `domains/` is reported by name with its files, and left out of the size totals. Never delete it: no marker reliably identifies generated files across generations, and some of these folders hold hand-written context. `/livespec:upgrade` reports `phases/` and `utils/` as a retired layout for the user to remove
 
 ## Step 5b: Stamp the Sources
 
