@@ -21,7 +21,7 @@ when those sources have changed since.
 ## Requirements
 
 - [!] A stamp records a hash of the sources the agent context is generated from
-  - The sources are PURPOSE.md and every spec in the categories the Spec → Generated File Map covers (workspace, foundation, features, artifacts), plus the spec-first template inlined into the agent doc when present
+  - The sources are PURPOSE.md and every spec under `specs/`, plus the spec-first template inlined into the agent doc when present. Any category can feed generation, interface contracts and strategy included, and a staleness check that misses one misses exactly the factual errors it exists to catch
   - Only files git would commit count, read in byte-wise path order with line endings normalised, so every clone computes the same hash
   - Stamping writes one comment line, `<!-- livespec-context-sources: sha256:<hash> n=<count> -->`, at the end of the agent doc named by `agent.doc_format` (default AGENTS.md) and of every generated `ctxt/` file, replacing any earlier stamp
   - Generated `ctxt/` files are the flat files and those in `ctxt/domains/`. Files in any other subfolder were not produced by the current generation and are never stamped or checked: stamping a retired `ctxt/phases/` file or hand-written context would make it read as current
@@ -38,6 +38,7 @@ when those sources have changed since.
 ## Validation
 
 - Stamping twice without changing a source leaves every file byte-identical
-- Editing a workspace spec makes every stamped file report stale; editing a strategy spec does not
+- Editing any spec, including a strategy or interface spec, makes every stamped file report stale
+- Re-stamping without regenerating clears a change whose sources feed no generated file
 - A fresh clone computes the same hash as the working copy that stamped it
 - `--changed` after editing `specs/workspace/patterns.spec.md` lists that file

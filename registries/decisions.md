@@ -146,7 +146,7 @@ Tracks architecture and design decisions with rationale and rejected alternative
 - *Hash `PURPOSE.md` and workspace specs only*: misses staleness from the foundation, feature and artifact specs the generated files also draw on.
 - *Keep the mtime and git-log heuristics*: not deterministic.
 
-**Consequence**: A script hashes everything the Spec → Generated File Map feeds (tracked, sorted, LF-normalised) and stamps the configured agent doc and every `ctxt/` file. The context-builder runs it as its last step, because a model cannot compute a hash. The check reports current, stale or unstamped, and `audit context` classifies MINOR or FULL from it.
+**Consequence**: A script hashes PURPOSE.md and every spec (tracked, sorted, LF-normalised). It first hashed only the workspace, foundation, features and artifacts categories; since 2026-10-05 it covers strategy and interfaces too, after a consuming project showed its interface contracts producing sections of its agent doc while edits to them left the context reading current. A change whose sources map to no generated file is cleared by re-stamping and stamps the configured agent doc and every `ctxt/` file. The context-builder runs it as its last step, because a model cannot compute a hash. The check reports current, stale or unstamped, and `audit context` classifies MINOR or FULL from it.
 
 **Related**: specs/workspace/generated-files.spec.md, specs/workspace/context-architecture.spec.md
 

@@ -355,13 +355,15 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh --changed  # sources chan
 - Any file **unstamped**, or `--changed` prints `unknown` → classify **FULL**: there is no baseline to scope against
 - `specs/workspace/context-architecture.spec.md` has no Spec → Generated File Map → classify **FULL** and say so: without the map no change can be scoped
 
-Otherwise, for each changed source, look it up in the map:
+Otherwise, for each changed source, look it up in the map. Every spec counts as a
+source, strategy and interface specs included:
 
-- A changed source with **no generated target** in the map (e.g. `generated-files.spec.md`, `third-party-dependencies.spec.md`) → exclude it from the changed-target set; it doesn't force FULL by itself
+- A changed source with **no generated target** in the map (listed with *(none)*, e.g. `generated-files.spec.md`) → exclude it from the changed-target set; it doesn't force FULL by itself
+- A changed source the map **does not list at all** → classify **FULL**, and name it: ask the user to add it to the map, with *(none)* as its target if it feeds no generated file, so the next change to it can be scoped. Never assume an unlisted source feeds nothing: interface contracts and strategy specs supply whole sections of some projects' agent docs
 - Any remaining changed source marked **Structural** in the map → classify **FULL**
 - A workspace spec was added or removed → classify **FULL**
 - Every remaining changed source maps cleanly to existing content in a single target file → classify **MINOR**, scope = that target file (plus any other single targets from other changed sources, if still a small, non-overlapping set)
-- If no source has a generated target at all → classify **MINOR** with an empty scope (nothing to regenerate)
+- If no changed source has a generated target → **re-stamp only**: run `bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh --stamp`, report that nothing needed regenerating, and stop without launching the builder
 - Anything unclear or spanning many unrelated targets → default to **FULL** (don't guess at a narrow patch)
 
 Report the classification and a one-line reason, then proceed — no confirmation gate:

@@ -21,6 +21,7 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 ### Changed
 
 - **`validate-crossrefs.sh --fix` keeps a `supports:` entry with no upward link back** ⚠️ MEDIUM impact: it used to remove such entries. In a consuming project's upgrade that would have deleted three true dependencies of one behaviour spec on its interface contracts, reaching zero warnings by making the spec tree less true; only the upgrade skill's guidance prevented it. Such entries are now kept and reported with what to do, and `--fix --prune` removes them deliberately. `FIXED` is printed only when a file actually changes. DEC-004 updated
+- **The context staleness check covers every spec** ⚠️ MEDIUM impact: `validate-context.sh` hashed only the workspace, foundation, features and artifacts categories, so editing a strategy or interface spec left the generated context reading current. In a consuming project those were the specs supplying its agent doc's service and deploy-workflow sections, including a factual error about which workflow applied where; a correction there would have gone unflagged. Strategy and interfaces are now hashed. `/livespec:audit context` re-stamps without regenerating when no changed source feeds a generated file, and classifies FULL for a changed source its map does not list, asking for a row. This repository's own map lacked a row for `strategy/architecture.spec.md`, which the context builder reads; added. DEC-006 updated
 
 ### Removed
 

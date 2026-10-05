@@ -75,17 +75,18 @@ TARGETS=""
                               | LC_ALL=C sort)"$'\n'
 TARGETS="$(grep -v '^$' <<< "$TARGETS" || true)"
 
-# The sources: PURPOSE.md, every spec in the categories the Spec -> Generated
-# File Map covers, and the spec-first template the agent doc inlines. Only files
-# git would commit count.
-SOURCE_SPECS=(PURPOSE.md 'specs/workspace/*.spec.md' 'specs/foundation/*.spec.md'
-              'specs/features/*.spec.md' 'specs/artifacts/*.spec.md'
-              templates/agents/spec-first-enforcement.md)
+# The sources: PURPOSE.md, every spec, and the spec-first template the agent
+# doc inlines. Any category can feed generation: interface contracts and
+# strategy specs supply sections of some projects' agent docs, so leaving them
+# out lets the context read current after a factual correction. A change that
+# feeds no generated file is cleared by re-stamping. Only files git would
+# commit count; in a pathspec, * matches across directories.
+SOURCE_SPECS=(PURPOSE.md 'specs/*.spec.md' templates/agents/spec-first-enforcement.md)
 if $IN_GIT; then
     SOURCES="$(git ls-files --cached --others --exclude-standard -- "${SOURCE_SPECS[@]}" | LC_ALL=C sort -u)"
 else
     SOURCES="$( { [[ -f PURPOSE.md ]] && echo PURPOSE.md
-                  find specs/workspace specs/foundation specs/features specs/artifacts -name '*.spec.md' -type f 2>/dev/null
+                  find specs -name '*.spec.md' -type f 2>/dev/null
                   [[ -f templates/agents/spec-first-enforcement.md ]] && echo templates/agents/spec-first-enforcement.md
                 } | LC_ALL=C sort -u)"
 fi

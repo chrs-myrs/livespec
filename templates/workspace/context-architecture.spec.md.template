@@ -81,8 +81,10 @@ applies_to:
   | context-architecture.spec.md (this spec) | Tree structure itself: which files exist, size budgets, load triggers | Always structural |
   | foundation/*.spec.md | AGENTS.md § Summary; § Core Principles | No |
   | features/*.spec.md | AGENTS.md § key behaviors; Reference Library | No |
+  | strategy/*.spec.md | *(none)* unless AGENTS.md inlines it; then name the section | No |
+  | interfaces/*.spec.md | *(none)* unless AGENTS.md describes the external system; then name the section | No |
 
-  Add a row for every other workspace spec this project has. **Structural** means the change can add, remove or resize generated files beyond the mapped targets, so it forces a full rebuild. A source that feeds no generated file is listed with *(none)* as its target and does not force a full rebuild.
+  Every spec is a staleness source, so a spec missing from this map forces a full rebuild until it is listed. Add a row for every other workspace spec this project has. **Structural** means the change can add, remove or resize generated files beyond the mapped targets, so it forces a full rebuild. A source that feeds no generated file is listed with *(none)* as its target and does not force a full rebuild.
 
 ## Validation
 
