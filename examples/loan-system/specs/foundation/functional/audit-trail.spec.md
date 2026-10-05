@@ -1,8 +1,17 @@
 ---
-derives-from: requirements/strategic/outcomes.spec.md
-governed-by: requirements/strategic/constraints.spec.md
+type: outcomes
+category: foundation
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Unable to defend calculations in legal disputes or audits
+governed-by:
+  - specs/foundation/constraints.spec.md
+derives-from:
+  - specs/foundation/outcomes.spec.md
+supports:
+  - specs/features/interest-calculation.spec.md
+  - specs/features/late-fee-calculation.spec.md
+  - specs/strategy/calculation-approach.spec.md
 ---
 
 # Audit Trail

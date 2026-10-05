@@ -1,7 +1,17 @@
 ---
-derives-from: PURPOSE.md
+type: constraints
+category: foundation
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: System violates non-negotiable boundaries
+governed-by: []
+derives-from:
+  - PURPOSE.md
+supports:
+  - specs/foundation/functional/audit-trail.spec.md
+  - specs/foundation/functional/loan-accuracy.spec.md
+  - specs/foundation/functional/regulatory-compliance.spec.md
+  - specs/strategy/calculation-approach.spec.md
 ---
 
 # Loan System Constraints

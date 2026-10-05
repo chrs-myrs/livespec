@@ -17,8 +17,7 @@ Traditional documentation struggles with cross-cutting concerns because they don
 ```
 specs/
 ├── foundation/              # Layer 1: WHAT must be achieved
-│   ├── strategic/
-│   │   └── outcomes.spec.md     # High-level security goals
+│   ├── outcomes.spec.md              # High-level security goals
 │   └── functional/
 │       ├── authentication.spec.md    # Authentication requirements
 │       └── authorization.spec.md     # Access control requirements
@@ -48,40 +47,53 @@ specs/
 `authentication.spec.md` (requirement) is satisfied by:
 - `user-login.spec.md` - Credential verification
 - `session-management.spec.md` - Authentication persistence
+- `password-reset.spec.md` - Account recovery
+- `auth-api.spec.md` - Login and session endpoints
 
 `authorization.spec.md` (requirement) is satisfied by:
 - `role-authorization.spec.md` - Permission enforcement
 - `auth-api.spec.md` - Protected endpoint definitions
 
+## How the Links Work
+
+Links are written upward: each spec names what it depends on (`satisfies`,
+`guided-by`, `derives-from`), from the repository root. The downward direction
+is generated: every spec's `supports:` lists the specs that link up to it,
+written by `validate-crossrefs.sh --fix`, so it never drifts from the upward
+links.
+
 ## Cascade Impact Analysis
 
 **Scenario**: Security requirement changes (e.g., "add MFA support")
 
-```bash
-# Find all behaviors affected by authentication requirement change
-grep -r "satisfies:.*authentication.spec.md" specs/features/
+Open `specs/foundation/functional/authentication.spec.md`. Its `supports:`
+lists everything that depends on it:
 
-# Results:
-# specs/features/user-login.spec.md
-# specs/features/session-management.spec.md
+```yaml
+supports:
+  - specs/features/password-reset.spec.md
+  - specs/features/session-management.spec.md
+  - specs/features/user-login.spec.md
+  - specs/interfaces/auth-api.spec.md
+  - specs/strategy/security-approach.spec.md
 ```
 
-Both behavior specs need review when authentication requirements change.
+Each needs review when authentication requirements change.
 
 **Scenario**: Strategy changes (e.g., "switch from session to JWT")
 
+`specs/strategy/security-approach.spec.md` lists the four behavior specs it
+guides in its `supports:`. All four need review when the strategy changes.
+
+## Validating
+
+Copy the example into its own repository, then run the LiveSpec validators from
+its root; `/livespec:init` vendors them into a project's `scripts/`:
+
 ```bash
-# Find all behaviors guided by security strategy
-grep -r "guided-by:.*security-approach.spec.md" specs/features/
-
-# Results:
-# specs/features/user-login.spec.md
-# specs/features/session-management.spec.md
-# specs/features/role-authorization.spec.md
-# specs/features/password-reset.spec.md
+bash scripts/validate-frontmatter.sh
+bash scripts/validate-crossrefs.sh
 ```
-
-All four behavior specs need review when security strategy changes.
 
 ## Key Patterns
 

@@ -1,10 +1,14 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Sessions persist beyond intended lifetime or terminate unexpectedly
+governed-by: []
 satisfies:
-  - ../features/authentication.spec.md
+  - specs/foundation/functional/authentication.spec.md
 guided-by:
-  - ../strategy/security-approach.spec.md
+  - specs/strategy/security-approach.spec.md
 ---
 
 # Session Management

@@ -1,9 +1,13 @@
 ---
+type: contract
+category: interfaces
+fidelity: full-detail
 criticality: CRITICAL
 failure_mode: Client applications cannot integrate with authentication system
+governed-by: []
 satisfies:
-  - ../features/authentication.spec.md
-  - ../features/authorization.spec.md
+  - specs/foundation/functional/authentication.spec.md
+  - specs/foundation/functional/authorization.spec.md
 ---
 
 # Auth API Contract

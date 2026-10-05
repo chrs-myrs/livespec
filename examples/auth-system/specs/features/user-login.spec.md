@@ -1,10 +1,14 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Users cannot log in or unauthorized users gain access
+governed-by: []
 satisfies:
-  - ../features/authentication.spec.md
+  - specs/foundation/functional/authentication.spec.md
 guided-by:
-  - ../strategy/security-approach.spec.md
+  - specs/strategy/security-approach.spec.md
 ---
 
 # User Login

@@ -1,10 +1,19 @@
 ---
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: CRITICAL
 failure_mode: Inconsistent security implementation across system
+governed-by: []
 derives-from:
-  - ../foundation/outcomes.spec.md
-  - ../features/authentication.spec.md
-  - ../features/authorization.spec.md
+  - specs/foundation/outcomes.spec.md
+  - specs/foundation/functional/authentication.spec.md
+  - specs/foundation/functional/authorization.spec.md
+supports:
+  - specs/features/password-reset.spec.md
+  - specs/features/role-authorization.spec.md
+  - specs/features/session-management.spec.md
+  - specs/features/user-login.spec.md
 ---
 
 # Security Approach

@@ -1,7 +1,16 @@
 ---
-derives-from: PURPOSE.md
+type: outcomes
+category: foundation
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: System fails to meet business objectives
+governed-by: []
+derives-from:
+  - PURPOSE.md
+supports:
+  - specs/foundation/functional/audit-trail.spec.md
+  - specs/foundation/functional/loan-accuracy.spec.md
+  - specs/foundation/functional/regulatory-compliance.spec.md
 ---
 
 # Loan System Strategic Outcomes

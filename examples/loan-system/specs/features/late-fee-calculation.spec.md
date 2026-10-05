@@ -1,11 +1,15 @@
 ---
-satisfies:
-  - requirements/functional/regulatory-compliance.spec.md
-  - requirements/functional/audit-trail.spec.md
-guided-by:
-  - strategy/calculation-approach.spec.md
+type: behavior
+category: features
+fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Incorrect fees violate state regulations and harm customer trust
+governed-by: []
+satisfies:
+  - specs/foundation/functional/regulatory-compliance.spec.md
+  - specs/foundation/functional/audit-trail.spec.md
+guided-by:
+  - specs/strategy/calculation-approach.spec.md
 ---
 
 # Late Fee Calculation Implementation

@@ -1,11 +1,15 @@
 ---
-satisfies:
-  - requirements/functional/loan-accuracy.spec.md
-  - requirements/functional/regulatory-compliance.spec.md
-guided-by:
-  - strategy/calculation-approach.spec.md
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Incorrect schedule misleads borrowers about payment obligations
+governed-by: []
+satisfies:
+  - specs/foundation/functional/loan-accuracy.spec.md
+  - specs/foundation/functional/regulatory-compliance.spec.md
+guided-by:
+  - specs/strategy/calculation-approach.spec.md
 ---
 
 # Amortization Schedule Generation

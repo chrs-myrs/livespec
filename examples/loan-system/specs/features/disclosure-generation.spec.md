@@ -1,10 +1,14 @@
 ---
-satisfies:
-  - requirements/functional/regulatory-compliance.spec.md
-guided-by:
-  - strategy/calculation-approach.spec.md
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Missing disclosures violate TILA and result in regulatory penalties
+governed-by: []
+satisfies:
+  - specs/foundation/functional/regulatory-compliance.spec.md
+guided-by:
+  - specs/strategy/calculation-approach.spec.md
 ---
 
 # Truth in Lending Disclosure Generation

@@ -1,10 +1,14 @@
 ---
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Users perform unauthorized actions or blocked from authorized actions
+governed-by: []
 satisfies:
-  - ../features/authorization.spec.md
+  - specs/foundation/functional/authorization.spec.md
 guided-by:
-  - ../strategy/security-approach.spec.md
+  - specs/strategy/security-approach.spec.md
 ---
 
 # Role-Based Authorization

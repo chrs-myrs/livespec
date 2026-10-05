@@ -1,12 +1,16 @@
 ---
-satisfies:
-  - requirements/functional/loan-accuracy.spec.md
-  - requirements/functional/regulatory-compliance.spec.md
-  - requirements/functional/audit-trail.spec.md
-guided-by:
-  - strategy/calculation-approach.spec.md
+type: behavior
+category: features
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Incorrect interest charges violate regulations and breach contracts
+governed-by: []
+satisfies:
+  - specs/foundation/functional/loan-accuracy.spec.md
+  - specs/foundation/functional/regulatory-compliance.spec.md
+  - specs/foundation/functional/audit-trail.spec.md
+guided-by:
+  - specs/strategy/calculation-approach.spec.md
 ---
 
 # Interest Calculation Implementation

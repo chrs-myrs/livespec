@@ -4,6 +4,11 @@ type: gaps
 schema_version: 2
 last_reviewed: 2026-10-05
 entries:
+  - id: GAP-008
+    summary: Example projects are never validated, so all three drifted from the schema unnoticed
+    severity: low
+    status: open
+    date: 2026-10-05
   - id: GAP-006
     summary: Spec paths written in body text are never validated, so dead prose references survive every audit
     severity: low
@@ -126,3 +131,20 @@ as narrative `##` sections mirroring them one for one. The cluster ran to 3,315
 lines for 54 requirements, 61 lines per requirement, and fell to 7 per
 requirement once the restatement went. It survived every prior audit, and no
 current check, including `/livespec:audit msl`, looks for it.
+
+---
+
+## GAP-008: Example projects are never validated
+
+**Severity**: low
+**Status**: open
+**Recorded**: 2026-10-05 at `7d1a7ee`
+
+`examples/` holds three standalone LiveSpec projects that ship with the plugin.
+Their spec paths resolve from each example's own root, so the validators, which
+resolve from the repository root, cannot check them in place, and nothing else
+does. All three drifted unnoticed: no schema fields, links into layouts retired
+two major versions earlier, and specs lost in the v5 cleanup while others still
+linked to them. Each now passes when copied into its own repository and
+validated there, which is the check that would catch the next drift; it is run
+by hand only.

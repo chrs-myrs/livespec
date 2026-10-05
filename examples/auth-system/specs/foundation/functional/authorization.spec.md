@@ -1,8 +1,16 @@
 ---
+type: outcomes
+category: foundation
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Users perform unauthorized actions or are blocked from authorized actions
+governed-by: []
 derives-from:
-  - ../strategic/outcomes.spec.md
+  - specs/foundation/outcomes.spec.md
+supports:
+  - specs/features/role-authorization.spec.md
+  - specs/interfaces/auth-api.spec.md
+  - specs/strategy/security-approach.spec.md
 ---
 
 # Authorization Requirements

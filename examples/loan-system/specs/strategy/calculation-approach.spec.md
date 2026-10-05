@@ -1,11 +1,20 @@
 ---
-derives-from:
-  - requirements/functional/loan-accuracy.spec.md
-  - requirements/functional/regulatory-compliance.spec.md
-  - requirements/functional/audit-trail.spec.md
-governed-by: requirements/strategic/constraints.spec.md
+type: strategy
+category: strategy
+fidelity: decisions-only
 criticality: CRITICAL
 failure_mode: Inconsistent calculation approach creates bugs and audit failures
+governed-by:
+  - specs/foundation/constraints.spec.md
+derives-from:
+  - specs/foundation/functional/loan-accuracy.spec.md
+  - specs/foundation/functional/regulatory-compliance.spec.md
+  - specs/foundation/functional/audit-trail.spec.md
+supports:
+  - specs/features/amortization-schedule.spec.md
+  - specs/features/disclosure-generation.spec.md
+  - specs/features/interest-calculation.spec.md
+  - specs/features/late-fee-calculation.spec.md
 ---
 
 # Financial Calculation Strategy

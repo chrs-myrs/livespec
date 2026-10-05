@@ -1,6 +1,16 @@
 ---
+type: outcomes
+category: foundation
+fidelity: behavioral
 criticality: CRITICAL
 failure_mode: Unauthorized access to system resources
+governed-by: []
+derives-from:
+  - PURPOSE.md
+supports:
+  - specs/foundation/functional/authentication.spec.md
+  - specs/foundation/functional/authorization.spec.md
+  - specs/strategy/security-approach.spec.md
 ---
 
 # Security Outcomes
