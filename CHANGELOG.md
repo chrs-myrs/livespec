@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.11.0] - 2026-10-05
+
 ### Changed
 
 - **`validate-crossrefs.sh --fix` keeps a `supports:` entry with no upward link back** ⚠️ MEDIUM impact: it used to remove such entries. In a consuming project's upgrade that would have deleted three true dependencies of one behaviour spec on its interface contracts, reaching zero warnings by making the spec tree less true; only the upgrade skill's guidance prevented it. Such entries are now kept and reported with what to do, and `--fix --prune` removes them deliberately. `FIXED` is printed only when a file actually changes. DEC-004 updated
