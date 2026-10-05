@@ -17,45 +17,47 @@ specifies:
 
 # Generate Feedback Report Utility Prompt
 
+Feedback is worth what a maintainer can act on without a follow-up conversation.
+The reports that changed LiveSpec named the installed version, verified each
+claim against it, and gave every finding a reproduction; a survey of adoption
+metrics and impressions changed little.
+
 ## Requirements
-- [!] Prompt generates structured feedback report capturing project context, adoption metrics, quality assessment, usage patterns, and qualitative user experience to help LiveSpec maintainers improve methodology.
-  - Can be run at any time (not tied to specific phase)
-  - Automated analysis: Project context (domain, size, version), adoption metrics (phases used, spec counts, folder structure), quality assessment (drift status, MSL adherence, test coverage), usage patterns (prompt frequency, customizations)
-  - User input: Five experience questions (what works, pain points, confusion, missing features, suggestions)
-  - Anonymization options: Strip project-specific details, file names, sensitive data
-  - Report output: var/feedback-reports/livespec-feedback-YYYYMMDD.md
-  - Report structure: Project Context, Adoption Metrics, Quality Assessment, Usage Patterns, Experience Report, Submission Instructions
-  - Random UUID for tracking (privacy-preserving identifier)
-  - Submission guidance: GitHub issue template, optional contact info
+
+- [!] Prompt produces a report a maintainer can act on without asking anything further
+  - Every finding is about LiveSpec (tooling, conventions, templates, guidance), tested by whether it would affect any project adopting LiveSpec; the reporting project's own drift is left out
+  - Each finding states what happened, how to reproduce it (command and output, or file and line), and why it matters; a suggested fix is optional
+  - Each finding is verified against the installed plugin before it is reported, never against the changelog alone; one already fixed in the installed version is dropped or reported as a confirmation
+  - The report records the installed LiveSpec version and where it was read, and the project's accepted version (`project.yaml` `livespec.version`)
+  - The report says what worked, since feedback otherwise skews negative and maintainers need to know what not to change
+  - Measurements the work produced, such as before and after counts, are included
+  - Can be run at any time, not tied to a phase
+
+- [!] Report is safe to publish
+  - The LiveSpec repository is public, and a report may be filed there as an issue or kept as a record
+  - Before writing, the user chooses what to anonymise: organisation and project names, people, internal systems, paths. When unsure, these are stripped
+  - Credentials, personal data and customer data are never included
+
+- [!] Report reaches the maintainer
+  - Written to `var/feedback-reports/livespec-feedback-YYYY-MM-DD.md` in the reporting project
+  - Submission instructions name the channels: an issue on the public LiveSpec repository, or directly to the maintainer; the prompt never submits anything itself
 
 ## Prompt Outputs
 
-**Primary outputs:**
-- var/feedback-reports/livespec-feedback-YYYYMMDD.md (structured feedback report)
+**Primary output:** `var/feedback-reports/livespec-feedback-YYYY-MM-DD.md`
 
 **Report structure:**
-- Header (generated date, report ID/UUID, anonymization level)
-- Project Context (domain, age, size, version, team size)
-- Adoption Metrics (phases used, spec inventory, folder structure, customizations)
-- Quality Assessment (drift status, MSL adherence, test coverage, validation status)
-- Usage Patterns (prompt frequency, custom workflows, integration pattern)
-- Experience Report (qualitative feedback from 5 questions)
-- Submission Instructions (how to submit, GitHub template, optional contact)
-
-**Validation:**
-- AI performs automated analysis (codebase inspection, git history, file counts)
-- AI asks user 5 experience questions
-- Report includes both quantitative and qualitative data
-- Anonymization options offered before generation
-- Submission instructions clear and actionable
+- Header: date, installed LiveSpec version and its source, accepted version, anonymisation applied
+- Context: what the project is and what was being done when the findings arose, in one paragraph
+- Findings: numbered, each with what happened, how to reproduce it, why it matters, and an optional suggested fix
+- What worked
+- Measurements, when there are any
+- Submission
 
 ## Validation
 
-- Prompt exists at references/prompts/utils/feedback-report.md
-- Prompt has spec: frontmatter reference
-- Six report sections documented (context, adoption, quality, usage, experience, submission)
-- Five experience questions defined (works well, pain points, confusion, missing, suggestions)
-- Anonymization options available (project details, file names, sensitive data)
-- Report output location specified (var/feedback-reports/)
-- UUID generation for privacy-preserving tracking
-- Submission instructions comprehensive (GitHub, email, optional contact)
+- Prompt exists at `references/prompts/utils/feedback-report.md` with the prompt metaspec's essential sections
+- A report produced by following it names the installed version and how it was read
+- Every finding in such a report has a reproduction and an impact
+- No finding in it describes something already fixed in the installed version
+- Anonymisation is chosen before anything is written

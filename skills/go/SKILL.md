@@ -39,6 +39,7 @@ If argument provided, detect intent:
 | "init", "setup", "start" | `/livespec:init` |
 | "birth", "offspring", "child project", "spin off", "incubate" | `/livespec:birth` |
 | "upgrade", "migrate", "v5" | `/livespec:upgrade` |
+| "feedback", "report a problem with LiveSpec", "tell the maintainer" | Read `${CLAUDE_PLUGIN_ROOT}/references/prompts/utils/feedback-report.md` and follow it |
 | "status", "version", "where", "which" | Status report (inline) |
 
 ### Status Mode
