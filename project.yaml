@@ -36,3 +36,4 @@ ui:
 amp:
   enabled: true
   capabilities: [research]
+  accepts: [plan-queue, proposals]   # plans and proposals over AMP (/amp-propose); only while NATS is loopback-only (runeway GAP-001, GAP-031)
