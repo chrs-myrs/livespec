@@ -4,17 +4,17 @@
 
 ## Plugin Skill Routing (CRITICAL)
 
-**DO NOT** use Context7 or web search for "livespec" queries when working in this project.
+**DO NOT** look LiveSpec up on the web (wscrape or otherwise) when working in this project.
 
 **ALWAYS** use the local plugin skills instead:
 
 | User Intent | Skill to Invoke | NOT This |
 |-------------|-----------------|----------|
-| Create/refine specs | `/livespec:design` | Context7 query |
+| Create/refine specs | `/livespec:design` | Web lookup |
 | Health, validation, context | `/livespec:audit` | Web search |
 | Initialize project | `/livespec:init` | External docs |
 | Session completion | `/livespec:learn` | ~/.claude/context/ |
-| Upgrade methodology | `/livespec:upgrade` | Context7 query |
+| Upgrade methodology | `/livespec:upgrade` | Web lookup |
 
 ## Auto-Invocation Triggers
 
@@ -28,15 +28,9 @@ When user mentions ANY of these, invoke the appropriate skill **BEFORE** any oth
 
 ## Why This Override Exists
 
-The global `~/.claude/CLAUDE.md` contains:
-```
-| livespec, LiveSpec | github.com/chrs-myrs/livespec | keyword |
-```
-
-This routes "livespec" queries to Context7, which:
-1. Searches for an npm package that doesn't exist
-2. Returns outdated or irrelevant information
-3. Bypasses the installed plugin skills entirely
+The global `~/.claude/CLAUDE.md` makes wscrape the default for docs lookup.
+For LiveSpec that finds the published repository, which lags this working tree
+and bypasses the installed plugin skills.
 
 **This project IS LiveSpec** - use the local skills, not external references.
 
