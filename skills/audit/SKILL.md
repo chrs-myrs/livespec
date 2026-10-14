@@ -140,7 +140,7 @@ done
 
 ```bash
 # Required registries present, index/body in sync, staleness surfaced
-bash scripts/validate-registries.sh
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-registries.sh
 ```
 
 Surfaces missing required registries, index↔body drift, work-item-style summaries, and registries unreviewed for 3+ months. "Time to review a stale registry" is a positive maintenance signal, not a failure.
@@ -250,7 +250,7 @@ done
 - Governed by `specs/features/registry-specs.spec.md`
 
 ```bash
-bash scripts/validate-registries.sh   # exit 1 on any error; warnings for staleness / work-item language
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-registries.sh   # exit 1 on any error; warnings for staleness / work-item language
 ```
 
 **6. Self-Assertion Integrity**
@@ -259,7 +259,7 @@ bash scripts/validate-registries.sh   # exit 1 on any error; warnings for stalen
 - Governed by `specs/artifacts/validators/validate-constraints.spec.md`
 
 ```bash
-bash scripts/validate-constraints.sh   # exit 1 on unresolved command, script or route
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-constraints.sh   # exit 1 on unresolved command, script or route
 ```
 
 ### Output Format

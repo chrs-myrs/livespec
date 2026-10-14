@@ -16,14 +16,24 @@ You are generating a comprehensive health report. Run all diagnostics, calculate
 
 ### Step 1: Run All Validation Scripts
 
-Execute the validators that ship and collect results:
+Execute the validators that ship and collect results. Each runs from the
+project's vendored copy in `scripts/livespec/` when there is one, from `scripts/`
+in the LiveSpec repository, and otherwise from the plugin's `scripts/`;
+`validate-registries.sh` is never vendored. If `CLAUDE_PLUGIN_ROOT` is unset,
+set it to the plugin's install path first.
 
 ```bash
-bash scripts/validate-frontmatter.sh 2>&1    # schema and relationship graph
-bash scripts/validate-crossrefs.sh 2>&1      # relationship targets resolve
-bash scripts/validate-constraints.sh 2>&1    # self-assertions and toolchain independence
-bash scripts/validate-registries.sh 2>&1     # registry integrity
-bash scripts/validate-purpose.sh 2>&1        # PURPOSE.md boundary
+run() {
+    for d in scripts/livespec scripts "${CLAUDE_PLUGIN_ROOT}/scripts"; do
+        [ -f "$d/$1" ] && { bash "$d/$1" 2>&1; return; }
+    done
+    echo "$1: not found"
+}
+run validate-frontmatter.sh    # schema and relationship graph
+run validate-crossrefs.sh      # relationship targets resolve
+run validate-constraints.sh    # self-assertions and toolchain independence
+run validate-registries.sh     # registry integrity
+run validate-purpose.sh        # PURPOSE.md boundary
 ```
 
 The eight validators named in `specs/features/project-health.spec.md`
@@ -71,8 +81,8 @@ for r in registries/*.md; do
   printf '%s: ' "$r"; grep -c "^ *- id:" "$r"
 done
 
-# Or run the registry validator directly
-bash scripts/validate-registries.sh
+# Or run the registry validator directly (run() from Step 1)
+run validate-registries.sh
 
 # Check last_reviewed dates
 grep "last_reviewed:" registries/*.md
