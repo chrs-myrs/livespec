@@ -18,7 +18,7 @@ When user requests new permanent file:
 #### Layer 2: Run Validation Check
 
 ```bash
-scripts/check-requires-spec.sh path/to/file
+scripts/livespec/check-requires-spec.sh path/to/file
 ```
 
 **Exit code 0** = Spec exists or not needed
@@ -108,4 +108,4 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - YES → PURPOSE.md
 - NO → Route to appropriate spec
 
-**Validation:** `scripts/validate-purpose.sh`
+**Validation:** `scripts/livespec/validate-purpose.sh`

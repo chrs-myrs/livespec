@@ -178,13 +178,13 @@ if (( ${#PROJECT_CTX[@]} > 0 )); then
     # Every script the project context instructs must exist in the project,
     # not merely in the plugin: the reader may not have the plugin. Inline code
     # with no invocation prefix counts: the spec-first template inlined into
-    # every project names its gate as `scripts/check-requires-spec.sh`.
+    # every project names its gate as `scripts/livespec/check-requires-spec.sh`.
     while IFS= read -r ref; do
         [[ -z "$ref" ]] && continue
         [[ -f "$ref" ]] || err_in unshipped-script "$ref" "project context instructs '$ref' which the project does not ship" \
             "${ref//./\\.}" "${PROJECT_CTX[@]}"
-    done < <(grep -rh -oE '(bash |\./|Run |sh |`)scripts/[a-zA-Z0-9_-]+\.sh' "${PROJECT_CTX[@]}" 2>/dev/null \
-             | grep -oE 'scripts/[a-zA-Z0-9_-]+\.sh' | sort -u || true)
+    done < <(grep -rh -oE '(bash |\./|Run |sh |`)scripts/[a-zA-Z0-9_/-]+\.sh' "${PROJECT_CTX[@]}" 2>/dev/null \
+             | grep -oE 'scripts/[a-zA-Z0-9_/-]+\.sh' | sort -u || true)
 
     # Deliberately NOT checked: whether spec paths named in project context
     # resolve. Generated context legitimately carries teaching examples

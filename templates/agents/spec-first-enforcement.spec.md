@@ -11,7 +11,7 @@ governed-by: specs/workspace/workspace-agent.spec.md
 
 - [!] Template provides four-layer enforcement mechanism for 90%+ spec-first compliance
   - Layer 1: TodoWrite gate (must add "Create spec" todo before file creation)
-  - Layer 2: Validation tool invocation (`scripts/check-requires-spec.sh`)
+  - Layer 2: Validation tool invocation (`scripts/livespec/check-requires-spec.sh`, vendored by the hook installer)
   - Layer 3: Mandatory plan mode for new permanent files
   - Layer 4: Simple "permanent in git?" classification test
 

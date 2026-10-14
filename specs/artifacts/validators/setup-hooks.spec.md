@@ -34,13 +34,15 @@ spec-first enforcement is worthless if every project has to wire it by hand.
 
 - [!] Script vendors into the project the validators the hook runs, the scripts generated project context instructs, the output helper they source, the coverage validator the spec-first gate relies on, and the context-currency check
   - Hook validation works at commit time with no toolchain environment: `CLAUDE_PLUGIN_ROOT` is not set in a shell or an agent's shell tool
+  - Vendors into `scripts/livespec/`, so LiveSpec's scripts stay apart from the project's own in `scripts/`
+  - Moves a script vendored at the root of `scripts/` by an earlier install into `scripts/livespec/`, local edits included; where both copies exist, the root copy is reported and left alone
   - Each vendored script records `vendored-from`, `source-version` and `source-hash` in a comment block, with the hash covering the script without those lines
   - Distinguishes unchanged, locally edited, upstream changed and diverged, as convention vendoring does; only absent and upstream-changed-but-unedited scripts are written
   - A same-named project script without provenance belongs to the project and is left alone
   - Inert where the project is the toolchain source
 
 - [!] Installed hook degrades gracefully when the toolchain is absent
-  - Resolves validators from the project's own `scripts/` first, then `${CLAUDE_PLUGIN_ROOT}/scripts/`
+  - Resolves validators from the project's `scripts/livespec/` first (`scripts/` where the project is the toolchain source), then `${CLAUDE_PLUGIN_ROOT}/scripts/`
   - Skips with a notice and exit 0 when neither is available
   - A contributor without LiveSpec installed is never blocked from committing
 
@@ -68,4 +70,5 @@ spec-first enforcement is worthless if every project has to wire it by hand.
 - A constraint violation is reported and the commit still succeeds
 - In a project installed from the plugin, a commit of an invalid spec from a shell with `CLAUDE_PLUGIN_ROOT` unset is blocked
 - Editing a vendored script causes it to report as locally edited and be left alone on reinstall
-- Running inside the LiveSpec repository vendors nothing
+- Reinstalling in a project whose scripts were vendored at the root of `scripts/` moves them to `scripts/livespec/` and leaves the project's own scripts where they are
+- Running inside the LiveSpec repository vendors nothing, and its installed hook still resolves the validators from `scripts/`

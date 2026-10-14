@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Changed
+
+- **Vendored scripts live in `scripts/livespec/`** ⚠️ MEDIUM impact: `setup-hooks.sh` vendored nine validators and helpers into the root of a project's `scripts/`, mixed in with the project's own scripts. They now go to `scripts/livespec/`. Re-running the installer (as `/livespec:upgrade` does) moves copies that carry provenance from the old location, local edits included, and leaves the project's own scripts alone. The installed hook resolves from the new folder, the spec-first template names `scripts/livespec/check-requires-spec.sh`, and `validate-constraints.sh` now checks project-context scripts in subfolders of `scripts/`. Regenerate the project's context afterwards so its AGENTS.md names the new paths
+
 ---
 
 ## [5.11.0] - 2026-10-05

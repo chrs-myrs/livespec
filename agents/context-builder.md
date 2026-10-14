@@ -73,7 +73,7 @@ AGENTS.md content when a file is absent rather than failing the run):
 - `specs/workspace/*.spec.md` — all workspace specs
 - `specs/foundation/*.spec.md` — outcomes and constraints
 - `specs/features/*.spec.md` — key behaviors (spec-first enforcement, context generation, etc.)
-- `${CLAUDE_PLUGIN_ROOT}/templates/agents/spec-first-enforcement.md` — inline in root AGENTS.md
+- `${CLAUDE_PLUGIN_ROOT}/templates/agents/spec-first-enforcement.md` — inline in root AGENTS.md. Its `scripts/livespec/` paths are where the hook installer vendors; where the project is the toolchain source (it ships `.claude-plugin/plugin.json`), write them as `scripts/`
 
 ## Step 2: Read Existing Context Tree
 
@@ -184,8 +184,10 @@ As the last write of every run, full or scoped, record the sources the tree was
 generated from:
 
 ```bash
-if [ -f scripts/validate-context.sh ]; then bash scripts/validate-context.sh --stamp
-else bash "${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh" --stamp; fi
+for dir in scripts/livespec scripts "${CLAUDE_PLUGIN_ROOT}/scripts"; do
+    [ -f "$dir/validate-context.sh" ] && break
+done
+bash "$dir/validate-context.sh" --stamp
 ```
 
 Never write or edit the stamp line yourself: it is a hash only the script can

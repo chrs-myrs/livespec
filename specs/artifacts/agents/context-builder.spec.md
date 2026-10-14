@@ -58,6 +58,7 @@ specifies:
   - NO frontmatter (clean context for agents)
   - Inline edit warning at top (not in frontmatter)
   - Inlines spec-first enforcement template from templates/agents/
+  - Writes the template's `scripts/livespec/` paths as `scripts/` where the project is the toolchain source, so every script path resolves in the project
   - Inlines core principles compressed from constitution
   - Inlines folder organization tests from taxonomy
   - Includes "When to Load Sub-Agents" section (routing decision tree)

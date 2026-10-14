@@ -67,4 +67,5 @@ previously found only by a user hitting it.
 - A `.livespec/` reference outside `references/guides/` and `CHANGELOG.md` produces a WARNING
 - In the toolchain repository, an ignore rule that matches a file under `templates/` produces an ERROR naming the file
 - A project-context script named as inline code without an invocation prefix (the form the inlined spec-first template uses) counts as an instruction, and produces an ERROR when the project does not ship it
+- A project-context script in a subfolder of `scripts/`, where vendored scripts live, is checked the same way
 - Clean repository exits 0 with zero errors

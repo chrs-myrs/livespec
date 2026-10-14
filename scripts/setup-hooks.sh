@@ -42,6 +42,11 @@ SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 INERT=false
 [[ "$SOURCE_DIR" == "$(pwd -P)/scripts" ]] && INERT=true
 
+# A folder of their own keeps vendored scripts apart from the project's. The
+# toolchain source vendors nothing: its scripts are already in scripts/.
+DEST="scripts/livespec"
+$INERT && DEST="scripts"
+
 VERSION="unknown"
 if [[ -f "$SOURCE_DIR/../project.yaml" ]]; then
     v="$(grep -A5 '^livespec:' "$SOURCE_DIR/../project.yaml" | grep -m1 'version:' \
@@ -74,15 +79,26 @@ stamp_script() {
 # Same four states as convention vendoring. Only absent and
 # upstream-changed-but-unedited scripts are written.
 vendor_scripts() {
-    local write="$1" name src dst up recorded local_h
+    local write="$1" name src dst old up recorded local_h
     if $INERT; then
         echo "This project is the toolchain source; nothing to vendor."
         return
     fi
-    $write && mkdir -p scripts
+    $write && mkdir -p "$DEST"
     for name in "${VENDOR[@]}"; do
-        src="$SOURCE_DIR/$name"; dst="scripts/$name"
+        src="$SOURCE_DIR/$name"; dst="$DEST/$name"; old="scripts/$name"
         [[ -f "$src" ]] || continue
+        # Earlier installs vendored to the root of scripts/. Provenance marks the
+        # copy as ours to move; without it the script is the project's own.
+        if [[ -f "$old" ]] && grep -m1 -q '^# source-hash:' "$old"; then
+            if [[ -f "$dst" ]]; then
+                echo "  DUPLICATE   $old (also vendored at $dst; left alone)"
+            elif $write; then
+                mv "$old" "$dst"; echo "  MOVED       $old -> $dst"
+            else
+                echo "  MOVE        $old -> $dst (on install)"; dst="$old"
+            fi
+        fi
         up="$(script_hash "$src")"
         if [[ ! -f "$dst" ]]; then
             if $write; then stamp_script "$src" "$dst" "$up" "$name"; echo "  VENDORED    $dst"
@@ -112,8 +128,10 @@ vendor_scripts() {
 report_resolution() {
     local v in_project=0
     for v in "${HOOKED[@]}"; do
-        if [[ -f "scripts/$v" ]]; then
-            echo "  project     scripts/$v"; in_project=$((in_project+1))
+        if [[ -f "$DEST/$v" ]]; then
+            echo "  project     $DEST/$v"; in_project=$((in_project+1))
+        elif [[ -f "scripts/$v" ]] && grep -m1 -q '^# source-hash:' "scripts/$v"; then
+            echo "  project     scripts/$v (moves to $DEST/ on install)"; in_project=$((in_project+1))
         elif [[ -n "${CLAUDE_PLUGIN_ROOT:-}" && -f "${CLAUDE_PLUGIN_ROOT}/scripts/$v" ]]; then
             echo "  plugin      $v (only while CLAUDE_PLUGIN_ROOT is set)"
         else
@@ -122,7 +140,7 @@ report_resolution() {
     done
     if (( in_project == 0 )); then
         echo ""
-        echo "WARNING: no hooked validator is in the project's scripts/. CLAUDE_PLUGIN_ROOT"
+        echo "WARNING: no hooked validator is in the project's $DEST/. CLAUDE_PLUGIN_ROOT"
         echo "         is normally unset at commit time, so the hook will skip every commit."
     fi
 }
@@ -166,7 +184,8 @@ fi
 
 mkdir -p "$(dirname "$HOOK")"
 
-cat > "$HOOK" <<'HOOKEOF'
+# The hook body is literal; only the vendored-scripts folder is filled in.
+sed "s|@DEST@|$DEST|" > "$HOOK" <<'HOOKEOF'
 #!/usr/bin/env bash
 # LiveSpec validation hook
 # Installed by scripts/setup-hooks.sh. Re-run that script to update.
@@ -178,10 +197,12 @@ cat > "$HOOK" <<'HOOKEOF'
 set -uo pipefail
 cd "$(git rev-parse --show-toplevel)" || exit 0
 
+VENDORED="@DEST@"
+
 resolve() {
     local name="$1"
-    if [[ -f "scripts/$name" ]]; then
-        echo "scripts/$name"
+    if [[ -f "$VENDORED/$name" ]]; then
+        echo "$VENDORED/$name"
     elif [[ -n "${CLAUDE_PLUGIN_ROOT:-}" && -f "${CLAUDE_PLUGIN_ROOT}/scripts/$name" ]]; then
         echo "${CLAUDE_PLUGIN_ROOT}/scripts/$name"
     fi

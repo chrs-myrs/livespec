@@ -115,7 +115,9 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/setup-hooks.sh
 ```
 
 Run `--check` first and report the state, including its warning if no hooked
-validator is in the project's `scripts/`. An existing foreign hook is preserved
+validator is in the project's `scripts/livespec/`. Scripts an earlier install
+vendored to the root of `scripts/` are moved there; the project's own scripts
+are not touched. An existing foreign hook is preserved
 as `pre-commit.local` and chained, never discarded. Locally edited or diverged
 vendored scripts are reported and left alone; raise them with the user. A project
 that wants its own checks at commit time should put them in
