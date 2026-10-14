@@ -16,7 +16,8 @@ derives-from:
   - specs/workspace/patterns.spec.md
   - specs/workspace/workflows.spec.md
   - specs/workspace/context-architecture.spec.md
-supports: []
+supports:
+  - specs/artifacts/harness/skill-routing.spec.md
 ---
 
 # Agent Configuration Structure

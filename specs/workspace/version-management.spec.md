@@ -12,6 +12,7 @@ applies_to:
 derives-from:
   - specs/workspace/workflows.spec.md
 supports:
+  - specs/artifacts/harness/release-command.spec.md
   - specs/features/changelog.spec.md
 ---
 
