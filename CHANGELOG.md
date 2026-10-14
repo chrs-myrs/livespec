@@ -23,6 +23,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 - **Vendored scripts live in `scripts/livespec/`** ⚠️ MEDIUM impact: `setup-hooks.sh` vendored eight validators and helpers into the root of a project's `scripts/`, mixed in with the project's own scripts. They now go to `scripts/livespec/`. Re-running the installer (as `/livespec:upgrade` does) moves copies that carry provenance from the old location, local edits included, and leaves the project's own scripts alone. The installed hook resolves from the new folder, the spec-first template names `scripts/livespec/check-requires-spec.sh`, and `validate-constraints.sh` now checks project-context scripts in subfolders of `scripts/`. Regenerate the project's context afterwards so its AGENTS.md names the new paths
 - **AGENTS.md is the only agent doc; the `CLAUDE.md` symlink is gone** ⚠️ LOW impact: the generated-files spec required `CLAUDE.md` to be a symlink to `AGENTS.md`. Claude Code now reads `AGENTS.md` natively (v2.1.277 and later), but only where the project has no `CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md`, so the spec now requires one agent doc and puts Claude-specific instructions in `.claude/rules/`. A `CLAUDE.md` holding only `@AGENTS.md` remains the fallback for sessions that cannot read it natively. This repository drops its symlink and moves `.claude/CLAUDE.md` to `.claude/rules/plugin-skill-routing.md`. An existing symlink in another project is harmless (Claude reads the content once) and can be deleted, as long as no other `CLAUDE.md` file is left in that project
 
+### Fixed
+
+- **`/livespec:audit` could not run two validators in a consuming project**: it ran `validate-registries.sh` and `validate-constraints.sh` from a bare `scripts/`, where a project has neither: the registry validator is never vendored, and the constraints validator now lives in `scripts/livespec/`. The skill runs both from the plugin, as it already ran `validate-context.sh`. The health-report prompt tries the vendored copy, then `scripts/`, then the plugin, and says when a validator is not found
+
 ---
 
 ## [5.11.0] - 2026-10-05

@@ -318,7 +318,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
 #          .git/hooks/pre-commit (installed validation hook), initial AGENTS.md
 ```
 
-No `.livespec/` copy step, no submodule, no manual folder scaffolding — the `init` skill does this. Existing legacy installations (submodule or directory copy) migrate via `/livespec:upgrade`: `scripts/upgrade-to-v5.sh` reads one folder-migration table (documented retired folders move automatically; any other folder gets a proposed target and nothing moves until you confirm it, via `--map old=new`; unknown folders are reported, never moved; no move overwrites a file). Upgrade then brings links to the current model (`scripts/validate-crossrefs.sh --fix`) and records the accepted version in `project.yaml` (`livespec.version`) only once you accept the upgrade. `--detect-only` reports the layout and every version signal, flagging disagreement.
+No `.livespec/` copy step, no submodule, no manual folder scaffolding — the `init` skill does this. Legacy installations migrate via `/livespec:upgrade` (`scripts/upgrade-to-v5.sh`: documented retired folders move automatically; others get a proposed target confirmed via `--map old=new`; unknown folders are reported, never moved; no move overwrites a file). Upgrade then fixes links (`scripts/validate-crossrefs.sh --fix`) and records `livespec.version` in `project.yaml` only once you accept. `--detect-only` reports layout and version signals.
 
 ---
 
@@ -488,7 +488,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 **Run validation at key checkpoints (seven validators, all in `scripts/`):**
 - Frontmatter compliance: `scripts/validate-frontmatter.sh` (accepts `[--verbose] [--strict] [path]`; scans `specs/` by default)
 - Cross-reference integrity and traceability: `scripts/validate-crossrefs.sh` (accepts `[--verbose] [--strict] [--fix [--prune]] [path]`) — targets resolve from the repository root, upward links reach PURPOSE.md (specs with `vendored-from` provenance are exempt), `supports:` mirrors them
-- Constraint integrity: `scripts/validate-constraints.sh` (accepts `[--verbose]`) — every `/livespec:` command, `scripts/*.sh` reference, and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`); in the toolchain repo only, `ignored-shipped-file` errors on git-ignored shipped files
+- Constraint integrity: `scripts/validate-constraints.sh` (accepts `[--verbose]`) — every `/livespec:` command, `scripts/*.sh` reference (including in subfolders of `scripts/` where vendored scripts live), and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`); in the toolchain repo only, `ignored-shipped-file` errors on git-ignored shipped files
 - Registry integrity: `scripts/validate-registries.sh` (required registries present, entries well-formed, no work-item-style summaries, staleness flagged)
 - PURPOSE.md boundary: `scripts/validate-purpose.sh` (accepts `[path]`, defaults to `./PURPOSE.md`)
 - Spec coverage: `scripts/validate-coverage.sh` — which tracked files a spec's `specifies:` governs; reported, never enforced (exit 0). `--which <path>` answers which spec governs a path (exit 1 when a spec is needed and none governs it)
@@ -497,7 +497,7 @@ When renaming or moving prompts/specs, use systematic checklist:
 
 **Machine-readable output:** every validator accepts `--json` and then writes exactly one JSON document to stdout (`schema_version`, `validator`, `livespec_version`, `findings`; each finding has `id`, `rule`, `severity`, `path`, `message`). Exit codes match text mode (0 no errors, 1 errors, 2 usage error). Output is deterministic, so consumers compare findings by `id`. Contract: `specs/interfaces/formats/validator-output.spec.md`; shared helper `scripts/validator-output.sh` (sourced, not run directly).
 
-**Installed automatically:** `scripts/setup-hooks.sh` writes `.git/hooks/pre-commit`, chaining to (not replacing) any existing hook, and vendors the hooked validators and the scripts this context instructs into the project's `scripts/` with `vendored-from`/`source-version`/`source-hash` provenance. The hook validates only staged `*.spec.md` files: frontmatter and cross-references block the commit, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one. Skips with a notice when no validators resolve; `--check` reports where each resolves.
+**Installed automatically:** `scripts/setup-hooks.sh` writes `.git/hooks/pre-commit`, chaining to (not replacing) any existing hook, and vendors the hooked validators and the scripts this context instructs into the target project's `scripts/livespec/` (apart from the project's own `scripts/`; in the toolchain source they are used from `scripts/`) with `vendored-from`/`source-version`/`source-hash` provenance, and moves copies an earlier install left at the root of `scripts/`. The installed hook resolves from `scripts/livespec/` (or `scripts/` in the toolchain source), then the plugin, and skips with a notice when neither exists. The hook validates only staged `*.spec.md` files: frontmatter and cross-references block the commit, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one. Skips with a notice when no validators resolve; `--check` reports where each resolves.
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, unresolved link targets, unresolved `/livespec:` command/script/route reference)
@@ -640,17 +640,23 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 
 **Registries (accepted current state, tiered):** required `decisions.md` (`DEC-`), `debt.md` (`DEBT-`), `security.md` (`SEC-`); recommended `conflicts` (`CON-`), `gaps` (`GAP-`); optional `dependencies` (`DEP-`), `issues` (`ISSUE-`). Standards in `references/standards/registries/`; behaviour in `specs/features/registry-specs.spec.md`. `registries/decisions.md` DEC-002 to DEC-009 record the spec-checker design decisions. Registries record what is known true now, not desired state (specs) or work (tickets).
 
-**Behaviour specs:** `specs/features/automation.spec.md` (sweep, version migration), `specs/features/project-config.spec.md` (`project.yaml`; `livespec.version` is the accepted version, written by init, bumped by upgrade), `specs/artifacts/validators/{ci-validation,validate-coverage,validate-context,validator-output,validate-constraints,setup-hooks,vendor-conventions}.spec.md`, `specs/interfaces/formats/validator-output.spec.md` (`--json` contract and rule codes).
+**Behaviour specs:** `specs/features/automation.spec.md`, `specs/features/project-config.spec.md` (`livespec.version` is the accepted version), `specs/artifacts/validators/*.spec.md` (one per validator, plus `setup-hooks`, `vendor-conventions`, `ci-validation`), `specs/artifacts/harness/{skill-routing,release-command}.spec.md`, `specs/interfaces/formats/validator-output.spec.md` (`--json` contract and rule codes).
 
 ### Scripts (`scripts/`)
 - **Seven validators:** `validate-frontmatter.sh`, `validate-crossrefs.sh`, `validate-constraints.sh`, `validate-registries.sh`, `validate-purpose.sh`, `validate-coverage.sh`, `validate-context.sh`; all accept `--json`; flags in Validation Workflow above
 - **`scripts/validator-output.sh`** - Shared helper rendering the `--json` envelope (sourced, not run)
 - **`scripts/check-requires-spec.sh`** `path/to/file` - Layer 2 spec-first gate; delegates to `validate-coverage.sh --which`
-- **`scripts/setup-hooks.sh`** `[--check] [--force]` - Install the pre-commit hook; vendors hooked validators and instructed scripts with provenance
+- **`scripts/setup-hooks.sh`** `[--check] [--force]` - Install the pre-commit hook; vendors hooked validators and instructed scripts into `scripts/livespec/` with provenance
 - **`scripts/vendor-conventions.sh`** `[--check] [--source DIR] [--target DIR]` - Vendor conventions into `specs/workspace/standards/` with provenance
 - **`scripts/upgrade-to-v5.sh`** `[--detect-only] [--dry-run] [--map old=new]` - Table-driven migration of legacy installs; reports a retired `ctxt/phases/` or `ctxt/utils/` layout and never moves it
 - **`scripts/remediate-references.sh`** `[--check]` - Drops metaspec/template entries from `governed-by`
 - **`scripts/sweep-projects.sh`** `[--json] [--root <path>] [--stale-days <N>]` - Portfolio audit (backs `/livespec:sweep`)
+
+### Agent Doc
+`AGENTS.md` is the only agent doc: Claude Code reads it natively; there is no `CLAUDE.md` symlink or copy. Claude-specific instructions go in `.claude/rules/`.
+
+### Harness Artifacts (this repo)
+`.claude/hooks/skill-evaluator.sh` (wired in tracked `.claude/settings.json`) and `.claude/rules/plugin-skill-routing.md` point requests at the right `/livespec:` skill; the hook suggests, never blocks. `/release` (`.claude/commands/release.md`) publishes from the changelog: stops on an empty Unreleased section or failing `validate-constraints.sh`, then bumps every version file, commits, pushes and tags.
 
 ### Plugin Skills
 `/livespec:init` (new project), `/livespec:design` (create and refine specs, Phases 0-1), `/livespec:audit` (health, validate, context; Phases 3-4), `/livespec:learn` (session completion), `/livespec:sweep` (portfolio audit), `/livespec:birth` (incubate child projects), `/livespec:go` (intent router; "feedback" routes to the feedback-report prompt `references/prompts/utils/feedback-report.md`), `/livespec:upgrade` (migrate legacy installs).
@@ -661,4 +667,4 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
 
-<!-- livespec-context-sources: sha256:05325e2061ac33a004d5b3b90e0e80bea7a2ac2483e70b5f3cf692cbfc407461 n=96 -->
+<!-- livespec-context-sources: sha256:77c74699dd99a82dd4edbe65530476bcce500837d59a391331258f8129572e2c n=98 -->

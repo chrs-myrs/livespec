@@ -62,7 +62,7 @@ scripts/validate-context.sh        # generated context current, stale or unstamp
 
 Every validator accepts `--json` (one versioned document; contract in `specs/interfaces/formats/validator-output.spec.md`). CI (`.github/workflows/validate.yml`) runs all seven on every push, cross-references with `--strict`.
 
-Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs a pre-commit hook (chains to any existing hook rather than replacing it) and vendors the hooked validators into the project's `scripts/` with provenance. The hook validates staged `*.spec.md` files only: frontmatter and cross-references block, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one; `--check` reports where validators resolve.
+Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs a pre-commit hook (chains to any existing hook rather than replacing it) and vendors the hooked validators into the project's `scripts/livespec/` with provenance (moving copies an earlier install left at the root of `scripts/`). The installed hook resolves from `scripts/livespec/` (or `scripts/` in the toolchain source), then the plugin. The hook validates staged `*.spec.md` files only: frontmatter and cross-references block, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one; `--check` reports where validators resolve.
 
 **Severity levels:**
 - ERROR: Must fix before committing
@@ -263,4 +263,4 @@ scripts/validate-context.sh
 *Evolve mode specialist for LiveSpec v5.11.0*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:05325e2061ac33a004d5b3b90e0e80bea7a2ac2483e70b5f3cf692cbfc407461 n=96 -->
+<!-- livespec-context-sources: sha256:77c74699dd99a82dd4edbe65530476bcce500837d59a391331258f8129572e2c n=98 -->
