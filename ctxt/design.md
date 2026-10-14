@@ -232,7 +232,7 @@ specs/artifacts/agents/context-builder.spec.md
 
 ---
 
-*Design mode specialist for LiveSpec v5.11.0*
+*Design mode specialist for LiveSpec v5.12.0*
 *Parent: AGENTS.md*
 
 <!-- livespec-context-sources: sha256:77c74699dd99a82dd4edbe65530476bcce500837d59a391331258f8129572e2c n=98 -->
