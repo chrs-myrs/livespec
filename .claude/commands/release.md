@@ -69,8 +69,8 @@ Update these files atomically (all must be updated):
 1. **`project.yaml`** — update `livespec.version` field (source of truth)
 2. **`.claude-plugin/plugin.json`** — update `"version"` field
 3. **`.claude-plugin/marketplace.json`** — update `"version"` in plugins array
-5. **`AGENTS.md`** — update footer line `*Agent configuration for LiveSpec vX.Y.Z*`
-5b. **`ctxt/**/*.md`** — update each footer line `*... specialist for LiveSpec vX.Y.Z*` (7 files)
+4. **`AGENTS.md`** — update footer line `*Agent configuration for LiveSpec vX.Y.Z*`
+5. **`ctxt/**/*.md`** — update each footer line `*... specialist for LiveSpec vX.Y.Z*` (7 files)
 6. **`README.md`** — update `**Current Version: X.Y.Z**`
 7. **`skills/sweep/SKILL.md`** — update the hardcoded `**LiveSpec version:** X.Y.Z` example strings in the report-format templates (6 occurrences)
 8. **`CHANGELOG.md`** — rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD` and add a new empty `## [Unreleased]` section above it
@@ -104,7 +104,7 @@ Stage all changed files explicitly (no `git add .`):
 
 ```bash
 git add project.yaml .claude-plugin/plugin.json .claude-plugin/marketplace.json \
-  project.yaml AGENTS.md README.md skills/sweep/SKILL.md CHANGELOG.md \
+  AGENTS.md ctxt/ README.md skills/sweep/SKILL.md CHANGELOG.md \
   [any other files with version updates found in Step 4]
 ```
 
@@ -114,7 +114,7 @@ Release LiveSpec vX.Y.Z
 
 [1-2 sentence summary of what changed]
 
-Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+[the commit attribution line this session's instructions give]
 ```
 
 Let the pre-commit hook run normally (it validates frontmatter and cross-references, not tests — no reason to skip it).
