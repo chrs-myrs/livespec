@@ -125,13 +125,7 @@ supports:
 - Output: regenerated AGENTS.md
 - Validation: file size check, section completeness, manual review
 
-**Agent-specific variants (optional):**
-- AGENTS.md (canonical)
-- CLAUDE.md → symlink to AGENTS.md (Claude Code - implemented)
-- COPILOT.md → symlink to AGENTS.md (GitHub Copilot - example)
-- CURSOR.md → symlink to AGENTS.md (Cursor IDE - example)
-
-Same content, different filenames for agent-specific discovery patterns. LiveSpec currently implements CLAUDE.md only.
+**Discovery filename:** AGENTS.md only. Claude Code reads it natively, as do other agents that follow the AGENTS.md convention, so no per-agent symlinks or copies (CLAUDE.md, COPILOT.md, CURSOR.md) are created. Claude-specific instructions live in `.claude/rules/`, because any CLAUDE.md in the project stops Claude Code reading AGENTS.md.
 
 ## Folder Structure for AI Navigation
 
@@ -272,10 +266,9 @@ Same content structure works across Claude Code, GitHub Copilot, Cursor IDE, and
    - No special syntax beyond standard markdown
    - Readable by humans and AI equally
 
-2. **Multiple discovery filenames:**
-   - AGENTS.md (canonical)
-   - CLAUDE.md (symlink - implemented), others optional (COPILOT.md, CURSOR.md)
-   - Agents discover methodology via familiar filename
+2. **One discovery filename:**
+   - AGENTS.md, which agents read natively
+   - No per-agent symlinks or copies
 
 3. **Conventional folder structure:**
    - skills/, agents/, commands/ (Claude Code plugin convention)

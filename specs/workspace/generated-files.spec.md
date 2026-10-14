@@ -28,11 +28,10 @@ supports:
 - [!] Generated files are made read-only (chmod 444) after generation to create structural friction against direct edits.
   - Read-only permissions applied after successful generation
   - User must explicitly unlock (chmod +w) to edit, prompting reconsideration
-  - Applied to AGENTS.md, CLAUDE.md, and all ctxt/*.md files
-- [!] CLAUDE.md MUST be a symlink to AGENTS.md, never a separate file.
-  - Symlink ensures single source of truth
-  - When AGENTS.md regenerates, CLAUDE.md automatically updates
-  - Validation checks symlink integrity (test -L CLAUDE.md)
+  - Applied to the agent doc and all ctxt/*.md files
+- [!] A project carries one agent doc, never a symlink or copy of it under another name.
+  - Claude Code reads AGENTS.md natively, but only where the project has no `CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md`; Claude-specific instructions go in `.claude/rules/`, which loads alongside AGENTS.md
+  - Where a session cannot read AGENTS.md natively (Claude Code before v2.1.277), a `CLAUDE.md` holding only an `@AGENTS.md` import serves it without duplicating content
 
 ## Standard Generation Markers
 
@@ -229,36 +228,14 @@ spec: specs/features/getting-started.spec.md
 
 **Common generated files:**
 - `AGENTS.md` - Agent configuration (from `specs/workspace/*.spec.md` + `PURPOSE.md`)
-- `CLAUDE.md` - **Symlink to AGENTS.md** (NOT a separate file)
 - `prompts/generated/*.md` - Project-specific prompts (from PURPOSE + specs)
 - Documentation (from specs via generation prompts)
 
-## CLAUDE.md Symlink Relationship
+## Agent Doc Discovery
 
-**CRITICAL**: `CLAUDE.md` MUST be a symlink to `AGENTS.md`, never a separate file.
+`AGENTS.md` is the only agent doc. Claude Code reads it natively, so no `CLAUDE.md` symlink, copy or pointer is created alongside it.
 
-```bash
-# Correct relationship
-CLAUDE.md -> AGENTS.md
-```
-
-**Why symlink:**
-- Single source of truth (AGENTS.md)
-- When AGENTS.md regenerates, CLAUDE.md automatically updates
-- Prevents drift between two files with same content
-- Claude Code reads CLAUDE.md; regeneration updates AGENTS.md
-
-**Validation:**
-```bash
-test -L CLAUDE.md && test "$(readlink CLAUDE.md)" = "AGENTS.md" && echo "✓ Valid" || echo "✗ Invalid"
-```
-
-**If broken (CLAUDE.md is regular file):**
-```bash
-rm CLAUDE.md && ln -s AGENTS.md CLAUDE.md
-```
-
-**Common mistake:** Directly editing CLAUDE.md or creating it as a regular file instead of symlink. This causes the two files to drift apart.
+Any `CLAUDE.md`, `.claude/CLAUDE.md` or `CLAUDE.local.md` in the project or a directory above it stops Claude Code reading `AGENTS.md`. Claude-specific instructions therefore go in `.claude/rules/`, which does not. A project whose sessions cannot read `AGENTS.md` natively uses a `CLAUDE.md` containing only `@AGENTS.md`.
 
 **Best practices:**
 - Commit project-specific generated files (customised to project)
@@ -277,4 +254,4 @@ rm CLAUDE.md && ln -s AGENTS.md CLAUDE.md
 - Manual sections editable in partially generated files
 - Spec/doc bidirectional links maintained
 - Validation catches direct edits to generated content
-- CLAUDE.md is symlink to AGENTS.md (not regular file)
+- A fresh Claude Code session in the project reports `AGENTS.md loaded`, and no `CLAUDE.md` symlink or copy of the agent doc exists

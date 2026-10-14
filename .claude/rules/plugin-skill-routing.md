@@ -40,8 +40,8 @@ This routes "livespec" queries to Context7, which:
 
 **This project IS LiveSpec** - use the local skills, not external references.
 
-## Deferred to Root CLAUDE.md
+## Deferred to AGENTS.md
 
 For all other guidance (MSL format, folder structure, spec-first protocol), see:
-- `/home/chris/projects/livespec/CLAUDE.md` (project root)
+- `AGENTS.md` (project root, loaded alongside this rule)
 - Skill content when skills are invoked

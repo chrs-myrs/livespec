@@ -258,7 +258,6 @@ your-project/
 ├── registries/             # Accepted current state (gaps, issues, improvements)
 │
 ├── AGENTS.md               # Generated agent context (from workspace specs)
-├── CLAUDE.md               # Generated (symlink or copy of AGENTS.md)
 │
 └── [your code]             # Your implementation
 ```
