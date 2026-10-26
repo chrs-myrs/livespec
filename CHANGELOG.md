@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.13.0] - 2026-10-26
+
 ### Changed
 
 - **Each project sizes its own agent context** ⚠️ MEDIUM impact: the context builder produced a 30-40KB root and seven `ctxt/` files for every project, however small. The tree's shape now comes from the project's `specs/workspace/context-architecture.spec.md`, which declares a root ceiling, the `ctxt/` files it wants (possibly none) and which LiveSpec method sections the root carries (the five phases, phases vs layers, multi-domain organisation, session completion). The project's own constraints come before any method section. The template now declares a small project: a root of 10KB or less and no `ctxt/`. A project whose context-architecture spec states no shape keeps the shape of its existing tree, and the builder's report says the shape is undeclared, so updating LiveSpec never resizes a tree on its own. A project holding a vendored copy of the context-tree convention is offered the new version by `/livespec:upgrade`. The footer leaves the version out when `project.yaml` records none, instead of failing

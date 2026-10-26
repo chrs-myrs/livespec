@@ -642,8 +642,8 @@ Besides the seven validators (Validation Workflow above):
 
 ---
 
-*Agent configuration for LiveSpec v5.12.1*
+*Agent configuration for LiveSpec v5.13.0*
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
 
-<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->
+<!-- livespec-context-sources: sha256:375031d63176dba9f45458844839f128aebffc3f2d3be85f0fa90c8d0b4f84b9 n=99 -->
