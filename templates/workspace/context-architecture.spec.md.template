@@ -8,33 +8,35 @@ governed-by: []
 applies_to:
   - this_project
   - agent_context_generation
+derives-from:
+  - PURPOSE.md
 ---
 
 # Context Architecture
 
 ## Requirements
 
-- [!] This project uses the hierarchical agent context tree from the context-tree convention (`specs/workspace/standards/context-tree.spec.md`).
-  - **Root AGENTS.md** (30-40KB): compressed methodology with routing to sub-agents
-  - **ctxt/** (flat, 4-10KB each): define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md; no phases/ or utils/ subfolders
-  - **ctxt/domains/**: domain specialists from the taxonomy classification
-  - **Proactive loading**: the agent decides what context to load from the task
+- [!] This project's agent context tree has the shape declared here, following the context-tree convention (`specs/workspace/standards/context-tree.spec.md`)
+  - **Root ceiling**: 10KB
+  - **ctxt/ files**: none
+  - **Methodology sections**: none
+  - The root carries this project's constraints near the top
   - **Regeneration**: `/livespec:audit context`
+
+  To grow the tree, edit this declaration: raise the ceiling; list ctxt/ files
+  (flat, plus `ctxt/domains/`, 4-10KB each) with the words that should load each
+  one; or name methodology sections from the five phases, phases vs layers,
+  multi-domain organisation and session completion.
 
 - [!] This project defines what content populates agent contexts to ensure focused, relevant guidance.
 
-  **Content Sources** (what feeds AGENTS.md generation):
-
-  Always Include (root AGENTS.md):
-  - specs/workspace/constitution.spec.md - Development principles
-  - specs/workspace/patterns.spec.md - Naming conventions
-  - specs/workspace/workflows.spec.md - Phase guidance
-  - Key behaviors from specs/features/ relevant to daily work
-
-  Include When Relevant (sub-agent contexts):
-  - Phase-specific behaviors when agent determines phase work
-  - Domain-specific patterns when taxonomy indicates
-  - Session and audit workflows when completing sessions or checking spec health
+  Always Include (root AGENTS.md, in this order):
+  1. PURPOSE.md - Summary
+  2. Constraints from specs/foundation/
+  3. Spec-first enforcement
+  4. specs/workspace/constitution.spec.md - Development principles
+  5. specs/workspace/taxonomy.spec.md - Folder organisation
+  6. Key behaviors from specs/features/ relevant to daily work
 
   Exclude:
   - Detailed implementation specs (reference, don't inline)
@@ -42,29 +44,7 @@ applies_to:
   - Historical/archived content
   - Paths that exist only in the LiveSpec toolchain: generated context must work without it
 
-  Compression Level: as declared by `context_compression` in constitution.spec.md
-
-  **Structural Hints**:
-
-  Root AGENTS.md Priorities (ordering):
-  1. Spec-first enforcement (most critical)
-  2. Core principles from constitution
-  3. Patterns and conventions
-  4. Key behaviors for daily work
-  5. Sub-agent routing table
-
-  Sub-Agent Triggers (keyword → context mapping):
-  - "new project", "setup", "define", "constraints" → ctxt/define.md
-  - "design", "architecture", "behaviors", "contracts" → ctxt/design.md
-  - "implement", "build", "test", "verify", "drift", "evolve" → ctxt/evolve.md
-  - "complete session", "measure compliance" → ctxt/session.md
-  - "audit MSL", "minimalism", "spec quality" → ctxt/msl-audit.md
-  - "health", "validation", "context regeneration" → ctxt/audit.md
-
-  **Content Focus** (balanced mix):
-  - Behaviors: 40% - Observable outcomes from specs/features/
-  - Constraints: 30% - Requirements from specs/foundation/
-  - Patterns: 30% - Workspace methodology from specs/workspace/
+  Compression Level: as declared by `livespec.methodology.context_compression` in `project.yaml` (moderate when absent)
 
 - [!] Every source maps to the generated file(s) it feeds, so a change can be regenerated in scope rather than in full
   - `/livespec:audit context` reads this map to classify a change as MINOR or FULL; without it every rebuild runs in full
@@ -74,12 +54,12 @@ applies_to:
   | Source | Generated File(s) | Structural? |
   |--------|-------------------|-------------|
   | PURPOSE.md | AGENTS.md § Summary | No |
-  | constitution.spec.md | AGENTS.md § Core Principles | Compression-level changes are structural (affect every file) |
-  | patterns.spec.md | AGENTS.md § Patterns and conventions; ctxt/domains/*.md | No |
-  | workflows.spec.md | AGENTS.md § Phases; ctxt/define.md, ctxt/design.md, ctxt/evolve.md | No |
-  | taxonomy.spec.md | AGENTS.md § Folder organisation; ctxt/domains/*.md | Domain classification changes are structural (add/remove domain files) |
-  | context-architecture.spec.md (this spec) | Tree structure itself: which files exist, size budgets, load triggers | Always structural |
-  | foundation/*.spec.md | AGENTS.md § Summary; § Core Principles | No |
+  | project.yaml (`livespec.version`, `context_compression`, `context_budget`) | Footer version; compression and budget shape the whole tree | Compression and budget changes are structural; a version change is not |
+  | constitution.spec.md | AGENTS.md § Core Principles | No |
+  | taxonomy.spec.md | AGENTS.md § Folder organisation | No |
+  | context-architecture.spec.md (this spec) | Tree shape itself: root ceiling, ctxt/ files, methodology sections, load triggers | Always structural |
+  | standards/*.spec.md (vendored conventions) | *(none)* | No |
+  | foundation/*.spec.md | AGENTS.md § Summary; § Constraints | No |
   | features/*.spec.md | AGENTS.md § key behaviors; Reference Library | No |
   | strategy/*.spec.md | *(none)* unless AGENTS.md inlines it; then name the section | No |
   | interfaces/*.spec.md | *(none)* unless AGENTS.md describes the external system; then name the section | No |
@@ -88,12 +68,9 @@ applies_to:
 
 ## Validation
 
-- Root AGENTS.md within the convention budget (30-40KB)
-- ctxt/ is flat plus ctxt/domains/, with no phases/ or utils/ subfolders
-- Load triggers functional (agent matches query to sub-agent)
+- Root AGENTS.md within the declared ceiling, with this project's constraints near the top
+- ctxt/ holds exactly the declared files, and does not exist when none are declared
+- Only the declared methodology sections appear
 - Context generation reads this spec before building AGENTS.md
-- Always-include content appears in root context
-- Sub-agent triggers route to files that exist
 - Excluded content not inlined (referenced only)
-- Compression level matches constitution.spec.md declaration
 - Every workspace spec appears as a source in the Spec → Generated File Map

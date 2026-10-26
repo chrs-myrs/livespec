@@ -18,6 +18,18 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+### Changed
+
+- **Each project sizes its own agent context** ⚠️ MEDIUM impact: the context builder produced a 30-40KB root and seven `ctxt/` files for every project, however small. The tree's shape now comes from the project's `specs/workspace/context-architecture.spec.md`, which declares a root ceiling, the `ctxt/` files it wants (possibly none) and which LiveSpec method sections the root carries (the five phases, phases vs layers, multi-domain organisation, session completion). The project's own constraints come before any method section. The template now declares a small project: a root of 10KB or less and no `ctxt/`. A project whose context-architecture spec states no shape keeps the shape of its existing tree, and the builder's report says the shape is undeclared, so updating LiveSpec never resizes a tree on its own. A project holding a vendored copy of the context-tree convention is offered the new version by `/livespec:upgrade`. The footer leaves the version out when `project.yaml` records none, instead of failing
+- **Context compression is declared in `project.yaml` only** ⚠️ MEDIUM impact: the level lived in the constitution's frontmatter for init, the templates and the conventions, and in `project.yaml` for the builder, which read a key that did not exist there. It is now `livespec.methodology.context_compression` in `project.yaml`, default `moderate`, and no spec declares it. `/livespec:upgrade` finds a level left in spec frontmatter and moves it once accepted; until then it is ignored and `moderate` applies
+- **The `project.yaml` settings context generation reads are staleness sources**: `validate-context.sh` now counts `livespec.version`, `livespec.methodology.context_compression` and `agent.context_budget`, so changing compression marks the context stale. Other keys in `project.yaml` do not. Because the stamp covers more, every project's generated context reports stale once after updating, until it is regenerated or re-stamped. `/release` re-stamps after the version bump when the context was current before it
+- **`/livespec:init` finishes a partial bootstrap**: it stopped as soon as `specs/` and `PURPOSE.md` existed, so a project another tool had started got no workspace specs, registries or hook. It now checks each bootstrap artefact on its own, creates only what is missing, never overwrites a file (PURPOSE.md included), keeps an existing `livespec.version`, and reports what it created and what it kept. It also creates `context-architecture.spec.md`, without which `/livespec:audit context` stopped on every new project. Vendored conventions or scripts with updates waiting are left for `/livespec:upgrade`
+
+### Fixed
+
+- **`/livespec:init` wrote workspace specs that failed LiveSpec's own validators**: the constitution and taxonomy it wrote lacked `type`, `category`, `fidelity`, `governed-by`, `applies_to` and an upward link, so `validate-frontmatter.sh` reported eight errors on a fresh project. They now pass as written, as does `/livespec:birth`'s copy, and the skill's frontmatter example shows the full set
+- **`registries/proposals.md` was reported as an unknown registry**: it stages proposals from outside the project and is not a registry; `validate-registries.sh` now leaves it alone
+
 ---
 
 ## [5.12.1] - 2026-10-26

@@ -1,7 +1,6 @@
 ---
 applies_to:
   - all_projects
-context_compression: light
 criticality: CRITICAL
 failure_mode: Without governance principles, development becomes inconsistent
 governed-by:

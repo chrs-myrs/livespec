@@ -338,7 +338,8 @@ If context-architecture.spec.md missing:
 Cannot generate context: specs/workspace/context-architecture.spec.md is missing.
 This file defines what content populates the context tree.
 
-Run /livespec:design workspace to create workspace specs first.
+Run /livespec:init to create the missing workspace specs (it keeps every file
+that already exists), or /livespec:design workspace to write it by hand.
 ```
 
 **Step 2: Classify Scope** (skip if `--full` passed — go straight to Step 3 with `full`)
@@ -351,6 +352,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh            # current, sta
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/validate-context.sh --changed  # sources changed since the stamp
 ```
 
+- No generated context yet (it reports nothing to check) → classify **FULL**: this is the first generation
 - Every file **current** → report that the context is up to date and stop
 - Any file **unstamped**, or `--changed` prints `unknown` → classify **FULL**: there is no baseline to scope against
 - `specs/workspace/context-architecture.spec.md` has no Spec → Generated File Map → classify **FULL** and say so: without the map no change can be scoped
@@ -549,7 +551,7 @@ Group by theme, present via AskUserQuestion or as a checklist for the stakeholde
 
 **Step 1: Read Declared Level**
 
-Check `specs/workspace/constitution.spec.md` frontmatter (or `project.yaml` `livespec.methodology.context_compression`) for `light | moderate | aggressive`. If absent, note `undeclared` (default: moderate assumed).
+Read `livespec.methodology.context_compression` in `project.yaml` for `light | moderate | aggressive`. If absent, note `undeclared` (default: moderate assumed). A `context_compression` key in spec frontmatter is not read: report it and point to `/livespec:upgrade`, which moves it to `project.yaml`.
 
 **Step 2: Measure the Four Metrics**
 
@@ -579,7 +581,7 @@ Check `specs/workspace/constitution.spec.md` frontmatter (or `project.yaml` `liv
 
 **Step 4: Migration Plan (if a level change is recommended)**
 
-1. Update the declaration in `specs/workspace/constitution.spec.md` (and `project.yaml` if mirrored there)
+1. Update `livespec.methodology.context_compression` in `project.yaml`, the only place the level is declared
 2. Reorganize content — moving to higher compression: extract inline content to templates and add references; moving to lower compression: inline templates and cut reference hops
 3. Regenerate with `/livespec:audit context --full`
 4. Re-run `/livespec:audit compression` to confirm the new structure matches the newly declared level

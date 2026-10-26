@@ -101,7 +101,8 @@ stamp() {
     ' "$src" > "$dst"
 }
 
-mkdir -p "$TARGET"
+# --check changes nothing, not even the target folder.
+$CHECK || mkdir -p "$TARGET"
 
 VENDORED=0; UNCHANGED=0; EDITED=0; UPSTREAM=0; DIVERGED=0
 

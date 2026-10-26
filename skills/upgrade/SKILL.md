@@ -187,6 +187,19 @@ has to be repointed by hand. List these for the user rather than guessing. Do no
 leave the step without saying plainly which specs will block a commit when next
 touched.
 
+Then look for settings declared in spec frontmatter. LiveSpec reads them only
+from `project.yaml` now, so a level left in a spec is silently ignored:
+
+```bash
+grep -rl '^context_compression:' specs/ 2>/dev/null
+```
+
+For each file it names, show the value and offer to move it. Once the user
+accepts, add it under `livespec.methodology` in `project.yaml` as
+`context_compression: <value>` and delete the line from the spec's frontmatter,
+changing nothing else in either file. If `project.yaml` already holds a
+different value, ask which one stands rather than choosing.
+
 ## Step 3d: Record the Accepted Version
 
 Once the user has accepted the upgrade, set `livespec.version` in `project.yaml`

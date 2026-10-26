@@ -139,9 +139,16 @@ Options:
 
 ```markdown
 ---
+type: workspace
+category: workspace
+fidelity: process
 criticality: CRITICAL
 failure_mode: No methodology enforcement without constitution
-context_compression: moderate
+governed-by: []
+applies_to:
+  - this_project
+derives-from:
+  - PURPOSE.md
 ---
 
 # Workspace Constitution
@@ -165,8 +172,16 @@ Write `offspring/<name>/specs/workspace/taxonomy.spec.md`:
 
 ```markdown
 ---
+type: taxonomy
+category: workspace
+fidelity: process
 criticality: IMPORTANT
 failure_mode: Incorrect folder organization without taxonomy
+governed-by: []
+applies_to:
+  - this_project
+derives-from:
+  - PURPOSE.md
 ---
 
 # Project Taxonomy

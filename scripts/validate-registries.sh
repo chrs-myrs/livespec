@@ -104,7 +104,9 @@ iso_days() {
 
 for f in "$REG_DIR"/*.md; do
     base=$(basename "$f")
-    [[ "$base" == "README.md" ]] && continue
+    # Neither is a registry: proposals.md stages proposals from outside the
+    # project, outside the record (registry-specs.spec.md).
+    [[ "$base" == "README.md" || "$base" == "proposals.md" ]] && continue
     type="${base%.md}"
     expected_prefix=$(prefix_for "$type")
 

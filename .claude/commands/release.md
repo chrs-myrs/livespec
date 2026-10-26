@@ -75,6 +75,16 @@ Update these files atomically (all must be updated):
 7. **`skills/sweep/SKILL.md`** — update the hardcoded `**LiveSpec version:** X.Y.Z` example strings in the report-format templates (6 occurrences)
 8. **`CHANGELOG.md`** — rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD` and add a new empty `## [Unreleased]` section above it
 
+Then re-stamp the agent context, but only if `bash scripts/validate-context.sh`
+reported every file current before this step. `livespec.version` is one of its
+sources, so the bump marks it stale even though the footers already carry the new
+version. Context that was stale before the release stays stale: say so in the
+report rather than stamping over it.
+
+```bash
+bash scripts/validate-context.sh --stamp
+```
+
 ### CHANGELOG Format
 
 The CHANGELOG update should look like:

@@ -28,7 +28,7 @@ governed-by:
 - [!] [Project Name] AGENTS.md content generated from project specifications
   - **Sources**: PURPOSE.md, workspace/*.spec.md, requirements, strategy
   - **Content structure**: Optimized for context positioning (START/MIDDLE/END) per `.livespec/guides/context-positioning.md`
-  - **Compression**: Level declared in workspace/constitution.spec.md frontmatter
+  - **Compression**: Level declared in `project.yaml` (`livespec.methodology.context_compression`)
   - **No frontmatter**: Clean context for agents (convention requirement)
   - **Inline edit warning**: Instructs regeneration
 

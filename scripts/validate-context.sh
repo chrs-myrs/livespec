@@ -68,28 +68,61 @@ TARGETS=""
                               | LC_ALL=C sort)"$'\n'
 TARGETS="$(grep -v '^$' <<< "$TARGETS" || true)"
 
-# The sources: PURPOSE.md, every spec, and the spec-first template the agent
-# doc inlines. Any category can feed generation: interface contracts and
+# The sources: PURPOSE.md, every spec, the spec-first template the agent
+# doc inlines, and the project.yaml settings generation reads. Any category can feed generation: interface contracts and
 # strategy specs supply sections of some projects' agent docs, so leaving them
 # out lets the context read current after a factual correction. A change that
 # feeds no generated file is cleared by re-stamping. Only files git would
 # commit count; in a pathspec, * matches across directories.
 SOURCE_SPECS=(PURPOSE.md 'specs/*.spec.md' templates/agents/spec-first-enforcement.md)
+
+# project.yaml is a source only through the settings generation reads
+# (specs/features/project-config.spec.md), so editing another tool's keys never
+# marks the context stale. Prints them as key=value lines, in a fixed order.
+SETTINGS_FILE=project.yaml
+settings() {
+    tr -d '\r' | awk '
+        /^[[:space:]]*(#|$)/ || /^[[:space:]]*-/ { next }
+        {
+            line = $0; sub(/[[:space:]]+#.*$/, "", line)
+            match(line, /^ */); indent = RLENGTH
+            key = substr(line, indent + 1); sub(/:.*$/, "", key)
+            val = line; if (!sub(/^[^:]*:[[:space:]]*/, "", val)) next
+            gsub(/^["\047]|["\047]$/, "", val)
+            while (depth > 0 && at[depth] >= indent) depth--
+            at[++depth] = indent; name[depth] = key
+            path = name[1]; for (i = 2; i <= depth; i++) path = path "." name[i]
+            if (val != "") found[path] = val
+        }
+        END {
+            n = split("livespec.version livespec.methodology.context_compression agent.context_budget", keys, " ")
+            for (i = 1; i <= n; i++) if (keys[i] in found) print keys[i] "=" found[keys[i]]
+        }'
+}
+
 if $IN_GIT; then
-    SOURCES="$(git ls-files --cached --others --exclude-standard -- "${SOURCE_SPECS[@]}" | LC_ALL=C sort -u)"
+    SOURCES="$(git ls-files --cached --others --exclude-standard -- "${SOURCE_SPECS[@]}" "$SETTINGS_FILE" | LC_ALL=C sort -u)"
 else
     SOURCES="$( { [[ -f PURPOSE.md ]] && echo PURPOSE.md
                   find specs -name '*.spec.md' -type f 2>/dev/null
                   [[ -f templates/agents/spec-first-enforcement.md ]] && echo templates/agents/spec-first-enforcement.md
+                  [[ -f "$SETTINGS_FILE" ]] && echo "$SETTINGS_FILE"
                 } | LC_ALL=C sort -u)"
 fi
 EXISTING=""
-while IFS= read -r f; do [[ -n "$f" && -f "$f" ]] && EXISTING+="$f"$'\n'; done <<< "$SOURCES"
+while IFS= read -r f; do
+    [[ -n "$f" && -f "$f" ]] || continue
+    # A project.yaml holding none of the settings is not a source.
+    [[ "$f" == "$SETTINGS_FILE" && -z "$(settings < "$f")" ]] && continue
+    EXISTING+="$f"$'\n'
+done <<< "$SOURCES"
 COUNT="$(grep -c . <<< "$EXISTING" || true)"
 HASH="$(
     while IFS= read -r f; do
         [[ -n "$f" ]] || continue
-        printf '%s\0' "$f"; tr -d '\r' < "$f"; printf '\0'
+        printf '%s\0' "$f"
+        if [[ "$f" == "$SETTINGS_FILE" ]]; then settings < "$f"; else tr -d '\r' < "$f"; fi
+        printf '\0'
     done <<< "$EXISTING" | sha256 | cut -d' ' -f1
 )"
 STAMP="<!-- livespec-context-sources: sha256:$HASH n=$COUNT -->"
@@ -138,7 +171,10 @@ if [[ "$MODE" == changed ]]; then
         exit 0
     fi
     { git diff --name-only "$commit" -- "${SOURCE_SPECS[@]}"
-      git ls-files --others --exclude-standard -- "${SOURCE_SPECS[@]}"; } | LC_ALL=C sort -u
+      git ls-files --others --exclude-standard -- "${SOURCE_SPECS[@]}"
+      then="$(git show "$commit:$SETTINGS_FILE" 2>/dev/null | settings)"
+      now="$( [[ -f "$SETTINGS_FILE" ]] && settings < "$SETTINGS_FILE")"
+      [[ "$then" != "$now" ]] && echo "$SETTINGS_FILE"; } | LC_ALL=C sort -u
     exit 0
 fi
 
