@@ -67,7 +67,7 @@ AGENTS.md content when a file is absent rather than failing the run):
 - `specs/workspace/taxonomy.spec.md` (project domain)
 
 **Configuration:**
-- `project.yaml` — read `context_compression` (light/moderate/aggressive), `doc_format` (AGENTS.md/CLAUDE.md), `context_budget`, and `livespec.version` for the footer
+- `project.yaml` — read `context_compression` (light/moderate/aggressive), `context_budget`, and `livespec.version` for the footer
 
 **Content sources:**
 - `specs/workspace/*.spec.md` — all workspace specs

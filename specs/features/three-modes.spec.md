@@ -37,7 +37,7 @@ The conceptual modes are implemented through the plugin's 8 skills:
 - **Implementing Skills**:
   - `/livespec:init` - Creates scaffold, generates context
   - `/livespec:go` - Routes user to init if project uninitialized
-- **Outputs**: PURPOSE.md, specs/foundation/, specs/workspace/, CLAUDE.md, AGENTS.md
+- **Outputs**: PURPOSE.md, specs/foundation/, specs/workspace/, AGENTS.md
 
 ### Mode 1: DESIGN (Specification)
 - **Purpose**: Design spec architecture and behaviors

@@ -19,7 +19,7 @@ guided-by:
   - File contains project identification (name, description, keywords)
   - File contains LiveSpec methodology decisions (spec_first enforcement, context_compression level)
   - File contains project taxonomy (domain, workspace_scope, specs_boundary)
-  - File contains agent guidance config (doc_format, context_budget, coverage_target, verification_mode)
+  - File contains agent guidance config (context_budget, coverage_target, verification_mode)
   - Configuration is **build-time only** (guides context generation, not runtime behavior)
   - Configuration NOT loaded into AI context during normal work (gitignored for context purposes)
   - Configuration coexists with spec-level frontmatter (project-level in yaml, spec-level in frontmatter)
@@ -33,7 +33,6 @@ guided-by:
 - `livespec.methodology.tdd` is valid enum (mandatory | mandatory_with_escape | encouraged | optional)
 - `livespec.methodology.context_compression` is valid enum (light | moderate | aggressive)
 - `livespec.taxonomy.domain` is valid enum (software | generation | planning | documentation | governance | hybrid)
-- `agent.doc_format` specifies agent documentation file name
 - Validation scripts read config when present, use defaults when missing
 - AGENTS.md regeneration (4d-regenerate-context.md) reads config to customize output
 
@@ -64,7 +63,6 @@ livespec:
 
 # Agent guidance configuration (build AGENTS.md)
 agent:
-  doc_format: string                   # Agent documentation filename (e.g., "AGENTS.md")
   context_budget: string               # Target size for agent docs (e.g., "100KB")
   coverage_target: integer             # Percentage of cases handled without fetch (e.g., 80)
   verification_mode: enum              # active | passive
@@ -91,7 +89,6 @@ livespec:
     specs_boundary: specifications_only
 
 agent:
-  doc_format: AGENTS.md
   context_budget: 100KB
   coverage_target: 80
   verification_mode: active
@@ -116,7 +113,6 @@ livespec:
     specs_boundary: specifications_only
 
 agent:
-  doc_format: CLAUDE.md
   context_budget: 120KB
   coverage_target: 75
   verification_mode: active
@@ -129,7 +125,6 @@ agent:
 - Reads `spec_first` to adjust verification prompt severity
 - Reads `tdd` to determine whether `references/guides/tdd.md` is presented as available guidance (optional by default)
 - Reads `domain` to filter applicable phases
-- Reads `agent.doc_format` to determine output filename
 
 **Phase 0 setup** (`/livespec:init`):
 - Generates `project.yaml` with defaults

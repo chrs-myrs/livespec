@@ -119,7 +119,6 @@ livespec:
     specs_boundary: specifications_only
 
 agent:
-  doc_format: AGENTS.md
   context_budget: 100KB
   coverage_target: 80
 ```

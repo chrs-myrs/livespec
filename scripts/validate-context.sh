@@ -56,18 +56,11 @@ sha256() { if command -v sha256sum >/dev/null; then sha256sum; else shasum -a 25
 
 STAMP_RE='^<!-- livespec-context-sources: sha256:[0-9a-f]+ n=[0-9]+ -->$'
 
-# The agent doc project.yaml names, followed if it is a symlink so one file is
-# stamped once.
-DOC="$(grep -A12 '^agent:' project.yaml 2>/dev/null | grep -m1 'doc_format:' \
-    | sed -e 's/.*doc_format:[[:space:]]*//' -e 's/[[:space:]#].*//')"
-DOC="${DOC:-AGENTS.md}"
-if [[ -L "$DOC" ]]; then
-    link="$(readlink "$DOC")"
-    [[ "$link" != /* && -f "$link" ]] && DOC="$link"
-fi
+# AGENTS.md is the only agent doc (specs/workspace/generated-files.spec.md).
+DOC=AGENTS.md
 
 TARGETS=""
-[[ -f "$DOC" && ! -L "$DOC" ]] && TARGETS+="$DOC"$'\n'
+[[ -f "$DOC" ]] && TARGETS+="$DOC"$'\n'
 # Generated context is flat plus ctxt/domains/. Any other subfolder is a retired
 # layout or hand-written context; stamping it would make it read as current.
 [[ -d ctxt ]] && TARGETS+="$( { find ctxt -maxdepth 1 -name '*.md' -type f

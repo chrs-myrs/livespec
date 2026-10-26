@@ -22,7 +22,6 @@ livespec:
 
 # Agent guidance configuration (build AGENTS.md)
 agent:
-  doc_format: AGENTS.md                # Or CLAUDE.md for non-governance projects
   context_budget: 100KB
   coverage_target: 80
   verification_mode: active            # active | passive

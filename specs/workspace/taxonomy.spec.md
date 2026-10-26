@@ -50,7 +50,7 @@ LiveSpec produces methodology frameworks for specification-driven development.
 
 **Framework artifacts live OUTSIDE specs/**:
 - Distributable framework → `skills/`, `commands/`, `agents/`, `templates/`, `references/` (what the plugin installs)
-- Generated configuration → `AGENTS.md`, `CLAUDE.md` (generated from specs/workspace/)
+- Generated configuration → `AGENTS.md` (generated from specs/workspace/)
 - Project-specific prompts → `prompts/generated/` (generated, committed - tailored to LiveSpec)
 - Examples → `examples/` (demonstration projects)
 - Tests → `tests/` (validation, not distributed)
