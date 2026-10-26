@@ -25,6 +25,10 @@ already holds part of it, such as a project another tool created.
   - No existing file is overwritten, `PURPOSE.md` included
   - The only edit to an existing file adds keys `project.yaml` lacks: `livespec.version`, and in full setup the methodology settings chosen. A value already there is kept; changing an accepted version is `/livespec:upgrade`'s job
   - A project that holds every artefact has nothing written and is told it is already initialised
+  - Init works at the root of the project's repository. Below the root of an enclosing repository it stops, rather than split the bootstrap across two projects
+
+- [!] Init installs toolchain copies only where that changes nothing the project has accepted
+  - The vendored conventions, the vendored scripts and the hook come from the toolchain. Where installing them would update an existing copy, or where the project has accepted a LiveSpec version other than the toolchain's, init leaves them to `/livespec:upgrade` and says so
 
 - [!] Init reports every bootstrap artefact as created or kept
 
@@ -42,5 +46,8 @@ already holds part of it, such as a project another tool created.
 
 - In a directory holding PURPOSE.md, foundation and strategy specs, and a `project.yaml` with only `forgewick.version`, init creates only the missing artefacts, leaves PURPOSE.md byte-identical, adds `livespec.version` beside `forgewick.version`, and reports each artefact as created or kept
 - Run a second time on the same directory, init writes nothing and reports every artefact as kept
-- A `project.yaml` holding an older `livespec.version` keeps it after init
+- A `project.yaml` holding an older `livespec.version` keeps it after init, and gets no vendored copies at the toolchain's version
+- A `project.yaml` whose `livespec:` block holds no version, followed by another tool's block that does, gets `livespec.version` recorded
+- With the hook installed but a vendored validator deleted, init restores the validator
+- Run from a subdirectory of a repository, init stops and names the root
 - In an empty directory, init followed by `/livespec:audit context` gets past the prerequisites step, and `validate-frontmatter.sh` and `validate-crossrefs.sh` report no errors on the result

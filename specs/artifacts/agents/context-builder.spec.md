@@ -43,6 +43,8 @@ specifies:
   - Exactly the declared ctxt/ files, flat plus ctxt/domains/, 4-10KB each; no ctxt/ when none are declared
   - Exactly the declared methodology sections: the five phases, phases vs layers, multi-domain organisation, session completion
   - Total tree within `agent.context_budget`
+  - A context-architecture spec that declares no shape keeps the shape of the existing tree, and the report says the shape is undeclared; only with no existing tree does the template default apply. A toolchain update never resizes a project's tree on its own
+  - A ctxt/ file no longer declared is reported, never deleted
 
 ### Root AGENTS.md Generation
 
@@ -129,6 +131,7 @@ specifies:
 - [ ] A project declaring no methodology sections gets none of the four
 - [ ] Root carries the project's constraints before any methodology content
 - [ ] LiveSpec's own full run produces a root within its 40KB ceiling and its seven declared ctxt/ files
+- [ ] A project whose context-architecture spec declares no shape, with an existing 35KB root and six ctxt/ files, keeps that shape and is told its shape is undeclared
 
 ### Compression and Size
 - [ ] Compression level read from `project.yaml`, moderate when absent

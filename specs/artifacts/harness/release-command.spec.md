@@ -27,6 +27,7 @@ specifies:
 - [!] Every file carrying the version moves to the new version in the release commit
   - `project.yaml` is the source of truth
   - Unreleased becomes a dated version heading, with a new empty Unreleased above it
+  - Agent context current before the release is still current after it: the version is a context source, so the footers move and the context is re-stamped
   - The pre-commit hook runs; it is never bypassed
 
 - [!] The release is published and reported
@@ -38,4 +39,5 @@ specifies:
 - With an empty Unreleased section, no file changes and the command says there is nothing to release
 - With a constraint violation, no file changes and the violations are reported
 - After a release, the old version appears nowhere except the changelog's history, and the working tree is clean
+- Context reported current by `validate-context.sh` before a release is reported current after it
 - Tag `vX.Y.Z` on origin points at the release commit

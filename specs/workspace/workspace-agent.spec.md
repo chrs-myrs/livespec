@@ -26,7 +26,7 @@ supports:
 
 - [!] LiveSpec AGENTS.md provides AI agents with methodology context following context tree convention
   - **Context tree pattern**: Root AGENTS.md + ctxt/ sub-agents (see `references/standards/conventions/context-tree.spec.md`)
-  - **Evolution**: Monolithic (50-60KB) → Hierarchical tree (root 30-40KB + ctxt/)
+  - **Evolution**: Monolithic (50-60KB) → Hierarchical tree (root within the ceiling `context-architecture.spec.md` declares, 40KB for LiveSpec, + ctxt/)
   - **Generation**: Use `/livespec:audit context` to build tree
   - **Distribution**: Installed via `/plugin install livespec@livespec`; AGENTS.md is generated in the target project after Phase 0 (no file copying)
   - **Benefits**: Better focus (specialized contexts), reduced overload (load what's needed), improved signal-to-noise (60% vs 20%)
@@ -34,7 +34,7 @@ supports:
 - [!] LiveSpec AGENTS.md content generated from project specifications
   - **Sources**: PURPOSE.md, workspace/*.spec.md, foundation/*.spec.md, 2-strategy/architecture.spec.md
   - **Content structure**: Optimized for context positioning (START/MIDDLE/END) per `references/guides/context-positioning.md`
-  - **Compression**: Moderate level (balanced inline/reference) per workspace/constitution.spec.md
+  - **Compression**: the level `project.yaml` declares (moderate for LiveSpec: balanced inline/reference)
   - **No frontmatter**: Clean context for agents (convention requirement)
   - **Inline edit warning**: Instructs regeneration (not separate section - clean context)
 
@@ -67,7 +67,7 @@ supports:
 - Spec-first enforcement template included inline
 - No frontmatter (clean context per convention)
 - Inline edit warning at top (not separate section)
-- File size 30-40KB (compressed from typical 50-60KB)
+- File size within the declared 40KB ceiling (compressed from typical 50-60KB)
 - Regeneration workflow documented and functional
 - Agent can answer "what should I do next?" without additional context
 - Agent enforces MSL format without being reminded
