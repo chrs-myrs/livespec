@@ -4,6 +4,8 @@
 
 Sub-agent context for problem definition and workspace setup.
 
+**Load when:** "new project", "setup", "define problem", "constraints" — starting a project, defining its problem space, customising its workspace.
+
 ## Summary
 
 Define mode establishes the problem space and project constraints. This mode creates the foundation by defining why the project exists, what success looks like, and how the team will work together.
@@ -12,36 +14,49 @@ Define mode establishes the problem space and project constraints. This mode cre
 
 **Entry conditions:**
 - Starting new project (no specs exist yet)
-- Existing project without specifications
+- Existing project without specifications, or one another tool has partly bootstrapped
 - Problem space unclear or assumptions unchallenged
 
 **Exit conditions:**
 - PURPOSE.md defines why project exists and success criteria
 - Constraints and outcomes documented in specs/foundation/
-- Workspace specs (constitution, patterns, workflows) customized
+- Workspace specs customised
 - Team aligned on approach
 
 ## Workflow
 
 ### Quick Start Path (5 minutes)
 
-Use `/livespec:init`:
-1. Creates directory structure
-2. Copies default workspace specs
-3. Generates template PURPOSE.md
-4. Creates registries/ (required tier: decisions, debt, security)
-5. Vendors conventions into `specs/workspace/standards/` with provenance (`scripts/vendor-conventions.sh`)
-6. Installs the pre-commit validation hook and vendors the hooked validators into `scripts/livespec/` (`scripts/setup-hooks.sh`; moves copies an earlier install left at the root of `scripts/`); staged specs are validated, and the project's own tracked pre-commit script also runs when present
-7. Creates initial AGENTS.md
-8. Records the accepted LiveSpec version as `livespec.version` in project.yaml (created if absent; upgrade bumps it)
+Use `/livespec:init`. It takes an inventory first, checking each bootstrap artefact on its own, then creates only those missing:
+1. `specs/{workspace,foundation,strategy,features,interfaces}/`
+2. PURPOSE.md (asks for the purpose, or writes a placeholder)
+3. Workspace specs: constitution, taxonomy and context-architecture, each passing `validate-frontmatter.sh` and `validate-crossrefs.sh` as written
+4. Required registries (`decisions`, `debt`, `security`) and `registries/README.md`
+5. Vendored conventions in `specs/workspace/standards/` with provenance (`scripts/vendor-conventions.sh`)
+6. The pre-commit hook, vendoring the hooked validators into `scripts/livespec/` (`scripts/setup-hooks.sh`); an existing hook is chained to, not replaced
+7. `livespec.version` in project.yaml (file created if absent; other tools' keys untouched)
 
-### Full Customization Path (20-30 minutes)
+**Never overwrites:** an existing file is kept as it is, PURPOSE.md included, and an existing `livespec.version` is never changed (that is `/livespec:upgrade`'s job). Vendored conventions, scripts and the hook are left for `/livespec:upgrade` when installing them would update an existing copy, or when the project has accepted a LiveSpec version other than the toolchain's. Run init at the repository root: below the root of an enclosing repository it stops and names the root. The report lists every artefact as created or kept; when all are present, init writes nothing and says the project is already initialised.
 
-Use `/livespec:init full`:
-1. Interactive domain selection (Software/Governance/Hybrid)
-2. Compression level choice (light/moderate/aggressive)
-3. Customized workspace specs
-4. Tailored AGENTS.md generation
+**No AGENTS.md:** init does not generate agent context. Run `/livespec:audit context` when you want it.
+
+### Full Customisation Path (20-30 minutes)
+
+Use `/livespec:init full`. Asks only about artefacts it creates or settings `project.yaml` lacks:
+1. Project domain (Software/Governance/Operations/Hybrid) — set in the taxonomy it creates
+2. Context compression (light/moderate/aggressive) — recorded as `livespec.methodology.context_compression` in project.yaml
+3. TDD discipline (optional/encouraged/mandatory) — recorded as `livespec.methodology.tdd`
+
+A kept default is left out of project.yaml, so the default applies (compression `moderate`, TDD `optional`). Settings live only in project.yaml, never in spec frontmatter.
+
+### The Context Tree Declaration
+
+`specs/workspace/context-architecture.spec.md` declares the agent context tree's shape. The template init copies declares a small project:
+- **Root ceiling**: 10KB
+- **ctxt/ files**: none
+- **Methodology sections**: none
+
+To grow the tree, edit the declaration: raise the ceiling, list ctxt/ files (flat plus `ctxt/domains/`, 4-10KB each) with the words that should load each, or name methodology sections (the five phases, phases vs layers, multi-domain organisation, session completion). Nothing in the toolchain changes the shape on its own.
 
 ### Key Artifacts
 
@@ -55,7 +70,6 @@ Use `/livespec:init full`:
 ## What Success Looks Like
 - [Measurable criterion 1]
 - [Measurable criterion 2]
-- [Measurable criterion 3]
 ```
 
 **specs/foundation/outcomes.spec.md:**
@@ -69,12 +83,9 @@ failure_mode: Without clear outcomes, project lacks cohesive direction
 governed-by: []
 derives-from:
   - PURPOSE.md
-supports: []   # generated by scripts/validate-crossrefs.sh --fix; do not hand-write
 ---
 ```
-- Strategic success criteria
-- High-level requirements (not features)
-- Measurable outcomes
+- Strategic success criteria, high-level requirements (not features), measurable outcomes
 
 **specs/foundation/constraints.spec.md:**
 ```yaml
@@ -88,22 +99,17 @@ governed-by: []
 derives-from:
   - PURPOSE.md
   - specs/foundation/outcomes.spec.md
-supports: []   # generated by scripts/validate-crossrefs.sh --fix; do not hand-write
 ---
 ```
-- Hard boundaries (technical, legal, organizational)
-- Non-negotiable requirements
-- Compliance mandates
+- Hard boundaries (technical, legal, organisational), non-negotiable requirements
 
-**specs/workspace/:**
-- constitution.spec.md — Development principles
-- patterns.spec.md — Conventions
-- workflows.spec.md — Development processes
-- taxonomy.spec.md — Project classification
+`supports:` is generated by `scripts/validate-crossrefs.sh --fix`; never write it.
+
+**specs/workspace/:** init creates constitution (principles), taxonomy (classification) and context-architecture (context tree shape). Add patterns (conventions) and workflows (processes) with `/livespec:design workspace` when the project needs them.
 
 ### Workspace Frontmatter Template
 
-Workspace specs require `applies_to` field:
+Workspace specs require `applies_to`, and link up to PURPOSE.md so they trace:
 ```yaml
 ---
 type: workspace
@@ -113,7 +119,9 @@ criticality: IMPORTANT
 failure_mode: [Concrete failure description]
 governed-by: []
 applies_to:
-  - all_projects
+  - this_project
+derives-from:
+  - PURPOSE.md
 ---
 ```
 
@@ -123,7 +131,7 @@ applies_to:
 - YES if: Extracting from existing codebase (use `/livespec:audit extract`)
 - NO if: Starting new project (need foundation)
 
-**Quick start or full customization?**
+**Quick start or full customisation?**
 - Quick: Solo developer, familiar with LiveSpec, time-sensitive
 - Full: Team, new to LiveSpec, complex domain
 
@@ -142,42 +150,35 @@ applies_to:
 /livespec:design         # Move to design mode
 ```
 
-Total: 10 minutes to working specs
-
 ### Team Onboarding Path
 
 ```bash
 /livespec:init full      # 20-30 min interactive
 # Workshop PURPOSE.md    # Team discussion
 # Document constraints   # From team input
-/livespec:audit context  # Rebuild context
+/livespec:audit context  # Generate agent context (optional)
 ```
 
-Total: 1-2 hours, entire team aligned
+### Partly Bootstrapped Project
+
+Run `/livespec:init` anyway: it fills in only what is missing and reports what it kept.
 
 ### Existing Codebase (Brownfield)
 
-Skip Define mode entirely:
 ```bash
 /livespec:audit extract  # Extract specs from code
 # Validate extractions
-# Customize workspace specs
+# Customise workspace specs
 ```
 
 ## Taxonomy Decisions
 
 During Define mode, establish taxonomy (`specs/workspace/taxonomy.spec.md`):
 
-**Domain options:**
-- `software` — User-facing application or service
-- `governance` — Methodology frameworks, policies, procedures
-- `generation` — AI/automation pipelines
-- `planning` — Project management, roadmaps
-- `documentation` — Knowledge management
-- `hybrid` — Multiple domains
+**Domain options:** `software` (application or service), `governance` (methodology, policies, procedures), `generation` (AI/automation pipelines), `planning` (roadmaps), `documentation` (knowledge management), `hybrid` (several).
 
 **Key taxonomy outputs:**
-- Project Domain (affects how features/ is organized)
+- Project Domain (affects how features/ is organised)
 - Workspace Scope (what's operating context vs deliverable)
 - Specs Boundary (what belongs in specs/ vs elsewhere)
 
@@ -185,12 +186,13 @@ During Define mode, establish taxonomy (`specs/workspace/taxonomy.spec.md`):
 
 - Init skill: `/livespec:init`
 - Define prompts (LiveSpec repo only): `references/prompts/define/`
-- Parent context: AGENTS.md
+- Context tree convention: `references/standards/conventions/context-tree.spec.md`
 - Metaspecs: `references/standards/metaspecs/base.spec.md`
+- Parent context: AGENTS.md
 
 ---
 
 *Define mode specialist for LiveSpec v5.12.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
+<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->

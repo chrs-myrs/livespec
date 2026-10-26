@@ -4,6 +4,8 @@
 
 Sub-agent context for implementation, validation, and regeneration.
 
+**Load when:** "implement", "build", "tests", "TDD", "verify", "drift", "sync", "regenerate", "extract specs", "evolve" — implementation concerns, validation, detecting regeneration signals.
+
 ## Summary
 
 Evolve mode handles implementation concerns: spec-first bootstrap for implementation (Phase 2), validating against specifications (Phase 3), and detecting when specs need regeneration (Phase 4). LiveSpec doesn't prescribe implementation methodology (TDD or otherwise) — see Phase 2 below.
@@ -23,7 +25,7 @@ Evolve mode handles implementation concerns: spec-first bootstrap for implementa
 LiveSpec's involvement in Phase 2 stops at spec-first enforcement — a spec must exist with `[!]` requirements before implementation starts (see Spec-First Protocol in AGENTS.md). LiveSpec does not prescribe TDD, another test strategy, or any other implementation methodology; that choice belongs to the coding agent and team.
 
 **TDD is optional, not mandated:**
-- `project.yaml` → `methodology.tdd: optional` (default) governs this per-project
+- `project.yaml` → `livespec.methodology.tdd` governs this per-project (default `optional`)
 - `references/guides/tdd.md` is optional reference material — a structured Red-Green-Refactor approach with an escape-hatch scoring rubric, for teams who deliberately want TDD discipline
 - If you use it: Red (failing test mapped to a spec requirement) → Green (minimal code to pass) → Refactor (improve design, tests stay green)
 
@@ -70,9 +72,10 @@ Full sweep: `/livespec:audit validate`. `scripts/setup-hooks.sh` installs a pre-
   - Wrong type/category values
   - Underscore field names (use hyphens)
   - Broken cross-references (link target missing or relative)
-  - governed-by containing metaspec paths
   - Unresolved `/livespec:` command, `scripts/*.sh`, or `routes-to:` reference
 - WARNING: Should fix soon
+  - governed-by containing metaspec paths
+  - Per-category mandatory field declared empty (`--strict` promotes this and the traceability warnings to errors)
   - `supports:` out of step with upward links (fix with `validate-crossrefs.sh --fix`), spec not reaching PURPOSE.md, link pointing down a layer, retired `implements:`
   - Stale or unstamped generated context, ungoverned files
   - Retired-layout reference (`.livespec/`, `.livespec-version`) outside migration guides
@@ -117,17 +120,15 @@ Signal: Update spec to reflect reality
 Action: /livespec:design refine specs/features/authentication.spec.md
 ```
 
-**AGENTS.md stale:**
+**Agent context stale:**
 ```bash
-for spec in specs/workspace/*.spec.md; do
-  if [ "$spec" -nt "AGENTS.md" ]; then
-    echo "STALE: AGENTS.md older than $spec"
-  fi
-done
+scripts/validate-context.sh            # each generated file: current, stale or unstamped
+scripts/validate-context.sh --changed  # sources changed since the stamp
 
 Signal: Context needs rebuilding
 Action: /livespec:audit context
 ```
+Staleness is a source hash, not file age: PURPOSE.md, every spec, the spec-first template, and the `project.yaml` settings generation reads (`livespec.version`, `livespec.methodology.context_compression`, `agent.context_budget`). Editing any spec, or one of those settings, marks the context stale; other `project.yaml` keys do not.
 
 ### Spec Extraction (Brownfield)
 
@@ -233,7 +234,7 @@ scripts/validate-purpose.sh
 scripts/validate-coverage.sh
 scripts/validate-context.sh
 
-# Rebuild context if workspace specs changed
+# Rebuild context if validate-context.sh reports it stale
 /livespec:audit context
 ```
 
@@ -263,4 +264,4 @@ scripts/validate-context.sh
 *Evolve mode specialist for LiveSpec v5.12.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
+<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->

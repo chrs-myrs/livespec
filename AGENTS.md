@@ -4,7 +4,7 @@
 
 ## Summary
 
-LiveSpec provides information architecture where upper layers are durable assets and code is disposable. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → code) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, ctxt/). Code can be regenerated from specs at any time. Works for new projects and existing systems across any domain.
+LiveSpec provides information architecture where upper layers are durable assets and code is disposable. Shared foundation (purpose, requirements, strategy) derives into two branches: product branch (behaviors → code) and workspace branch (workspace specs → context tree). Workspace specs generate AI agent context (AGENTS.md, plus `ctxt/` where a project declares it) in the shape each project declares. Code can be regenerated from specs at any time. Works for new projects and existing systems across any domain.
 
 **Primary domain:** Governance — methodology framework for specification-driven development.
 
@@ -82,7 +82,7 @@ Related files may share one spec (e.g. `specs/features/documentation.spec.md` fo
 
 **Hard limit: <20 content lines** (target: 10-15 lines)
 
-PURPOSE.md captures vision only. All other content goes directly to proper specs at capture time.
+PURPOSE.md captures vision only. Route everything else to its spec at capture time (don't accumulate then extract).
 
 **Content Routing:**
 | Content Type | Correct Location |
@@ -98,6 +98,25 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - NO → Route to appropriate spec
 
 **Validation:** `scripts/validate-purpose.sh`
+
+---
+
+## CRITICAL: Constraints — Toolchain vs Project Boundary
+
+LiveSpec binds every project to eight constraints: **agent agnostic** (workable by any AI agent), **toolchain independence** (project work never needs the authoring toolchain), **no action at a distance** (behaviour changes only by deliberate acceptance), **MSL minimalism**, **no framework lock-in** (standard markdown, standard folders), **testable behaviours** (every spec has validation criteria), **spec durability** and **abstraction purity** (WHAT and WHY, never HOW).
+
+The one agents get wrong most often: **agent-agnostic applies to the PROJECT, not the authoring toolchain.**
+
+| Layer | Covers | Harness coupling |
+|-------|--------|-------------------|
+| Authoring toolchain | `/livespec:init`, workspace design, `/livespec:audit` | May be harness-specific (Claude Code plugin) |
+| Project artefacts | `PURPOSE.md`, `specs/`, `AGENTS.md`, `ctxt/` | Must be harness-neutral — buildable, reviewable, deliverable by an agent with NO LiveSpec tooling installed |
+
+**Toolchain Independence:** the toolchain enhances LiveSpec work; it is never a hard dependency for building a project's deliverables. Generated `AGENTS.md` must be self-sufficient for the 80% case without fetching toolchain files, and must never instruct the reader to run a command the project doesn't ship.
+
+**No Action at a Distance:** a project's behaviour is a function of what it has *accepted*, never of what its toolchain happens to be today. Conventions a project depends on are vendored as local files (`scripts/vendor-conventions.sh` → `specs/workspace/standards/`, stamped with `vendored-from`/`source-version`/`source-hash` provenance) — never resolved through a version-pinned or machine-local plugin path. Upgrades present changes for explicit acceptance; they never apply silently, and a toolchain update never resizes a project's context tree.
+
+**Before asserting a path in project context, ask:** does it resolve inside the project, or only inside the installed plugin? If only the plugin, it doesn't belong in `AGENTS.md`/`ctxt/`. `scripts/validate-constraints.sh` checks this mechanically. Full criteria: `specs/foundation/constraints.spec.md`.
 
 ---
 
@@ -128,9 +147,9 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 ### 3. Spec-First Bootstrap, Not Implementation Methodology
 - LiveSpec's involvement in Phase 2 (BUILD) stops at spec-first enforcement (a spec must exist before implementation starts)
 - LiveSpec does not mandate TDD or any other implementation methodology — that's the coding agent's domain
-- `project.yaml` → `methodology.tdd: optional` governs this per-project; default is optional, not mandatory
-- `references/guides/tdd.md` is optional reference material for teams who want structured TDD discipline — call on it deliberately, don't treat it as a default
-- Tests, when written, should map to behavior specs (specs/features/ → tests → implementation) regardless of methodology chosen
+- `project.yaml` → `livespec.methodology.tdd` governs this per-project; default `optional`
+- `references/guides/tdd.md` is optional reference for teams who deliberately want structured TDD discipline, not a default
+- Tests, when written, map to behavior specs (specs/features/ → tests → implementation) whatever the methodology
 
 ### 4-11. Remaining principles
 - **Dogfooding:** LiveSpec uses its own methodology; no custom tooling required
@@ -141,27 +160,6 @@ PURPOSE.md captures vision only. All other content goes directly to proper specs
 - **Clean Evolution (LiveSpec only):** no backwards compatibility; old patterns deleted, not deprecated; users upgrade via `/livespec:upgrade`; NOT imposed on projects using LiveSpec
 - **Progressive Disposability:** PURPOSE most durable, then requirements, strategy, behaviours; code most disposable
 - **Spec Health:** "time to refine specs" is a positive signal; EVOLVE runs continuously
-
----
-
-## CRITICAL: Toolchain vs Project — Agent-Agnostic Boundary
-
-LiveSpec binds every project to eight constraints (`specs/foundation/constraints.spec.md`). The one agents get wrong most often:
-
-**Agent-agnostic applies to the PROJECT, not the authoring toolchain.**
-
-| Layer | Covers | Harness coupling |
-|-------|--------|-------------------|
-| Authoring toolchain | `/livespec:init`, workspace design, `/livespec:audit` | May be harness-specific (Claude Code plugin) |
-| Project artefacts | `PURPOSE.md`, `specs/`, `AGENTS.md`, `ctxt/` | Must be harness-neutral — buildable, reviewable, deliverable by an agent with NO LiveSpec tooling installed |
-
-**Toolchain Independence:** the toolchain enhances LiveSpec work; it is never a hard dependency for building a project's deliverables. Generated `AGENTS.md` must be self-sufficient for the 80% case without fetching toolchain files, and must never instruct the reader to run a command the project doesn't ship.
-
-**No Action at a Distance:** a project's behaviour is a function of what it has *accepted*, never of what its toolchain happens to be today. Conventions a project depends on are vendored as local files (`scripts/vendor-conventions.sh` → `specs/workspace/standards/`, stamped with `vendored-from`/`source-version`/`source-hash` provenance) — never resolved through a version-pinned or machine-local plugin path. Upgrades present changes for explicit acceptance; they never apply silently.
-
-**Remaining five constraints** (MSL Minimalism, No Framework Lock-in, Testable Behaviors, Spec Durability, Abstraction Purity) are detailed in `specs/foundation/constraints.spec.md`.
-
-**Before asserting a path in project context, ask:** does it resolve inside the project, or only inside the installed plugin? If only the plugin, it doesn't belong in `AGENTS.md`/`ctxt/`. `scripts/validate-constraints.sh` checks this mechanically.
 
 ---
 
@@ -196,7 +194,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
 - "What is the methodology MADE OF?" → artifacts/ (prompts, agents, commands, validators)
 - "What are the standard interfaces?" → interfaces/ (format definitions, e.g. the validator output contract)
 
-**Five-way test for specs/:** outcome or hard constraint → foundation/; applies across the whole product → strategy/; observable behavior → features/; something built and distributed → artifacts/; format, contract or discovery interface → interfaces/. Distributable framework (skills/, commands/, agents/, templates/, references/) lives OUTSIDE specs/.
+Distributable framework (skills/, commands/, agents/, templates/, references/) lives OUTSIDE specs/.
 
 ### Step 3: Verify Examples
 
@@ -212,7 +210,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
 - "Drift detection behavior" → features/drift-detection.spec.md (methodology behavior)
 - "Individual prompt specs" → artifacts/prompts/*.spec.md (methodology artifacts)
 
-**Note:** `registries/` (project root, not specs/) holds accepted-current-state data, tiered by requirement: required (decisions, debt, security), recommended (conflicts, gaps), optional (dependencies, issues) — see Reference Library below. It is not a specs/ category and isn't part of this classification.
+**Note:** `registries/` (project root, not specs/) holds accepted-current-state data, tiered by requirement — see Reference Library. It is not a specs/ category and isn't part of this classification.
 
 ---
 
@@ -260,13 +258,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
 
 ### When NOT to Load Sub-Agents
 
-**AGENTS.md is sufficient for:**
-- Reading/understanding existing specs
-- Making small edits to files
-- Basic questions about LiveSpec structure
-- Running validation scripts
-- Creating simple specs following templates
-- General development work
+**AGENTS.md is sufficient for:** reading existing specs, small edits, basic questions about LiveSpec structure, running validators, simple specs from templates, general development work.
 
 ### Phase-Specific Work (Load When Actually Performing Phase Workflow)
 
@@ -278,7 +270,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
   - ONLY when: Creating new architecture, specifying new behaviors, designing contracts
   - NOT for: Reading existing design specs, understanding architecture
 
-- **"Implement", "build", "tests", "TDD", "validate", "verify", "drift", "regenerate", "extract specs", "evolve"** → Load `ctxt/evolve.md`
+- **"Implement", "build", "tests", "TDD", "verify", "drift", "sync", "regenerate", "extract specs", "evolve"** → Load `ctxt/evolve.md`
   - ONLY when: Implementation concerns, validation, TDD cycle, detecting regeneration signals
   - NOT for: Reading code or existing specs
 
@@ -297,7 +289,7 @@ Read `specs/workspace/taxonomy.spec.md` for:
   - ONLY when: Auditing minimalism, reviewing spec quality
   - NOT for: Writing specs (use AGENTS.md MSL guidance)
 
-- **"Health", "drift", "spec health", "validation", "context regeneration"** → Load `ctxt/audit.md`
+- **"Health", "validate", "audit specs", "spec health", "context regeneration"** → Load `ctxt/audit.md`
   - ONLY when: Running spec health checks, context validation, extraction
 
 ---
@@ -309,16 +301,14 @@ Read `specs/workspace/taxonomy.spec.md` for:
 ```bash
 # 1. Install the LiveSpec plugin (once), then in the target project:
 /livespec:init            # Quick setup with sensible defaults
-/livespec:init full       # Interactive: domain, compression level, workspace specs
-
-# Creates: PURPOSE.md, specs/{workspace,foundation,strategy,features,interfaces}/,
-#          registries/{decisions,debt,security}.md (required tier),
-#          specs/workspace/standards/ (vendored conventions, with provenance),
-#          project.yaml (livespec.version = the accepted LiveSpec version),
-#          .git/hooks/pre-commit (installed validation hook), initial AGENTS.md
+/livespec:init full       # Also asks domain, context compression and TDD
 ```
 
-No `.livespec/` copy step, no submodule, no manual folder scaffolding — the `init` skill does this. Legacy installations migrate via `/livespec:upgrade` (`scripts/upgrade-to-v5.sh`: documented retired folders move automatically; others get a proposed target confirmed via `--map old=new`; unknown folders are reported, never moved; no move overwrites a file). Upgrade then fixes links (`scripts/validate-crossrefs.sh --fix`) and records `livespec.version` in `project.yaml` only once you accept. `--detect-only` reports layout and version signals.
+Init checks each bootstrap artefact on its own and creates only those missing: `specs/` folders, `PURPOSE.md`, the constitution, taxonomy and context-architecture workspace specs, the required registries and `registries/README.md`, vendored conventions (`specs/workspace/standards/`), the pre-commit hook, and `livespec.version` in `project.yaml`. It never overwrites a file (PURPOSE.md included), keeps an existing `livespec.version`, reports each artefact as created or kept, and leaves vendored copies to `/livespec:upgrade` when installing would update one or the accepted version differs from the toolchain's. Below a repository's root it stops. Full setup records compression and TDD under `livespec.methodology` in `project.yaml`, and the domain in the taxonomy.
+
+Init does not generate AGENTS.md; `/livespec:audit context` does, on request. The context-architecture template declares a small tree (root 10KB or less, no `ctxt/`, no methodology sections); a project grows it by editing that declaration.
+
+Legacy installations migrate via `/livespec:upgrade` (`scripts/upgrade-to-v5.sh`: documented retired folders move automatically, others only via a confirmed `--map old=new`, unknown ones are reported; no move overwrites a file). It then fixes links (`scripts/validate-crossrefs.sh --fix`) and records `livespec.version` only once you accept.
 
 ---
 
@@ -345,10 +335,8 @@ Design solution architecture.
 ### Phase 2: BUILD
 Implement the solution.
 
-**When:** After design approved
 **Exit:** Implementation matches specifications
-**LiveSpec's role here is narrow:** spec-first bootstrap enforcement only (see Spec-First Protocol above) — checking a spec exists before implementation begins. LiveSpec does not prescribe *how* you implement (TDD, other test strategies, or none) — that choice belongs to the coding agent and team.
-**TDD:** Optional, not mandated (`project.yaml` → `methodology.tdd: optional`). Use `references/guides/tdd.md` deliberately if you want structured TDD discipline; it is reference material, not a default workflow.
+**LiveSpec's role is narrow:** spec-first bootstrap enforcement only (see Spec-First Protocol). How you implement (TDD, another test strategy, or none) belongs to the coding agent and team; see Core Principle 3.
 
 ### Phase 3: VERIFY
 Validate solution meets requirements.
@@ -358,9 +346,9 @@ Validate solution meets requirements.
 ### Phase 4: EVOLVE
 Maintain specs; regenerate code and context when needed (continuous).
 
-**Skill:** `/livespec:audit` (health, validate, context, extract)
+**Skill:** `/livespec:audit` (health, validate, context, extract, compression)
 
-**Context regeneration:** `/livespec:audit context` checks `scripts/validate-context.sh` (each generated file is current, stale or unstamped; `--changed` lists sources changed since the stamp; the hash covers PURPOSE.md and every spec, strategy and interfaces included, ; only flat `ctxt/` files and `ctxt/domains/` are stamped). It classifies each run as MINOR (scoped patch to the affected file) or FULL (whole-tree rebuild) using the Spec → Generated File Map in `specs/workspace/context-architecture.spec.md`. Any unstamped file, `--changed` printing `unknown`, or a missing map means FULL. When no changed source feeds a generated file, it re-stamps without regenerating. Otherwise it delegates to `agents/context-builder.md`, a dedicated sub-agent that keeps this large generation task out of your session's context window. The builder's last step is `scripts/validate-context.sh --stamp`, which writes a source-hash comment line at the end of every generated file; never write or edit that line by hand.
+**Context regeneration:** `/livespec:audit context` builds the tree in the shape the project's context-architecture spec declares: root ceiling, `ctxt/` files (possibly none), methodology sections. LiveSpec declares a 40KB root, seven `ctxt/` files and all four sections; a declaration stating no shape keeps the existing tree's. `scripts/validate-context.sh` checks each generated file against a hash of PURPOSE.md, every spec, the spec-first template and the `project.yaml` settings generation reads (`livespec.version`, `livespec.methodology.context_compression`, `agent.context_budget`; other keys never mark it stale); `--changed` lists what changed since the stamp. A run is MINOR (scoped patch) or FULL by the Spec → Generated File Map; an unstamped file, `unknown` from `--changed`, a missing map, or a compression or budget change means FULL. When no changed source feeds a generated file it only re-stamps. Otherwise `agents/context-builder.md` regenerates and ends with `scripts/validate-context.sh --stamp`; never edit the stamp line by hand.
 
 ---
 
@@ -395,11 +383,11 @@ specifies:              # artifacts (also features, interfaces) — files govern
 ---
 ```
 
+Frontmatter never declares a project setting: settings such as `context_compression` live in `project.yaml` only.
+
 ### Type Values
 
 By category (each type implies its metaspec template): foundation `outcomes`, `constraints`, `purpose`; strategy `strategy`; features `behavior`; interfaces `contract`; workspace `workspace`, `taxonomy`; artifacts `prompt`, `agent`, `validator`, `command`, `diagram`, `registry`; `domain-model` varies.
-
-**Full vocabulary:** See `references/standards/vocabulary.spec.md` for all controlled terms with descriptions and usage context.
 
 **governed-by semantics:** References content governance only (higher-level specs constraining WHAT this spec can say). Metaspec template is implied by `type` — do NOT add metaspec paths to governed-by.
 
@@ -425,15 +413,13 @@ By category (each type implies its metaspec template): foundation `outcomes`, `c
   - [Testable criterion 2]
 ```
 
-**Controlled vocabulary:** `references/standards/vocabulary.spec.md` — canonical definitions for all type values, category values, fidelity levels, relationship fields, phase/layer vocabulary, and registry vocabularies. Check here when unsure of correct term usage.
-
 **Validate frontmatter:** `scripts/validate-frontmatter.sh`. `supports` is never mandatory: `scripts/validate-crossrefs.sh --fix` generates it, never write it by hand.
 
 ---
 
 ## Folder Structure Pattern
 
-`PURPOSE.md` plus `specs/{workspace,foundation,strategy,features,artifacts,interfaces}/`. workspace = HOW you build (constitution, patterns, workflows, taxonomy); foundation = WHY; strategy = HOW (architecture); features = WHAT (behaviours); artifacts = prompts, agents, commands, validators; interfaces = contracts. **No `.livespec/` directory:** methodology is provided by the installed plugin via `/livespec:*` commands.
+`PURPOSE.md` plus `specs/{workspace,foundation,strategy,features,artifacts,interfaces}/`. workspace = HOW you build (constitution, patterns, workflows, taxonomy, context architecture); foundation = WHY; strategy = HOW (architecture); features = WHAT (behaviours); artifacts = prompts, agents, commands, validators; interfaces = contracts. Project settings live in `project.yaml`. **No `.livespec/` directory:** methodology is provided by the installed plugin via `/livespec:*` commands.
 
 ---
 
@@ -474,40 +460,33 @@ When renaming or moving prompts/specs, use systematic checklist:
 4. If YES → Verify spec has Requirements section with [!] items, full frontmatter (type, category, fidelity, criticality, failure_mode, governed-by, plus per-category fields)
 5. Then proceed to implementation
 
-**New spec frontmatter checklist:**
-- [ ] `type` set to correct subtype value
-- [ ] `category` matches directory
-- [ ] `fidelity` set (default by category)
-- [ ] `criticality` is CRITICAL or IMPORTANT
-- [ ] `failure_mode` is concrete (not vague)
-- [ ] `governed-by` contains only content governance (no metaspec paths)
-- [ ] Per-category mandatory fields present
+**New spec frontmatter:** `type` and `category` match the folder, `fidelity` set, `criticality` CRITICAL or IMPORTANT, a concrete `failure_mode`, `governed-by` holding content governance only, and the per-category fields (see MSL Format Quick Reference).
 
 ### Validation Workflow
 
-**Run validation at key checkpoints (seven validators, all in `scripts/`):**
-- Frontmatter compliance: `scripts/validate-frontmatter.sh` (accepts `[--verbose] [--strict] [path]`; scans `specs/` by default)
-- Cross-reference integrity and traceability: `scripts/validate-crossrefs.sh` (accepts `[--verbose] [--strict] [--fix [--prune]] [path]`) — targets resolve from the repository root, upward links reach PURPOSE.md (specs with `vendored-from` provenance are exempt), `supports:` mirrors them
-- Constraint integrity: `scripts/validate-constraints.sh` (accepts `[--verbose]`) — every `/livespec:` command, `scripts/*.sh` reference (including in subfolders of `scripts/` where vendored scripts live), and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`); in the toolchain repo only, `ignored-shipped-file` errors on git-ignored shipped files
-- Registry integrity: `scripts/validate-registries.sh` (required registries present, entries well-formed, no work-item-style summaries, staleness flagged)
-- PURPOSE.md boundary: `scripts/validate-purpose.sh` (accepts `[path]`, defaults to `./PURPOSE.md`)
-- Spec coverage: `scripts/validate-coverage.sh` — which tracked files a spec's `specifies:` governs; reported, never enforced (exit 0). `--which <path>` answers which spec governs a path (exit 1 when a spec is needed and none governs it)
-- Context currency: `scripts/validate-context.sh [--strict] [--json] | --stamp | --changed` — each generated context file is current, stale or unstamped against the hash of its sources; findings are warnings, errors under `--strict`
+**Seven validators, all in `scripts/`:**
+- Frontmatter compliance: `scripts/validate-frontmatter.sh [--verbose] [--strict] [path]` (scans `specs/` by default)
+- Cross-reference integrity and traceability: `scripts/validate-crossrefs.sh [--verbose] [--strict] [--fix [--prune]] [path]` — targets resolve from the repository root, upward links reach PURPOSE.md (specs with `vendored-from` provenance are exempt), `supports:` mirrors them
+- Constraint integrity: `scripts/validate-constraints.sh [--verbose]` — every `/livespec:` command, `scripts/*.sh` reference (subfolders of `scripts/` included) and `routes-to:` target resolves; flags retired-layout references (`.livespec/`, `.livespec-version`); in the toolchain repo only, `ignored-shipped-file` errors on git-ignored shipped files
+- Registry integrity: `scripts/validate-registries.sh` — required registries present, entries well-formed, no work-item-style summaries, staleness flagged; `registries/proposals.md` and `registries/README.md` are not registries and raise no finding
+- PURPOSE.md boundary: `scripts/validate-purpose.sh [path]` (defaults to `./PURPOSE.md`)
+- Spec coverage: `scripts/validate-coverage.sh` — which tracked files a spec's `specifies:` governs; reported, never enforced (exit 0). `--which <path>` names the governing spec (exit 1 when a spec is needed and none governs it)
+- Context currency: `scripts/validate-context.sh [--strict] [--json] | --stamp | --changed` — each generated context file current, stale or unstamped against the hash of its sources; warnings, errors under `--strict`
 - Full sweep: `/livespec:audit validate`
 
-**Machine-readable output:** every validator accepts `--json` and then writes exactly one JSON document to stdout (`schema_version`, `validator`, `livespec_version`, `findings`; each finding has `id`, `rule`, `severity`, `path`, `message`). Exit codes match text mode (0 no errors, 1 errors, 2 usage error). Output is deterministic, so consumers compare findings by `id`. Contract: `specs/interfaces/formats/validator-output.spec.md`; shared helper `scripts/validator-output.sh` (sourced, not run directly).
+**Machine-readable output:** every validator accepts `--json`, writing one deterministic JSON document (`schema_version`, `validator`, `livespec_version`, `findings`, each with `id`, `rule`, `severity`, `path`, `message`); exit codes as in text mode (0 no errors, 1 errors, 2 usage error). Contract: `specs/interfaces/formats/validator-output.spec.md`; shared helper `scripts/validator-output.sh` (sourced, not run).
 
-**Installed automatically:** `scripts/setup-hooks.sh` writes `.git/hooks/pre-commit`, chaining to (not replacing) any existing hook, and vendors the hooked validators and the scripts this context instructs into the target project's `scripts/livespec/` (apart from the project's own `scripts/`; in the toolchain source they are used from `scripts/`) with `vendored-from`/`source-version`/`source-hash` provenance, and moves copies an earlier install left at the root of `scripts/`. The installed hook resolves from `scripts/livespec/` (or `scripts/` in the toolchain source), then the plugin, and skips with a notice when neither exists. The hook validates only staged `*.spec.md` files: frontmatter and cross-references block the commit, constraints is advisory. It also runs the project's own tracked pre-commit script when it has one. Skips with a notice when no validators resolve; `--check` reports where each resolves.
+**Pre-commit hook:** `scripts/setup-hooks.sh` (run by init when the hook is missing) writes `.git/hooks/pre-commit`, chaining to any existing hook, and vendors the hooked validators and the scripts this context instructs into the project's `scripts/livespec/` with provenance (the toolchain source uses `scripts/`). The hook resolves from there, then the plugin, and skips with a notice when neither exists. It validates staged `*.spec.md` files only: frontmatter and cross-references block, constraints is advisory; it also runs the project's own tracked pre-commit script. `--check` reports where each validator resolves.
 
 **Severity levels:**
 - ERROR: Must fix before committing (missing mandatory fields, wrong type values, unresolved link targets, unresolved `/livespec:` command/script/route reference)
 - WARNING: Should fix soon (governed-by contains metaspec paths, `supports:` out of step with upward links, spec not reaching PURPOSE.md, link pointing down a layer, retired `implements:`, per-category mandatory field declared empty, stale or unstamped context, ungoverned file). `--strict` promotes the traceability and empty-field warnings to errors
 
-**Empty relationship fields:** a declared field with no values asserts the relationship does not exist: normal for optional fields (empty `governed-by`), a warning where the category mandates it. `--strict` promotes those to errors once the graph is populated.
+**Empty relationship fields:** a declared field with no values asserts the relationship does not exist: normal for optional fields (empty `governed-by`), a warning where the category mandates it.
 
 ### Learning Distribution Workflow
 
-Template in `templates/` (if reusable; research templates under `templates/research/`) → spec requirement mandating it → skill instructions referencing it → regenerate AGENTS.md (`/livespec:audit context`) → plugin update reaches target projects (no copy step).
+Template in `templates/` (if reusable; research templates under `templates/research/`) → spec requirement mandating it → skill instructions referencing it → regenerate AGENTS.md (`/livespec:audit context`) → plugin update reaches target projects (no copy step; vendored conventions and scripts change only when `/livespec:upgrade` is accepted).
 
 ---
 
@@ -554,14 +533,12 @@ specs/features/*  specs/interfaces/*  specs/artifacts/*
 
 ### Link Rules (checked by validate-crossrefs.sh)
 
-- Links are written from the repository root and must resolve to a real spec (or PURPOSE.md)
+- Links are written from the repository root and must resolve to a real spec (or PURPOSE.md); a registry or other non-spec is never a link target
 - An upward link points to the same layer or higher; a strategy may not derive from a feature (the lower spec links up)
 - PURPOSE.md is a direct parent only of foundation and workspace specs; features reach it through them
 - Every spec must reach PURPOSE.md through its upward links; cycles, self-references and links to non-specs are reported
 - Behaviours carry dual linkage: `satisfies` (outcome, WHAT) plus `guided-by` (strategy, HOW)
 - Edit the child's upward link, then run `bash scripts/validate-crossrefs.sh --fix`; `--fix` keeps a `supports:` entry with no upward link back and reports it (add the link, or run `--fix --prune` to remove it)
-
-**Field naming:** All relationship fields use hyphenated form. `derives-from` not `derives_from`. Validation rejects underscore variants.
 
 **Full guide:** `references/guides/frontmatter-relationships.md`; vocabulary in `references/standards/vocabulary.spec.md`.
 
@@ -569,12 +546,11 @@ specs/features/*  specs/interfaces/*  specs/artifacts/*
 
 ## Context Compression
 
-**This project uses:** Moderate compression (balanced inline/reference)
-- Strategic extraction of reusable content
-- Critical workflows inline, details referenced
-- Target size: 30-40KB root AGENTS.md
+**This project uses:** Moderate compression (balanced inline/reference): strategic extraction of reusable content, critical workflows inline, details referenced.
 
-MSL Minimalism reduces content WITHIN specs; Context Compression reorganises ACROSS guidance. Change level via `/livespec:audit`.
+The level is declared only in `project.yaml` (`livespec.methodology.context_compression: light | moderate | aggressive`, default `moderate`), never in a spec. A `context_compression` key left in spec frontmatter is ignored, and `moderate` applies, until `/livespec:upgrade` moves it once you accept. Changing the level marks the context stale and forces FULL regeneration. `/livespec:audit compression` compares the measured level with the declared one.
+
+MSL Minimalism reduces content WITHIN specs; Context Compression reorganises ACROSS guidance.
 
 ---
 
@@ -582,7 +558,7 @@ MSL Minimalism reduces content WITHIN specs; Context Compression reorganises ACR
 
 **Proactively recommend completion** when: context passes ~100K tokens, all todos are done, a natural stopping point is reached, or the user is stuck after 3+ failed attempts. Say so plainly ("All tasks complete. Let me run session completion.").
 
-**Tool:** `/livespec:learn` (one action: compliance scoring, learning capture), then commit and start a fresh session. Process compliance is scored 0-8 (TodoWrite gate 0-2, validation 0-2, plan mode 0-3, pre-commit 0-1) and focus efficiency 0-13 (tool efficiency, AGENTS.md navigation, task focus, signal-to-noise). Data is saved under `~/.claude/livespec/compliance/` and `feedback/`. Detail: `ctxt/session.md`.
+**Tool:** `/livespec:learn` (compliance scoring, learning capture), then commit and start a fresh session. Process compliance is scored 0-8 (TodoWrite gate 0-2, validation 0-2, plan mode 0-3, pre-commit 0-1) and focus efficiency 0-13 (tool efficiency, AGENTS.md navigation, task focus, signal-to-noise). Data is saved under `~/.claude/livespec/compliance/` and `feedback/`. Detail: `ctxt/session.md`.
 
 ---
 
@@ -603,6 +579,10 @@ MSL Minimalism reduces content WITHIN specs; Context Compression reorganises ACR
 **Metaspec paths in governed-by**
 - Bad: `governed-by: [references/standards/metaspecs/behavior.spec.md]`
 - Good: `governed-by: []` (format implied by `type: behavior`)
+
+**Declaring a setting in a spec**
+- Bad: `context_compression: light` in the constitution's frontmatter
+- Good: `livespec.methodology.context_compression: light` in `project.yaml`
 
 **Assuming a `.livespec/` folder exists**
 - Bad: `cp -r livespec/dist/ .livespec/` or reading `.livespec/prompts/...`
@@ -634,32 +614,31 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 
 **Sub-agents (ctxt/):** `ctxt/define.md` (problem definition, workspace setup), `ctxt/design.md` (architecture, behaviors, contracts), `ctxt/evolve.md` (implementation, validation, drift, extraction), `ctxt/audit.md` (spec health, validators, learning capture, context regeneration), `ctxt/session.md` (session analysis), `ctxt/msl-audit.md` (minimalism), `ctxt/domains/governance.md` (methodology development).
 
-**Conventions:** `references/standards/vocabulary.spec.md` (canonical controlled vocabulary), `references/standards/metaspecs/{base,behavior,strategy,prompt,agent}.spec.md` (spec-type templates), `references/standards/conventions/{context-tree,dependencies,naming,folder-structure}.spec.md`, `specs/workspace/folder-organization.spec.md` (this project's layout, including registries/).
+**Conventions:** `references/standards/vocabulary.spec.md` (canonical controlled vocabulary), `references/standards/metaspecs/{base,behavior,strategy,prompt,agent}.spec.md` (spec-type templates), `references/standards/conventions/{context-tree,context-compression,dependencies,naming,folder-structure}.spec.md`, `specs/workspace/folder-organization.spec.md` (this project's layout, including registries/).
 
 **Guides:** `references/guides/msl-minimalism.md`, `frontmatter-relationships.md` (which link field to use), `terminology.md`, `context-positioning.md`, `progressive-disposability.md`.
 
-**Registries (accepted current state, tiered):** required `decisions.md` (`DEC-`), `debt.md` (`DEBT-`), `security.md` (`SEC-`); recommended `conflicts` (`CON-`), `gaps` (`GAP-`); optional `dependencies` (`DEP-`), `issues` (`ISSUE-`). Standards in `references/standards/registries/`; behaviour in `specs/features/registry-specs.spec.md`. `registries/decisions.md` DEC-002 to DEC-009 record the spec-checker design decisions. Registries record what is known true now, not desired state (specs) or work (tickets).
+**Registries (accepted current state, tiered):** required `decisions.md` (`DEC-`), `debt.md` (`DEBT-`), `security.md` (`SEC-`); recommended `conflicts` (`CON-`), `gaps` (`GAP-`); optional `dependencies` (`DEP-`), `issues` (`ISSUE-`). Standards in `references/standards/registries/`; behaviour in `specs/features/registry-specs.spec.md`. `registries/decisions.md` DEC-002 to DEC-009 record the spec-checker design decisions. Registries record what is known true now, not desired state (specs) or work (tickets). `registries/proposals.md` is a staging file, not a registry: other tools write unverified entries (no ID, no status) that a session promotes to a registry or ticket, or drops, removing them either way.
 
-**Behaviour specs:** `specs/features/automation.spec.md`, `specs/features/project-config.spec.md` (`livespec.version` is the accepted version), `specs/artifacts/validators/*.spec.md` (one per validator, plus `setup-hooks`, `vendor-conventions`, `ci-validation`), `specs/artifacts/harness/{skill-routing,release-command}.spec.md`, `specs/interfaces/formats/validator-output.spec.md` (`--json` contract and rule codes).
+**Behaviour specs:** `specs/features/project-config.spec.md` (settings LiveSpec reads, declared only in `project.yaml`, with defaults; `livespec.version` is the accepted version), `specs/features/context-generation.spec.md` (tree shape from the project's declaration), `specs/artifacts/skills/init.spec.md`, `specs/features/automation.spec.md`, `specs/artifacts/validators/*.spec.md` (one per validator, plus `setup-hooks`, `vendor-conventions`, `ci-validation`), `specs/artifacts/harness/{skill-routing,release-command}.spec.md`.
 
 ### Scripts (`scripts/`)
-- **Seven validators:** `validate-frontmatter.sh`, `validate-crossrefs.sh`, `validate-constraints.sh`, `validate-registries.sh`, `validate-purpose.sh`, `validate-coverage.sh`, `validate-context.sh`; all accept `--json`; flags in Validation Workflow above
-- **`scripts/validator-output.sh`** - Shared helper rendering the `--json` envelope (sourced, not run)
+Besides the seven validators (Validation Workflow above):
 - **`scripts/check-requires-spec.sh`** `path/to/file` - Layer 2 spec-first gate; delegates to `validate-coverage.sh --which`
 - **`scripts/setup-hooks.sh`** `[--check] [--force]` - Install the pre-commit hook; vendors hooked validators and instructed scripts into `scripts/livespec/` with provenance
 - **`scripts/vendor-conventions.sh`** `[--check] [--source DIR] [--target DIR]` - Vendor conventions into `specs/workspace/standards/` with provenance
-- **`scripts/upgrade-to-v5.sh`** `[--detect-only] [--dry-run] [--map old=new]` - Table-driven migration of legacy installs; reports a retired `ctxt/phases/` or `ctxt/utils/` layout and never moves it
+- **`scripts/upgrade-to-v5.sh`** `[--detect-only] [--dry-run] [--map old=new]` - Migrates legacy installs; `--detect-only` reports layout and version signals, including a retired `ctxt/phases/` or `ctxt/utils/` (never moved)
 - **`scripts/remediate-references.sh`** `[--check]` - Drops metaspec/template entries from `governed-by`
-- **`scripts/sweep-projects.sh`** `[--json] [--root <path>] [--stale-days <N>]` - Portfolio audit (backs `/livespec:sweep`)
+- **`scripts/sweep-projects.sh`** - Portfolio audit (backs `/livespec:sweep`)
 
 ### Agent Doc
 `AGENTS.md` is the only agent doc: Claude Code reads it natively; there is no `CLAUDE.md` symlink or copy. Claude-specific instructions go in `.claude/rules/`.
 
 ### Harness Artifacts (this repo)
-`.claude/hooks/skill-evaluator.sh` (wired in tracked `.claude/settings.json`) and `.claude/rules/plugin-skill-routing.md` point requests at the right `/livespec:` skill; the hook suggests, never blocks. `/release` (`.claude/commands/release.md`) publishes from the changelog: stops on an empty Unreleased section or failing `validate-constraints.sh`, then bumps every version file, commits, pushes and tags.
+`.claude/hooks/skill-evaluator.sh` (wired in `.claude/settings.json`) and `.claude/rules/plugin-skill-routing.md` point requests at the right `/livespec:` skill; the hook suggests, never blocks. `/release` (`.claude/commands/release.md`) stops on an empty Unreleased section or failing `validate-constraints.sh`, bumps every version file, re-stamps context that was current before the bump, then commits, pushes and tags.
 
 ### Plugin Skills
-`/livespec:init` (new project), `/livespec:design` (create and refine specs, Phases 0-1), `/livespec:audit` (health, validate, context; Phases 3-4), `/livespec:learn` (session completion), `/livespec:sweep` (portfolio audit), `/livespec:birth` (incubate child projects), `/livespec:go` (intent router; "feedback" routes to the feedback-report prompt `references/prompts/utils/feedback-report.md`), `/livespec:upgrade` (migrate legacy installs).
+`/livespec:init` (bootstrap, or finish a partial one), `/livespec:design` (create and refine specs, Phases 0-1), `/livespec:audit` (health, validate, context, compression; Phases 3-4), `/livespec:learn` (session completion), `/livespec:sweep` (portfolio audit), `/livespec:birth` (incubate child projects), `/livespec:go` (intent router; "feedback" → `references/prompts/utils/feedback-report.md`), `/livespec:upgrade` (migrate legacy installs; moves settings left in spec frontmatter to `project.yaml` once accepted).
 
 ---
 
@@ -667,4 +646,4 @@ AGENTS.md provides 80% coverage. For deep detail, fetch these:
 *For specialized contexts, see ctxt/ directory*
 *Generated from workspace specs*
 
-<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
+<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->

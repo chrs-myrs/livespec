@@ -4,6 +4,8 @@
 
 Sub-agent context for minimalism enforcement and spec quality.
 
+**Load when:** "audit MSL", "check minimalism", "review specs", "spec quality" — auditing minimalism or reviewing spec quality, not writing specs.
+
 ## Summary
 
 MSL audit enforces minimalism in specifications, preventing spec bloat and maintaining focus on essential requirements. Applies the MSL decision framework to identify non-essential content. Distinct from frontmatter compliance (see ctxt/audit.md) — this focuses on WHAT is in specs, not schema correctness.
@@ -223,7 +225,7 @@ Frontmatter should be accurate, not overloaded:
 **Before:**
 ```yaml
 governed-by:
-  - .livespec/standard/metaspecs/behavior.spec.md  # WRONG: format, not content
+  - references/standards/metaspecs/behavior.spec.md  # WRONG: format, not content
   - specs/foundation/outcomes.spec.md
   - specs/workspace/constitution.spec.md
   - specs/workspace/patterns.spec.md
@@ -247,4 +249,4 @@ governed-by: []  # or only truly constraining content specs
 *MSL audit specialist for LiveSpec v5.12.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
+<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->

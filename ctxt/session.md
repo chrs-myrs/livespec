@@ -4,6 +4,8 @@
 
 Sub-agent context for session analysis and compliance measurement.
 
+**Load when:** "complete session", "measure compliance", "analyze session" — ending a session, measuring compliance, analysing work.
+
 ## Summary
 
 Session completion analyzes agent compliance and context efficiency to maintain focus and improve methodology. Provides unified analysis at session end with learning capture.
@@ -199,4 +201,4 @@ Fresh session             # Better context
 *Session completion specialist for LiveSpec v5.12.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
+<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->

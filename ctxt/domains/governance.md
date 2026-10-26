@@ -4,6 +4,8 @@
 
 Sub-agent context for governance domain projects and methodology development.
 
+**Load when:** "methodology", "dogfooding", "governance", "framework development" — developing methodology, writing specs about specs, not using LiveSpec normally.
+
 ## Summary
 
 Governance domain projects produce methodology frameworks, policies, procedures, and process documentation. LiveSpec itself is a governance project — it develops specifications about specification-driven development.
@@ -14,32 +16,15 @@ Governance domain projects produce methodology frameworks, policies, procedures,
 
 ### Dogfooding Pattern (Critical for Governance)
 
-**What it means:**
-- Governance projects use their own methodology to develop themselves
-- LiveSpec uses LiveSpec methodology to evolve LiveSpec
-- Policies are written following the policy-writing framework
-- Procedures are documented following the procedure-documentation process
+Governance projects use their own methodology to develop themselves: LiveSpec uses LiveSpec to evolve LiveSpec, policies are written following the policy-writing framework, procedures follow the procedure-documentation process.
 
-**Implementation:**
 ```
 LiveSpec (governance project):
-├── specs/workspace/           # HOW LiveSpec develops itself (dogfooding)
-│   ├── constitution.spec.md   # LiveSpec's development principles
-│   ├── patterns.spec.md       # LiveSpec's conventions
-│   └── workflows.spec.md      # LiveSpec's process
-│
-├── specs/strategy/            # LiveSpec's architecture
-│   └── architecture.spec.md   # Two-branch model, distribution approach
-│
-├── specs/features/            # LiveSpec's methodology behaviors
-│   ├── context-generation.spec.md
-│   ├── mandatory-frontmatter.spec.md
-│   └── ...
-│
-└── specs/artifacts/           # LiveSpec's deliverables (prompts, agents, commands)
-    ├── prompts/*.spec.md
-    ├── agents/*.spec.md
-    └── commands/*.spec.md
+├── specs/workspace/     # HOW LiveSpec develops itself (constitution, patterns, workflows,
+│                        #   taxonomy, context-architecture, ...)
+├── specs/strategy/      # Architecture: two-branch model, distribution approach
+├── specs/features/      # Methodology behaviors (context-generation, mandatory-frontmatter, ...)
+└── specs/artifacts/     # Deliverables: prompts/, agents/, commands/, skills/, validators/
 ```
 
 ### Framework Distribution Pattern
@@ -49,49 +34,38 @@ LiveSpec (governance project):
 **Solution (v5, plugin-based):**
 ```
 livespec (source repo):
-├── specs/                     # Source of truth (specifications)
-├── skills/                    # Skill definitions (init, design, audit, learn, sweep, birth, go, upgrade)
-├── commands/                  # Slash command routing (thin wrappers to skills/)
-├── agents/                    # Sub-agent definitions (context-builder)
-├── references/                # Prompts, guides, standards (LiveSpec's own working detail)
-└── AGENTS.md                  # Generated (from specs/workspace/)
+├── specs/          # Source of truth (specifications)
+├── skills/         # Skill definitions (init, design, audit, learn, sweep, birth, go, upgrade)
+├── commands/       # Slash command routing (thin wrappers to skills/)
+├── agents/         # Sub-agent definitions (context-builder)
+├── templates/      # Bootstrap and enforcement content
+├── references/     # Prompts, guides, standards
+└── AGENTS.md, ctxt/  # Generated, in the shape LiveSpec declares
 
 target-project (user's repo):
-└── (no copied framework files — the Claude Code plugin provides
-    /livespec:* skills directly; project only has specs/ and AGENTS.md)
+├── PURPOSE.md, specs/, registries/, project.yaml
+├── specs/workspace/standards/   # vendored conventions, with provenance
+├── scripts/livespec/            # vendored hooked validators, with provenance
+└── AGENTS.md (+ ctxt/ if declared)  # only once generated, on request
 ```
 
-**Key insight:** `specs/` governs LiveSpec's own development. The plugin (`skills/`, `commands/`, `agents/`) is what target projects invoke — nothing is copied into their repos. This replaced the pre-v5 `dist/` + submodule/copy model entirely.
+**Key insight:** `specs/` governs LiveSpec's own development. Target projects invoke the plugin's skills, commands and agents; none of those is copied. What a project depends on (conventions, hooked validators) is vendored as local files with `vendored-from`/`source-version`/`source-hash` provenance, and changes only when `/livespec:upgrade` is accepted. This replaced the pre-v5 `dist/` + submodule/copy model entirely.
 
-**Toolchain vs project boundary** (dogfooding's sharpest edge): the authoring toolchain (`init`, workspace design, `audit`) may be harness-specific, but LiveSpec's own project artefacts (`PURPOSE.md`, `specs/`, `AGENTS.md`, `ctxt/`) must stay harness-neutral — the "no action at a distance" constraint. `scripts/vendor-conventions.sh` is the concrete mechanism: it copies conventions into `specs/workspace/standards/` with `vendored-from`/`source-version`/`source-hash` provenance so a project never resolves a convention through a version-pinned plugin path.
+**Toolchain vs project boundary** (dogfooding's sharpest edge): the authoring toolchain (`init`, workspace design, `audit`) may be harness-specific, but project artefacts (`PURPOSE.md`, `specs/`, `AGENTS.md`, `ctxt/`) stay harness-neutral. No action at a distance: a toolchain update never changes a project's behaviour, settings or context-tree shape on its own.
 
 ### Specs About Specs Pattern
 
 **Governance projects have specs at three levels:**
 
-1. **Meta-level** (specs about the framework):
-   ```
-   specs/features/context-generation.spec.md
-   → Defines what context generation does as a behavior
-   ```
-
-2. **Artifact-level** (specs about specific deliverables):
-   ```
-   specs/artifacts/agents/context-builder.spec.md
-   → Defines what the context-builder agent does
-   ```
-
-3. **Metaspec level** (templates for specs, in references/):
-   ```
-   references/standards/metaspecs/base.spec.md
-   → Defines structure required of ALL specs (IMP-005)
-   ```
+1. **Meta-level** (specs about the framework): `specs/features/context-generation.spec.md` defines what context generation does as a behavior
+2. **Artifact-level** (specs about deliverables): `specs/artifacts/agents/context-builder.spec.md` defines what the context-builder agent does
+3. **Metaspec level** (templates for specs): `references/standards/metaspecs/base.spec.md` defines the structure required of ALL specs (IMP-005)
 
 **Avoid confusion:** Metaspecs are templates, not instances. They live in `references/standards/` not `specs/`.
 
 ### Taxonomy for Governance Projects
 
-Governance taxonomy (`specs/workspace/taxonomy.spec.md`) declares:
+Governance taxonomy (`specs/workspace/taxonomy.spec.md`) declares, and `project.yaml` records under `livespec.taxonomy`:
 
 ```yaml
 domain: governance
@@ -123,10 +97,10 @@ satisfies:
   - specs/foundation/outcomes.spec.md (Requirement N: Name)
 guided-by:
   - specs/strategy/architecture.spec.md
-derives-from:
-  - registries/debt.md (DEBT-NNN)  # if derived from a known accepted debt item
 ---
 ```
+
+Links name specs only. A registry entry (e.g. `registries/debt.md` DEBT-NNN) is never a link target: mention it in the body.
 
 **Artifact specs in governance projects:**
 ```yaml
@@ -137,6 +111,8 @@ fidelity: behavioral
 criticality: IMPORTANT
 failure_mode: Without spec, agent implementation lacks requirements
 governed-by: []
+satisfies:
+  - specs/features/context-generation.spec.md
 specifies:
   - agents/context-builder.md
 ---
@@ -150,49 +126,25 @@ specifies:
 2. Update a spec to mandate the template (`specs/workspace/workflows.spec.md`)
 3. Update `agents/context-builder.md` to reference it during generation
 4. Regenerate AGENTS.md (`/livespec:audit context`) so it carries the content inline
-5. Plugin users receive the update directly on next `/plugin update` — no manual copy step
+5. Plugin users get updated skills on `/plugin update`; changes to a vendored convention or script reach a project only when it accepts them through `/livespec:upgrade`
 
-**Result:** Learnings flow: violations → templates → specs → skills/agents → AGENTS.md → plugin users.
+**Result:** violations → templates → specs → skills/agents → AGENTS.md → plugin users, each project on its own acceptance.
 
 ## Folder Organization (Governance Projects)
 
-### Workspace Scope Test
+**Workspace scope test — "Is this ABOUT the workspace or IN the workspace?"**
+- ABOUT → workspace/: constitution (principles), patterns (MSL format, naming), workflows (spec-first workflow), taxonomy (classification), context-architecture (context tree shape)
+- IN → appropriate layer: architecture → strategy/; context generation → features/; context-builder → artifacts/agents/
 
-**"Is this ABOUT the workspace or IN the workspace?"**
+**Specs boundary — specs/ = specifications only, not the plugin implementation.** Test: "Is this defining WHAT the methodology does, or IS this the methodology's runnable artifact?" Defining WHAT → specs/; runnable artifact → skills/, commands/, agents/.
 
-**ABOUT → workspace/ (operating context):**
-- constitution.spec.md — Development principles
-- patterns.spec.md — MSL format, naming
-- workflows.spec.md — Spec-first workflow
-- taxonomy.spec.md — Project classification
-
-**IN → appropriate layer (deliverables):**
-- architecture.spec.md — How LiveSpec is structured → strategy/
-- context-generation.spec.md — What context generation does → features/
-- context-builder.spec.md — What the agent does → artifacts/agents/
-
-### Specs Boundary
-
-**specs/ = specifications only (not the plugin implementation itself)**
-
-**Test:** "Is this defining WHAT the methodology does, or IS this the methodology's runnable artifact?"
-- Defining WHAT → specs/ (specifications)
-- IS the runnable artifact → skills/, commands/, agents/ (plugin implementation)
+**Settings boundary:** methodology settings (`context_compression`, `tdd`) and `agent.context_budget` live in `project.yaml` only. A spec may refer to a setting but never declares one; two declarations drift apart.
 
 ## Common Behaviors (Governance Domain)
 
-### Methodology Evolution
-
-- Learnings captured in templates
-- Violations trigger methodology updates
+- Learnings captured in templates; violations trigger methodology updates
 - Changes ship via the plugin (skills/commands/agents), not a copy step
-- Registries are tiered (required/recommended/optional) and record accepted current state, not a backlog — entries read as state observations, not tickets. See AGENTS.md "Registries" and `specs/features/registry-specs.spec.md`.
-
-### Framework Development
-
-- Framework has specifications (behaviors, prompts, guides)
-- Framework dogfoods its own methodology
-- Framework distributed as a Claude Code plugin (no submodule/copy)
+- Registries are tiered (required/recommended/optional) and record accepted current state, not a backlog — entries read as state observations, not tickets. `registries/proposals.md` stages proposals from outside the project (an agreed AMP proposal, a residue harvest) and is not a registry: a session promotes each entry or drops it. See `specs/features/registry-specs.spec.md`
 
 ## Examples
 
@@ -205,9 +157,8 @@ specifies:
 # 3. Implement: skills/<name>/SKILL.md, commands/<name>.md
 # 4. Update specs/artifacts/prompts/registry.spec.md if prompt-backed
 #    (not registries/*.md — that's accepted-current-state data, not a tracking table)
-# 5. Regenerate agents
+# 5. Regenerate agent context
 /livespec:audit context
-# Updates: AGENTS.md (references new skill)
 ```
 
 ### Example 2: Dogfooding Validation
@@ -222,26 +173,18 @@ scripts/validate-crossrefs.sh --strict           # links trace to PURPOSE.md; --
 
 ## Decision Points
 
-**Is this workspace/ or strategy/?**
-- Test: "Is this ABOUT how we operate?" → YES = workspace/
-- Example: "Use MSL format" → workspace/ (operating convention)
-- Example: "Ship as a Claude Code plugin" → strategy/ (framework architecture)
+**Is this workspace/ or strategy/?** "Is this ABOUT how we operate?" → YES = workspace/. "Use MSL format" → workspace/ (operating convention); "Ship as a Claude Code plugin" → strategy/ (framework architecture).
 
-**Is this features/ or artifacts/?**
-- Test: "Does this describe what the methodology DOES?" → YES = features/
-- Test: "Does this describe something we BUILD?" → YES = artifacts/
-- Example: "Context generation behavior" → features/
-- Example: "context-builder agent" → artifacts/agents/
+**Is this features/ or artifacts/?** What the methodology DOES → features/ ("Context generation behavior"); something we BUILD → artifacts/ ("context-builder agent" → artifacts/agents/).
 
-**Should I dogfood this?**
-- YES if: Governance project (always dogfood)
-- Validates methodology works, demonstrates patterns
+**Should I dogfood this?** Always, in a governance project: it validates the methodology works and demonstrates its patterns.
 
 ## Reference Library
 
 - Parent: AGENTS.md (root context)
 - Vocabulary spec: `references/standards/vocabulary.spec.md` (canonical controlled terms — IMP-006)
 - Taxonomy: `specs/workspace/taxonomy.spec.md` (project classification)
+- Settings: `specs/features/project-config.spec.md`
 - Mandatory frontmatter: `specs/features/mandatory-frontmatter.spec.md`
 - Base metaspec: `references/standards/metaspecs/base.spec.md`
 - Context builder agent: `agents/context-builder.md`
@@ -251,4 +194,4 @@ scripts/validate-crossrefs.sh --strict           # links trace to PURPOSE.md; --
 *Governance domain specialist for LiveSpec v5.12.1*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
+<!-- livespec-context-sources: sha256:7e08a07c3ebc9e5e117d87f448731decf5fd3d0da77992e0770c303cc24f466c n=99 -->
