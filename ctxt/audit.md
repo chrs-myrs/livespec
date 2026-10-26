@@ -206,4 +206,4 @@ scripts/validate-context.sh       # stale/unstamped until context is regenerated
 *Audit mode specialist for LiveSpec v5.12.0*
 *Parent: AGENTS.md*
 
-<!-- livespec-context-sources: sha256:77c74699dd99a82dd4edbe65530476bcce500837d59a391331258f8129572e2c n=98 -->
+<!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
