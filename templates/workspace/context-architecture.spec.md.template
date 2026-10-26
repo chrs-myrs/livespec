@@ -35,8 +35,8 @@ derives-from:
   2. Constraints from specs/foundation/
   3. Spec-first enforcement
   4. specs/workspace/constitution.spec.md - Development principles
-  5. specs/workspace/taxonomy.spec.md - Folder organisation
-  6. Key behaviors from specs/features/ relevant to daily work
+  5. specs/workspace/taxonomy.spec.md - Folder Organization Decision Tests
+  6. Key Behaviors from specs/features/ relevant to daily work
 
   Exclude:
   - Detailed implementation specs (reference, don't inline)
@@ -56,11 +56,11 @@ derives-from:
   | PURPOSE.md | AGENTS.md § Summary | No |
   | project.yaml (`livespec.version`, `context_compression`, `context_budget`) | Footer version; compression and budget shape the whole tree | Compression and budget changes are structural; a version change is not |
   | constitution.spec.md | AGENTS.md § Core Principles | No |
-  | taxonomy.spec.md | AGENTS.md § Folder organisation | No |
+  | taxonomy.spec.md | AGENTS.md § Folder Organization Decision Tests | No |
   | context-architecture.spec.md (this spec) | Tree shape itself: root ceiling, ctxt/ files, methodology sections, load triggers | Always structural |
   | standards/*.spec.md (vendored conventions) | *(none)* | No |
   | foundation/*.spec.md | AGENTS.md § Summary; § Constraints | No |
-  | features/*.spec.md | AGENTS.md § key behaviors; Reference Library | No |
+  | features/*.spec.md | AGENTS.md § Key Behaviors; § Reference Library | No |
   | strategy/*.spec.md | *(none)* unless AGENTS.md inlines it; then name the section | No |
   | interfaces/*.spec.md | *(none)* unless AGENTS.md describes the external system; then name the section | No |
 

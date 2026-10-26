@@ -101,24 +101,27 @@ An older spec may state the shape in other words (for example "Root AGENTS.md (3
 **Format:** NO frontmatter. Start with `# [Project Name] Agent Configuration`.
 **First line after title:** `> **Generated file** - Do not edit directly. Regenerate using /livespec:audit context`
 
-**Section ordering** — follow the ordering context-architecture.spec.md gives; where it gives none, use this. Sections marked *declared* appear only when the declaration names them; the rest fill the remaining space as the ceiling allows:
+**Section ordering** — sections context-architecture.spec.md orders come first, in its order; the rest follow in the order below. Sections marked *declared* appear only when the declaration names them. Summary, Spec-First Protocol, Constraints, Core Principles, MSL Format Quick Reference and Reference Library always appear; include any other only where it carries guidance this project needs. The ceiling is a limit, not a target:
 1. Summary (from PURPOSE.md, 10 lines max)
 2. Spec-First Protocol (CRITICAL — inline from template)
 3. Constraints (the project's own, from `specs/foundation/`) — always before any methodology section
 4. Core Principles (from constitution.spec.md, compressed)
 5. Folder Organization Decision Tests (from taxonomy.spec.md)
-6. Phase/Layer distinction — *declared*
-7. Multi-Domain Organization patterns — *declared*
-8. When to Load Sub-Agents (routing table with triggers) — only when ctxt/ files are declared
-9. Quick Start
-10. The 5 Phases (overview with key prompts) — *declared*
-11. MSL Format Quick Reference
-12. Development Patterns and Workflows
-13. Spec Dependencies
-14. Context Compression
-15. Session Completion — *declared*
-16. Common Anti-Patterns
-17. Reference Library (navigation to ctxt/ and plugin references/)
+6. Key Behaviors (from specs/features/, those relevant to daily work)
+7. Phase/Layer distinction — *declared*
+8. Multi-Domain Organization patterns — *declared*
+9. When to Load Sub-Agents (routing table with triggers) — only when ctxt/ files are declared
+10. Quick Start
+11. The 5 Phases (overview with key prompts) — *declared*
+12. MSL Format Quick Reference
+13. Development Patterns and Workflows
+14. Spec Dependencies
+15. Context Compression
+16. Session Completion — *declared*
+17. Common Anti-Patterns
+18. Reference Library (navigation to ctxt/ and to paths inside the project; `references/` only where the project is the toolchain source, since elsewhere it does not exist)
+
+Use these section names as headings: the Spec → Generated File Map names sections by them, and a scoped run edits a section by its heading.
 
 **Content rules:**
 - Extract and compress content FROM specs — do NOT reference specs/workspace/*.spec.md
@@ -171,14 +174,15 @@ After generating all files:
 ```bash
 # Size checks
 wc -c AGENTS.md
-[ -d ctxt ] && wc -c ctxt/*.md ctxt/domains/*.md
+[ -d ctxt ] && find ctxt -maxdepth 2 -name '*.md' -exec wc -c {} +
 
 # Structure checks
 grep "^## " AGENTS.md
-grep "Generated file" AGENTS.md ctxt/*.md ctxt/domains/*.md
+grep -l "Generated file" AGENTS.md
+[ -d ctxt ] && find ctxt -maxdepth 2 -name '*.md' ! -exec grep -q "Generated file" {} \; -print   # files missing the warning
 
 # Subfolders this generation did not produce
-find ctxt -mindepth 1 -maxdepth 1 -type d ! -name domains
+[ -d ctxt ] && find ctxt -mindepth 1 -maxdepth 1 -type d ! -name domains
 
 # No frontmatter
 head -1 AGENTS.md  # Should NOT be "---"
