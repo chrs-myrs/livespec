@@ -18,6 +18,10 @@ See `/livespec:upgrade` for AI-assisted upgrade process.
 
 ## [Unreleased]
 
+---
+
+## [5.12.1] - 2026-10-26
+
 ### Fixed
 
 - **`project.yaml` could still make `CLAUDE.md` the agent doc** ⚠️ LOW impact: v5.12.0 made `AGENTS.md` the only agent doc, but `agent.doc_format` still accepted `CLAUDE.md`, and the project-config spec's software-project example used it. A project following that example would generate a `CLAUDE.md`, which stops Claude Code reading `AGENTS.md`. The setting is removed: context generation and `validate-context.sh` always use `AGENTS.md`, and a symlinked `AGENTS.md` is stamped through the link. A project that set `doc_format: CLAUDE.md` should regenerate its context (`/livespec:audit context`), then delete its `CLAUDE.md` or reduce it to `@AGENTS.md`; a leftover `doc_format` line is ignored. Two specs that still listed `CLAUDE.md` as a generated output are corrected

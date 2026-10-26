@@ -260,7 +260,7 @@ scripts/validate-context.sh
 
 ---
 
-*Evolve mode specialist for LiveSpec v5.12.0*
+*Evolve mode specialist for LiveSpec v5.12.1*
 *Parent: AGENTS.md*
 
 <!-- livespec-context-sources: sha256:993955c2be832a6b4265551249bd626ae3cc0203ef48ec40410b00f90e39ad47 n=98 -->
