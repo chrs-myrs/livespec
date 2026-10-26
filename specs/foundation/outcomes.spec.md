@@ -15,9 +15,9 @@ supports:
   - specs/artifacts/prompts/registry.spec.md
   - specs/artifacts/prompts/utils-feedback-report.spec.md
   - specs/artifacts/prompts/utils-measure-session.spec.md
+  - specs/artifacts/skills/init.spec.md
   - specs/features/abstraction-guidance.spec.md
   - specs/features/automation.spec.md
-  - specs/features/config/project-config.spec.md
   - specs/features/context-generation.spec.md
   - specs/features/documentation.spec.md
   - specs/features/framework/standard.spec.md

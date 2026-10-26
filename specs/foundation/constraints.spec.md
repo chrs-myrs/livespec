@@ -9,6 +9,7 @@ derives-from:
   - PURPOSE.md
   - specs/foundation/outcomes.spec.md
 supports:
+  - specs/artifacts/skills/init.spec.md
   - specs/artifacts/validators/remediate-references.spec.md
   - specs/artifacts/validators/setup-hooks.spec.md
   - specs/artifacts/validators/validate-constraints.spec.md

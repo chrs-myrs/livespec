@@ -16,7 +16,7 @@ derives-from:
 
 ## Requirements
 - [!] LiveSpec projects declare and follow context compression level (light/moderate/aggressive), reorganizing guidance layer (workspace/, AGENTS.md, templates/) for agent focus efficiency through configurable structural force that complements MSL Minimalism.
-  - Projects declare compression level in workspace/constitution.spec.md frontmatter
+  - Projects declare compression level in `project.yaml` (`livespec.methodology.context_compression`, per `specs/features/project-config.spec.md`)
   - Light compression: Verbose, inline examples, minimal extraction (exploratory/learning)
   - Moderate compression: Balanced inline/reference, strategic extraction (production default)
   - Aggressive compression: Dense, heavy extraction, deep references (cost-sensitive)
@@ -129,14 +129,14 @@ Context compression **actively drives** these decisions:
 - AGENTS.md size vs target
 
 **Comparison:**
-- Declared compression level (in constitution.spec.md)
+- Declared compression level (in `project.yaml`)
 - Actual compression level (calculated from metrics)
 - Alignment assessment (match/mismatch)
 
 ### Migrating Compression Levels
 
 **Process:**
-1. Update `context_compression` in workspace/constitution.spec.md
+1. Update `livespec.methodology.context_compression` in `project.yaml`
 2. Reorganize content:
    - **To higher compression:** Extract items to templates, update references
    - **To lower compression:** Inline templates, remove unnecessary references
@@ -167,7 +167,7 @@ These are complementary forces:
 - Context Compression: Extract those 2 criteria to template if used 3+ times
 
 ## Validation
-- Compression level declared in workspace/constitution.spec.md frontmatter
+- Compression level declared in `project.yaml`, and in no spec
 - Level appropriate for project usage patterns and agent capabilities
 - Extraction/inline decisions follow framework for declared level
 - AGENTS.md size within target for compression level (light: any, moderate: <100KB, aggressive: <50KB)

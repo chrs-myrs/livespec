@@ -10,7 +10,6 @@ applies_to:
 satisfies:
   - specs/foundation/outcomes.spec.md (Requirement 4: Maintenance Proportional to Durability)
   - specs/foundation/outcomes.spec.md (Requirement 5: Voluntary Adoption)
-context_compression: moderate
 supports:
   - specs/artifacts/prompts/utils-measure-session.spec.md
   - specs/features/measurement/agent-compliance.spec.md
@@ -73,7 +72,7 @@ supports:
     - Reference Library with `references/` paths enables 80/20 navigation (AGENTS.md → deep detail)
     - Templates in `templates/agents/` provide reusable verification content
     - Structural enforcement makes compliance path of least resistance
-    - **Context Compression** applied (Moderate level):
+    - **Context Compression** applied at the level `project.yaml` declares:
       - Active force that reorganizes guidance for agent focus efficiency
       - Complements MSL Minimalism (content vs structure optimization)
       - Strategic extraction of reusable content to templates

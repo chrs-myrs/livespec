@@ -13,6 +13,8 @@ guided-by:
   - specs/strategy/ai-discoverability.spec.md
 derives-from:
   - specs/workspace/context-architecture.spec.md
+specifies:
+  - templates/workspace/context-architecture.spec.md.template
 supports:
   - specs/artifacts/agents/context-builder.spec.md
   - specs/interfaces/context/agents-md.spec.md
@@ -24,21 +26,24 @@ supports:
 
 ### Context Tree Structure Generation
 
-- [!] Agent context tree is successfully generated from workspace specifications, producing a flat structure that enables proactive specialized loading
+- [!] Agent context tree is generated in the shape the project's `specs/workspace/context-architecture.spec.md` declares
   - **Universal mechanism**: See `references/standards/conventions/context-tree.spec.md` for context tree pattern
-  - Root AGENTS.md generated (30-40KB, no frontmatter, routing to sub-agents)
-  - Sub-agents generated in ctxt/ — define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (4-10KB each, flat, no phases/ or utils/ subfolders)
-  - Domain specialists generated (ctxt/domains/, 4-10KB each, based on taxonomy)
-  - Total tree size <100KB, typical loaded context well within that (root + 1-2 sub-agents)
+  - Root AGENTS.md within the declared root ceiling, no frontmatter, the project's constraints near the top
+  - The declared ctxt/ files and no others (flat, plus ctxt/domains/, 4-10KB each); no ctxt/ when none are declared
+  - Only the declared methodology sections (five phases, phases vs layers, multi-domain organisation, session completion)
+  - Total tree within `agent.context_budget` in `project.yaml`
   - All generated files have clean context (no frontmatter, inline edit warnings only)
+
+- [!] The context-architecture template declares a small-project shape by default
+  - A root of 10KB or less, no ctxt/ files and no methodology sections
+  - Its content sources and Spec → Generated File Map name only specs `/livespec:init` creates, plus the categories a project adds to
+  - A project grows the tree by editing its own declaration; nothing in the toolchain changes its shape
 
 ### Source Validation
 
 - [!] Context generation validates prerequisites before building to prevent incomplete or invalid trees
-  - Workspace specs verified (constitution, patterns, workflows, context-architecture)
-  - context-architecture.spec.md is REQUIRED (provides content sources and structure)
-  - PURPOSE.md verified (project vision)
-  - Templates verified (templates/agents/)
+  - PURPOSE.md and context-architecture.spec.md are REQUIRED (vision; shape and content sources)
+  - Other workspace specs are read when present; content a missing spec would feed is left out rather than failing the run
   - Context builder agent verified (agents/context-builder.md)
   - Clear error messages if prerequisites missing, especially context-architecture.spec.md
   - Guidance provided to resolve missing prerequisites (e.g., "Run Phase 0 first")
@@ -50,7 +55,7 @@ supports:
   - Include-when-relevant content goes in sub-agents with appropriate load triggers
   - Excluded content is referenced but not inlined
   - Content focus (behaviors/constraints/patterns balance) applied to achieve specified ratios
-  - Compression level from spec applied consistently
+  - Compression level from `project.yaml` applied consistently
 
 ### Proactive Loading Mechanism
 
@@ -65,7 +70,7 @@ supports:
 ### Content Compression
 
 - [!] Context tree respects compression level configuration and applies consistently across all generated files
-  - Compression level read from constitution.spec.md frontmatter
+  - Compression level read from `project.yaml` (`livespec.methodology.context_compression`, default moderate)
   - Light: More inline content, less extraction
   - Moderate: Strategic extraction, balanced inline/reference (default)
   - Aggressive: Heavy extraction, minimal inline
@@ -75,9 +80,9 @@ supports:
 ### Size Budget Enforcement
 
 - [!] Generated files respect size budgets to optimize context window efficiency
-  - Root AGENTS.md: 30-40KB (compressed from typical 50-60KB monolithic)
+  - Root AGENTS.md: within the declared root ceiling
   - Each ctxt/ sub-agent: 4-10KB
-  - Total tree: <100KB
+  - Total tree: within `agent.context_budget`
   - Size violations detected and reported during generation
 
 ### Regeneration Governance
@@ -93,7 +98,7 @@ supports:
 ### Incremental Update Mode
 
 - [!] Context generation classifies each regeneration request as MINOR (scoped patch) or FULL (whole-tree rebuild) and defaults to acting on that classification without a confirmation gate
-  - Diffs workspace specs and PURPOSE.md against the last generation (git history) to determine what changed
+  - Lists the sources changed since the last generation's stamp (`validate-context.sh --changed`), the `project.yaml` settings generation reads included
   - Consults `specs/workspace/context-architecture.spec.md` Spec → Generated File Map to find the target file(s) for each change
   - A changed spec with no generated target in the map is excluded from the changed-target set — it doesn't force FULL by itself, unlike a genuinely unclear mapping
   - Classifies **MINOR** when every remaining changed spec maps to existing content in a single target file/section, and none of the changes are marked "Structural" in the map (an empty remaining set after exclusions also classifies MINOR, with nothing to regenerate)
@@ -113,7 +118,7 @@ supports:
 
 - [!] AGENTS.md + ctxt/ generation is optional, not a plugin-install prerequisite
   - Skills are self-contained and work correctly with no AGENTS.md/ctxt/ present
-  - `/livespec:init` scaffolds specs/ + PURPOSE.md but does not generate AGENTS.md
+  - `/livespec:init` scaffolds specs/, PURPOSE.md and the context-architecture spec but does not generate AGENTS.md
   - A project generates its own AGENTS.md + ctxt/ on request via
     `/livespec:audit context`, once workspace specs exist
   - There is no separate "bootstrap" AGENTS.md shipped by the plugin — the first
@@ -122,14 +127,17 @@ supports:
 ## Validation
 
 ### Structure Validation
-- [ ] Root AGENTS.md exists (30-40KB)
+- [ ] Root AGENTS.md exists within the declared ceiling
 - [ ] Root AGENTS.md has NO frontmatter (clean context)
 - [ ] Root AGENTS.md has inline edit warning (not in frontmatter)
-- [ ] Root AGENTS.md has "When to Load Sub-Agents" section (routing decision tree)
+- [ ] Root AGENTS.md carries the project's constraints before any methodology content
+- [ ] Root AGENTS.md has a "When to Load Sub-Agents" section if and only if ctxt/ files are declared
+- [ ] Root AGENTS.md carries exactly the declared methodology sections
 - [ ] Root AGENTS.md contains NO references to specs/workspace/*.spec.md (content inlined)
-- [ ] ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
-- [ ] ctxt/domains/ directory contains domain-specific files based on taxonomy
-- [ ] Total tree size <100KB
+- [ ] ctxt/ holds exactly the declared files (flat, plus ctxt/domains/)
+- [ ] Total tree size within `agent.context_budget`
+- [ ] A scratch project of about five specs using the template default gets a root of 10KB or less and no ctxt/
+- [ ] LiveSpec's own regeneration produces a root within its declared 40KB ceiling and its seven declared ctxt/ files
 
 ### Content Validation (spot-check 2-3 sub-agents)
 - [ ] Sub-agents have NO frontmatter (clean context)
@@ -147,10 +155,9 @@ supports:
 - [ ] Context builder runs in isolated context (no session pollution)
 
 ### Prerequisites Validation
-- [ ] Generation validates workspace specs exist before starting
 - [ ] Generation validates context-architecture.spec.md exists (REQUIRED)
 - [ ] Generation validates PURPOSE.md exists before starting
-- [ ] Generation validates templates exist before starting
+- [ ] A project with no patterns or workflows spec generates without error
 - [ ] Clear error messages shown if prerequisites missing
 - [ ] Specific error for missing context-architecture.spec.md with Phase 0 guidance
 - [ ] Guidance provided to resolve missing prerequisites
@@ -163,9 +170,9 @@ supports:
 - [ ] Content focus balance achieved (behaviors/constraints/patterns)
 
 ### Size Budget Validation
-- [ ] Root AGENTS.md: 30-40KB
+- [ ] Root AGENTS.md: within the declared ceiling
 - [ ] Each ctxt/ sub-agent (including domain files): 4-10KB
-- [ ] Total tree: <100KB
+- [ ] Total tree: within `agent.context_budget`
 
 ### Incremental Update Validation
 - [ ] Classification (MINOR/FULL) and its reasoning appear in the generation report

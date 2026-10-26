@@ -20,12 +20,12 @@ supports: []
   - Located at project root (AGENTS.md)
   - No YAML frontmatter (clean context for token efficiency)
   - Edit warning as HTML comment at top (not frontmatter)
-  - Size budget: 20-30KB for root file
+  - Size within the root ceiling the project declares in `specs/workspace/context-architecture.spec.md`
 
 ### Content Structure
 
 - [!] AGENTS.md organized for optimal AI consumption
-  - START section (30-40%): Critical protocols, enforcement, what to do first
+  - START section (30-40%): Critical protocols, enforcement, the project's own constraints, what to do first
   - MIDDLE section (40%): Core principles, patterns, workflows
   - END section (20-30%): Reference library, navigation pointers
 
@@ -34,15 +34,16 @@ supports: []
 - [!] Specific sections must be present for methodology adherence
   - Summary (brief project/methodology overview)
   - Critical warnings/protocols (spec-first enforcement)
+  - The project's constraints
   - Core principles (in priority order)
   - Folder organization (decision tests)
-  - Quick start (entry point for new sessions)
   - Reference library (pointers to detailed content)
+  - LiveSpec method sections (the five phases, phases vs layers, multi-domain organisation, session completion) appear only where the project declares them
 
 ### Context Tree Integration
 
-- [!] Root AGENTS.md integrates with context tree for specialized loading
-  - "When to Load Sub-Agents" section with decision triggers
+- [!] Where the project declares ctxt/ files, root AGENTS.md routes to them
+  - "When to Load Sub-Agents" section with decision triggers, absent when no ctxt/ files are declared
   - Load triggers match natural user language
   - Conservative loading guidance (1-2 sub-agents typical)
   - Paths to ctxt/ sub-agents for specialized contexts
@@ -53,6 +54,7 @@ supports: []
   - Edit warning at top (HTML comment or plain text)
   - Source attribution (generated from specs/workspace/)
   - Regeneration command reference
+  - Footer names the accepted LiveSpec version, and omits it when `project.yaml` records none
 
 ## Validation
 
@@ -61,6 +63,7 @@ supports: []
 - [ ] Edit warning present at top
 - [ ] Summary section exists
 - [ ] Critical warnings section exists
+- [ ] The project's constraints appear in the START section
 - [ ] Reference library section exists
-- [ ] Size within 20-30KB budget
-- [ ] "When to Load Sub-Agents" section present (if context tree exists)
+- [ ] Size within the declared root ceiling
+- [ ] "When to Load Sub-Agents" section present if and only if ctxt/ files are declared

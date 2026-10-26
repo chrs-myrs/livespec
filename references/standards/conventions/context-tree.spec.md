@@ -22,12 +22,14 @@ applies_to:
 
 ### Hierarchical Context Architecture
 
-- [!] LiveSpec uses hierarchical agent contexts enabling proactive specialized loading to improve agent focus efficiency
-  - **Root AGENTS.md** (30-40KB): Compressed methodology routing to specialized sub-agents
-  - **ctxt/**: Flat specialist files — define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (4-10KB each), no phases/ or utils/ subfolders
-  - **ctxt/domains/**: Domain patterns (governance/software/hybrid, 4-10KB each)
-  - **Total tree**: <100KB complete, typical loaded well within that (root + 1-2 sub-agents)
-  - **Generation**: Opt-in via `/livespec:audit context`, generated per-project after Phase 0 workspace specs exist
+- [!] Each project declares the shape of its context tree in its own `specs/workspace/context-architecture.spec.md`, and generation follows that declaration rather than a fixed shape
+  - **Root ceiling**: the largest the root AGENTS.md may be
+  - **ctxt/ files**: the specialist files the project wants, flat plus `ctxt/domains/`, 4-10KB each. The list may be empty: then there is no ctxt/ and no routing section
+  - **Methodology sections**: which LiveSpec method sections the root carries, from the five phases, phases vs layers, multi-domain organisation and session completion. An undeclared section is left out
+  - **Default** (the template): a root of 10KB or less, no ctxt/ files and no methodology sections, sized for a small project
+  - **Total tree**: within `agent.context_budget` in `project.yaml` (100KB by default); typical loaded context is the root plus 1-2 sub-agents
+  - Sizes are in bytes, 1KB being 1,024
+  - **Generation**: Opt-in via `/livespec:audit context`, once PURPOSE.md and the context-architecture spec exist
 
 ### Proactive Loading Mechanism
 
@@ -44,15 +46,16 @@ applies_to:
   - **NO frontmatter**: Clean context for agents (frontmatter wastes tokens)
   - **Inline edit warning**: At top (not in frontmatter), instructs regeneration
   - **Content inlined**: Essential methodology (NOT references to workspace specs)
-  - **"When to Load Sub-Agents" section**: Decision tree with load triggers
+  - **Project constraints near the top**: the project's own constraints come before any methodology content
+  - **"When to Load Sub-Agents" section**: Decision tree with load triggers, present only when the project declares ctxt/ files
   - **Proactive loading guidance**: Agent decides what context to load based on task
   - **Reference Library**: Navigation to detailed specs (`references/` paths)
-  - **Size budget**: 30-40KB (compressed from typical 50-60KB monolithic)
-  - **Compression applied**: Respects level from workspace/constitution.spec.md frontmatter
+  - **Size budget**: within the project's declared root ceiling
+  - **Compression applied**: Respects the level declared in `project.yaml`
 
 ### Sub-Agent Structure
 
-- [!] Sub-agents provide specialized methodology for phases, domains, and utilities
+- [!] Sub-agents, where declared, provide specialized methodology for phases, domains, and utilities
   - **NO frontmatter**: Clean context when loaded (frontmatter wastes tokens)
   - **Inline edit warning**: At top of file (not frontmatter)
   - **Specialized content**: Phase methodology, domain patterns, or utility workflows
@@ -88,11 +91,11 @@ applies_to:
   - Skills are self-contained and work correctly with no AGENTS.md/ctxt/ present
   - Full tree generated per-project from workspace specs, on request via `/livespec:audit context`
   - **Why not pre-generate ctxt/**: Content depends on the project's PURPOSE, domain, and principles — there is nothing generic to distribute
-  - **Prerequisite**: Workspace specs must exist (created by `/livespec:init` / Phase 0)
+  - **Prerequisite**: PURPOSE.md and `specs/workspace/context-architecture.spec.md` must exist (both created by `/livespec:init`)
 
 ### Integration with Context Compression
 
-- [!] Context tree applies compression level from workspace/constitution.spec.md
+- [!] Context tree applies the compression level declared in `project.yaml`
   - **Light**: More inline content in root and sub-agents
   - **Moderate**: Strategic extraction, balanced inline/reference (default)
   - **Aggressive**: Heavy extraction, minimal inline, maximum Reference Library
@@ -102,11 +105,12 @@ applies_to:
 ## Validation
 
 ### Structure Validation
-- Root AGENTS.md exists (30-40KB, no frontmatter, inline edit warning)
-- Root has "When to Load Sub-Agents" section with decision tree
-- ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
-- ctxt/domains/ contains files matching project taxonomy
-- Total tree size <100KB
+- Root AGENTS.md exists within the declared root ceiling, with no frontmatter and an inline edit warning
+- Root carries the project's constraints before any methodology content
+- Root carries exactly the methodology sections the project declares
+- ctxt/ holds exactly the declared files (flat, plus ctxt/domains/), and does not exist when none are declared
+- Root has a "When to Load Sub-Agents" section if and only if ctxt/ files are declared
+- Total tree size within `agent.context_budget`
 
 ### Sub-Agent Validation
 - All sub-agents have NO frontmatter (clean context)
@@ -123,19 +127,26 @@ applies_to:
 - Context builder runs in isolated context (no session pollution)
 
 ### Generation Validation
-- Prerequisites exist (workspace specs, PURPOSE.md, templates)
-- Compression level read from constitution.spec.md frontmatter
+- Prerequisites exist (PURPOSE.md, context-architecture.spec.md)
+- Compression level read from `project.yaml`
 - Compression applied consistently across all files
 - Edit warnings present in all generated files
 - Regeneration workflow documented and functional
 
 ## Context Tree Topology
 
-### Standard Structure
+### Default Structure (small project)
 
 ```
 project-root/
-├── AGENTS.md (30-40KB, generated)
+└── AGENTS.md (≤10KB, generated)
+```
+
+### Full Structure (declared by projects that need it)
+
+```
+project-root/
+├── AGENTS.md (declared ceiling, e.g. 40KB, generated)
 └── ctxt/
     ├── define.md (4-10KB)
     ├── design.md (4-10KB)
@@ -148,6 +159,9 @@ project-root/
         ├── software.md (4-10KB, if taxonomy: software)
         └── hybrid.md (4-10KB, if taxonomy: hybrid)
 ```
+
+A project lists whichever of these files it wants; the names above are the
+conventional ones, not a required set.
 
 ### Load Trigger Examples
 
@@ -186,23 +200,20 @@ project-root/
 ### Prerequisites (established by Phase 0)
 
 **Required files**:
-- specs/workspace/constitution.spec.md (development principles)
-- specs/workspace/patterns.spec.md (conventions)
-- specs/workspace/workflows.spec.md (5 phases)
-- specs/workspace/context-architecture.spec.md (project's context structure + content sources)
 - PURPOSE.md (project vision)
-- templates/agents/spec-first-enforcement.md (template)
+- specs/workspace/context-architecture.spec.md (the tree's shape and content sources)
+
+**Read when present**: constitution, taxonomy, patterns and workflows workspace specs; a content section a missing spec would feed is left out
 
 ### Generation Process
 
-1. **Validate prerequisites**: Check all required files exist
-2. **Read sources**: Extract content from workspace specs and PURPOSE.md
-3. **Apply compression**: Use level from constitution.spec.md frontmatter
-4. **Generate root**: Create AGENTS.md with routing and compressed methodology
-5. **Generate sub-agents**: Create define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md in ctxt/
-6. **Generate domains**: Create domain specialists in ctxt/domains/ based on taxonomy
-7. **Validate structure**: Check sizes, structure, clean context
-8. **Report results**: Comprehensive report with file sizes and validation status
+1. **Validate prerequisites**: Check the required files exist
+2. **Read sources**: Extract content from the specs and PURPOSE.md, and the shape from context-architecture.spec.md
+3. **Apply compression**: Use the level declared in `project.yaml`
+4. **Generate root**: Create AGENTS.md within the declared ceiling, constraints near the top, with only the declared methodology sections
+5. **Generate sub-agents**: Create the declared ctxt/ files, if any
+6. **Validate structure**: Check sizes against the declared ceiling and budgets, structure, clean context
+7. **Report results**: Comprehensive report with file sizes and validation status
 
 ### Regeneration Triggers
 
@@ -212,7 +223,7 @@ project-root/
 - PURPOSE.md updated (project vision changed)
 - New workspace spec added
 - LiveSpec version upgrade (new methodology)
-- Switching compression levels (light ↔ moderate ↔ aggressive)
+- Switching compression levels in `project.yaml` (light ↔ moderate ↔ aggressive)
 - Context tree feels stale or misaligned with current specs
 
 ## Relationship to Other Patterns
@@ -255,9 +266,9 @@ project-root/
 
 ### Current Pattern (Context Tree)
 
-**Hierarchical AGENTS.md + ctxt/**:
-- Root 20-30KB (routing + compressed methodology)
-- Specialized sub-agents loaded proactively
+**Project-sized AGENTS.md, plus ctxt/ where declared**:
+- Root within the project's declared ceiling (routing + compressed methodology)
+- Specialized sub-agents loaded proactively, for projects that declare them
 - Agent loads only needed context for task
 - High signal-to-noise ratio (60%)
 - Better focus efficiency through specialization
@@ -266,24 +277,20 @@ project-root/
 
 ## Examples
 
-### Software Project Context Tree
+### Small Software Project (template default)
 
 ```
 acme-api/
-├── AGENTS.md (35KB)
-└── ctxt/
-    ├── define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (6 files, ~7KB each)
-    └── domains/
-        └── software.md (8KB)
+└── AGENTS.md (8KB)
 ```
 
-**Total**: ~85KB tree, well within budget when loaded (root + 1 sub-agent)
+**Total**: 8KB; the root is the whole context
 
-### Governance Project Context Tree (LiveSpec itself)
+### Governance Project Context Tree (LiveSpec itself, declared 40KB root)
 
 ```
 livespec/
-├── AGENTS.md (34KB)
+├── AGENTS.md (38KB)
 └── ctxt/
     ├── define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (6 files, ~7KB each)
     └── domains/

@@ -20,6 +20,9 @@ Validates `registries/` against the taxonomy and rules in `specs/features/regist
 - [!] Verifies the three required registries exist
   - `decisions.md`, `debt.md`, `security.md` must be present (ERROR if missing)
 
+- [!] Validates registry files only
+  - `registries/proposals.md` and `registries/README.md` are not registries and raise no finding
+
 - [!] Verifies each registry file's frontmatter
   - `store: registry`, `type` matching the filename, `schema_version`, `last_reviewed`, `entries` present
   - `last_reviewed` is a valid ISO date
@@ -43,3 +46,4 @@ Validates `registries/` against the taxonomy and rules in `specs/features/regist
 - [ ] Wrong ID prefix for the registry type produces an ERROR
 - [ ] Stale registry (>90 days) produces a WARN, not an ERROR
 - [ ] Clean registry set exits 0
+- [ ] A `registries/proposals.md` produces no finding

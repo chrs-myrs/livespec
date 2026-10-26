@@ -19,6 +19,7 @@ specifies:
   - references/standards/registries/gaps.spec.md
   - references/standards/registries/dependencies.spec.md
   - references/standards/registries/issues.spec.md
+  - registries/proposals.md
 supports:
   - specs/artifacts/validators/validate-registries.spec.md
 ---
@@ -54,6 +55,11 @@ supports:
     - Criterion: the project has external dependencies with temporal risk that no package manager or tooling already tracks. Records temporal state only — dependency contract details belong in specs.
   - `registries/issues.md` (`ISSUE-`) — known problems accepted for now (what's broken but tolerated)
     - Criterion: the project has **no external ticketing platform**. Where a tracker exists (e.g. Jira), accepted-but-unworked problems graduate to tickets instead of living here.
+
+- [!] `registries/proposals.md`, where present, stages proposals from outside the project and is not part of the record
+  - Written by other tools (an agreed AMP proposal, a residue harvest); each entry is someone else's reading the project has not verified
+  - Entries carry no registry ID and no status; a session promotes an entry into a registry or a ticket, or drops it, and removes it from the file either way
+  - It is not a registry: registry validation and the review agent leave it alone
 
 ### Registry Frontmatter Schema (v2)
 
@@ -112,3 +118,4 @@ supports:
 - [ ] Sequence numbers are unique and never reused
 - [ ] No Completed sections or resolved entries retained in registry files
 - [ ] No registry unreviewed for 3+ months without a staleness flag
+- [ ] `registries/proposals.md` raises no registry finding

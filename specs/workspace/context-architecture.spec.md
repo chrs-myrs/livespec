@@ -25,9 +25,9 @@ supports:
 ## Requirements
 
 - [!] LiveSpec uses a flat agent context tree following the context-tree convention to enable specialized proactive loading.
-  - **Root AGENTS.md**: Compressed methodology (30-40KB) with routing to sub-agents
-  - **Sub-agents** (ctxt/): define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md — one file per specialist, no phase/utility subfolders
-  - **Domain specialists** (ctxt/domains/): governance.md (LiveSpec's domain)
+  - **Root ceiling**: 40KB (compressed methodology, target 30-40KB, with routing to sub-agents)
+  - **ctxt/ files**: define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md, and domains/governance.md (LiveSpec's domain) — one file per specialist, no phase/utility subfolders
+  - **Methodology sections**: the five phases, phases vs layers, multi-domain organisation, session completion
   - **Load triggers**: Natural keywords matching workflow patterns
   - **Proactive loading**: Agent decides what context to load based on task
 
@@ -63,7 +63,7 @@ supports:
   - references/guides/msl-minimalism.md (spec writing)
   - references/guides/context-positioning.md (prompt structure)
 
-  Compression Level: moderate
+  Compression Level: as declared in `project.yaml` (moderate)
   - Strategic extraction of reusable content
   - Critical workflows inline, details referenced
   - Templates for repeated verification patterns
@@ -99,12 +99,12 @@ supports:
   | Source | Generated File(s) | Structural? |
   |--------|--------------------|-------------|
   | PURPOSE.md | AGENTS.md § Summary | No |
-  | constitution.spec.md | AGENTS.md § Core Principles | Compression-level changes are structural (affect every file) |
+  | constitution.spec.md | AGENTS.md § Core Principles | No |
   | patterns.spec.md | AGENTS.md § MSL Format/Folder Structure; ctxt/domains/governance.md | No |
   | workflows.spec.md | AGENTS.md § The 5 Phases; ctxt/evolve.md | No |
   | taxonomy.spec.md | AGENTS.md § Folder Organization Tests; ctxt/domains/*.md | Domain classification changes are structural (add/remove domain files) |
   | context-architecture.spec.md (this spec) | Tree structure itself — which files exist, size budgets, load triggers | Always structural |
-  | context-compression.spec.md | AGENTS.md § Context Compression | Compression-level changes are structural (affect every file) |
+  | context-compression.spec.md | AGENTS.md § Context Compression | No |
   | cross-references.spec.md | AGENTS.md § Cross-Reference Updates; § Frontmatter Relationship Fields | No |
   | distribution.spec.md | AGENTS.md (Summary; Quick Start; Common Anti-Patterns — scattered mentions, one file) | No |
   | folder-organization.spec.md | AGENTS.md § Folder Organization Decision Tests | No, unless the change adds/removes a domain-classification category |
@@ -118,17 +118,18 @@ supports:
   | features/*.spec.md, artifacts/*.spec.md | AGENTS.md § Reference Library | No |
   | strategy/architecture.spec.md | AGENTS.md (architecture content; an optional context-builder source) | No |
   | strategy/*.spec.md (others), interfaces/*.spec.md | *(none — not inlined)* | N/A — no generated target |
+  | project.yaml (`livespec.version`, `context_compression`, `context_budget`) | Footer version on every file; compression and budget shape every file | Compression and budget changes are structural; a version change is not |
 
   **Structural** means the change can add, remove, or resize generated files beyond the mapped target(s) — it forces full regeneration regardless of how small the diff looks. Everything else can be scoped to the listed file(s) provided no spec or generated file is being added or removed. A changed source with **no generated target** (see `generated-files.spec.md`, `third-party-dependencies.spec.md` above) is excluded from the changed-target set entirely — it doesn't force FULL by itself, unlike a genuinely unclear mapping.
 
 - [!] Every generated context file records the sources it was built from, so staleness is a fact rather than a guess
   - The context builder stamps every file it writes as its last step, including after a scoped run, using `scripts/validate-context.sh --stamp`
-  - The stamped sources are PURPOSE.md and every spec, so any spec edit marks the context stale; a change whose sources the map gives no generated target is cleared by re-stamping alone
+  - The stamped sources are PURPOSE.md, every spec and the `project.yaml` settings generation reads, so any spec edit marks the context stale; a change whose sources the map gives no generated target is cleared by re-stamping alone
   - `/livespec:audit context` classifies MINOR or FULL from the sources changed since the stamp, and regenerates in full when the map is missing
 
 ## Validation
 
-- Root AGENTS.md follows convention size budgets (30-40KB)
+- Root AGENTS.md within the declared 40KB ceiling
 - Root has NO frontmatter (clean context per convention)
 - Root has "When to Load Sub-Agents" section with routing decision tree
 - ctxt/ contains define.md, design.md, evolve.md, session.md, msl-audit.md, audit.md (flat, no phases/ or utils/ subfolders)
@@ -140,6 +141,6 @@ supports:
 - Proactive loading works (agent loads without user managing contexts)
 - Context builder agent reads this spec before generating
 - Always-include content appears in root context
-- Compression level matches constitution.spec.md declaration
+- Compression level matches the `project.yaml` declaration
 - Content focus produces balanced, relevant guidance
 - Spec → Generated File Map covers every file in specs/workspace/, plus PURPOSE.md, taxonomy.spec.md, and the foundation, features and artifacts categories

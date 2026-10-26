@@ -8,7 +8,7 @@ governed-by: []
 extends:
   - references/standards/metaspecs/base.spec.md
 applies_to:
-  - workspace/constitution.spec.md
+  - project.yaml
   - AGENTS.md
   - templates/agents/
 ---
@@ -22,7 +22,7 @@ applies_to:
   - **What it is**: Active force that reorganizes guidance layer (workspace/, AGENTS.md, templates) for agent focus and processing efficiency
   - **Relationship to Value Structure**: MSL Minimalism optimizes Value Structure (content within YOUR specs), Context Compression optimizes Context Tree (structure across LiveSpec docs)
   - **Three compression levels**: Light (verbose, exploratory), Moderate (balanced, default), Aggressive (dense, focused)
-  - **Configurable**: Projects declare compression level in workspace/constitution.spec.md frontmatter (`context_compression: light | moderate | aggressive`)
+  - **Configurable**: Projects declare compression level in `project.yaml` (`livespec.methodology.context_compression: light | moderate | aggressive`), never in a spec
   - **Default**: Moderate if unspecified
 - [!] Compression level determines extraction and layering strategy
   - Light: Inline examples, detailed explanations, minimal extraction
@@ -40,7 +40,7 @@ applies_to:
   - Cache boundary optimization (what agents cache vs fetch)
 
 ## Validation
-- Projects declare compression level in workspace/constitution.spec.md
+- Projects declare compression level in `project.yaml`
 - AGENTS.md structure matches declared compression level
 - Extraction decisions align with compression framework
 - Audit utility can measure actual vs declared compression
@@ -123,7 +123,7 @@ Use `/livespec:init`:
 1. Ask about primary agent(s) and context capabilities
 2. Ask about usage pattern (exploratory vs production)
 3. Recommend compression level based on answers
-4. Document in workspace/constitution.spec.md
+4. Record in `project.yaml` (`livespec.methodology.context_compression`)
 
 ### During Development
 Context compression force influences:
